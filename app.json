@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Genie-App",
+    "slug": "genie-user",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./App/assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./App/assets/genie-splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "permissions": [
+        "CAMERA",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
+      "googleServicesFile": "./google-services.json",
+      "adaptiveIcon": {
+        "foregroundImage": "./App/assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.culturtapgenie.Genie"
+    },
+    "web": {
+      "favicon": "./App/assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8534107f-6fb3-4c37-869e-15b5d2071603"
+      }
+    },
+    "owner": "culturtap-genie"
+  }
+}
