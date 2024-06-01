@@ -13,6 +13,7 @@ import '../../tailwind.config.js'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import messaging from '@react-native-firebase/messaging';
 import { notificationListeners } from '../notification/notificationServices.js';
+import HomeImage from '../assets/homeImg.svg';
 
 const HomeScreen = () => {
     const navigation = useNavigation();
@@ -90,8 +91,8 @@ const HomeScreen = () => {
     return (
         <View style={{ flex: 1 }}>
             <ScrollView style={{ flex: 1 }} className="relative">
-                <Image source={require('../assets/HomImg.png')} className="w-full object-cover " />
-
+                {/* <Image source={require('../assets/HomImg.png')} className="w-full object-cover " /> */}
+                <HomeImage />
                 <View className="w-full flex flex-row px-[29px] justify-between absolute top-[37px]">
                     <Pressable onPress={() => navigation.navigate("menu")}>
                         <View className="bg-[#fb8c00] w-[42px] h-[42px] rounded-full flex justify-center items-center mx-auto">
