@@ -58,18 +58,19 @@ const BargainingScreen = () => {
     }
 
     useEffect(() => {
+        fetchUserDetails();
         if (route?.params?.data) {
             const data = JSON.parse(route?.params?.data?.requestInfo);
             // console.log('data', data);
-            // console.log('object', route.params);
-            console.log('userDetails', data.customerId);
-            console.log('currendspade', data.requestId);
+            console.log('object', route.params);
+            console.log('userDetails', data?.customerId);
+            console.log('currendspade', data?.requestId);
             dispatch(setCurrentSpadeRetailer(data));
-            dispatch(setCurrentSpade(data.requestId));
-            dispatch(setUserDetails(data.customerId));
-            fetchUserDetails();
-            fetchMessages(data._id);
-            connectSocket(data.users[1]._id);
+            dispatch(setCurrentSpade(data?.requestId));
+            dispatch(setUserDetails(data?.customerId));
+
+            fetchMessages(data?._id);
+            connectSocket(data?.users[1]._id);
         }
     }, []);
 
@@ -89,7 +90,7 @@ const BargainingScreen = () => {
 
     useEffect(() => {
         if (currentSpadeRetailer?.users) {
-            connectSocket(currentSpadeRetailer.users[1]._id);
+            connectSocket(currentSpadeRetailer?.users[1]._id);
         }
         // console.log('spc', socket);
         // socket.on('typing', () => setIsTyping(true));
@@ -131,8 +132,10 @@ const BargainingScreen = () => {
     }
 
     useEffect(() => {
-        if (details?._id)
+        if (details?._id) {
             fetchMessages(details._id);
+        }
+
     }, []);
 
 
@@ -214,7 +217,7 @@ const BargainingScreen = () => {
         }
     };
 
-
+    // Recieveing new messages from socket
 
     useEffect(() => {
         const handleMessageReceived = (newMessageReceived) => {
