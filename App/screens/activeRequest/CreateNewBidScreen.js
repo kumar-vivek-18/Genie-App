@@ -22,7 +22,7 @@ const CreateNewBidScreen = () => {
     const navigation = useNavigation();
     const [price, setPrice] = useState(null);
     const [query, setQuery] = useState("");
-    const currrentChatMessages = useSelector(store => store.user.currentChatMessages);
+    // const currrentChatMessages = useSelector(store => store.user.currentChatMessages);
     const dispatch = useDispatch();
     const requestImages = useSelector(store => store.userRequest.requestImages);
     const [addImg, setAddImg] = useState(false);
@@ -57,9 +57,11 @@ const CreateNewBidScreen = () => {
                 socket.emit("new message", res.data);
                 navigation.navigate('bargain');
                 const notification = {
+                    token: details.retailerId.uniqueToken,
                     title: userDetails?.userName,
                     body: query,
                     price: price,
+                    image: requestImages.length > 0 ? requestImages[0] : "",
                     requestInfo: details,
                 }
                 await newBidSend(notification);

@@ -201,6 +201,7 @@ const BargainingScreen = () => {
             console.log('bid rejected');
             socket.emit('new message', res.data);
             const notification = {
+                token: [currentSpadeRetailer.retailerId.uniqueToken],
                 title: userDetails?.userName,
                 body: spade?.requestDetail,
                 image: "",

@@ -62,6 +62,7 @@ const SendQueryScreen = () => {
                 socket.emit("new message", res.data);
                 navigation.goBack();
                 const notification = {
+                    token: [details.retailerId.uniqueToken],
                     title: userDetails?.userName,
                     body: query,
                     requestInfo: details,

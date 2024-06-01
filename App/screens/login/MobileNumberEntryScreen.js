@@ -4,7 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMobileNumber } from '../../redux/reducers/userDataSlice';
+import { setMobileNumber, setUserDetails } from '../../redux/reducers/userDataSlice';
 import { FontAwesome } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from "@react-native-firebase/auth";
@@ -103,8 +103,9 @@ const MobileNumberEntryScreen = () => {
             setMobileScreen(true);
             if (response.data.mobileNo) {
                 // If mobile number is registered, navigate to home screen
-                // dispatch(setUserDetails(response.data));
-                await AsyncStorage.setItem("userData", JSON.stringify(response.data));
+                // console.log('userDetails from mobileScreen', response.data);
+                dispatch(setUserDetails(response.data));
+                await AsyncStorage.setItem("userDetails", JSON.stringify(response.data));
                 setOtp("");
                 setMobileNumberLocal("");
                 navigation.navigate("home");
@@ -113,7 +114,7 @@ const MobileNumberEntryScreen = () => {
                     updateData: { uniqueToken: uniqueToken }
                 })
                     .then(res => {
-                        console.log('UserName updated Successfully');
+                        console.log('UserToken updated Successfully');
                     })
                     .catch(err => {
                         console.error('Error updating token: ' + err.message);

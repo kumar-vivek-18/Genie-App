@@ -1,19 +1,22 @@
-import { View, Text, ScrollView, Image, Pressable, BackHandler } from 'react-native'
+import { View, Text, ScrollView, Image, Pressable, BackHandler, TouchableOpacity } from 'react-native'
 import React, { useEffect } from 'react'
 import { useNavigation, useNavigationState } from '@react-navigation/native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch, UseDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { setSpades, setCurrentSpade } from '../redux/reducers/userDataSlice';
+import { setSpades, setCurrentSpade, setUserDetails } from '../redux/reducers/userDataSlice';
 import io from 'socket.io-client';
 import { socket } from '../utils/scoket.io/socket';
-import { formatDateTime } from '../utils/logics/Logics';
 import { theme } from '../theme/theme.js';
 import '../../tailwind.config.js'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import messaging from '@react-native-firebase/messaging';
 import { notificationListeners } from '../notification/notificationServices.js';
 import HomeImage from '../assets/homeImg.svg';
+import GenieCulturTapLogo from '../assets/genie-homescreen-logo.svg';
+import GenieLogo from '../assets/Genie-Icon.svg';
+import HomeScreenBg from '../assets/homeScreenBg.svg';
+import { formatDateTime, getGeoCoordinates, getLocationName } from '../utils/logics/Logics';
 
 const HomeScreen = () => {
     const navigation = useNavigation();
@@ -24,6 +27,7 @@ const HomeScreen = () => {
 
     const navigationState = useNavigationState(state => state);
     const isHomeScreen = navigationState.routes[navigationState.index].name === 'home';
+
 
 
 
@@ -47,9 +51,10 @@ const HomeScreen = () => {
 
 
     const fetchData = async () => {
-        const userData = JSON.parse(await AsyncStorage.getItem("userData"));
+        const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
+        dispatch(setUserDetails(userData));
         try {
-            // console.log('userHomeScreem', userDetails);
+            // console.log('userHomeScreem', userDetails._id);
             const response = await axios.get('https://genie-backend-meg1.onrender.com/user/getspades', {
                 params: {
                     id: userData?._id,
@@ -85,6 +90,36 @@ const HomeScreen = () => {
         fetchData();
     }, []);
 
+    const handleRefreshLocation = async () => {
+        try {
+            const res = await getGeoCoordinates();
+            const location = await getLocationName(res.coords.latitude, res.coords.longitude);
+
+            let updatedUserData = {
+                ...userDetails,
+                latitude: res.coords.latitude,
+                longitude: res.coords.longitude,
+                location: location
+            };
+
+            console.log('user updated with location', updatedUserData.latitude, updatedUserData.longitude, updatedUserData.location);
+
+            await axios.patch('https://genie-backend-meg1.onrender.com/user/edit-profile', {
+                _id: userDetails._id,
+                updateData: { longitude: updatedUserData.longitude, latitude: updatedUserData.latitude, location: updatedUserData.location }
+            })
+                .then(res => {
+                    console.log('result updated of user', res.data);
+                })
+            dispatch(setUserDetails(updatedUserData));
+            await AsyncStorage.setItem("userDetails", JSON.stringify(updatedUserData));
+
+        } catch (error) {
+            console.error('Error updating location:', error);
+        }
+    };
+
+
 
 
     // console.log('userData', userDetails);
@@ -92,13 +127,17 @@ const HomeScreen = () => {
         <View style={{ flex: 1 }}>
             <ScrollView style={{ flex: 1 }} className="relative">
                 {/* <Image source={require('../assets/HomImg.png')} className="w-full object-cover " /> */}
-                <HomeImage />
-                <View className="w-full flex flex-row px-[29px] justify-between absolute top-[37px]">
+                {/* <HomeImage /> */}
+                <HomeScreenBg />
+                <View className="w-full flex flex-row px-[29px] justify-between items-center absolute top-[37px]">
                     <Pressable onPress={() => navigation.navigate("menu")}>
                         <View className="bg-[#fb8c00] w-[42px] h-[42px] rounded-full flex justify-center items-center mx-auto">
                             <Image source={require('../assets/ProfileIcon.png')} className="w-[26px] h-[26px]" />
                         </View>
                     </Pressable>
+
+                    <GenieCulturTapLogo />
+
                     <Pressable onPress={() => navigation.navigate("history")}>
                         <View className="bg-[#fb8c00] w-[42px] h-[42px] rounded-full flex justify-center items-center mx-auto">
                             <Image source={require('../assets/SettingIcon.png')} className="w-[26px] h-[26px]" />
@@ -106,7 +145,25 @@ const HomeScreen = () => {
                     </Pressable>
                 </View>
 
-                <View className=" -translate-y-40 ">
+                <View className="w-full bg-white absolute top-[120px] flex-row px-[30px] justify-between h-[55px] items-center">
+                    <View>
+                        <Text className="text-[14px] font-extrabold pb-[15px[">Location</Text>
+
+                        <Text className="font-light text-[14px]">{userDetails?.location ? `${userDetails.location.substring(0, 70)}....` : "Refresh to fetch location..."}</Text>
+                    </View>
+                    <TouchableOpacity onPress={() => { handleRefreshLocation() }}>
+                        <View>
+                            <Text className="text-[14px] font-extrabold text-[#fb8c00]">Refresh</Text>
+                        </View>
+                    </TouchableOpacity>
+
+                </View>
+
+                <View className=" absolute top-[200px] w-full flex-row justify-center">
+                    <GenieLogo />
+                </View>
+
+                <View className=" -translate-y-28 ">
                     <Text className="text-center text-[14px] text-[#3f3d56] font-bold ">Ask genie for any product or</Text>
                     <Text className="text-center text-[14px] text-[#3f3d56] font-bold">service to start real time bargain</Text>
 
@@ -151,7 +208,7 @@ const HomeScreen = () => {
 
 
                     {spades.length > 0 && <View>
-                        <Text className={`text-center font-extrabold text-primary my-[33px]`}>Your ongoing requests</Text>
+                        <Text className={`text-center font-extrabold text-text my-[33px]`}>Your ongoing requests</Text>
                         {
                             spades.map((spade, index) => (
 

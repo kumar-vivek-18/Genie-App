@@ -29,8 +29,8 @@ export const NewRequestCreated = async (mess) => {
                 }
             },
             data: {
-                redirect_to: "requestPage",
-                requestInfo: JSON.stringify(mess?.requestInfo)
+                redirect_to: "home",
+                // requestInfo: JSON.stringify(mess?.requestInfo)
             }
         };
 
@@ -129,9 +129,11 @@ export const BidAccepted = async (mess) => {
 
 export const BidRejected = async (mess) => {
     try {
-        const tokens = [
-            "dDCcOdbBSHCBczVl8sM6AS:APA91bEWQ2KT0Q1JleNtv4-04pxPDj3Clm8pUf7VzoSjo4gNr-ZpczWTV727J8uHpWTFIrtJlTZSaW3VAbzAcFivT8PG2yBLgdDKv6nSXw46rCdRYPUpbbJu20szxai2saQp7QijsBPL",
-        ];
+        // const tokens = [
+        //     "dDCcOdbBSHCBczVl8sM6AS:APA91bEWQ2KT0Q1JleNtv4-04pxPDj3Clm8pUf7VzoSjo4gNr-ZpczWTV727J8uHpWTFIrtJlTZSaW3VAbzAcFivT8PG2yBLgdDKv6nSXw46rCdRYPUpbbJu20szxai2saQp7QijsBPL",
+        // ];
+
+        tokens = mess.token;
 
         const accessToken = await getAccessToken();
 
@@ -194,9 +196,11 @@ export const BidRejected = async (mess) => {
 export const newMessageSend = async (mess) => {
     // console.log("notification noti", mess.requestInfo)
     try {
-        const tokens = [
-            "dDCcOdbBSHCBczVl8sM6AS:APA91bEWQ2KT0Q1JleNtv4-04pxPDj3Clm8pUf7VzoSjo4gNr-ZpczWTV727J8uHpWTFIrtJlTZSaW3VAbzAcFivT8PG2yBLgdDKv6nSXw46rCdRYPUpbbJu20szxai2saQp7QijsBPL",
-        ];
+        // const tokens = [
+        //     "dDCcOdbBSHCBczVl8sM6AS:APA91bEWQ2KT0Q1JleNtv4-04pxPDj3Clm8pUf7VzoSjo4gNr-ZpczWTV727J8uHpWTFIrtJlTZSaW3VAbzAcFivT8PG2yBLgdDKv6nSXw46rCdRYPUpbbJu20szxai2saQp7QijsBPL",
+        // ];
+
+        const tokens = mess.token;
 
         const accessToken = await getAccessToken();
 
@@ -258,9 +262,11 @@ export const newMessageSend = async (mess) => {
 
 export const newBidSend = async (mess) => {
     try {
-        const tokens = [
-            "dDCcOdbBSHCBczVl8sM6AS:APA91bEWQ2KT0Q1JleNtv4-04pxPDj3Clm8pUf7VzoSjo4gNr-ZpczWTV727J8uHpWTFIrtJlTZSaW3VAbzAcFivT8PG2yBLgdDKv6nSXw46rCdRYPUpbbJu20szxai2saQp7QijsBPL",
-        ];
+        // const tokens = [
+        //     "dDCcOdbBSHCBczVl8sM6AS:APA91bEWQ2KT0Q1JleNtv4-04pxPDj3Clm8pUf7VzoSjo4gNr-ZpczWTV727J8uHpWTFIrtJlTZSaW3VAbzAcFivT8PG2yBLgdDKv6nSXw46rCdRYPUpbbJu20szxai2saQp7QijsBPL",
+        // ];
+
+        const tokens = mess.token;
 
         const accessToken = await getAccessToken();
 
@@ -275,7 +281,7 @@ export const newBidSend = async (mess) => {
             notification: {
                 title: `${mess?.title} send a bid of ${mess?.price}`,
                 body: mess?.body,
-                image: "",
+                image: mess?.image,
             },
             android: {
                 priority: "high",
@@ -322,9 +328,11 @@ export const newBidSend = async (mess) => {
 
 export const AttachmentSend = async (mess) => {
     try {
-        const tokens = [
-            "dDCcOdbBSHCBczVl8sM6AS:APA91bEWQ2KT0Q1JleNtv4-04pxPDj3Clm8pUf7VzoSjo4gNr-ZpczWTV727J8uHpWTFIrtJlTZSaW3VAbzAcFivT8PG2yBLgdDKv6nSXw46rCdRYPUpbbJu20szxai2saQp7QijsBPL",
-        ];
+        // const tokens = [
+        //     "dDCcOdbBSHCBczVl8sM6AS:APA91bEWQ2KT0Q1JleNtv4-04pxPDj3Clm8pUf7VzoSjo4gNr-ZpczWTV727J8uHpWTFIrtJlTZSaW3VAbzAcFivT8PG2yBLgdDKv6nSXw46rCdRYPUpbbJu20szxai2saQp7QijsBPL",
+        // ];
+
+        const tokens = mess.token;
 
         const accessToken = await getAccessToken();
 

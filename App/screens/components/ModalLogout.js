@@ -16,7 +16,8 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
     const handleModal = async () => {
         try {
             // Remove the item with key 'userData' from local storage
-            await AsyncStorage.removeItem('userData')
+            // await AsyncStorage.removeItem('userData');
+            await AsyncStorage.removeItem('userDetails');
 
             await axios.patch('https://genie-backend-meg1.onrender.com/user/edit-profile', {
                 _id: userDetails._id,

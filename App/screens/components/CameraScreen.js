@@ -50,6 +50,7 @@ const CameraScreen = () => {
 
                 navigation.navigate('bargain');
                 const notification = {
+                    token: [details.retailerId.uniqueToken],
                     title: userDetails?.userName,
                     body: query,
                     image: imageUri,

@@ -37,7 +37,7 @@ export const getLocationName = async (lat, lon) => {
 }
 
 
-const getGeoCoordinates = async () => {
+export const getGeoCoordinates = async () => {
     // Request permission to access location
 
     const { status } = await Location.requestForegroundPermissionsAsync();
@@ -47,8 +47,9 @@ const getGeoCoordinates = async () => {
     }
 
     // Get current location
-    console.log("storelocation", storeLocation);
+    // console.log("storelocation", storeLocation);
     const location = await Location.getCurrentPositionAsync({});
+    console.log('location', location);
     // setCurrentLocation({
     //     latitude: location.coords.latitude,
     //     longitude: location.coords.longitude,
