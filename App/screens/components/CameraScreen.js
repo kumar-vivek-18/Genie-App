@@ -12,6 +12,7 @@ import { manipulateAsync } from 'expo-image-manipulator';
 import { socket } from '../../utils/scoket.io/socket';
 import { AttachmentSend } from '../../notification/notificationMessages';
 import { formatDateTime } from '../../utils/logics/Logics';
+import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
 const CameraScreen = () => {
     const [imageUri, setImageUri] = useState("");
     const navigation = useNavigation();
@@ -23,11 +24,14 @@ const CameraScreen = () => {
     const details = useSelector(store => store.user.currentSpadeRetailer);
     const userDetails = useSelector(store => store.user.userDetails);
 
+    const dispatch = useDispatch();
     // console.log('store', openCamera, messages)
     const [query, setQuery] = useState("");
 
 
     const sendAttachment = async () => {
+        const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
+        const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
 
         await axios.post('https://genie-backend-meg1.onrender.com/chat/send-message', {
             sender: {
@@ -44,7 +48,16 @@ const CameraScreen = () => {
                 console.log(res);
                 const data = formatDateTime(res.data.createdAt);
                 res.data.createdAt = data.formattedTime;
+
+                //updating messages
                 setMessages([...messages, res.data]);
+
+                //updating chat latest message
+                const updateChat = { ...currentSpadeRetailer, unreadMessages: 0, latestMessage: { _id: res.data._id, message: res.data.message } };
+                const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
+                dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
+                dispatch(setCurrentSpadeRetailer(updateChat));
+
                 setQuery("");
                 socket.emit("new message", res.data);
 

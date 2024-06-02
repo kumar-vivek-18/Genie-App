@@ -16,6 +16,8 @@ import CloseSpadeModal from '../components/CloseSpadeModal';
 import SuccessModal from '../components/SuccessModal';
 import { setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
 import { setSpades } from '../../redux/reducers/userDataSlice';
+import useRequestSocket from './useRequestSocket';
+import { socket } from '../../utils/scoket.io/socket';
 
 const RequestDetail = () => {
     const navigation = useNavigation();
@@ -27,28 +29,46 @@ const RequestDetail = () => {
     const dispatch = useDispatch();
     const [confirmModal, setConfirmModal] = useState(false);
     const [successModal, setSuccessModal] = useState(false);
+    const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
+    const currentSpade = useSelector(store => store.user.currentSpade);
+    const [socketConnected, setSocketConnected] = useState(false);
+
+    const connectSocket = async (id) => {
+        // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
+        socket.emit("setup", id);
+        //  console.log('Request connected with socket with id', spadeId);
+        socket.on('connected', () => setSocketConnected(true));
+        console.log('Particular spade socekt connect with id', id);
+    }
 
 
-    // useEffect(() => {
-    //     // const spadeDetails = useSelector(store => store.user.currentSpade);
-    //     // console.log('spade details', spadeDetails);
-    //     setSpade(spadeDetails);
-    // }, []);
-
-    // console.log('spade details', spade);
 
     useEffect(() => {
-        // console.log('object', spade._id);
+        // const socket = io('http://your-server-address:3000');
+        const spadeId = currentSpade._id;
+        connectSocket(spadeId);
+
+
+
+        // socket.on('updated retailer', (updatedUser) => {
+        //     console.log('Message receiver for chat for unread chat', updatedUser);
+        //     // setCurrentSpadeRetailers((prevUsers) => {
+        //     //     return prevUsers.map((user) =>
+        //     //         user._id === updatedUser._id ? updatedUser : user
+        //     //     );
+        //     // });
+        // });
+
         const fetchRetailers = () => {
-            axios.get(`https://genie-backend-meg1.onrender.com/chat/spade-chats`, {
+            axios.get(`http://192.168.37.192:5000/chat/spade-chats`, {
                 params: {
-                    id: spade._id,
+                    id: currentSpade._id,
                 }
             })
                 .then((response) => {
                     if (response.status === 200) {
-                        setRetailers(response.data);
-                        console.log('all reatailers', response.data);
+                        // setRetailers(response.data);
+                        console.log('all reatailers fetched while setting up socket');
                         dispatch(setCurrentSpadeRetailers(response.data));
                     }
                 })
@@ -57,7 +77,56 @@ const RequestDetail = () => {
                 });
         }
         fetchRetailers();
+
+        return () => {
+            // socket.disconnect();
+            socket.emit('leave room', spadeId);
+            console.log('Reailer disconnected');
+        };
     }, []);
+
+    useEffect(() => {
+        const handleMessageReceived = (updatedUser) => {
+            console.log('Updated user data received at socket', updatedUser);
+            dispatch(setCurrentSpadeRetailers((prevUsers) => {
+                return prevUsers.map((user) =>
+                    user._id === updatedUser._id ? updatedUser : user
+                );
+            }));
+        };
+
+        socket.on("updated retailer", handleMessageReceived);
+
+        // Cleanup the effect
+        return () => {
+            socket.off("updated retailer", handleMessageReceived);
+        };
+    }, []); // No dependencies
+
+
+    // console.log('spade details', spade);
+
+    // useEffect(() => {
+    //     // console.log('object', spade._id);
+    //     const fetchRetailers = () => {
+    //         axios.get(`https://genie-backend-meg1.onrender.com/chat/spade-chats`, {
+    //             params: {
+    //                 id: spade._id,
+    //             }
+    //         })
+    //             .then((response) => {
+    //                 if (response.status === 200) {
+    //                     setRetailers(response.data);
+    //                     // console.log('all reatailers', response.data);
+    //                     dispatch(setCurrentSpadeRetailers(response.data));
+    //                 }
+    //             })
+    //             .catch((error) => {
+    //                 console.error('Error while fetching chats', error);
+    //             });
+    //     }
+    //     fetchRetailers();
+    // }, []);
 
     const closeRequest = async () => {
 
@@ -145,7 +214,7 @@ const RequestDetail = () => {
 
                         <View>
                             {
-                                retailers.map((details, index) => (
+                                currentSpadeRetailers.map((details, index) => (
                                     <Pressable key={index} onPress={() => { dispatch(setCurrentSpadeRetailer(details)); navigation.navigate('bargain') }}>
                                         <View className={`flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#3f3d56] ${((spade.requestActive === "completed" || spade.requestActive === "closed") && spade.requestAcceptedChat !== details._id) ? "bg-[#001b33] opacity-50" : ""}`}>
                                             {/* <RandomImg className="w-[47px] h-[47px]" /> */}
@@ -164,12 +233,13 @@ const RequestDetail = () => {
                                                 <View className="flex-row justify-between">
                                                     <View className="flex-row gap-[5px]">
                                                         <Gallery />
-                                                        <Text className="text-[14px] text-[#c4c4c4]">Yes, I have the same brand...</Text>
+                                                        {/* <Text className="text-[14px] text-[#c4c4c4]">{details?.latestMessage?.message}</Text> */}
+                                                        <Text className="text-[14px] text-[#c4c4c4]">{details?.latestMessage?.message || 'No message available'}{console.log('details value', details.latestMessage)}</Text>
 
                                                     </View>
-                                                    <View className="w-[18px] h-[18px] rounded-full bg-[#55cd00] flex-row justify-center items-center">
-                                                        <Text className=" text-white text-[12px] font-bold ">0</Text>
-                                                    </View>
+                                                    {details?.unreadCount > 0 && <View className="w-[18px] h-[18px] rounded-full bg-[#55cd00] flex-row justify-center items-center">
+                                                        <Text className=" text-white text-[12px] font-bold ">{details.unreadCount}</Text>
+                                                    </View>}
                                                 </View>
 
 

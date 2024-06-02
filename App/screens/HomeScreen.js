@@ -109,7 +109,7 @@ const HomeScreen = () => {
                 updateData: { longitude: updatedUserData.longitude, latitude: updatedUserData.latitude, location: updatedUserData.location }
             })
                 .then(res => {
-                    console.log('result updated of user', res.data);
+                    console.log('User location updated successfully');
                 })
             dispatch(setUserDetails(updatedUserData));
             await AsyncStorage.setItem("userDetails", JSON.stringify(updatedUserData));
@@ -146,14 +146,14 @@ const HomeScreen = () => {
                 </View>
 
                 <View className="w-full bg-white absolute top-[120px] flex-row px-[30px] justify-between h-[55px] items-center">
-                    <View>
+                    <View className="w-4/5">
                         <Text className="text-[14px] font-extrabold pb-[15px[">Location</Text>
 
-                        <Text className="font-light text-[14px]">{userDetails?.location ? `${userDetails.location.substring(0, 70)}....` : "Refresh to fetch location..."}</Text>
+                        <Text className="text-[#545455] text-[12px] ">{userDetails?.location ? `${userDetails.location.substring(0, 70)}....` : "Refresh to fetch location..."}</Text>
                     </View>
                     <TouchableOpacity onPress={() => { handleRefreshLocation() }}>
                         <View>
-                            <Text className="text-[14px] font-extrabold text-[#fb8c00]">Refresh</Text>
+                            <Text className="text-[14px] font-extrabold text-[#fb8c00] ">Refresh</Text>
                         </View>
                     </TouchableOpacity>
 

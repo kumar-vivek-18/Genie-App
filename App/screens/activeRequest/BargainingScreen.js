@@ -20,7 +20,7 @@ import Attachments from '../components/Attachments';
 import CameraScreen from '../components/CameraScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import RequestAcceptModal from '../components/RequestAcceptModal';
-import { setCurrentSpade, setCurrentSpadeRetailer } from '../../redux/reducers/userDataSlice';
+import { setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
 import io from 'socket.io-client';
 import { socket } from '../../utils/scoket.io/socket.js';
 import * as Location from "expo-location";
@@ -46,6 +46,7 @@ const BargainingScreen = () => {
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
     const [socketConnected, setSocketConnected] = useState(false);
     const [currentLocation, setCurrentLocation] = useState();
+    const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
 
     const dispatch = useDispatch();
     const userDetails = useSelector(store => store.user.userDetails || []);
@@ -55,6 +56,22 @@ const BargainingScreen = () => {
     const fetchUserDetails = async () => {
         const userData = JSON.parse(await AsyncStorage.getItem('userDetails'));
         dispatch(setUserDetails(userData));
+    }
+
+    const setMessagesMarkAsRead = async () => {
+        console.log('marks as read0', currentSpadeRetailer._id);
+        try {
+            const response = await axios.patch('http://192.168.37.192:5000/chat/mark-as-read', {
+                id: currentSpadeRetailer._id
+            });
+            const updateChat = { ...currentSpadeRetailer, unreadMessages: 0 };
+            const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
+            dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
+            dispatch(setCurrentSpadeRetailer(updateChat));
+            console.log('markAsRead', response.data.unreadCount);
+        } catch (error) {
+            console.error("error while marking as read", error.message);
+        }
     }
 
     useEffect(() => {
@@ -83,6 +100,7 @@ const BargainingScreen = () => {
 
     const connectSocket = async (id) => {
         // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
+        // console.log('scoket', socket);
         socket.emit("setup", id);
         socket.on('connected', () => setSocketConnected(true));
         console.log('socekt connect with id', id);
@@ -91,11 +109,17 @@ const BargainingScreen = () => {
     useEffect(() => {
         if (currentSpadeRetailer?.users) {
             connectSocket(currentSpadeRetailer?.users[1]._id);
+            setMessagesMarkAsRead();
         }
         // console.log('spc', socket);
         // socket.on('typing', () => setIsTyping(true));
         // socket.on("stop typing", () => setIsTyping(false));
-
+        return () => {
+            if (socket) {
+                // socket.disconnect();
+                socket.emit('leave room', currentSpadeRetailer?.users[1]._id);
+            }
+        }
     }, []);
 
     // useEffect(() => {
@@ -151,14 +175,13 @@ const BargainingScreen = () => {
                     const data = formatDateTime(res.data.message.createdAt);
                     res.data.message.createdAt = data.formattedTime;
 
+                    // updating messages
                     let mess = [...messages];
                     mess[mess.length - 1] = res.data.message;
-                    // console.log('mess', mess);
-
                     setMessages(mess);
 
+                    // updating spade
                     const tmp = { ...spade, requestActive: "completed" };
-
                     dispatch(setCurrentSpade(tmp));
                     let allSpades = [...spades];
                     allSpades.map((curr, index) => {
@@ -167,6 +190,11 @@ const BargainingScreen = () => {
                         }
                     })
                     dispatch(setSpades(allSpades));
+
+                    const updateChat = { ...currentSpadeRetailer, unreadMessages: 0, latestMessage: { _id: res.data.message._id, message: res.data.message.message } };
+                    const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
+                    dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
+                    dispatch(setCurrentSpadeRetailer(updateChat));
 
                     socket.emit('new message', res.data.message);
                     const notification = {
@@ -196,10 +224,18 @@ const BargainingScreen = () => {
             console.log("bid res", res.data);
             const data = formatDateTime(res.data.createdAt);
             res.data.createdAt = data.formattedTime;
+
+            //updating messages
             let mess = [...messages];
             mess[mess.length - 1] = res.data;
             console.log('mess', mess);
             setMessages(mess);
+
+            //updating retailers latest message
+            const updateChat = { ...currentSpadeRetailer, unreadMessages: 0, latestMessage: { _id: res.data.message._id, message: res.data.message.message } };
+            const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
+            dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
+            dispatch(setCurrentSpadeRetailer(updateChat));
 
             console.log('bid rejected');
             socket.emit('new message', res.data);
@@ -227,6 +263,11 @@ const BargainingScreen = () => {
                 newMessageReceived.createdAt = data.formattedTime;
 
                 if (prevMessages[prevMessages.length - 1]?.chat?._id === newMessageReceived?.chat?._id) {
+                    //updating retailers latest message
+                    const updateChat = { ...currentSpadeRetailer, unreadMessages: 0, latestMessage: { _id: newMessageReceived._id, message: newMessageReceived.message } };
+                    const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
+                    dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
+                    dispatch(setCurrentSpadeRetailer(updateChat));
                     if (prevMessages[prevMessages.length - 1]?._id === newMessageReceived?._id) {
                         // Update the last message if it's the same as the new one
                         if (newMessageReceived.bidAccepted === "accepted") {

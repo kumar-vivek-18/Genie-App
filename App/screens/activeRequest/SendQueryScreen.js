@@ -18,7 +18,7 @@ import UserBidMessage from '../components/UserBidMessage.js';
 import RetailerBidMessage from '../components/RetailerBidMessage.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { socket } from '../../utils/scoket.io/socket.js';
-import { setCurrentChatMessages } from '../../redux/reducers/userDataSlice';
+import { setCurrentChatMessages, setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
 import { newMessageSend } from '../../notification/notificationMessages';
 import { formatDateTime } from '../../utils/logics/Logics';
 
@@ -31,6 +31,10 @@ const SendQueryScreen = () => {
     const userDetails = useSelector(store => store.user.userDetails);
     const spade = useSelector(store => store.user.currentSpade);
 
+    const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
+    const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
+
+    const dispatch = useDispatch();
 
     const [query, setQuery] = useState("");
     // console.log('spade details', details);
@@ -39,6 +43,7 @@ const SendQueryScreen = () => {
     // const dispatch = useDispatch();
 
     const sendQuery = async () => {
+
 
         await axios.post('https://genie-backend-meg1.onrender.com/chat/send-message', {
             sender: {
@@ -57,8 +62,15 @@ const SendQueryScreen = () => {
                 const data = formatDateTime(res.data.createdAt);
                 res.data.createdAt = data.formattedTime;
 
-
+                //updating latest message
                 setMessages([...messages, res.data]);
+
+                //updating chat latest message
+                const updateChat = { ...currentSpadeRetailer, unreadMessages: 0, latestMessage: { _id: res.data._id, message: res.data.message } };
+                const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
+                dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
+                dispatch(setCurrentSpadeRetailer(updateChat));
+
                 socket.emit("new message", res.data);
                 navigation.goBack();
                 const notification = {

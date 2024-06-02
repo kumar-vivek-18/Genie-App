@@ -9,11 +9,16 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { socket } from '../../utils/scoket.io/socket';
 import { formatDateTime } from '../../utils/logics/Logics';
+import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
+import { useDispatch } from 'react-redux';
 
 const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessages }) => {
 
+    const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
+    const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
     const navigation = useNavigation();
     const [imageUri, setImageUri] = useState("");
+    const dispatch = useDispatch();
 
     const sendAttachment = async () => {
         // console.log('res', query, imageUri);
@@ -31,7 +36,16 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
                 console.log(res);
                 const data = formatDateTime(res.data.createdAt);
                 res.data.createdAt = data.formattedTime;
+
+                //updating messages
                 setMessages([...messages, res.data]);
+
+                //updating chat latest message
+                const updateChat = { ...currentSpadeRetailer, unreadMessages: 0, latestMessage: { _id: res.data._id, message: res.data.message } };
+                const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
+                dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
+                dispatch(setCurrentSpadeRetailer(updateChat));
+
                 socket.emit("new message", res.data);
                 navigation.navigate('bargain');
             })

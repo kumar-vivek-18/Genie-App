@@ -6,7 +6,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { socket } from '../../utils/scoket.io/socket';
-import { setCurrentChatMessages } from '../../redux/reducers/userDataSlice';
+import { setCurrentChatMessages, setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
 import { newBidSend } from '../../notification/notificationMessages';
 import { emtpyRequestImages } from '../../redux/reducers/userRequestsSlice';
 import UploadImage from '../../assets/AddImg.svg';
@@ -19,6 +19,8 @@ const CreateNewBidScreen = () => {
     // const details = route.params.data;
     const details = useSelector(store => store.user.currentSpadeRetailer);
     const userDetails = useSelector(store => store.user.userDetails);
+    const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
+    const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
     const navigation = useNavigation();
     const [price, setPrice] = useState(null);
     const [query, setQuery] = useState("");
@@ -50,8 +52,14 @@ const CreateNewBidScreen = () => {
                 // setMessages(mess);
                 const data = formatDateTime(res.data.createdAt);
                 res.data.createdAt = data.formattedTime;
-
+                //updating messages
                 setMessages([...messages, res.data]);
+
+                //updating chat latest message
+                const updateChat = { ...currentSpadeRetailer, unreadMessages: 0, latestMessage: { _id: res.data._id, message: res.data.message } };
+                const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
+                dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
+                dispatch(setCurrentSpadeRetailer(updateChat));
                 // dispatch(setCurrentChatMessages(mess));
                 dispatch(emtpyRequestImages([]));
                 socket.emit("new message", res.data);
