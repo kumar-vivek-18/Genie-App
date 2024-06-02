@@ -87,12 +87,15 @@ const RequestDetail = () => {
 
     useEffect(() => {
         const handleMessageReceived = (updatedUser) => {
-            console.log('Updated user data received at socket', updatedUser);
-            dispatch(setCurrentSpadeRetailers((prevUsers) => {
-                return prevUsers.map((user) =>
-                    user._id === updatedUser._id ? updatedUser : user
-                );
-            }));
+            console.log('Updated user data received at socket', updatedUser._id);
+            // dispatch(setCurrentSpadeRetailers((prevUsers) => {
+            //     return prevUsers.map((user) =>
+            //         user._id === updatedUser._id ? updatedUser : user
+            //     );
+            // }));
+            const retailers = currentSpadeRetailers.filter(c => c._id !== updatedUser._id);
+
+            dispatch(setCurrentSpadeRetailers([updatedUser, ...retailers]));
         };
 
         socket.on("updated retailer", handleMessageReceived);
@@ -214,17 +217,17 @@ const RequestDetail = () => {
 
                         <View>
                             {
-                                currentSpadeRetailers.map((details, index) => (
+                                currentSpadeRetailers && currentSpadeRetailers.length > 0 && currentSpadeRetailers.map((details, index) => (
                                     <Pressable key={index} onPress={() => { dispatch(setCurrentSpadeRetailer(details)); navigation.navigate('bargain') }}>
                                         <View className={`flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#3f3d56] ${((spade.requestActive === "completed" || spade.requestActive === "closed") && spade.requestAcceptedChat !== details._id) ? "bg-[#001b33] opacity-50" : ""}`}>
                                             {/* <RandomImg className="w-[47px] h-[47px]" /> */}
-                                            <Image
-                                                source={{ uri: details.users[0].populatedUser.storeImages[0] }}
+                                            {details?.users.length > 0 && <Image
+                                                source={{ uri: details?.users[0].populatedUser.storeImages[0] }}
                                                 style={styles.image}
-                                            />
+                                            />}
                                             <View className="gap-[10px] w-4/5">
                                                 <View className="flex-row justify-between">
-                                                    <Text className="text-[14px] text-[#2e2c43] ">{details.users[0].populatedUser.storeName}</Text>
+                                                    <Text className="text-[14px] text-[#2e2c43] ">{details?.users[0].populatedUser.storeName}</Text>
                                                     <View className="flex-row items-center gap-[5px]">
                                                         <GreenClock />
                                                         <Text className="text-[12px] text-[#558b2f]">6:00 PM</Text>
