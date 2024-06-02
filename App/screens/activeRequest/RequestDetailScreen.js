@@ -60,7 +60,7 @@ const RequestDetail = () => {
         // });
 
         const fetchRetailers = () => {
-            axios.get(`http://192.168.37.192:5000/chat/spade-chats`, {
+            axios.get(`https://genie-backend-meg1.onrender.com/chat/spade-chats`, {
                 params: {
                     id: currentSpade._id,
                 }

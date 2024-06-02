@@ -61,7 +61,7 @@ const BargainingScreen = () => {
     const setMessagesMarkAsRead = async () => {
         console.log('marks as read0', currentSpadeRetailer._id);
         try {
-            const response = await axios.patch('http://192.168.37.192:5000/chat/mark-as-read', {
+            const response = await axios.patch('https://genie-backend-meg1.onrender.com/chat/mark-as-read', {
                 id: currentSpadeRetailer._id
             });
             const updateChat = { ...currentSpadeRetailer, unreadMessages: 0 };
