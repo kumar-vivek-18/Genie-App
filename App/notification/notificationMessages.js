@@ -35,32 +35,37 @@ export const NewRequestCreated = async (mess) => {
         };
 
         for (const token of tokens) {
-            const message = {
-                message: {
-                    token: token,
-                    ...notification
+            if (token.length > 0) {
+                const message = {
+                    message: {
+                        token: token,
+                        ...notification
+                    }
+                };
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(message),
+                });
+
+                const textResponse = await response.text();
+                // console.log('Raw response:', textResponse);
+
+                if (!response.ok) {
+                    // console.error('Failed to send notification error:', textResponse);
+                    console.error('Failed to send notification');
+                    throw new Error('Failed to send notification');
+                } else {
+                    const successResponse = JSON.parse(textResponse);
+                    // console.log('Notification sent successfully:', successResponse, message);
+                    console.log("Notification sent successfully")
                 }
-            };
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify(message),
-            });
-
-            const textResponse = await response.text();
-            console.log('Raw response:', textResponse);
-
-            if (!response.ok) {
-                console.error('Failed to send notification error:', textResponse);
-                throw new Error('Failed to send notification');
-            } else {
-                const successResponse = JSON.parse(textResponse);
-                console.log('Notification sent successfully:', successResponse, message);
             }
         }
     } catch (e) {
-        console.error('Failed to send notification:', e);
+        // console.error('Failed to send notification:', e);
+        console.error('Failed to send notification');
     }
 };
 
@@ -98,32 +103,37 @@ export const BidAccepted = async (mess) => {
         };
 
         for (const token of tokens) {
-            const message = {
-                message: {
-                    token: token,
-                    ...notification
+            if (token.length > 0) {
+                const message = {
+                    message: {
+                        token: token,
+                        ...notification
+                    }
+                };
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(message),
+                });
+
+                const textResponse = await response.text();
+                // console.log('Raw response:', textResponse);
+
+                if (!response.ok) {
+                    // console.error('Failed to send notification error:', textResponse);
+                    console.error('Failed to send notification');
+                    throw new Error('Failed to send notification');
+                } else {
+                    const successResponse = JSON.parse(textResponse);
+                    // console.log('Notification sent successfully:', successResponse, message);
+                    console.log("Notification sent successfully")
                 }
-            };
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify(message),
-            });
-
-            const textResponse = await response.text();
-            console.log('Raw response:', textResponse);
-
-            if (!response.ok) {
-                console.error('Failed to send notification error:', textResponse);
-                throw new Error('Failed to send notification');
-            } else {
-                const successResponse = JSON.parse(textResponse);
-                console.log('Notification sent successfully:', successResponse, message);
             }
         }
     } catch (e) {
-        console.error('Failed to send notification:', e);
+        // console.error('Failed to send notification:', e);
+        console.error('Failed to send notification');
     }
 };
 
@@ -133,7 +143,7 @@ export const BidRejected = async (mess) => {
         //     "dDCcOdbBSHCBczVl8sM6AS:APA91bEWQ2KT0Q1JleNtv4-04pxPDj3Clm8pUf7VzoSjo4gNr-ZpczWTV727J8uHpWTFIrtJlTZSaW3VAbzAcFivT8PG2yBLgdDKv6nSXw46rCdRYPUpbbJu20szxai2saQp7QijsBPL",
         // ];
 
-        tokens = mess.token;
+        const tokens = mess.token;
 
         const accessToken = await getAccessToken();
 
@@ -164,32 +174,39 @@ export const BidRejected = async (mess) => {
         };
 
         for (const token of tokens) {
-            const message = {
-                message: {
-                    token: token,
-                    ...notification
+            if (token.length > 0) {
+
+
+                const message = {
+                    message: {
+                        token: token,
+                        ...notification
+                    }
+                };
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(message),
+                });
+
+                const textResponse = await response.text();
+                // console.log('Raw response:', textResponse);
+
+                if (!response.ok) {
+                    // console.error('Failed to send notification error:', textResponse);
+                    console.error('Failed to send notification');
+                    throw new Error('Failed to send notification');
+                } else {
+                    const successResponse = JSON.parse(textResponse);
+                    // console.log('Notification sent successfully:', successResponse, message);
+                    console.log("Notification sent successfully")
                 }
-            };
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify(message),
-            });
-
-            const textResponse = await response.text();
-            console.log('Raw response:', textResponse);
-
-            if (!response.ok) {
-                console.error('Failed to send notification error:', textResponse);
-                throw new Error('Failed to send notification');
-            } else {
-                const successResponse = JSON.parse(textResponse);
-                console.log('Notification sent successfully:', successResponse, message);
             }
         }
     } catch (e) {
-        console.error('Failed to send notification:', e);
+        // console.error('Failed to send notification:', e);
+        console.error('Failed to send notification');
     }
 };
 
@@ -231,32 +248,39 @@ export const newMessageSend = async (mess) => {
         };
 
         for (const token of tokens) {
-            const message = {
-                message: {
-                    token: token,
-                    ...notification
+            if (token.length > 0) {
+
+
+                const message = {
+                    message: {
+                        token: token,
+                        ...notification
+                    }
+                };
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(message),
+                });
+
+                const textResponse = await response.text();
+                // console.log('Raw response:', textResponse);
+
+                if (!response.ok) {
+                    // console.error('Failed to send notification error:', textResponse);
+                    console.error('Failed to send notification');
+                    throw new Error('Failed to send notification');
+                } else {
+                    const successResponse = JSON.parse(textResponse);
+                    // console.log('Notification sent successfully:', successResponse, message);
+                    console.log("Notification sent successfully")
                 }
-            };
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify(message),
-            });
-
-            const textResponse = await response.text();
-            // console.log('Raw response:', textResponse);
-
-            if (!response.ok) {
-                console.error('Failed to send notification error:', textResponse);
-                throw new Error('Failed to send notification');
-            } else {
-                const successResponse = JSON.parse(textResponse);
-                console.log('Notification sent successfully:', successResponse, message);
             }
         }
     } catch (e) {
-        console.error('Failed to send notification:', e);
+        // console.error('Failed to send notification:', e);
+        console.error('Failed to send notification');
     }
 };
 
@@ -297,32 +321,39 @@ export const newBidSend = async (mess) => {
         };
 
         for (const token of tokens) {
-            const message = {
-                message: {
-                    token: token,
-                    ...notification
+            if (token.length > 0) {
+
+
+                const message = {
+                    message: {
+                        token: token,
+                        ...notification
+                    }
+                };
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(message),
+                });
+
+                const textResponse = await response.text();
+                // console.log('Raw response:', textResponse);
+
+                if (!response.ok) {
+                    // console.error('Failed to send notification error:', textResponse);
+                    console.error('Failed to send notification');
+                    throw new Error('Failed to send notification');
+                } else {
+                    const successResponse = JSON.parse(textResponse);
+                    // console.log('Notification sent successfully:', successResponse, message);
+                    console.log("Notification sent successfully")
                 }
-            };
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify(message),
-            });
-
-            const textResponse = await response.text();
-            console.log('Raw response:', textResponse);
-
-            if (!response.ok) {
-                console.error('Failed to send notification error:', textResponse);
-                throw new Error('Failed to send notification');
-            } else {
-                const successResponse = JSON.parse(textResponse);
-                console.log('Notification sent successfully:', successResponse, message);
             }
         }
     } catch (e) {
-        console.error('Failed to send notification:', e);
+        // console.error('Failed to send notification:', e);
+        console.error('Failed to send notification');
     }
 };
 
@@ -364,32 +395,39 @@ export const AttachmentSend = async (mess) => {
         };
 
         for (const token of tokens) {
-            const message = {
-                message: {
-                    token: token,
-                    ...notification
+            if (token.length > 0) {
+
+
+                const message = {
+                    message: {
+                        token: token,
+                        ...notification
+                    }
+                };
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(message),
+                });
+
+                const textResponse = await response.text();
+                // console.log('Raw response:', textResponse);
+
+                if (!response.ok) {
+                    // console.error('Failed to send notification error:', textResponse);
+                    console.error('Failed to send notification');
+                    throw new Error('Failed to send notification');
+                } else {
+                    const successResponse = JSON.parse(textResponse);
+                    // console.log('Notification sent successfully:', successResponse, message);
+                    console.log("Notification sent successfully")
                 }
-            };
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify(message),
-            });
-
-            const textResponse = await response.text();
-            console.log('Raw response:', textResponse);
-
-            if (!response.ok) {
-                console.error('Failed to send notification error:', textResponse);
-                throw new Error('Failed to send notification');
-            } else {
-                const successResponse = JSON.parse(textResponse);
-                console.log('Notification sent successfully:', successResponse, message);
             }
         }
     } catch (e) {
-        console.error('Failed to send notification:', e);
+        // console.error('Failed to send notification:', e);
+        console.error('Failed to send notification');
     }
 };
 
