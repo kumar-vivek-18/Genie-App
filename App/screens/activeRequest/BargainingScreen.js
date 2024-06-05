@@ -61,14 +61,16 @@ const BargainingScreen = () => {
     const setMessagesMarkAsRead = async () => {
         console.log('marks as read0', currentSpadeRetailer._id);
         try {
-            const response = await axios.patch('https://genie-backend-meg1.onrender.com/chat/mark-as-read', {
-                id: currentSpadeRetailer._id
-            });
-            const updateChat = { ...currentSpadeRetailer, unreadMessages: 0 };
-            const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
-            dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
-            dispatch(setCurrentSpadeRetailer(updateChat));
-            console.log('markAsRead', response.data.unreadCount);
+            if (currentSpadeRetailer.unreadCount > 0) {
+                const response = await axios.patch('https://genie-backend-meg1.onrender.com/chat/mark-as-read', {
+                    id: currentSpadeRetailer._id
+                });
+                const updateChat = { ...currentSpadeRetailer, unreadMessages: 0 };
+                const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
+                dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
+                dispatch(setCurrentSpadeRetailer(updateChat));
+                console.log('markAsRead', response.data.unreadCount);
+            }
         } catch (error) {
             console.error("error while marking as read", error.message);
         }
@@ -181,7 +183,7 @@ const BargainingScreen = () => {
                     setMessages(mess);
 
                     // updating spade
-                    const tmp = { ...spade, requestActive: "completed" };
+                    const tmp = { ...spade, requestActive: "completed", requestAcceptedChat: currentSpadeRetailer._id };
                     dispatch(setCurrentSpade(tmp));
                     let allSpades = [...spades];
                     allSpades.map((curr, index) => {
@@ -430,7 +432,10 @@ const BargainingScreen = () => {
                 </View >
                 {spade?.requestActive !== "closed" && <View className={`absolute bottom-0 left-0 right-0 w-screen ${attachmentScreen ? "-z-50" : "z-50"}`}>
                     <View className="absolute bottom-[0px] left-[0px] right-[0px] gap-[10px] bg-white w-screen">
-                        {((spade?.requestActive === "completed" && spade?.requestAcceptedChat === currentSpadeRetailer?._id) || (messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "accepted") || (messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "rejected") || messages[messages?.length - 1]?.bidType === "false") && <View className="w-full flex-row justify-between pl-[20px] pr-[20px]">
+                        {
+
+                        }
+                        {((spade?.requestActive === "completed" && spade?.requestAcceptedChat === currentSpadeRetailer?._id) && ((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "accepted") || (messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "rejected") || messages[messages?.length - 1]?.bidType === "false")) && <View className="w-full flex-row justify-between pl-[20px] pr-[20px]">
 
                             <TouchableOpacity onPress={() => { navigation.navigate('send-query', { messages, setMessages }) }}>
                                 <View className="border-2 border-[#fb8c00]  px-[30px] py-[11.5px] w-[max-content] rounded-2xl">
@@ -444,6 +449,7 @@ const BargainingScreen = () => {
                                 </View>
                             </TouchableOpacity>
                         </View>}
+
                         {((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === 'rejected' && spade?.requestActive === "active") || (spade?.requestActive === "active" && messages[messages?.length - 1]?.bidType === "false")) && <TouchableOpacity onPress={() => { navigation.navigate('send-bid', { messages, setMessages }); dispatch(emtpyRequestImages([])); }}>
                             <View className="w-full h-[68px]  bg-[#fb8c00] justify-center  bottom-0 left-0 right-0">
                                 <Text className="text-white font-bold text-center text-[16px]">Send a new bid</Text>
@@ -451,23 +457,26 @@ const BargainingScreen = () => {
                         </TouchableOpacity>}
 
                         {((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "new" && messages[messages?.length - 1]?.sender?.type === "Retailer")) && <View className="w-screen flex-row  ">
-                            <View className="w-1/2 flex-row justify-center bg-[#fb8c00]">
+                            <View>
+                                <View className="w-1/2 flex-row justify-center bg-[#fb8c00]">
 
 
-                                <TouchableOpacity onPress={() => { setModalVisibile(true) }} >
-                                    <View className=" py-[10px]  ">
-                                        <Text className="text-[14px] text-white font-bold ">Yes</Text>
-                                    </View>
-                                </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => { setModalVisibile(true) }} >
+                                        <View className=" py-[10px]  ">
+                                            <Text className="text-[14px] text-white font-bold ">Yes</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                                <View className="w-1/2 border-2 border-[#fb8c00] flex-row justify-center">
+                                    <TouchableOpacity onPress={() => { rejectBid() }} >
+                                        <View className=" flex-row  py-[10px]  gap-[5px]">
+
+                                            <Text className="text-[14px] text-[#fb8c00] font-bold ">No</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
-                            <View className="w-1/2 border-2 border-[#fb8c00] flex-row justify-center">
-                                <TouchableOpacity onPress={() => { rejectBid() }} >
-                                    <View className=" flex-row  py-[10px]  gap-[5px]">
 
-                                        <Text className="text-[14px] text-[#fb8c00] font-bold ">No</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
                         </View>}
                     </View>
                 </View>}
