@@ -369,13 +369,14 @@ const BargainingScreen = () => {
 
                     <View className="bg-[#ffe7c8] px-[64px] py-[30px] relative">
                         <View className=" flex-row gap-[18px]">
-                            <View>
-                                <Image
-                                    source={{ uri: details?.users ? details.users[0].populatedUser.storeImages[0] : "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg" }}
-                                    style={{ width: 40, height: 40, borderRadius: 20 }}
-                                />
-                            </View>
-
+                            <TouchableOpacity onPress={() => { navigation.navigate('retailer-profile') }}>
+                                <View>
+                                    <Image
+                                        source={{ uri: details?.users ? details.users[0].populatedUser.storeImages[0] : "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg" }}
+                                        style={{ width: 40, height: 40, borderRadius: 20 }}
+                                    />
+                                </View>
+                            </TouchableOpacity>
                             <View>
                                 <Text className="text-[14px] text-[#2e2c43] capitalize">{details.users ? details?.users[0].populatedUser.storeName : ""}</Text>
                                 <Text className="text-[12px] text-[#c4c4c4]">Active 3 hr ago</Text>
