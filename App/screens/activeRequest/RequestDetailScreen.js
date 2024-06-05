@@ -18,6 +18,9 @@ import { setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
 import { setSpades } from '../../redux/reducers/userDataSlice';
 import useRequestSocket from './useRequestSocket';
 import { socket } from '../../utils/scoket.io/socket';
+import Star from '../../assets/star.svg';
+import HomeIcon from '../../assets/homeIcon.svg';
+import { haversineDistance } from '../../utils/logics/Logics';
 
 const RequestDetail = () => {
     const navigation = useNavigation();
@@ -32,6 +35,7 @@ const RequestDetail = () => {
     const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
     const currentSpade = useSelector(store => store.user.currentSpade);
     const [socketConnected, setSocketConnected] = useState(false);
+
 
     const connectSocket = async (id) => {
         // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
@@ -233,11 +237,29 @@ const RequestDetail = () => {
                                                         <Text className="text-[12px] text-[#558b2f]">6:00 PM</Text>
                                                     </View>
                                                 </View>
+                                                <View className="flex-row items-center gap-[15px]">
+
+                                                    {details.retailerId.totalReview > 0 && (
+                                                        <View className="flex-row items-center gap-[5px]">
+                                                            <Star />
+                                                            <Text>{parseFloat(details.retailerId.totalRating / details.retailerId.totalReview).toFixed(1)}/5</Text>
+                                                        </View>
+                                                    )}
+
+                                                    {details.retailerId.homeDelivery && <View>
+                                                        <HomeIcon />
+                                                    </View>}
+                                                    {
+                                                        // details.customerId.longitude > 0 && details.customerId.latitude > 0 && <View>{haversineDistance(details.customerId.longitude, details.customerId.latitude, details.retailerId.longitude, details.retailerId.lattitude)}
+                                                        // </View>
+                                                    }
+                                                </View>
+
                                                 <View className="flex-row justify-between">
                                                     <View className="flex-row gap-[5px]">
                                                         <Gallery />
                                                         {/* <Text className="text-[14px] text-[#c4c4c4]">{details?.latestMessage?.message}</Text> */}
-                                                        <Text className="text-[14px] text-[#c4c4c4]">{details?.latestMessage?.message || 'No message available'}{console.log('details value', details.latestMessage)}</Text>
+                                                        <Text className="text-[14px] text-[#c4c4c4]">{details?.latestMessage?.message || 'No message available'}</Text>
 
                                                     </View>
                                                     {details?.unreadCount > 0 && <View className="w-[18px] h-[18px] rounded-full bg-[#55cd00] flex-row justify-center items-center">
