@@ -7,7 +7,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "serve": "serve dist"
+    "serve": "serve dist",
+    "eas-build-pre-install": "npm config set legacy-peer-deps true",
+    "eas-build-post-install": "tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css.native.css"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.0",
