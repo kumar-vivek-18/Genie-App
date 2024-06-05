@@ -14,6 +14,7 @@ const UserNameEntryScreen = () => {
     const dispatch = useDispatch();
     const userToken = useSelector(store => store.user.uniqueToken);
     const mobileNumber = useSelector(state => state.user.mobileNumber);
+    console.log("userToken", userToken)
 
     const handleName = (name) => {
         // Update the mobile number state
@@ -51,7 +52,7 @@ const UserNameEntryScreen = () => {
                 await AsyncStorage.setItem('userDetails', JSON.stringify(response.data));
                 await axios.patch('https://genie-backend-meg1.onrender.com/user/edit-profile', {
                     _id: response.data._id,
-                    updateData: { uniqueToken: uniqueToken }
+                    updateData: { uniqueToken: userToken }
                 })
                     .then(res => {
                         console.log('UserName updated Successfully');

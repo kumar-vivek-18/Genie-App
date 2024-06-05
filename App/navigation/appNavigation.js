@@ -26,12 +26,13 @@ import SendQueryScreen from '../screens/activeRequest/SendQueryScreen';
 import CameraScreen from '../screens/components/CameraScreen';
 import RatingAndFeedback from '../screens/Rating&Feedback/RatingAndFeedback';
 import SplashScreen from '../screens/SplashScreen';
+import RetailerProfile from '../screens/Menu&Profile/RetailerProfile';
 const Stack = createNativeStackNavigator();
 const GlobalNavigation = () => {
 
     return (
 
-        <Stack.Navigator initialRouteName="splash"
+        <Stack.Navigator initialRouteName="retailer-profile"
             screenOptions={{
                 headerShown: false,
                 animation: "slide_from_right",
@@ -61,6 +62,7 @@ const GlobalNavigation = () => {
             <Stack.Screen name="send-query" component={SendQueryScreen} />
             <Stack.Screen name="camera" component={CameraScreen} />
             <Stack.Screen name="rating-feedback" component={RatingAndFeedback} />
+            <Stack.Screen name="retailer-profile" component={RetailerProfile} />
         </Stack.Navigator>
 
     )
