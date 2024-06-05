@@ -18,6 +18,9 @@ import { setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
 import { setSpades } from '../../redux/reducers/userDataSlice';
 import useRequestSocket from './useRequestSocket';
 import { socket } from '../../utils/scoket.io/socket';
+import Star from '../../assets/star.svg';
+import HomeIcon from '../../assets/homeIcon.svg';
+import { haversineDistance } from '../../utils/logics/Logics';
 
 const RequestDetail = () => {
     const navigation = useNavigation();
@@ -32,6 +35,7 @@ const RequestDetail = () => {
     const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
     const currentSpade = useSelector(store => store.user.currentSpade);
     const [socketConnected, setSocketConnected] = useState(false);
+
 
     const connectSocket = async (id) => {
         // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
@@ -217,39 +221,64 @@ const RequestDetail = () => {
 
                         <View>
                             {
-                                currentSpadeRetailers && currentSpadeRetailers.length > 0 && currentSpadeRetailers.map((details, index) => (
-                                    <Pressable key={index} onPress={() => { dispatch(setCurrentSpadeRetailer(details)); navigation.navigate('bargain') }}>
-                                        <View className={`flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#3f3d56] ${((spade.requestActive === "completed" || spade.requestActive === "closed") && spade.requestAcceptedChat !== details._id) ? "bg-[#001b33] opacity-50" : ""}`}>
-                                            {/* <RandomImg className="w-[47px] h-[47px]" /> */}
-                                            {details?.users.length > 0 && <Image
-                                                source={{ uri: details?.users[0].populatedUser.storeImages[0] }}
-                                                style={styles.image}
-                                            />}
-                                            <View className="gap-[10px] w-4/5">
-                                                <View className="flex-row justify-between">
-                                                    <Text className="text-[14px] text-[#2e2c43] ">{details?.users[0].populatedUser.storeName}</Text>
-                                                    <View className="flex-row items-center gap-[5px]">
-                                                        <GreenClock />
-                                                        <Text className="text-[12px] text-[#558b2f]">6:00 PM</Text>
+                                currentSpadeRetailers && currentSpadeRetailers.length > 0 && currentSpadeRetailers.map((details, index) => {
+                                    const validCoordinates = details.customerId.longitude !== 0 && details.customerId.latitude !== 0 && details.retailerId.longitude !== 0 && details.retailerId.lattitude !== 0;
+
+                                    // Calculate distance if coordinates are valid
+                                    const distance = validCoordinates ? haversineDistance(details.customerId.latitude, details.customerId.longitude, details.retailerId.lattitude, details.retailerId.longitude) : null;
+                                    return (
+                                        <Pressable key={index} onPress={() => { dispatch(setCurrentSpadeRetailer(details)); navigation.navigate('bargain') }}>
+                                            <View className={`flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#3f3d56] ${((spade.requestActive === "completed" || spade.requestActive === "closed") && spade.requestAcceptedChat !== details._id) ? "bg-[#001b33] opacity-50" : ""}`}>
+                                                {/* <RandomImg className="w-[47px] h-[47px]" /> */}
+                                                {details?.users.length > 0 && <Image
+                                                    source={{ uri: details?.users[0].populatedUser.storeImages[0] }}
+                                                    style={styles.image}
+                                                />}
+                                                <View className="gap-[10px] w-4/5">
+                                                    <View className="flex-row justify-between">
+                                                        <Text className="text-[14px] text-[#2e2c43] ">{details?.users[0].populatedUser.storeName}</Text>
+                                                        <View className="flex-row items-center gap-[5px]">
+                                                            <GreenClock />
+                                                            <Text className="text-[12px] text-[#558b2f]">6:00 PM</Text>
+                                                        </View>
                                                     </View>
-                                                </View>
-                                                <View className="flex-row justify-between">
-                                                    <View className="flex-row gap-[5px]">
-                                                        <Gallery />
-                                                        {/* <Text className="text-[14px] text-[#c4c4c4]">{details?.latestMessage?.message}</Text> */}
-                                                        <Text className="text-[14px] text-[#c4c4c4]">{details?.latestMessage?.message || 'No message available'}{console.log('details value', details.latestMessage)}</Text>
+                                                    <View className="flex-row items-center gap-[15px]">
 
+                                                        {details.retailerId.totalReview > 0 && (
+                                                            <View className="flex-row items-center gap-[5px]">
+                                                                <Star />
+                                                                <Text>{parseFloat(details.retailerId.totalRating / details.retailerId.totalReview).toFixed(1)}/5</Text>
+                                                            </View>
+                                                        )}
+
+                                                        {details.retailerId.homeDelivery && <View>
+                                                            <HomeIcon />
+                                                        </View>}
+                                                        {
+                                                            distance && <View>
+                                                                <Text className="bg-[#ffe7c8] text-text  px-[5px] py-[2px] rounded-md">{parseFloat(distance).toFixed(1)} km</Text>
+                                                            </View>
+                                                        }
                                                     </View>
-                                                    {details?.unreadCount > 0 && <View className="w-[18px] h-[18px] rounded-full bg-[#55cd00] flex-row justify-center items-center">
-                                                        <Text className=" text-white text-[12px] font-bold ">{details.unreadCount}</Text>
-                                                    </View>}
+
+                                                    <View className="flex-row justify-between">
+                                                        <View className="flex-row gap-[5px]">
+                                                            <Gallery />
+                                                            {/* <Text className="text-[14px] text-[#c4c4c4]">{details?.latestMessage?.message}</Text> */}
+                                                            <Text className="text-[14px] text-[#c4c4c4]">{details?.latestMessage?.message || 'No message available'}</Text>
+
+                                                        </View>
+                                                        {details?.unreadCount > 0 && <View className="w-[18px] h-[18px] rounded-full bg-[#55cd00] flex-row justify-center items-center">
+                                                            <Text className=" text-white text-[12px] font-bold ">{details.unreadCount}</Text>
+                                                        </View>}
+                                                    </View>
+
+
                                                 </View>
-
-
                                             </View>
-                                        </View>
-                                    </Pressable>
-                                ))
+                                        </Pressable>
+                                    )
+                                })
                             }
 
 

@@ -509,4 +509,4 @@ const styles = {
 
 };
 
-export default BargainingScreen
+export default BargainingScreen;
