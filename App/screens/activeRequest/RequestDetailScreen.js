@@ -20,7 +20,7 @@ import useRequestSocket from './useRequestSocket';
 import { socket } from '../../utils/scoket.io/socket';
 import Star from '../../assets/star.svg';
 import HomeIcon from '../../assets/homeIcon.svg';
-import { haversineDistance } from '../../utils/logics/Logics';
+import { getGeoCoordinates, haversineDistance } from '../../utils/logics/Logics';
 
 const RequestDetail = () => {
     const navigation = useNavigation();
@@ -35,7 +35,8 @@ const RequestDetail = () => {
     const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
     const currentSpade = useSelector(store => store.user.currentSpade);
     const [socketConnected, setSocketConnected] = useState(false);
-
+    const [userLongitude, setUserLongitude] = useState(0);
+    const [userLatitude, setUserLatitude] = useState(0);
 
     const connectSocket = async (id) => {
         // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
@@ -81,6 +82,14 @@ const RequestDetail = () => {
                 });
         }
         fetchRetailers();
+        getGeoCoordinates().then(coordinates => {
+            console.log('coordinates', coordinates);
+            if (coordinates) {
+                setUserLongitude(coordinates.coords.longitude);
+                setUserLatitude(coordinates.coords.latitude);
+            }
+        })
+
 
         return () => {
             // socket.disconnect();
@@ -222,10 +231,18 @@ const RequestDetail = () => {
                         <View>
                             {
                                 currentSpadeRetailers && currentSpadeRetailers.length > 0 && currentSpadeRetailers.map((details, index) => {
-                                    const validCoordinates = details.customerId.longitude !== 0 && details.customerId.latitude !== 0 && details.retailerId.longitude !== 0 && details.retailerId.lattitude !== 0;
+                                    let distance = null;
+                                    // if (userLongitude !== 0 && userLatitude !== 0 && details.retailerId.longitude !== 0 && details.retailerId.lattitude !== 0) {
+                                    //     distance = haversineDistance(userLongitude, userLatitude, details.retailerId.lattitude, details.retailerId.longitude);
+                                    // }
+                                    // else
+                                    if (details.customerId.longitude !== 0 && details.customerId.latitude !== 0 && details.retailerId.longitude !== 0 && details.retailerId.lattitude !== 0) {
+                                        distance = haversineDistance(details.customerId.latitude, details.customerId.longitude, details.retailerId.lattitude, details.retailerId.longitude);
+                                    }
+                                    console.log(details.customerId.latitude, details.customerId.longitude);
 
                                     // Calculate distance if coordinates are valid
-                                    const distance = validCoordinates ? haversineDistance(details.customerId.latitude, details.customerId.longitude, details.retailerId.lattitude, details.retailerId.longitude) : null;
+                                    // distance = validCoordinates ? haversineDistance(details.customerId.latitude, details.customerId.longitude, details.retailerId.lattitude, details.retailerId.longitude) : null;
                                     return (
                                         <Pressable key={index} onPress={() => { dispatch(setCurrentSpadeRetailer(details)); navigation.navigate('bargain') }}>
                                             <View className={`flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#3f3d56] ${((spade.requestActive === "completed" || spade.requestActive === "closed") && spade.requestAcceptedChat !== details._id) ? "bg-[#001b33] opacity-50" : ""}`}>

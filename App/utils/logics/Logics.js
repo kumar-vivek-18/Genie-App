@@ -38,35 +38,84 @@ export const getLocationName = async (lat, lon) => {
 
 
 export const getGeoCoordinates = async () => {
-    // Request permission to access location
+    try {
+        // Request permission to access location
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+            Alert.alert('Permission Denied', 'Permission to access location was denied.');
+            return null;
+        }
 
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
-        Alert.alert('Permission Denied', 'Permission to access location was denied.');
-        return;
+        // Set location options for higher accuracy and reasonable timeout
+        const locationOptions = {
+            accuracy: Location.Accuracy.High,
+            timeInterval: 10000, // 10 seconds
+            distanceInterval: 1, // 1 meter
+        };
+
+        // Get current location
+        const location = await Location.getCurrentPositionAsync(locationOptions);
+        console.log('location', location);
+
+        return location;
+    } catch (error) {
+        // Handle errors such as timeout or other exceptions
+        console.error('Error getting location:', error);
+        Alert.alert('Error', 'Unable to fetch location. Please try again.');
+        return null;
     }
-
-    // Get current location
-    // console.log("storelocation", storeLocation);
-    const location = await Location.getCurrentPositionAsync({});
-    console.log('location', location);
-    // setCurrentLocation({
-    //     latitude: location.coords.latitude,
-    //     longitude: location.coords.longitude,
-    // });
-
-    // console.log("current", currentLocation);
-
-    // if (!currentLocation || !storeLocation) {
-    //     Alert.alert('Error', 'Current location or friend location is not available.');
-    //     return;
-    // }
-
-    // const url = `https://www.google.com/maps/dir/?api=1&origin=${currentLocation.latitude},${currentLocation.longitude}&destination=${storeLocation.latitude},${storeLocation.longitude}&travelmode=driving`;
-
-    // Linking.openURL(url).catch(err => console.error('An error occurred', err));
-    return location;
 };
+
+// const calculateAverage = (array) => array.reduce((a, b) => a + b, 0) / array.length;
+
+// export const getGeoCoordinates = async (numReadings = 5, delay = 1000) => {
+//     try {
+//         // Request permission to access location
+//         let { status } = await Location.requestForegroundPermissionsAsync();
+//         if (status !== 'granted') {
+//             Alert.alert('Permission Denied', 'Permission to access location was denied.');
+//             return null;
+//         }
+
+//         const locationOptions = {
+//             accuracy: Location.Accuracy.High,
+//             timeInterval: 10000, // 10 seconds
+//             distanceInterval: 1, // 1 meter
+//         };
+
+//         let latitudes = [];
+//         let longitudes = [];
+//         let accuracies = [];
+
+//         for (let i = 0; i < 10; i++) {
+//             const location = await Location.getCurrentPositionAsync(locationOptions);
+//             latitudes.push(location.coords.latitude);
+//             longitudes.push(location.coords.longitude);
+//             accuracies.push(location.coords.accuracy);
+//             await new Promise(res => setTimeout(res, delay)); // Wait for the delay
+//         }
+
+//         // Remove outliers based on accuracy
+//         const threshold = 2 * calculateAverage(accuracies);
+//         const filteredLatitudes = latitudes.filter((_, index) => accuracies[index] < threshold);
+//         const filteredLongitudes = longitudes.filter((_, index) => accuracies[index] < threshold);
+
+//         const averageLatitude = calculateAverage(filteredLatitudes);
+//         const averageLongitude = calculateAverage(filteredLongitudes);
+
+//         return {
+//             coords: {
+//                 latitude: averageLatitude,
+//                 longitude: averageLongitude,
+//                 accuracy: Math.min(...accuracies), // This can be more sophisticated
+//             },
+//         };
+//     } catch (error) {
+//         console.error('Error getting location:', error);
+//         Alert.alert('Error', 'Unable to fetch location. Please try again.');
+//         return null;
+//     }
+// };
 
 export const haversineDistance = (lat1, lon1, lat2, lon2) => {
     const toRadians = (degree) => degree * (Math.PI / 180);
