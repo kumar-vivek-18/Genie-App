@@ -1,5 +1,6 @@
-import { View, Text, Image, KeyboardAvoidingView, TextInput, ScrollView, Pressable, TouchableOpacity, Alert, BackHandler } from 'react-native'
+import { Dimensions, View, Text, Image, KeyboardAvoidingView, TextInput, ScrollView, Pressable, TouchableOpacity, Alert, BackHandler, Platform } from 'react-native'
 import React, { useEffect, useState } from 'react';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -10,7 +11,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from "@react-native-firebase/auth";
 import axios from 'axios';
 import MobileNumberScreenBg from '../../assets/MobileEntryPageBg.svg';
-
+import MobileIcon from '../../assets/mobileIcon.svg';
+import OtpPageBg from '../../assets/OtpVerificationPageBg.svg';
 const MobileNumberEntryScreen = () => {
     const navigation = useNavigation()
     const dispatch = useDispatch();
@@ -143,76 +145,74 @@ const MobileNumberEntryScreen = () => {
     };
 
 
-
+    const { width } = Dimensions.get('window');
+    // console.log('width', width);
     return (
         <>
             {mobileScreen &&
-                <ScrollView style={{ flex: 1 }}>
-
-                    <View style={{ flex: 1 }}>
-
-
+                <View style={{ flex: 1 }}>
+                    <ScrollView >
                         {/* <Image source={require("../../assets/MobileEntryPage.png")} className="w-full object-cover" /> */}
-                        <MobileNumberScreenBg />
+                        <MobileNumberScreenBg width={width} />
 
-                        <View className="">
+                        <View>
                             <View className="flex flex-row gap-[8px] pt-[32px] px-[40px]">
-                                <Text className="h-[9px] w-[32px] border-[1px] border-[#fb8c00] bg-[#fb8c00]  rounded-md"></Text>
-                                <Text className="h-[9px] w-[32px] border-[1px] border-black  rounded-md"></Text>
-                                <Text className="h-[9px] w-[32px] border-[1px] border-black  rounded-md"></Text>
-
+                                <Text className="h-[7px] w-[30px] border-[1px] border-[#fb8c00] bg-[#fb8c00] rounded-md"></Text>
+                                <Text className="h-[7px] w-[30px] border-[1px] border-black rounded-md"></Text>
+                                <Text className="h-[7px] w-[30px] border-[1px] border-black rounded-md"></Text>
                             </View>
-                            <View className="pt-[8px] px-[40px] ">
-                                <Text className="text-[16px]  ">
-                                    Now do real time bargain for any product or service & save money
+                            <View className="pt-[8px] px-[40px]">
+                                <Text className="text-[14px]">
+                                    Now bargaining is possible from your couch! Connect online with nearby retailers now.
                                 </Text>
                             </View>
-                            <View className="flex flex-col gap-[16px] mt-[15px] ">
+                            <View className="flex flex-col gap-[16px] mt-[30px]">
                                 <View className="flex flex-col gap-[5px] px-[40px]">
-                                    <Image source={require("../../assets/mobileIcon.png")} className="w-[11px] h-[18px]" />
+                                    {/* <Image source={require("../../assets/mobileIcon.png")} className="w-[11px] h-[18px]" /> */}
+                                    <MobileIcon />
                                     <Text className="text-[16px] font-semibold">Please enter your</Text>
-
                                 </View>
-                                <KeyboardAvoidingView className="flex flex-col gap-[15px]">
-                                    <Text className="  text-[14px] font-normal  px-[40px]">
-                                        Mobile Number
-                                    </Text>
-                                    <View className="flex flex-row items-center gap-[10px] h-[54px] px-[8px]   border-[1px] border-[#f9f9f9] rounded-[16px] bg-[#F9F9F9] mx-[30px]">
-                                        <Text className="text-[16px] font-extrabold border-r-[1px] border-[#dbcdbb] pr-[16px] ">
-                                            +91
-                                            <Entypo name="chevron-down" size={16} color="black" className="pl-[10px]" />
-                                        </Text>
-                                        <TextInput
-                                            placeholder="Ex : 9088-79-0488"
-                                            placeholderTextColor={"#dbcdbb"}
-                                            onChangeText={handleMobileNo}
-                                            keyboardType="numeric"
-                                            className="w-full text-[16px]"
-                                            maxLength={10}
-                                        />
-                                    </View>
-                                </KeyboardAvoidingView>
+                                <View className="flex flex-col gap-[15px]">
+                                    <Text className="text-[12px] font-normal px-[40px]">Mobile Number</Text>
+                                    <KeyboardAvoidingView
+                                    >
+                                        <View className="flex flex-row items-center gap-[10px] h-[54px] px-[8px] border-[1px] border-[#f9f9f9] rounded-[16px] bg-[#F9F9F9] mx-[30px]">
+                                            <Text className="text-[16px] font-extrabold border-r-[1px] border-[#dbcdbb] pr-[16px] pl-[15px]">
+                                                +91
+                                                <Entypo name="chevron-down" size={16} color="black" className="pl-[10px]" />
+                                            </Text>
+                                            <TextInput
+                                                placeholder="Ex : 9088-79-0488"
+                                                placeholderTextColor={"#dbcdbb"}
+                                                onChangeText={handleMobileNo}
+                                                keyboardType="numeric"
+                                                className="w-full text-[16px]"
+                                                maxLength={10}
+                                            />
+                                        </View>
+                                    </KeyboardAvoidingView>
+                                </View>
                             </View>
                         </View>
+                    </ScrollView>
+                    <View className="absolute bottom-0 left-0 right-0">
                         <TouchableOpacity onPress={sendVerification}>
-                            <Text className="text-center font-bold text-[18px] text-white w-full py-[18px] bg-[#fb8c00] mt-[85px]">Next</Text>
+                            <Text className="text-center font-extrabold text-[18px] text-white w-full py-[18px] bg-[#fb8c00]">Next</Text>
                         </TouchableOpacity>
-
                     </View>
-
-                </ScrollView >
+                </View>
             }
             {
                 !mobileScreen &&
-                <SafeAreaView style={{ flex: 1 }}>
+                <View style={{ flex: 1 }}>
                     {/* <Text>OtpVerificationScreen</Text> */}
                     <ScrollView>
-                        <Image source={require('../../assets/Otpverification.png')} className="w-full object-cover" />
-
-                        <Pressable onPress={() => { navigation.goBack() }} className="flex flex-row items-center absolute top-16 left-4 gap-2">
+                        {/* <Image source={require('../../assets/Otpverification.png')} className="w-full object-cover" /> */}
+                        <OtpPageBg width={width} />
+                        {/* <Pressable onPress={() => { navigation.goBack() }} className="flex flex-row items-center absolute top-16 left-4 gap-2">
                             <FontAwesome name="chevron-left" size={15} color="black" />
                             <Text className="text-[16px] font-extrabold">Back</Text>
-                        </Pressable>
+                        </Pressable> */}
                         <View className="px-[42px]">
                             <View className="flex flex-row gap-2 pt-[30px] ">
                                 <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
@@ -229,7 +229,9 @@ const MobileNumberEntryScreen = () => {
                                 <Text className="text-[14px] text-[#2e2c43]">It should be autofilled</Text>
                                 <Text className="text-[14px] text-[#2e2c43]">or type manually</Text>
                             </View>
-                            <KeyboardAvoidingView>
+                            <KeyboardAvoidingView
+                                behavior='padding'
+                            >
                                 <View
                                     style={{
                                         flexDirection: "row",
@@ -256,6 +258,7 @@ const MobileNumberEntryScreen = () => {
                                             height: 53,
                                             textAlign: "center",
                                             fontSize: 17,
+
                                         }}
                                     />
                                 </View>
@@ -267,15 +270,18 @@ const MobileNumberEntryScreen = () => {
 
 
                         </View>
-                        <TouchableOpacity >
-                            <Pressable disabled={otp.length !== 6} onPress={checkMobileNumber} >
-                                <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center mt-[50px]  ">
-                                    <Text className="text-white text-[18px] font-bold">NEXT</Text>
-                                </View>
-                            </Pressable>
-                        </TouchableOpacity>
+
+
                     </ScrollView>
-                </SafeAreaView>
+                    <View className="absolute bottom-0 left-0 right-0">
+                        <TouchableOpacity disabled={otp.length !== 6} onPress={checkMobileNumber} >
+
+                            <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center mt-[50px]  ">
+                                <Text className="text-white text-[18px] font-bold">NEXT</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </View>
 
             }
         </>
