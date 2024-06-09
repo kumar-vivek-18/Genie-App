@@ -45,6 +45,9 @@ import Home4 from "../assets/Home4.svg";
 import Home5 from "../assets/Home5.svg";
 import Home6 from "../assets/Home6.svg";
 import Home7 from "../assets/Home7.svg";
+import ProfileIcon from '../assets/ProfileIcon.svg';
+import HistoryIcon from '../assets/historyIcon.svg';
+
 const { width } = Dimensions.get("window");
 
 const images = [Home1, Home2, Home3, Home4, Home5, Home6, Home7];
@@ -183,10 +186,11 @@ const HomeScreen = () => {
         <View className="w-full  flex flex-row px-[29px] justify-between items-center pt-[40px]">
           <Pressable onPress={() => navigation.navigate("menu")}>
             <View className="bg-[#fb8c00] w-[42px] h-[42px] rounded-full flex justify-center items-center mx-auto">
-              <Image
+              {/* <Image
                 source={require("../assets/ProfileIcon.png")}
                 className="w-[26px] h-[26px]"
-              />
+              /> */}
+              <ProfileIcon />
             </View>
           </Pressable>
 
@@ -194,10 +198,11 @@ const HomeScreen = () => {
 
           <Pressable onPress={() => navigation.navigate("history")}>
             <View className="bg-[#fb8c00] w-[42px] h-[42px] rounded-full flex justify-center items-center mx-auto">
-              <Image
+              {/* <Image
                 source={require("../assets/SettingIcon.png")}
                 className="w-[26px] h-[26px]"
-              />
+              /> */}
+              <HistoryIcon />
             </View>
           </Pressable>
         </View>
