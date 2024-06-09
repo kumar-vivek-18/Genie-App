@@ -32,7 +32,7 @@ const GlobalNavigation = () => {
 
     return (
 
-        <Stack.Navigator initialRouteName="splash"
+        <Stack.Navigator initialRouteName="registerUsername"
             screenOptions={{
                 headerShown: false,
                 animation: "slide_from_right",

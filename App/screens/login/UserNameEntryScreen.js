@@ -1,11 +1,12 @@
-import { View, Text, SafeAreaView, Image, TextInput, KeyboardAvoidingView, TouchableOpacity, Pressable, ScrollView, Alert } from 'react-native'
+import { View, Text, SafeAreaView, Image, TextInput, KeyboardAvoidingView, TouchableOpacity, Pressable, ScrollView, Alert, Dimensions, BackHandler } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation , useNavigationState} from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserDetails, setUserName } from '../../redux/reducers/userDataSlice';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import RegisterImg from "../../assets/registerUserImg.svg"
 
 
 const UserNameEntryScreen = () => {
@@ -15,6 +16,32 @@ const UserNameEntryScreen = () => {
     const userToken = useSelector(store => store.user.uniqueToken);
     const mobileNumber = useSelector(state => state.user.mobileNumber);
     console.log("userToken", userToken)
+    const { width } = Dimensions.get("window");
+    const navigationState = useNavigationState(state => state);
+
+    const isUserNameScreen = navigationState.routes[navigationState.index].name === 'registerUsername';
+  console.log("isUserNameScreen",isUserNameScreen)
+  const [focusedInput, setFocusedInput] = useState(null);
+
+  useEffect(() => {
+    const backAction = () => {
+      if (isUserNameScreen) {
+
+        BackHandler.exitApp();
+        return true;
+      }
+      // } else {
+      //   return false;
+      // }
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    return () => backHandler.remove(); // Clean up the event listener
+  }, [isUserNameScreen]);
 
     const handleName = (name) => {
         // Update the mobile number state
@@ -78,13 +105,15 @@ const UserNameEntryScreen = () => {
 
 
     return (
-        <ScrollView style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             {/* <Text>OtpVerificationScreen</Text> */}
-            <Image source={require('../../assets/Otpverification.png')} className="w-full object-cover" />
-            <Pressable onPress={() => { navigation.goBack() }} className="flex flex-row items-center absolute top-16 left-4 gap-2">
+            <KeyboardAvoidingView behavior="position">
+                <RegisterImg width={width}/>
+            {/* <Pressable onPress={() => { navigation.goBack() }} className="flex flex-row items-center absolute top-16 left-4 gap-2">
                 <FontAwesome name="chevron-left" size={15} color="black" />
                 <Text className="text-[16px] font-extrabold">Back</Text>
-            </Pressable>
+            </Pressable> */}
             <View className="px-[42px]">
                 <View className="flex flex-row gap-2 pt-[30px] ">
                     <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
@@ -92,17 +121,18 @@ const UserNameEntryScreen = () => {
                     <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
                 </View>
                 <View>
-                    <Text className="text-[16px] text-[#2e2c43] pt-[10px]">Get best price for any product or</Text>
-                    <Text className="text-[16px] text-[#2e2c43]">service from local sellers</Text>
+                    <Text className="text-[14px] text-[#2e2c43] font-bold pt-[10px]">Need maintenance services? 
+                   </Text>
+                    <Text className="text-[14px] text-[#2e2c43]">Do bargaining first to avail services like plumber, electrician & lot more.</Text>
                 </View>
                 <View>
-                    <Text className="text-[18px] font-bold text-[#001b33] pt-[16px]">Please enter your</Text>
+                    <Text className="text-[16px] font-extrabold text-[#001b33] pt-[30px]">Please enter your</Text>
                     <Text className="text-[14px] text-[#2e2c43]">Name</Text>
                 </View>
 
 
 
-                <KeyboardAvoidingView>
+               
                     <View className="flex r items-center">
                         <TextInput
                             onChangeText={handleName}
@@ -110,20 +140,39 @@ const UserNameEntryScreen = () => {
                             className="w-[310px] h-[54px] bg-[#f9f9f9] stroke-[#2e2c43] rounded-3xl px-10 mt-[15px] "
                         />
                     </View>
-                </KeyboardAvoidingView>
+                
             </View>
+            </KeyboardAvoidingView>
 
+            </ScrollView>
 
-
-
-            <TouchableOpacity >
-                <Pressable onPress={handleNext} >
-                    <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center mt-[115px]  ">
-                        <Text className="text-white text-[18px] font-bold">NEXT</Text>
-                    </View>
-                </Pressable>
-            </TouchableOpacity>
-        </ScrollView>
+            <TouchableOpacity
+          disabled={!name}
+          onPress={handleNext}
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 68,
+            width: "100%",
+            backgroundColor: (!name) ? "#e6e6e6" : "#FB8C00",
+            justifyContent: "center", // Center content vertically
+            alignItems: "center", // Center content horizontally
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "bold",
+              color: (!name)  ? "#888888" : "white",
+            }}
+          >
+            NEXT
+          </Text>
+        </TouchableOpacity>
+       
+        </View>
     )
 }
 

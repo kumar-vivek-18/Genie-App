@@ -5,6 +5,8 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Octicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import ArrowLeft from '../../assets/arrow-left.svg';
+import BackArrow from "../../assets/BackArrowImg.svg";
+
 import { useDispatch, useSelector } from 'react-redux';
 import { emtpyRequestImages, setRequestCategory } from '../../redux/reducers/userRequestsSlice';
 
@@ -43,7 +45,7 @@ const RequestCategory = () => {
     const [selectedOption, setSelectedOption] = useState(null);
 
     const handleSelectResult = (id) => {
-        setSelectedOption(id === selectedOption ? null : id);
+        setSelectedOption(id === selectedOption ? "" : id);
     };
 
     const search = (text) => {
@@ -84,12 +86,17 @@ const RequestCategory = () => {
             <View className="flex-1 w-full bg-white flex-col  gap-[40px] px-[32px] ">
                 <ScrollView className="flex-1 px-0 mb-[63px] " showsVerticalScrollIndicator={false} >
 
-                    <View className=" flex z-40 flex-row items-center mt-[24px] mb-[24px]">
+                    <View className=" flex z-40 flex-row items-center mt-[24px] mb-[10px]">
                         <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
-                            <ArrowLeft />
+                        <BackArrow width={14} height={10} />  
+
                         </Pressable>
-                        <Text className="flex flex-1 justify-center items-center text-center text-[16px]">Select Category</Text>
+                        <Text className="flex flex-1 justify-center items-center font-extrabold text-center text-[16px]">Select Spade Category</Text>
+                        
                     </View>
+                    <Text className="text-[14.5px] font-bold text-[#FB8C00] text-center mb-[30px] ">
+                        Step 2/4
+                    </Text>
                     <View className="flex flex-row gap-2 h-[60px]  border-[1px] items-center border-[#000000] rounded-[24px] mb-[20px]">
                         <Octicons name="search" size={19} className="pl-[20px]" />
                         <TextInput
