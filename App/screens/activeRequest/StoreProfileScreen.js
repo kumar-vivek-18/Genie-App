@@ -18,7 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 import EditIcon from "../../assets/editIcon.svg";
 import { TouchableOpacity } from "react-native";
 import { useSelector } from "react-redux";
-import Star from "../../assets/star.svg";
+import Star from "../../assets/Star.svg";
 import Pointer from "../../assets/pointer.svg";
 import RightArrow from "../../assets/rightarrow.svg";
 import Copy from "../../assets/copy.svg";
