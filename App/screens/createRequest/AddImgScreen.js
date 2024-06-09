@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setRequestImages } from '../../redux/reducers/userRequestsSlice.js';
 import { launchCamera } from 'react-native-image-picker';
 import { manipulateAsync } from 'expo-image-manipulator';
+import BackArrow from "../../assets/BackArrowImg.svg"
 // import { getImageUrl } from '../../utils/cloudinary/cloudinary';
 import LoadingScreen from '../components/LoadingScreen';
 import AddImages from '../components/AddImages';
@@ -212,7 +213,7 @@ const AddImgScreen = () => {
 
                     <View className=" flex z-40 flex-row items-center mt-[24px] mb-[24px] px-[34px]">
                         <Pressable onPress={() => navigation.goBack()} className="">
-                            <ArrowLeft />
+                        <BackArrow width={14} height={10} />
                         </Pressable>
                         <Text className="flex flex-1 justify-center items-center text-center text-[16px]">Add Image</Text>
                     </View>
