@@ -9,6 +9,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from "@react-native-firebase/auth";
 import axios from 'axios';
+import MobileNumberScreenBg from '../../assets/MobileEntryPageBg.svg';
+
 const MobileNumberEntryScreen = () => {
     const navigation = useNavigation()
     const dispatch = useDispatch();
@@ -150,8 +152,8 @@ const MobileNumberEntryScreen = () => {
                     <View style={{ flex: 1 }}>
 
 
-                        <Image source={require("../../assets/MobileEntryPage.png")} className="w-full object-cover" />
-
+                        {/* <Image source={require("../../assets/MobileEntryPage.png")} className="w-full object-cover" /> */}
+                        <MobileNumberEntryScreen />
 
                         <View className="">
                             <View className="flex flex-row gap-[8px] pt-[32px] px-[40px]">
