@@ -18,7 +18,7 @@ import { setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
 import { setSpades } from '../../redux/reducers/userDataSlice';
 import useRequestSocket from './useRequestSocket';
 import { socket } from '../../utils/scoket.io/socket';
-import Star from '../../assets/star.svg';
+import Star from '../../assets/Star.svg';
 import HomeIcon from '../../assets/homeIcon.svg';
 import { getGeoCoordinates, haversineDistance } from '../../utils/logics/Logics';
 

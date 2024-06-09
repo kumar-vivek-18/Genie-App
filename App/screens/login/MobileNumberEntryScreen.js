@@ -153,7 +153,7 @@ const MobileNumberEntryScreen = () => {
 
 
                         {/* <Image source={require("../../assets/MobileEntryPage.png")} className="w-full object-cover" /> */}
-                        <MobileNumberEntryScreen />
+                        <MobileNumberScreenBg />
 
                         <View className="">
                             <View className="flex flex-row gap-[8px] pt-[32px] px-[40px]">
