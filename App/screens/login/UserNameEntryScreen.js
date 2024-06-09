@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Image, TextInput, KeyboardAvoidingView, TouchableOpacity, Pressable, ScrollView, Alert } from 'react-native'
+import { View, Text, SafeAreaView, Image, TextInput, KeyboardAvoidingView, TouchableOpacity, Pressable, ScrollView, Alert, Dimensions } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUserDetails, setUserName } from '../../redux/reducers/userDataSlice';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import UserNameScreenBg from '../../assets/usernameverification.svg';
 
 
 const UserNameEntryScreen = () => {
@@ -77,53 +78,61 @@ const UserNameEntryScreen = () => {
     };
 
 
+    const { width } = Dimensions.get('window');
+
     return (
-        <ScrollView style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
             {/* <Text>OtpVerificationScreen</Text> */}
-            <Image source={require('../../assets/Otpverification.png')} className="w-full object-cover" />
-            <Pressable onPress={() => { navigation.goBack() }} className="flex flex-row items-center absolute top-16 left-4 gap-2">
+            <ScrollView>
+
+
+                <UserNameScreenBg width={width} />
+                {/* <Image source={require('../../assets/Otpverification.png')} className="w-full object-cover" /> */}
+                {/* <Pressable onPress={() => { navigation.goBack() }} className="flex flex-row items-center absolute top-16 left-4 gap-2">
                 <FontAwesome name="chevron-left" size={15} color="black" />
                 <Text className="text-[16px] font-extrabold">Back</Text>
-            </Pressable>
-            <View className="px-[42px]">
-                <View className="flex flex-row gap-2 pt-[30px] ">
-                    <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
-                    <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
-                    <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
-                </View>
-                <View>
-                    <Text className="text-[16px] text-[#2e2c43] pt-[10px]">Get best price for any product or</Text>
-                    <Text className="text-[16px] text-[#2e2c43]">service from local sellers</Text>
-                </View>
-                <View>
-                    <Text className="text-[18px] font-bold text-[#001b33] pt-[16px]">Please enter your</Text>
-                    <Text className="text-[14px] text-[#2e2c43]">Name</Text>
-                </View>
-
-
-
-                <KeyboardAvoidingView>
-                    <View className="flex r items-center">
-                        <TextInput
-                            onChangeText={handleName}
-                            placeholder="Ex: Kishor Kumar"
-                            className="w-[310px] h-[54px] bg-[#f9f9f9] stroke-[#2e2c43] rounded-3xl px-10 mt-[15px] "
-                        />
+            </Pressable> */}
+                <View className="px-[42px]">
+                    <View className="flex flex-row gap-2 pt-[30px] ">
+                        <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
+                        <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
+                        <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
                     </View>
-                </KeyboardAvoidingView>
+                    <View>
+                        <Text className="text-[14px] text-[#2e2c43] pt-[10px] font-semibold">Need maintenance services?</Text>
+                        <Text className="text-[14px] text-[#2e2c43]">Do bargaining first to avail services like plumber, electrician & lot more. </Text>
+                    </View>
+                    <View>
+                        <Text className="text-[16px] font-extrabold text-[#001b33] pt-[40px]">Please enter your</Text>
+                        <Text className="text-[13px] text-[#2e2c43] mt-[5px]">Name</Text>
+                    </View>
+
+
+
+                    <KeyboardAvoidingView>
+                        <View className="flex r items-center">
+                            <TextInput
+                                onChangeText={handleName}
+                                placeholder="Ex: Kishor Kumar"
+                                className="w-[310px] h-[54px] bg-[#f9f9f9] stroke-[#2e2c43] rounded-3xl px-10 mt-[10px] "
+                            />
+                        </View>
+                    </KeyboardAvoidingView>
+                </View>
+            </ScrollView>
+
+
+
+            <View className="absolute bottom-0 left-0 right-0">
+                <TouchableOpacity onPress={handleNext}>
+
+                    <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center   ">
+                        <Text className="text-white text-[18px] font-extrabold">NEXT</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
 
-
-
-
-            <TouchableOpacity >
-                <Pressable onPress={handleNext} >
-                    <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center mt-[115px]  ">
-                        <Text className="text-white text-[18px] font-bold">NEXT</Text>
-                    </View>
-                </Pressable>
-            </TouchableOpacity>
-        </ScrollView>
+        </View>
     )
 }
 
