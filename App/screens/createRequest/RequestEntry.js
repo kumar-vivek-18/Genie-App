@@ -6,6 +6,8 @@ import Genie from '../../assets/Genie.svg';
 import { useNavigation } from '@react-navigation/native';
 import { setRequestDetail } from '../../redux/reducers/userRequestsSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import BackArrow from "../../assets/BackArrowImg.svg";
+
 
 const RequestEntry = () => {
     const navigation = useNavigation();
@@ -17,22 +19,27 @@ const RequestEntry = () => {
 
     return (
         <View style={{ flex: 1 }}>
-            <SafeAreaView style={{ flex: 1 }}>
+            <View style={{ flex: 1 }}>
 
-                <View className="z-50 w-full flex flex-row px-[29px] absolute justify-between  top-[57px]">
-                    <Pressable onPress={() => { navigation.goBack(); }}>
-                        <ArrowLeft />
+                <View className=" w-full flex flex-row px-[29px]  justify-between absolute  top-[60px]">
+                    <Pressable onPress={() => { navigation.goBack(); }} className="p-2">
+                    <BackArrow width={14} height={10} />  
+
                     </Pressable>
                 </View>
 
-                <View className="flex-row justify-center mt-[34px] ">
+                <View className="flex-row justify-center mt-[40px] mb-[10px] ">
                     <Genie width={35} height={52} />
                 </View>
+                <Text className="text-[14.5px] font-bold text-[#FB8C00] text-center mb-[10px] ">
+                        Step 1/4
+                    </Text>
 
-                <View>
-                    <Text className="text-[14px] font-extrabold text-[#2e2c43] text-center my-[18px]">Raise your request</Text>
-                    <Text className="text-[14px] text-center text-[#2e2c43]">Ex: My phone charger get damage or</Text>
-                    <Text className="text-[14px] text-center text-[#2e2c43] mb-[35px]">I want a 55inch screen tv!</Text>
+                <View className="px-[32px] mb-[20px]">
+                    <Text className="text-[16px] font-extrabold text-[#2e2c43] text-center mb-[18px]">Type your spade</Text>
+                    
+                    <Text className="text-[14px] text-center text-[#2e2c43]">like: My phone charger get damage / I want a 55 inch screen tv / I need a plumber to repair my water supply. </Text>
+                   
                 </View>
 
                 <View className="mx-[20px]  h-[127px] bg-[#f9f9f9] rounded-xl ">
@@ -58,7 +65,7 @@ const RequestEntry = () => {
                     </Pressable>
                 </View>
 
-            </SafeAreaView>
+            </View>
         </View>
     )
 }

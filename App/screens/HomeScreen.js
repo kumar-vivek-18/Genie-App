@@ -175,8 +175,11 @@ const HomeScreen = () => {
       <ScrollView style={{ flex: 1 }} className="relative">
         {/* <Image source={require('../assets/HomImg.png')} className="w-full object-cover " /> */}
         {/* <HomeImage /> */}
-        <HomeScreenBg />
-        <View className="w-full  flex flex-row px-[29px] justify-between items-center absolute top-[37px]">
+        <View className="absolute ">
+        <HomeScreenBg  />
+        </View>
+        
+        <View className="w-full  flex flex-row px-[29px] justify-between items-center pt-[40px]">
           <Pressable onPress={() => navigation.navigate("menu")}>
             <View className="bg-[#fb8c00] w-[42px] h-[42px] rounded-full flex justify-center items-center mx-auto">
               <Image
@@ -198,7 +201,7 @@ const HomeScreen = () => {
           </Pressable>
         </View>
 
-        <View className="w-full bg-white absolute top-[120px] flex-row px-[30px] justify-between h-[55px] items-center">
+        <View className="w-full bg-white mt-[20px] flex-row px-[30px] justify-between h-[55px] items-center">
           <View className="w-4/5">
             <Text className="text-[14px] font-extrabold pb-[15px[">
               Location
@@ -223,11 +226,11 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
 
-        <View className=" absolute top-[200px] w-full flex-row justify-center">
+        <View className=" relative mt-[20px]  w-full flex-row justify-center">
           <GenieLogo />
         </View>
 
-        <View className=" -translate-y-28 ">
+        <View className="  ">
           <Text className="text-center text-[14px] text-[#3f3d56] font-bold ">
             Ask genie for any product or
           </Text>
