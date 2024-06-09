@@ -169,6 +169,7 @@ const HomeScreen = () => {
     }
   };
 
+  const { width } = Dimensions.get('window');
   // console.log('userData', userDetails);
   return (
     <View style={{ flex: 1 }}>
@@ -176,9 +177,9 @@ const HomeScreen = () => {
         {/* <Image source={require('../assets/HomImg.png')} className="w-full object-cover " /> */}
         {/* <HomeImage /> */}
         <View className="absolute ">
-        <HomeScreenBg  />
+          <HomeScreenBg />
         </View>
-        
+
         <View className="w-full  flex flex-row px-[29px] justify-between items-center pt-[40px]">
           <Pressable onPress={() => navigation.navigate("menu")}>
             <View className="bg-[#fb8c00] w-[42px] h-[42px] rounded-full flex justify-center items-center mx-auto">
@@ -284,7 +285,7 @@ const HomeScreen = () => {
                 >
                   {images.map((SvgComponent, index) => (
                     <View key={index} style={styles.scrollimageContainer}>
-                      <SvgComponent width={330} height={450}  />
+                      <SvgComponent width={460} height={450} />
                     </View>
                   ))}
                 </ScrollView>
@@ -426,11 +427,12 @@ const styles = {
     // backgroundColor:"black"
   },
   scrollimageContainer: {
-    width:330,
+    width: width,
     height: 400,
     justifyContent: "center",
     alignItems: "center",
-    
+
+
 
   },
   indicatorContainer: {
