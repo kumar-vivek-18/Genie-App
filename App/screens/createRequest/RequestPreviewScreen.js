@@ -16,7 +16,7 @@ import { ActivityIndicator } from 'react-native';
 const RequestPreviewScreen = () => {
     const route = useRoute();
     const navigation = useNavigation();
-    const [images, setImagesLocal] = useState([]);
+    // const [images, setImagesLocal] = useState([]);
     const userDetails = useSelector(store => store.user.userDetails);
     const requestDetail = useSelector(store => store.userRequest.requestDetail);
     const requestCategory = useSelector(store => store.userRequest.requestCategory);
@@ -26,7 +26,7 @@ const RequestPreviewScreen = () => {
     const dispatch = useDispatch();
     // console.log('userData', userDetails);
     const [loading, setLoading] = useState(false);
-    const { imagesLocal } = route.params
+    // const { imagesLocal } = route.params
 
 
     // console.log('spades request', spades);
@@ -108,7 +108,7 @@ const RequestPreviewScreen = () => {
                 <View className="px-[32px] mt-[36px]">
                     <Text className="text-[14px] font-extrabold text-[#2e2c43]">Reference Images for sellers</Text>
                     <ScrollView horizontal={true} contentContainerStyle={{ flexDirection: 'row', gap: 4, paddingVertical: 15, }}>{
-                        imagesLocal && imagesLocal?.map((image, index) => (
+                        requestImages && requestImages?.map((image, index) => (
                             <View key={index} className="rounded-">
 
                                 <Image

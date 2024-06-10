@@ -78,7 +78,7 @@ const ExpectedPriceScreen = () => {
 
 
             <View className=" absolute bottom-0 left-0 right-0">
-                <TouchableOpacity onPress={() => { dispatch(setExpectedPrice(parseInt(price))); navigation.navigate('requestpreview', { imagesLocal: imagesLocal }); }}>
+                <TouchableOpacity onPress={() => { dispatch(setExpectedPrice(parseInt(price))); navigation.navigate('requestpreview'); }}>
                     <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
                         <Text className="text-white text-[18px] font-bold">Continue</Text>
                     </View>
