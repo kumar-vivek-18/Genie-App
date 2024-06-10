@@ -44,6 +44,13 @@ const SendQueryScreen = () => {
 
     const sendQuery = async () => {
 
+        const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
+            params: {
+                id: details.retailerId._id,
+            }
+        });
+
+        console.log('token', token.data);
 
         await axios.post('http://173.212.193.109:5000/chat/send-message', {
             sender: {
@@ -74,12 +81,12 @@ const SendQueryScreen = () => {
                 socket.emit("new message", res.data);
                 navigation.goBack();
                 const notification = {
-                    token: [details.retailerId.uniqueToken],
+                    token: [token.data],
                     title: userDetails?.userName,
                     body: query,
                     requestInfo: details,
                 }
-                console.log("query page", spade);
+                // console.log("query page", spade);
                 await newMessageSend(notification);
             })
             .catch(err => {

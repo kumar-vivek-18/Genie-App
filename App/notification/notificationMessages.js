@@ -214,7 +214,7 @@ export const newMessageSend = async (mess) => {
     // console.log("notification noti", mess.requestInfo)
     try {
         // const tokens = [
-        //     "dDCcOdbBSHCBczVl8sM6AS:APA91bEWQ2KT0Q1JleNtv4-04pxPDj3Clm8pUf7VzoSjo4gNr-ZpczWTV727J8uHpWTFIrtJlTZSaW3VAbzAcFivT8PG2yBLgdDKv6nSXw46rCdRYPUpbbJu20szxai2saQp7QijsBPL",
+        //     "cny4g9m9R9aBjZqVE9dq4v:APA91bHt9WiUc7aDQ2N14n5z9m8KAJTL0Rl5ZsCaPKTjj8TeKc2DkaFqYr2RcIPyqaPod_B-OPRER1UJ7PauL-LORd6P4VRlmI88ubZc_2LmM8tm_gdgvaerMncwsGvRMgnsP1ifdI1a",
         // ];
 
         const tokens = mess.token;
@@ -274,7 +274,7 @@ export const newMessageSend = async (mess) => {
                 } else {
                     const successResponse = JSON.parse(textResponse);
                     // console.log('Notification sent successfully:', successResponse, message);
-                    console.log("Notification sent successfully")
+                    console.log("Notification sent successfully", token)
                 }
             }
         }

@@ -438,7 +438,7 @@ const BargainingScreen = () => {
                         {
 
                         }
-                        {((spade?.requestActive === "completed" && spade?.requestAcceptedChat === currentSpadeRetailer?._id) && ((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "accepted") || (messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "rejected") || messages[messages?.length - 1]?.bidType === "false")) && <View className="w-full flex-row justify-between pl-[20px] pr-[20px]">
+                        {(((spade?.requestActive === "completed" && spade?.requestAcceptedChat === currentSpadeRetailer?._id) || currentSpadeRetailer?.requestType === "ongoing") && ((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "accepted") || (messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "rejected") || messages[messages?.length - 1]?.bidType === "false")) && <View className="w-full flex-row justify-between pl-[20px] pr-[20px]">
 
                             <TouchableOpacity onPress={() => { navigation.navigate('send-query', { messages, setMessages }) }}>
                                 <View className="border-2 border-[#fb8c00]  px-[30px] py-[11.5px] w-[max-content] rounded-2xl">
@@ -459,8 +459,13 @@ const BargainingScreen = () => {
                             </View>
                         </TouchableOpacity>}
 
-                        {((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "new" && messages[messages?.length - 1]?.sender?.type === "Retailer")) && <View className="w-screen flex-row  ">
+                        {((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "new" && messages[messages?.length - 1]?.sender?.type === "Retailer")) && <View className="w-screen flex-col  ">
                             <View>
+                                <Text className="text-center text-[14px] font-semibold">Are you accepting the sellers bid ?</Text>
+                                <Text className="text-center text-[14px]">If you don’t understand the sellers response, </Text>
+                                <Text className="text-center text-[14px] mb-[8px]">select no and send query for clarification</Text>
+                            </View>
+                            <View className="flex-row">
                                 <View className="w-1/2 flex-row justify-center bg-[#fb8c00]">
 
 
