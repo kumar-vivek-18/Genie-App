@@ -469,12 +469,12 @@ const AddImageScreen = () => {
       if (result.secure_url) {
         console.log("cloud", result.secure_url)
         setImagesLocal((prevImages) => [...prevImages, result.secure_url]);
-        // dispatch(setRequestImages(imagesLocal));
+        dispatch(setRequestImages(imagesLocal));
         setCameraScreen(false);
         // setLoading(false);
       }
     } catch (err) {
-      //   setLoading(false);
+      // setLoading(false);
       console.log(err);
     }
   };

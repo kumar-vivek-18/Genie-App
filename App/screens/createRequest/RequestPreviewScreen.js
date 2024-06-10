@@ -52,7 +52,7 @@ const RequestPreviewScreen = () => {
                 customerID: userDetails._id,
                 request: requestDetail,
                 requestCategory: requestCategory,
-                requestImages: images,
+                requestImages: requestImages,
                 expectedPrice: expectedPrice
             });
 
