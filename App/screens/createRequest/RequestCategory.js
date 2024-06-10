@@ -15,19 +15,18 @@ const searchData = [
     { id: 2, name: 'Spare Parts' },
     { id: 3, name: 'Mobile Repair' },
     { id: 4, name: 'Electronics & Electrical Items' },
-    { id: 5, name: 'others' },
-    { id: 6, name: 'Spare Parts' },
-    { id: 7, name: 'Mobile Repair' },
-    { id: 8, name: 'Electronics & Electrical Items' },
-    { id: 9, name: 'others' },
-    { id: 10, name: 'Spare Parts' },
-    { id: 11, name: 'Spare Parts' },
-    { id: 12, name: 'Mobile Repair' },
-    { id: 13, name: 'Electronics & Electrical Items' },
-    { id: 14, name: 'others' },
-    { id: 15, name: 'Spare Parts' },
-    { id: 16, name: 'Mobile Repair' },
-    { id: 17, name: 'Electronics & Electrical Items' },
+    { id: 5, name: 'Home Appliances' },
+    { id: 6, name: 'Furniture' },
+    { id: 7, name: 'Clothing' },
+    { id: 8, name: 'Footwear' },
+    { id: 9, name: 'Health & Beauty' },
+    { id: 10, name: 'Books & Stationery' },
+    { id: 11, name: 'Sports & Outdoors' },
+    { id: 12, name: 'Groceries & Food' },
+    { id: 13, name: 'Paint & Supplies' },
+    { id: 14, name: 'Music & Instruments' },
+    { id: 15, name: 'Jewelry & Accessories' },
+    { id: 16, name: 'Others' },
 ];
 
 const RequestCategory = () => {
@@ -113,7 +112,7 @@ const RequestCategory = () => {
                                 key={result.id}
                                 onPress={() => handleSelectResult(result.id)}
                             >
-                                <View className="flex flex-row  py-[8px] gap-[24px] items-center">
+                                <View className="flex flex-row  py-[10px] gap-[30px] items-center">
                                     <View className={`w-[16px] h-[16px] border-[1px] border-[#fd8c00] items-center ${result.id === selectedOption ? 'bg-[#fd8c00]' : ''}`}>
                                         {result.id === selectedOption && <Octicons name="check" size={12} color="white" />}
                                     </View>
