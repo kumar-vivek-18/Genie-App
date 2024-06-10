@@ -21,6 +21,7 @@ import { socket } from '../../utils/scoket.io/socket';
 import Star from '../../assets/Star.svg';
 import HomeIcon from '../../assets/homeIcon.svg';
 import { getGeoCoordinates, haversineDistance } from '../../utils/logics/Logics';
+import { formatDateTime } from '../../utils/logics/Logics';
 
 const RequestDetail = () => {
     const navigation = useNavigation();
@@ -73,8 +74,17 @@ const RequestDetail = () => {
                 .then((response) => {
                     if (response.status === 200) {
                         // setRetailers(response.data);
+                        const chats = response.data;
+                        chats.map(chat => {
+                            const data = formatDateTime(chat.updatedAt);
+                            chat.updatedAt = data.formattedTime;
+                            chat.createdAt = data.formattedDate;
+                            // console.log(mess.createdAt);
+                            console.log(chat._id, chat.updatedAt);
+                        })
+
                         console.log('all reatailers fetched while setting up socket');
-                        dispatch(setCurrentSpadeRetailers(response.data));
+                        dispatch(setCurrentSpadeRetailers(chats));
                     }
                 })
                 .catch((error) => {
@@ -101,6 +111,9 @@ const RequestDetail = () => {
     useEffect(() => {
         const handleMessageReceived = (updatedUser) => {
             console.log('Updated user data received at socket', updatedUser._id);
+            const data = formatDateTime(updatedUser.updatedAt);
+            updatedUser.createdAt = data.formattedDate;
+            updatedUser.updatedAt = data.formattedTime;
             // dispatch(setCurrentSpadeRetailers((prevUsers) => {
             //     return prevUsers.map((user) =>
             //         user._id === updatedUser._id ? updatedUser : user
@@ -248,7 +261,7 @@ const RequestDetail = () => {
                                             <View className={`flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#3f3d56] ${((spade.requestActive === "completed" || spade.requestActive === "closed") && spade.requestAcceptedChat !== details._id) ? "bg-[#001b33] opacity-50" : ""}`}>
                                                 {/* <RandomImg className="w-[47px] h-[47px]" /> */}
                                                 {details?.users.length > 0 && <Image
-                                                    source={{ uri: details?.users[0].populatedUser.storeImages[0] }}
+                                                    source={{ uri: details?.users[0].populatedUser.storeImages[0] ? details?.users[0].populatedUser.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
                                                     style={styles.image}
                                                 />}
                                                 <View className="gap-[10px] w-4/5">
@@ -256,7 +269,7 @@ const RequestDetail = () => {
                                                         <Text className="text-[14px] text-[#2e2c43] ">{details?.users[0].populatedUser.storeName}</Text>
                                                         <View className="flex-row items-center gap-[5px]">
                                                             <GreenClock />
-                                                            <Text className="text-[12px] text-[#558b2f]">6:00 PM</Text>
+                                                            <Text className="text-[12px] text-[#558b2f]">{details.updatedAt}</Text>
                                                         </View>
                                                     </View>
                                                     <View className="flex-row items-center gap-[15px]">

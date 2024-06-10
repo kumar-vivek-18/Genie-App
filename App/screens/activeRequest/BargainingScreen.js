@@ -109,9 +109,11 @@ const BargainingScreen = () => {
     }
 
     useEffect(() => {
+
         if (currentSpadeRetailer?.users) {
             connectSocket(currentSpadeRetailer?.users[1]._id);
             setMessagesMarkAsRead();
+            console.log('making unread message 0');
         }
         // console.log('spc', socket);
         // socket.on('typing', () => setIsTyping(true));
@@ -372,7 +374,7 @@ const BargainingScreen = () => {
                             <TouchableOpacity onPress={() => { navigation.navigate('retailer-profile') }}>
                                 <View>
                                     <Image
-                                        source={{ uri: details?.users ? details.users[0].populatedUser.storeImages[0] : "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg" }}
+                                        source={{ uri: details.users[0].populatedUser.storeImages[0] ? details.users[0].populatedUser.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
                                         style={{ width: 40, height: 40, borderRadius: 20 }}
                                     />
                                 </View>

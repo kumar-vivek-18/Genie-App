@@ -9,7 +9,7 @@ const RetailerMessage = ({ bidDetails, pic }) => {
                 <View className="flex-row gap-[18px] py-[10px]">
                     <View>
                         <Image
-                            source={{ uri: pic }}
+                            source={{ uri: pic ? pic : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
                             style={{ width: 40, height: 40, borderRadius: 20 }}
                         />
                     </View>
