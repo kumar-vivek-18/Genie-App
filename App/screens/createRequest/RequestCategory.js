@@ -125,13 +125,39 @@ const RequestCategory = () => {
                 </ScrollView>
 
 
-                <View className=" absolute bottom-0 left-0 right-0">
+                {/* <View className=" absolute bottom-0 left-0 right-0">
                     <TouchableOpacity onPress={() => { handleSubmit() }}>
                         <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
                             <Text className="text-white text-[18px] font-extrabold">NEXT</Text>
                         </View>
                     </TouchableOpacity>
-                </View>
+                </View> */}
+                   <TouchableOpacity
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: !selectedOption ? "#e6e6e6" : "#FB8C00",
+            height: 63,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          disabled={!selectedOption}
+          onPress={handleSubmit}
+        >
+          <View style={styles.nextButtonInner}>
+            <Text
+              style={{
+                color: !selectedOption ? "#888888" : "white",
+                fontSize: 18,
+                fontWeight: "bold",
+              }}
+            >
+              NEXT
+            </Text>
+          </View>
+        </TouchableOpacity>
             </View>
 
         </SafeAreaView>

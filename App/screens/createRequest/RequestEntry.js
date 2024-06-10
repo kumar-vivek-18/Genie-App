@@ -59,13 +59,40 @@ const RequestEntry = () => {
 
 
 
-                <View className=" absolute bottom-0 left-0 right-0">
+                {/* <View className=" absolute bottom-0 left-0 right-0">
                     <TouchableOpacity onPress={() => { dispatch(setRequestDetail(query)); console.log(requestDetail); navigation.navigate('requestcategory'); }}>
                         <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
                             <Text className="text-white text-[18px] font-extrabold">NEXT</Text>
                         </View>
                     </TouchableOpacity>
-                </View>
+                </View> */}
+             
+        <TouchableOpacity
+          disabled={!query}
+          onPress={() => { dispatch(setRequestDetail(query)); console.log(requestDetail); navigation.navigate('requestcategory'); }}
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 68,
+            width: "100%",
+            backgroundColor: !query ? "#e6e6e6" : "#FB8C00",
+            justifyContent: "center", // Center content vertically
+            alignItems: "center", // Center content horizontally
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "bold",
+              color: !query  ? "#888888" : "white",
+            }}
+          >
+            NEXT
+          </Text>
+        </TouchableOpacity>
+
 
             </View>
         </View>

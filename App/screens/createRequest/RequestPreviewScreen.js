@@ -11,6 +11,7 @@ import { formatDateTime } from '../../utils/logics/Logics';
 import { NewRequestCreated } from '../../notification/notificationMessages';
 import BackArrow from "../../assets/BackArrowImg.svg";
 import { ActivityIndicator } from 'react-native';
+import SuccessPopup from '../components/SuccessPopup';
 
 
 const RequestPreviewScreen = () => {
@@ -26,6 +27,9 @@ const RequestPreviewScreen = () => {
     const dispatch = useDispatch();
     // console.log('userData', userDetails);
     const [loading, setLoading] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+
+  
     // const { imagesLocal } = route.params
 
 
@@ -47,7 +51,7 @@ const RequestPreviewScreen = () => {
 
 
 
-
+          
             const response = await axios.post('http://173.212.193.109:5000/user/createrequest', {
                 customerID: userDetails._id,
                 request: requestDetail,
@@ -65,7 +69,12 @@ const RequestPreviewScreen = () => {
                 res.createdAt = dateTime.formattedTime;
                 res.updatedAt = dateTime.formattedDate;
                 dispatch(setSpades([...spades, res]));
-                navigation.navigate('home');
+                setIsVisible(true);
+                setTimeout(() => {
+                  setIsVisible(false);
+                  navigation.navigate('home');
+                }, 3000); 
+              
 
                 const notification = {
                     token: response.data.uniqueTokens,
@@ -92,9 +101,9 @@ const RequestPreviewScreen = () => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
             <View style={{ flex: 1 }}>
-                <View className=" flex flex-row items-center mt-[24px] mb-[24px] px-[34px]">
+                <View className=" flex flex-row items-center mt-[50px] mb-[24px] px-[34px]">
                     <Pressable onPress={() => navigation.goBack()} className="">
                         <BackArrow />
                     </Pressable>
@@ -134,7 +143,9 @@ const RequestPreviewScreen = () => {
                     <Text className="font-bold text-[14px] text-[#2e2c43] mb-[6px] mt-[20px] ">Cost for this request</Text>
                     <Text className="text-[18px] font-extrabold text-[#558b2f] pb-[20px]">20 Rs</Text>
                 </View>
-
+                {
+                isVisible && <SuccessPopup isVisible={isVisible} setIsVisible={setIsVisible}/>
+            }
                 <View className=" absolute bottom-0 left-0 right-0">
                     <TouchableOpacity onPress={() => { handleSubmit(); }}>
                         <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
@@ -144,12 +155,17 @@ const RequestPreviewScreen = () => {
                 </View>
             </View>
 
+
             {loading && (
                 <View style={styles.loadingContainer}>
                     <ActivityIndicator size="large" color="#fb8c00" />
                 </View>
             )}
-        </SafeAreaView>
+
+          
+      {/* { visible  && <View style={styles.overlay} />} */}
+
+        </View>
     )
 }
 const styles = StyleSheet.create({
@@ -160,5 +176,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
+    overlay: {
+        zIndex: 100,
+        flex: 1,
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        //  position:"absolute",
+        //  bottom:0// Semi-transparent greyish background
+      },
 });
 export default RequestPreviewScreen

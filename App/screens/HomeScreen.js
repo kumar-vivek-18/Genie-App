@@ -175,7 +175,7 @@ const HomeScreen = () => {
   const { width } = Dimensions.get('window');
   // console.log('userData', userDetails);
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 ,backgroundColor:"white"}}>
       <ScrollView style={{ flex: 1 }} className="relative">
         {/* <Image source={require('../assets/HomImg.png')} className="w-full object-cover " /> */}
         {/* <HomeImage /> */}
@@ -261,19 +261,18 @@ const HomeScreen = () => {
               <Text className=" font-extrabold text-text text-[16px] text-center mt-[50px]">
                 How it works?
               </Text>
-              <View className="px-[38px] flex flex-col gap-[38px] mt-[47px]">
-                <HomeMain />
-                <Text className="text-[#3f3d56] text-[14px] text-center ">
-                  Bargaining is the consumer's right, money doesn't grow on
-                  trees.
+              <View className=" flex flex-col gap-[38px] mt-[24px]">
+                <HomeMain width={width}/>
+                <Text className="text-[#3f3d56] text-[14px] font-bold text-center px-[32px]">
+                Bargaining is the consumer's right Because money doesn't grow on trees. 
                 </Text>
               </View>
               <View className="px-[38px] flex flex-col gap-[38px] mt-[40px]">
                 <Text className="text-[#3f3d56] text-[14px] text-center">
-                  Now bargaining is possible from your couch. Want anything new
-                  or to repair the old one, Connect with your nearby sellers and
-                  bargain for the best prices of products and services available
-                  in your city.
+                Now bargaining is possible from your couch. Do you want anything new or to repair the old one? 
+                </Text>
+                <Text className="text-[#3f3d56] text-[14px] text-center">
+                Connect with nearby retailers and bargain for the best prices for your shopping list items. You can also avail of all types of maintenance services here,  like plumber, electrician, carpenter & lot more.
                 </Text>
               </View>
               <View style={styles.scrollcontainer}>
