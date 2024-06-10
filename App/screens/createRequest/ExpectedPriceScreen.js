@@ -11,7 +11,7 @@ import BackArrow from "../../assets/BackArrowImg.svg";
 const ExpectedPriceScreen = () => {
     const dispatch = useDispatch();
     const route = useRoute()
-    const { imagesLocal } = route.params
+    // const { imagesLocal } = route.params
 
     const requestImages = useSelector(store => store.userRequest.requestImages);
     console.log('images', requestImages);
@@ -20,8 +20,8 @@ const ExpectedPriceScreen = () => {
     const expectedPrice = useSelector(store => store.userRequest.expectedPrice);
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <View className=" flex z-40 flex-row items-center justify-center mt-[24px]  mx-[36px]">
+        <View style={{ flex: 1 }}>
+            <View className=" flex z-40 flex-row items-center justify-center mt-[50px]  mx-[36px]">
                 <Pressable onPress={() => navigation.goBack()} >
 
                     <BackArrow width={14} height={10} />
@@ -85,7 +85,7 @@ const ExpectedPriceScreen = () => {
                 </TouchableOpacity>
             </View>
 
-        </SafeAreaView>
+        </View>
     )
 }
 

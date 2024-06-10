@@ -107,9 +107,10 @@ const UserNameEntryScreen = () => {
 
     return (
         <View style={{ flex: 1 }}>
-            {/* <Image source={require('../../assets/Otpverification.png')} className="w-full object-cover" /> */}
-
-            <View>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <KeyboardAvoidingView
+              behavior="position"
+        >
 
 
                 <UsernameScreenBg />
@@ -132,7 +133,7 @@ const UserNameEntryScreen = () => {
 
 
 
-                    <KeyboardAvoidingView>
+                    
                         <View className=" items-center">
                             <TextInput
                                 onChangeText={handleName}
@@ -140,18 +141,37 @@ const UserNameEntryScreen = () => {
                                 className="w-[310px] h-[54px] bg-[#f9f9f9] stroke-[#2e2c43] rounded-3xl px-10 mt-[15px] "
                             />
                         </View>
-                    </KeyboardAvoidingView>
+                   
                 </View>
-            </View>
+                </KeyboardAvoidingView>
+            </ScrollView>
 
 
-            <View className="absolute bottom-0 left-0 right-0">
-                <TouchableOpacity onPress={handleNext} >
-                    <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
-                        <Text className="text-white text-[18px] font-extrabold">NEXT</Text>
-                    </View>
-                </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+          disabled={!name}
+          onPress={handleNext}
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 68,
+            width: "100%",
+            backgroundColor: (!name) ? "#e6e6e6" : "#FB8C00",
+            justifyContent: "center", // Center content vertically
+            alignItems: "center", // Center content horizontally
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "bold",
+              color: (!name)  ? "#888888" : "white",
+            }}
+          >
+            NEXT
+          </Text>
+        </TouchableOpacity>
 
         </View >
     )

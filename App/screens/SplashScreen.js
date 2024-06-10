@@ -82,20 +82,20 @@ const SplashScreen = () => {
   //     return () => clearTimeout(timeout);
   //   }, [navigation]);
 
-  useEffect(() => {
+  // useEffect(() => {
 
 
-    if (requestUserPermission()) {
-      messaging().getToken().then(token => {
-        console.log(token);
-        dispatch(setUniqueToken(token));
-      })
-    }
-    else {
-      console.log("permission not granted", authStatus);
-    }
+  //   if (requestUserPermission()) {
+  //     messaging().getToken().then(token => {
+  //       console.log(token);
+  //       dispatch(setUniqueToken(token));
+  //     })
+  //   }
+  //   else {
+  //     console.log("permission not granted", authStatus);
+  //   }
 
-  }, []);
+  // }, []);
 
   return (
     <View className="flex justify-center items-center">
