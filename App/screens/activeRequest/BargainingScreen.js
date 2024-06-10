@@ -62,7 +62,7 @@ const BargainingScreen = () => {
         console.log('marks as read0', currentSpadeRetailer._id);
         try {
             if (currentSpadeRetailer.unreadCount > 0) {
-                const response = await axios.patch('https://genie-backend-meg1.onrender.com/chat/mark-as-read', {
+                const response = await axios.patch('http://173.212.193.109:5000/chat/mark-as-read', {
                     id: currentSpadeRetailer._id
                 });
                 const updateChat = { ...currentSpadeRetailer, unreadMessages: 0 };
@@ -134,7 +134,7 @@ const BargainingScreen = () => {
     const fetchMessages = (id) => {
 
 
-        axios.get('https://genie-backend-meg1.onrender.com/chat/get-spade-messages', {
+        axios.get('http://173.212.193.109:5000/chat/get-spade-messages', {
             params: {
                 id: id
             }
@@ -167,7 +167,7 @@ const BargainingScreen = () => {
 
     const acceptBid = async () => {
         try {
-            await axios.patch('https://genie-backend-meg1.onrender.com/chat/accept-bid', {
+            await axios.patch('http://173.212.193.109:5000/chat/accept-bid', {
                 messageId: messages[messages.length - 1]._id,
                 userRequestId: spade._id
             })
@@ -219,7 +219,7 @@ const BargainingScreen = () => {
 
     const rejectBid = async () => {
         try {
-            const res = await axios.patch('https://genie-backend-meg1.onrender.com/chat/reject-bid', {
+            const res = await axios.patch('http://173.212.193.109:5000/chat/reject-bid', {
                 messageId: messages[messages.length - 1]._id,
             });
 

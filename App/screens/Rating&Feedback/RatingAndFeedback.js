@@ -28,7 +28,7 @@ const RatingAndFeedback = () => {
     const SubmitFeedback = async () => {
         try {
 
-            await axios.post('https://genie-backend-meg1.onrender.com/retailer/rating-feedback', {
+            await axios.post('http://173.212.193.109:5000/retailer/rating-feedback', {
                 user: spade.customer,
                 retailer: retailer.users[0]._id,
                 rating: rating,

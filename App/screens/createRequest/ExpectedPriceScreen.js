@@ -10,11 +10,11 @@ import BackArrow from "../../assets/BackArrowImg.svg";
 
 const ExpectedPriceScreen = () => {
     const dispatch = useDispatch();
-    const route=useRoute()
-    const {imagesLocal}=route.params
+    const route = useRoute()
+    const { imagesLocal } = route.params
 
     const requestImages = useSelector(store => store.userRequest.requestImages);
-     console.log('images', requestImages);
+    console.log('images', requestImages);
     const [price, setPrice] = useState("");
     const navigation = useNavigation();
     const expectedPrice = useSelector(store => store.userRequest.expectedPrice);
@@ -23,8 +23,8 @@ const ExpectedPriceScreen = () => {
         <SafeAreaView style={{ flex: 1 }}>
             <View className=" flex z-40 flex-row items-center justify-center mt-[24px]  mx-[36px]">
                 <Pressable onPress={() => navigation.goBack()} >
-                
-                <BackArrow width={14} height={10} />  
+
+                    <BackArrow width={14} height={10} />
 
                 </Pressable>
                 <Text className="flex flex-1 justify-center items-center text-center font-extrabold text-[16px] ">Your Expected Price</Text>
@@ -34,9 +34,9 @@ const ExpectedPriceScreen = () => {
             </View>
 
             <View className="mt-[10px] mx-[28px]">
-            <Text className="text-[14.5px] font-bold text-[#FB8C00] text-center mb-[10px] ">
-                        Step 4/4
-                    </Text>
+                <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[10px] ">
+                    Step 4/4
+                </Text>
                 <Text className="text-[14px] font-extrabold text-[#2e2c43] mx-[6px] mt-[20px]">Your Expected Price</Text>
                 <TextInput
                     placeholder='Ex:1,200 Rs'
@@ -54,7 +54,7 @@ const ExpectedPriceScreen = () => {
                 <Text className="text-[14px] text-[#2e2c43] mt-[20px]">Please tell sellers about what you feel the right price for your request. You can skip this
                     if you don't research about pricing.</Text>
 
-                    <Text className="text-[14px] font-extrabold text-[#2e2c43] mx-[6px] mt-[40px]">Apply Coupon </Text>
+                <Text className="text-[14px] font-extrabold text-[#2e2c43] mx-[6px] mt-[40px]">Apply Coupon </Text>
                 <TextInput
                     placeholder='Type here...'
                     // value={price}
@@ -71,16 +71,18 @@ const ExpectedPriceScreen = () => {
                 <TouchableOpacity>
                     <View className="w-full flex items-center justify-center border-2 border-[#fb8c00] py-[16px] mt-[40px]">
                         <Text className="text-[14px] font-bold text-[#fb8c00] ">Apply Coupon </Text>
-                       </View>
+                    </View>
                 </TouchableOpacity>
                 <Text className="text-[14px] text-[#2e2c43] mt-[20px]">If you have any coupon code available, you can type the code here to avail the offer</Text>
             </View>
 
 
-            <View className="w-screen h-[68px]  bg-[#fb8c00] justify-center absolute bottom-0 left-0 right-0">
-                <Pressable onPress={() => { dispatch(setExpectedPrice(parseInt(price))); navigation.navigate('requestpreview',{imagesLocal:imagesLocal}); }}>
-                    <Text className="text-white font-bold text-center text-[16px]">Continue</Text>
-                </Pressable>
+            <View className=" absolute bottom-0 left-0 right-0">
+                <TouchableOpacity onPress={() => { dispatch(setExpectedPrice(parseInt(price))); navigation.navigate('requestpreview', { imagesLocal: imagesLocal }); }}>
+                    <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
+                        <Text className="text-white text-[18px] font-bold">Continue</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
 
         </SafeAreaView>

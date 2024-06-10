@@ -23,7 +23,7 @@ const RequestEntry = () => {
 
                 <View className=" w-full flex flex-row px-[29px]  justify-between absolute  top-[60px]">
                     <Pressable onPress={() => { navigation.goBack(); }} className="p-2">
-                    <BackArrow width={14} height={10} />  
+                        <BackArrow width={14} height={10} />
 
                     </Pressable>
                 </View>
@@ -31,15 +31,15 @@ const RequestEntry = () => {
                 <View className="flex-row justify-center mt-[40px] mb-[10px] ">
                     <Genie width={35} height={52} />
                 </View>
-                <Text className="text-[14.5px] font-bold text-[#FB8C00] text-center mb-[10px] ">
-                        Step 1/4
-                    </Text>
+                <Text className="text-[14.5px]  text-[#FB8C00] text-center mb-[10px] ">
+                    Step 1/4
+                </Text>
 
                 <View className="px-[32px] mb-[20px]">
                     <Text className="text-[16px] font-extrabold text-[#2e2c43] text-center mb-[18px]">Type your spade</Text>
-                    
-                    <Text className="text-[14px] text-center text-[#2e2c43]">like: My phone charger get damage / I want a 55 inch screen tv / I need a plumber to repair my water supply. </Text>
-                   
+
+                    <Text className="text-[14px] mx-[16px] mt-[15px] text-center text-[#2e2c43]">like: My phone charger get damage / I want a 55 inch screen tv / I need a plumber to repair my water supply. </Text>
+
                 </View>
 
                 <View className="mx-[20px]  h-[127px] bg-[#f9f9f9] rounded-xl ">
@@ -59,10 +59,12 @@ const RequestEntry = () => {
 
 
 
-                <View className="w-full h-[68px]  bg-[#fb8c00] justify-center absolute bottom-0 left-0 right-0">
-                    <Pressable onPress={() => { dispatch(setRequestDetail(query)); console.log(requestDetail); navigation.navigate('requestcategory'); }}>
-                        <Text className="text-white font-bold text-center text-[16px]">Next</Text>
-                    </Pressable>
+                <View className=" absolute bottom-0 left-0 right-0">
+                    <TouchableOpacity onPress={() => { dispatch(setRequestDetail(query)); console.log(requestDetail); navigation.navigate('requestcategory'); }}>
+                        <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
+                            <Text className="text-white text-[18px] font-extrabold">NEXT</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
 
             </View>

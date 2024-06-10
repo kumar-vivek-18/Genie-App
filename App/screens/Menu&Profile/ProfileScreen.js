@@ -25,7 +25,7 @@ const ProfileScreen = () => {
     const handleEmailUpdate = async () => {
         console.log('user', userDetails._id, email);
         if (email.length < 7) return;
-        await axios.patch('https://genie-backend-meg1.onrender.com/user/edit-profile', {
+        await axios.patch('http://173.212.193.109:5000/user/edit-profile', {
             _id: userDetails._id,
             updateData: { email: email }
         })
@@ -43,7 +43,7 @@ const ProfileScreen = () => {
         // setEditUser(false);
         console.log('userNmae', userName);
         if (userName.length < 3) return;
-        await axios.patch('https://genie-backend-meg1.onrender.com/user/edit-profile', {
+        await axios.patch('http://173.212.193.109:5000/user/edit-profile', {
             _id: userDetails._id,
             updateData: { userName: userName }
         })
@@ -60,7 +60,7 @@ const ProfileScreen = () => {
     const handlePicUpdate = async (image) => {
         console.log('image uri', image);
         if (!image) return;
-        await axios.patch('https://genie-backend-meg1.onrender.com/user/edit-profile', {
+        await axios.patch('http://173.212.193.109:5000/user/edit-profile', {
             _id: userDetails._id,
             updateData: { pic: image }
         })

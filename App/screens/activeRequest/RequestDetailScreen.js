@@ -65,7 +65,7 @@ const RequestDetail = () => {
         // });
 
         const fetchRetailers = () => {
-            axios.get(`https://genie-backend-meg1.onrender.com/chat/spade-chats`, {
+            axios.get(`http://173.212.193.109:5000/chat/spade-chats`, {
                 params: {
                     id: currentSpade._id,
                 }
@@ -125,7 +125,7 @@ const RequestDetail = () => {
     // useEffect(() => {
     //     // console.log('object', spade._id);
     //     const fetchRetailers = () => {
-    //         axios.get(`https://genie-backend-meg1.onrender.com/chat/spade-chats`, {
+    //         axios.get(`http://173.212.193.109:5000/chat/spade-chats`, {
     //             params: {
     //                 id: spade._id,
     //             }
@@ -146,7 +146,7 @@ const RequestDetail = () => {
 
     const closeRequest = async () => {
 
-        const request = await axios.patch(`https://genie-backend-meg1.onrender.com/user/closespade/`, {
+        const request = await axios.patch(`http://173.212.193.109:5000/user/closespade/`, {
             id: spade._id
         });
 

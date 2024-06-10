@@ -88,13 +88,13 @@ const RequestCategory = () => {
 
                     <View className=" flex z-40 flex-row items-center mt-[24px] mb-[10px]">
                         <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
-                        <BackArrow width={14} height={10} />  
+                            <BackArrow width={14} height={10} />
 
                         </Pressable>
                         <Text className="flex flex-1 justify-center items-center font-extrabold text-center text-[16px]">Select Spade Category</Text>
-                        
+
                     </View>
-                    <Text className="text-[14.5px] font-bold text-[#FB8C00] text-center mb-[30px] ">
+                    <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] ">
                         Step 2/4
                     </Text>
                     <View className="flex flex-row gap-2 h-[60px]  border-[1px] items-center border-[#000000] rounded-[24px] mb-[20px]">
@@ -125,10 +125,12 @@ const RequestCategory = () => {
                 </ScrollView>
 
 
-                <View className="w-screen h-[68px]  bg-[#fb8c00] justify-center absolute bottom-0 left-0 right-0">
-                    <Pressable onPress={() => { handleSubmit() }}>
-                        <Text className="text-white font-bold text-center text-[16px]">Next</Text>
-                    </Pressable>
+                <View className=" absolute bottom-0 left-0 right-0">
+                    <TouchableOpacity onPress={() => { handleSubmit() }}>
+                        <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
+                            <Text className="text-white text-[18px] font-extrabold">NEXT</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </View>
 

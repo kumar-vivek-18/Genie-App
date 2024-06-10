@@ -94,7 +94,7 @@ const HomeScreen = () => {
     try {
       // console.log('userHomeScreem', userDetails._id);
       const response = await axios.get(
-        "https://genie-backend-meg1.onrender.com/user/getspades",
+        "http://173.212.193.109:5000/user/getspades",
         {
           params: {
             id: userData?._id,
@@ -151,7 +151,7 @@ const HomeScreen = () => {
       );
 
       await axios
-        .patch("https://genie-backend-meg1.onrender.com/user/edit-profile", {
+        .patch("http://173.212.193.109:5000/user/edit-profile", {
           _id: userDetails._id,
           updateData: {
             longitude: updatedUserData.longitude,
@@ -236,13 +236,10 @@ const HomeScreen = () => {
           <GenieLogo />
         </View>
 
-        <View className="  ">
-          <Text className="text-center text-[14px] text-[#3f3d56] font-bold ">
-            Ask genie for any product or
-          </Text>
-          <Text className="text-center text-[14px] text-[#3f3d56] font-bold">
-            service to start real time bargain
-          </Text>
+        <View className="mt-[10px]">
+          <Text className="text-center text-[14px] text-[#001b33] ">Ask Genie for any shopping item or</Text>
+          <Text className="text-center text-[14px] text-[#001b33]  ">maintenance service you need. Start real</Text>
+          <Text className="text-center text-[14px] text-[#001b33]  ">time bargaining now. </Text>
 
           <Pressable
             onPress={() => {
@@ -261,7 +258,7 @@ const HomeScreen = () => {
 
           {spades.length === 0 && (
             <View className="">
-              <Text className=" font-extrabold text-[16px] text-center mt-[50px]">
+              <Text className=" font-extrabold text-text text-[16px] text-center mt-[50px]">
                 How it works?
               </Text>
               <View className="px-[38px] flex flex-col gap-[38px] mt-[47px]">

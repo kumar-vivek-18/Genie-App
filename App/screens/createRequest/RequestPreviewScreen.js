@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Image, ScrollView, StyleSheet } from 'react-native'
+import { View, Text, Pressable, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import ArrowLeft from '../../assets/arrow-left.svg';
@@ -25,8 +25,8 @@ const RequestPreviewScreen = () => {
     const spades = useSelector(store => store.user.spades);
     const dispatch = useDispatch();
     // console.log('userData', userDetails);
-  const [loading, setLoading] = useState(false);
-  const {imagesLocal}=route.params
+    const [loading, setLoading] = useState(false);
+    const { imagesLocal } = route.params
 
 
     // console.log('spades request', spades);
@@ -38,17 +38,17 @@ const RequestPreviewScreen = () => {
     //     }
     // }, [])
 
-        
+
 
     const handleSubmit = async () => {
         console.log('userDetails', userDetails._id, requestDetail, requestCategory, requestImages, expectedPrice);
         // setLoading(true);
         try {
-         
-           
-               
-            
-            const response = await axios.post('https://genie-backend-meg1.onrender.com/user/createrequest', {
+
+
+
+
+            const response = await axios.post('http://173.212.193.109:5000/user/createrequest', {
                 customerID: userDetails._id,
                 request: requestDetail,
                 requestCategory: requestCategory,
@@ -71,7 +71,7 @@ const RequestPreviewScreen = () => {
                     token: response.data.uniqueTokens,
                     title: userDetails?.userName,
                     body: requestDetail,
-                    image: requestImages.length>0?requestImages[0]:"",
+                    image: requestImages.length > 0 ? requestImages[0] : "",
                 }
                 await NewRequestCreated(notification);
                 dispatch(emtpyRequestImages());
@@ -84,7 +84,7 @@ const RequestPreviewScreen = () => {
             }
 
         } catch (error) {
-          
+
             dispatch(emtpyRequestImages());
             console.error("Error while creating request", error.message);
         }
@@ -135,28 +135,30 @@ const RequestPreviewScreen = () => {
                     <Text className="text-[18px] font-extrabold text-[#558b2f] pb-[20px]">20 Rs</Text>
                 </View>
 
-                <View className="w-full h-[68px]  bg-[#fb8c00] justify-center absolute bottom-0 left-0 right-0">
-                    <Pressable onPress={() => { handleSubmit(); }}>
-                        <Text className="text-white font-bold text-center text-[16px]">Confirm Request</Text>
-                    </Pressable>
+                <View className=" absolute bottom-0 left-0 right-0">
+                    <TouchableOpacity onPress={() => { handleSubmit(); }}>
+                        <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
+                            <Text className="text-white text-[18px] font-bold">Confirm Request</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </View>
-              
-      {loading && (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#fb8c00" />
-        </View>
-      )}
+
+            {loading && (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color="#fb8c00" />
+                </View>
+            )}
         </SafeAreaView>
     )
 }
 const styles = StyleSheet.create({
-   
+
     loadingContainer: {
-      ...StyleSheet.absoluteFill,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
+        ...StyleSheet.absoluteFill,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
-  });
+});
 export default RequestPreviewScreen

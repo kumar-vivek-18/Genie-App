@@ -61,7 +61,7 @@ const UserNameEntryScreen = () => {
 
             // Send user data to the server
             console.log("User data sent to", mobileNumber, name);
-            const response = await axios.post('https://genie-backend-meg1.onrender.com/user/', {
+            const response = await axios.post('http://173.212.193.109:5000/user/', {
                 mobileNo: mobileNumber,
                 userName: name
             });
@@ -76,7 +76,7 @@ const UserNameEntryScreen = () => {
                 dispatch(setUserDetails(response.data));
                 //  console.log("user",user);
                 await AsyncStorage.setItem('userDetails', JSON.stringify(response.data));
-                await axios.patch('https://genie-backend-meg1.onrender.com/user/edit-profile', {
+                await axios.patch('http://173.212.193.109:5000/user/edit-profile', {
                     _id: response.data._id,
                     updateData: { uniqueToken: userToken }
                 })
@@ -148,7 +148,7 @@ const UserNameEntryScreen = () => {
             <View className="absolute bottom-0 left-0 right-0">
                 <TouchableOpacity onPress={handleNext} >
                     <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
-                        <Text className="text-white text-[18px] font-bold">NEXT</Text>
+                        <Text className="text-white text-[18px] font-extrabold">NEXT</Text>
                     </View>
                 </TouchableOpacity>
             </View>

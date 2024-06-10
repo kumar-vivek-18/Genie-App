@@ -13,7 +13,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
 
     const closeSpade = async () => {
         try {
-            const request = await axios.patch(`https://genie-backend-meg1.onrender.com/user/closespade`, {
+            const request = await axios.patch(`http://173.212.193.109:5000/user/closespade`, {
                 id: spade._id
             });
             if (request.status === 200) {

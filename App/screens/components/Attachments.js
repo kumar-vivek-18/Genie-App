@@ -22,7 +22,7 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
 
     const sendAttachment = async () => {
         // console.log('res', query, imageUri);
-        await axios.post('https://genie-backend-meg1.onrender.com/chat/send-message', {
+        await axios.post('http://173.212.193.109:5000/chat/send-message', {
             sender: {
                 type: 'UserRequest',
                 refId: details.requestId,

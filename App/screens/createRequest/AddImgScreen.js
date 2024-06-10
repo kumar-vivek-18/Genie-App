@@ -233,7 +233,7 @@
 //               <Text className="text-[14px] text-center text-[#2e2c43]">
 //               Provide image references for retailers & maintenance service providers to understand your need better
 //               </Text>
-              
+
 //             </View>
 
 //             {requestImages.length === 0 && (
@@ -385,7 +385,7 @@ const AddImageScreen = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [scaleAnimation] = useState(new Animated.Value(0));
   const requestCategory = useSelector(store => store.userRequest.requestCategory);
-// console.log("requestCategory: " + requestCategory)
+  // console.log("requestCategory: " + requestCategory)
 
   const handleImagePress = (image) => {
     setSelectedImage(image);
@@ -417,7 +417,7 @@ const AddImageScreen = () => {
       mediaType: 'photo',
       saveToPhotos: true,
     };
-  
+
     launchCamera(options, async (response) => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -432,17 +432,17 @@ const AddImageScreen = () => {
             { compress: 0.5, format: "jpeg", base64: true }
           );
           await getImageUrl(compressedImage);
-                //   setImagesLocal((prevImages) => [...prevImages, compressedImage.uri]);
-                //   dispatch(setRequestImages(compressedImage));
-                // //   console.log("ImgUris", compressedImage.uri);
-                //   setCameraScreen(false);
+          //   setImagesLocal((prevImages) => [...prevImages, compressedImage.uri]);
+          //   dispatch(setRequestImages(compressedImage));
+          // //   console.log("ImgUris", compressedImage.uri);
+          //   setCameraScreen(false);
         } catch (error) {
           console.error('Error processing image: ', error);
         }
       }
     });
   };
-  
+
 
 
   const getImageUrl = async (image) => {
@@ -474,7 +474,7 @@ const AddImageScreen = () => {
         // setLoading(false);
       }
     } catch (err) {
-    //   setLoading(false);
+      //   setLoading(false);
       console.log(err);
     }
   };
@@ -494,8 +494,8 @@ const AddImageScreen = () => {
     });
 
     if (!result.cancelled) {
-       await getImageUrl(result.assets[0]);
-   
+      await getImageUrl(result.assets[0]);
+
     }
   };
 
@@ -510,30 +510,30 @@ const AddImageScreen = () => {
     <>
       {!cameraScreen && (
         <View edges={["top", "bottom"]} style={{ flex: 1 }}>
-                  <View style={{ flex: 1 }}>
-                   <View className=" flex  mt-[40px] flex-row  items-center  px-[32px]">
-                       <Pressable onPress={() => navigation.goBack()} className="p-2"> 
-                       <BackArrow width={14} height={10} />  
-                    </Pressable>
-                    <Text className="text-[16px] flex flex-1 justify-center  items-center text-center font-extrabold">
-                        Add Image
-                    </Text>
-                  {imagesLocal.length === 0 && <Pressable onPress={() => navigation.navigate("addexpectedprice")} className="">
-                                <Text className="text-[16px] text-[#FB8C00]">Skip</Text>
-                    </Pressable>}
-                    </View>
-                    <View className="mt-[10px] mb-[27px] px-[32px]">
-                    <Text className="text-[14.5px] font-bold text-[#FB8C00] text-center mb-[10px] ">
-                        Step 3/4
-                    </Text>
-                    <Text className="text-[14px] text-center text-[#2e2c43]">
-                        Provide image references for retailers & maintenance service providers to understand your need better
-                    </Text>
-                    
-                    </View>
+          <View style={{ flex: 1 }}>
+            <View className=" flex  mt-[40px] flex-row  items-center  px-[32px]">
+              <Pressable onPress={() => navigation.goBack()} className="p-2">
+                <BackArrow width={14} height={10} />
+              </Pressable>
+              <Text className="text-[16px] flex flex-1 justify-center  items-center text-center font-extrabold">
+                Add Image
+              </Text>
+              {imagesLocal.length === 0 && <Pressable onPress={() => navigation.navigate("addexpectedprice")} className="">
+                <Text className="text-[16px] text-[#FB8C00]">Skip</Text>
+              </Pressable>}
+            </View>
+            <View className="mt-[10px] mb-[27px] px-[32px]">
+              <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] ">
+                Step 3/4
+              </Text>
+              <Text className="text-[14px] text-center text-[#2e2c43]">
+                Provide image references for retailers & maintenance service providers to understand your need better
+              </Text>
+
+            </View>
 
             {imagesLocal.length === 0 ? (
-            <View className="z-0">
+              <View className="z-0">
                 <TouchableOpacity onPress={() => takePicture()}>
                   <View className="flex-row justify-center">
                     <ClickImage />
@@ -566,7 +566,7 @@ const AddImageScreen = () => {
                               onPress={() => deleteImage(index)}
                               style={styles.deleteIcon}
                             >
-                              <DelImg/>
+                              <DelImg />
                             </Pressable>
                           </View>
                         </Pressable>
@@ -614,33 +614,31 @@ const AddImageScreen = () => {
 
             {!addMore ? (
               imagesLocal.length > 0 && (
-                <View className="w-full h-[68px] bg-[#fb8c00] justify-center absolute bottom-0 left-0 right-0">
+                <View className="absolute bottom-0 left-0 right-0">
                   <TouchableOpacity
                     onPress={() =>
-                      navigation.navigate("addexpectedprice",{imagesLocal:imagesLocal})
+                      navigation.navigate("addexpectedprice", { imagesLocal: imagesLocal })
                     }
                   >
-                    <View className="w-full flex justify-center items-center">
-                    <Text className="text-white font-bold text-center text-[16px]">
-                      Continue
-                    </Text>
+                    <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
+                      <Text className="text-white text-[18px] font-bold">Continue</Text>
                     </View>
                   </TouchableOpacity>
                 </View>
               )
             ) : (
               <View className="w-full z-40 bg-white absolute bottom-0 items-center left-0 right-0 px-[10px]">
-                <TouchableOpacity onPress={()=>{ setAddMore(!addMore);pickImage(); }}>
+                <TouchableOpacity onPress={() => { setAddMore(!addMore); pickImage(); }}>
                   <View className="w-full flex flex-row justify-between px-[40px] py-[20px] border-b-[1px] border-b-[#dcdbdb]">
                     <Text className="text-[14px]">Upload Image</Text>
-                    <RightArrow/>
+                    <RightArrow />
                   </View>
                 </TouchableOpacity>
                 {/* <View className="h-[2px] w-full bg-black"></View> */}
-                <TouchableOpacity onPress={() =>{ setAddMore(!addMore);takePicture()}}>
+                <TouchableOpacity onPress={() => { setAddMore(!addMore); takePicture() }}>
                   <View className="w-full flex flex-row justify-between px-[40px] py-[20px]">
                     <Text className="text-[14px]">Click Image</Text>
-                    <RightArrow/>
+                    <RightArrow />
                   </View>
                 </TouchableOpacity>
               </View>
@@ -658,7 +656,7 @@ const AddImageScreen = () => {
         </View>
       )}
 
-      
+
       {loading && (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#fb8c00" />

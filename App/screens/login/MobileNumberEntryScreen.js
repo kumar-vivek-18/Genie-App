@@ -97,7 +97,7 @@ const MobileNumberEntryScreen = () => {
             const phoneNumber = countryCode + mobileNumber;
             console.log("phone", phoneNumber);
             const response = await axios.get(
-                "https://genie-backend-meg1.onrender.com/user/",
+                "http://173.212.193.109:5000/user/",
                 {
                     params: {
                         mobileNo: phoneNumber,
@@ -118,7 +118,7 @@ const MobileNumberEntryScreen = () => {
                 // setMobileNumberLocal("");
                 navigation.navigate("home");
                 await axios
-                    .patch("https://genie-backend-meg1.onrender.com/user/edit-profile", {
+                    .patch("http://173.212.193.109:5000/user/edit-profile", {
                         _id: response.data._id,
                         updateData: { uniqueToken: uniqueToken },
                     })

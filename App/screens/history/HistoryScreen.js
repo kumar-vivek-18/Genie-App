@@ -34,7 +34,7 @@ const HistoryScreen = () => {
     //     const fetchHistory = async () => {
     //         try {
     //             console.log('historyId', userDetails._id);
-    //             const historys = await axios.get('https://genie-backend-meg1.onrender.com/user/history', {
+    //             const historys = await axios.get('http://173.212.193.109:5000/user/history', {
     //                 params: {
     //                     id: userDetails._id,
     //                 }
@@ -63,7 +63,7 @@ const HistoryScreen = () => {
 
         try {
             // console.log('userHomeScreem', userDetails);
-            const response = await axios.get('https://genie-backend-meg1.onrender.com/user/history', {
+            const response = await axios.get('http://173.212.193.109:5000/user/history', {
                 params: {
                     id: userDetails._id,
                 }
