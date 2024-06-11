@@ -46,7 +46,7 @@ const SendQueryScreen = () => {
 
         const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
             params: {
-                id: details.retailerId._id,
+                id: currentSpadeRetailer.retailerId._id,
             }
         });
 

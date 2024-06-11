@@ -22,6 +22,12 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
 
     const sendAttachment = async () => {
         // console.log('res', query, imageUri);
+        const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
+            params: {
+                id: details.retailerId._id,
+            }
+        });
+
         await axios.post('http://173.212.193.109:5000/chat/send-message', {
             sender: {
                 type: 'UserRequest',

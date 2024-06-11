@@ -259,7 +259,7 @@ const RequestDetail = () => {
                                     return (
                                         <Pressable key={index} onPress={() => { dispatch(setCurrentSpadeRetailer(details)); navigation.navigate('bargain') }}>
                                             <View className={`flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#3f3d56] ${((spade.requestActive === "completed" || spade.requestActive === "closed") && spade.requestAcceptedChat !== details._id) ? "bg-[#001b33] opacity-50" : ""}`}>
-                                                {/* <RandomImg className="w-[47px] h-[47px]" /> */}
+
                                                 {details?.users.length > 0 && <Image
                                                     source={{ uri: details?.users[0].populatedUser.storeImages[0] ? details?.users[0].populatedUser.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
                                                     style={styles.image}
@@ -272,29 +272,28 @@ const RequestDetail = () => {
                                                             <Text className="text-[12px] text-[#558b2f]">{details.updatedAt}</Text>
                                                         </View>
                                                     </View>
-                                                    <View className="flex-row items-center gap-[15px]">
+                                                    {/* <View className="flex-row items-center gap-[15px]">
 
-                                                        {details.retailerId.totalReview > 0 && (
+                                                        {details?.retailerId?.totalReview > 0 && (
                                                             <View className="flex-row items-center gap-[5px]">
                                                                 <Star />
-                                                                <Text>{parseFloat(details.retailerId.totalRating / details.retailerId.totalReview).toFixed(1)}/5</Text>
+                                                                <Text><Text>{parseFloat(details.retailerId.totalRating / details.retailerId.totalReview).toFixed(1)}</Text>/5</Text>
                                                             </View>
                                                         )}
 
-                                                        {details.retailerId.homeDelivery && <View>
+                                                        {details?.retailerId?.homeDelivery && <View>
                                                             <HomeIcon />
                                                         </View>}
                                                         {
                                                             distance && <View>
-                                                                <Text className="bg-[#ffe7c8] text-text  px-[5px] py-[2px] rounded-md">{parseFloat(distance).toFixed(1)} km</Text>
+                                                                <Text className="bg-[#ffe7c8] text-text  px-[5px] py-[2px] rounded-md"><Text>{parseFloat(distance).toFixed(1)}</Text> km</Text>
                                                             </View>
                                                         }
-                                                    </View>
+                                                    </View> */}
 
                                                     <View className="flex-row justify-between">
                                                         <View className="flex-row gap-[5px]">
                                                             <Gallery />
-                                                            {/* <Text className="text-[14px] text-[#c4c4c4]">{details?.latestMessage?.message}</Text> */}
                                                             <Text className="text-[14px] text-[#c4c4c4]">{details?.latestMessage?.message || 'No message available'}</Text>
 
                                                         </View>

@@ -34,10 +34,17 @@ const CreateNewBidScreen = () => {
     console.log('requestImages', requestImages);
 
     const sendBid = async () => {
+        const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
+            params: {
+                id: details.retailerId._id,
+            }
+        });
+
+        console.log('create bid', details.requestId);
         await axios.post('http://173.212.193.109:5000/chat/send-message', {
             sender: {
                 type: 'UserRequest',
-                refId: details.requestId,
+                refId: details.requestId._id
             },
             message: query,
             bidType: "true",
@@ -65,7 +72,7 @@ const CreateNewBidScreen = () => {
                 socket.emit("new message", res.data);
                 navigation.navigate('bargain');
                 const notification = {
-                    token: details.retailerId.uniqueToken,
+                    token: [token.data],
                     title: userDetails?.userName,
                     body: query,
                     price: price,

@@ -65,10 +65,19 @@ const BargainingScreen = () => {
                 const response = await axios.patch('http://173.212.193.109:5000/chat/mark-as-read', {
                     id: currentSpadeRetailer._id
                 });
-                const updateChat = { ...currentSpadeRetailer, unreadMessages: 0 };
-                const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
-                dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
-                dispatch(setCurrentSpadeRetailer(updateChat));
+                // const updateChat = { ...currentSpadeRetailer, unreadCount: 0 };
+                let retailers = [currentSpadeRetailer];
+                retailers = retailers.map((retailer) => {
+                    if (retailer._id === currentSpadeRetailer._id) {
+                        return { ...retailer, unreadCount: 0 };
+                    }
+                    return retailer;
+                });
+                dispatch(setCurrentSpadeRetailers(retailers));
+                // const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
+
+                // dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
+                // dispatch(setCurrentSpadeRetailer(updateChat));
                 console.log('markAsRead', response.data.unreadCount);
             }
         } catch (error) {
@@ -221,6 +230,12 @@ const BargainingScreen = () => {
 
     const rejectBid = async () => {
         try {
+            const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
+                params: {
+                    id: details.retailerId._id,
+                }
+            });
+
             const res = await axios.patch('http://173.212.193.109:5000/chat/reject-bid', {
                 messageId: messages[messages.length - 1]._id,
             });
@@ -244,7 +259,7 @@ const BargainingScreen = () => {
             console.log('bid rejected');
             socket.emit('new message', res.data);
             const notification = {
-                token: [currentSpadeRetailer.retailerId.uniqueToken],
+                token: [token.data],
                 title: userDetails?.userName,
                 body: spade?.requestDetail,
                 image: "",

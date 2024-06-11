@@ -27,11 +27,16 @@ const CameraScreen = () => {
     const dispatch = useDispatch();
     // console.log('store', openCamera, messages)
     const [query, setQuery] = useState("");
-
+    const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
+    const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
 
     const sendAttachment = async () => {
-        const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
-        const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
+
+        const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
+            params: {
+                id: details.retailerId._id,
+            }
+        });
 
         await axios.post('http://173.212.193.109:5000/chat/send-message', {
             sender: {
@@ -63,7 +68,7 @@ const CameraScreen = () => {
 
                 navigation.navigate('bargain');
                 const notification = {
-                    token: [details.retailerId.uniqueToken],
+                    token: [token.data],
                     title: userDetails?.userName,
                     body: query,
                     image: imageUri,
