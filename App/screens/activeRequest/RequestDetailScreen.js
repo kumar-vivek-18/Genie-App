@@ -110,18 +110,31 @@ const RequestDetail = () => {
 
     useEffect(() => {
         const handleMessageReceived = (updatedUser) => {
-            console.log('Updated user data received at socket', updatedUser._id);
-            const data = formatDateTime(updatedUser.updatedAt);
-            updatedUser.createdAt = data.formattedDate;
-            updatedUser.updatedAt = data.formattedTime;
-            // dispatch(setCurrentSpadeRetailers((prevUsers) => {
-            //     return prevUsers.map((user) =>
-            //         user._id === updatedUser._id ? updatedUser : user
-            //     );
-            // }));
-            const retailers = currentSpadeRetailers.filter(c => c._id !== updatedUser._id);
+            if (currentSpade._id === updatedUser.requestId._id) {
 
-            dispatch(setCurrentSpadeRetailers([updatedUser, ...retailers]));
+
+                console.log('Updated user data received at socket', updatedUser._id);
+                const data = formatDateTime(updatedUser.updatedAt);
+                updatedUser.createdAt = data.formattedDate;
+                updatedUser.updatedAt = data.formattedTime;
+                // dispatch(setCurrentSpadeRetailers((prevUsers) => {
+                //     return prevUsers.map((user) =>
+                //         user._id === updatedUser._id ? updatedUser : user
+                //     );
+                // }));
+                const tmp = { ...currentSpade, requestActive: "completed", requestAcceptedChat: updatedUser._id };
+                dispatch(setCurrentSpade(tmp));
+                let allSpades = [...spades];
+                allSpades.map((curr, index) => {
+                    if (curr._id === tmp._id) {
+                        allSpades[index] = tmp;
+                    }
+                })
+                dispatch(setSpades(allSpades));
+                const retailers = currentSpadeRetailers.filter(c => c._id !== updatedUser._id);
+
+                dispatch(setCurrentSpadeRetailers([updatedUser, ...retailers]));
+            }
         };
 
         socket.on("updated retailer", handleMessageReceived);
@@ -160,12 +173,14 @@ const RequestDetail = () => {
     const closeRequest = async () => {
 
         const request = await axios.patch(`http://173.212.193.109:5000/user/closespade/`, {
-            id: spade._id
+            id: currentSpade._id
         });
+        console.log('request', request);
 
         if (request.status === 200) {
             console.log('request closed');
             spades = spades.filter(curr => curr._id !== request._id);
+            console.log('Request closed successfully');
             dispatch(setSpades(spades));
             navigation.navigate('home');
         }
