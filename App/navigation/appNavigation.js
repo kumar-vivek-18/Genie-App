@@ -27,17 +27,19 @@ import CameraScreen from '../screens/components/CameraScreen';
 import RatingAndFeedback from '../screens/Rating&Feedback/RatingAndFeedback';
 import SplashScreen from '../screens/SplashScreen';
 import StoreProfileScreen from '../screens/activeRequest/StoreProfileScreen';
+import Razorpay from '../screens/paymentGateway/Razorpay.js';
 const Stack = createNativeStackNavigator();
 const GlobalNavigation = () => {
 
     return (
 
-        <Stack.Navigator initialRouteName="splash"
+        <Stack.Navigator initialRouteName="payment-gateway"
             screenOptions={{
                 headerShown: false,
                 animation: "slide_from_right",
                 animationDuration: "50"
             }}>
+            <Stack.Screen name="payment-gateway" component={Razorpay} />
             <Stack.Screen name="splash" component={SplashScreen} />
             <Stack.Screen name="mobileNumber" component={MobileNumberEntryScreen} />
             {/* <Stack.Screen name="otpVerification" component={OtpVerificationScreen} /> */}
