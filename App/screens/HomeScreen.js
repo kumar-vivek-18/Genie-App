@@ -7,6 +7,7 @@ import {
   BackHandler,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
@@ -63,6 +64,7 @@ const HomeScreen = () => {
     navigationState.routes[navigationState.index].name === "home";
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollViewRef = useRef(null);
+  const [isLoading,setIsLoading] = useState(false);
 
   const handleScroll = (event) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x;
@@ -129,6 +131,7 @@ const HomeScreen = () => {
   }, []);
 
   const handleRefreshLocation = async () => {
+    setIsLoading(true);
     try {
       const res = await getGeoCoordinates();
       const location = await getLocationName(
@@ -167,8 +170,11 @@ const HomeScreen = () => {
         "userDetails",
         JSON.stringify(updatedUserData)
       );
+      
     } catch (error) {
       console.error("Error updating location:", error);
+    }finally{
+      setIsLoading(false);
     }
   };
 
@@ -225,9 +231,13 @@ const HomeScreen = () => {
             }}
           >
             <View>
-              <Text className="text-[14px] font-extrabold text-[#fb8c00] ">
-                Refresh
-              </Text>
+            {isLoading ? (
+          <ActivityIndicator size="small" color="#fb8c00" />
+        ) : (
+          <Text className="text-[14px] font-extrabold text-[#fb8c00]">
+            Refresh
+          </Text>
+        )}
             </View>
           </TouchableOpacity>
         </View>

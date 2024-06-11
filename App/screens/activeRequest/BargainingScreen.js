@@ -47,7 +47,7 @@ const BargainingScreen = () => {
     const [socketConnected, setSocketConnected] = useState(false);
     const [currentLocation, setCurrentLocation] = useState();
     const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
-
+    const [loading,setLoading]=useState(false);
     const dispatch = useDispatch();
     const userDetails = useSelector(store => store.user.userDetails || []);
 
@@ -177,6 +177,7 @@ const BargainingScreen = () => {
 
 
     const acceptBid = async () => {
+        setLoading(true);
         try {
             await axios.patch('http://173.212.193.109:5000/chat/accept-bid', {
                 messageId: messages[messages.length - 1]._id,
@@ -210,6 +211,7 @@ const BargainingScreen = () => {
                     dispatch(setCurrentSpadeRetailer(updateChat));
 
                     socket.emit('new message', res.data.message);
+                    setLoading(false);
                     const notification = {
                         token: res.data.uniqueTokens,
                         body: spade?.requestDetail,
@@ -221,14 +223,17 @@ const BargainingScreen = () => {
 
                 })
                 .catch(err => {
+                    setLoading(false);
                     console.error('error while accepting bid mess', err.message);
                 })
         } catch (error) {
+            setLoading(false);
             console.error('error while accepting bid', error.message);
         }
     }
 
     const rejectBid = async () => {
+        setLoading(true);
         try {
             const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
                 params: {
@@ -258,6 +263,7 @@ const BargainingScreen = () => {
 
             console.log('bid rejected');
             socket.emit('new message', res.data);
+            setLoading(false);
             const notification = {
                 token: [token.data],
                 title: userDetails?.userName,
@@ -268,6 +274,7 @@ const BargainingScreen = () => {
             await BidRejected(notification);
 
         } catch (error) {
+            setLoading(false);
             console.error('error while rejecting bid', error.message);
         }
     };
@@ -506,7 +513,7 @@ const BargainingScreen = () => {
             </SafeAreaView>}
 
             {
-                modalVisible && <RequestAcceptModal modalVisible={modalVisible} setModalVisible={setModalVisibile} acceptBid={acceptBid} />
+                modalVisible && <RequestAcceptModal modalVisible={modalVisible} setModalVisible={setModalVisibile} acceptBid={acceptBid} loading={loading}/>
             }
         </>
     )
