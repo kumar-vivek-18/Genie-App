@@ -11,6 +11,7 @@ import {
   Alert,
   BackHandler,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -44,6 +45,8 @@ const MobileNumberEntryScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const [otp, setOtp] = useState("");
   const route = useRoute();
   const [mobileNumber, setMobileNumberLocal] = useState("");
@@ -76,7 +79,7 @@ const MobileNumberEntryScreen = () => {
         .getToken()
         .then((token) => {
           console.log("token", token);
-        //   setToken(token);
+          //   setToken(token);
           dispatch(setUniqueToken(token));
         });
     } else {
@@ -90,9 +93,10 @@ const MobileNumberEntryScreen = () => {
       if (!mobileScreen) {
         setMobileScreen(true);
         return true; // Prevent default back action
-      } else if (isLoginScreen) {
+      }
+      else if(isLoginScreen) {
         BackHandler.exitApp();
-        // return true;
+        return true;
       }
 
       return false;
@@ -144,7 +148,7 @@ const MobileNumberEntryScreen = () => {
   };
 
   const checkMobileNumber = async () => {
-    setLoading(true);
+    setIsLoading(true);
     try {
       // Make a request to your backend API to check if the mobile number is registered
 
@@ -199,7 +203,7 @@ const MobileNumberEntryScreen = () => {
     } catch (error) {
       console.error("Error checking mobile number:", error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -208,37 +212,39 @@ const MobileNumberEntryScreen = () => {
   return (
     <>
       {mobileScreen && (
-        <View style={{ flex:1,backgroundColor: "white"  }}>
-         <ScrollView contentContainerStyle={{ flexGrow: 1}}>
-         <KeyboardAvoidingView  behavior="position">
-            {/* <Image source={require("../../assets/MobileEntryPage.png")} className="w-full object-cover" /> */}
-            
-              <MobileNumberScreenBg width={width} height={350}/>
-              <View style={{ flex: 1, backgroundColor: "white",paddingBottom:30 }}>
-              <View className="flex flex-row gap-[8px] pt-[32px] px-[32px]">
-                <Text className="h-[7px] w-[30px] border-[1px] border-[#fb8c00] bg-[#fb8c00] rounded-md"></Text>
-                <Text className="h-[7px] w-[30px] border-[1px] border-black rounded-md"></Text>
-                <Text className="h-[7px] w-[30px] border-[1px] border-black rounded-md"></Text>
-              </View>
-              <View className="mt-[20px] px-[32px]">
-                <Text className="text-[14px]">
-                  Now bargaining is possible {"\n"}from your couch! Connect online with nearby retailers now.
-                </Text>
-               
-              </View>
-              <View className="flex flex-col gap-[10px] mt-[40px]">
-                <View className="flex flex-col gap-[5px] px-[32px]">
-                  {/* <Image source={require("../../assets/mobileIcon.png")} className="w-[11px] h-[18px]" /> */}
-                  {/* <MobileIcon /> */}
-                  <Text className="text-[16px] font-extrabold">
-                    Please enter your
+        <View style={{ flex: 1, backgroundColor: "white" }}>
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            <KeyboardAvoidingView behavior="position">
+              {/* <Image source={require("../../assets/MobileEntryPage.png")} className="w-full object-cover" /> */}
+
+              <MobileNumberScreenBg width={width} height={350} />
+              <View
+                style={{ flex: 1, backgroundColor: "white", paddingBottom: 30 }}
+              >
+                <View className="flex flex-row gap-[8px] pt-[32px] px-[32px]">
+                  <Text className="h-[7px] w-[30px] border-[1px] border-[#fb8c00] bg-[#fb8c00] rounded-md"></Text>
+                  <Text className="h-[7px] w-[30px] border-[1px] border-black rounded-md"></Text>
+                  <Text className="h-[7px] w-[30px] border-[1px] border-black rounded-md"></Text>
+                </View>
+                <View className="mt-[20px] px-[32px]">
+                  <Text className="text-[14px]">
+                    Now bargaining is possible {"\n"}from your couch! Connect
+                    online with nearby retailers now.
                   </Text>
                 </View>
-                <View className="flex flex-col gap-[15px]">
-                  <Text className="text-[13px] font-normal px-[32px]">
-                    Mobile Number
-                  </Text>
-                 
+                <View className="flex flex-col gap-[10px] mt-[40px]">
+                  <View className="flex flex-col gap-[5px] px-[32px]">
+                    {/* <Image source={require("../../assets/mobileIcon.png")} className="w-[11px] h-[18px]" /> */}
+                    {/* <MobileIcon /> */}
+                    <Text className="text-[16px] font-extrabold">
+                      Please enter your
+                    </Text>
+                  </View>
+                  <View className="flex flex-col gap-[15px]">
+                    <Text className="text-[13px] font-normal px-[32px]">
+                      Mobile Number
+                    </Text>
+
                     <View className="flex flex-row items-center gap-[10px] h-[54px] px-[8px] border-[1px] border-[#f9f9f9] rounded-[16px] bg-[#F9F9F9] mx-[30px]">
                       <Text className="text-[16px] font-extrabold border-r-[1px] border-[#dbcdbb] pr-[16px] pl-[15px]">
                         +91
@@ -259,10 +265,9 @@ const MobileNumberEntryScreen = () => {
                         maxLength={10}
                       />
                     </View>
-                 
+                  </View>
                 </View>
               </View>
-            </View>
             </KeyboardAvoidingView>
           </ScrollView>
           <TouchableOpacity
@@ -281,15 +286,19 @@ const MobileNumberEntryScreen = () => {
               alignItems: "center", // Center content horizontally
             }}
           >
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: "bold",
-                color: mobileNumber.length !== 10 ? "#888888" : "white",
-              }}
-            >
-              NEXT
-            </Text>
+            {loading ? (
+              <ActivityIndicator size="small" color="#ffffff" />
+            ) : (
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: "bold",
+                  color: mobileNumber.length !== 10 ? "#888888" : "white",
+                }}
+              >
+                NEXT
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
       )}
@@ -297,33 +306,33 @@ const MobileNumberEntryScreen = () => {
         <View style={{ flex: 1 }}>
           {/* <Text>OtpVerificationScreen</Text> */}
           <KeyboardAvoidingView behavior="padding">
-          <ScrollView contentContainerStyle={{ flexGrow: 1 }} >
-            <Image
-              source={require("../../assets/Otpverification.png")}
-              className="w-full object-cover"
-            />
-            {/* <OtpPageBg width={width} /> */}
-            {/* <Pressable onPress={() => { navigation.goBack() }} className="flex flex-row items-center absolute top-16 left-4 gap-2">
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+              <Image
+                source={require("../../assets/Otpverification.png")}
+                className="w-full object-cover"
+              />
+              {/* <OtpPageBg width={width} /> */}
+              {/* <Pressable onPress={() => { navigation.goBack() }} className="flex flex-row items-center absolute top-16 left-4 gap-2">
                             <FontAwesome name="chevron-left" size={15} color="black" />
                             <Text className="text-[16px] font-extrabold">Back</Text>
                         </Pressable> */}
-            <View className="px-[42px] pb-[70px]">
-              <View className="flex flex-row gap-2 pt-[30px] ">
-                <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
-                <View className="w-[32px] h-[9px] bg-[#fb8c00]  rounded-lg"></View>
-                <View className="w-[32px] h-[9px] border-[1px] border-black rounded-lg"></View>
-              </View>
-              <View>
-                <Text className="text-[14px] text-[#2e2c43] pt-[24px]">
-                  Get the best price for your next purchase, Smart shopping is
-                  on now.{" "}
-                </Text>
-              </View>
-              <View>
-                <Text className="text-[18px] font-extrabold text-[#001b33] pt-[24px]">
-                  ENTER OTP
-                </Text>
-              </View>
+              <View className="px-[42px] pb-[70px]">
+                <View className="flex flex-row gap-2 pt-[30px] ">
+                  <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
+                  <View className="w-[32px] h-[9px] bg-[#fb8c00]  rounded-lg"></View>
+                  <View className="w-[32px] h-[9px] border-[1px] border-black rounded-lg"></View>
+                </View>
+                <View>
+                  <Text className="text-[14px] text-[#2e2c43] pt-[24px]">
+                    Get the best price for your next purchase, Smart shopping is
+                    on now.{" "}
+                  </Text>
+                </View>
+                <View>
+                  <Text className="text-[18px] font-extrabold text-[#001b33] pt-[24px]">
+                    ENTER OTP
+                  </Text>
+                </View>
 
                 <View
                   style={{
@@ -354,34 +363,39 @@ const MobileNumberEntryScreen = () => {
                     }}
                   />
                 </View>
-             
-              <View className="mt-[14px]">
-                <Text className="text-[14px] text-[#2e2c43]">
-                  OTP should be auto-filled otherwise type it manually.Sending OTP at{" "}
-                  <Text className="text-[#558b2f] font-semibold">
-                    +91 {userMobileNumber.slice(3, 13)}
+
+                <View className="mt-[14px]">
+                  <Text className="text-[14px] text-[#2e2c43]">
+                    OTP should be auto-filled otherwise type it manually.Sending
+                    OTP at{" "}
+                    <Text className="text-[#558b2f] font-semibold">
+                      +91 {userMobileNumber.slice(3, 13)}
+                    </Text>
                   </Text>
-                </Text>
+                </View>
+                <View>
+                  <Text className="text-[14px] text-[#2e2c43] mt-[15px]">
+                    Didn't recieve it?
+                  </Text>
+                  <TouchableOpacity onPress={sendVerification}>
+                  {loading ? (
+              <ActivityIndicator size="small" color="#e76043" />
+            ) : (
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        fontWeight: "bold",
+                        color: "#e76043",
+                      }}
+                    >
+                      RESEND
+                    </Text>
+            )
+            }
+                  </TouchableOpacity>
+                </View>
               </View>
-              <View>
-                <Text className="text-[14px] text-[#2e2c43] mt-[15px]">
-                  Didn't recieve it?
-                </Text>
-                <TouchableOpacity onPress={sendVerification}>
-                      <Text
-                        style={{
-                          fontSize: 14,
-                          fontWeight: "bold",
-                          color: "#e76043",
-                        }}
-                      >
-                        RESEND
-                      </Text>
-                    </TouchableOpacity>
-              </View>
-            </View>
-            
-          </ScrollView>
+            </ScrollView>
           </KeyboardAvoidingView>
 
           <TouchableOpacity
@@ -394,12 +408,14 @@ const MobileNumberEntryScreen = () => {
               right: 0,
               height: 68,
               width: "100%",
-              backgroundColor:
-                otp.length !== 6 ? "#e6e6e6" : "#FB8C00",
+              backgroundColor: otp.length !== 6 ? "#e6e6e6" : "#FB8C00",
               justifyContent: "center", // Center content vertically
               alignItems: "center", // Center content horizontally
             }}
           >
+            {isLoading ? (
+              <ActivityIndicator size="small" color="#ffffff" />
+            ) : (
             <Text
               style={{
                 fontSize: 18,
@@ -407,8 +423,9 @@ const MobileNumberEntryScreen = () => {
                 color: otp.length !== 6 ? "#888888" : "white",
               }}
             >
-            NEXT
+              NEXT
             </Text>
+            )}
           </TouchableOpacity>
         </View>
       )}

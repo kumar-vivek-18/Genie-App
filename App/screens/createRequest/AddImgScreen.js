@@ -122,7 +122,7 @@ const AddImageScreen = () => {
 
 
   const getImageUrl = async (image) => {
-    // setLoading(true);
+    setLoading(true);
     const CLOUDINARY_URL =
       "https://api.cloudinary.com/v1_1/kumarvivek/image/upload";
     const base64Img = `data:image/jpg;base64,${image.base64}`;
@@ -147,10 +147,10 @@ const AddImageScreen = () => {
         // setImagesLocal((prevImages) => [...prevImages, result.secure_url]);
         dispatch(setRequestImages(result.secure_url));
         setCameraScreen(false);
-        // setLoading(false);
+         setLoading(false);
       }
     } catch (err) {
-      //   setLoading(false);
+        setLoading(false);
       console.log(err);
     }
   };

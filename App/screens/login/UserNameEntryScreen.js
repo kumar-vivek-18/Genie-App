@@ -1,4 +1,4 @@
-import { Dimensions, BackHandler, View, Text, SafeAreaView, Image, TextInput, KeyboardAvoidingView, TouchableOpacity, Pressable, ScrollView, Alert } from 'react-native'
+import { Dimensions, BackHandler, View, Text, SafeAreaView, Image, TextInput, KeyboardAvoidingView, TouchableOpacity, Pressable, ScrollView, Alert, ActivityIndicator } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigation, useNavigationState } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
@@ -21,6 +21,7 @@ const UserNameEntryScreen = () => {
     const isUserNameScreen = navigationState.routes[navigationState.index].name === 'registerUsername';
     console.log("isUserNameScreen", isUserNameScreen)
     const [focusedInput, setFocusedInput] = useState(null);
+    const [isLoading,setIsLoading]=useState(false)
 
     useEffect(() => {
         const backAction = () => {
@@ -55,6 +56,7 @@ const UserNameEntryScreen = () => {
 
 
     const handleNext = async () => {
+        setIsLoading(true);
         try {
             // Create user data object
 
@@ -99,6 +101,8 @@ const UserNameEntryScreen = () => {
             // Handle error if request fails
             console.error('Error creating user:', error);
             Alert.alert('Error', 'An unexpected error occurred. Please try again later.');
+        }finally{
+            setIsLoading(false);
         }
     };
 
@@ -162,6 +166,9 @@ const UserNameEntryScreen = () => {
             alignItems: "center", // Center content horizontally
           }}
         >
+             {isLoading ? (
+              <ActivityIndicator size="small" color="#ffffff" />
+            ) : (
           <Text
             style={{
               fontSize: 18,
@@ -170,7 +177,7 @@ const UserNameEntryScreen = () => {
             }}
           >
             NEXT
-          </Text>
+          </Text>)}
         </TouchableOpacity>
 
         </View >
