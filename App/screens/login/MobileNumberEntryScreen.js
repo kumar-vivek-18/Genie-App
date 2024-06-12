@@ -56,6 +56,7 @@ const MobileNumberEntryScreen = () => {
   const countryCode = "+91";
   const uniqueToken = useSelector((store) => store.user.uniqueToken);
   const userMobileNumber = useSelector((store) => store.user.mobileNumber);
+  const [token,setToken]=useState("")
 
   const navigationState = useNavigationState((state) => state);
   const isLoginScreen =
@@ -79,7 +80,7 @@ const MobileNumberEntryScreen = () => {
         .getToken()
         .then((token) => {
           console.log("token", token);
-          //   setToken(token);
+            setToken(token);
           dispatch(setUniqueToken(token));
         });
     } else {
@@ -180,10 +181,17 @@ const MobileNumberEntryScreen = () => {
         await axios
           .patch("http://173.212.193.109:5000/user/edit-profile", {
             _id: response.data._id,
-            updateData: { uniqueToken: uniqueToken },
+            updateData: { uniqueToken: token },
           })
-          .then((res) => {
-            console.log("UserToken updated Successfully");
+          .then(async(res) => {
+            console.log("UserToken updated Successfully",res.data);
+            await AsyncStorage.setItem(
+                "userDetails",
+                JSON.stringify(res.data)
+              );
+              dispatch(setUserDetails(res.data));
+          
+            setToken("")
           })
           .catch((err) => {
             console.error("Error updating token: " + err.message);

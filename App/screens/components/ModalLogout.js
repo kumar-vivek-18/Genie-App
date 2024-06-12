@@ -1,25 +1,35 @@
 
 import React, { useState } from 'react';
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native';
-// import ModalImg from "../assets/Logout.svg"
+import ModalImg from "../../assets/ModalLogout.svg"
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import messaging from "@react-native-firebase/messaging";
+import { ActivityIndicator } from 'react-native';
+
 
 
 const ModalLogout = ({ modalVisible, setModalVisible }) => {
     // const [modalVisible, setModalVisible] = useState(true);
     const userDetails = useSelector(store => store.user.userDetails);
+    console.log("userDetails", userDetails);
+  const [loading, setLoading] = useState(false);
+
     const navigation = useNavigation();
     const handleModal = async () => {
+        setLoading(true)
         try {
-            // Remove the item with key 'userData' from local storage
-            // await AsyncStorage.removeItem('userData');
+           
+
+            // await auth().signOut();
+            await messaging().deleteToken();
+            console.log("FCM token deleted.");
             await AsyncStorage.removeItem('userDetails');
 
-            await axios.patch('https://genie-backend-meg1.onrender.com/user/edit-profile', {
+            await axios.patch('http://173.212.193.109:5000/user/edit-profile', {
                 _id: userDetails._id,
                 updateData: { uniqueToken: "" }
             })
@@ -33,9 +43,11 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
 
             setModalVisible(false);
             // await auth().signOut();
+            setLoading(false)
             console.log('User data deleted successfully');
             navigation.navigate("mobileNumber");
         } catch (error) {
+            setLoading(false)
             console.error('Error deleting user data:', error);
         }
 
@@ -54,7 +66,7 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
             className=" flex justify-center items-center  rounded-lg h-full ">
             <View className="flex-1  justify-center items-center">
                 <View className="bg-white w-[90%] p-[30px] justify-center items-center mt-[10px] gap-[24px] shadow-gray-600 shadow-2xl">
-                    {/* <ModalImg classname="w-[117px] h-[75px]" /> */}
+                    <ModalImg classname="w-[117px] h-[75px]" />
                     <View className="">
                         <Text className="text-[15px] font-extrabold text-center">Are you sure? </Text>
                         <Text className="text-[14px] font-normal text-center  pt-[8px]">you are trying to logout </Text>
@@ -70,7 +82,11 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
                         </View>
                         <View className="flex-1 mt-[5px]">
                             <Pressable onPress={handleModal}>
+                            {loading ? (
+                  <ActivityIndicator size="small" color="#FB8C00" />
+                ) : (
                                 <Text className="text-[14.5px] text-[#FB8C00] font-semibold text-center">Logout</Text>
+                )}
 
                             </Pressable>
                         </View>
