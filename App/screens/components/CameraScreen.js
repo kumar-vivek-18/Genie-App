@@ -250,7 +250,7 @@ const CameraScreen = () => {
                         />
                     </KeyboardAvoidingView>
                     <View className=" flex-row justify-between items-center mx-[25px] pb-[10px]">
-                        <Text className="text-white font-semibold pl-[40px] capitalize">{details.users[0].populatedUser.storeName}</Text>
+                        <Text className="text-white pl-[40px] capitalize" style={{fontFamily:"Poppins-SemiBold"}}>{details.users[0].populatedUser.storeName}</Text>
                         <TouchableOpacity onPress={() => { sendAttachment() }}>
                             <Send />
                         </TouchableOpacity>

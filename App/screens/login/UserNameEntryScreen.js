@@ -134,12 +134,12 @@ const UserNameEntryScreen = () => {
                         <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
                     </View>
                     <View>
-                        <Text className="text-[14px] font-semibold text-[#2e2c43] pt-[15px] mb-[5px]">Need maintenance services?</Text>
-                        <Text className="text-[14px] text-[#2e2c43]">Do bargaining first to avail services like plumber, electrician & lot more. </Text>
+                        <Text className="text-[14px]  text-[#2e2c43] pt-[15px] mb-[5px]"  style={{fontFamily:"Poppins-SemiBold"}}>Need maintenance services?</Text>
+                        <Text className="text-[14px] text-[#2e2c43]"  style={{fontFamily:"Poppins-Regular"}}>Do bargaining first to avail services like plumber, electrician & lot more. </Text>
                     </View>
                     <View>
-                        <Text className="text-[16px] font-bold text-[#001b33] pt-[40px]">Please enter your</Text>
-                        <Text className="text-[13px] mt-[5px] text-[#2e2c43]">Name</Text>
+                        <Text className="text-[16px]  text-[#001b33] pt-[40px]"  style={{fontFamily:"Poppins-Black"}}>Please enter your</Text>
+                        <Text className="text-[13px] mt-[5px] text-[#2e2c43]"  style={{fontFamily:"Poppins-Regular"}}>Name</Text>
                     </View>
 
 
@@ -151,6 +151,7 @@ const UserNameEntryScreen = () => {
                                 onChangeText={handleName}
                                 placeholder="Ex: Kishor Kumar"
                                 className="w-[310px] h-[54px] bg-[#f9f9f9] stroke-[#2e2c43] rounded-3xl px-10 mt-[15px] "
+                                style={{fontFamily:"Poppins-Regular"}}
                             />
                         </View>
                    
@@ -180,7 +181,7 @@ const UserNameEntryScreen = () => {
           <Text
             style={{
               fontSize: 18,
-              fontWeight: "bold",
+              fontFamily:"Poppins-Black",
               color: (!name)  ? "#888888" : "white",
             }}
           >

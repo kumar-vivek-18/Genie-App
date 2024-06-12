@@ -93,13 +93,13 @@ const StoreProfileScreen = () => {
                                 <FontAwesome name="arrow-left" size={15} color="black" />
                             </Pressable>
                         </View>
-                        <Text className="text-[16px] font-extrabold flex-1 flex text-center">
+                        <Text className="text-[16px]  flex-1 flex text-center" style={{fontFamily:"Poppins-ExtraBold"}}>
                             Store Profile
                         </Text>
                     </View>
                     <View className="relative flex-row items-center px-[30px] mb-[40px] ">
 
-                        <Text className="text-center flex-1 justify-center capitalize ">
+                        <Text className="text-center flex-1 justify-center capitalize " style={{fontFamily:"Poppins-Regular"}}>
                             {currentSpadeRetailer.retailerId.storeName}
                         </Text>
 
@@ -138,7 +138,7 @@ const StoreProfileScreen = () => {
                 <View className="px-[30px] flex flex-col gap-[26px] mb-[40px]">
                     <View className="flex flex-col gap-[11px]">
                         <View className="flex flex-row justify-between items-center">
-                            <Text className="text-[14px] text-[#2e2c43]">Store Location</Text>
+                            <Text className="text-[14px] text-[#2e2c43]" style={{fontFamily:"Poppins-Regular"}}>Store Location</Text>
                             <Pressable
                                 onPress={() => {
                                     console.log("refresh");
@@ -146,7 +146,7 @@ const StoreProfileScreen = () => {
                             >
                                 {distance && <View className="bg-[#fb8c00] flex-row gap-2 items-center p-2 rounded-md">
                                     <Pointer />
-                                    <Text className="text-[14px] text-white font-bold">
+                                    <Text className="text-[14px] text-white " style={{fontFamily:"Poppins-Bold"}}>
                                         {parseFloat(distance).toFixed(1)} km
                                     </Text>
                                 </View>}
@@ -154,7 +154,7 @@ const StoreProfileScreen = () => {
                         </View>
                         <View>
                             <View className="flex  items-center ">
-                                <Text className="w-full text-[14px] font-semibold text-black capitalize bg-[#f9f9f9]  rounded-2xl items-center px-[20px] py-[16px]">{currentSpadeRetailer.retailerId.location}</Text>
+                                <Text className="w-full text-[14px]  text-black capitalize bg-[#f9f9f9]  rounded-2xl items-center px-[20px] py-[16px]" style={{fontFamily:"Poppins-SemiBold"}}>{currentSpadeRetailer.retailerId.location}</Text>
 
                             </View>
                             {/* <TouchableOpacity>
@@ -168,39 +168,39 @@ const StoreProfileScreen = () => {
                         </View>
                     </View>
                     <View className="flex flex-col gap-[11px]">
-                        <Text className="text-[14px] text-[#2e2c43] ">Store Name</Text>
+                        <Text className="text-[14px] text-[#2e2c43] " style={{fontFamily:"Poppins-Regular"}}>Store Name</Text>
                         <KeyboardAvoidingView className="flex items-center">
                             <View className="flex flex-row items-center justify-between w-[324px] h-[54px] px-[20px] bg-[#F9F9F9] rounded-[16px]">
-                                <Text className="w-[280px] text-[14px] font-semibold text-black capitalize">{currentSpadeRetailer.retailerId.storeName}</Text>
+                                <Text className="w-[280px] text-[14px]  text-black capitalize" style={{fontFamily:"Poppins-SemiBold"}}>{currentSpadeRetailer.retailerId.storeName}</Text>
                             </View>
                         </KeyboardAvoidingView>
                     </View>
                     <View className="flex flex-col gap-[11px]">
-                        <Text className="text-[14px] text-[#2e2c43] ">
+                        <Text className="text-[14px] text-[#2e2c43] " style={{fontFamily:"Poppins-Regular"}}>
                             Store Owner Name
                         </Text>
                         <KeyboardAvoidingView className="flex items-center">
                             <View className="flex flex-row items-center justify-between w-[324px] h-[54px] px-[20px] bg-[#F9F9F9] rounded-[16px]">
-                                <Text className="w-[280px] text-[14px] font-semibold text-black capitalize">{currentSpadeRetailer.retailerId.storeOwnerName}</Text>
+                                <Text className="w-[280px] text-[14px]  text-black capitalize" style={{fontFamily:"Poppins-SemiBold"}}>{currentSpadeRetailer.retailerId.storeOwnerName}</Text>
                             </View>
                         </KeyboardAvoidingView>
                     </View>
                     <View className="flex flex-col gap-[11px]">
-                        <Text className="text-[14px] text-[#2e2c43] ">Store Category</Text>
+                        <Text className="text-[14px] text-[#2e2c43] " style={{fontFamily:"Poppins-Regular"}}>Store Category</Text>
                         <KeyboardAvoidingView className="flex items-center">
                             <View className="flex flex-row items-center justify-between w-[324px] h-[54px] px-[20px] bg-[#F9F9F9] rounded-[16px]">
 
-                                <Text className="w-[280px] text-[14px] font-semibold text-black capitalize">{currentSpadeRetailer.retailerId.storeCategory}</Text>
+                                <Text className="w-[280px] text-[14px]  text-black capitalize" style={{fontFamily:"Poppins-SemiBold"}}>{currentSpadeRetailer.retailerId.storeCategory}</Text>
                             </View>
                         </KeyboardAvoidingView>
                     </View>
 
                     <View className="flex flex-col gap-[11px]">
-                        <Text className="  text-[14px] font-normal">Mobile Number</Text>
+                        <Text className="  text-[14px] " style={{fontFamily:"Poppins-Regular"}}>Mobile Number</Text>
                         <KeyboardAvoidingView className="flex items-center">
                             <View className="flex flex-row justify-between items-center gap-[10px] w-[324px] h-[54px] px-[20px] bg-[#F9F9F9] rounded-[16px]">
                                 <View className="text-[16px] font-extrabold border-r-[1px] border-[#dbcdbb] flex flex-row gap-[9px] pr-[9px] items-center">
-                                    <Text className="text-[16px] font-extrabold">+91</Text>
+                                    <Text className="text-[16px] " style={{fontFamily:"Poppins-ExtraBold"}}>+91</Text>
                                     <Entypo
                                         name="chevron-down"
                                         size={16}
@@ -208,7 +208,7 @@ const StoreProfileScreen = () => {
                                         className=""
                                     />
                                 </View>
-                                <Text className="text-[16px] flex-1 font-semibold text-black">
+                                <Text className="text-[16px] flex-1 text-black" style={{fontFamily:"Poppins-SemiBold"}}>
 
                                     {currentSpadeRetailer.retailerId.storeMobileNo.substring(3, 13)}
                                 </Text>
@@ -219,7 +219,7 @@ const StoreProfileScreen = () => {
                                 >
                                     <Copy />
                                 </TouchableOpacity>
-                                {copied && <Text className="text-black">Copied</Text>}
+                                {copied && <Text className="text-black" style={{fontFamily:"Poppins-Regular"}}>Copied</Text>}
                             </View>
                         </KeyboardAvoidingView>
                     </View>

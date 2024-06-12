@@ -235,7 +235,7 @@ const MobileNumberEntryScreen = () => {
                   <Text className="h-[7px] w-[30px] border-[1px] border-black rounded-md"></Text>
                 </View>
                 <View className="mt-[20px] px-[32px]">
-                  <Text className="text-[14px]">
+                  <Text className="text-[14px]" style={{fontFamily:"Poppins-Regular"}}>
                     Now bargaining is possible {"\n"}from your couch! Connect
                     online with nearby retailers now.
                   </Text>
@@ -244,17 +244,17 @@ const MobileNumberEntryScreen = () => {
                   <View className="flex flex-col gap-[5px] px-[32px]">
                     {/* <Image source={require("../../assets/mobileIcon.png")} className="w-[11px] h-[18px]" /> */}
                     {/* <MobileIcon /> */}
-                    <Text className="text-[16px] font-extrabold">
+                    <Text className="text-[16px] " style={{fontFamily:"Poppins-ExtraBold"}}>
                       Please enter your
                     </Text>
                   </View>
                   <View className="flex flex-col gap-[15px]">
-                    <Text className="text-[13px] font-normal px-[32px]">
+                    <Text className="text-[13px] px-[32px]" style={{fontFamily:"Poppins-Regular"}}>
                       Mobile Number
                     </Text>
 
                     <View className="flex flex-row items-center gap-[10px] h-[54px] px-[8px] border-[1px] border-[#f9f9f9] rounded-[16px] bg-[#F9F9F9] mx-[30px]">
-                      <Text className="text-[16px] font-extrabold border-r-[1px] border-[#dbcdbb] pr-[16px] pl-[15px]">
+                      <Text className="text-[16px] border-r-[1px] border-[#dbcdbb] pr-[16px] pl-[15px]" style={{fontFamily:"Poppins-ExtraBold"}}>
                         +91
                         <Entypo
                           name="chevron-down"
@@ -270,6 +270,7 @@ const MobileNumberEntryScreen = () => {
                         onChangeText={handleMobileNo}
                         keyboardType="numeric"
                         className="w-full text-[16px]"
+                        style={{fontFamily:"Poppins-Regular"}}
                         maxLength={10}
                       />
                     </View>
@@ -300,7 +301,8 @@ const MobileNumberEntryScreen = () => {
               <Text
                 style={{
                   fontSize: 18,
-                  fontWeight: "bold",
+                
+                  fontFamily:"Poppins-Black",
                   color: mobileNumber.length !== 10 ? "#888888" : "white",
                 }}
               >
@@ -331,13 +333,13 @@ const MobileNumberEntryScreen = () => {
                   <View className="w-[32px] h-[9px] border-[1px] border-black rounded-lg"></View>
                 </View>
                 <View>
-                  <Text className="text-[14px] text-[#2e2c43] pt-[24px]">
+                  <Text className="text-[14px] text-[#2e2c43] pt-[24px]" style={{fontFamily:"Poppins-Regular"}}>
                     Get the best price for your next purchase, Smart shopping is
                     on now.{" "}
                   </Text>
                 </View>
                 <View>
-                  <Text className="text-[18px] font-extrabold text-[#001b33] pt-[24px]">
+                  <Text className="text-[18px]  text-[#001b33] pt-[24px]" style={{fontFamily:"Poppins-ExtraBold"}}>
                     ENTER OTP
                   </Text>
                 </View>
@@ -368,21 +370,22 @@ const MobileNumberEntryScreen = () => {
                       height: 53,
                       textAlign: "center",
                       fontSize: 17,
+                      fontFamily:"Poppins-Regular",
                     }}
                   />
                 </View>
 
                 <View className="mt-[14px]">
-                  <Text className="text-[14px] text-[#2e2c43]">
+                  <Text className="text-[14px] text-[#2e2c43]"  style={{fontFamily:"Poppins-Regular"}}>
                     OTP should be auto-filled otherwise type it manually.Sending
                     OTP at{" "}
-                    <Text className="text-[#558b2f] font-semibold">
+                    <Text className="text-[#558b2f] " style={{fontFamily:"Poppins-Bold"}}>
                       +91 {userMobileNumber.slice(3, 13)}
                     </Text>
                   </Text>
                 </View>
                 <View>
-                  <Text className="text-[14px] text-[#2e2c43] mt-[15px]">
+                  <Text className="text-[14px] text-[#2e2c43] mt-[15px]" style={{fontFamily:"Poppins-Medium"}}>
                     Didn't recieve it?
                   </Text>
                   <TouchableOpacity onPress={sendVerification}>
@@ -392,7 +395,7 @@ const MobileNumberEntryScreen = () => {
                     <Text
                       style={{
                         fontSize: 14,
-                        fontWeight: "bold",
+                        fontFamily:"Poppins-Bold",
                         color: "#e76043",
                       }}
                     >
@@ -427,7 +430,7 @@ const MobileNumberEntryScreen = () => {
             <Text
               style={{
                 fontSize: 18,
-                fontWeight: "bold",
+                fontFamily:"Poppins-Black",
                 color: otp.length !== 6 ? "#888888" : "white",
               }}
             >

@@ -217,39 +217,39 @@ const RequestDetail = () => {
 
                         {modal && <View className="absolute top-[20px] right-[50px] z-50 bg-white">
                             <Pressable onPress={() => navigation.navigate('view-request', { data: spade })}>
-                                <Text className="mx-5 border-1 border-b-[1px] py-5">View Request</Text>
+                                <Text className="mx-5 border-1 border-b-[1px] py-5" style={{fontFamily:"Poppins-Regular"}}>View Request</Text>
                             </Pressable>
                             <Pressable onPress={() => closeRequest()}>
-                                <Text className="mx-5 py-5">Close Request</Text>
+                                <Text className="mx-5 py-5" style={{fontFamily:"Poppins-Regular"}}>Close Request</Text>
                             </Pressable>
                         </View>}
 
                         <View className="bg-[#ffe7c8] px-[64px] py-[30px]">
-                            <Text className="text-[16px] font-extrabold">Request for</Text>
+                            <Text className="text-[16px] " style={{fontFamily:"Poppins-Bold"}}>Request for</Text>
                             <View className=" flex-row">
-                                <Text className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px]">{spade?.requestCategory}</Text>
+                                <Text className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px]" style={{fontFamily:"Poppins-Regular"}}>{spade?.requestCategory}</Text>
                             </View>
                             <View className="flex-row gap-[10px] items-center ">
-                                <Text className="font-extrabold text-[12px]">Request ID:</Text>
-                                <Text className="text-[12px]">{spade._id}</Text>
+                                <Text className=" text-[12px]" style={{fontFamily:"Poppins-Bold"}}>Request ID:</Text>
+                                <Text className="text-[12px]" style={{fontFamily:"Poppins-Regular"}}>{spade._id}</Text>
                                 <Pressable onPress={() => { Clipboard.setString(spade._id) }}>
                                     <Image source={require('../../assets/copy.png')} />
                                 </Pressable>
 
 
                             </View>
-                            <Text className="mt-[5px]">{spade.requestDescription}</Text>
+                            <Text className="mt-[5px]" style={{fontFamily:"Poppins-Regular"}}>{spade.requestDescription}</Text>
                             <Pressable onPress={() => navigation.navigate('image-refrences')}>
                                 <View className="flex-row gap-[15px] mt-[15px] items-center">
                                     <Image source={require('../../assets/gallery.png')} />
-                                    <Text className="text-[14px] font-extrabold text-[#fb8c00]">Image References</Text>
+                                    <Text className="text-[14px]  text-[#fb8c00]" style={{fontFamily:"Poppins-Black"}}>Image References</Text>
                                 </View>
                             </Pressable>
 
                             <View>{
                                 (spade.requestActive === "completed" || spade.requestActive === "closed") && <View className="flex-row gap-[5px] mt-[15px]">
                                     <Tick />
-                                    <Text className="font-bold text-[##79B649]">Spade Completed</Text>
+                                    <Text className="text-[##79B649]" style={{fontFamily:"Poppins-Bold"}}>Spade Completed</Text>
 
 
                                 </View>
@@ -281,10 +281,10 @@ const RequestDetail = () => {
                                                 />}
                                                 <View className="gap-[10px] w-4/5">
                                                     <View className="flex-row justify-between">
-                                                        <Text className="text-[14px] text-[#2e2c43] ">{details?.users[0].populatedUser.storeName}</Text>
+                                                        <Text className="text-[14px] text-[#2e2c43] " style={{fontFamily:"Poppins-Regular"}}>{details?.users[0].populatedUser.storeName}</Text>
                                                         <View className="flex-row items-center gap-[5px]">
                                                             <GreenClock />
-                                                            <Text className="text-[12px] text-[#558b2f]">{details.updatedAt}</Text>
+                                                            <Text className="text-[12px] text-[#558b2f]" style={{fontFamily:"Poppins-Regular"}}>{details.updatedAt}</Text>
                                                         </View>
                                                     </View>
                                                     {/* <View className="flex-row items-center gap-[15px]">
@@ -309,11 +309,11 @@ const RequestDetail = () => {
                                                     <View className="flex-row justify-between">
                                                         <View className="flex-row gap-[5px]">
                                                             <Gallery />
-                                                            <Text className="text-[14px] text-[#c4c4c4]">{details?.latestMessage?.message || 'No message available'}</Text>
+                                                            <Text className="text-[14px] text-[#c4c4c4]" style={{fontFamily:"Poppins-Regular"}}>{details?.latestMessage?.message || 'No message available'}</Text>
 
                                                         </View>
                                                         {details?.unreadCount > 0 && <View className="w-[18px] h-[18px] rounded-full bg-[#55cd00] flex-row justify-center items-center">
-                                                            <Text className=" text-white text-[12px] font-bold ">{details.unreadCount}</Text>
+                                                            <Text className=" text-white text-[12px] " style={{fontFamily:"Poppins-Bold"}}>{details.unreadCount}</Text>
                                                         </View>}
                                                     </View>
 

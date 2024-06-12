@@ -59,7 +59,7 @@ const RatingAndFeedback = () => {
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView>
                 <View className="flex-row justify-between px-[30px] mt-[20px] items-center">
-                    <Text className="text-[18px] font-bold">Seller Rate & Feedback</Text>
+                    <Text className="text-[18px] " style={{fontFamily:"Poppins-Bold"}}>Seller Rate & Feedback</Text>
                     <Pressable onPress={() => { navigation.navigate('home') }} >
                         <View>
                             <Cancel />
@@ -70,29 +70,29 @@ const RatingAndFeedback = () => {
                 </View>
 
                 <View className="px-[34px] mt-[16px] bg-[#ffe7cb] py-[15px]">
-                    <Text className="text-[16px] font-extrabold ">Request for</Text>
+                    <Text className="text-[16px]  " style={{fontFamily:"Poppins-ExtraBold"}}>Request for</Text>
                     <View className=" flex-row">
-                        <Text className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px]">{spade?.requestCategory}</Text>
+                        <Text className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px]" style={{fontFamily:"Poppins-Regular"}}>{spade?.requestCategory}</Text>
                     </View>
 
                     <View className="flex-row gap-[10px] items-center ">
-                        <Text className="font-extrabold text-[12px]">Request ID:</Text>
-                        <Text className="text-[12px]">{spade._id}</Text>
+                        <Text className="text-[12px]" style={{fontFamily:"Poppins-ExtraBold"}}>Request ID:</Text>
+                        <Text className="text-[12px]" style={{fontFamily:"Poppins-Regular"}}>{spade._id}</Text>
                         <Pressable onPress={() => { Clipboard.setString(spade._id) }}>
                             <Image source={require('../../assets/copy.png')} />
                         </Pressable>
                     </View>
 
-                    <Text className="mt-[10px]">{spade?.requestDescription}</Text>
+                    <Text className="mt-[10px]" style={{fontFamily:"Poppins-Regular"}}>{spade?.requestDescription}</Text>
 
                 </View>
 
                 <View>
-                    {retailer && <Text className="text-[18px] mx-[34px] capitalize text-[2e2c43] mt-[22px]">{retailer?.users[0]?.populatedUser?.storeName}</Text>}
+                    {retailer && <Text className="text-[18px] mx-[34px] capitalize text-[2e2c43] mt-[22px]" style={{fontFamily:"Poppins-Regular"}}>{retailer?.users[0]?.populatedUser?.storeName}</Text>}
                 </View>
 
                 <View className="px-[30px] mt-[19px] ">
-                    <Text className="font-bold text-[14px]">Rate your experience with seller</Text>
+                    <Text className="text-[14px]" style={{fontFamily:"Poppins-Bold"}}>Rate your experience with seller</Text>
                     <View className="flex-row gap-[5px] mt-[10px]">
                         {[...Array(5)].map((_, index) => {
                             const star = index + 1;
@@ -114,7 +114,7 @@ const RatingAndFeedback = () => {
                 </View>
 
                 <View className="px-[30px]">
-                    <Text className="text-[14px] font-extrabold text-[#2e2c43] mx-[6px] mt-[30px] mb-[15px]">Feedback for seller</Text>
+                    <Text className="text-[14px] text-[#2e2c43] mx-[6px] mt-[30px] mb-[15px]" style={{fontFamily:"Poppins-ExtraBold"}}>Feedback for seller</Text>
 
                     <KeyboardAvoidingView className="  h-[127px] bg-[#f9f9f9] rounded-xl ">
                         <TextInput
@@ -127,7 +127,7 @@ const RatingAndFeedback = () => {
                             placeholder="Type here..."
                             placeholderTextColor="#dbcdbb"
                             className="w-full h-[127px] overflow-y-scroll px-[20px] border-[0.3px] border-[#2e2c43] rounded-xl "
-                            style={{ padding: 20, height: 300, flex: 1, textAlignVertical: 'top' }}
+                            style={{ padding: 20, height: 300, flex: 1, textAlignVertical: 'top' ,fontFamily: 'Poppins-Regular'}}
                         />
                     </KeyboardAvoidingView>
                 </View>
@@ -136,7 +136,7 @@ const RatingAndFeedback = () => {
 
                 <TouchableOpacity onPress={() => { SubmitFeedback() }}>
                     <View className="w-full h-[68px]  bg-[#fb8c00] justify-center  bottom-0 left-0 right-0">
-                        <Text className="text-white font-bold text-center text-[16px]">Submit</Text>
+                        <Text className="text-white  text-center text-[16px]" style={{fontFamily:"Poppins-Black"}}>Submit</Text>
                     </View>
                 </TouchableOpacity>
             </View>

@@ -44,21 +44,21 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                 <View className="bg-white w-[90%] p-[30px] justify-center items-center mt-[10px] gap-[24px] shadow-gray-600 shadow-2xl">
                     <ModalImg classname="w-[117px] h-[75px]" />
                     <View className="">
-                        <Text className="text-[15px] font-extrabold text-center">Are you sure? </Text>
-                        <Text className="text-[14px] font-normal text-center  pt-[8px]">We are closing this request, you can check status on history section. </Text>
+                        <Text className="text-[15px] text-center" style={{fontFamily:"Poppins-ExtraBold"}}>Are you sure? </Text>
+                        <Text className="text-[14px] text-center  pt-[8px]" style={{fontFamily:"Poppins-Regular"}}>We are closing this request, you can check status on history section. </Text>
 
                     </View>
 
                     <View className="w-full flex flex-row  justify-center">
                         <View className="flex-1 mt-[5px]">
                             <Pressable onPress={() => { setConfirmModal(false) }} >
-                                <Text className="text-[14.5px] text-[#FB8C00] font-normal text-center">Close</Text>
+                                <Text className="text-[14.5px] text-[#FB8C00] text-center" style={{fontFamily:"Poppins-Regular"}}>Close</Text>
 
                             </Pressable>
                         </View>
                         <View className="flex-1 mt-[5px]">
                             <Pressable onPress={() => { closeSpade(); }}>
-                                <Text className="text-[14.5px] text-[#FB8C00] font-semibold text-center">Confirm</Text>
+                                <Text className="text-[14.5px] text-[#FB8C00]  text-center" style={{fontFamily:"Poppins-SemiBold"}}>Confirm</Text>
 
                             </Pressable>
                         </View>

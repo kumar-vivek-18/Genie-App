@@ -10,27 +10,36 @@ import { useEffect } from 'react';
 import navigationService from './App/navigation/navigationService';
 import { notificationListeners } from './App/notification/notificationServices';
 import { setUniqueToken } from './App/redux/reducers/userDataSlice';
+import AppLoading from 'expo-app-loading';
+import { useFonts } from 'expo-font';
 
 export default function App() {
+  let [fontsLoaded]=useFonts(
+     {
+      'Poppins-Regular':require('./App/assets/fonts/Poppins-Regular.ttf'),
+      'Poppins-Medium':require('./App/assets/fonts/Poppins-Medium.ttf'),
+      'Poppins-SemiBold':require('./App/assets/fonts/Poppins-SemiBold.ttf'),
+      'Poppins-Bold':require('./App/assets/fonts/Poppins-Bold.ttf'),
+      'Poppins-ExtraBold':require('./App/assets/fonts/Poppins-ExtraBold.ttf'),
+      'Poppins-Light':require('./App/assets/fonts/Poppins-Light.ttf'),
+      'Poppins-ExtraLight':require('./App/assets/fonts/Poppins-ExtraLight.ttf'),
+      'Poppins-Thin':require('./App/assets/fonts/Poppins-Thin.ttf'),
+      'Poppins-Black':require('./App/assets/fonts/Poppins-Black.ttf'),
+      'Poppins-Italic':require('./App/assets/fonts/Poppins-Italic.ttf'),
+     
+     }
+  )
 
   // const dispatch = useDispatch();
 
+// if(!fontsLoaded){
+//   return <AppLoading/>;
+// }
 
 
 
   useEffect(() => {
 
-
-    // if (requestUserPermission()) {
-    //   messaging().getToken().then(token => {
-    //     console.log(token);
-    //     // dispatch(setUniqueTokenr(token));
-    //   })
-    // }
-    // else {
-    //   console.log("permission not granted", authStatus);
-    // }
-    // createNotificationChannels();
     notificationListeners();
 
   }, []);

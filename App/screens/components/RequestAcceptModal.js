@@ -21,10 +21,10 @@ const RequestAcceptModal = ({
         <View className="bg-white w-[90%] p-[30px] justify-center items-center mt-[10px] gap-[24px] shadow-gray-600 shadow-2xl">
           <ModalImg classname="w-[117px] h-[75px]" />
           <View className="">
-            <Text className="text-[15px] font-extrabold text-center">
+            <Text className="text-[15px]  text-center" style={{fontFamily:"Poppins-ExtraBold"}}>
               Are you sure?{" "}
             </Text>
-            <Text className="text-[14px] font-normal text-center  pt-[8px]">
+            <Text className="text-[14px]  text-center  pt-[8px]" style={{fontFamily:"Poppins-Regular"}}>
               You are accepting the bid request{" "}
             </Text>
           </View>
@@ -36,7 +36,7 @@ const RequestAcceptModal = ({
                   setModalVisible(false);
                 }}
               >
-                <Text className="text-[14.5px] text-[#FB8C00] font-normal text-center">
+                <Text className="text-[14.5px] text-[#FB8C00]  text-center" style={{fontFamily:"Poppins-Regular"}}>
                   Close
                 </Text>
               </Pressable>
@@ -51,7 +51,7 @@ const RequestAcceptModal = ({
                 {loading ? (
                   <ActivityIndicator size="small" color="#FB8C00" />
                 ) : (
-                  <Text className="text-[14.5px] text-[#FB8C00] font-semibold text-center">
+                  <Text className="text-[14.5px] text-[#FB8C00]  text-center" style={{fontFamily:"Poppins-SemiBold"}}>
                     Accept
                   </Text>
                 )}

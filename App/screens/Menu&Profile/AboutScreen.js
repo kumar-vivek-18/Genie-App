@@ -25,7 +25,7 @@ const AboutScreen = () => {
 
 
 
-                <Text className="text-center pt-[42px] text-[16px] font-bold mb-[60px]">About Culturtap Genie</Text>
+                <Text className="text-center pt-[42px] text-[16px]  mb-[60px]" style={{fontFamily:"Poppins-Bold"}}>About Culturtap Genie</Text>
 
                 
 
@@ -34,41 +34,41 @@ const AboutScreen = () => {
                     <AboutImg className=""/>
                    </View>
                    <View className="gap-[5px]">
-                      <Text className="text-center text-[14px] font-bold">
+                      <Text className="text-center text-[14px] " style={{fontFamily:"Poppins-Bold"}}>
                              Bargaining is the consumer's right, money doesn't grow on trees. 
                       </Text>
-                      <Text className="text-center text-[14px] ">
+                      <Text className="text-center text-[14px] " style={{fontFamily:"Poppins-Regular"}}>
                             Now bargaining is possible from your couch. Want anything new or to repair the old one, Connect with your nearby sellers and bargain for the best prices of products and services available in your city.
                       </Text>
                     </View>
                     <View className="gap-[5px] items-center">
-                        <Text className="text-center text-[14px] font-bold">
+                        <Text className="text-center text-[14px]" style={{fontFamily:"Poppins-Bold"}}>
                                Save Time
                         </Text>
                         <Time/>
                      
-                        <Text className="text-center text-[14px] ">
+                        <Text className="text-center text-[14px] " style={{fontFamily:"Poppins-Regular"}}>
                             Save your valuable time to search and explore best cost for any product and service
                         </Text>
                     </View>
                     <View className="gap-[5px] items-center">
-                        <Text className="text-center text-[14px] font-bold">
+                        <Text className="text-center text-[14px]" style={{fontFamily:"Poppins-Bold"}}>
                                Save Wealth
                         </Text>
                         <Wealth/>
                      
-                        <Text className="text-center text-[14px] ">
+                        <Text className="text-center text-[14px] " style={{fontFamily:"Poppins-Regular"}}>
                         You dont need to go out to buy any thing at first place, Collect bids from multiple sellers, 
                            you will save your fuel cost, even buy product at minimum available cost.
                         </Text>
                     </View>
                     <View className="gap-[5px] items-center">
-                        <Text className="text-center text-[14px] font-bold">
+                        <Text className="text-center text-[14px]" style={{fontFamily:"Poppins-Bold"}}>
                                Save Health
                         </Text>
                         <Health/>
                      
-                        <Text className="text-center text-[14px] ">
+                        <Text className="text-center text-[14px] " style={{fontFamily:"Poppins-Regular"}}>
                         Dont need to wander for any product and service anymore, keep your healthy routine continue. 
                         </Text>
                     </View>

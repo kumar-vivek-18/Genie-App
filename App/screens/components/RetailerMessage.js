@@ -14,12 +14,12 @@ const RetailerMessage = ({ bidDetails, pic }) => {
                         />
                     </View>
                     <View className="w-[60%]">
-                        <Text className="text-[14px] text-[#2e2c43] font-bold">Retailer</Text>
-                        <Text className="text-[14px] text-[#2e2c43]">{bidDetails?.message}</Text>
+                        <Text className="text-[14px] text-[#2e2c43] " style={{fontFamily:"Poppins-Bold"}}>Retailer</Text>
+                        <Text className="text-[14px] text-[#2e2c43]" style={{fontFamily:"Poppins-Regular"}}>{bidDetails?.message}</Text>
                     </View>
                 </View>
                 <View>
-                    <Text className="text-[12px] pt-[10px]">{bidDetails.createdAt}</Text>
+                    <Text className="text-[12px] pt-[10px]" style={{fontFamily:"Poppins-Regular"}}>{bidDetails.createdAt}</Text>
                 </View>
             </View>
             <ScrollView horizontal={true} contentContainerStyle={{ flexDirection: 'row', gap: 4, paddingHorizontal: 25, }}>

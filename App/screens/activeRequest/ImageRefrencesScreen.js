@@ -17,7 +17,7 @@ const ImageRefrencesScreen = () => {
                 <Pressable onPress={() => navigation.goBack()} >
                     <ArrowLeft />
                 </Pressable>
-                <Text className="flex flex-1 justify-center items-center text-center text-[16px]">Image References</Text>
+                <Text className="flex flex-1 justify-center items-center text-center text-[16px]" style={{fontFamily:"Poppins-Black"}}>Image References</Text>
                 <Pressable onPress={() => { navigation.navigate('requestpreview'); }}>
                     <Text className="text-[14px]"></Text>
                 </Pressable>
@@ -25,7 +25,7 @@ const ImageRefrencesScreen = () => {
             </View>
 
             <View>
-                <Text className="text-[#2e2c43] mx-[50px] text-[14px] text-center mt-[24px] mb-[24px] ">You provided image references for the seller.</Text>
+                <Text className="text-[#2e2c43] mx-[50px] text-[14px] text-center mt-[24px] mb-[24px] " style={{fontFamily:"Poppins-Regular"}}>You provided image references for the seller.</Text>
             </View>
             <View className="flex-row flex-wrap justify-evenly">
                 {

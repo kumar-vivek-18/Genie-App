@@ -126,13 +126,13 @@ const AddImages = ({ addImg, setAddImg }) => {
 
                 <TouchableOpacity onPress={() => { pickImage(); setAddImg(false) }}>
                     <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[20px]">
-                        <Text>Upload Image</Text>
+                        <Text style={{fontFamily:"Poppins-Regular"}}>Upload Image</Text>
                         <ArrowRight />
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => { takePicture(); setAddImg(false); }}>
                     <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[20px]">
-                        <Text>Click Image</Text>
+                        <Text style={{fontFamily:"Poppins-Regular"}}>Click Image</Text>
                         <ArrowRight />
                     </View>
                 </TouchableOpacity>

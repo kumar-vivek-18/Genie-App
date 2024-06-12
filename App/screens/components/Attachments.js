@@ -125,28 +125,28 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
                 <View className="flex-row justify-evenly">
                     <View className="items-center">
                         <Document />
-                        <Text>Document</Text>
+                        <Text style={{fontFamily:"Poppins-Regular"}}>Document</Text>
                     </View>
                     <View className="items-center">
                         <NewBid />
-                        <Text>New Bid</Text>
+                        <Text style={{fontFamily:"Poppins-Regular"}}>New Bid</Text>
                     </View>
                     <View className="items-center">
                         <StoreLocation />
-                        <Text>Share Location</Text>
+                        <Text style={{fontFamily:"Poppins-Regular"}}>Share Location</Text>
                     </View>
                 </View>
                 <View className="flex-row justify-evenly">
                     <TouchableOpacity onPress={() => { navigation.navigate('camera', { openCamera: true, messages, setMessages }) }}>
                         <View className="items-center">
                             <Camera />
-                            <Text>Camera</Text>
+                            <Text style={{fontFamily:"Poppins-Regular"}}>Camera</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => { navigation.navigate('camera', { openCamera: false, messages, setMessages }) }}>
                         <View className="items-center">
                             <Gallery />
-                            <Text>Gallery</Text>
+                            <Text style={{fontFamily:"Poppins-Regular"}}>Gallery</Text>
                         </View>
                     </TouchableOpacity>
 

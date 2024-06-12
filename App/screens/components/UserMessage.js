@@ -22,12 +22,12 @@ const UserMessage = ({ bidDetails }) => {
                         />
                     </View>
                     <View className="w-[60%]">
-                        <Text className="text-[14px] text-[#2e2c43] font-bold">You</Text>
-                        <Text className="text-[12px] text-[#2e2c43]">{bidDetails.message}</Text>
+                        <Text className="text-[14px] text-[#2e2c43] " style={{fontFamily:"Poppins-Bold"}}>You</Text>
+                        <Text className="text-[12px] text-[#2e2c43]" style={{fontFamily:"Poppins-Regular"}}>{bidDetails.message}</Text>
                     </View>
                 </View>
                 <View>
-                    <Text className="text-[12px]">{bidDetails.createdAt}</Text>
+                    <Text className="text-[12px]" style={{fontFamily:"Poppins-Regular"}}>{bidDetails.createdAt}</Text>
                 </View>
             </View>
 
@@ -41,8 +41,8 @@ const UserMessage = ({ bidDetails }) => {
                 }
             </ScrollView>
             {bidDetails?.bidPrice > 0 && <View className="flex-row gap-[5px]">
-                <Text>Expected Price: </Text>
-                <Text className="font-bold text-[##79B649]">Rs. {bidDetails.bidPrice}</Text>
+                <Text style={{fontFamily:"Poppins-SemiBold"}}>Expected Price: </Text>
+                <Text className="text-[##79B649]" style={{fontFamily:"Poppins-Bold"}}>Rs. {bidDetails.bidPrice}</Text>
 
 
             </View>}

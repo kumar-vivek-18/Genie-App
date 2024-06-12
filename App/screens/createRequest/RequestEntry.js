@@ -31,14 +31,14 @@ const RequestEntry = () => {
                 <View className="flex-row justify-center mt-[40px] mb-[10px] ">
                     <Genie width={35} height={52} />
                 </View>
-                <Text className="text-[14.5px]  text-[#FB8C00] text-center mb-[10px] ">
+                <Text className="text-[14.5px]  text-[#FB8C00] text-center mb-[10px] " style={{fontFamily:"Poppins-Medium"}}>
                     Step 1/4
                 </Text>
 
                 <View className="px-[32px] mb-[20px]">
-                    <Text className="text-[16px] font-extrabold text-[#2e2c43] text-center mb-[18px]">Type your spade</Text>
+                    <Text className="text-[16px]  text-[#2e2c43] text-center mb-[18px] " style={{fontFamily:"Poppins-Black"}}>Type your spade</Text>
 
-                    <Text className="text-[14px] mx-[16px] mt-[15px] text-center text-[#2e2c43]">like: My phone charger get damage / I want a 55 inch screen tv / I need a plumber to repair my water supply. </Text>
+                    <Text className="text-[14px] mx-[16px] mt-[15px] text-center text-[#2e2c43]" style={{fontFamily:"Poppins-Regular"}}>like: My phone charger get damage / I want a 55 inch screen tv / I need a plumber to repair my water supply. </Text>
 
                 </View>
 
@@ -53,7 +53,7 @@ const RequestEntry = () => {
                         placeholder="Type here..."
                         placeholderTextColor="#dbcdbb"
                         className="w-full h-[127px] overflow-y-scroll px-[20px] border-[0.3px] border-[#2e2c43] rounded-xl"
-                        style={{ padding: 20, height: 300, flex: 1, textAlignVertical: 'top' }}
+                        style={{ padding: 20, height: 300, flex: 1, textAlignVertical: 'top',fontFamily:"Poppins-Regular" }}
                     />
                 </View>
 
@@ -85,7 +85,7 @@ const RequestEntry = () => {
                     <Text
                         style={{
                             fontSize: 18,
-                            fontWeight: "bold",
+                            fontFamily:"Poppins-Black" ,
                             color: !query ? "#888888" : "white",
                         }}
                     >

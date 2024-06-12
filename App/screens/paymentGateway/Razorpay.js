@@ -194,20 +194,20 @@ const PaymentScreen = () => {
             <ScrollView contentContainerStyle={{ flex: 1 }}>
                 <View className="flex w-screen mt-[40px]" style={{ flex: 1 }}>
                     <View className="flex flex-row items-center pb-[20px] px-[32px]">
-                        <Text className="text-[16px] font-extrabold flex-1 text-center">Payment Invoice</Text>
+                        <Text className="text-[16px]  flex-1 text-center" style={{fontFamily:"Poppins-"}}>Payment Invoice</Text>
                         {/* <TouchableOpacity onPress={()=>navigation.goBack()}>
                <Close/>
             </TouchableOpacity> */}
                     </View>
                     <View className="bg-[#ffe7c8] px-[32px] py-[30px]">
-                        <Text className="text-[16px] font-extrabold">Request for</Text>
+                        <Text className="text-[16px] " style={{fontFamily:"Poppins-ExtraBold"}}>Request for</Text>
                         <View className=" flex-row">
-                            <Text className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px]">
+                            <Text className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px]" style={{fontFamily:"Poppins-Regular"}}>
                                 Electriclas & Electronics
                             </Text>
                         </View>
                         <View className="flex-row gap-[10px] items-center ">
-                            <Text className="font-extrabold text-[14px]">Request ID:</Text>
+                            <Text className="font-extrabold text-[14px] " style={{fontFamily:"Poppins-ExtraBold"}}>Request ID:</Text>
                             <Text className="text-[14px]">116263463</Text>
                             <Pressable
                                 onPress={() => {
@@ -217,7 +217,7 @@ const PaymentScreen = () => {
                                 <Image source={require("../../assets/copy.png")} />
                             </Pressable>
                         </View>
-                        <Text className="mt-[5px]">
+                        <Text className="mt-[5px]" style={{fontFamily:"Poppins-Regular"}}>
                             I need a replacement of my laptop charger .....
                         </Text>
 
@@ -236,7 +236,7 @@ const PaymentScreen = () => {
                     >
                         <View className="w-full h-[63px]  bg-[#fb8c00] justify-center  bottom-0 left-0 right-0">
 
-                            <Text className="text-white font-bold text-center text-[16px]">
+                            <Text className="text-white  text-center text-[16px]" style={{fontFamily:"Poppins-Black"}}>
                                 Pay Now
                             </Text>
 

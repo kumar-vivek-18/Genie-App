@@ -30,12 +30,12 @@ const HelpScreen = () => {
 
 
 
-                <Text className="text-center pt-[42px] text-[16px]">Need any Help?</Text>
+                <Text className="text-center pt-[42px] text-[16px]" style={{fontFamily:"Poppins-Bold"}}>Need any Help?</Text>
 
                         <View style={{ marginTop: 40, marginBottom: 40 }}>
                             <View style={{ marginBottom: 40 }}>
-                                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Help</Text>
-                                <Text>Tell us your concern!</Text>
+                                <Text style={{ fontSize: 16,fontFamily:"Poppins-Bold" }}>Help</Text>
+                                <Text style={{fontFamily:"Poppins-Regular"}}>Tell us your concern!</Text>
                             </View>
                             <TextInput
                                 multiline
@@ -44,16 +44,16 @@ const HelpScreen = () => {
                                 value={query}
                                 placeholder="Type here..."
                                 placeholderTextColor="#000000"
-                                style={{ backgroundColor: '#D9D9D9', padding: 20, height: 300, flex: 1, textAlignVertical: 'top' }}
+                                style={{ backgroundColor: '#D9D9D9', padding: 20, height: 300, flex: 1, textAlignVertical: 'top',fontFamily:"Poppins-Regular" }}
                             />
 
                         </View>
 
                         <View className="mb-[40px]">
-                            <Text style={{ fontSize: 16, fontWeight: 'bold', textAlign: 'center', marginBottom: 10 }}>Or!</Text>
-                            <Text style={{ fontSize: 16, textAlign: 'center', marginBottom: 10 }}>Submit your concern with us at</Text>
+                            <Text style={{ fontSize: 16,  textAlign: 'center', marginBottom: 10 ,fontFamily:"Poppins-Bold"}}>Or!</Text>
+                            <Text style={{ fontSize: 16, textAlign: 'center', marginBottom: 10 ,fontFamily:"Poppins-Regular"}}>Submit your concern with us at</Text>
                             <Pressable onPress={() => console.log("hii email")}>
-                                <Text style={{ color: '#FB8C00', fontWeight: 'bold' ,fontSize: 16, textAlign: 'center'}}>Info@culturtap.com</Text>
+                                <Text style={{ color: '#FB8C00', fontSize: 16, textAlign: 'center',fontFamily:"Poppins-Bold"}}>Info@culturtap.com</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -64,7 +64,7 @@ const HelpScreen = () => {
                 onPress={handleHelp} disabled={!query}
                 style={{ position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: '#fb8c00', height: 68, justifyContent: 'center' }}
             >
-                <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>Submit</Text>
+                <Text style={{ color: 'white', fontSize: 16, textAlign: 'center' ,fontFamily:"Poppins-Black"}}>Submit</Text>
             </Pressable>
         </SafeAreaView>
     );

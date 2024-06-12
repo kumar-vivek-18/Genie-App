@@ -53,17 +53,17 @@ const ExpectedPriceScreen = () => {
                     <BackArrow width={14} height={10} />
 
                 </Pressable>
-                <Text className="flex flex-1 justify-center items-center text-center font-extrabold text-[16px] ">Your Expected Price</Text>
+                <Text className="flex flex-1 justify-center items-center text-center  text-[16px] " style={{fontFamily:"Poppins-Bold"}}>Your Expected Price</Text>
                 <Pressable onPress={() => { navigation.navigate('requestpreview'); }}>
-                    <Text className="text-[14px]">Skip</Text>
+                    <Text className="text-[14px]" style={{fontFamily:"Poppins-Medium"}}>Skip</Text>
                 </Pressable>
             </View>
 
-            <View className="mt-[10px] mx-[28px]">
+            <View className="mt-[10px] mx-[28px]" style={{fontFamily:"Poppins-Medium"}}>
                 <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[10px] ">
                     Step 4/4
                 </Text>
-                <Text className="text-[14px] font-extrabold text-[#2e2c43] mx-[6px] mt-[20px]">Your Expected Price</Text>
+                <Text className="text-[14px] text-[#2e2c43] mx-[6px] mt-[20px]" style={{fontFamily:"Poppins-SemiBold"}}>Your Expected Price</Text>
                 <TextInput
                     placeholder='Ex:1,200 Rs'
                     value={price}
@@ -74,13 +74,14 @@ const ExpectedPriceScreen = () => {
                     }}
                     keyboardType="numeric"
                     placeholderTextColor={"#558b2f"}
-                    className="text-[14px] text-center bg-[#F9F9F9] font-extrabold text-[#2e2c43]  mt-[10px]  rounded-3xl h-[54px] py-[10px] "
+                    className="text-[14px] text-center bg-[#F9F9F9]  text-[#2e2c43]  mt-[10px]  rounded-3xl h-[54px] py-[10px] "
+                    style={{fontFamily:"Poppins-SemiBold"}}
 
                 />
-                <Text className="text-[14px] text-[#2e2c43] mt-[20px]">Please tell sellers about what you feel the right price for your request. You can skip this
+                <Text className="text-[14px] text-[#2e2c43] mt-[20px]" style={{fontFamily:"Poppins-Regular"}}>Please tell sellers about what you feel the right price for your request. You can skip this
                     if you don't research about pricing.</Text>
 
-                <Text className="text-[14px] font-extrabold text-[#2e2c43] mx-[6px] mt-[40px]">Apply Coupon </Text>
+                <Text className="text-[14px]  text-[#2e2c43] mx-[6px] mt-[40px]" style={{fontFamily:"Poppins-SemiBold"}}>Apply Coupon </Text>
                 <TextInput
                     placeholder='Type here...'
                     value={couponCode}
@@ -93,25 +94,26 @@ const ExpectedPriceScreen = () => {
                     }}
                     // keyboardType="numeric"
                     placeholderTextColor={"#558b2f"}
-                    className="text-[14px] text-center bg-[#F9F9F9] font-extrabold text-[#2e2c43]  mt-[10px]  rounded-3xl h-[54px] py-[10px] "
+                    className="text-[14px] text-center bg-[#F9F9F9]  text-[#2e2c43]  mt-[10px]  rounded-3xl h-[54px] py-[10px] "
+                    style={{fontFamily:"Poppins-SemiBold"}}
 
                 />
                 {!verifiedCouponCode && <TouchableOpacity onPress={() => { VerifyCoupon() }}>
                     <View className="w-full flex items-center justify-center border-2 border-[#fb8c00] py-[16px] mt-[40px]">
-                        <Text className="text-[14px] font-bold text-[#fb8c00] ">Apply Coupon </Text>
+                        <Text className="text-[14px]  text-[#fb8c00] " style={{fontFamily:"Poppins-SemiBold"}}>Apply Coupon </Text>
                     </View>
                 </TouchableOpacity>}
                 {verifiedCouponCode && <View className="w-full flex items-center justify-center border-2 border-[#fb8c00] py-[16px] mt-[40px]">
-                    <Text className="text-[14px] font-bold text-[#fb8c00] ">Coupon Added Successfully </Text>
+                    <Text className="text-[14px]  text-[#fb8c00] " style={{fontFamily:"Poppins-SemiBold"}}>Coupon Added Successfully </Text>
                 </View>}
-                <Text className="text-[14px] text-[#2e2c43] mt-[20px]">If you have any coupon code available, you can type the code here to avail the offer</Text>
+                <Text className="text-[14px] text-[#2e2c43] mt-[20px]" style={{fontFamily:"Poppins-Regular"}}>If you have any coupon code available, you can type the code here to avail the offer</Text>
             </View>
 
 
             <View className=" absolute bottom-0 left-0 right-0">
                 <TouchableOpacity onPress={() => { dispatch(setExpectedPrice(parseInt(price))); navigation.navigate('requestpreview'); }}>
                     <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
-                        <Text className="text-white text-[18px] font-bold">Continue</Text>
+                        <Text className="text-white text-[18px] " style={{fontFamily:"Poppins-Black"}}>Continue</Text>
                     </View>
                 </TouchableOpacity>
             </View>

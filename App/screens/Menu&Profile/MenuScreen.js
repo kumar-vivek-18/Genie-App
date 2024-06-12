@@ -31,7 +31,7 @@ const MenuScreen = () => {
 
 
 
-                <Text className="text-center pt-[48px] text-[16px] font-bold mb-[60px]">Menu</Text>
+                <Text className="text-center pt-[48px] text-[16px] mb-[60px]" style={{fontFamily:"Poppins-Bold"}}>Menu</Text>
 
                 <Pressable onPress={() => { navigation.navigate("profile"); }}>
                     <View className="-z-50 flex flex-row px-[40px] gap-[30px] items-center  h-[150px] w-full  shadow-3xl rounded-3xl bg-white">
@@ -41,8 +41,8 @@ const MenuScreen = () => {
                         </View>
 
                         <View>
-                            <Text className="text-[16px] font-extrabold capitalize">{userDetails.userName}</Text>
-                            <Text className="text-[14px]">{userDetails.mobileNo}</Text>
+                            <Text className="text-[16px]  capitalize" style={{fontFamily:"Poppins-Black"}}>{userDetails.userName}</Text>
+                            <Text className="text-[14px]" style={{fontFamily:"Poppins-Regular"}}>{userDetails.mobileNo}</Text>
                         </View>
                     </View>
                 </Pressable>
@@ -50,37 +50,37 @@ const MenuScreen = () => {
                 <View className="px-[60px] mt-[65px] gap-[45px]">
                     <Pressable>
                         <View className="flex flex-row justify-between items-center">
-                            <Text className="text-[15px]">Draft Requests (5)</Text>
+                            <Text className="text-[15px]" style={{fontFamily:"Poppins-Regular"}}>Draft Requests (5)</Text>
                             <Image source={require('../../assets/arrow-right.png')} />
                         </View>
                     </Pressable>
                     <Pressable onPress={() => { navigation.navigate("about") }}>
                         <View className="flex flex-row justify-between items-center">
-                            <Text className="text-[15px]">About CulturTap Genie </Text>
+                            <Text className="text-[15px]" style={{fontFamily:"Poppins-Regular"}}>About CulturTap Genie </Text>
                             <Image source={require('../../assets/arrow-right.png')} />
                         </View>
                     </Pressable>
                     <Pressable onPress={() => { navigation.navigate("termsandconditions") }}>
                         <View className="flex flex-row justify-between items-center">
-                            <Text className="text-[15px]">Terms and Conditions</Text>
+                            <Text className="text-[15px]" style={{fontFamily:"Poppins-Regular"}}>Terms and Conditions</Text>
                             <Image source={require('../../assets/arrow-right.png')} />
                         </View>
                     </Pressable>
                     <Pressable onPress={() => { navigation.navigate("help") }}>
                         <View className="flex flex-row justify-between items-center">
-                            <Text className="text-[15px]">Need any Help?</Text>
+                            <Text className="text-[15px]" style={{fontFamily:"Poppins-Regular"}}>Need any Help?</Text>
                             <Image source={require('../../assets/arrow-right.png')} />
                         </View>
                     </Pressable>
                     <Pressable>
                         <View className="flex flex-row justify-between items-center">
-                            <Text className="text-[15px]">Became a seller now?</Text>
+                            <Text className="text-[15px]" style={{fontFamily:"Poppins-Regular"}}>Became a seller now?</Text>
                             <Image source={require('../../assets/arrow-right.png')} />
                         </View>
                     </Pressable>
                     <Pressable onPress={deleteUserData}>
                         <View className="flex flex-row justify-between items-center">
-                            <Text className="text-[15px]">Log Out</Text>
+                            <Text className="text-[15px]" style={{fontFamily:"Poppins-Regular"}}>Log Out</Text>
                             <Image source={require('../../assets/arrow-right.png')} />
                         </View>
                     </Pressable>

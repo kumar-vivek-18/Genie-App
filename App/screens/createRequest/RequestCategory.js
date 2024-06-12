@@ -90,10 +90,10 @@ const RequestCategory = () => {
                             <BackArrow width={14} height={10} />
 
                         </Pressable>
-                        <Text className="flex flex-1 justify-center items-center font-extrabold text-center text-[16px]">Select Spade Category</Text>
+                        <Text className="flex flex-1 justify-center items-center text-center text-[16px]" style={{fontFamily:"Poppins-ExtraBold"}}>Select Spade Category</Text>
 
                     </View>
-                    <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] ">
+                    <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] " style={{fontFamily:"Poppins-Medium"}}>
                         Step 2/4
                     </Text>
                     <View className="flex flex-row gap-2 h-[60px]  border-[1px] items-center border-[#000000] rounded-[24px] mb-[20px]">
@@ -103,7 +103,8 @@ const RequestCategory = () => {
                             placeholderTextColor="#DBCDBB"
                             value={searchQuery}
                             onChangeText={handleTextChange}
-                            className="flex  text-center text-[14px] italic flex-1"
+                            className="flex  text-center text-[14px] flex-1"
+                            style={{fontFamily:"Poppins-Italic"}}
                         />
                     </View>
                     <View className="px-[10px]">
@@ -116,7 +117,7 @@ const RequestCategory = () => {
                                     <View className={`w-[16px] h-[16px] border-[1px] border-[#fd8c00] items-center ${result.id === selectedOption ? 'bg-[#fd8c00]' : ''}`}>
                                         {result.id === selectedOption && <Octicons name="check" size={12} color="white" />}
                                     </View>
-                                    <Text>{result.name}</Text>
+                                    <Text style={{fontFamily:"Poppins-Regular"}}>{result.name}</Text>
                                 </View>
                             </TouchableOpacity>
                         ))}
@@ -150,7 +151,7 @@ const RequestCategory = () => {
               style={{
                 color: !selectedOption ? "#888888" : "white",
                 fontSize: 18,
-                fontWeight: "bold",
+                fontFamily:"Poppins-Black"
               }}
             >
               NEXT

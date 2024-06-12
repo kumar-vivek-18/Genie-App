@@ -190,18 +190,18 @@ const AddImageScreen = () => {
               <Pressable onPress={() => navigation.goBack()} className="p-2">
                 <BackArrow width={14} height={10} />
               </Pressable>
-              <Text className="text-[16px] flex flex-1 justify-center  items-center text-center font-extrabold">
+              <Text className="text-[16px] flex flex-1 justify-center  items-center text-center" style={{fontFamily:"Poppins-ExtraBold"}}>
                 Add Image
               </Text>
               {imagesLocal.length === 0 && <Pressable onPress={() => navigation.navigate("addexpectedprice")} className="">
-                <Text className="text-[16px] text-[#FB8C00]">Skip</Text>
+                <Text className="text-[16px] text-[#FB8C00]" style={{fontFamily:"Poppins-Medium"}}>Skip</Text>
               </Pressable>}
             </View>
             <View className="mt-[10px] mb-[27px] px-[32px]">
-              <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] ">
+              <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] " style={{fontFamily:"Poppins-Medium"}}>
                 Step 3/4
               </Text>
-              <Text className="text-[14px] text-center text-[#2e2c43]">
+              <Text className="text-[14px] text-center text-[#2e2c43]" style={{fontFamily:"Poppins-Regular"}}>
                 Provide image references for retailers & maintenance service providers to understand your need better
               </Text>
 
@@ -296,7 +296,7 @@ const AddImageScreen = () => {
                     }
                   >
                     <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
-                      <Text className="text-white text-[18px] font-bold">Continue</Text>
+                      <Text className="text-white text-[18px]" style={{fontFamily:"Poppins-Black"}}>Continue</Text>
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -305,14 +305,14 @@ const AddImageScreen = () => {
               <View className="w-full z-40 bg-white absolute bottom-0 items-center left-0 right-0 px-[10px]">
                 <TouchableOpacity onPress={() => { setAddMore(!addMore); pickImage(); }}>
                   <View className="w-full flex flex-row justify-between px-[40px] py-[20px] border-b-[1px] border-b-[#dcdbdb]">
-                    <Text className="text-[14px]">Upload Image</Text>
+                    <Text className="text-[14px]" style={{fontFamily:"Poppins-Regular"}}>Upload Image</Text>
                     <RightArrow />
                   </View>
                 </TouchableOpacity>
                 {/* <View className="h-[2px] w-full bg-black"></View> */}
                 <TouchableOpacity onPress={() => { setAddMore(!addMore); takePicture() }}>
                   <View className="w-full flex flex-row justify-between px-[40px] py-[20px]">
-                    <Text className="text-[14px]">Click Image</Text>
+                    <Text className="text-[14px]" style={{fontFamily:"Poppins-Regular"}}>Click Image</Text>
                     <RightArrow />
                   </View>
                 </TouchableOpacity>

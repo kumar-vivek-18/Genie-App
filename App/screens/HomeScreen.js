@@ -226,11 +226,11 @@ const HomeScreen = () => {
 
         <View className="w-full bg-white mt-[20px] flex-row px-[30px] justify-between h-[55px] items-center">
           <View className="w-4/5">
-            <Text className="text-[14px] font-extrabold pb-[15px[">
+            <Text className="text-[14px]  pb-[15px["  style={{fontFamily:"Poppins-Black"}}>
               Location
             </Text>
 
-            <Text className="text-[#545455] text-[12px] ">
+            <Text className="text-[#545455] text-[12px] "  style={{fontFamily:"Poppins-Regular"}}>
               {userDetails?.location
                 ? `${userDetails.location.substring(0, 70)}....`
                 : "Refresh to fetch location..."}
@@ -245,7 +245,7 @@ const HomeScreen = () => {
               {isLoading ? (
                 <ActivityIndicator size="small" color="#fb8c00" />
               ) : (
-                <Text className="text-[14px] font-extrabold text-[#fb8c00]">
+                <Text className="text-[14px]  text-[#fb8c00]"  style={{fontFamily:"Poppins-Black"}}>
                   Refresh
                 </Text>
               )}
@@ -258,9 +258,9 @@ const HomeScreen = () => {
         </View>
 
         <View className="mt-[10px]">
-          <Text className="text-center text-[14px] text-[#001b33] ">Ask Genie for any shopping item or</Text>
-          <Text className="text-center text-[14px] text-[#001b33]  ">maintenance service you need. Start real</Text>
-          <Text className="text-center text-[14px] text-[#001b33]  ">time bargaining now. </Text>
+          <Text className="text-center text-[14px] text-[#001b33] "  style={{fontFamily:"Poppins-Light"}}>Ask Genie for any shopping item or</Text>
+          <Text className="text-center text-[14px] text-[#001b33]  " style={{fontFamily:"Poppins-Light"}}>maintenance service you need. Start real</Text>
+          <Text className="text-center text-[14px] text-[#001b33]  "style={{fontFamily:"Poppins-Light"}}>time bargaining now. </Text>
 
           <Pressable
             onPress={() => {
@@ -270,7 +270,7 @@ const HomeScreen = () => {
             className="mx-[16px] mt-[16px]"
           >
             <View className="h-[60px] w-full">
-              <Text className="text-[#fb8c00] text-[14px] border-[1px] border-[#fb8c00] w-full bg-white text-center py-[19px] rounded-3xl">
+              <Text className="text-[#fb8c00] text-[14px] border-[1px] border-[#fb8c00] w-full bg-white text-center py-[19px] rounded-3xl" style={{fontFamily:"Poppins-Italic"}}>
                 Type your spades my master...
               </Text>
             </View>
@@ -280,20 +280,20 @@ const HomeScreen = () => {
 
           {spades.length === 0 && (
             <View className="">
-              <Text className=" font-extrabold text-text text-[16px] text-center mt-[50px]">
+              <Text className=" text-text text-[16px] text-center mt-[50px]" style={{fontFamily:"Poppins-Bold"}}>
                 How it works?
               </Text>
               <View className=" flex flex-col gap-[38px] mt-[24px]">
                 <HomeMain width={width} />
-                <Text className="text-[#3f3d56] text-[14px] font-bold text-center px-[32px]">
+                <Text className="text-[#3f3d56] text-[14px] text-center px-[32px]" style={{fontFamily:"Poppins-Bold"}}>
                   Bargaining is the consumer's right Because money doesn't grow on trees.
                 </Text>
               </View>
               <View className="px-[38px] flex flex-col gap-[38px] mt-[40px]">
-                <Text className="text-[#3f3d56] text-[14px] text-center">
+                <Text className="text-[#3f3d56] text-[14px] text-center" style={{fontFamily:"Poppins-Regular"}}>
                   Now bargaining is possible from your couch. Do you want anything new or to repair the old one?
                 </Text>
-                <Text className="text-[#3f3d56] text-[14px] text-center">
+                <Text className="text-[#3f3d56] text-[14px] text-center" style={{fontFamily:"Poppins-Regular"}}>
                   Connect with nearby retailers and bargain for the best prices for your shopping list items. You can also avail of all types of maintenance services here,  like plumber, electrician, carpenter & lot more.
                 </Text>
               </View>
@@ -335,7 +335,8 @@ const HomeScreen = () => {
           {spades.length > 0 && (
             <View>
               <Text
-                className={`text-center font-extrabold text-text my-[33px]`}
+                className={`text-center  text-text my-[33px]`}
+                style={{fontFamily:"Poppins-Bold"}}
               >
                 Your ongoing requests
               </Text>
@@ -416,6 +417,7 @@ const styles = {
   },
   description: {
     fontSize: 14,
+    fontFamily:"Poppins-Regular",
     width: "83.33%", // 10/12 in tailwind is 83.33%
   },
   priceRow: {
@@ -425,10 +427,12 @@ const styles = {
   },
   priceText: {
     fontSize: 12,
+    fontFamily:"Poppins-Medium",
   },
   priceValue: {
     fontSize: 12,
     color: "#70B241",
+    fontFamily:"Poppins-Bold",
   },
   infoRow: {
     flexDirection: "row",
@@ -441,6 +445,7 @@ const styles = {
   },
   infoText: {
     fontSize: 12,
+    fontFamily:"Poppins-Regular",
   },
 
   scrollcontainer: {

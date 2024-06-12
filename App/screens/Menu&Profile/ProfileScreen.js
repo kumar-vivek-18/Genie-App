@@ -154,7 +154,7 @@ const ProfileScreen = () => {
     return (
         <SafeAreaView style={{ flex: 1 }} className="relative">
             <View className="mt-[42px]">
-                <Text className="text-center font-bold text-[16px]">Profile</Text>
+                <Text className="text-center text-[16px]" style={{fontFamily:"Poppins-Bold"}}>Profile</Text>
             </View>
 
             <View className="absolute top-[42px] right-[30px]">
@@ -184,17 +184,18 @@ const ProfileScreen = () => {
                         placeholder={userDetails.email.length > 0 ? userDetails.userName : "username..."}
                         onChangeText={(val) => { setUserName(val); console.log('userName', userName) }}
                         value={userName}
-                        className=" border-[#2e2c43] w-[max-content]  rounded  text-center text-[16px] font-semibold opacity-50 min-w-[150px]"
+                        className=" border-[#2e2c43] w-[max-content]  rounded  text-center text-[16px]  opacity-50 min-w-[150px]"
+                        style={{fontFamily:"Poppins-Black"}}
                     />
                     <TouchableOpacity onPress={() => { handeEditUserName() }}>
                         <View className="absolute -right-20 -top-10 px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl ">
-                            <Text className="text-white font-semibold">save</Text>
+                            <Text className="text-white font-semibold" style={{fontFamily:"Poppins-SemiBold"}}>save</Text>
                         </View>
                     </TouchableOpacity>
                 </View>}
                 {!editUser &&
                     <View className="relative mt-[6px] flex-row items-center justify-center">
-                        <Text className="font-extrabold text-[#001b33] text-[14px] capitalize">{userDetails.userName}</Text>
+                        <Text className=" text-[#001b33] text-[14px] capitalize" style={{fontFamily:"Poppins-Black"}}>{userDetails.userName}</Text>
                         <TouchableOpacity onPress={() => { setEditUser(true); }}>
                             <View className=" px-[20px] py-[10px]">
                                 <Image source={require('../../assets/editIcon.png')} />
@@ -204,14 +205,14 @@ const ProfileScreen = () => {
             </View>
 
             <View>
-                <Text className="text-[#2e2c43] text-[14px] font-normal px-[45px] mt-[50px] mb-[15px]">
+                <Text className="text-[#2e2c43] text-[14px] font-normal px-[45px] mt-[50px] mb-[15px]" style={{fontFamily:"Poppins-Regular"}}> 
                     Mobile Number
                 </Text>
             </View>
 
 
             <View className="flex-row items-center bg-[#f9f9f9] h-[54px] mx-[36px] rounded-3xl px-[29px]">
-                <Text className="  text-[14px] font-semibold opacity-60"> {userDetails.mobileNo}</Text>
+                <Text className="  text-[14px] font-semibold opacity-60" style={{fontFamily:"Poppins-Regular"}}> {userDetails.mobileNo}</Text>
                 {/* <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
                 <TextInput
                     placeholder='9088-79-0488'
@@ -220,14 +221,14 @@ const ProfileScreen = () => {
             </View>
 
             <View>
-                <Text className="px-[45px] text-[#2e2c43] text-[14px] mt-[20px] mb-[15px]">Email ID</Text>
+                <Text className="px-[45px] text-[#2e2c43] text-[14px] mt-[20px] mb-[15px]" style={{fontFamily:"Poppins-Regular"}}>Email ID</Text>
                 <View className="mx-[36px] flex flex-row pl-[25px] items-center justify-between bg-[#f9f9f9] h-[54px] rounded-3xl">
                     {editEmail && <TextInput
                         placeholder={userDetails.email.length > 0 ? userDetails.email : "Enter your email address"}
                         onChangeText={(val) => { setEmail(val); console.log('email', email); }}
                         value={email}
                     />}
-                    {!editEmail && <Text className={`text-[14px] font-semibold ${userDetails.email.length === 0 ? "opacity-40" : "opacity-80"}`}>
+                    {!editEmail && <Text className={`text-[14px]  ${userDetails.email.length === 0 ? "opacity-40" : "opacity-80"}` } style={{fontFamily:"Poppins-SemiBold"}}>
                         {userDetails.email.length > 0 ? userDetails.email : "Update your email address..."}
                     </Text>}
                     {!editEmail && <TouchableOpacity onPress={() => setEditEmail(true)}>
@@ -238,7 +239,7 @@ const ProfileScreen = () => {
                     </TouchableOpacity>}
                     {editEmail && <TouchableOpacity onPress={() => { handleEmailUpdate(); }}>
                         <View className="px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl ">
-                            <Text className="text-white font-semibold">save</Text>
+                            <Text className="text-white " style={{fontFamily:"Poppins-SemiBold"}}>save</Text>
                         </View>
                     </TouchableOpacity>}
 

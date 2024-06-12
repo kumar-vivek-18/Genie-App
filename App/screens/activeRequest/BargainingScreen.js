@@ -402,8 +402,8 @@ const BargainingScreen = () => {
                                 </View>
                             </TouchableOpacity>
                             <View>
-                                <Text className="text-[14px] text-[#2e2c43] capitalize">{details.users ? details?.users[0].populatedUser.storeName : ""}</Text>
-                                <Text className="text-[12px] text-[#c4c4c4]">Active 3 hr ago</Text>
+                                <Text className="text-[14px] text-[#2e2c43] capitalize" style={{fontFamily:"Poppins-Regular"}}>{details.users ? details?.users[0].populatedUser.storeName : ""}</Text>
+                                <Text className="text-[12px] text-[#c4c4c4]" style={{fontFamily:"Poppins-Regular"}}>Active 3 hr ago</Text>
                             </View>
 
                         </View>
@@ -411,19 +411,19 @@ const BargainingScreen = () => {
                         <View className="flex-row gap-[6px] items-center mt-[16px]">
                             <View className="flex-row gap-[7px] items-center">
                                 <Contact />
-                                <Text>Contact Details</Text>
+                                <Text style={{fontFamily:"Poppins-Regular"}}>Contact Details</Text>
                             </View>
                             <TouchableOpacity onPress={() => { handleOpenGoogleMaps() }}>
                                 <View className="flex-row gap-[7px] items-center">
                                     <LocationImg />
-                                    <Text>Store Location</Text>
+                                    <Text style={{fontFamily:"Poppins-Regular"}}>Store Location</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
 
                         <View className="flex-row gap-[5px] mt-[15px]">
                             <Tick />
-                            <Text>Home delivery available</Text>
+                            <Text style={{fontFamily:"Poppins-Regular"}}>Home delivery available</Text>
                         </View>
                     </View>
 
@@ -464,28 +464,28 @@ const BargainingScreen = () => {
 
                             <TouchableOpacity onPress={() => { navigation.navigate('send-query', { messages, setMessages }) }}>
                                 <View className="border-2 border-[#fb8c00]  px-[30px] py-[11.5px] w-[max-content] rounded-2xl">
-                                    <Text className="text-[14px] text-[#fb8c00] font-bold ">Send message </Text>
+                                    <Text className="text-[14px] text-[#fb8c00]  " style={{fontFamily:"Poppins-Regular"}}>Send message </Text>
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => { setAttachmentScreen(true) }}>
                                 <View className="border-2 border-[#fb8c00] flex-row w-[max-content] px-[10px] py-[10px] rounded-2xl gap-[5px]">
                                     <Document />
-                                    <Text className="text-[14px] text-[#fb8c00] font-bold ">Send attachment</Text>
+                                    <Text className="text-[14px] text-[#fb8c00] " style={{fontFamily:"Poppins-Regular"}}>Send attachment</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>}
 
                         {((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === 'rejected' && spade?.requestActive === "active") || (spade?.requestActive === "active" && messages[messages?.length - 1]?.bidType === "false")) && <TouchableOpacity onPress={() => { navigation.navigate('send-bid', { messages, setMessages }); dispatch(emtpyRequestImages([])); }}>
                             <View className="w-full h-[68px]  bg-[#fb8c00] justify-center  bottom-0 left-0 right-0">
-                                <Text className="text-white font-bold text-center text-[16px]">Send a new bid</Text>
+                                <Text className="text-white  text-center text-[16px]" style={{fontFamily:"Poppins-Black"}}>Send a new bid</Text>
                             </View>
                         </TouchableOpacity>}
 
                         {((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "new" && messages[messages?.length - 1]?.sender?.type === "Retailer")) && <View className="w-screen flex-col  ">
                             <View>
-                                <Text className="text-center text-[14px] font-semibold">Are you accepting the sellers bid ?</Text>
-                                <Text className="text-center text-[14px]">If you don’t understand the sellers response, </Text>
-                                <Text className="text-center text-[14px] mb-[8px]">select no and send query for clarification</Text>
+                                <Text className="text-center text-[14px] " style={{fontFamily:"Poppins-SemiBold"}}>Are you accepting the sellers bid ?</Text>
+                                <Text className="text-center text-[14px]" style={{fontFamily:"Poppins-Regular"}}>If you don’t understand the sellers response, </Text>
+                                <Text className="text-center text-[14px] mb-[8px] " style={{fontFamily:"Poppins-Regular"}}>select no and send query for clarification</Text>
                             </View>
                             <View className="flex-row">
                                 <View className="w-1/2 flex-row justify-center bg-[#fb8c00]">
@@ -493,7 +493,7 @@ const BargainingScreen = () => {
 
                                     <TouchableOpacity onPress={() => { setModalVisibile(true) }} >
                                         <View className=" py-[10px]  ">
-                                            <Text className="text-[14px] text-white font-bold ">Yes</Text>
+                                            <Text className="text-[14px] text-white " style={{fontFamily:"Poppins-Black"}}>Yes</Text>
                                         </View>
                                     </TouchableOpacity>
                                 </View>
@@ -501,7 +501,7 @@ const BargainingScreen = () => {
                                     <TouchableOpacity onPress={() => { rejectBid() }} >
                                         <View className=" flex-row  py-[10px]  gap-[5px]">
 
-                                            <Text className="text-[14px] text-[#fb8c00] font-bold ">No</Text>
+                                            <Text className="text-[14px] text-[#fb8c00]  " style={{fontFamily:"Poppins-Regular"}}>No</Text>
                                         </View>
                                     </TouchableOpacity>
                                 </View>
