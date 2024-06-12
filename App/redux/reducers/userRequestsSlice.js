@@ -5,8 +5,10 @@ const initialState = {
     requestCategory: null,
     requestImages: [],
     expectedPrice: 0,
+    spadePrice: 20,
     createdRequest: [],
     history: [],
+
 };
 
 const userRequestDataSlice = createSlice({
@@ -34,10 +36,13 @@ const userRequestDataSlice = createSlice({
         },
         emtpyRequestImages: (state, action) => {
             state.requestImages = [];
-        }
+        },
+        setSpadePrice: (state, action) => {
+            state.requestPrice = action.payload;
+        },
 
     },
 });
 
-export const { setRequestDetail, setRequestCategory, setRequestImages, setExpectedPrice, setCreatedRequest, setHistory, emtpyRequestImages } = userRequestDataSlice.actions;
+export const { setRequestDetail, setRequestCategory, setRequestImages, setExpectedPrice, setCreatedRequest, setHistory, emtpyRequestImages, setSpadePrice } = userRequestDataSlice.actions;
 export default userRequestDataSlice.reducer;

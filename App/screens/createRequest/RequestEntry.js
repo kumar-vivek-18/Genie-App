@@ -22,7 +22,7 @@ const RequestEntry = () => {
             <View style={{ flex: 1 }}>
 
                 <View className=" w-full flex flex-row px-[29px]  justify-between absolute  top-[60px]">
-                    <Pressable onPress={() => { navigation.goBack(); }} className="p-2">
+                    <Pressable onPress={() => { navigation.navigate('home') }} className="p-2">
                         <BackArrow width={14} height={10} />
 
                     </Pressable>
@@ -66,32 +66,32 @@ const RequestEntry = () => {
                         </View>
                     </TouchableOpacity>
                 </View> */}
-             
-        <TouchableOpacity
-          disabled={!query}
-          onPress={() => { dispatch(setRequestDetail(query)); console.log(requestDetail); navigation.navigate('requestcategory'); }}
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: 68,
-            width: "100%",
-            backgroundColor: !query ? "#e6e6e6" : "#FB8C00",
-            justifyContent: "center", // Center content vertically
-            alignItems: "center", // Center content horizontally
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 18,
-              fontWeight: "bold",
-              color: !query  ? "#888888" : "white",
-            }}
-          >
-            NEXT
-          </Text>
-        </TouchableOpacity>
+
+                <TouchableOpacity
+                    disabled={!query}
+                    onPress={() => { dispatch(setRequestDetail(query)); console.log(requestDetail); navigation.navigate('requestcategory'); }}
+                    style={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: 68,
+                        width: "100%",
+                        backgroundColor: !query ? "#e6e6e6" : "#FB8C00",
+                        justifyContent: "center", // Center content vertically
+                        alignItems: "center", // Center content horizontally
+                    }}
+                >
+                    <Text
+                        style={{
+                            fontSize: 18,
+                            fontWeight: "bold",
+                            color: !query ? "#888888" : "white",
+                        }}
+                    >
+                        NEXT
+                    </Text>
+                </TouchableOpacity>
 
 
             </View>

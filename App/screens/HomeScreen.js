@@ -64,13 +64,15 @@ const HomeScreen = () => {
     navigationState.routes[navigationState.index].name === "home";
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollViewRef = useRef(null);
-  const [isLoading,setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleScroll = (event) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x;
     const index = Math.floor(contentOffsetX / width);
     setCurrentIndex(index);
   };
+
+  // console.log("userDetails", userDetails);
 
   useEffect(() => {
     const backAction = () => {
@@ -170,18 +172,27 @@ const HomeScreen = () => {
         "userDetails",
         JSON.stringify(updatedUserData)
       );
-      
+
     } catch (error) {
       console.error("Error updating location:", error);
-    }finally{
+    } finally {
       setIsLoading(false);
     }
   };
 
+  const handleSpadeCreation = async () => {
+    if (userDetails.lastPaymentStatus === "unpaid") {
+      navigation.navigate('payment-gateway');
+    }
+    else {
+      navigation.navigate("requestentry");
+    }
+  }
+
   const { width } = Dimensions.get('window');
   // console.log('userData', userDetails);
   return (
-    <View style={{ flex: 1 ,backgroundColor:"white"}}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView style={{ flex: 1 }} className="relative">
         {/* <Image source={require('../assets/HomImg.png')} className="w-full object-cover " /> */}
         {/* <HomeImage /> */}
@@ -231,13 +242,13 @@ const HomeScreen = () => {
             }}
           >
             <View>
-            {isLoading ? (
-          <ActivityIndicator size="small" color="#fb8c00" />
-        ) : (
-          <Text className="text-[14px] font-extrabold text-[#fb8c00]">
-            Refresh
-          </Text>
-        )}
+              {isLoading ? (
+                <ActivityIndicator size="small" color="#fb8c00" />
+              ) : (
+                <Text className="text-[14px] font-extrabold text-[#fb8c00]">
+                  Refresh
+                </Text>
+              )}
             </View>
           </TouchableOpacity>
         </View>
@@ -253,7 +264,8 @@ const HomeScreen = () => {
 
           <Pressable
             onPress={() => {
-              navigation.navigate("requestentry");
+
+              handleSpadeCreation();
             }}
             className="mx-[16px] mt-[16px]"
           >
@@ -272,17 +284,17 @@ const HomeScreen = () => {
                 How it works?
               </Text>
               <View className=" flex flex-col gap-[38px] mt-[24px]">
-                <HomeMain width={width}/>
+                <HomeMain width={width} />
                 <Text className="text-[#3f3d56] text-[14px] font-bold text-center px-[32px]">
-                Bargaining is the consumer's right Because money doesn't grow on trees. 
+                  Bargaining is the consumer's right Because money doesn't grow on trees.
                 </Text>
               </View>
               <View className="px-[38px] flex flex-col gap-[38px] mt-[40px]">
                 <Text className="text-[#3f3d56] text-[14px] text-center">
-                Now bargaining is possible from your couch. Do you want anything new or to repair the old one? 
+                  Now bargaining is possible from your couch. Do you want anything new or to repair the old one?
                 </Text>
                 <Text className="text-[#3f3d56] text-[14px] text-center">
-                Connect with nearby retailers and bargain for the best prices for your shopping list items. You can also avail of all types of maintenance services here,  like plumber, electrician, carpenter & lot more.
+                  Connect with nearby retailers and bargain for the best prices for your shopping list items. You can also avail of all types of maintenance services here,  like plumber, electrician, carpenter & lot more.
                 </Text>
               </View>
               <View style={styles.scrollcontainer}>

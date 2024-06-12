@@ -18,7 +18,7 @@ import {
   setCreatedRequest,
   setRequestImages,
 } from "../../redux/reducers/userRequestsSlice";
-import { setSpades } from "../../redux/reducers/userDataSlice";
+import { setSpades, setUserDetails } from "../../redux/reducers/userDataSlice";
 import { formatDateTime } from "../../utils/logics/Logics";
 import { NewRequestCreated } from "../../notification/notificationMessages";
 import BackArrow from "../../assets/BackArrowImg.svg";
@@ -36,6 +36,7 @@ const RequestPreviewScreen = () => {
   );
   const requestImages = useSelector((store) => store.userRequest.requestImages);
   const expectedPrice = useSelector((store) => store.userRequest.expectedPrice);
+  const spadePrice = useSelector((store) => store.userRequest.spadePrice);
   const spades = useSelector((store) => store.user.spades);
   const dispatch = useDispatch();
   // console.log('userData', userDetails);
@@ -60,9 +61,10 @@ const RequestPreviewScreen = () => {
       requestDetail,
       requestCategory,
       requestImages,
-      expectedPrice
+      expectedPrice,
+      spadePrice
     );
-   setLoading(true);
+    setLoading(true);
     try {
       const response = await axios.post(
         "http://173.212.193.109:5000/user/createrequest",
@@ -72,6 +74,7 @@ const RequestPreviewScreen = () => {
           requestCategory: requestCategory,
           requestImages: requestImages,
           expectedPrice: expectedPrice,
+          lastSpadePrice: spadePrice
         }
       );
 
@@ -83,12 +86,14 @@ const RequestPreviewScreen = () => {
         const dateTime = formatDateTime(res.updatedAt);
         res.createdAt = dateTime.formattedTime;
         res.updatedAt = dateTime.formattedDate;
-        dispatch(setSpades([...spades, res]));
+        dispatch(setSpades([res, ...spades]));
         setIsVisible(true);
         setTimeout(() => {
           setIsVisible(false);
           navigation.navigate("home");
         }, 3000);
+        dispatch(setUserDetails(res.data.userDetails));
+        await AsyncStorage.setItem('userDetails', JSON.stringify(res.data.userDetails));
 
         const notification = {
           token: response.data.uniqueTokens,
@@ -96,6 +101,7 @@ const RequestPreviewScreen = () => {
           body: requestDetail,
           image: requestImages.length > 0 ? requestImages[0] : "",
         };
+
         await NewRequestCreated(notification);
         dispatch(emtpyRequestImages());
       } else {
@@ -105,8 +111,8 @@ const RequestPreviewScreen = () => {
     } catch (error) {
       dispatch(emtpyRequestImages());
       console.error("Error while creating request", error.message);
-    }finally{
-        setLoading(false);
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -29,9 +29,10 @@ const ProfileScreen = () => {
             _id: userDetails._id,
             updateData: { email: email }
         })
-            .then(res => {
+            .then(async (res) => {
                 console.log('Email updated Successfully');
                 dispatch(setUserDetails(res.data));
+                await AsyncStorage.setItem('userDetails', JSON.stringify(res.data));
                 setEditEmail(false);
             })
             .catch(err => {
@@ -47,9 +48,10 @@ const ProfileScreen = () => {
             _id: userDetails._id,
             updateData: { userName: userName }
         })
-            .then(res => {
+            .then(async (res) => {
                 console.log('UserName updated Successfully');
                 dispatch(setUserDetails(res.data));
+                await AsyncStorage.setItem('userDetails', JSON.stringify(res.data));
                 setEditUser(false);
             })
             .catch(err => {
@@ -67,7 +69,8 @@ const ProfileScreen = () => {
             .then(async (res) => {
                 console.log('UserName updated Successfully');
                 dispatch(setUserDetails(res.data));
-                await AsyncStorage.setItem('userData', JSON.stringify(res.data));
+
+                await AsyncStorage.setItem('userDetails', JSON.stringify(res.data));
 
                 setEditUser(false);
                 console.log('updated pic', res.data);

@@ -33,7 +33,7 @@ const GlobalNavigation = () => {
 
     return (
 
-        <Stack.Navigator initialRouteName="payment-gateway"
+        <Stack.Navigator initialRouteName="splash"
             screenOptions={{
                 headerShown: false,
                 animation: "slide_from_right",
