@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import ArrowLeft from '../../assets/arrow-left.svg';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { setExpectedPrice } from '../../redux/reducers/userRequestsSlice';
+import { setExpectedPrice, setSpadeCouponCode, setSpadePrice } from '../../redux/reducers/userRequestsSlice';
 import BackArrow from "../../assets/BackArrowImg.svg";
 import axios from 'axios';
 
@@ -21,17 +21,27 @@ const ExpectedPriceScreen = () => {
     const expectedPrice = useSelector(store => store.userRequest.expectedPrice);
     const spadePrice = useSelector(store => store.userRequest.spadePrice);
     const [couponCode, setCouponCode] = useState("");
+    const [verifiedCouponCode, setVerifiedCouponCode] = useState(false);
 
     const VerifyCoupon = async () => {
+        console.log("Adding coupon");
         try {
-            axios.get('https://genie-backend-meg1.onrender.com/coupon/verify-coupon', {
+            await axios.get('https://genie-backend-meg1.onrender.com/coupon/verify-coupon', {
                 params: {
                     couponCode: couponCode
                 }
             })
+                .then(res => {
+                    console.log('res', res.data);
+                    if (res.data.message === "Coupon code is valid") {
+                        setVerifiedCouponCode(true);
+                        dispatch(setSpadePrice(10));
+                        dispatch(setSpadeCouponCode(couponCode));
+                    }
+                })
 
         } catch (error) {
-
+            console.log("Error while updating coupon code", error);
         }
     }
 
@@ -73,22 +83,27 @@ const ExpectedPriceScreen = () => {
                 <Text className="text-[14px] font-extrabold text-[#2e2c43] mx-[6px] mt-[40px]">Apply Coupon </Text>
                 <TextInput
                     placeholder='Type here...'
-                    // value={price}
-                    // onChangeText={(val) => {
-                    //     // setPrice(val);
-                    //     // dispatch(setExpectedPrice(parseInt(price)));
-                    //     console.log(expectedPrice);
-                    // }}
-                    keyboardType="numeric"
+                    value={couponCode}
+                    onChangeText={(val) => {
+                        // setPrice(val);
+                        // dispatch(setExpectedPrice(parseInt(price)));
+                        setCouponCode(val);
+                        console.log(couponCode);
+                        // console.log(expectedPrice);
+                    }}
+                    // keyboardType="numeric"
                     placeholderTextColor={"#558b2f"}
                     className="text-[14px] text-center bg-[#F9F9F9] font-extrabold text-[#2e2c43]  mt-[10px]  rounded-3xl h-[54px] py-[10px] "
 
                 />
-                <TouchableOpacity>
+                {!verifiedCouponCode && <TouchableOpacity onPress={() => { VerifyCoupon() }}>
                     <View className="w-full flex items-center justify-center border-2 border-[#fb8c00] py-[16px] mt-[40px]">
                         <Text className="text-[14px] font-bold text-[#fb8c00] ">Apply Coupon </Text>
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity>}
+                {verifiedCouponCode && <View className="w-full flex items-center justify-center border-2 border-[#fb8c00] py-[16px] mt-[40px]">
+                    <Text className="text-[14px] font-bold text-[#fb8c00] ">Coupon Added Successfully </Text>
+                </View>}
                 <Text className="text-[14px] text-[#2e2c43] mt-[20px]">If you have any coupon code available, you can type the code here to avail the offer</Text>
             </View>
 

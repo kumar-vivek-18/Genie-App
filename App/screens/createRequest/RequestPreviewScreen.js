@@ -24,6 +24,7 @@ import { NewRequestCreated } from "../../notification/notificationMessages";
 import BackArrow from "../../assets/BackArrowImg.svg";
 import { ActivityIndicator } from "react-native";
 import SuccessPopup from "../components/SuccessPopup";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const RequestPreviewScreen = () => {
   const route = useRoute();
@@ -37,11 +38,15 @@ const RequestPreviewScreen = () => {
   const requestImages = useSelector((store) => store.userRequest.requestImages);
   const expectedPrice = useSelector((store) => store.userRequest.expectedPrice);
   const spadePrice = useSelector((store) => store.userRequest.spadePrice);
+  const spadeCouponCode = useSelector(store => store.userRequest.spadeCouponCode);
   const spades = useSelector((store) => store.user.spades);
   const dispatch = useDispatch();
   // console.log('userData', userDetails);
   const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+
+  console.log("spadePride", spadePrice);
+  console.log('coupon', spadeCouponCode);
 
   // const { imagesLocal } = route.params
 
@@ -67,7 +72,7 @@ const RequestPreviewScreen = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://173.212.193.109:5000/user/createrequest",
+        "https://genie-backend-meg1.onrender.com/user/createrequest",
         {
           customerID: userDetails._id,
           request: requestDetail,
@@ -81,7 +86,10 @@ const RequestPreviewScreen = () => {
       console.log("created request data", response.data);
 
       if (response.status === 201) {
-        // dispatch(setCreatedRequest(response.data));
+
+        dispatch(setUserDetails(response.data.userDetails));
+        await AsyncStorage.setItem('userDetails', JSON.stringify(response.data.userDetails));
+
         let res = response.data.userRequest;
         const dateTime = formatDateTime(res.updatedAt);
         res.createdAt = dateTime.formattedTime;
@@ -92,8 +100,9 @@ const RequestPreviewScreen = () => {
           setIsVisible(false);
           navigation.navigate("home");
         }, 3000);
-        dispatch(setUserDetails(res.data.userDetails));
-        await AsyncStorage.setItem('userDetails', JSON.stringify(res.data.userDetails));
+        dispatch(setCreatedRequest(res));
+
+
 
         const notification = {
           token: response.data.uniqueTokens,
@@ -172,14 +181,14 @@ const RequestPreviewScreen = () => {
             Applied Coupon
           </Text>
           <Text className="text-[18px] font-extrabold text-[#558b2f] pb-[20px] border-b-[1px] border-[#dcdbdb]">
-            Na
+            {spadeCouponCode}
           </Text>
 
           <Text className="font-bold text-[14px] text-[#2e2c43] mb-[6px] mt-[20px] ">
             Cost for this request
           </Text>
           <Text className="text-[18px] font-extrabold text-[#558b2f] pb-[20px]">
-            20 Rs
+            {spadePrice} Rs
           </Text>
         </View>
         {isVisible && (
