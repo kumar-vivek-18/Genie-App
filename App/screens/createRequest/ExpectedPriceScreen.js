@@ -6,6 +6,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { setExpectedPrice } from '../../redux/reducers/userRequestsSlice';
 import BackArrow from "../../assets/BackArrowImg.svg";
+import axios from 'axios';
 
 
 const ExpectedPriceScreen = () => {
@@ -18,6 +19,21 @@ const ExpectedPriceScreen = () => {
     const [price, setPrice] = useState("");
     const navigation = useNavigation();
     const expectedPrice = useSelector(store => store.userRequest.expectedPrice);
+    const spadePrice = useSelector(store => store.userRequest.spadePrice);
+    const [couponCode, setCouponCode] = useState("");
+
+    const VerifyCoupon = async () => {
+        try {
+            axios.get('https://genie-backend-meg1.onrender.com/coupon/verify-coupon', {
+                params: {
+                    couponCode: couponCode
+                }
+            })
+
+        } catch (error) {
+
+        }
+    }
 
     return (
         <View style={{ flex: 1 }}>
