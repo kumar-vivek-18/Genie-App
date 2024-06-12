@@ -13,6 +13,7 @@ const UserNameEntryScreen = () => {
     const [name, setNameLocal] = useState("");
     const dispatch = useDispatch();
     const userToken = useSelector(store => store.user.uniqueToken);
+
     const mobileNumber = useSelector(state => state.user.mobileNumber);
     console.log("userToken", userToken)
     const { width } = Dimensions.get("window");
@@ -65,25 +66,32 @@ const UserNameEntryScreen = () => {
             console.log("User data sent to", mobileNumber, name);
             const response = await axios.post('http://173.212.193.109:5000/user/', {
                 mobileNo: mobileNumber,
-                userName: name
+                userName: name,
+                
             });
-            console.log("res", response);
+            console.log("res", response.data);
 
             // Check if user creation was successful
 
             if (response.status === 201) {
                 // Dispatch the action to store pan card locally
                 //  dispatch(setPanCard(panCard));
+                
                 console.log("User created:", response.data);
-                dispatch(setUserDetails(response.data));
+               
                 //  console.log("user",user);
                 await AsyncStorage.setItem('userDetails', JSON.stringify(response.data));
                 await axios.patch('http://173.212.193.109:5000/user/edit-profile', {
                     _id: response.data._id,
                     updateData: { uniqueToken: userToken }
                 })
-                    .then(res => {
+                    .then(async(res) => {
                         console.log('UserName updated Successfully');
+                        await AsyncStorage.setItem(
+                            "userDetails",
+                            JSON.stringify(res.data)
+                          );
+                          dispatch(setUserDetails(res.data));
                     })
                     .catch(err => {
                         console.error('Error updating token: ' + err.message);
