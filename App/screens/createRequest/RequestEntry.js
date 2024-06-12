@@ -22,7 +22,7 @@ const RequestEntry = () => {
             <View style={{ flex: 1 }}>
 
                 <View className=" w-full flex flex-row px-[29px]  justify-between absolute  top-[60px]">
-                    <Pressable onPress={() => { navigation.navigate('home') }} className="p-2">
+                    <Pressable onPress={() => { navigation.goBack() }} className="p-2">
                         <BackArrow width={14} height={10} />
 
                     </Pressable>

@@ -182,7 +182,7 @@ const PaymentScreen = () => {
                 dispatch(setUserDetails(res.data));
                 console.log('res after user update', res.data);
                 await AsyncStorage.setItem('userDetails', JSON.stringify(res.data));
-                navigation.navigate('requestentry');
+                navigation.navigate('home');
             })
             .catch(err => {
                 console.error("error while updating profile", err.message);
