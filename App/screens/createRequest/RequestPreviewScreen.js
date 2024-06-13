@@ -45,8 +45,8 @@ const RequestPreviewScreen = () => {
   const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
-  console.log("spadePride", spadePrice);
-  console.log('coupon', spadeCouponCode);
+  // console.log("spadePride", spadePrice);
+  // console.log('coupon', spadeCouponCode);
 
   // const { imagesLocal } = route.params
 
@@ -83,7 +83,7 @@ const RequestPreviewScreen = () => {
         }
       );
 
-      console.log("created request data", response.data);
+      // console.log("created request data", response.data);
 
       if (response.status === 201) {
 
@@ -100,8 +100,7 @@ const RequestPreviewScreen = () => {
           setIsVisible(false);
           navigation.navigate("home");
         }, 3000);
-        dispatch(setCreatedRequest(res));
-
+        // dispatch(setCreatedRequest(res));
 
 
         const notification = {
@@ -112,7 +111,9 @@ const RequestPreviewScreen = () => {
         };
 
         await NewRequestCreated(notification);
+
         dispatch(emtpyRequestImages());
+
       } else {
         dispatch(emtpyRequestImages());
         console.error("Error while creating request");
