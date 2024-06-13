@@ -25,7 +25,7 @@ export async function notificationListeners() {
 
 
     messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-        console.log('Message handled in the background!', remoteMessage);
+        // console.log('Message handled in the background!', remoteMessage);
 
         if (!!remoteMessage?.data && remoteMessage?.data?.redirect_to) {
             setTimeout(() => {
@@ -37,6 +37,7 @@ export async function notificationListeners() {
 
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
         Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+        console.log("FCM message", remoteMessage.data);
         // handleNotification(remoteMessage);
     });
 

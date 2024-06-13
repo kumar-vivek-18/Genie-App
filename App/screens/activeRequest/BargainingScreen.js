@@ -113,8 +113,11 @@ const BargainingScreen = () => {
         // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
         // console.log('scoket', socket);
         socket.emit("setup", id);
-        socket.on('connected', () => setSocketConnected(true));
-        console.log('socekt connect with id', id);
+        socket.on('connected', () => {
+            setSocketConnected(true);
+            console.log('socekt connect with id', id);
+        });
+
     }
 
     useEffect(() => {
@@ -290,7 +293,7 @@ const BargainingScreen = () => {
 
                 if (prevMessages[prevMessages.length - 1]?.chat?._id === newMessageReceived?.chat?._id) {
                     //updating retailers latest message
-                    const updateChat = { ...currentSpadeRetailer, unreadMessages: 0, latestMessage: { _id: newMessageReceived._id, message: newMessageReceived.message } };
+                    const updateChat = { ...currentSpadeRetailer, unreadCount: 0, latestMessage: { _id: newMessageReceived._id, message: newMessageReceived.message } };
                     const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
                     dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
                     dispatch(setCurrentSpadeRetailer(updateChat));

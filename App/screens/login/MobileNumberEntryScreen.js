@@ -229,10 +229,10 @@ const MobileNumberEntryScreen = () => {
               <View
                 style={{ flex: 1, backgroundColor: "white", paddingBottom: 30 }}
               >
-                <View className="flex flex-row gap-[8px] pt-[32px] px-[32px]">
-                  <Text className="h-[7px] w-[30px] border-[1px] border-[#fb8c00] bg-[#fb8c00] rounded-md"></Text>
-                  <Text className="h-[7px] w-[30px] border-[1px] border-black rounded-md"></Text>
-                  <Text className="h-[7px] w-[30px] border-[1px] border-black rounded-md"></Text>
+                <View className="flex flex-row gap-2 pt-[30px] px-[32px] ">
+                  <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
+                  <View className="w-[32px] h-[9px] border-[1px]  rounded-lg"></View>
+                  <View className="w-[32px] h-[9px] border-[1px] border-black rounded-lg"></View>
                 </View>
                 <View className="mt-[20px] px-[32px]">
                   <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>

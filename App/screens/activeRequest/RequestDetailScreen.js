@@ -122,15 +122,19 @@ const RequestDetail = () => {
                 //         user._id === updatedUser._id ? updatedUser : user
                 //     );
                 // }));
-                const tmp = { ...currentSpade, requestActive: "completed", requestAcceptedChat: updatedUser._id };
-                dispatch(setCurrentSpade(tmp));
-                let allSpades = [...spades];
-                allSpades.map((curr, index) => {
-                    if (curr._id === tmp._id) {
-                        allSpades[index] = tmp;
-                    }
-                })
-                dispatch(setSpades(allSpades));
+                if (updatedUser.latestMessage.bidType === "true" && updatedUser.latestMessage.bidAccepted === "accepted") {
+                    const tmp = { ...currentSpade, requestActive: "completed", requestAcceptedChat: updatedUser._id };
+                    dispatch(setCurrentSpade(tmp));
+                    let allSpades = [...spades];
+                    allSpades.map((curr, index) => {
+                        if (curr._id === tmp._id) {
+                            allSpades[index] = tmp;
+                        }
+                    })
+                    dispatch(setSpades(allSpades));
+                }
+
+
                 const retailers = currentSpadeRetailers.filter(c => c._id !== updatedUser._id);
 
                 dispatch(setCurrentSpadeRetailers([updatedUser, ...retailers]));
