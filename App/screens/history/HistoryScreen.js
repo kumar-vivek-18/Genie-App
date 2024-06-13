@@ -34,7 +34,7 @@ const HistoryScreen = () => {
     //     const fetchHistory = async () => {
     //         try {
     //             console.log('historyId', userDetails._id);
-    //             const historys = await axios.get('http://173.212.193.109:5000/user/history', {
+    //             const historys = await axios.get('https://culturtap.com/api/user/history', {
     //                 params: {
     //                     id: userDetails._id,
     //                 }
@@ -63,7 +63,7 @@ const HistoryScreen = () => {
 
         try {
             // console.log('userHomeScreem', userDetails);
-            const response = await axios.get('http://173.212.193.109:5000/user/history', {
+            const response = await axios.get('https://culturtap.com/api/user/history', {
                 params: {
                     id: userDetails._id,
                 }
@@ -114,8 +114,8 @@ const HistoryScreen = () => {
 
 
 
-                    <Text className="text-center pt-[20px] text-[16px]  " style={{fontFamily:"Poppins-Bold"}}>History</Text>
-                    <Text className="text-center text-[14px] mb-[28px]" style={{fontFamily:"Poppins-Regular"}}>Closed Requests</Text>
+                    <Text className="text-center pt-[20px] text-[16px]  " style={{ fontFamily: "Poppins-Bold" }}>History</Text>
+                    <Text className="text-center text-[14px] mb-[28px]" style={{ fontFamily: "Poppins-Regular" }}>Closed Requests</Text>
                     {/* {
                         history.map((data, index) => (
                             <View key={index} className="flex-row items-center mx-[9px] bg-white gap-[15px] h-[153px] rounded-3xl shadow-3xl">
@@ -227,7 +227,7 @@ const styles = {
     description: {
         fontSize: 14,
         width: '83.33%',
-        fontFamily:"Poppins-Regular" // 10/12 in tailwind is 83.33%
+        fontFamily: "Poppins-Regular" // 10/12 in tailwind is 83.33%
     },
     priceRow: {
         flexDirection: 'row',
@@ -236,7 +236,7 @@ const styles = {
     },
     priceText: {
         fontSize: 12,
-        fontFamily:"Poppins-Medium"
+        fontFamily: "Poppins-Medium"
     },
     priceValue: {
         fontSize: 12,
@@ -253,7 +253,7 @@ const styles = {
     },
     infoText: {
         fontSize: 12,
-        fontFamily:"Poppins-Regular"
+        fontFamily: "Poppins-Regular"
     },
 };
 

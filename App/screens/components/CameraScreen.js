@@ -32,13 +32,13 @@ const CameraScreen = () => {
 
     const sendAttachment = async () => {
 
-        const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
+        const token = await axios.get('https://culturtap.com/api/retailer/unique-token', {
             params: {
                 id: details.retailerId._id,
             }
         });
 
-        await axios.post('http://173.212.193.109:5000/chat/send-message', {
+        await axios.post('https://culturtap.com/api/chat/send-message', {
             sender: {
                 type: 'UserRequest',
                 refId: details.requestId,
@@ -250,7 +250,7 @@ const CameraScreen = () => {
                         />
                     </KeyboardAvoidingView>
                     <View className=" flex-row justify-between items-center mx-[25px] pb-[10px]">
-                        <Text className="text-white pl-[40px] capitalize" style={{fontFamily:"Poppins-SemiBold"}}>{details.users[0].populatedUser.storeName}</Text>
+                        <Text className="text-white pl-[40px] capitalize" style={{ fontFamily: "Poppins-SemiBold" }}>{details.users[0].populatedUser.storeName}</Text>
                         <TouchableOpacity onPress={() => { sendAttachment() }}>
                             <Send />
                         </TouchableOpacity>

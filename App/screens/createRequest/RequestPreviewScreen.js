@@ -72,7 +72,7 @@ const RequestPreviewScreen = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "https://genie-backend-meg1.onrender.com/user/createrequest",
+        "https://culturtap.com/api/user/createrequest",
         {
           customerID: userDetails._id,
           request: requestDetail,
@@ -132,21 +132,21 @@ const RequestPreviewScreen = () => {
           <Pressable onPress={() => navigation.goBack()} className="">
             <BackArrow />
           </Pressable>
-          <Text className="flex flex-1 justify-center items-center text-center text-[16px] " style={{fontFamily:"Poppins-Bold"}}>
+          <Text className="flex flex-1 justify-center items-center text-center text-[16px] " style={{ fontFamily: "Poppins-Bold" }}>
             Request Preview
           </Text>
         </View>
         <View className="px-[32px]">
-          <Text className="text-[14px]  text-[#2e2c43]" style={{fontFamily:"Poppins-Black"}}>
+          <Text className="text-[14px]  text-[#2e2c43]" style={{ fontFamily: "Poppins-Black" }}>
             Splades of master
           </Text>
-          <Text className="text-[14px] text-[#2e2c43] w-4/5 mt-[5px]" style={{fontFamily:"Poppins-Regular"}}>
+          <Text className="text-[14px] text-[#2e2c43] w-4/5 mt-[5px]" style={{ fontFamily: "Poppins-Regular" }}>
             {requestDetail}
           </Text>
         </View>
 
         <View className="px-[32px] mt-[36px]">
-          <Text className="text-[14px]  text-[#2e2c43]" style={{fontFamily:"Poppins-Black"}}>
+          <Text className="text-[14px]  text-[#2e2c43]" style={{ fontFamily: "Poppins-Black" }}>
             Reference Images for sellers
           </Text>
           <ScrollView
@@ -171,23 +171,23 @@ const RequestPreviewScreen = () => {
           </ScrollView>
         </View>
         <View className="mx-[32px] mt-[50px] ">
-          <Text className=" text-[14px]  text-[#2e2c43]   mb-[6px]" style={{fontFamily:"Poppins-Bold"}}>
+          <Text className=" text-[14px]  text-[#2e2c43]   mb-[6px]" style={{ fontFamily: "Poppins-Bold" }}>
             Your expected price
           </Text>
-          <Text className="text-[24px] text-[#558b2f] mb-[10px]" style={{fontFamily:"Poppins-ExtraBold"}}>
+          <Text className="text-[24px] text-[#558b2f] mb-[10px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
             {expectedPrice} Rs
           </Text>
-          <Text className=" text-[14px] text-[#2e2c43] mb-[6px] " style={{fontFamily:"Poppins-Bold"}}>
+          <Text className=" text-[14px] text-[#2e2c43] mb-[6px] " style={{ fontFamily: "Poppins-Bold" }}>
             Applied Coupon
           </Text>
-          <Text className="text-[18px]  text-[#558b2f] pb-[20px] border-b-[1px] border-[#dcdbdb]" style={{fontFamily:"Poppins-ExtraBold"}}>
+          <Text className="text-[18px]  text-[#558b2f] pb-[20px] border-b-[1px] border-[#dcdbdb]" style={{ fontFamily: "Poppins-ExtraBold" }}>
             {spadeCouponCode}
           </Text>
 
-          <Text className=" text-[14px] text-[#2e2c43] mb-[6px] mt-[20px] " style={{fontFamily:"Poppins-Bold"}}>
+          <Text className=" text-[14px] text-[#2e2c43] mb-[6px] mt-[20px] " style={{ fontFamily: "Poppins-Bold" }}>
             Cost for this request
           </Text>
-          <Text className="text-[18px]  text-[#558b2f] pb-[20px]" style={{fontFamily:"Poppins-ExtraBold"}}>
+          <Text className="text-[18px]  text-[#558b2f] pb-[20px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
             {spadePrice} Rs
           </Text>
         </View>
@@ -204,7 +204,7 @@ const RequestPreviewScreen = () => {
               {loading ? (
                 <ActivityIndicator size="small" color="#ffffff" />
               ) : (
-                <Text className="text-white text-[18px] " style={{fontFamily:"Poppins-Black"}}>
+                <Text className="text-white text-[18px] " style={{ fontFamily: "Poppins-Black" }}>
                   Confirm Request
                 </Text>
               )}

@@ -44,7 +44,7 @@ const ProfileScreen = () => {
     if (email.length < 7) return;
     setLoading(true);
     await axios
-      .patch("http://173.212.193.109:5000/user/edit-profile", {
+      .patch("https://culturtap.com/api/user/edit-profile", {
         _id: userDetails._id,
         updateData: { email: email },
       })
@@ -66,7 +66,7 @@ const ProfileScreen = () => {
     if (userName.length < 3) return;
     setIsLoading(true);
     await axios
-      .patch("http://173.212.193.109:5000/user/edit-profile", {
+      .patch("https://culturtap.com/api/user/edit-profile", {
         _id: userDetails._id,
         updateData: { userName: userName },
       })
@@ -87,7 +87,7 @@ const ProfileScreen = () => {
     console.log("image uri", image);
     if (!image) return;
     await axios
-      .patch("http://173.212.193.109:5000/user/edit-profile", {
+      .patch("https://culturtap.com/api/user/edit-profile", {
         _id: userDetails._id,
         updateData: { pic: image },
       })
@@ -173,223 +173,222 @@ const ProfileScreen = () => {
   };
 
   return (
-    
+
     <SafeAreaView style={{ flex: 1 }} className="relative">
-        <ScrollView >
-      <View className="mt-[42px]">
-        <Text
-          className="text-center text-[16px]"
-          style={{ fontFamily: "Poppins-Bold" }}
-        >
-          Profile
-        </Text>
-      </View>
+      <ScrollView >
+        <View className="mt-[42px]">
+          <Text
+            className="text-center text-[16px]"
+            style={{ fontFamily: "Poppins-Bold" }}
+          >
+            Profile
+          </Text>
+        </View>
 
-      <View className="absolute top-[42px] right-[30px]">
-        <Pressable
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          <Image source={require("../../assets/cross.png")} />
-        </Pressable>
-      </View>
-
-      <View className="flex items-center mt-[57px] relative">
-        <View>
-          {/* <Image source={require('../../assets/ProfileImg.png')} className="w-[132px] h-[132px] " /> */}
-          <Image
-            source={{ uri: userDetails.pic }}
-            className="w-[130px] h-[130px] rounded-full"
-          />
-          <TouchableOpacity
+        <View className="absolute top-[42px] right-[30px]">
+          <Pressable
             onPress={() => {
-              takePicture();
+              navigation.goBack();
             }}
           >
-            <View className="absolute right-[2px] bottom-[7px] w-[36px] h-[36px] bg-[#fb8c00] flex justify-center items-center rounded-full">
-              <Image
-                source={require("../../assets/cameraIcon.png")}
-                className="w-[20px] h-[18px] "
-              />
-            </View>
-          </TouchableOpacity>
+            <Image source={require("../../assets/cross.png")} />
+          </Pressable>
         </View>
-      </View>
 
-      <View className="flex-row gap-[28px] justify-center items-center mt-[6px]">
-        {editUser && (
-          <View className="relative">
-            <TextInput
-              placeholder={
-                userDetails.email.length > 0
-                  ? userDetails.userName
-                  : "username..."
-              }
-              onChangeText={(val) => {
-                setUserName(val);
-                console.log("userName", userName);
-              }}
-              value={userName}
-              className=" border-[#2e2c43] w-[max-content]  rounded  text-center text-[16px]  opacity-50 min-w-[150px]"
-              style={{ fontFamily: "Poppins-Black" }}
+        <View className="flex items-center mt-[57px] relative">
+          <View>
+            {/* <Image source={require('../../assets/ProfileImg.png')} className="w-[132px] h-[132px] " /> */}
+            <Image
+              source={{ uri: userDetails.pic }}
+              className="w-[130px] h-[130px] rounded-full"
             />
-            
             <TouchableOpacity
               onPress={() => {
-                handeEditUserName();
+                takePicture();
               }}
             >
+              <View className="absolute right-[2px] bottom-[7px] w-[36px] h-[36px] bg-[#fb8c00] flex justify-center items-center rounded-full">
+                <Image
+                  source={require("../../assets/cameraIcon.png")}
+                  className="w-[20px] h-[18px] "
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View className="flex-row gap-[28px] justify-center items-center mt-[6px]">
+          {editUser && (
+            <View className="relative">
+              <TextInput
+                placeholder={
+                  userDetails.email.length > 0
+                    ? userDetails.userName
+                    : "username..."
+                }
+                onChangeText={(val) => {
+                  setUserName(val);
+                  console.log("userName", userName);
+                }}
+                value={userName}
+                className=" border-[#2e2c43] w-[max-content]  rounded  text-center text-[16px]  opacity-50 min-w-[150px]"
+                style={{ fontFamily: "Poppins-Black" }}
+              />
+
+              <TouchableOpacity
+                onPress={() => {
+                  handeEditUserName();
+                }}
+              >
                 {isLoading ? (
-              <View className="absolute -right-20 -top-10 px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl ">
-                <ActivityIndicator size="small" color="#ffffff" />
-              </View>
-            ) :(
-              <View className="absolute -right-20 -top-10 px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl ">
-                <Text
-                  className="text-white font-semibold"
-                  style={{ fontFamily: "Poppins-SemiBold" }}
-                >
-                  save
-                </Text>
-              </View>)
-}
-            </TouchableOpacity>
-            
-            
-          </View>
-        )}
-        {!editUser && (
-          <View className="relative mt-[6px] flex-row items-center justify-center">
-            <Text
-              className=" text-[#001b33] text-[14px] capitalize"
-              style={{ fontFamily: "Poppins-Black" }}
-            >
-              {userDetails.userName}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setEditUser(true);
-              }}
-            >
-              <View className=" px-[20px] py-[10px]">
-                <Image source={require("../../assets/editIcon.png")} />
-              </View>
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
+                  <View className="absolute -right-20 -top-10 px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl ">
+                    <ActivityIndicator size="small" color="#ffffff" />
+                  </View>
+                ) : (
+                  <View className="absolute -right-20 -top-10 px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl ">
+                    <Text
+                      className="text-white font-semibold"
+                      style={{ fontFamily: "Poppins-SemiBold" }}
+                    >
+                      save
+                    </Text>
+                  </View>)
+                }
+              </TouchableOpacity>
 
-      <View>
-        <Text
-          className="text-[#2e2c43] text-[14px] font-normal px-[45px] mt-[50px] mb-[15px]"
-          style={{ fontFamily: "Poppins-Regular" }}
-        >
-          Mobile Number
-        </Text>
-      </View>
 
-      <View className="flex-row items-center bg-[#f9f9f9] h-[54px] mx-[36px] rounded-3xl px-[29px]">
-        <Text
-          className="  text-[14px] font-semibold opacity-60"
-          style={{ fontFamily: "Poppins-Regular" }}
-        >
-          {" "}
-          {userDetails.mobileNo}
-        </Text>
-        {/* <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
+            </View>
+          )}
+          {!editUser && (
+            <View className="relative mt-[6px] flex-row items-center justify-center">
+              <Text
+                className=" text-[#001b33] text-[14px] capitalize"
+                style={{ fontFamily: "Poppins-Black" }}
+              >
+                {userDetails.userName}
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setEditUser(true);
+                }}
+              >
+                <View className=" px-[20px] py-[10px]">
+                  <Image source={require("../../assets/editIcon.png")} />
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+
+        <View>
+          <Text
+            className="text-[#2e2c43] text-[14px] font-normal px-[45px] mt-[50px] mb-[15px]"
+            style={{ fontFamily: "Poppins-Regular" }}
+          >
+            Mobile Number
+          </Text>
+        </View>
+
+        <View className="flex-row items-center bg-[#f9f9f9] h-[54px] mx-[36px] rounded-3xl px-[29px]">
+          <Text
+            className="  text-[14px] font-semibold opacity-60"
+            style={{ fontFamily: "Poppins-Regular" }}
+          >
+            {" "}
+            {userDetails.mobileNo}
+          </Text>
+          {/* <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
                 <TextInput
                     placeholder='9088-79-0488'
                     className="w-full px-[30px]"
                 /> */}
-      </View>
- 
-      <KeyboardAvoidingView>
-        <Text
-          className="px-[45px] text-[#2e2c43] text-[14px] mt-[20px] mb-[15px]"
-          style={{ fontFamily: "Poppins-Regular" }}
-        >
-          Email ID
-        </Text>
-        <View className="mx-[36px] flex flex-row pl-[25px] items-center justify-between bg-[#f9f9f9] h-[54px] rounded-3xl">
-          {editEmail && (
-            <TextInput
-              placeholder={
-                userDetails.email.length > 0
-                  ? userDetails.email
-                  : "Enter your email address"
-              }
-              onChangeText={(val) => {
-                setEmail(val);
-                console.log("email", email);
-              }}
-              value={email}
-            />
-          )}
-          {!editEmail && (
-            <Text
-              className={`text-[14px]  ${
-                userDetails.email.length === 0 ? "opacity-40" : "opacity-80"
-              }`}
-              style={{ fontFamily: "Poppins-SemiBold" }}
-            >
-              {userDetails.email.length > 0
-                ? userDetails.email
-                : "Update your email address..."}
-            </Text>
-          )}
-          {!editEmail && (
-            <TouchableOpacity onPress={() => setEditEmail(true)}>
-              <View className="px-[20px] py-[10px]">
-                <Image source={require("../../assets/editIcon.png")} />
-              </View>
-            </TouchableOpacity>
-          )}
-          {editEmail &&
-            (loading ? (
-              <View className="px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl">
-                <ActivityIndicator size="small" color="#ffffff" />
-              </View>
-            ) : (
-              <TouchableOpacity
-                onPress={() => {
-                  handleEmailUpdate();
+        </View>
+
+        <KeyboardAvoidingView>
+          <Text
+            className="px-[45px] text-[#2e2c43] text-[14px] mt-[20px] mb-[15px]"
+            style={{ fontFamily: "Poppins-Regular" }}
+          >
+            Email ID
+          </Text>
+          <View className="mx-[36px] flex flex-row pl-[25px] items-center justify-between bg-[#f9f9f9] h-[54px] rounded-3xl">
+            {editEmail && (
+              <TextInput
+                placeholder={
+                  userDetails.email.length > 0
+                    ? userDetails.email
+                    : "Enter your email address"
+                }
+                onChangeText={(val) => {
+                  setEmail(val);
+                  console.log("email", email);
                 }}
+                value={email}
+              />
+            )}
+            {!editEmail && (
+              <Text
+                className={`text-[14px]  ${userDetails.email.length === 0 ? "opacity-40" : "opacity-80"
+                  }`}
+                style={{ fontFamily: "Poppins-SemiBold" }}
               >
-                <View className="px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl">
-                  <Text
-                    className="text-white"
-                    style={{ fontFamily: "Poppins-SemiBold" }}
-                  >
-                    Save
-                  </Text>
+                {userDetails.email.length > 0
+                  ? userDetails.email
+                  : "Update your email address..."}
+              </Text>
+            )}
+            {!editEmail && (
+              <TouchableOpacity onPress={() => setEditEmail(true)}>
+                <View className="px-[20px] py-[10px]">
+                  <Image source={require("../../assets/editIcon.png")} />
                 </View>
               </TouchableOpacity>
-            ))}
-        </View>
-      </KeyboardAvoidingView>
-     
+            )}
+            {editEmail &&
+              (loading ? (
+                <View className="px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl">
+                  <ActivityIndicator size="small" color="#ffffff" />
+                </View>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    handleEmailUpdate();
+                  }}
+                >
+                  <View className="px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl">
+                    <Text
+                      className="text-white"
+                      style={{ fontFamily: "Poppins-SemiBold" }}
+                    >
+                      Save
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+          </View>
+        </KeyboardAvoidingView>
+
       </ScrollView>
       {picLoading && (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#fb8c00" />
         </View>
       )}
-      
+
     </SafeAreaView>
-   
-      
+
+
   );
 };
 const styles = StyleSheet.create({
-    loadingContainer: {
-    
-      ...StyleSheet.absoluteFill,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-    },
-   
-  });
+  loadingContainer: {
+
+    ...StyleSheet.absoluteFill,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+
+});
 
 export default ProfileScreen;

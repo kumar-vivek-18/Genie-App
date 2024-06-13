@@ -56,7 +56,7 @@ const MobileNumberEntryScreen = () => {
   const countryCode = "+91";
   const uniqueToken = useSelector((store) => store.user.uniqueToken);
   const userMobileNumber = useSelector((store) => store.user.mobileNumber);
-  const [token,setToken]=useState("")
+  const [token, setToken] = useState("")
 
   const navigationState = useNavigationState((state) => state);
   const isLoginScreen =
@@ -80,7 +80,7 @@ const MobileNumberEntryScreen = () => {
         .getToken()
         .then((token) => {
           console.log("token", token);
-            setToken(token);
+          setToken(token);
           dispatch(setUniqueToken(token));
         });
     } else {
@@ -95,7 +95,7 @@ const MobileNumberEntryScreen = () => {
         setMobileScreen(true);
         return true; // Prevent default back action
       }
-      else if(isLoginScreen) {
+      else if (isLoginScreen) {
         BackHandler.exitApp();
         return true;
       }
@@ -157,57 +157,57 @@ const MobileNumberEntryScreen = () => {
       const res = await confirm.confirm(otp);
       console.log("res", res);
       console.log(otp);
-      if(res){
-      const phoneNumber = countryCode + mobileNumber;
-      console.log("phone", phoneNumber);
-      const response = await axios.get("http://173.212.193.109:5000/user/", {
-        params: {
-          mobileNo: phoneNumber,
-        },
-      });
-      // console.log("res", response);
-      setMobileScreen(true);
-      if (response.data.mobileNo) {
-        // If mobile number is registered, navigate to home screen
-        // console.log('userDetails from mobileScreen', response.data);
-        dispatch(setUserDetails(response.data));
-        await AsyncStorage.setItem(
-          "userDetails",
-          JSON.stringify(response.data)
-        );
-        setOtp("");
-        // setMobileNumberLocal("");
-        navigation.navigate("home");
-        await axios
-          .patch("http://173.212.193.109:5000/user/edit-profile", {
-            _id: response.data._id,
-            updateData: { uniqueToken: token },
-          })
-          .then(async(res) => {
-            console.log("UserToken updated Successfully",res.data);
-            await AsyncStorage.setItem(
+      if (res) {
+        const phoneNumber = countryCode + mobileNumber;
+        console.log("phone", phoneNumber);
+        const response = await axios.get("https://culturtap.com/api/user/", {
+          params: {
+            mobileNo: phoneNumber,
+          },
+        });
+        // console.log("res", response);
+        setMobileScreen(true);
+        if (response.data.mobileNo) {
+          // If mobile number is registered, navigate to home screen
+          // console.log('userDetails from mobileScreen', response.data);
+          dispatch(setUserDetails(response.data));
+          await AsyncStorage.setItem(
+            "userDetails",
+            JSON.stringify(response.data)
+          );
+          setOtp("");
+          // setMobileNumberLocal("");
+          navigation.navigate("home");
+          await axios
+            .patch("https://culturtap.com/api/user/edit-profile", {
+              _id: response.data._id,
+              updateData: { uniqueToken: token },
+            })
+            .then(async (res) => {
+              console.log("UserToken updated Successfully", res.data);
+              await AsyncStorage.setItem(
                 "userDetails",
                 JSON.stringify(res.data)
               );
               dispatch(setUserDetails(res.data));
-          
-            setToken("")
-          })
-          .catch((err) => {
-            console.error("Error updating token: " + err.message);
-          });
-      } else if (response.data.status === 404) {
-        // If mobile number is not registered, continue with the registration process
-        // setMobileNumberLocal("");
-        navigation.navigate("registerUsername");
+
+              setToken("")
+            })
+            .catch((err) => {
+              console.error("Error updating token: " + err.message);
+            });
+        } else if (response.data.status === 404) {
+          // If mobile number is not registered, continue with the registration process
+          // setMobileNumberLocal("");
+          navigation.navigate("registerUsername");
+        }
       }
-        }
-        else{
-          setLoading(false);
-          console.log('Invalid otp:');
-          alert('Invalid otp');
-          return;
-        }
+      else {
+        setLoading(false);
+        console.log('Invalid otp:');
+        alert('Invalid otp');
+        return;
+      }
     } catch (error) {
       console.error("Error checking mobile number:", error);
     } finally {
@@ -235,7 +235,7 @@ const MobileNumberEntryScreen = () => {
                   <Text className="h-[7px] w-[30px] border-[1px] border-black rounded-md"></Text>
                 </View>
                 <View className="mt-[20px] px-[32px]">
-                  <Text className="text-[14px]" style={{fontFamily:"Poppins-Regular"}}>
+                  <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>
                     Now bargaining is possible {"\n"}from your couch! Connect
                     online with nearby retailers now.
                   </Text>
@@ -244,17 +244,17 @@ const MobileNumberEntryScreen = () => {
                   <View className="flex flex-col gap-[5px] px-[32px]">
                     {/* <Image source={require("../../assets/mobileIcon.png")} className="w-[11px] h-[18px]" /> */}
                     {/* <MobileIcon /> */}
-                    <Text className="text-[16px] " style={{fontFamily:"Poppins-ExtraBold"}}>
+                    <Text className="text-[16px] " style={{ fontFamily: "Poppins-ExtraBold" }}>
                       Please enter your
                     </Text>
                   </View>
                   <View className="flex flex-col gap-[15px]">
-                    <Text className="text-[13px] px-[32px]" style={{fontFamily:"Poppins-Regular"}}>
+                    <Text className="text-[13px] px-[32px]" style={{ fontFamily: "Poppins-Regular" }}>
                       Mobile Number
                     </Text>
 
                     <View className="flex flex-row items-center gap-[10px] h-[54px] px-[8px] border-[1px] border-[#f9f9f9] rounded-[16px] bg-[#F9F9F9] mx-[30px]">
-                      <Text className="text-[16px] border-r-[1px] border-[#dbcdbb] pr-[16px] pl-[15px]" style={{fontFamily:"Poppins-ExtraBold"}}>
+                      <Text className="text-[16px] border-r-[1px] border-[#dbcdbb] pr-[16px] pl-[15px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
                         +91
                         <Entypo
                           name="chevron-down"
@@ -270,7 +270,7 @@ const MobileNumberEntryScreen = () => {
                         onChangeText={handleMobileNo}
                         keyboardType="numeric"
                         className="w-full text-[16px]"
-                        style={{fontFamily:"Poppins-Regular"}}
+                        style={{ fontFamily: "Poppins-Regular" }}
                         maxLength={10}
                       />
                     </View>
@@ -301,8 +301,8 @@ const MobileNumberEntryScreen = () => {
               <Text
                 style={{
                   fontSize: 18,
-                
-                  fontFamily:"Poppins-Black",
+
+                  fontFamily: "Poppins-Black",
                   color: mobileNumber.length !== 10 ? "#888888" : "white",
                 }}
               >
@@ -333,13 +333,13 @@ const MobileNumberEntryScreen = () => {
                   <View className="w-[32px] h-[9px] border-[1px] border-black rounded-lg"></View>
                 </View>
                 <View>
-                  <Text className="text-[14px] text-[#2e2c43] pt-[24px]" style={{fontFamily:"Poppins-Regular"}}>
+                  <Text className="text-[14px] text-[#2e2c43] pt-[24px]" style={{ fontFamily: "Poppins-Regular" }}>
                     Get the best price for your next purchase, Smart shopping is
                     on now.{" "}
                   </Text>
                 </View>
                 <View>
-                  <Text className="text-[18px]  text-[#001b33] pt-[24px]" style={{fontFamily:"Poppins-ExtraBold"}}>
+                  <Text className="text-[18px]  text-[#001b33] pt-[24px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
                     ENTER OTP
                   </Text>
                 </View>
@@ -370,39 +370,39 @@ const MobileNumberEntryScreen = () => {
                       height: 53,
                       textAlign: "center",
                       fontSize: 17,
-                      fontFamily:"Poppins-Regular",
+                      fontFamily: "Poppins-Regular",
                     }}
                   />
                 </View>
 
                 <View className="mt-[14px]">
-                  <Text className="text-[14px] text-[#2e2c43]"  style={{fontFamily:"Poppins-Regular"}}>
+                  <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>
                     OTP should be auto-filled otherwise type it manually.Sending
                     OTP at{" "}
-                    <Text className="text-[#558b2f] " style={{fontFamily:"Poppins-Bold"}}>
+                    <Text className="text-[#558b2f] " style={{ fontFamily: "Poppins-Bold" }}>
                       +91 {userMobileNumber.slice(3, 13)}
                     </Text>
                   </Text>
                 </View>
                 <View>
-                  <Text className="text-[14px] text-[#2e2c43] mt-[15px]" style={{fontFamily:"Poppins-Medium"}}>
+                  <Text className="text-[14px] text-[#2e2c43] mt-[15px]" style={{ fontFamily: "Poppins-Medium" }}>
                     Didn't recieve it?
                   </Text>
                   <TouchableOpacity onPress={sendVerification}>
-                  {loading ? (
-              <ActivityIndicator size="small" color="#e76043" />
-            ) : (
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        fontFamily:"Poppins-Bold",
-                        color: "#e76043",
-                      }}
-                    >
-                      RESEND
-                    </Text>
-            )
-            }
+                    {loading ? (
+                      <ActivityIndicator size="small" color="#e76043" />
+                    ) : (
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          fontFamily: "Poppins-Bold",
+                          color: "#e76043",
+                        }}
+                      >
+                        RESEND
+                      </Text>
+                    )
+                    }
                   </TouchableOpacity>
                 </View>
               </View>
@@ -427,15 +427,15 @@ const MobileNumberEntryScreen = () => {
             {isLoading ? (
               <ActivityIndicator size="small" color="#ffffff" />
             ) : (
-            <Text
-              style={{
-                fontSize: 18,
-                fontFamily:"Poppins-Black",
-                color: otp.length !== 6 ? "#888888" : "white",
-              }}
-            >
-              NEXT
-            </Text>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontFamily: "Poppins-Black",
+                  color: otp.length !== 6 ? "#888888" : "white",
+                }}
+              >
+                NEXT
+              </Text>
             )}
           </TouchableOpacity>
         </View>

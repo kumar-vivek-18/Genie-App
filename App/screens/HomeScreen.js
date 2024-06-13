@@ -98,7 +98,7 @@ const HomeScreen = () => {
     try {
       // console.log('userHomeScreem', userDetails._id);
       const response = await axios.get(
-        "http://173.212.193.109:5000/user/getspades",
+        "https://culturtap.com/api/user/getspades",
         {
           params: {
             id: userData?._id,
@@ -156,7 +156,7 @@ const HomeScreen = () => {
       );
 
       await axios
-        .patch("http://173.212.193.109:5000/user/edit-profile", {
+        .patch("https://culturtap.com/api/user/edit-profile", {
           _id: userDetails._id,
           updateData: {
             longitude: updatedUserData.longitude,
@@ -181,12 +181,13 @@ const HomeScreen = () => {
   };
 
   const handleSpadeCreation = async () => {
-    if (userDetails.lastPaymentStatus === "unpaid") {
-      navigation.navigate('payment-gateway');
-    }
-    else {
-      navigation.navigate("requestentry");
-    }
+    // if (userDetails.lastPaymentStatus === "unpaid") {
+    //   navigation.navigate('payment-gateway');
+    // }
+    // else {
+    //   navigation.navigate("requestentry");
+    // }
+    navigation.navigate("requestentry");
   }
 
   const { width } = Dimensions.get('window');
@@ -226,13 +227,13 @@ const HomeScreen = () => {
 
         <View className="w-full bg-white mt-[20px] flex-row px-[30px] justify-between h-[55px] items-center">
           <View className="w-4/5">
-            <Text className="text-[14px]  pb-[15px]" style={{ fontFamily: "Poppins-Black" }}>
+            <Text className="text-[14px] pt-[10px]  " style={{ fontFamily: "Poppins-Black" }}>
               Location
             </Text>
 
-            <Text className="text-[#545455] text-[12px] " style={{ fontFamily: "Poppins-Regular" }}>
+            <Text className="text-[#545455] text-[14px] " style={{ fontFamily: "Poppins-Regular" }}>
               {userDetails?.location
-                ? `${userDetails.location.substring(0, 70)}....`
+                ? `${userDetails.location.substring(0, 30)}....`
                 : "Refresh to fetch location..."}
             </Text>
           </View>

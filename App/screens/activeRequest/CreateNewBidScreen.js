@@ -51,7 +51,7 @@ const CreateNewBidScreen = () => {
   const sendBid = async () => {
     setLoading(true);
     const token = await axios.get(
-      "http://173.212.193.109:5000/retailer/unique-token",
+      "https://culturtap.com/api/retailer/unique-token",
       {
         params: {
           id: details.retailerId._id,
@@ -61,7 +61,7 @@ const CreateNewBidScreen = () => {
 
     console.log("create bid", details.requestId);
     await axios
-      .post("http://173.212.193.109:5000/chat/send-message", {
+      .post("https://culturtap.com/api/chat/send-message", {
         sender: {
           type: "UserRequest",
           refId: details.requestId._id,
@@ -122,13 +122,13 @@ const CreateNewBidScreen = () => {
             <Pressable onPress={() => navigation.goBack()}>
               <ArrowLeft />
             </Pressable>
-            <Text className="flex flex-1 justify-center items-center text-center text-[16px]" style={{fontFamily:"Poppins-Bold"}}>
+            <Text className="flex flex-1 justify-center items-center text-center text-[16px]" style={{ fontFamily: "Poppins-Bold" }}>
               Send new bid
             </Text>
           </View>
 
           <View className="mt-[35px] mx-[28px]">
-            <Text className="text-[14px] text-[#2e2c43] mx-[6px]" style={{fontFamily:"Poppins-Bold"}}>
+            <Text className="text-[14px] text-[#2e2c43] mx-[6px]" style={{ fontFamily: "Poppins-Bold" }}>
               Youe expected price
             </Text>
             <TextInput
@@ -140,14 +140,14 @@ const CreateNewBidScreen = () => {
               keyboardType="numeric"
               placeholderTextColor={"#558b2f"}
               className="text-[14px] text-center bg-[#ffc882] text-[#2e2c43]  mt-[20px]  rounded-3xl px-[20px] py-[10px] "
-              style={{fontFamily:"Poppins-Bold"}}
+              style={{ fontFamily: "Poppins-Bold" }}
             />
-            <Text className="text-[14px] text-[#2e2c43] mt-[20px]" style={{fontFamily:"Poppins-Regular"}}>
+            <Text className="text-[14px] text-[#2e2c43] mt-[20px]" style={{ fontFamily: "Poppins-Regular" }}>
               Please tell sellers about what you feel the right price for your
               request.{" "}
             </Text>
 
-            <Text className="text-[14px]  text-[#2e2c43] mx-[6px] mt-[30px] mb-[15px]" style={{fontFamily:"Poppins-ExtraBold"}}>
+            <Text className="text-[14px]  text-[#2e2c43] mx-[6px] mt-[30px] mb-[15px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
               Type your query
             </Text>
 
@@ -167,14 +167,14 @@ const CreateNewBidScreen = () => {
                   height: 300,
                   flex: 1,
                   textAlignVertical: "top",
-                  fontFamily:"Poppins-Regular",
+                  fontFamily: "Poppins-Regular",
                 }}
               />
             </View>
           </View>
 
           <View className="px-[30px] mt-[30px]">
-            <Text className="text-[14px]  text-[#2e2c43] pb-[20px]" style={{fontFamily:"Poppins-Black"}}>
+            <Text className="text-[14px]  text-[#2e2c43] pb-[20px]" style={{ fontFamily: "Poppins-Black" }}>
               Add image reference
             </Text>
             <ScrollView
@@ -223,7 +223,7 @@ const CreateNewBidScreen = () => {
               {loading ? (
                 <ActivityIndicator size="small" color="#ffffff" />
               ) : (
-                <Text className="text-white font-bold text-center text-[16px]" style={{fontFamily:"Poppins-Black"}}>
+                <Text className="text-white font-bold text-center text-[16px]" style={{ fontFamily: "Poppins-Black" }}>
                   Send a new bid
                 </Text>
               )}

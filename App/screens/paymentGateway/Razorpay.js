@@ -169,7 +169,7 @@ const PaymentScreen = () => {
           console.error(error);
         });
     } catch (error) {
-        setLoading(false);
+      setLoading(false);
       console.error("Order creation failed:", error);
       Alert.alert("Order creation failed", error.message);
     }
@@ -180,7 +180,7 @@ const PaymentScreen = () => {
     // console.log('userNmae', userName);
     // if (userName.length < 3) return;
     await axios
-      .patch("https://genie-backend-meg1.onrender.com/user/edit-profile", {
+      .patch("https://culturtap.com/api/user/edit-profile", {
         _id: userDetails._id,
         updateData: { lastPaymentStatus: "paid" },
       })

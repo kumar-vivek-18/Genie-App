@@ -22,7 +22,7 @@ const UserNameEntryScreen = () => {
     const isUserNameScreen = navigationState.routes[navigationState.index].name === 'registerUsername';
     console.log("isUserNameScreen", isUserNameScreen)
     const [focusedInput, setFocusedInput] = useState(null);
-    const [isLoading,setIsLoading]=useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         const backAction = () => {
@@ -64,10 +64,10 @@ const UserNameEntryScreen = () => {
 
             // Send user data to the server
             console.log("User data sent to", mobileNumber, name);
-            const response = await axios.post('http://173.212.193.109:5000/user/', {
+            const response = await axios.post('https://culturtap.com/api/user/', {
                 mobileNo: mobileNumber,
                 userName: name,
-                
+
             });
             console.log("res", response.data);
 
@@ -76,22 +76,22 @@ const UserNameEntryScreen = () => {
             if (response.status === 201) {
                 // Dispatch the action to store pan card locally
                 //  dispatch(setPanCard(panCard));
-                
+
                 console.log("User created:", response.data);
-               
+
                 //  console.log("user",user);
                 await AsyncStorage.setItem('userDetails', JSON.stringify(response.data));
-                await axios.patch('http://173.212.193.109:5000/user/edit-profile', {
+                await axios.patch('https://culturtap.com/api/user/edit-profile', {
                     _id: response.data._id,
                     updateData: { uniqueToken: userToken }
                 })
-                    .then(async(res) => {
+                    .then(async (res) => {
                         console.log('UserName updated Successfully');
                         await AsyncStorage.setItem(
                             "userDetails",
                             JSON.stringify(res.data)
-                          );
-                          dispatch(setUserDetails(res.data));
+                        );
+                        dispatch(setUserDetails(res.data));
                     })
                     .catch(err => {
                         console.error('Error updating token: ' + err.message);
@@ -109,7 +109,7 @@ const UserNameEntryScreen = () => {
             // Handle error if request fails
             console.error('Error creating user:', error);
             Alert.alert('Error', 'An unexpected error occurred. Please try again later.');
-        }finally{
+        } finally {
             setIsLoading(false);
         }
     };
@@ -119,75 +119,75 @@ const UserNameEntryScreen = () => {
 
     return (
         <View style={{ flex: 1 }}>
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <KeyboardAvoidingView
-              behavior="position"
-        >
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                <KeyboardAvoidingView
+                    behavior="position"
+                >
 
 
-                <UsernameScreenBg />
+                    <UsernameScreenBg />
 
-                <View className="px-[42px]">
-                    <View className="flex flex-row gap-2 pt-[30px] ">
-                        <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
-                        <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
-                        <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
-                    </View>
-                    <View>
-                        <Text className="text-[14px]  text-[#2e2c43] pt-[15px] mb-[5px]"  style={{fontFamily:"Poppins-SemiBold"}}>Need maintenance services?</Text>
-                        <Text className="text-[14px] text-[#2e2c43]"  style={{fontFamily:"Poppins-Regular"}}>Do bargaining first to avail services like plumber, electrician & lot more. </Text>
-                    </View>
-                    <View>
-                        <Text className="text-[16px]  text-[#001b33] pt-[40px]"  style={{fontFamily:"Poppins-Black"}}>Please enter your</Text>
-                        <Text className="text-[13px] mt-[5px] text-[#2e2c43]"  style={{fontFamily:"Poppins-Regular"}}>Name</Text>
-                    </View>
-
-
+                    <View className="px-[42px]">
+                        <View className="flex flex-row gap-2 pt-[30px] ">
+                            <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
+                            <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
+                            <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
+                        </View>
+                        <View>
+                            <Text className="text-[14px]  text-[#2e2c43] pt-[15px] mb-[5px]" style={{ fontFamily: "Poppins-SemiBold" }}>Need maintenance services?</Text>
+                            <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Do bargaining first to avail services like plumber, electrician & lot more. </Text>
+                        </View>
+                        <View>
+                            <Text className="text-[16px]  text-[#001b33] pt-[40px]" style={{ fontFamily: "Poppins-Black" }}>Please enter your</Text>
+                            <Text className="text-[13px] mt-[5px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Name</Text>
+                        </View>
 
 
-                    
+
+
+
                         <View className=" items-center">
                             <TextInput
                                 onChangeText={handleName}
                                 placeholder="Ex: Kishor Kumar"
                                 className="w-[310px] h-[54px] bg-[#f9f9f9] stroke-[#2e2c43] rounded-3xl px-10 mt-[15px] "
-                                style={{fontFamily:"Poppins-Regular"}}
+                                style={{ fontFamily: "Poppins-Regular" }}
                             />
                         </View>
-                   
-                </View>
+
+                    </View>
                 </KeyboardAvoidingView>
             </ScrollView>
 
 
             <TouchableOpacity
-          disabled={!name}
-          onPress={handleNext}
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: 68,
-            width: "100%",
-            backgroundColor: (!name) ? "#e6e6e6" : "#FB8C00",
-            justifyContent: "center", // Center content vertically
-            alignItems: "center", // Center content horizontally
-          }}
-        >
-             {isLoading ? (
-              <ActivityIndicator size="small" color="#ffffff" />
-            ) : (
-          <Text
-            style={{
-              fontSize: 18,
-              fontFamily:"Poppins-Black",
-              color: (!name)  ? "#888888" : "white",
-            }}
-          >
-            NEXT
-          </Text>)}
-        </TouchableOpacity>
+                disabled={!name}
+                onPress={handleNext}
+                style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: 68,
+                    width: "100%",
+                    backgroundColor: (!name) ? "#e6e6e6" : "#FB8C00",
+                    justifyContent: "center", // Center content vertically
+                    alignItems: "center", // Center content horizontally
+                }}
+            >
+                {isLoading ? (
+                    <ActivityIndicator size="small" color="#ffffff" />
+                ) : (
+                    <Text
+                        style={{
+                            fontSize: 18,
+                            fontFamily: "Poppins-Black",
+                            color: (!name) ? "#888888" : "white",
+                        }}
+                    >
+                        NEXT
+                    </Text>)}
+            </TouchableOpacity>
 
         </View >
     )

@@ -65,7 +65,7 @@ const SendQueryScreen = () => {
   const sendQuery = async () => {
     setIsLoading(true);
     const token = await axios.get(
-      "http://173.212.193.109:5000/retailer/unique-token",
+      "https://culturtap.com/api/retailer/unique-token",
       {
         params: {
           id: currentSpadeRetailer.retailerId._id,
@@ -76,7 +76,7 @@ const SendQueryScreen = () => {
     console.log("token", token.data);
 
     await axios
-      .post("http://173.212.193.109:5000/chat/send-message", {
+      .post("https://culturtap.com/api/chat/send-message", {
         sender: {
           type: "UserRequest",
           refId: details.requestId,
@@ -141,7 +141,7 @@ const SendQueryScreen = () => {
             <ArrowLeft />
           </Pressable>
 
-          <Pressable onPress={() => {}}>
+          <Pressable onPress={() => { }}>
             <ThreeDots />
           </Pressable>
         </View>
@@ -153,10 +153,10 @@ const SendQueryScreen = () => {
             </View>
 
             <View>
-              <Text className="text-[14px] text-[#2e2c43] capitalize" style={{fontFamily:"Poppins-Regular"}}>
+              <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Regular" }}>
                 {details.users[0].populatedUser.storeName}
               </Text>
-              <Text className="text-[12px] text-[#c4c4c4]" style={{fontFamily:"Poppins-Regular"}}> 
+              <Text className="text-[12px] text-[#c4c4c4]" style={{ fontFamily: "Poppins-Regular" }}>
                 Active 3 hr ago
               </Text>
             </View>
@@ -165,22 +165,22 @@ const SendQueryScreen = () => {
           <View className="flex-row gap-[6px] items-center mt-[16px]">
             <View className="flex-row gap-[7px] items-center">
               <Contact />
-              <Text style={{fontFamily:"Poppins-Regular"}}>Contact Details</Text>
+              <Text style={{ fontFamily: "Poppins-Regular" }}>Contact Details</Text>
             </View>
             <View className="flex-row gap-[7px] items-center">
               <Location />
-              <Text style={{fontFamily:"Poppins-Regular"}}>Store Loction</Text>
+              <Text style={{ fontFamily: "Poppins-Regular" }}>Store Loction</Text>
             </View>
           </View>
 
           <View className="flex-row gap-[5px] mt-[15px]">
             <Tick />
-            <Text style={{fontFamily:"Poppins-Regular"}}>Home delivery available</Text>
+            <Text style={{ fontFamily: "Poppins-Regular" }}>Home delivery available</Text>
           </View>
         </View>
 
         <View className="px-[30px]">
-          <Text className="text-[14px]  text-[#2e2c43] mx-[16px] mt-[30px] mb-[15px]" style={{fontFamily:"Poppins-Bold"}}>
+          <Text className="text-[14px]  text-[#2e2c43] mx-[16px] mt-[30px] mb-[15px]" style={{ fontFamily: "Poppins-Bold" }}>
             Send a query
           </Text>
 
@@ -195,13 +195,13 @@ const SendQueryScreen = () => {
               placeholder="Type here..."
               placeholderTextColor="#dbcdbb"
               className="w-full h-[127px] overflow-y-scroll px-[20px] border-[0.3px] border-[#2e2c43] rounded-xl "
-              
+
               style={{
                 padding: 20,
                 height: 300,
                 flex: 1,
                 textAlignVertical: "top",
-                fontFamily:"Poppins-Regular"
+                fontFamily: "Poppins-Regular"
               }}
             />
           </View>
@@ -236,18 +236,18 @@ const SendQueryScreen = () => {
         }}
       >
         {isLoading ? (
-              <ActivityIndicator size="small" color="#ffffff" />
-            ) : (
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: "bold",
-            color: !query ? "#888888" : "white",
-            fontFamily:"Poppins-Black"
-          }}
-        >
-          Next
-        </Text>)}
+          <ActivityIndicator size="small" color="#ffffff" />
+        ) : (
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "bold",
+              color: !query ? "#888888" : "white",
+              fontFamily: "Poppins-Black"
+            }}
+          >
+            Next
+          </Text>)}
       </TouchableOpacity>
     </SafeAreaView>
   );
