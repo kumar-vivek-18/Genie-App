@@ -80,7 +80,7 @@ const RequestCategory = () => {
     }
 
     return (
-        <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
+        <View style={styles.container} edges={['top', 'bottom']}>
 
             <View className="flex-1 w-full bg-white flex-col  gap-[40px] px-[32px] ">
                 <ScrollView className="flex-1 px-0 mb-[63px] " showsVerticalScrollIndicator={false} >
@@ -160,7 +160,7 @@ const RequestCategory = () => {
         </TouchableOpacity>
             </View>
 
-        </SafeAreaView>
+        </View>
     );
 };
 
@@ -169,6 +169,7 @@ const styles = {
         flex: 1,
         //  marginTop: Platform.OS === 'android' ? 44 : 0, 
         backgroundColor: 'white',
+        paddingTop: 20
     },
 
     nextButton: {

@@ -8,18 +8,21 @@ import AboutImg from "../../assets/AboutImg.svg"
 import Time from "../../assets/aboutClock.svg"
 import Wealth  from "../../assets/aboutWealth.svg"
 import Health  from "../../assets/aboutHealth.svg"
+import BackArrow from "../../assets/arrow-left.svg"
+
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 const AboutScreen = () => {
     const navigation = useNavigation();
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <View style={{ flex: 1,backgroundColor: "white"  }}>
             <ScrollView style={{ flex: 1 }} className="relative">
 
 
-                <View className="z-50 absolute top-[40px] left-[40px] py-[8px] px-[4px]">
-                    <Pressable onPress={() => { navigation.goBack(); }}>
-                        <Image source={require('../../assets/arrow-left.png')} />
+                <View className="z-50 absolute top-[40px] left-[40px] ">
+                    <Pressable onPress={() => { navigation.goBack(); }} style={{padding:8}}>
+                    <BackArrow width={14} height={10} />
+
                     </Pressable>
                 </View>
 
@@ -75,7 +78,7 @@ const AboutScreen = () => {
 
                 </View>
             </ScrollView>
-        </SafeAreaView>
+        </View>
     )
 }
 

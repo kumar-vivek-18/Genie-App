@@ -21,6 +21,8 @@ import { manipulateAsync } from "expo-image-manipulator";
 import { Camera } from "expo-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScrollView } from "react-native";
+import Cross from "../../assets/cross.svg"
+import EditIcon from "../../assets/editIcon.svg"
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
@@ -174,7 +176,7 @@ const ProfileScreen = () => {
 
   return (
 
-    <SafeAreaView style={{ flex: 1 }} className="relative">
+    <View style={{ flex: 1 ,backgroundColor:"white"}} className="relative">
       <ScrollView >
         <View className="mt-[42px]">
           <Text
@@ -191,7 +193,7 @@ const ProfileScreen = () => {
               navigation.goBack();
             }}
           >
-            <Image source={require("../../assets/cross.png")} />
+           <Cross/>
           </Pressable>
         </View>
 
@@ -273,7 +275,7 @@ const ProfileScreen = () => {
                 }}
               >
                 <View className=" px-[20px] py-[10px]">
-                  <Image source={require("../../assets/editIcon.png")} />
+                <EditIcon/>
                 </View>
               </TouchableOpacity>
             </View>
@@ -340,7 +342,7 @@ const ProfileScreen = () => {
             {!editEmail && (
               <TouchableOpacity onPress={() => setEditEmail(true)}>
                 <View className="px-[20px] py-[10px]">
-                  <Image source={require("../../assets/editIcon.png")} />
+                  <EditIcon/>
                 </View>
               </TouchableOpacity>
             )}
@@ -375,7 +377,7 @@ const ProfileScreen = () => {
         </View>
       )}
 
-    </SafeAreaView>
+    </View>
 
 
   );

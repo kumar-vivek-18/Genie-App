@@ -6,14 +6,16 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import messaging from "@react-native-firebase/messaging";
 import { ActivityIndicator } from 'react-native';
+import { requestClear } from '../../redux/reducers/userRequestsSlice';
 
 
 
 const ModalLogout = ({ modalVisible, setModalVisible }) => {
     // const [modalVisible, setModalVisible] = useState(true);
+    const dispatch=useDispatch();
     const userDetails = useSelector(store => store.user.userDetails);
     console.log("userDetails", userDetails);
     const [loading, setLoading] = useState(false);
@@ -44,6 +46,8 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
             setModalVisible(false);
             // await auth().signOut();
             setLoading(false)
+      dispatch(requestClear());
+
             console.log('User data deleted successfully');
             navigation.navigate("mobileNumber");
         } catch (error) {

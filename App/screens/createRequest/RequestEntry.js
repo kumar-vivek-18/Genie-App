@@ -18,7 +18,7 @@ const RequestEntry = () => {
 
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1,backgroundColor: "white"  }}>
             <View style={{ flex: 1 }}>
 
                 <View className=" w-full flex flex-row px-[29px]  justify-between absolute  top-[60px]">

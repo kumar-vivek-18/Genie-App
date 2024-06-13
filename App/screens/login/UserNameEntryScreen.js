@@ -118,7 +118,7 @@ const UserNameEntryScreen = () => {
     //   const { width } = Dimensions.get('window');
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 ,backgroundColor: "white" }}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 <KeyboardAvoidingView
                     behavior="position"

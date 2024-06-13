@@ -43,10 +43,13 @@ const userRequestDataSlice = createSlice({
         },
         setSpadeCouponCode: (state, action) => {
             state.spadeCouponCode = action.payload;
-        }
+        },
+        requestClear: (state) => {
+            return initialState;
+          }
 
     },
 });
 
-export const { setRequestDetail, setRequestCategory, setRequestImages, setExpectedPrice, setCreatedRequest, setHistory, emtpyRequestImages, setSpadePrice, setSpadeCouponCode } = userRequestDataSlice.actions;
+export const { setRequestDetail, setRequestCategory, setRequestImages, setExpectedPrice, setCreatedRequest, setHistory, emtpyRequestImages, setSpadePrice, setSpadeCouponCode,requestClear } = userRequestDataSlice.actions;
 export default userRequestDataSlice.reducer;

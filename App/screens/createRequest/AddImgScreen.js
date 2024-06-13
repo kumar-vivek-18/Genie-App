@@ -184,7 +184,7 @@ const AddImageScreen = () => {
   return (
     <>
       {!cameraScreen && (
-        <View edges={["top", "bottom"]} style={{ flex: 1 }}>
+        <View edges={["top", "bottom"]} style={{ flex: 1 ,backgroundColor: "white" }}>
           <View style={{ flex: 1 }}>
             <View className=" flex  mt-[40px] flex-row  items-center  px-[32px]">
               <Pressable onPress={() => navigation.goBack()} className="p-2">
@@ -325,7 +325,7 @@ const AddImageScreen = () => {
             index={imgIndex}
           />
           {modalVisible && <View style={styles.overlay} />}
-          {addMore && <View style={styles.overlay} />}
+          {/* {addMore && <View style={styles.overlay} />} */}
         </View>
       )}
 

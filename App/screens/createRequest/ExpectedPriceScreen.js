@@ -46,7 +46,7 @@ const ExpectedPriceScreen = () => {
     }
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1,backgroundColor: "white"  }}>
             <View className=" flex z-40 flex-row items-center justify-center mt-[50px]  mx-[36px]">
                 <Pressable onPress={() => navigation.goBack()} >
 

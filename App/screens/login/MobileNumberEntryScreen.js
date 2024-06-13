@@ -38,6 +38,8 @@ import axios from "axios";
 import MobileNumberScreenBg from "../../assets/MobileEntryPageBg.svg";
 import MobileIcon from "../../assets/mobileIcon.svg";
 import messaging from "@react-native-firebase/messaging";
+import BackArrow from "../../assets/BackArrowImg.svg"
+
 
 import OtpPageBg from "../../assets/OtpVerificationPageBg.svg";
 
@@ -131,10 +133,10 @@ const MobileNumberEntryScreen = () => {
       setLoading(true);
       try {
         const phoneNumber = countryCode + mobileNumber;
-        console.log(phoneNumber);
-        const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-        setConfirm(confirmation);
-        console.log(confirmation);
+        // console.log(phoneNumber);
+        // const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+        // setConfirm(confirmation);
+        // console.log(confirmation);
         dispatch(setMobileNumber(phoneNumber));
         setMobileScreen(false);
       } catch (error) {
@@ -153,11 +155,11 @@ const MobileNumberEntryScreen = () => {
     try {
       // Make a request to your backend API to check if the mobile number is registered
 
-      console.log(confirm)
-      const res = await confirm.confirm(otp);
-      console.log("res", res);
-      console.log(otp);
-      if (res) {
+      // console.log(confirm)
+      // const res = await confirm.confirm(otp);
+      // console.log("res", res);
+      // console.log(otp);
+      // if (res) {
         const phoneNumber = countryCode + mobileNumber;
         console.log("phone", phoneNumber);
         const response = await axios.get("https://culturtap.com/api/user/", {
@@ -175,7 +177,7 @@ const MobileNumberEntryScreen = () => {
             "userDetails",
             JSON.stringify(response.data)
           );
-          setOtp("");
+         
           // setMobileNumberLocal("");
           navigation.navigate("home");
           await axios
@@ -190,7 +192,8 @@ const MobileNumberEntryScreen = () => {
                 JSON.stringify(res.data)
               );
               dispatch(setUserDetails(res.data));
-
+              setMobileNumberLocal("");
+              setOtp("");
               setToken("")
             })
             .catch((err) => {
@@ -200,14 +203,15 @@ const MobileNumberEntryScreen = () => {
           // If mobile number is not registered, continue with the registration process
           // setMobileNumberLocal("");
           navigation.navigate("registerUsername");
+          setMobileNumberLocal("");
         }
-      }
-      else {
-        setLoading(false);
-        console.log('Invalid otp:');
-        alert('Invalid otp');
-        return;
-      }
+      // }
+      // else {
+      //   setLoading(false);
+      //   console.log('Invalid otp:');
+      //   alert('Invalid otp');
+      //   return;
+      // }
     } catch (error) {
       console.error("Error checking mobile number:", error);
     } finally {
@@ -221,13 +225,14 @@ const MobileNumberEntryScreen = () => {
     <>
       {mobileScreen && (
         <View style={{ flex: 1, backgroundColor: "white" }}>
-          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <KeyboardAvoidingView behavior="position">
+           <KeyboardAvoidingView behavior="padding" style={{flex:1}}>
+          <ScrollView >
+           
               {/* <Image source={require("../../assets/MobileEntryPage.png")} className="w-full object-cover" /> */}
 
               <MobileNumberScreenBg width={width} height={350} />
               <View
-                style={{ flex: 1, backgroundColor: "white", paddingBottom: 30 }}
+                style={{ flex: 1, backgroundColor: "white", paddingBottom: 100 }}
               >
                 <View className="flex flex-row gap-2 pt-[30px] px-[32px] ">
                   <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
@@ -277,8 +282,9 @@ const MobileNumberEntryScreen = () => {
                   </View>
                 </View>
               </View>
-            </KeyboardAvoidingView>
+            
           </ScrollView>
+          </KeyboardAvoidingView>
           <TouchableOpacity
             disabled={mobileNumber.length !== 10}
             onPress={sendVerification}
@@ -313,7 +319,7 @@ const MobileNumberEntryScreen = () => {
         </View>
       )}
       {!mobileScreen && (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 ,backgroundColor: "white" }}>
           {/* <Text>OtpVerificationScreen</Text> */}
           <KeyboardAvoidingView behavior="padding">
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -322,10 +328,15 @@ const MobileNumberEntryScreen = () => {
                 className="w-full object-cover"
               />
               {/* <OtpPageBg width={width} /> */}
-              {/* <Pressable onPress={() => { navigation.goBack() }} className="flex flex-row items-center absolute top-16 left-4 gap-2">
-                            <FontAwesome name="chevron-left" size={15} color="black" />
-                            <Text className="text-[16px] font-extrabold">Back</Text>
-                        </Pressable> */}
+              <Pressable onPress={() => { navigation.goBack() }} className="flex z-40 flex-row items-center absolute top-16 left-4 gap-2">
+                <View className="px-[24px]">
+                <BackArrow width={14} height={10} />
+                  </View>                          
+
+              
+
+                           
+                        </Pressable>
               <View className="px-[42px] pb-[70px]">
                 <View className="flex flex-row gap-2 pt-[30px] ">
                   <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>

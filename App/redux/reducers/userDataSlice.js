@@ -56,8 +56,11 @@ const userDataSlice = createSlice({
     setUniqueToken: (state, action) => {
       state.uniqueToken = action.payload;
     },
+    userClear: (state) => {
+      return initialState;
+    }
   },
 });
 
-export const { setMobileNumber, setUserName, setUserLocation, setImages, setUserDetails, setSpades, setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers, setCurrentChatMessages, setUniqueToken } = userDataSlice.actions;
+export const { setMobileNumber, setUserName, setUserLocation, setImages, setUserDetails, setSpades, setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers, setCurrentChatMessages, setUniqueToken,userClear } = userDataSlice.actions;
 export default userDataSlice.reducer;

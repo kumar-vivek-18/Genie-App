@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Image, Pressable, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import BackArrow from "../../assets/arrow-left.svg"
+
 
 const HelpScreen = () => {
     const navigation = useNavigation();
@@ -13,7 +15,7 @@ const HelpScreen = () => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <View style={{ flex: 1,backgroundColor: "white"  }}>
             <KeyboardAvoidingView
                 style={{ flex: 1 }}
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -22,10 +24,11 @@ const HelpScreen = () => {
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ paddingHorizontal: 30 }}>
                        
-                        <View className="z-50 absolute top-[40px] left-[40px] py-[8px] px-[4px]">
-                             <Pressable onPress={() => { navigation.goBack(); }}>
-                             <Image source={require('../../assets/arrow-left.png')} />
-                           </Pressable>
+                    <View className="z-50 absolute top-[40px] left-[40px] ">
+                    <Pressable onPress={() => { navigation.goBack(); }} style={{padding:8}}>
+                    <BackArrow width={14} height={10} />
+
+                    </Pressable>
                     </View>
 
 
@@ -66,7 +69,7 @@ const HelpScreen = () => {
             >
                 <Text style={{ color: 'white', fontSize: 16, textAlign: 'center' ,fontFamily:"Poppins-Black"}}>Submit</Text>
             </Pressable>
-        </SafeAreaView>
+        </View>
     );
 }
 

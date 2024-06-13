@@ -127,7 +127,7 @@ const RequestPreviewScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 ,backgroundColor: "white" }}>
       <View style={{ flex: 1 }}>
         <View className=" flex flex-row items-center mt-[50px] mb-[24px] px-[34px]">
           <Pressable onPress={() => navigation.goBack()} className="">
