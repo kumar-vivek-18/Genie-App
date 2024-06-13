@@ -85,7 +85,7 @@ const CreateNewBidScreen = () => {
         //updating chat latest message
         const updateChat = {
           ...currentSpadeRetailer,
-          unreadMessages: 0,
+          unreadCount: 0,
           latestMessage: { _id: res.data._id, message: res.data.message },
         };
         const retailers = currentSpadeRetailers.filter(

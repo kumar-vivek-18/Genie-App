@@ -47,7 +47,7 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
                 setMessages([...messages, res.data]);
 
                 //updating chat latest message
-                const updateChat = { ...currentSpadeRetailer, unreadMessages: 0, latestMessage: { _id: res.data._id, message: res.data.message } };
+                const updateChat = { ...currentSpadeRetailer, unreadCount: 0, latestMessage: { _id: res.data._id, message: res.data.message } };
                 const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
                 dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
                 dispatch(setCurrentSpadeRetailer(updateChat));
