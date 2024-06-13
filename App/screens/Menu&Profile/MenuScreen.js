@@ -33,8 +33,8 @@ const MenuScreen = () => {
 
                 <Text className="text-center pt-[48px] text-[16px] mb-[60px]" style={{fontFamily:"Poppins-Bold"}}>Menu</Text>
 
-                <Pressable onPress={() => { navigation.navigate("profile"); }}>
-                    <View className="-z-50 flex flex-row px-[40px] gap-[30px] items-center  h-[150px] w-full  shadow-3xl rounded-3xl bg-white">
+                <Pressable onPress={() => { navigation.navigate("profile"); }} style={{alignItems:"center"}}>
+                    <View className="-z-50 flex flex-row px-[40px] gap-[30px]  items-center w-[90%]  h-[150px]   shadow-3xl rounded-3xl bg-white">
                         <View className="w-[56px] h-[56px] bg-[#f9f9f9] rounded-full flex justify-center items-center">
                             {/* <Image source={require('../../assets/ProfileIcon.png')} className="w-[36px] h-[36px] " /> */}
                             <Image source={{ uri: userDetails.pic }} className="w-full h-full rounded-full" />
@@ -48,12 +48,7 @@ const MenuScreen = () => {
                 </Pressable>
 
                 <View className="px-[60px] mt-[65px] gap-[45px]">
-                    <Pressable>
-                        <View className="flex flex-row justify-between items-center">
-                            <Text className="text-[15px]" style={{fontFamily:"Poppins-Regular"}}>Draft Requests (5)</Text>
-                            <Image source={require('../../assets/arrow-right.png')} />
-                        </View>
-                    </Pressable>
+                    
                     <Pressable onPress={() => { navigation.navigate("about") }}>
                         <View className="flex flex-row justify-between items-center">
                             <Text className="text-[15px]" style={{fontFamily:"Poppins-Regular"}}>About CulturTap Genie </Text>
