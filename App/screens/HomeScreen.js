@@ -156,7 +156,7 @@ const HomeScreen = () => {
       );
 
       await axios
-        .patch("https://culturtap.com/api/user/edit-profile", {
+        .patch("http://173.212.193.109:5000/user/edit-profile", {
           _id: userDetails._id,
           updateData: {
             longitude: updatedUserData.longitude,
