@@ -51,7 +51,7 @@ const CreateNewBidScreen = () => {
   const sendBid = async () => {
     setLoading(true);
     const token = await axios.get(
-      "https://culturtap.com/retailer/unique-token",
+      "http://173.212.193.109:5000/retailer/unique-token",
       {
         params: {
           id: details.retailerId._id,
@@ -61,7 +61,7 @@ const CreateNewBidScreen = () => {
 
     console.log("create bid", details.requestId);
     await axios
-      .post("https://culturtap.com/chat/send-message", {
+      .post("http://173.212.193.109:5000/chat/send-message", {
         sender: {
           type: "UserRequest",
           refId: details.requestId._id,

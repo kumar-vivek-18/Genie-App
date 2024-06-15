@@ -26,7 +26,7 @@ const useRequestSocket = (spadeId) => {
         });
 
         const fetchRetailers = () => {
-            axios.get(`https://culturtap.com/chat/spade-chats`, {
+            axios.get(`http://173.212.193.109:5000/chat/spade-chats`, {
                 params: {
                     id: currentSpade._id,
                 }

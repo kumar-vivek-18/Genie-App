@@ -70,7 +70,7 @@ const RequestDetail = () => {
         // });
 
         const fetchRetailers = () => {
-            axios.get(`https://culturtap.com/chat/spade-chats`, {
+            axios.get(`http://173.212.193.109:5000/chat/spade-chats`, {
                 params: {
                     id: currentSpade._id,
                 }
@@ -180,7 +180,7 @@ const RequestDetail = () => {
 
     const closeRequest = async () => {
 
-        const request = await axios.patch(`https://culturtap.com/user/closespade/`, {
+        const request = await axios.patch(`http://173.212.193.109:5000/user/closespade/`, {
             id: currentSpade._id
         });
         console.log('request', request);
@@ -249,7 +249,7 @@ const RequestDetail = () => {
                             <Text className="mt-[5px]" style={{ fontFamily: "Poppins-Regular" }}>{spade.requestDescription}</Text>
                             <Pressable onPress={() => navigation.navigate('image-refrences')}>
                                 <View className="flex-row gap-[15px] mt-[15px] items-center">
-                                    <GalleryImg/>
+                                    <GalleryImg />
                                     <Text className="text-[14px]  text-[#fb8c00]" style={{ fontFamily: "Poppins-Black" }}>Image References</Text>
                                 </View>
                             </Pressable>

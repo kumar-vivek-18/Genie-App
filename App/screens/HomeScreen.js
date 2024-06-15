@@ -98,7 +98,7 @@ const HomeScreen = () => {
     try {
       // console.log('userHomeScreem', userDetails._id);
       const response = await axios.get(
-        "https://culturtap.com/user/getspades",
+        "http://173.212.193.109:5000/user/getspades",
         {
           params: {
             id: userData?._id,
@@ -156,7 +156,7 @@ const HomeScreen = () => {
       );
 
       await axios
-        .patch("https://culturtap.com/user/edit-profile", {
+        .patch("http://173.212.193.109:5000/user/edit-profile", {
           _id: userDetails._id,
           updateData: {
             longitude: updatedUserData.longitude,
@@ -167,7 +167,7 @@ const HomeScreen = () => {
         .then((res) => {
           console.log("User location updated successfully");
         });
-        
+
       dispatch(setUserDetails(updatedUserData));
       setIsLoading(false);
       await AsyncStorage.setItem(
@@ -185,13 +185,13 @@ const HomeScreen = () => {
   };
 
   const handleSpadeCreation = async () => {
-    // if (userDetails.lastPaymentStatus === "unpaid") {
-    //   navigation.navigate('payment-gateway');
-    // }
-    // else {
-    //   navigation.navigate("requestentry");
-    // }
-    navigation.navigate("requestentry");
+    if (userDetails.lastPaymentStatus === "unpaid") {
+      navigation.navigate('payment-gateway');
+    }
+    else {
+      navigation.navigate("requestentry");
+    }
+    // navigation.navigate("requestentry");
   }
 
   const { width } = Dimensions.get('window');

@@ -64,7 +64,7 @@ const BargainingScreen = () => {
         console.log('marks as read0', currentSpadeRetailer._id);
         try {
             if (currentSpadeRetailer.unreadCount > 0) {
-                const response = await axios.patch('https://culturtap.com/chat/mark-as-read', {
+                const response = await axios.patch('http://173.212.193.109:5000/chat/mark-as-read', {
                     id: currentSpadeRetailer._id
                 });
                 // const updateChat = { ...currentSpadeRetailer, unreadCount: 0 };
@@ -150,7 +150,7 @@ const BargainingScreen = () => {
     const fetchMessages = (id) => {
 
 
-        axios.get('https://culturtap.com/chat/get-spade-messages', {
+        axios.get('http://173.212.193.109:5000/chat/get-spade-messages', {
             params: {
                 id: id
             }
@@ -184,7 +184,7 @@ const BargainingScreen = () => {
     const acceptBid = async () => {
         setLoading(true);
         try {
-            await axios.patch('https://culturtap.com/chat/accept-bid', {
+            await axios.patch('http://173.212.193.109:5000/chat/accept-bid', {
                 messageId: messages[messages.length - 1]._id,
                 userRequestId: spade._id
             })
@@ -240,13 +240,13 @@ const BargainingScreen = () => {
     const rejectBid = async () => {
         setLoading(true);
         try {
-            const token = await axios.get('https://culturtap.com/retailer/unique-token', {
+            const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
                 params: {
                     id: details.retailerId._id,
                 }
             });
 
-            const res = await axios.patch('https://culturtap.com/chat/reject-bid', {
+            const res = await axios.patch('http://173.212.193.109:5000/chat/reject-bid', {
                 messageId: messages[messages.length - 1]._id,
             });
 
@@ -378,7 +378,7 @@ const BargainingScreen = () => {
 
     return (
         <>
-            {!cameraScreen && <View style={{ flex: 1 ,backgroundColor:"white"}} className="relative">
+            {!cameraScreen && <View style={{ flex: 1, backgroundColor: "white" }} className="relative">
                 <View contentContainerStyle={{ flexGrow: 1 }} className="relative">
                     {attachmentScreen &&
                         <View style={styles.overlay}>
@@ -416,28 +416,28 @@ const BargainingScreen = () => {
                         <View className="flex-row gap-[6px] items-center mt-[16px]">
                             <View className="flex-row gap-[7px] items-center">
                                 <Contact />
-                                <Text style={{ fontFamily: "Poppins-Regular",color:"#FB8C00" }}>Contact Details</Text>
+                                <Text style={{ fontFamily: "Poppins-Regular", color: "#FB8C00" }}>Contact Details</Text>
                             </View>
                             <TouchableOpacity onPress={() => { handleOpenGoogleMaps() }}>
                                 <View className="flex-row gap-[7px] items-center">
                                     <LocationImg />
-                                    <Text style={{ fontFamily: "Poppins-Regular",color:"#FB8C00" }}>Store Location</Text>
+                                    <Text style={{ fontFamily: "Poppins-Regular", color: "#FB8C00" }}>Store Location</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
 
                         <View className="flex-row gap-[5px] mt-[15px] items-center">
-                            <Tick height={18} width={18}/>
-                            <Text style={{ fontFamily: "Poppins-Regular" ,color:"#79B649"}}>Home delivery available</Text>
+                            <Tick height={18} width={18} />
+                            <Text style={{ fontFamily: "Poppins-Regular", color: "#79B649" }}>Home delivery available</Text>
                         </View>
                     </View>
 
-                    <ScrollView contentContainerStyle={{ flexGrow: 1,paddingBottom:40 }}
+                    <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
                         ref={scrollViewRef}
                         onContentSizeChange={() =>
-                          scrollViewRef.current.scrollToEnd({ animated: true })
+                            scrollViewRef.current.scrollToEnd({ animated: true })
                         }
-                    
+
                     >
                         <View className="flex gap-[10px] px-[10px] pt-[40px] pb-[300px]">
                             {

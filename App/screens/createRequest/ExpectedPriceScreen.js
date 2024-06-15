@@ -26,7 +26,7 @@ const ExpectedPriceScreen = () => {
     const VerifyCoupon = async () => {
         console.log("Adding coupon");
         try {
-            await axios.get('https://culturtap.com/coupon/verify-coupon', {
+            await axios.get('http://173.212.193.109:5000/coupon/verify-coupon', {
                 params: {
                     couponCode: couponCode
                 }

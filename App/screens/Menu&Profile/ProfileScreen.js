@@ -46,7 +46,7 @@ const ProfileScreen = () => {
     if (email.length < 7) return;
     setLoading(true);
     await axios
-      .patch("https://culturtap.com/user/edit-profile", {
+      .patch("http://173.212.193.109:5000/user/edit-profile", {
         _id: userDetails._id,
         updateData: { email: email },
       })
@@ -68,7 +68,7 @@ const ProfileScreen = () => {
     if (userName.length < 3) return;
     setIsLoading(true);
     await axios
-      .patch("https://culturtap.com/user/edit-profile", {
+      .patch("http://173.212.193.109:5000/user/edit-profile", {
         _id: userDetails._id,
         updateData: { userName: userName },
       })
@@ -89,7 +89,7 @@ const ProfileScreen = () => {
     console.log("image uri", image);
     if (!image) return;
     await axios
-      .patch("https://culturtap.com/user/edit-profile", {
+      .patch("http://173.212.193.109:5000/user/edit-profile", {
         _id: userDetails._id,
         updateData: { pic: image },
       })

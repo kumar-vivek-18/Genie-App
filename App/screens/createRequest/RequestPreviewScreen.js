@@ -72,7 +72,7 @@ const RequestPreviewScreen = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "https://culturtap.com/user/createrequest",
+        "http://173.212.193.109:5000/user/createrequest",
         {
           customerID: userDetails._id,
           request: requestDetail,

@@ -75,7 +75,7 @@
 
 // export default PaymentScreen;
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -180,7 +180,7 @@ const PaymentScreen = () => {
     // console.log('userNmae', userName);
     // if (userName.length < 3) return;
     await axios
-      .patch("https://culturtap.com/user/edit-profile", {
+      .patch("http://173.212.193.109:5000/user/edit-profile", {
         _id: userDetails._id,
         updateData: { lastPaymentStatus: "paid" },
       })
@@ -197,7 +197,7 @@ const PaymentScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1 , backgroundColor: "white"}}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView contentContainerStyle={{ flex: 1 }}>
         <View className="flex w-screen mt-[40px]" style={{ flex: 1 }}>
           <View className="flex flex-row items-center pb-[20px] px-[32px]">

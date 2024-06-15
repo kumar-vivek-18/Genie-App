@@ -31,7 +31,7 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
             console.log("FCM token deleted.");
             await AsyncStorage.removeItem('userDetails');
 
-            await axios.patch('https://culturtap.com/user/edit-profile', {
+            await axios.patch('http://173.212.193.109:5000/user/edit-profile', {
                 _id: userDetails._id,
                 updateData: { uniqueToken: "" }
             })

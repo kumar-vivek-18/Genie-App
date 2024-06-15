@@ -65,7 +65,7 @@ const HistoryScreen = () => {
 
         try {
             // console.log('userHomeScreem', userDetails);
-            const response = await axios.get('https://culturtap.com/user/history', {
+            const response = await axios.get('http://173.212.193.109:5000/user/history', {
                 params: {
                     id: userDetails._id,
                 }
