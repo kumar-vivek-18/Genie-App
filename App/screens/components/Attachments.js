@@ -10,7 +10,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { socket } from '../../utils/scoket.io/socket';
 import { formatDateTime } from '../../utils/logics/Logics';
 import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessages }) => {
 
@@ -19,9 +19,12 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
     const navigation = useNavigation();
     const [imageUri, setImageUri] = useState("");
     const dispatch = useDispatch();
+    const [loading,setLoading]=useState(true);
+
 
     const sendAttachment = async () => {
         // console.log('res', query, imageUri);
+        setLoading(true)
         const token = await axios.get('https://culturtap.com/retailer/unique-token', {
             params: {
                 id: details.retailerId._id,
@@ -47,6 +50,7 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
                 setMessages([...messages, res.data]);
 
                 //updating chat latest message
+                setLoading(false);
                 const updateChat = { ...currentSpadeRetailer, unreadCount: 0, latestMessage: { _id: res.data._id, message: res.data.message } };
                 const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
                 dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
@@ -56,6 +60,8 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
                 navigation.navigate('bargain');
             })
             .catch(err => {
+                setLoading(false);
+
                 console.log(err);
             })
 

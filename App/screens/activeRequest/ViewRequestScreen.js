@@ -11,8 +11,8 @@ const ViewRequestScreen = () => {
     const spade = useSelector(store => store.user.currentSpade);
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <View className=" flex z-40 flex-row items-center justify-center mt-[24px] mb-[24px] mx-[36px]">
+        <View style={{ flex: 1 , backgroundColor: "white"}}>
+            <View className=" flex z-40 flex-row items-center justify-center mt-[40px] mb-[24px] mx-[36px]">
                 <Pressable onPress={() => navigation.goBack()} >
                     <ArrowLeft />
                 </Pressable>
@@ -47,7 +47,7 @@ const ViewRequestScreen = () => {
 
 
 
-        </SafeAreaView>
+        </View>
     )
 }
 

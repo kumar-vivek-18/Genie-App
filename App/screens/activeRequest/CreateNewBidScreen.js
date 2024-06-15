@@ -115,7 +115,7 @@ const CreateNewBidScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <View style={{ flex: 1 }}>
         <ScrollView className="mb-[100px]">
           <View className=" flex z-40 flex-row items-center justify-center mt-[40px] mb-[24px] mx-[36px]">
@@ -223,7 +223,7 @@ const CreateNewBidScreen = () => {
               {loading ? (
                 <ActivityIndicator size="small" color="#ffffff" />
               ) : (
-                <Text className="text-white font-bold text-center text-[16px]" style={{ fontFamily: "Poppins-Black" }}>
+                <Text className="text-white  text-center text-[16px]" style={{ fontFamily: "Poppins-Black" }}>
                   Send a new bid
                 </Text>
               )}

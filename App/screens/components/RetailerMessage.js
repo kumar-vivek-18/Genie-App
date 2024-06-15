@@ -22,7 +22,7 @@ const RetailerMessage = ({ bidDetails, pic }) => {
                     <Text className="text-[12px] pt-[10px]" style={{fontFamily:"Poppins-Regular"}}>{bidDetails.createdAt}</Text>
                 </View>
             </View>
-            <ScrollView horizontal={true} contentContainerStyle={{ flexDirection: 'row', gap: 4, paddingHorizontal: 25, }}>
+            <ScrollView horizontal={true} contentContainerStyle={{ flexDirection: 'row',  paddingHorizontal: 25, }}>
                 {
                     bidDetails.bidImages?.map((image, index) => (
                         <View key={index}>

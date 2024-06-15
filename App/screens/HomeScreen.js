@@ -167,13 +167,17 @@ const HomeScreen = () => {
         .then((res) => {
           console.log("User location updated successfully");
         });
+        
       dispatch(setUserDetails(updatedUserData));
+      setIsLoading(false);
       await AsyncStorage.setItem(
         "userDetails",
         JSON.stringify(updatedUserData)
       );
 
+
     } catch (error) {
+      setIsLoading(false);
       console.error("Error updating location:", error);
     } finally {
       setIsLoading(false);

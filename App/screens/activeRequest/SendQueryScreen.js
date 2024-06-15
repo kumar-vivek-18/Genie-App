@@ -127,12 +127,12 @@ const SendQueryScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <View
         contentContainerStyle={{ flexGrow: 1 }}
         className="relative bg-[#ffe7c8] h-full"
       >
-        <View className="z-50 w-full flex flex-row px-[29px] absolute justify-between  top-[57px]">
+        <View className="z-50 w-full flex flex-row px-[29px] absolute justify-between items-center  top-[50px]">
           <Pressable
             onPress={() => {
               navigation.goBack();
@@ -146,7 +146,7 @@ const SendQueryScreen = () => {
           </Pressable>
         </View>
 
-        <View className="bg-[#ffe7c8] px-[64px] py-[30px] relative">
+        <View className="bg-[#ffe7c8] px-[64px] py-[30px] pt-[40px] relative">
           <View className=" flex-row gap-[18px]">
             <View>
               <Store />
@@ -165,17 +165,17 @@ const SendQueryScreen = () => {
           <View className="flex-row gap-[6px] items-center mt-[16px]">
             <View className="flex-row gap-[7px] items-center">
               <Contact />
-              <Text style={{ fontFamily: "Poppins-Regular" }}>Contact Details</Text>
+              <Text style={{ fontFamily: "Poppins-Regular" ,color:"#FB8C00" }}>Contact Details</Text>
             </View>
             <View className="flex-row gap-[7px] items-center">
               <Location />
-              <Text style={{ fontFamily: "Poppins-Regular" }}>Store Loction</Text>
+              <Text style={{ fontFamily: "Poppins-Regular",color:"#FB8C00"  }}>Store Loction</Text>
             </View>
           </View>
 
           <View className="flex-row gap-[5px] mt-[15px]">
-            <Tick />
-            <Text style={{ fontFamily: "Poppins-Regular" }}>Home delivery available</Text>
+          <Tick height={18} width={18}/>
+          <Text style={{ fontFamily: "Poppins-Regular" ,color:"#79B649"}}>Home delivery available</Text>
           </View>
         </View>
 
@@ -241,7 +241,6 @@ const SendQueryScreen = () => {
           <Text
             style={{
               fontSize: 18,
-              fontWeight: "bold",
               color: !query ? "#888888" : "white",
               fontFamily: "Poppins-Black"
             }}
@@ -249,7 +248,7 @@ const SendQueryScreen = () => {
             Next
           </Text>)}
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 };
 

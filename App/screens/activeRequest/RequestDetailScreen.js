@@ -22,6 +22,10 @@ import Star from '../../assets/Star.svg';
 import HomeIcon from '../../assets/homeIcon.svg';
 import { getGeoCoordinates, haversineDistance } from '../../utils/logics/Logics';
 import { formatDateTime } from '../../utils/logics/Logics';
+import Copy from "../../assets/copy.svg";
+import GalleryImg from "../../assets/gallery.svg";
+
+
 
 const RequestDetail = () => {
     const navigation = useNavigation();
@@ -196,11 +200,11 @@ const RequestDetail = () => {
 
     return (
         <>
-            {<SafeAreaView style={{ flex: 1 }}>
+            {<View style={{ flex: 1 }}>
                 <ScrollView style={{ flex: 1 }}>
                     <View style={{ flex: 1 }} className="relative">
 
-                        <View className="z-50 w-full flex flex-row px-[9px] absolute justify-between  top-[37px]">
+                        <View className="z-50 w-full flex flex-row px-[9px] absolute justify-between items-center top-[30px]">
 
 
                             <Pressable onPress={() => { navigation.goBack(); }}>
@@ -228,7 +232,7 @@ const RequestDetail = () => {
                             </Pressable>
                         </View>}
 
-                        <View className="bg-[#ffe7c8] px-[64px] py-[30px]">
+                        <View className="bg-[#ffe7c8] px-[64px] py-[30px] pt-[40px]">
                             <Text className="text-[16px] " style={{ fontFamily: "Poppins-Bold" }}>Request for</Text>
                             <View className=" flex-row">
                                 <Text className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestCategory}</Text>
@@ -237,7 +241,7 @@ const RequestDetail = () => {
                                 <Text className=" text-[12px]" style={{ fontFamily: "Poppins-Bold" }}>Request ID:</Text>
                                 <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{spade._id}</Text>
                                 <Pressable onPress={() => { Clipboard.setString(spade._id) }}>
-                                    <Image source={require('../../assets/copy.png')} />
+                                    <Copy />
                                 </Pressable>
 
 
@@ -245,7 +249,7 @@ const RequestDetail = () => {
                             <Text className="mt-[5px]" style={{ fontFamily: "Poppins-Regular" }}>{spade.requestDescription}</Text>
                             <Pressable onPress={() => navigation.navigate('image-refrences')}>
                                 <View className="flex-row gap-[15px] mt-[15px] items-center">
-                                    <Image source={require('../../assets/gallery.png')} />
+                                    <GalleryImg/>
                                     <Text className="text-[14px]  text-[#fb8c00]" style={{ fontFamily: "Poppins-Black" }}>Image References</Text>
                                 </View>
                             </Pressable>
@@ -339,7 +343,7 @@ const RequestDetail = () => {
                         <Text className="text-white font-bold text-center text-[16px]">Close Request</Text>
                     </Pressable>
                 </View>}
-            </SafeAreaView>}
+            </View>}
             {confirmModal && <CloseSpadeModal confirmModal={confirmModal} setConfirmModal={setConfirmModal} setSuccessModal={setSuccessModal} />}
             {successModal && <SuccessModal successModal={successModal} setSuccessModal={setSuccessModal} successMessage={"Request Closed"} />}
         </>
@@ -352,7 +356,7 @@ const styles = {
     image: {
         width: 50,
         height: 50,
-        borderRadius: 15
+        borderRadius: 100
     },
 
 };

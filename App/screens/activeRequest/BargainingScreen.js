@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Pressable, Image, TextInput, TouchableOpacity, Alert, Linking } from 'react-native'
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import ThreeDots from '../../assets/3dots.svg';
 import ArrowLeft from '../../assets/arrow-left.svg';
@@ -50,6 +50,8 @@ const BargainingScreen = () => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const userDetails = useSelector(store => store.user.userDetails || []);
+    const scrollViewRef = useRef(null);
+
 
     const route = useRoute();
 
@@ -376,14 +378,14 @@ const BargainingScreen = () => {
 
     return (
         <>
-            {!cameraScreen && <SafeAreaView style={{ flex: 1 }} className="relative">
+            {!cameraScreen && <View style={{ flex: 1 ,backgroundColor:"white"}} className="relative">
                 <View contentContainerStyle={{ flexGrow: 1 }} className="relative">
                     {attachmentScreen &&
                         <View style={styles.overlay}>
                             <Attachments setAttachmentScreen={setAttachmentScreen} setCameraScreen={setCameraScreen} messages={messages} setMessages={setMessages} />
                         </View>
                     }
-                    <View className="z-50 w-full flex flex-row px-[29px] absolute justify-between  top-[57px]">
+                    <View className="z-50 w-full flex flex-row px-[29px] absolute justify-between items-center  top-[50px]">
                         <Pressable onPress={() => { navigation.goBack(); }}>
                             <ArrowLeft />
                         </Pressable>
@@ -394,7 +396,7 @@ const BargainingScreen = () => {
 
                     </View>
 
-                    <View className="bg-[#ffe7c8] px-[64px] py-[30px] relative">
+                    <View className="bg-[#ffe7c8] px-[64px] py-[30px]  pt-[40px] relative">
                         <View className=" flex-row gap-[18px]">
                             <TouchableOpacity onPress={() => { navigation.navigate('retailer-profile') }}>
                                 <View>
@@ -414,23 +416,29 @@ const BargainingScreen = () => {
                         <View className="flex-row gap-[6px] items-center mt-[16px]">
                             <View className="flex-row gap-[7px] items-center">
                                 <Contact />
-                                <Text style={{ fontFamily: "Poppins-Regular" }}>Contact Details</Text>
+                                <Text style={{ fontFamily: "Poppins-Regular",color:"#FB8C00" }}>Contact Details</Text>
                             </View>
                             <TouchableOpacity onPress={() => { handleOpenGoogleMaps() }}>
                                 <View className="flex-row gap-[7px] items-center">
                                     <LocationImg />
-                                    <Text style={{ fontFamily: "Poppins-Regular" }}>Store Location</Text>
+                                    <Text style={{ fontFamily: "Poppins-Regular",color:"#FB8C00" }}>Store Location</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
 
-                        <View className="flex-row gap-[5px] mt-[15px]">
-                            <Tick />
-                            <Text style={{ fontFamily: "Poppins-Regular" }}>Home delivery available</Text>
+                        <View className="flex-row gap-[5px] mt-[15px] items-center">
+                            <Tick height={18} width={18}/>
+                            <Text style={{ fontFamily: "Poppins-Regular" ,color:"#79B649"}}>Home delivery available</Text>
                         </View>
                     </View>
 
-                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <ScrollView contentContainerStyle={{ flexGrow: 1,paddingBottom:40 }}
+                        ref={scrollViewRef}
+                        onContentSizeChange={() =>
+                          scrollViewRef.current.scrollToEnd({ animated: true })
+                        }
+                    
+                    >
                         <View className="flex gap-[10px] px-[10px] pt-[40px] pb-[300px]">
                             {
                                 messages && messages?.map((message, index) => (
@@ -463,15 +471,15 @@ const BargainingScreen = () => {
                         {
 
                         }
-                        {(((spade?.requestActive === "completed" && spade?.requestAcceptedChat === currentSpadeRetailer?._id) || currentSpadeRetailer?.requestType === "ongoing") && ((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "accepted") || (messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "rejected") || messages[messages?.length - 1]?.bidType === "false")) && <View className="w-full flex-row justify-between pl-[20px] pr-[20px]">
+                        {(((spade?.requestActive === "completed" && spade?.requestAcceptedChat === currentSpadeRetailer?._id) || currentSpadeRetailer?.requestType === "ongoing") && ((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "accepted") || (messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "rejected") || messages[messages?.length - 1]?.bidType === "false")) && <View className="w-full flex-row justify-between px-[10px]">
 
                             <TouchableOpacity onPress={() => { navigation.navigate('send-query', { messages, setMessages }) }}>
-                                <View className="border-2 border-[#fb8c00]  px-[30px] py-[11.5px] w-[max-content] rounded-2xl">
+                                <View className="border-2 border-[#fb8c00]  px-[30px] h-[63px] justify-center items-center  w-[max-content] rounded-[24px]">
                                     <Text className="text-[14px] text-[#fb8c00]  " style={{ fontFamily: "Poppins-Regular" }}>Send message </Text>
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => { setAttachmentScreen(true) }}>
-                                <View className="border-2 border-[#fb8c00] flex-row w-[max-content] px-[10px] py-[10px] rounded-2xl gap-[5px]">
+                                <View className="border-2 border-[#fb8c00] flex-row w-[max-content] px-[10px] h-[63px] justify-center items-center rounded-[24px] gap-[5px]">
                                     <Document />
                                     <Text className="text-[14px] text-[#fb8c00] " style={{ fontFamily: "Poppins-Regular" }}>Send attachment</Text>
                                 </View>
@@ -513,7 +521,7 @@ const BargainingScreen = () => {
                         </View>}
                     </View>
                 </View>}
-            </SafeAreaView>}
+            </View>}
 
             {
                 modalVisible && <RequestAcceptModal modalVisible={modalVisible} setModalVisible={setModalVisibile} acceptBid={acceptBid} loading={loading} />
