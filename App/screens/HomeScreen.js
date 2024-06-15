@@ -98,7 +98,7 @@ const HomeScreen = () => {
     try {
       // console.log('userHomeScreem', userDetails._id);
       const response = await axios.get(
-        "https://culturtap.com/api/user/getspades",
+        "https://culturtap.com/user/getspades",
         {
           params: {
             id: userData?._id,
@@ -156,7 +156,7 @@ const HomeScreen = () => {
       );
 
       await axios
-        .patch("http://173.212.193.109:5000/user/edit-profile", {
+        .patch("https://culturtap.com/user/edit-profile", {
           _id: userDetails._id,
           updateData: {
             longitude: updatedUserData.longitude,

@@ -56,9 +56,9 @@ const SplashScreen = () => {
 
         console.log('userData', userData);
         setTimeout(() => {
-          if (userData!==null) {
+          if (userData !== null) {
             // await AsyncStorage.removeItem('userData');
-            console.log('hii going to home');
+            // console.log('hii going to home');
             navigation.navigate("home");
             dispatch(setUserDetails(userData));
           } else {

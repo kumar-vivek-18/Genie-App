@@ -32,13 +32,13 @@ const CameraScreen = () => {
 
     const sendAttachment = async () => {
 
-        const token = await axios.get('https://culturtap.com/api/retailer/unique-token', {
+        const token = await axios.get('https://culturtap.com/retailer/unique-token', {
             params: {
                 id: details.retailerId._id,
             }
         });
 
-        await axios.post('https://culturtap.com/api/chat/send-message', {
+        await axios.post('https://culturtap.com/chat/send-message', {
             sender: {
                 type: 'UserRequest',
                 refId: details.requestId,

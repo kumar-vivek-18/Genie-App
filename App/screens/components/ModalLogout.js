@@ -15,7 +15,7 @@ import { requestClear } from '../../redux/reducers/userRequestsSlice';
 
 const ModalLogout = ({ modalVisible, setModalVisible }) => {
     // const [modalVisible, setModalVisible] = useState(true);
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
     const userDetails = useSelector(store => store.user.userDetails);
     console.log("userDetails", userDetails);
     const [loading, setLoading] = useState(false);
@@ -31,7 +31,7 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
             console.log("FCM token deleted.");
             await AsyncStorage.removeItem('userDetails');
 
-            await axios.patch('https://culturtap.com/api/user/edit-profile', {
+            await axios.patch('https://culturtap.com/user/edit-profile', {
                 _id: userDetails._id,
                 updateData: { uniqueToken: "" }
             })
@@ -46,7 +46,7 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
             setModalVisible(false);
             // await auth().signOut();
             setLoading(false)
-      dispatch(requestClear());
+            dispatch(requestClear());
 
             console.log('User data deleted successfully');
             navigation.navigate("mobileNumber");

@@ -65,7 +65,7 @@ const HistoryScreen = () => {
 
         try {
             // console.log('userHomeScreem', userDetails);
-            const response = await axios.get('https://culturtap.com/api/user/history', {
+            const response = await axios.get('https://culturtap.com/user/history', {
                 params: {
                     id: userDetails._id,
                 }
@@ -103,14 +103,14 @@ const HistoryScreen = () => {
 
 
     return (
-        <SafeAreaView style={{ flex: 1 ,backgroundColor: "white" }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
             <ScrollView style={{ flex: 1 }}>
                 <View style={{ flex: 1 }} className="relative">
 
 
                     <View className="z-50 absolute top-[20px] left-[40px]  ">
-                        <Pressable onPress={() => { navigation.goBack(); }} style={{padding:8}}>
-                        <BackArrow width={14} height={10} />
+                        <Pressable onPress={() => { navigation.goBack(); }} style={{ padding: 8 }}>
+                            <BackArrow width={14} height={10} />
 
                         </Pressable>
                     </View>

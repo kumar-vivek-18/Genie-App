@@ -7,7 +7,7 @@
     "icon": "./App/assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./App/assets/Splash.svg",
+      "image": "./App/assets/Splashh.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -24,7 +24,7 @@
         "clipboard"
       ],
       "googleServicesFile": "./google-services.json",
-      "usesCleartextTraffic": true,
+      
       "adaptiveIcon": {
         "foregroundImage": "./App/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

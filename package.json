@@ -12,6 +12,8 @@
     "eas-build-post-install": "tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css.native.css"
   },
   "dependencies": {
+    "@expo/config-plugins": "^7.8.0",
+    "@expo/prebuild-config": "^6.7.0",
     "@expo/vector-icons": "^14.0.0",
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-clipboard/clipboard": "^1.14.1",

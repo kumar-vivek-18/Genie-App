@@ -26,7 +26,7 @@ const ExpectedPriceScreen = () => {
     const VerifyCoupon = async () => {
         console.log("Adding coupon");
         try {
-            await axios.get('https://culturtap.com/api/coupon/verify-coupon', {
+            await axios.get('https://culturtap.com/coupon/verify-coupon', {
                 params: {
                     couponCode: couponCode
                 }
@@ -46,7 +46,7 @@ const ExpectedPriceScreen = () => {
     }
 
     return (
-        <View style={{ flex: 1,backgroundColor: "white"  }}>
+        <View style={{ flex: 1, backgroundColor: "white" }}>
             <View className=" flex z-40 flex-row items-center justify-center mt-[50px]  mx-[36px]">
                 <Pressable onPress={() => navigation.goBack()} >
 

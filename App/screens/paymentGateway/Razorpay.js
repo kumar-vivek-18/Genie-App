@@ -180,7 +180,7 @@ const PaymentScreen = () => {
     // console.log('userNmae', userName);
     // if (userName.length < 3) return;
     await axios
-      .patch("https://culturtap.com/api/user/edit-profile", {
+      .patch("https://culturtap.com/user/edit-profile", {
         _id: userDetails._id,
         updateData: { lastPaymentStatus: "paid" },
       })

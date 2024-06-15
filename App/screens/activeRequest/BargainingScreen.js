@@ -62,7 +62,7 @@ const BargainingScreen = () => {
         console.log('marks as read0', currentSpadeRetailer._id);
         try {
             if (currentSpadeRetailer.unreadCount > 0) {
-                const response = await axios.patch('https://culturtap.com/api/chat/mark-as-read', {
+                const response = await axios.patch('https://culturtap.com/chat/mark-as-read', {
                     id: currentSpadeRetailer._id
                 });
                 // const updateChat = { ...currentSpadeRetailer, unreadCount: 0 };
@@ -148,7 +148,7 @@ const BargainingScreen = () => {
     const fetchMessages = (id) => {
 
 
-        axios.get('http://173.212.193.109:5000/chat/get-spade-messages', {
+        axios.get('https://culturtap.com/chat/get-spade-messages', {
             params: {
                 id: id
             }
@@ -182,7 +182,7 @@ const BargainingScreen = () => {
     const acceptBid = async () => {
         setLoading(true);
         try {
-            await axios.patch('http://173.212.193.109:5000/chat/accept-bid', {
+            await axios.patch('https://culturtap.com/chat/accept-bid', {
                 messageId: messages[messages.length - 1]._id,
                 userRequestId: spade._id
             })
@@ -238,13 +238,13 @@ const BargainingScreen = () => {
     const rejectBid = async () => {
         setLoading(true);
         try {
-            const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
+            const token = await axios.get('https://culturtap.com/retailer/unique-token', {
                 params: {
                     id: details.retailerId._id,
                 }
             });
 
-            const res = await axios.patch('http://173.212.193.109:5000/chat/reject-bid', {
+            const res = await axios.patch('https://culturtap.com/chat/reject-bid', {
                 messageId: messages[messages.length - 1]._id,
             });
 

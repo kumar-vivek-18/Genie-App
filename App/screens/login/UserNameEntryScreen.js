@@ -64,7 +64,7 @@ const UserNameEntryScreen = () => {
 
             // Send user data to the server
             console.log("User data sent to", mobileNumber, name);
-            const response = await axios.post('https://culturtap.com/api/user/', {
+            const response = await axios.post('https://culturtap.com/user/', {
                 mobileNo: mobileNumber,
                 userName: name,
 
@@ -81,7 +81,7 @@ const UserNameEntryScreen = () => {
 
                 //  console.log("user",user);
                 await AsyncStorage.setItem('userDetails', JSON.stringify(response.data));
-                await axios.patch('https://culturtap.com/api/user/edit-profile', {
+                await axios.patch('https://culturtap.com/user/edit-profile', {
                     _id: response.data._id,
                     updateData: { uniqueToken: userToken }
                 })
@@ -118,7 +118,7 @@ const UserNameEntryScreen = () => {
     //   const { width } = Dimensions.get('window');
 
     return (
-        <View style={{ flex: 1 ,backgroundColor: "white" }}>
+        <View style={{ flex: 1, backgroundColor: "white" }}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 <KeyboardAvoidingView
                     behavior="position"

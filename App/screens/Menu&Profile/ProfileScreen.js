@@ -46,7 +46,7 @@ const ProfileScreen = () => {
     if (email.length < 7) return;
     setLoading(true);
     await axios
-      .patch("https://culturtap.com/api/user/edit-profile", {
+      .patch("https://culturtap.com/user/edit-profile", {
         _id: userDetails._id,
         updateData: { email: email },
       })
@@ -68,7 +68,7 @@ const ProfileScreen = () => {
     if (userName.length < 3) return;
     setIsLoading(true);
     await axios
-      .patch("https://culturtap.com/api/user/edit-profile", {
+      .patch("https://culturtap.com/user/edit-profile", {
         _id: userDetails._id,
         updateData: { userName: userName },
       })
@@ -89,7 +89,7 @@ const ProfileScreen = () => {
     console.log("image uri", image);
     if (!image) return;
     await axios
-      .patch("https://culturtap.com/api/user/edit-profile", {
+      .patch("https://culturtap.com/user/edit-profile", {
         _id: userDetails._id,
         updateData: { pic: image },
       })
@@ -176,7 +176,7 @@ const ProfileScreen = () => {
 
   return (
 
-    <View style={{ flex: 1 ,backgroundColor:"white"}} className="relative">
+    <View style={{ flex: 1, backgroundColor: "white" }} className="relative">
       <ScrollView >
         <View className="mt-[42px]">
           <Text
@@ -193,7 +193,7 @@ const ProfileScreen = () => {
               navigation.goBack();
             }}
           >
-           <Cross/>
+            <Cross />
           </Pressable>
         </View>
 
@@ -275,7 +275,7 @@ const ProfileScreen = () => {
                 }}
               >
                 <View className=" px-[20px] py-[10px]">
-                <EditIcon/>
+                  <EditIcon />
                 </View>
               </TouchableOpacity>
             </View>
@@ -342,7 +342,7 @@ const ProfileScreen = () => {
             {!editEmail && (
               <TouchableOpacity onPress={() => setEditEmail(true)}>
                 <View className="px-[20px] py-[10px]">
-                  <EditIcon/>
+                  <EditIcon />
                 </View>
               </TouchableOpacity>
             )}

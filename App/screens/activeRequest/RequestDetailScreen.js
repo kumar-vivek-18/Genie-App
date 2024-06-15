@@ -66,7 +66,7 @@ const RequestDetail = () => {
         // });
 
         const fetchRetailers = () => {
-            axios.get(`https://culturtap.com/api/chat/spade-chats`, {
+            axios.get(`https://culturtap.com/chat/spade-chats`, {
                 params: {
                     id: currentSpade._id,
                 }
@@ -176,7 +176,7 @@ const RequestDetail = () => {
 
     const closeRequest = async () => {
 
-        const request = await axios.patch(`hhttps://culturtap.com/api/user/closespade/`, {
+        const request = await axios.patch(`https://culturtap.com/user/closespade/`, {
             id: currentSpade._id
         });
         console.log('request', request);

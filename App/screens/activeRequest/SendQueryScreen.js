@@ -65,7 +65,7 @@ const SendQueryScreen = () => {
   const sendQuery = async () => {
     setIsLoading(true);
     const token = await axios.get(
-      "https://culturtap.com/api/retailer/unique-token",
+      "https://culturtap.com/retailer/unique-token",
       {
         params: {
           id: currentSpadeRetailer.retailerId._id,
@@ -76,7 +76,7 @@ const SendQueryScreen = () => {
     console.log("token", token.data);
 
     await axios
-      .post("https://culturtap.com/api/chat/send-message", {
+      .post("https://culturtap.com/chat/send-message", {
         sender: {
           type: "UserRequest",
           refId: details.requestId,

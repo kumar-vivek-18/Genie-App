@@ -72,7 +72,7 @@ const RequestPreviewScreen = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "https://culturtap.com/api/user/createrequest",
+        "https://culturtap.com/user/createrequest",
         {
           customerID: userDetails._id,
           request: requestDetail,
@@ -127,7 +127,7 @@ const RequestPreviewScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1 ,backgroundColor: "white" }}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <View style={{ flex: 1 }}>
         <View className=" flex flex-row items-center mt-[50px] mb-[24px] px-[34px]">
           <Pressable onPress={() => navigation.goBack()} className="">

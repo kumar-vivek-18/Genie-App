@@ -160,51 +160,51 @@ const MobileNumberEntryScreen = () => {
       // console.log("res", res);
       // console.log(otp);
       // if (res) {
-        const phoneNumber = countryCode + mobileNumber;
-        console.log("phone", phoneNumber);
-        const response = await axios.get("https://culturtap.com/api/user/", {
-          params: {
-            mobileNo: phoneNumber,
-          },
-        });
-        // console.log("res", response);
-        setMobileScreen(true);
-        if (response.data.mobileNo) {
-          // If mobile number is registered, navigate to home screen
-          // console.log('userDetails from mobileScreen', response.data);
-          dispatch(setUserDetails(response.data));
-          await AsyncStorage.setItem(
-            "userDetails",
-            JSON.stringify(response.data)
-          );
-         
-          // setMobileNumberLocal("");
-          navigation.navigate("home");
-          await axios
-            .patch("https://culturtap.com/api/user/edit-profile", {
-              _id: response.data._id,
-              updateData: { uniqueToken: token },
-            })
-            .then(async (res) => {
-              console.log("UserToken updated Successfully", res.data);
-              await AsyncStorage.setItem(
-                "userDetails",
-                JSON.stringify(res.data)
-              );
-              dispatch(setUserDetails(res.data));
-              setMobileNumberLocal("");
-              setOtp("");
-              setToken("")
-            })
-            .catch((err) => {
-              console.error("Error updating token: " + err.message);
-            });
-        } else if (response.data.status === 404) {
-          // If mobile number is not registered, continue with the registration process
-          // setMobileNumberLocal("");
-          navigation.navigate("registerUsername");
-          setMobileNumberLocal("");
-        }
+      const phoneNumber = countryCode + mobileNumber;
+      console.log("phone", phoneNumber);
+      const response = await axios.get("https://culturtap.com/user/", {
+        params: {
+          mobileNo: phoneNumber,
+        },
+      });
+      // console.log("res", response);
+      setMobileScreen(true);
+      if (response.data.mobileNo) {
+        // If mobile number is registered, navigate to home screen
+        // console.log('userDetails from mobileScreen', response.data);
+        dispatch(setUserDetails(response.data));
+        await AsyncStorage.setItem(
+          "userDetails",
+          JSON.stringify(response.data)
+        );
+
+        // setMobileNumberLocal("");
+        navigation.navigate("home");
+        await axios
+          .patch("https://culturtap.com/user/edit-profile", {
+            _id: response.data._id,
+            updateData: { uniqueToken: token },
+          })
+          .then(async (res) => {
+            console.log("UserToken updated Successfully", res.data);
+            await AsyncStorage.setItem(
+              "userDetails",
+              JSON.stringify(res.data)
+            );
+            dispatch(setUserDetails(res.data));
+            setMobileNumberLocal("");
+            setOtp("");
+            setToken("")
+          })
+          .catch((err) => {
+            console.error("Error updating token: " + err.message);
+          });
+      } else if (response.data.status === 404) {
+        // If mobile number is not registered, continue with the registration process
+        // setMobileNumberLocal("");
+        navigation.navigate("registerUsername");
+        setMobileNumberLocal("");
+      }
       // }
       // else {
       //   setLoading(false);
@@ -225,9 +225,9 @@ const MobileNumberEntryScreen = () => {
     <>
       {mobileScreen && (
         <View style={{ flex: 1, backgroundColor: "white" }}>
-           <KeyboardAvoidingView behavior="padding" style={{flex:1}}>
-          <ScrollView >
-           
+          <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+            <ScrollView >
+
               {/* <Image source={require("../../assets/MobileEntryPage.png")} className="w-full object-cover" /> */}
 
               <MobileNumberScreenBg width={width} height={350} />
@@ -282,8 +282,8 @@ const MobileNumberEntryScreen = () => {
                   </View>
                 </View>
               </View>
-            
-          </ScrollView>
+
+            </ScrollView>
           </KeyboardAvoidingView>
           <TouchableOpacity
             disabled={mobileNumber.length !== 10}
@@ -319,7 +319,7 @@ const MobileNumberEntryScreen = () => {
         </View>
       )}
       {!mobileScreen && (
-        <View style={{ flex: 1 ,backgroundColor: "white" }}>
+        <View style={{ flex: 1, backgroundColor: "white" }}>
           {/* <Text>OtpVerificationScreen</Text> */}
           <KeyboardAvoidingView behavior="padding">
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -330,13 +330,13 @@ const MobileNumberEntryScreen = () => {
               {/* <OtpPageBg width={width} /> */}
               <Pressable onPress={() => { navigation.goBack() }} className="flex z-40 flex-row items-center absolute top-16 left-4 gap-2">
                 <View className="px-[24px]">
-                <BackArrow width={14} height={10} />
-                  </View>                          
+                  <BackArrow width={14} height={10} />
+                </View>
 
-              
 
-                           
-                        </Pressable>
+
+
+              </Pressable>
               <View className="px-[42px] pb-[70px]">
                 <View className="flex flex-row gap-2 pt-[30px] ">
                   <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
