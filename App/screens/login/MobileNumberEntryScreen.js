@@ -232,7 +232,7 @@ const MobileNumberEntryScreen = () => {
 
               <MobileNumberScreenBg width={width} height={350} />
               <View
-                style={{ flex: 1, backgroundColor: "white", paddingBottom: 100 }}
+                style={{backgroundColor: "white",paddingBottom: 150  }}
               >
                 <View className="flex flex-row gap-2 pt-[30px] px-[32px] ">
                   <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
@@ -245,7 +245,7 @@ const MobileNumberEntryScreen = () => {
                     online with nearby retailers now.
                   </Text>
                 </View>
-                <View className="flex flex-col gap-[10px] mt-[40px]">
+                <View className="flex flex-col gap-[10px] my-[40px]">
                   <View className="flex flex-col gap-[5px] px-[32px]">
                     {/* <Image source={require("../../assets/mobileIcon.png")} className="w-[11px] h-[18px]" /> */}
                     {/* <MobileIcon /> */}

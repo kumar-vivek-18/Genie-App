@@ -26,10 +26,10 @@ const MenuScreen = () => {
             <View style={{ flex: 1 }} className="relative">
 
 
-                <View className="z-50 absolute top-[40px] left-[40px] py-[8px] px-[4px]">
+                <View className="z-50 absolute top-[40px] left-[40px] py-[6px] px-[4px]">
                     <TouchableOpacity onPress={() => { navigation.goBack(); }}
                         >
-                        <View className="p-[12px]">
+                        <View className="p-[10px]">
                           <BackArrow width={14} height={10} />
                            
                         </View>
