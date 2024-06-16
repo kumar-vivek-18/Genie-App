@@ -13,19 +13,19 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
 
     const closeSpade = async () => {
         try {
-            const request = await axios.patch(`http://173.212.193.109:5000/user/closespade`, {
+            const request = await axios.patch(`http://173.212.193.109:5000/user/close-spade`, {
                 id: spade._id
             });
             if (request.status === 200) {
                 console.log('request closed');
-                spades = spades.filter(curr => curr._id !== request._id);
-                dispatch(setSpades(spades));
+                const updatedSpades = spades.filter(curr => curr._id !== spade._id);
+                dispatch(setSpades(updatedSpades));
                 setConfirmModal(false);
                 setSuccessModal(true);
             }
             else {
                 setConfirmModal(false);
-                console.error('Error occuring while closing user request');
+                console.error('Error occuring while closing user spade');
             }
         } catch (error) {
             setConfirmModal(false);

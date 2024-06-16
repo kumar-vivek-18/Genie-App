@@ -48,6 +48,7 @@ const CameraScreen = () => {
     const currentSpadeRetailers = useSelector(
         (store) => store.user.currentSpadeRetailers
     );
+    const currentSpade = useSelector((store) => store.user.currentSpade);
     const [loading, setLoading] = useState(false);
 
     const sendAttachment = async () => {
@@ -67,6 +68,7 @@ const CameraScreen = () => {
                     type: "UserRequest",
                     refId: details.requestId,
                 },
+                userRequest: currentSpade._id,
                 message: query,
                 bidType: false,
                 bidImages: [imageUri],
@@ -87,7 +89,7 @@ const CameraScreen = () => {
                     unreadCount: 0,
                     latestMessage: { _id: res.data._id, message: res.data.message },
                 };
-                const updatedRetailers = [updatedUser, ...currentSpadeRetailers.filter(c => c._id !== updatedUser._id)];
+                const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
                 dispatch(setCurrentSpadeRetailers(updatedRetailers));
                 dispatch(setCurrentSpadeRetailer(updateChat));
 

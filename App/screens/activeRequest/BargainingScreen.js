@@ -264,10 +264,9 @@ const BargainingScreen = () => {
             setMessages(mess);
 
             //updating retailers latest message
-            const updateChat = { ...currentSpadeRetailer, unreadCount: 0, latestMessage: { _id: res.data.message._id, message: res.data.message.message } };
-            let retailers = [currentSpadeRetailers];
-            retailers = retailers.filter(c => c._id !== updateChat._id);
-            dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
+            const updateChat = { ...currentSpadeRetailer, unreadMessages: 0, latestMessage: { _id: res.data.message._id, message: res.data.message.message } };
+            const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
+            dispatch(setCurrentSpadeRetailers(updatedRetailers));
             dispatch(setCurrentSpadeRetailer(updateChat));
 
             console.log('bid rejected');
@@ -300,9 +299,8 @@ const BargainingScreen = () => {
                 if (prevMessages[prevMessages.length - 1]?.chat?._id === newMessageReceived?.chat?._id) {
                     //updating retailers latest message
                     const updateChat = { ...currentSpadeRetailer, unreadCount: 0, latestMessage: { _id: newMessageReceived._id, message: newMessageReceived.message } };
-                    let retailers = [currentSpadeRetailers];
-                    retailers = retailers.filter(c => c._id !== updateChat._id);
-                    dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
+                    const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
+                    dispatch(setCurrentSpadeRetailers(updatedRetailers));
                     dispatch(setCurrentSpadeRetailer(updateChat));
                     if (prevMessages[prevMessages.length - 1]?._id === newMessageReceived?._id) {
                         // Update the last message if it's the same as the new one

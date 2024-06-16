@@ -142,7 +142,7 @@ const RequestDetail = () => {
                 // retailers = currentSpadeRetailers.filter(c => c._id !== updatedUser._id);
                 // retailers = [updatedUser, ...retailers];
                 // dispatch(setCurrentSpadeRetailers(retailers));
-                console.log('updatedRe', currentSpadeRetailers);
+                // console.log('updatedRe', currentSpadeRetailers);
                 const updatedRetailers = [updatedUser, ...currentSpadeRetailers.filter(c => c._id !== updatedUser._id)];
                 dispatch(setCurrentSpadeRetailers(updatedRetailers));
 
@@ -276,9 +276,9 @@ const RequestDetail = () => {
                                     //     distance = haversineDistance(userLongitude, userLatitude, details.retailerId.lattitude, details.retailerId.longitude);
                                     // }
                                     // else
-                                    if (details && details?.customerId?.longitude !== 0 && details?.customerId.latitude !== 0 && details.retailerId.longitude !== 0 && details.retailerId.lattitude !== 0) {
-                                        distance = haversineDistance(details.customerId.latitude, details.customerId.longitude, details.retailerId.lattitude, details.retailerId.longitude);
-                                    }
+                                    // if (details && details?.customerId?.longitude !== 0 && details?.customerId.latitude !== 0 && details.retailerId.longitude !== 0 && details.retailerId.lattitude !== 0) {
+                                    //     distance = haversineDistance(details.customerId.latitude, details.customerId.longitude, details.retailerId.lattitude, details.retailerId.longitude);
+                                    // }
                                     // console.log(details.customerId.latitude, details.customerId.longitude);
 
                                     // Calculate distance if coordinates are valid

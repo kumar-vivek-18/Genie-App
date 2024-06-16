@@ -82,6 +82,7 @@ const SendQueryScreen = () => {
           refId: details.requestId,
         },
         message: query,
+        userRequest: spade._id,
         bidType: "false",
         bidPrice: 0,
         bidImages: [],

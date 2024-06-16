@@ -37,6 +37,7 @@ const CreateNewBidScreen = () => {
   const currentSpadeRetailers = useSelector(
     (store) => store.user.currentSpadeRetailers
   );
+  const currentSpade = useSelector((store) => store.user.currentSpade);
   const navigation = useNavigation();
   const [price, setPrice] = useState(null);
   const [query, setQuery] = useState("");
@@ -67,6 +68,7 @@ const CreateNewBidScreen = () => {
           refId: details.requestId._id,
         },
         message: query,
+        userRequest: currentSpade._id,
         bidType: "true",
         bidImages: requestImages,
         bidPrice: price,
@@ -88,7 +90,7 @@ const CreateNewBidScreen = () => {
           unreadCount: 0,
           latestMessage: { _id: res.data._id, message: res.data.message },
         };
-        const updatedRetailers = [updatedUser, ...currentSpadeRetailers.filter(c => c._id !== updatedUser._id)];
+        const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
         dispatch(setCurrentSpadeRetailers(updatedRetailers));
         dispatch(setCurrentSpadeRetailer(updateChat));
         // dispatch(setCurrentChatMessages(mess));

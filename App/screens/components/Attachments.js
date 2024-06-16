@@ -16,6 +16,7 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
 
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
     const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
+    const currentSpade = useSelector((store) => store.user.currentSpade);
     const navigation = useNavigation();
     const [imageUri, setImageUri] = useState("");
     const dispatch = useDispatch();
@@ -36,6 +37,7 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
                 type: 'UserRequest',
                 refId: details.requestId,
             },
+            userRequest: currentSpade._id,
             message: query,
             bidType: "false",
             bidImages: [imageUri],
@@ -52,7 +54,7 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
                 //updating chat latest message
                 setLoading(false);
                 const updateChat = { ...currentSpadeRetailer, unreadCount: 0, latestMessage: { _id: res.data._id, message: res.data.message } };
-                const updatedRetailers = [updatedUser, ...currentSpadeRetailers.filter(c => c._id !== updatedUser._id)];
+                const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
                 dispatch(setCurrentSpadeRetailers(updatedRetailers));
                 dispatch(setCurrentSpadeRetailer(updateChat));
 

@@ -28,9 +28,10 @@ const RatingAndFeedback = () => {
     const SubmitFeedback = async () => {
         try {
 
-            await axios.post('https://culturtap.com/api/retailer/rating-feedback', {
+            console.log(spade.customer, retailer.users[0].refId, rating, feedback);
+            await axios.post('http://173.212.193.109:5000/retailer/rating-feedback', {
                 user: spade.customer,
-                retailer: retailer.users[0]._id,
+                retailer: retailer.users[0].refId,
                 rating: rating,
                 feedback: feedback,
             })
