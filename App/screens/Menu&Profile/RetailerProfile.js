@@ -68,7 +68,7 @@ const RetailerProfile = () => {
   //     const mainImage=useSelector(state => state.storeData.images.mainImage);
 
   return (
-    <SafeAreaView>
+    <View>
       <ScrollView showsverticallScrollIndicator={false}>
         <View className="pt-[42px] flex ">
           <View className="flex flex-row px-[32px] ">
@@ -316,7 +316,7 @@ const RetailerProfile = () => {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

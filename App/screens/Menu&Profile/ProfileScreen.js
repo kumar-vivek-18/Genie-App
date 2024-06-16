@@ -188,13 +188,14 @@ const ProfileScreen = () => {
         </View>
 
         <View className="absolute top-[42px] right-[30px]">
-          <Pressable
+          <TouchableOpacity
             onPress={() => {
               navigation.goBack();
             }}
+            style={{padding: 6}}
           >
             <Cross />
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <View className="flex items-center mt-[57px] relative">

@@ -216,7 +216,7 @@ const AddImageScreen = () => {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => pickImage()}>
                   <View className="mx-[28px] mt-[30px] h-[63px] flex-row items-center justify-center border-2 border-[#fb8c00] rounded-3xl">
-                    <Text className="text-[16px] font-bold text-[#fb8c00] text-center">
+                    <Text className="text-[16px]  text-[#fb8c00] text-center" style={{fontFamily:"Poppins-Black"}}>
                       Browse Image
                     </Text>
                   </View>

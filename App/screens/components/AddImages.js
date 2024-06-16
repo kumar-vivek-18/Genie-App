@@ -117,15 +117,15 @@ const AddImages = ({ addImg, setAddImg }) => {
     }
 
     return (
-        <View style={styles.attachments} className="absolute top-0 left-0 right-0 bottom-0 z-50 h-screen">
+        <View style={styles.attachments} className="absolute  left-0 right-0 bottom-0 z-50 h-screen">
             <TouchableOpacity onPress={() => { setAddImg(false) }}>
-                <View className="h-4/5 w-screen -200 bg-transparent" >
+                <View className="h-4/5 w-screen bg-transparent" >
                 </View>
             </TouchableOpacity>
-            <View className="bg-white h-1/6 translate-y-16">
+            <View className="bg-white h-1/5 ">
 
                 <TouchableOpacity onPress={() => { pickImage(); setAddImg(false) }}>
-                    <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[20px]">
+                    <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[20px]  border-b-[1px] border-gray-400">
                         <Text style={{fontFamily:"Poppins-Regular"}}>Upload Image</Text>
                         <ArrowRight />
                     </View>

@@ -12,8 +12,8 @@ const ImageRefrencesScreen = () => {
 
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <View className=" flex z-40 flex-row items-center justify-center mt-[24px] mb-[24px] mx-[36px]">
+        <View style={{ flex: 1 }}>
+            <View className=" flex z-40 flex-row items-center justify-center mt-[40px] mb-[24px] mx-[36px]">
                 <Pressable onPress={() => navigation.goBack()} >
                     <ArrowLeft />
                 </Pressable>
@@ -38,7 +38,7 @@ const ImageRefrencesScreen = () => {
             </View>
 
 
-        </SafeAreaView>
+        </View>
     )
 }
 

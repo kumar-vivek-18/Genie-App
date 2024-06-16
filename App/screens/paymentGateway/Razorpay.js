@@ -203,13 +203,13 @@ const PaymentScreen = () => {
           <View className="flex flex-row items-center pb-[20px] px-[32px]">
             <Text
               className="text-[16px]  flex-1 text-center"
-              style={{ fontFamily: "Poppins-" }}
+              style={{ fontFamily: "Poppins-Bold" }}
             >
               Payment Invoice
             </Text>
-            {/* <TouchableOpacity onPress={()=>navigation.goBack()}>
+            <TouchableOpacity onPress={()=>navigation.goBack()}>
                <Close/>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
           </View>
           <View className="bg-[#ffe7c8] px-[32px] py-[30px]">
             <Text
@@ -223,17 +223,17 @@ const PaymentScreen = () => {
                 className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px]"
                 style={{ fontFamily: "Poppins-Regular" }}
               >
-                Electriclas & Electronics
+                {userDetails?.lastSpade?.requestCategory}
               </Text>
             </View>
             <View className="flex-row gap-[10px] items-center ">
               <Text
-                className="font-extrabold text-[14px] "
+                className=" text-[14px] "
                 style={{ fontFamily: "Poppins-ExtraBold" }}
               >
                 Request ID:
               </Text>
-              <Text className="text-[14px]">116263463</Text>
+              <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular" }}> {userDetails?.lastSpade?._id}</Text>
               <Pressable
                 onPress={() => {
                   console.log("hii");
@@ -246,7 +246,7 @@ const PaymentScreen = () => {
               className="mt-[5px]"
               style={{ fontFamily: "Poppins-Regular" }}
             >
-              I need a replacement of my laptop charger .....
+              {userDetails.lastSpade?.requestDescription.substring(0, 30)}....
             </Text>
           </View>
           <View className="w-screen  flex justify-center items-center mt-[20px]">
