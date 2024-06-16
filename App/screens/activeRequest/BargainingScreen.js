@@ -68,13 +68,16 @@ const BargainingScreen = () => {
                     id: currentSpadeRetailer._id
                 });
                 // const updateChat = { ...currentSpadeRetailer, unreadCount: 0 };
-                let retailers = [currentSpadeRetailer];
-                retailers = retailers.map((retailer) => {
+                let retailers = currentSpadeRetailers.map((retailer) => {
                     if (retailer._id === currentSpadeRetailer._id) {
                         return { ...retailer, unreadCount: 0 };
                     }
-                    return retailer;
+                    return retailer; // Ensure that the original retailer is returned if no match is found
                 });
+
+                console.log('ret', retailers);
+
+                // Update the state with the new list of retailers
                 dispatch(setCurrentSpadeRetailers(retailers));
                 // const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
 
@@ -211,8 +214,8 @@ const BargainingScreen = () => {
                     dispatch(setSpades(allSpades));
 
                     const updateChat = { ...currentSpadeRetailer, unreadMessages: 0, latestMessage: { _id: res.data.message._id, message: res.data.message.message } };
-                    const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
-                    dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
+                    const updatedRetailers = [updatedUser, ...currentSpadeRetailers.filter(c => c._id !== updatedUser._id)];
+                    dispatch(setCurrentSpadeRetailers(updatedRetailers));
                     dispatch(setCurrentSpadeRetailer(updateChat));
 
                     socket.emit('new message', res.data.message);
@@ -262,7 +265,8 @@ const BargainingScreen = () => {
 
             //updating retailers latest message
             const updateChat = { ...currentSpadeRetailer, unreadCount: 0, latestMessage: { _id: res.data.message._id, message: res.data.message.message } };
-            const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
+            let retailers = [currentSpadeRetailers];
+            retailers = retailers.filter(c => c._id !== updateChat._id);
             dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
             dispatch(setCurrentSpadeRetailer(updateChat));
 
@@ -296,7 +300,8 @@ const BargainingScreen = () => {
                 if (prevMessages[prevMessages.length - 1]?.chat?._id === newMessageReceived?.chat?._id) {
                     //updating retailers latest message
                     const updateChat = { ...currentSpadeRetailer, unreadCount: 0, latestMessage: { _id: newMessageReceived._id, message: newMessageReceived.message } };
-                    const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
+                    let retailers = [currentSpadeRetailers];
+                    retailers = retailers.filter(c => c._id !== updateChat._id);
                     dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
                     dispatch(setCurrentSpadeRetailer(updateChat));
                     if (prevMessages[prevMessages.length - 1]?._id === newMessageReceived?._id) {

@@ -52,8 +52,8 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
                 //updating chat latest message
                 setLoading(false);
                 const updateChat = { ...currentSpadeRetailer, unreadCount: 0, latestMessage: { _id: res.data._id, message: res.data.message } };
-                const retailers = currentSpadeRetailers.filter(c => c._id !== updateChat._id);
-                dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
+                const updatedRetailers = [updatedUser, ...currentSpadeRetailers.filter(c => c._id !== updatedUser._id)];
+                dispatch(setCurrentSpadeRetailers(updatedRetailers));
                 dispatch(setCurrentSpadeRetailer(updateChat));
 
                 socket.emit("new message", res.data);

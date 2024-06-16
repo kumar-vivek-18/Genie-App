@@ -102,10 +102,8 @@ const SendQueryScreen = () => {
           unreadCount: 0,
           latestMessage: { _id: res.data._id, message: res.data.message },
         };
-        const retailers = currentSpadeRetailers.filter(
-          (c) => c._id !== updateChat._id
-        );
-        dispatch(setCurrentSpadeRetailers([updateChat, ...retailers]));
+        const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
+        dispatch(setCurrentSpadeRetailers(updatedRetailers));
         dispatch(setCurrentSpadeRetailer(updateChat));
 
         socket.emit("new message", res.data);

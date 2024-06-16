@@ -117,7 +117,7 @@ const RequestDetail = () => {
             if (currentSpade._id === updatedUser.requestId._id) {
 
 
-                console.log('Updated user data received at socket', updatedUser._id);
+                console.log('Updated user data received at socket', updatedUser._id, updatedUser.latestMessage.message, updatedUser.unreadCount);
                 const data = formatDateTime(updatedUser.updatedAt);
                 updatedUser.createdAt = data.formattedDate;
                 updatedUser.updatedAt = data.formattedTime;
@@ -138,10 +138,14 @@ const RequestDetail = () => {
                     dispatch(setSpades(allSpades));
                 }
 
+                // let retailers = [currentSpadeRetailers];
+                // retailers = currentSpadeRetailers.filter(c => c._id !== updatedUser._id);
+                // retailers = [updatedUser, ...retailers];
+                // dispatch(setCurrentSpadeRetailers(retailers));
+                console.log('updatedRe', currentSpadeRetailers);
+                const updatedRetailers = [updatedUser, ...currentSpadeRetailers.filter(c => c._id !== updatedUser._id)];
+                dispatch(setCurrentSpadeRetailers(updatedRetailers));
 
-                const retailers = currentSpadeRetailers.filter(c => c._id !== updatedUser._id);
-
-                dispatch(setCurrentSpadeRetailers([updatedUser, ...retailers]));
             }
         };
 
@@ -272,10 +276,10 @@ const RequestDetail = () => {
                                     //     distance = haversineDistance(userLongitude, userLatitude, details.retailerId.lattitude, details.retailerId.longitude);
                                     // }
                                     // else
-                                    if (details.customerId.longitude !== 0 && details.customerId.latitude !== 0 && details.retailerId.longitude !== 0 && details.retailerId.lattitude !== 0) {
+                                    if (details && details?.customerId?.longitude !== 0 && details?.customerId.latitude !== 0 && details.retailerId.longitude !== 0 && details.retailerId.lattitude !== 0) {
                                         distance = haversineDistance(details.customerId.latitude, details.customerId.longitude, details.retailerId.lattitude, details.retailerId.longitude);
                                     }
-                                    console.log(details.customerId.latitude, details.customerId.longitude);
+                                    // console.log(details.customerId.latitude, details.customerId.longitude);
 
                                     // Calculate distance if coordinates are valid
                                     // distance = validCoordinates ? haversineDistance(details.customerId.latitude, details.customerId.longitude, details.retailerId.lattitude, details.retailerId.longitude) : null;
@@ -292,7 +296,7 @@ const RequestDetail = () => {
                                                         <Text className="text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Regular" }}>{details?.users[0].populatedUser.storeName}</Text>
                                                         <View className="flex-row items-center gap-[5px]">
                                                             <GreenClock />
-                                                            <Text className="text-[12px] text-[#558b2f]" style={{ fontFamily: "Poppins-Regular" }}>{details.updatedAt}</Text>
+                                                            <Text className="text-[12px] text-[#558b2f]" style={{ fontFamily: "Poppins-Regular" }}>{details?.updatedAt}</Text>
                                                         </View>
                                                     </View>
                                                     {/* <View className="flex-row items-center gap-[15px]">
