@@ -145,15 +145,16 @@ const HomeScreen = () => {
         ...userDetails,
         latitude: res.coords.latitude,
         longitude: res.coords.longitude,
+
         location: location,
       };
 
-      console.log(
-        "user updated with location",
-        updatedUserData.latitude,
-        updatedUserData.longitude,
-        updatedUserData.location
-      );
+      // console.log(
+      //   "user updated with location",
+      //   updatedUserData.latitude,
+      //   updatedUserData.longitude,
+      //   updatedUserData.location
+      // );
 
       await axios
         .patch("http://173.212.193.109:5000/user/edit-profile", {
@@ -161,19 +162,30 @@ const HomeScreen = () => {
           updateData: {
             longitude: updatedUserData.longitude,
             latitude: updatedUserData.latitude,
+            coords: {
+              type: 'Point',
+              coordinates: [updatedUserData.longitude, updatedUserData.latitude]
+
+            },
             location: updatedUserData.location,
           },
         })
-        .then((res) => {
+        .then(async (res) => {
+          dispatch(setUserDetails(res.data));
+          setIsLoading(false);
+          await AsyncStorage.setItem(
+            "userDetails",
+            JSON.stringify(updatedUserData)
+          );
           console.log("User location updated successfully");
         });
 
-      dispatch(setUserDetails(updatedUserData));
-      setIsLoading(false);
-      await AsyncStorage.setItem(
-        "userDetails",
-        JSON.stringify(updatedUserData)
-      );
+      // dispatch(setUserDetails(updatedUserData));
+      // setIsLoading(false);
+      // await AsyncStorage.setItem(
+      //   "userDetails",
+      //   JSON.stringify(updatedUserData)
+      // );
 
 
     } catch (error) {
