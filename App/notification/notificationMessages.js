@@ -35,7 +35,9 @@ export const NewRequestCreated = async (mess) => {
         };
 
         for (const token of tokens) {
+            console.log("notification total",token)
             if (token.length > 0) {
+                console.log("notification send to",token)
                 const message = {
                     message: {
                         token: token,

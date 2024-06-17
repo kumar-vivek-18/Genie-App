@@ -83,13 +83,13 @@ const RequestPreviewScreen = () => {
         }
       );
 
-      // console.log("created request data", response.data);
+       console.log("created request data", response.data);
 
       if (response.status === 201) {
 
         dispatch(setUserDetails(response.data.userDetails));
         await AsyncStorage.setItem('userDetails', JSON.stringify(response.data.userDetails));
-
+        
         let res = response.data.userRequest;
         const dateTime = formatDateTime(res.updatedAt);
         res.createdAt = dateTime.formattedTime;
@@ -108,6 +108,7 @@ const RequestPreviewScreen = () => {
           title: userDetails?.userName,
           body: requestDetail,
           image: requestImages.length > 0 ? requestImages[0] : "",
+          userRequest:response.data.userRequest
         };
 
         await NewRequestCreated(notification);
