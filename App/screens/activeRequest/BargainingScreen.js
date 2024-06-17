@@ -214,7 +214,7 @@ const BargainingScreen = () => {
                     dispatch(setSpades(allSpades));
 
                     const updateChat = { ...currentSpadeRetailer, unreadMessages: 0, latestMessage: { _id: res.data.message._id, message: res.data.message.message } };
-                    const updatedRetailers = [updatedUser, ...currentSpadeRetailers.filter(c => c._id !== updatedUser._id)];
+                    const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
                     dispatch(setCurrentSpadeRetailers(updatedRetailers));
                     dispatch(setCurrentSpadeRetailer(updateChat));
 

@@ -104,6 +104,7 @@ const PaymentScreen = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    console.log('lastSpade', userDetails.lastSpade);
     if (userDetails.lastPaymentStatus === "paid") {
       navigation.navigate("home");
     }
@@ -207,8 +208,8 @@ const PaymentScreen = () => {
             >
               Payment Invoice
             </Text>
-            <TouchableOpacity onPress={()=>navigation.goBack()}>
-               <Close/>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Close />
             </TouchableOpacity>
           </View>
           <View className="bg-[#ffe7c8] px-[32px] py-[30px]">
@@ -246,7 +247,7 @@ const PaymentScreen = () => {
               className="mt-[5px]"
               style={{ fontFamily: "Poppins-Regular" }}
             >
-              {userDetails.lastSpade?.requestDescription.substring(0, 30)}....
+              {userDetails.lastSpade?.requestDescription?.substring(0, 30)}....
             </Text>
           </View>
           <View className="w-screen  flex justify-center items-center mt-[20px]">
