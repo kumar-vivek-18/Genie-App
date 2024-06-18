@@ -30,7 +30,7 @@ export const NewRequestCreated = async (mess) => {
             },
             data: {
                 redirect_to: "home",
-                // requestInfo: JSON.stringify(mess?.requestInfo)
+                userRequest: mess?.userRequest
             }
         };
 
@@ -213,7 +213,7 @@ export const BidRejected = async (mess) => {
 };
 
 export const newMessageSend = async (mess) => {
-    // console.log("notification noti", mess.requestInfo)
+    //  console.log("notification noti", mess.requestInfo)
     try {
         // const tokens = [
         //     "cny4g9m9R9aBjZqVE9dq4v:APA91bHt9WiUc7aDQ2N14n5z9m8KAJTL0Rl5ZsCaPKTjj8TeKc2DkaFqYr2RcIPyqaPod_B-OPRER1UJ7PauL-LORd6P4VRlmI88ubZc_2LmM8tm_gdgvaerMncwsGvRMgnsP1ifdI1a",
