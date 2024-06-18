@@ -10,7 +10,7 @@ import ArrowLeft from '../../assets/arrow-left.svg';
 import axios from 'axios';
 import Tick from '../../assets/Tick.svg';
 import { Clipboard } from 'expo';
-import { setCurrentSpade, setCurrentSpadeRetailer } from '../../redux/reducers/userDataSlice';
+import { setCurrentSpade, setCurrentSpadeRetailer, setUserDetails } from '../../redux/reducers/userDataSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import CloseSpadeModal from '../components/CloseSpadeModal';
 import SuccessModal from '../components/SuccessModal';
@@ -38,7 +38,8 @@ const RequestDetail = () => {
     const [confirmModal, setConfirmModal] = useState(false);
     const [successModal, setSuccessModal] = useState(false);
     const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
-    console.log('RequestDetail screen  currentSpadeRetailers', currentSpadeRetailers.length);
+    const userDetails = useSelector(store => store.user.userDetails);
+    // console.log('RequestDetail screen  currentSpadeRetailers', currentSpadeRetailers.length);
     const currentSpade = useSelector(store => store.user.currentSpade);
     const [socketConnected, setSocketConnected] = useState(false);
     const [userLongitude, setUserLongitude] = useState(0);
@@ -193,6 +194,12 @@ const RequestDetail = () => {
 
     const closeRequest = async () => {
 
+        const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
+            params: {
+                id: currentSpade.requestAcceptedChat,
+            }
+        });
+
         const request = await axios.patch(`http://173.212.193.109:5000/user/closespade/`, {
             id: currentSpade._id
         });
@@ -204,6 +211,18 @@ const RequestDetail = () => {
             console.log('Request closed successfully');
             dispatch(setSpades(spades));
             navigation.navigate('home');
+
+
+            if (token.length > 0) {
+                const notification = {
+                    token: token,
+                    title: userDetails.userName,
+                    close: currentSpade._id,
+                }
+
+                await sendCloseSpadeNotification(notification);
+            }
+            // Send Notification to reatiler 
         }
         else {
             console.error('Error occuring while closing user request');
