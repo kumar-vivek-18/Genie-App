@@ -8,11 +8,14 @@ import { useDispatch } from 'react-redux';
 import { requestUserPermission } from '../utils/logics/NotificationLogic';
 import messaging from '@react-native-firebase/messaging';
 import Splash from "../assets/Splash.svg"
+import { notificationListeners } from '../notification/notificationServices';
 
 
 const SplashScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
+
 
 
   // useEffect(() => {

@@ -75,6 +75,16 @@ const HomeScreen = () => {
   // console.log("userDetails", userDetails);
 
   useEffect(() => {
+
+    const setNotificationSetUp = async () => {
+      await notificationListeners(dispatch, spades);
+    }
+    setNotificationSetUp();
+
+
+  }, [dispatch, spades]);
+
+  useEffect(() => {
     const backAction = () => {
       if (isHomeScreen) {
         BackHandler.exitApp();

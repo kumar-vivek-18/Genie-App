@@ -62,5 +62,5 @@ const userDataSlice = createSlice({
   },
 });
 
-export const { setMobileNumber, setUserName, setUserLocation, setImages, setUserDetails, setSpades, setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers, setCurrentChatMessages, setUniqueToken,userClear } = userDataSlice.actions;
+export const { setMobileNumber, setUserName, setUserLocation, setImages, setUserDetails, setSpades, setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers, setCurrentChatMessages, setUniqueToken, userClear } = userDataSlice.actions;
 export default userDataSlice.reducer;

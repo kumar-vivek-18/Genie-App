@@ -1,10 +1,16 @@
 import messaging from '@react-native-firebase/messaging';
 
 import { Alert } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import navigationService from '../navigation/navigationService';
+import { setSpades } from '../redux/reducers/userDataSlice';
 
 
-export async function notificationListeners() {
+// const updateSpadesData = async (updatedId) => {
+
+
+// }
+export async function notificationListeners(dispatch, spades) {
     messaging().getInitialNotification().then(async (remoteMessage) => {
         if (remoteMessage) {
             console.log("Notifications caused app to open from quit state", remoteMessage)
@@ -36,9 +42,33 @@ export async function notificationListeners() {
     });
 
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-        Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+        // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
         // console.log("FCM message", remoteMessage.data);
         // handleNotification(remoteMessage);
+        const details = JSON.parse(remoteMessage.data.requestInfo);
+        // console.log('FCM message', details);
+        const updatedId = details?.requestId?._id;
+        console.log('FCM id', updatedId);
+
+        let spadesData = spades;
+        console.log("Spades at notfication", spadesData.length, spades.length);
+
+        const idx = spadesData.findIndex(spade => spade._id === updatedId);
+
+        console.log("Spdes updated ", idx);
+        if (idx !== -1) {
+
+            let data = spadesData.filter(spade => spade._id === updatedId);
+            let data2 = spadesData.filter(spade => spade._id !== updatedId);
+            // data = [spade[idx], ...data];
+            console.log('data', data);
+            spadesData = [...data, ...data2]
+            // spadesData.unshift(data);
+
+            console.log("Spdes updated Successfully", data.length, data2.length);
+            dispatch(setSpades(spadesData));
+        }
+
     });
 
     return unsubscribe;
