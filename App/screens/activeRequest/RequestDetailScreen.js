@@ -38,6 +38,7 @@ const RequestDetail = () => {
     const [confirmModal, setConfirmModal] = useState(false);
     const [successModal, setSuccessModal] = useState(false);
     const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
+    console.log('RequestDetail screen  currentSpadeRetailers', currentSpadeRetailers.length);
     const currentSpade = useSelector(store => store.user.currentSpade);
     const [socketConnected, setSocketConnected] = useState(false);
     const [userLongitude, setUserLongitude] = useState(0);
@@ -143,8 +144,16 @@ const RequestDetail = () => {
                 // retailers = [updatedUser, ...retailers];
                 // dispatch(setCurrentSpadeRetailers(retailers));
                 // console.log('updatedRe', currentSpadeRetailers);
+                // console.log('updatedUser', updatedUser);
+
+                console.log('currentSpadeRetailers', currentSpadeRetailers.length);
+                // const updatedRetailers = [updatedUser, ...currentSpadeRetailers];
                 const updatedRetailers = [updatedUser, ...currentSpadeRetailers.filter(c => c._id !== updatedUser._id)];
+
                 dispatch(setCurrentSpadeRetailers(updatedRetailers));
+                setTimeout(() => {
+                    console.log('updatedTime', currentSpadeRetailers.length);
+                }, 2000);
 
             }
         };
@@ -155,7 +164,7 @@ const RequestDetail = () => {
         return () => {
             socket.off("updated retailer", handleMessageReceived);
         };
-    }, []); // No dependencies
+    }, [currentSpadeRetailers, currentSpade, spades, dispatch]); // No dependencies
 
 
     // console.log('spade details', spade);
@@ -204,9 +213,10 @@ const RequestDetail = () => {
 
     return (
         <>
-            {<View style={{ flex: 1 }}>
-                <ScrollView style={{ flex: 1 }}>
-                    <View style={{ flex: 1 }} className="relative">
+            {<View style={{ flex: 1, position: 'relative' }} >
+
+                <ScrollView style={{ flex: 1 }} className="relative">
+                    <View style={{ flex: 1, position: 'relative' }} className="relative">
 
                         <View className="z-50 w-full flex flex-row px-[9px] absolute justify-between items-center top-[30px]">
 

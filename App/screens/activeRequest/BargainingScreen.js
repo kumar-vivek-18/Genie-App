@@ -75,7 +75,7 @@ const BargainingScreen = () => {
                     return retailer; // Ensure that the original retailer is returned if no match is found
                 });
 
-                console.log('ret', retailers);
+                // console.log('ret', retailers);
 
                 // Update the state with the new list of retailers
                 dispatch(setCurrentSpadeRetailers(retailers));
