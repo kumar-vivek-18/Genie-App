@@ -24,6 +24,7 @@ import { getGeoCoordinates, haversineDistance } from '../../utils/logics/Logics'
 import { formatDateTime } from '../../utils/logics/Logics';
 import Copy from "../../assets/copy.svg";
 import GalleryImg from "../../assets/gallery.svg";
+import { sendCloseSpadeNotification } from '../../notification/notificationMessages';
 
 
 
@@ -218,9 +219,11 @@ const RequestDetail = () => {
                     token: token,
                     title: userDetails.userName,
                     close: currentSpade._id,
+                    image: currentSpade.requestImages?currentSpade.requestImages[0]:""
                 }
-
+                 console.log("close notification",token)
                 await sendCloseSpadeNotification(notification);
+
             }
             // Send Notification to reatiler 
         }
@@ -373,7 +376,7 @@ const RequestDetail = () => {
 
                 {spade.requestActive === "completed" && <View className="w-screen h-[68px]  bg-[#fb8c00] justify-center absolute bottom-0 left-0 right-0">
                     <Pressable onPress={() => { setConfirmModal(true); }}>
-                        <Text className="text-white font-bold text-center text-[16px]">Close Request</Text>
+                        <Text className="text-white text-center text-[16px]" style={{ fontFamily: "Poppins-Black" }}>Close Request</Text>
                     </Pressable>
                 </View>}
             </View>}

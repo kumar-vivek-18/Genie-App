@@ -433,6 +433,63 @@ export const AttachmentSend = async (mess) => {
     }
 };
 
+export const sendCloseSpadeNotification = async (mess) => {
+    console.log("notify retailer",mess.token)
+  
+    try {
+      const message = {
+        message: {
+          token:mess?.token,
+          notification: {
+            title: `${mess.title} has closed the request`,
+            body: "Welcome again!",
+            image:mess?.image,
+          },
+          android: {
+            priority: "high",
+            notification: {
+              sound: "default",
+              //   icon: "fcm_push_icon",
+              color: "#fcb800",
+            //   tag: "bid_reject",
+            },
+          },
+          data: {
+            redirect_to:"home",
+            close:mess?.close
+          },
+        },
+      };
+  
+      const accessToken = await getAccessToken();
+  
+      const notificationResponse = await fetch(
+        `https://fcm.googleapis.com/v1/projects/genie-retailer/messages:send`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(message),
+        }
+      );
+  
+      const textResponse = await notificationResponse.text();
+      console.log("Raw response:", textResponse);
+  
+      if (!notificationResponse.ok) {
+        console.error("Failed to send notification error:", textResponse);
+        throw new Error("Failed to send notification");
+      } else {
+        const successResponse = JSON.parse(textResponse);
+        console.log("Notification sent successfully:");
+      }
+    } catch (e) {
+      console.error("Failed to send notification:", e);
+    }
+  };
+
 
 // export const sendCustomNotificationChat = async () => {
 
