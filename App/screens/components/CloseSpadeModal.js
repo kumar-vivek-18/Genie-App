@@ -19,7 +19,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
         setLoading(true);
         const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
             params: {
-                id: currentSpadeRetailers[0]?._id,
+                id: currentSpadeRetailers[0]?.retailerId._id,
             }
         });
         console.log("close notification", token)
