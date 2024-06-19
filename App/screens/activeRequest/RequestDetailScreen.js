@@ -218,7 +218,7 @@ const RequestDetail = () => {
 
         const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
             params: {
-                id: currentSpade.requestAcceptedChat,
+                id: currentSpadeRetailers[0]?.retailerId._id,
             }
         });
 
