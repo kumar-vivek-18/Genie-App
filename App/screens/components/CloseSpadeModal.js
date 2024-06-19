@@ -7,59 +7,118 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSpades } from '../../redux/reducers/userDataSlice';
 import { sendCloseSpadeNotification } from '../../notification/notificationMessages';
 import { ActivityIndicator } from 'react-native';
+import { socket } from '../../utils/scoket.io/socket';
 
 const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => {
     const spade = useSelector(store => store.user.currentSpade);
     const spades = useSelector(store => store.user.spades);
     const userDetails = useSelector(store => store.user.userDetails);
+    const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
 
     const closeSpade = async () => {
         setLoading(true);
-        const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
-            params: {
-                id: currentSpadeRetailers[0]?.retailerId._id,
-            }
-        });
-        console.log("close notification", token)
+        console.log('fello close', currentSpadeRetailers[0]?.retailerId._id);
         try {
-
-
-            const request = await axios.patch(`http://173.212.193.109:5000/user/close-spade`, {
-                id: spade._id
-            });
-            if (request.status === 200) {
-                console.log('request closed');
-                const updatedSpades = spades.filter(curr => curr._id !== spade._id);
-                dispatch(setSpades(updatedSpades));
-                setConfirmModal(false);
-                setSuccessModal(true);
-                setLoading(false);
-                if (token.length > 0) {
-                    const notification = {
-                        token: token.data,
-                        title: userDetails.userName,
-                        close: spade._id,
-                        image: spade.requestImages ? spade.requestImages[0] : ""
-                    }
-                    console.log("close notification", token)
-                    await sendCloseSpadeNotification(notification);
-
+            const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
+                params: {
+                    id: currentSpadeRetailers[0]?.retailerId._id,
                 }
-            }
-            else {
-                setLoading(false);
-                setConfirmModal(false);
-                console.error('Error occuring while closing user spade');
-            }
+            });
+            console.log("close notification", token.data, spade._id, spade.requestAcceptedChat);
+
+            await axios
+                .post("http://173.212.193.109:5000/chat/send-message", {
+                    sender: {
+                        type: "UserRequest",
+                        refId: spade._id,
+                    },
+                    message: "Customer close the chat",
+                    userRequest: spade._id,
+                    bidType: "update",
+                    bidPrice: 0,
+                    bidImages: [],
+                    chat: spade.requestAcceptedChat,
+                    warranty: 0,
+                })
+                .then(async (res) => {
+                    console.log('spade closed mess send successfully', res.status);
+                    socket.emit("new message", res.data);
+                    const request = await axios.patch(`http://192.168.157.192:5000/user/close-spade/`, {
+                        id: spade._id
+                    });
+                    console.log('request', request);
+                    if (request.status === 200) {
+                        // console.log('request closed');
+                        const updatedSpades = spades.filter(curr => curr._id !== spade._id);
+                        dispatch(setSpades(updatedSpades));
+                        setConfirmModal(false);
+                        setSuccessModal(true);
+                        setLoading(false);
+                        // spades = spades.filter(curr => curr._id !== request._id);
+                        console.log('Request closed successfully');
+                        // dispatch(setSpades(spades));
+                        // navigation.navigate('home');
+
+
+                        if (token.length > 0) {
+                            const notification = {
+                                token: [token.data],
+                                title: userDetails?.userName,
+                                // close: currentSpade._id,
+                                body: "Customer close the chat",
+                                requestInfo: currentSpadeRetailers[0]
+                            }
+                            console.log("close notification", token)
+                            await newMessageSend(notification);
+
+                        }
+                        // Send Notification to reatiler 
+                    }
+                    else {
+                        setLoading(false);
+                        setConfirmModal(false);
+                        console.error('Error occuring while closing user request');
+                    }
+                })
+
+
+            //     const request = await axios.patch(`http://173.212.193.109:5000/user/close-spade`, {
+            //         id: spade._id
+            //     });
+            //     if (request.status === 200) {
+            //         console.log('request closed');
+            //         const updatedSpades = spades.filter(curr => curr._id !== spade._id);
+            //         dispatch(setSpades(updatedSpades));
+            //         setConfirmModal(false);
+            //         setSuccessModal(true);
+            //         setLoading(false);
+            //         if (token.length > 0) {
+            //             const notification = {
+            //                 token: token.data,
+            //                 title: userDetails.userName,
+            //                 close: spade._id,
+            //                 image: spade.requestImages ? spade.requestImages[0] : ""
+            //             }
+            //             console.log("close notification", token)
+            //             await sendCloseSpadeNotification(notification);
+
+            //         }
+            //     }
+            //     else {
+            //         setLoading(false);
+            //         setConfirmModal(false);
+            //         console.error('Error occuring while closing user spade');
+            //     }
         } catch (error) {
             setConfirmModal(false);
             setLoading(false)
-            console.error('Error occuring while closing user request');
+            console.error('Error occuring while closing user request', error.message);
         }
 
     }
+
     return (
 
         <Modal

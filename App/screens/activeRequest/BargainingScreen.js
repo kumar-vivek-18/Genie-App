@@ -305,7 +305,7 @@ const BargainingScreen = () => {
                     if (prevMessages[prevMessages.length - 1]?._id === newMessageReceived?._id) {
                         // Update the last message if it's the same as the new one
                         if (newMessageReceived.bidAccepted === "accepted") {
-                            const tmp = { ...spade, requestActive: "completed" };
+                            const tmp = { ...spade, requestActive: "completed", requestAcceptedChat: newMessageReceived.chat._id };
                             dispatch(setCurrentSpade(tmp));
                             let allSpades = [...spades];
                             allSpades.map((curr, index) => {

@@ -222,35 +222,56 @@ const RequestDetail = () => {
             }
         });
 
-        const request = await axios.patch(`http://173.212.193.109:5000/user/closespade/`, {
-            id: currentSpade._id
-        });
-        console.log('request', request);
+        await axios
+            .post("http://173.212.193.109:5000/chat/send-message", {
+                sender: {
+                    type: "UserRequest",
+                    refId: currentSpade._id,
+                },
+                message: "Customer close the chat",
+                userRequest: currentSpade._id,
+                bidType: "update",
+                bidPrice: 0,
+                bidImages: [],
+                chat: currentSpade.requestAcceptedChat,
+                warranty: 0,
+            })
+            .then(async (res) => {
+                socket.emit("new message", res.data);
+                const request = await axios.patch(`http://173.212.193.109:5000/user/closespade/`, {
+                    id: currentSpade._id
+                });
+                console.log('request', request);
+                if (request.status === 200) {
+                    console.log('request closed');
+                    spades = spades.filter(curr => curr._id !== request._id);
+                    console.log('Request closed successfully');
+                    dispatch(setSpades(spades));
+                    navigation.navigate('home');
 
-        if (request.status === 200) {
-            console.log('request closed');
-            spades = spades.filter(curr => curr._id !== request._id);
-            console.log('Request closed successfully');
-            dispatch(setSpades(spades));
-            navigation.navigate('home');
 
+                    if (token.length > 0) {
+                        const notification = {
+                            token: token,
+                            title: userDetails.userName,
+                            close: currentSpade._id,
+                            image: currentSpade.requestImages ? currentSpade.requestImages[0] : ""
+                        }
+                        console.log("close notification", token)
+                        await sendCloseSpadeNotification(notification);
 
-            if (token.length > 0) {
-                const notification = {
-                    token: token,
-                    title: userDetails.userName,
-                    close: currentSpade._id,
-                    image: currentSpade.requestImages ? currentSpade.requestImages[0] : ""
+                    }
+                    // Send Notification to reatiler 
                 }
-                console.log("close notification", token)
-                await sendCloseSpadeNotification(notification);
+                else {
+                    console.error('Error occuring while closing user request');
+                }
+            })
 
-            }
-            // Send Notification to reatiler 
-        }
-        else {
-            console.error('Error occuring while closing user request');
-        }
+
+
+
+
 
     }
 
@@ -339,7 +360,7 @@ const RequestDetail = () => {
                                     return (
                                         <Pressable key={index} onPress={() => { dispatch(setCurrentSpadeRetailer(details)); navigation.navigate('bargain') }}>
                                             <View className={`flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#3f3d56] ${((spade.requestActive === "completed" || spade.requestActive === "closed") && spade.requestAcceptedChat !== details._id) ? "bg-[#001b33] opacity-50" : ""}`}>
-
+                                                {/* {console.log('chat details after bid accept', spade.requestActive, spade.requestAcceptedChat, details._id)} */}
                                                 {details?.users.length > 0 && <Image
                                                     source={{ uri: details?.users[0].populatedUser.storeImages[0] ? details?.users[0].populatedUser.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
                                                     style={styles.image}
