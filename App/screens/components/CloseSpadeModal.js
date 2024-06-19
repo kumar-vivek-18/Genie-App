@@ -45,7 +45,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                 .then(async (res) => {
                     console.log('spade closed mess send successfully', res.status);
                     socket.emit("new message", res.data);
-                    const request = await axios.patch(`http://192.168.157.192:5000/user/close-spade/`, {
+                    const request = await axios.patch(`http://173.212.193.109:5000/user/close-spade/`, {
                         id: spade._id
                     });
                     console.log('request', request);

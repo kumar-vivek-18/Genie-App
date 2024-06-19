@@ -1,20 +1,43 @@
 // SplashScreen.js
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { View, Text, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { setUniqueToken, setUserDetails } from '../redux/reducers/userDataSlice';
-import { useDispatch } from 'react-redux';
+import { setUniqueToken, setUserDetails, setUserLatitude, setUserLongitude } from '../redux/reducers/userDataSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import { requestUserPermission } from '../utils/logics/NotificationLogic';
 import messaging from '@react-native-firebase/messaging';
 import Splash from "../assets/Splash.svg"
 import { notificationListeners } from '../notification/notificationServices';
-
+import { getGeoCoordinates } from '../utils/logics/Logics';
+import * as Location from "expo-location";
 
 const SplashScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const userDetails = useSelector(store => store.user.userDetails);
 
+  const fetchLocation = useCallback(async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission Denied', 'Permission to access location was denied.');
+      return;
+    }
+
+    getGeoCoordinates(dispatch, setUserLongitude, setUserLatitude).then(res => {
+      // console.log('coordinates', coordinates);
+      // if (coordinates) {
+      //   setUserLongitude(coordinates.coords.longitude);
+      //   setUserLatitude(coordinates.coords.latitude);
+      // }
+
+      console.log("Coordinates Updated Successfully at Splash Screen");
+    })
+  })
+  useEffect(() => {
+
+    fetchLocation();
+  }, []);
 
 
 
@@ -38,13 +61,14 @@ const SplashScreen = () => {
 
   //     checkStoredUser();
   // }, []);
+
   const opacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const animateSplash = () => {
       Animated.timing(opacity, {
         toValue: 1,
-        duration: 3000, // Animation duration of 3 seconds
+        duration: 5000, // Animation duration of 3 seconds
         useNativeDriver: true,
       }).start();
     };

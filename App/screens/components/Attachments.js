@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
+import { View, Text, TouchableOpacity, TouchableWithoutFeedback, Dimensions } from 'react-native'
 import React, { useState } from 'react';
 import StoreLocation from '../../assets/StoreLocation.svg';
 import Document from '../../assets/Documents.svg';
@@ -123,41 +123,74 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
         }
     };
 
+    const { height } = Dimensions.get('window');
+
     return (
-        <View style={styles.attachments} className="absolute top-0 left-0 right-0 bottom-0 z-50 h-screen">
-            <TouchableOpacity onPress={() => { setAttachmentScreen(false) }}>
-                <View className="h-2/3 w-screen -200 bg-transparent" >
-                </View>
+        // <View style={{ zIndex: 100, flex: 1 }} className="flex flex-col  absolute top-0 bottom-0 left-0 right-0  z-50 h-screen">
+        //     <TouchableOpacity onPress={() => { setAttachmentScreen(false) }}>
+        //         <View className=" w-screen  bg-transparent" >
+        //         </View>
+        //     </TouchableOpacity>
+        //     <View className="bg-white  py-[20px]  gap-5 absolute bottom-0 left-0 right-0 ">
+        //         <View className="flex-row justify-evenly">
+        //             <View className="items-center">
+        //                 <Document />
+        //                 <Text style={{ fontFamily: "Poppins-Regular" }}>Document</Text>
+        //             </View>
+        //             {/* <View className="items-center">
+        //                 <NewBid />
+        //                 <Text style={{ fontFamily: "Poppins-Regular" }}>New Bid</Text>
+        //             </View> */}
+        //             <View className="items-center">
+        //                 <StoreLocation />
+        //                 <Text style={{ fontFamily: "Poppins-Regular" }}>Location</Text>
+        //             </View>
+        //             <TouchableOpacity onPress={() => { navigation.navigate('camera', { openCamera: true, messages, setMessages }) }}>
+        //                 <View className="items-center">
+        //                     <Camera />
+        //                     <Text style={{ fontFamily: "Poppins-Regular" }}>Camera</Text>
+        //                 </View>
+        //             </TouchableOpacity>
+        //             <TouchableOpacity onPress={() => { navigation.navigate('camera', { openCamera: false, messages, setMessages }) }}>
+        //                 <View className="items-center">
+        //                     <Gallery />
+        //                     <Text style={{ fontFamily: "Poppins-Regular" }}>Gallery</Text>
+        //                 </View>
+        //             </TouchableOpacity>
+        //         </View>
+        //         {/* <View className="flex-row justify-evenly">
+
+
+        //         </View> */}
+        //     </View>
+        // </View>
+
+        <View style={{ zIndex: 100, flex: 1, position: 'relative' }} className="flex flex-col absolute top-0 bottom-0 left-0 right-0 z-50 h-screen">
+            <TouchableOpacity onPress={() => setAttachmentScreen(false)}>
+                <View className="w-screen bg-transparent flex-1" />
             </TouchableOpacity>
-            <View className="bg-white py-[20px] h-1/3 gap-5  ">
+            <View style={{ position: 'absolute', bottom: 60, left: 0, right: 0, backgroundColor: 'white' }} className="py-[20px] gap-5">
                 <View className="flex-row justify-evenly">
                     <View className="items-center">
                         <Document />
-                        <Text style={{ fontFamily: "Poppins-Regular" }}>Document</Text>
-                    </View>
-                    <View className="items-center">
-                        <NewBid />
-                        <Text style={{ fontFamily: "Poppins-Regular" }}>New Bid</Text>
+                        <Text style={{ fontFamily: 'Poppins-Regular' }}>Document</Text>
                     </View>
                     <View className="items-center">
                         <StoreLocation />
-                        <Text style={{ fontFamily: "Poppins-Regular" }}>Share Location</Text>
+                        <Text style={{ fontFamily: 'Poppins-Regular' }}>Location</Text>
                     </View>
-                </View>
-                <View className="flex-row justify-evenly">
-                    <TouchableOpacity onPress={() => { navigation.navigate('camera', { openCamera: true, messages, setMessages }) }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('camera', { openCamera: true, messages, setMessages }); setAttachmentScreen(false) }}>
                         <View className="items-center">
                             <Camera />
-                            <Text style={{ fontFamily: "Poppins-Regular" }}>Camera</Text>
+                            <Text style={{ fontFamily: 'Poppins-Regular' }}>Camera</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { navigation.navigate('camera', { openCamera: false, messages, setMessages }) }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('camera', { openCamera: false, messages, setMessages }); setAttachmentScreen(false) }}>
                         <View className="items-center">
                             <Gallery />
-                            <Text style={{ fontFamily: "Poppins-Regular" }}>Gallery</Text>
+                            <Text style={{ fontFamily: 'Poppins-Regular' }}>Gallery</Text>
                         </View>
                     </TouchableOpacity>
-
                 </View>
             </View>
         </View>
@@ -166,7 +199,7 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
 
 const styles = {
     attachments: {
-
+        flex: 1,
         zIndex: 100, // Ensure the overlay is on top
     },
 };

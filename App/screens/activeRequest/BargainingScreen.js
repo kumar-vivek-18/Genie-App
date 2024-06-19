@@ -20,7 +20,7 @@ import Attachments from '../components/Attachments';
 import CameraScreen from '../components/CameraScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import RequestAcceptModal from '../components/RequestAcceptModal';
-import { setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
+import { setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers, setUserLatitude, setUserLocation, setUserLongitude } from '../../redux/reducers/userDataSlice';
 import io from 'socket.io-client';
 import { socket } from '../../utils/scoket.io/socket.js';
 import * as Location from "expo-location";
@@ -29,7 +29,7 @@ import { setSpades } from '../../redux/reducers/userDataSlice';
 import { setUserDetails } from '../../redux/reducers/userDataSlice';
 import { BidAccepted, BidRejected } from '../../notification/notificationMessages';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { formatDateTime } from '../../utils/logics/Logics';
+import { formatDateTime, getGeoCoordinates } from '../../utils/logics/Logics';
 import { emtpyRequestImages } from '../../redux/reducers/userRequestsSlice';
 
 const BargainingScreen = () => {
@@ -51,6 +51,10 @@ const BargainingScreen = () => {
     const dispatch = useDispatch();
     const userDetails = useSelector(store => store.user.userDetails || []);
     const scrollViewRef = useRef(null);
+
+
+    const userLongitude = useSelector(store => store.user.userLongitude);
+    const userLatitude = useSelector(store => store.user.userLatitude)
 
 
     const route = useRoute();
@@ -349,30 +353,39 @@ const BargainingScreen = () => {
             longitude: details.users[0].populatedUser.longitude
         }
 
-        const { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-            Alert.alert('Permission Denied', 'Permission to access location was denied.');
-            return;
-        }
+        // const { status } = await Location.requestForegroundPermissionsAsync();
+        // if (status !== 'granted') {
+        //     Alert.alert('Permission Denied', 'Permission to access location was denied.');
+        //     return;
+        // }
 
         // Get current location
-        console.log("storelocation", storeLocation);
-        const location = await Location.getCurrentPositionAsync({});
-        setCurrentLocation({
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-        });
-
-        console.log("current", currentLocation);
-
-        if (!currentLocation || !storeLocation) {
-            Alert.alert('Error', 'Current location or friend location is not available.');
-            return;
+        // console.log("storelocation", storeLocation);
+        // console.log('userLocation while map opening', userLongitude, userLatitude);
+        if (userLongitude === 0 || userLatitude === 0) {
+            const location = await getGeoCoordinates(dispatch, setUserLatitude, setUserLongitude);
+            // setCurrentLocation({
+            //     latitude: location.coords.latitude,
+            //     longitude: location.coords.longitude,
+            // });
+            // console.log('location details of user at bargaining', location);
+            dispatch(setUserLongitude(location.coords.longitude));
+            dispatch(setUserLatitude(location.coords.latitude));
         }
 
-        const url = `https://www.google.com/maps/dir/?api=1&origin=${currentLocation.latitude},${currentLocation.longitude}&destination=${storeLocation.latitude},${storeLocation.longitude}&travelmode=driving`;
 
-        Linking.openURL(url).catch(err => console.error('An error occurred', err));
+        console.log("current and store location", userLongitude, userLatitude, storeLocation);
+
+        // if (userLongitude === 0 || userLatitude === 0 || !storeLocation) {
+        //     Alert.alert('Error', 'Current location or friend location is not available.');
+        //     return;
+        // }
+        if (userLongitude !== 0 && userLatitude !== 0) {
+            const url = `https://www.google.com/maps/dir/?api=1&origin=${userLatitude},${userLongitude}&destination=${storeLocation.latitude},${storeLocation.longitude}&travelmode=driving`;
+
+            Linking.openURL(url).catch(err => console.error('An error occurred', err));
+        }
+
     };
 
 

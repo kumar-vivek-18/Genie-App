@@ -13,6 +13,8 @@ const initialState = {
   currentSpadeRetailers: [],
   currentChatMessages: [],
   uniqueToken: "",
+  userLongitude: 0,
+  userLatitude: 0,
 };
 
 const userDataSlice = createSlice({
@@ -58,9 +60,16 @@ const userDataSlice = createSlice({
     },
     userClear: (state) => {
       return initialState;
-    }
+    },
+    setUserLongitude: (state, action) => {
+      state.userLongitude = action.payload;
+    },
+    setUserLatitude: (state, action) => {
+      state.userLatitude = action.payload;
+    },
+
   },
 });
 
-export const { setMobileNumber, setUserName, setUserLocation, setImages, setUserDetails, setSpades, setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers, setCurrentChatMessages, setUniqueToken, userClear } = userDataSlice.actions;
+export const { setMobileNumber, setUserName, setUserLocation, setImages, setUserDetails, setSpades, setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers, setCurrentChatMessages, setUniqueToken, userClear, setUserLatitude, setUserLongitude } = userDataSlice.actions;
 export default userDataSlice.reducer;

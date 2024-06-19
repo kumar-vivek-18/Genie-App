@@ -37,7 +37,7 @@ export const getLocationName = async (lat, lon) => {
 }
 
 
-export const getGeoCoordinates = async () => {
+export const getGeoCoordinates = async (dispatch, setUserLongitude, setUserLatitude) => {
     try {
         // Request permission to access location
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -55,13 +55,16 @@ export const getGeoCoordinates = async () => {
 
         // Get current location
         const location = await Location.getCurrentPositionAsync(locationOptions);
+        dispatch(setUserLatitude(location.coords.latitude));
+        dispatch(setUserLongitude(location.coords.longitude));
         console.log('location', location);
+
 
         return location;
     } catch (error) {
         // Handle errors such as timeout or other exceptions
         console.error('Error getting location:', error);
-        Alert.alert('Error', 'Unable to fetch location. Please try again.');
+        // Alert.alert('Error', 'Unable to fetch location. Please try again.');
         return null;
     }
 };
@@ -118,6 +121,7 @@ export const getGeoCoordinates = async () => {
 // };
 
 export const haversineDistance = (lat1, lon1, lat2, lon2) => {
+    // console.log('deg', lat1, lon1, lat2, lon2);
     const toRadians = (degree) => degree * (Math.PI / 180);
 
     const R = 6371; // Radius of the Earth in kilometers
@@ -132,5 +136,6 @@ export const haversineDistance = (lat1, lon1, lat2, lon2) => {
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
     const distance = R * c; // Distance in kilometers
+    // console.log(R, dLat, dLon, a, c, distance);
     return distance;
 }

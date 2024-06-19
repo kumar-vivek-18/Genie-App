@@ -43,8 +43,10 @@ const RequestDetail = () => {
     // console.log('RequestDetail screen  currentSpadeRetailers', currentSpadeRetailers.length);
     const currentSpade = useSelector(store => store.user.currentSpade);
     const [socketConnected, setSocketConnected] = useState(false);
-    const [userLongitude, setUserLongitude] = useState(0);
-    const [userLatitude, setUserLatitude] = useState(0);
+    // const [userLongitude, setUserLongitude] = useState(0);
+    // const [userLatitude, setUserLatitude] = useState(0);
+    const userLongitude = useSelector(store => store.user.userLongitude);
+    const userLatitude = useSelector(store => store.user.userLatitude);
 
     const connectSocket = async (id) => {
         // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
@@ -54,35 +56,41 @@ const RequestDetail = () => {
         console.log('Particular spade socekt connect with id', id);
     }
 
-    useEffect(() => {
-        const updateUnreadSpade = async () => {
-            // Create a deep copy of spades to ensure immutability
-            let spadesData = [...spades];
+    const handleSpadeNaviagtion = async () => {
+        if (currentSpade.unread === true) {
 
-            // Find and update the specific spade
-            const updatedSpadesData = spadesData.map(spade => {
-                if (spade._id === currentSpade._id) {
-                    return { ...spade, unread: false }; // Update unread property
-                }
-                return spade;
-            });
 
-            // Dispatch the updated spades data
-            dispatch(setSpades(updatedSpadesData));
+            try {
+                await axios.patch('http://173.212.193.109:5000/chat/set-spade-mark-as-read', {
+                    id: currentSpade._id
+                })
+                    .then((res) => {
+                        console.log('Mars as read successfully');
+                        let spadesData = [...spades];
 
-            console.log("Spades updated successfully");
-        };
+                        // Find and update the specific spade
+                        const updatedSpadesData = spadesData.map(spade => {
+                            if (spade._id === currentSpade._id) {
+                                return { ...spade, unread: false }; // Update unread property
+                            }
+                            return spade;
+                        });
 
-        updateUnreadSpade();
-    }, []);
-
+                        // Dispatch the updated spades data
+                        dispatch(setSpades(updatedSpadesData));
+                    })
+            } catch (error) {
+                console.error('Error while updating', error.message);
+            }
+        }
+    }
 
     useEffect(() => {
         // const socket = io('http://your-server-address:3000');
         const spadeId = currentSpade._id;
         connectSocket(spadeId);
 
-
+        handleSpadeNaviagtion();
 
         // socket.on('updated retailer', (updatedUser) => {
         //     console.log('Message receiver for chat for unread chat', updatedUser);
@@ -120,13 +128,14 @@ const RequestDetail = () => {
                 });
         }
         fetchRetailers();
-        getGeoCoordinates().then(coordinates => {
-            console.log('coordinates', coordinates);
-            if (coordinates) {
-                setUserLongitude(coordinates.coords.longitude);
-                setUserLatitude(coordinates.coords.latitude);
-            }
-        })
+
+        // getGeoCoordinates().then(coordinates => {
+        //     console.log('coordinates', coordinates);
+        //     if (coordinates) {
+        //         setUserLongitude(coordinates.coords.longitude);
+        //         setUserLatitude(coordinates.coords.latitude);
+        //     }
+        // })
 
 
         return () => {
@@ -346,11 +355,11 @@ const RequestDetail = () => {
                             {
                                 currentSpadeRetailers && currentSpadeRetailers.length > 0 && currentSpadeRetailers.map((details, index) => {
                                     let distance = null;
-                                    // if (userLongitude !== 0 && userLatitude !== 0 && details.retailerId.longitude !== 0 && details.retailerId.lattitude !== 0) {
-                                    //     distance = haversineDistance(userLongitude, userLatitude, details.retailerId.lattitude, details.retailerId.longitude);
-                                    // }
-                                    // else
-                                    // if (details && details?.customerId?.longitude !== 0 && details?.customerId.latitude !== 0 && details.retailerId.longitude !== 0 && details.retailerId.lattitude !== 0) {
+                                    if (userLongitude !== 0 && userLatitude !== 0 && details.retailerId.longitude !== 0 && details.retailerId.lattitude !== 0) {
+                                        distance = haversineDistance(userLatitude, userLongitude, details.retailerId.lattitude, details.retailerId.longitude);
+                                        // console.log('dis', distance);
+                                    }
+                                    // else if (details && details?.customerId?.longitude !== 0 && details?.customerId.latitude !== 0 && details.retailerId.longitude !== 0 && details.retailerId.lattitude !== 0) {
                                     //     distance = haversineDistance(details.customerId.latitude, details.customerId.longitude, details.retailerId.lattitude, details.retailerId.longitude);
                                     // }
                                     // console.log(details.customerId.latitude, details.customerId.longitude);
@@ -373,8 +382,8 @@ const RequestDetail = () => {
                                                             <Text className="text-[12px] text-[#558b2f]" style={{ fontFamily: "Poppins-Regular" }}>{details?.updatedAt}</Text>
                                                         </View>
                                                     </View>
-                                                    {/* <View className="flex-row items-center gap-[15px]">
-
+                                                    <View className="flex-row items-center gap-[15px]">
+                                                        {/* {console.log('req details', details.retailerId.totalRating, details.retailerId.totalReview, distance)} */}
                                                         {details?.retailerId?.totalReview > 0 && (
                                                             <View className="flex-row items-center gap-[5px]">
                                                                 <Star />
@@ -390,7 +399,7 @@ const RequestDetail = () => {
                                                                 <Text className="bg-[#ffe7c8] text-text  px-[5px] py-[2px] rounded-md"><Text>{parseFloat(distance).toFixed(1)}</Text> km</Text>
                                                             </View>
                                                         }
-                                                    </View> */}
+                                                    </View>
 
                                                     <View className="flex-row justify-between">
                                                         <View className="flex-row gap-[5px]">

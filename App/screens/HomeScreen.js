@@ -9,7 +9,7 @@ import {
   Dimensions,
   ActivityIndicator,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
 import {
   SafeAreaView,
@@ -21,6 +21,8 @@ import {
   setSpades,
   setCurrentSpade,
   setUserDetails,
+  setUserLongitude,
+  setUserLatitude,
 } from "../redux/reducers/userDataSlice";
 import io from "socket.io-client";
 import { socket } from "../utils/scoket.io/socket";
@@ -36,7 +38,9 @@ import HomeScreenBg from "../assets/homeScreenBg.svg";
 import HomeMain from "../assets/HomeMain.svg";
 import {
   formatDateTime,
+
   getGeoCoordinates,
+
   getLocationName,
 } from "../utils/logics/Logics";
 import Home1 from "../assets/Home1.svg";
@@ -73,6 +77,16 @@ const HomeScreen = () => {
   };
 
   // console.log("userDetails", userDetails);
+  // useEffect(() => {
+  //   getGeoCoordinates().then(coordinates => {
+  //     console.log('coordinates', coordinates);
+  //     if (coordinates) {
+  //       setUserLongitude(coordinates.coords.longitude);
+  //       setUserLatitude(coordinates.coords.latitude);
+  //     }
+
+  //   })
+  // })
 
   useEffect(() => {
 
@@ -142,69 +156,59 @@ const HomeScreen = () => {
     fetchData();
   }, []);
 
-  const handleRefreshLocation = async () => {
+  const handleRefreshLocation = useCallback(async () => {
     setIsLoading(true);
     try {
-      const res = await getGeoCoordinates();
-      const location = await getLocationName(
-        res.coords.latitude,
-        res.coords.longitude
-      );
-
-      let updatedUserData = {
-        ...userDetails,
-        latitude: res.coords.latitude,
-        longitude: res.coords.longitude,
-
-        location: location,
-      };
-
-      // console.log(
-      //   "user updated with location",
-      //   updatedUserData.latitude,
-      //   updatedUserData.longitude,
-      //   updatedUserData.location
-      // );
-
-      await axios
-        .patch("http://173.212.193.109:5000/user/edit-profile", {
-          _id: userDetails._id,
-          updateData: {
-            longitude: updatedUserData.longitude,
-            latitude: updatedUserData.latitude,
-            coords: {
-              type: 'Point',
-              coordinates: [updatedUserData.longitude, updatedUserData.latitude]
-
-            },
-            location: updatedUserData.location,
-          },
-        })
+      await getGeoCoordinates(dispatch, setUserLongitude, setUserLatitude)
         .then(async (res) => {
-          dispatch(setUserDetails(res.data));
-          setIsLoading(false);
-          await AsyncStorage.setItem(
-            "userDetails",
-            JSON.stringify(updatedUserData)
+          const location = await getLocationName(
+            res.coords.latitude,
+            res.coords.longitude
           );
-          console.log("User location updated successfully");
-        });
 
-      // dispatch(setUserDetails(updatedUserData));
-      // setIsLoading(false);
-      // await AsyncStorage.setItem(
-      //   "userDetails",
-      //   JSON.stringify(updatedUserData)
-      // );
+          let updatedUserData = {
+            ...userDetails,
+            latitude: res.coords.latitude,
+            longitude: res.coords.longitude,
+
+            location: location,
+          };
+
+          await axios
+            .patch("http://173.212.193.109:5000/user/edit-profile", {
+              _id: userDetails._id,
+              updateData: {
+                longitude: updatedUserData.longitude,
+                latitude: updatedUserData.latitude,
+                coords: {
+                  type: 'Point',
+                  coordinates: [updatedUserData.longitude, updatedUserData.latitude]
+
+                },
+                location: updatedUserData.location,
+              },
+            })
+            .then(async (res) => {
+              dispatch(setUserDetails(res.data));
+              setIsLoading(false);
+              await AsyncStorage.setItem(
+                "userDetails",
+                JSON.stringify(updatedUserData)
+              );
+              console.log("User location updated successfully", res.data);
+            });
+
+        })
 
 
-    } catch (error) {
+    }
+    catch (error) {
       setIsLoading(false);
       console.error("Error updating location:", error);
     } finally {
       setIsLoading(false);
     }
-  };
+  });
 
   const handleSpadeCreation = async () => {
     if (userDetails.lastPaymentStatus === "unpaid") {
@@ -215,6 +219,8 @@ const HomeScreen = () => {
     }
     // navigation.navigate("requestentry");
   }
+
+
 
   const { width } = Dimensions.get('window');
   // console.log('userData', userDetails);
