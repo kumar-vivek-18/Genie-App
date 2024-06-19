@@ -13,16 +13,16 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
     const spades = useSelector(store => store.user.spades);
     const userDetails = useSelector(store => store.user.userDetails);
     const dispatch = useDispatch();
-    const [loading,setLoading]=useState(false);
+    const [loading, setLoading] = useState(false);
 
     const closeSpade = async () => {
         setLoading(true);
         const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
             params: {
-                id: spade.requestAcceptedChat,
+                id: currentSpadeRetailers[0]?._id,
             }
         });
-        console.log("close notification",token)
+        console.log("close notification", token)
         try {
 
 
@@ -41,11 +41,11 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                         token: token.data,
                         title: userDetails.userName,
                         close: spade._id,
-                        image: spade.requestImages?spade.requestImages[0]:""
+                        image: spade.requestImages ? spade.requestImages[0] : ""
                     }
-                     console.log("close notification",token)
+                    console.log("close notification", token)
                     await sendCloseSpadeNotification(notification);
-    
+
                 }
             }
             else {
@@ -85,10 +85,10 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                         </View>
                         <View className="flex-1 mt-[5px]">
                             <Pressable onPress={() => { closeSpade(); }}>
-                            {loading ? (
+                                {loading ? (
                                     <ActivityIndicator size="small" color="#FB8C00" />
                                 ) : (
-                                <Text className="text-[14.5px] text-[#FB8C00]  text-center" style={{ fontFamily: "Poppins-SemiBold" }}>Confirm</Text>
+                                    <Text className="text-[14.5px] text-[#FB8C00]  text-center" style={{ fontFamily: "Poppins-SemiBold" }}>Confirm</Text>
                                 )}
                             </Pressable>
                         </View>

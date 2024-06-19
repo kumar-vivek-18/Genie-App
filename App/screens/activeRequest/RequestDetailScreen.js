@@ -54,6 +54,27 @@ const RequestDetail = () => {
         console.log('Particular spade socekt connect with id', id);
     }
 
+    useEffect(() => {
+        const updateUnreadSpade = async () => {
+            // Create a deep copy of spades to ensure immutability
+            let spadesData = [...spades];
+
+            // Find and update the specific spade
+            const updatedSpadesData = spadesData.map(spade => {
+                if (spade._id === currentSpade._id) {
+                    return { ...spade, unread: false }; // Update unread property
+                }
+                return spade;
+            });
+
+            // Dispatch the updated spades data
+            dispatch(setSpades(updatedSpadesData));
+
+            console.log("Spades updated successfully");
+        };
+
+        updateUnreadSpade();
+    }, []);
 
 
     useEffect(() => {
@@ -219,9 +240,9 @@ const RequestDetail = () => {
                     token: token,
                     title: userDetails.userName,
                     close: currentSpade._id,
-                    image: currentSpade.requestImages?currentSpade.requestImages[0]:""
+                    image: currentSpade.requestImages ? currentSpade.requestImages[0] : ""
                 }
-                 console.log("close notification",token)
+                console.log("close notification", token)
                 await sendCloseSpadeNotification(notification);
 
             }

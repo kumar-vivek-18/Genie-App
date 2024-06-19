@@ -58,7 +58,7 @@ const HomeScreen = () => {
   const dispatch = useDispatch();
   const userDetails = useSelector((state) => state.user.userDetails);
   const spades = useSelector((state) => state.user.spades);
-
+  const currentSpade = useSelector(store => store.user.currentSpade);
   const navigationState = useNavigationState((state) => state);
   const isHomeScreen =
     navigationState.routes[navigationState.index].name === "home";
@@ -77,7 +77,7 @@ const HomeScreen = () => {
   useEffect(() => {
 
     const setNotificationSetUp = async () => {
-      await notificationListeners(dispatch, spades);
+      await notificationListeners(dispatch, spades, currentSpade);
     }
     setNotificationSetUp();
 
@@ -376,6 +376,9 @@ const HomeScreen = () => {
                   }}
                 >
                   <View style={styles.container}>
+                    {
+                      spade?.unread && <View style={styles.dot}></View>
+                    }
                     <View style={styles.imageContainer}>
                       <Image
                         source={{ uri: spade.requestImages[0] }}
@@ -421,6 +424,7 @@ const HomeScreen = () => {
 
 const styles = {
   container: {
+    position: 'relative',
     flexDirection: "row",
     alignItems: "center",
     marginHorizontal: 9,
@@ -502,6 +506,16 @@ const styles = {
     borderRadius: 5,
     backgroundColor: "#FB8C00",
   },
+  dot: {
+    position: 'absolute',
+    top: -5,
+    right: 30,
+
+    backgroundColor: '#e76063',
+    height: 20,
+    width: 20,
+    borderRadius: 20,
+  }
 };
 
 export default HomeScreen;

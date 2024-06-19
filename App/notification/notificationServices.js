@@ -10,7 +10,7 @@ import { setSpades } from '../redux/reducers/userDataSlice';
 
 
 // }
-export async function notificationListeners(dispatch, spades) {
+export async function notificationListeners(dispatch, spades, currentSpade) {
     messaging().getInitialNotification().then(async (remoteMessage) => {
         if (remoteMessage) {
             console.log("Notifications caused app to open from quit state", remoteMessage)
@@ -60,6 +60,12 @@ export async function notificationListeners(dispatch, spades) {
 
             let data = spadesData.filter(spade => spade._id === updatedId);
             let data2 = spadesData.filter(spade => spade._id !== updatedId);
+            if (currentSpade._id === updatedId) {
+                data.unread = false;
+            }
+            else {
+                data.unread = true;
+            }
             // data = [spade[idx], ...data];
             console.log('data', data);
             spadesData = [...data, ...data2]
