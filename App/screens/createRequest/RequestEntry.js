@@ -1,13 +1,14 @@
 import { View, Text, Pressable, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ArrowLeft from '../../assets/arrow-left.svg';
 import Genie from '../../assets/Genie.svg';
 import { useNavigation } from '@react-navigation/native';
-import { setRequestDetail } from '../../redux/reducers/userRequestsSlice';
+import { setNearByStoresCategory, setRequestDetail } from '../../redux/reducers/userRequestsSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import BackArrow from "../../assets/BackArrowImg.svg";
 import axios from 'axios';
+import { setUserDetails } from '../../redux/reducers/userDataSlice';
 
 
 const RequestEntry = () => {
@@ -15,19 +16,30 @@ const RequestEntry = () => {
     const dispatch = useDispatch();
     const [query, setQuery] = useState("");
     const requestDetail = useSelector(store => store.userRequest.requestDetail);
-
+    const userDetails = useSelector(store => store.user.userDetails);
     const userLongitude = useSelector(store => store.user.userLongitude);
     const userLatitude = useSelector(store => store.user.userLatitude);
-    const fetchLocation = useCallback(async () => {
+    // console.log('hii')
+    const fetchNearByStores = useCallback(async () => {
         try {
-            await axios.get('http://192.212.193.109:5000/retailer/stores-near-me', {
+            console.log('User coors', userLongitude, userLatitude, userDetails.longitude, userDetails.latitude);
+            const longitude = userLongitude !== 0 ? userLongitude : userDetails.longitude;
+            const latitude = userLatitude !== 0 ? userLatitude : userDetails.latitude;
+            console.log(longitude, latitude);
+            await axios.get('http://173.212.193.109:5000/retailer/stores-near-me', {
                 params: {
-                    longitude: userLongitude,
-                    latitude: userLatitude,
+                    longitude: longitude,
+                    latitude: latitude,
                 }
             })
                 .then(res => {
-                    setNearByStoresCategory(res.data);
+                    const categories = res.data.map((category, index) => {
+                        return { id: index + 1, name: category };
+                    });
+
+                    // Log the categories array to verify
+                    console.log(categories);
+                    dispatch(setNearByStoresCategory(categories));
                 })
         } catch (error) {
             console.error("error while fetching nearby stores", error);
@@ -35,9 +47,9 @@ const RequestEntry = () => {
     })
 
     useEffect(() => {
+        fetchNearByStores();
 
-
-    })
+    }, []);
 
     return (
         <View style={{ flex: 1, backgroundColor: "white" }}>

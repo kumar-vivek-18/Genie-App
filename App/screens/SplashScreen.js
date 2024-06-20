@@ -81,7 +81,7 @@ const SplashScreen = () => {
         // Check if user data exists in local storage
         const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
 
-        console.log('userData', userData);
+        // console.log('userData', userData);
         setTimeout(() => {
           if (userData !== null) {
             // await AsyncStorage.removeItem('userData');
