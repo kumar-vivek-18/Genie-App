@@ -45,7 +45,7 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
                 });
 
             setModalVisible(false);
-            await auth().signOut();
+            // await auth().signOut();
             setLoading(false)
             dispatch(requestClear());
 
