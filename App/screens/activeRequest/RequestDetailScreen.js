@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Pressable, Image } from 'react-native'
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import RandomImg from '../../assets/RandomImg.svg';
@@ -20,7 +20,7 @@ import useRequestSocket from './useRequestSocket';
 import { socket } from '../../utils/scoket.io/socket';
 import Star from '../../assets/Star.svg';
 import HomeIcon from '../../assets/homeIcon.svg';
-import { getGeoCoordinates, haversineDistance } from '../../utils/logics/Logics';
+import { getGeoCoordinates } from '../../utils/logics/Logics';
 import { formatDateTime } from '../../utils/logics/Logics';
 import Copy from "../../assets/copy.svg";
 import GalleryImg from "../../assets/gallery.svg";
@@ -61,7 +61,7 @@ const RequestDetail = () => {
 
 
             try {
-                await axios.patch('http://173.212.193.109:5000/chat/set-spade-mark-as-read', {
+                await axios.patch('http://173.212.193.109:5000/user/set-spade-mark-as-read', {
                     id: currentSpade._id
                 })
                     .then((res) => {
@@ -178,7 +178,8 @@ const RequestDetail = () => {
                 // console.log('updatedRe', currentSpadeRetailers);
                 // console.log('updatedUser', updatedUser);
 
-                console.log('currentSpadeRetailers', currentSpadeRetailers.length);
+                console.log('currentSpadeRetailers', updatedUser.retailerId);
+
                 // const updatedRetailers = [updatedUser, ...currentSpadeRetailers];
                 const updatedRetailers = [updatedUser, ...currentSpadeRetailers.filter(c => c._id !== updatedUser._id)];
 
@@ -284,6 +285,28 @@ const RequestDetail = () => {
 
     }
 
+
+
+    const haversineDistance = useCallback((lat1, lon1, lat2, lon2) => {
+        console.log('deg', lat1, lon1, lat2, lon2);
+        const toRadians = (degree) => degree * (Math.PI / 180);
+
+        const R = 6371; // Radius of the Earth in kilometers
+        const dLat = toRadians(lat2 - lat1);
+        const dLon = toRadians(lon2 - lon1);
+
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        const distance = R * c; // Distance in kilometers
+        // console.log(R, dLat, dLon, a, c, distance);
+        return distance;
+    });
+
     return (
         <>
             {<View style={{ flex: 1, position: 'relative' }} >
@@ -383,7 +406,6 @@ const RequestDetail = () => {
                                                         </View>
                                                     </View>
                                                     <View className="flex-row items-center gap-[15px]">
-                                                        {/* {console.log('req details', details.retailerId.totalRating, details.retailerId.totalReview, distance)} */}
                                                         {details?.retailerId?.totalReview > 0 && (
                                                             <View className="flex-row items-center gap-[5px]">
                                                                 <Star />
@@ -403,11 +425,31 @@ const RequestDetail = () => {
 
                                                     <View className="flex-row justify-between">
                                                         <View className="flex-row gap-[5px]">
-                                                            <Gallery />
+                                                            {
+                                                                details?.latestMessage?.bidType === "true" && (
+                                                                    <View >
+                                                                        {details?.latestMessage?.bidAccepted === "new" && (
+                                                                            <View>
+                                                                                <Text style={{ color: 'white', paddingHorizontal: 8, backgroundColor: '#dbcdbb', borderRadius: 10 }}>Offer</Text>
+                                                                            </View>
+                                                                        )}
+                                                                        {details?.latestMessage?.bidAccepted === "accepted" && (
+                                                                            <View>
+                                                                                <Text style={{ color: 'white', paddingHorizontal: 8, backgroundColor: '#558b2f', borderRadius: 10 }}>Offer</Text>
+                                                                            </View>
+                                                                        )}
+                                                                        {details?.latestMessage?.bidAccepted === "rejected" && (
+                                                                            <View>
+                                                                                <Text style={{ color: 'white', paddingHorizontal: 8, backgroundColor: '#e76063', borderRadius: 10 }}>Offer</Text>
+                                                                            </View>
+                                                                        )}
+                                                                    </View>
+                                                                )
+                                                            }
                                                             <Text className="text-[14px] text-[#c4c4c4]" style={{ fontFamily: "Poppins-Regular" }}>{details?.latestMessage?.message || 'No message available'}</Text>
 
                                                         </View>
-                                                        {details?.unreadCount > 0 && <View className="w-[18px] h-[18px] rounded-full bg-[#55cd00] flex-row justify-center items-center">
+                                                        {details?.unreadCount > 0 && details?.latestMessage?.sender?.type === 'Retailer' && <View className="w-[18px] h-[18px] rounded-full bg-[#55cd00] flex-row justify-center items-center">
                                                             <Text className=" text-white text-[12px] " style={{ fontFamily: "Poppins-Bold" }}>{details.unreadCount}</Text>
                                                         </View>}
                                                     </View>

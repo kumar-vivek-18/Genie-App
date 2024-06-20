@@ -64,10 +64,10 @@ const BargainingScreen = () => {
         dispatch(setUserDetails(userData));
     }
 
-    const setMessagesMarkAsRead = async () => {
-        console.log('marks as read0', currentSpadeRetailer._id);
+    const setMessagesMarkAsRead = useCallback(async () => {
+        console.log('marks as read0', currentSpadeRetailer.latestMessage);
         try {
-            if (currentSpadeRetailer.unreadCount > 0) {
+            if (currentSpadeRetailer.unreadCount > 0 && currentSpadeRetailer.latestMessage.sender.type === 'Retailer') {
                 const response = await axios.patch('http://173.212.193.109:5000/chat/mark-as-read', {
                     id: currentSpadeRetailer._id
                 });
@@ -92,7 +92,7 @@ const BargainingScreen = () => {
         } catch (error) {
             console.error("error while marking as read", error.message);
         }
-    }
+    })
 
     useEffect(() => {
         fetchUserDetails();
@@ -134,7 +134,7 @@ const BargainingScreen = () => {
         if (currentSpadeRetailer?.users) {
             connectSocket(currentSpadeRetailer?.users[1]._id);
             setMessagesMarkAsRead();
-            console.log('making unread message 0');
+            // console.log('making unread message 0');
         }
         // console.log('spc', socket);
         // socket.on('typing', () => setIsTyping(true));
@@ -217,7 +217,7 @@ const BargainingScreen = () => {
                     })
                     dispatch(setSpades(allSpades));
 
-                    const updateChat = { ...currentSpadeRetailer, unreadMessages: 0, latestMessage: { _id: res.data.message._id, message: res.data.message.message } };
+                    const updateChat = { ...currentSpadeRetailer, unreadCount: 0, latestMessage: { _id: res.data.message._id, message: res.data.message.message, bidType: "true", bidAccepted: "accepted", sender: { type: 'UserRequest', refId: spade._id } } };
                     const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
                     dispatch(setCurrentSpadeRetailers(updatedRetailers));
                     dispatch(setCurrentSpadeRetailer(updateChat));
@@ -268,7 +268,7 @@ const BargainingScreen = () => {
             setMessages(mess);
 
             //updating retailers latest message
-            const updateChat = { ...currentSpadeRetailer, unreadMessages: 0, latestMessage: { _id: res.data.message._id, message: res.data.message.message } };
+            const updateChat = { ...currentSpadeRetailer, unreadMessages: 0, latestMessage: { _id: res.data._id, message: res.data.message, bidType: "true", bidAccepted: "rejected", sender: { type: 'UserRequest', refId: spade._id } } };
             const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
             dispatch(setCurrentSpadeRetailers(updatedRetailers));
             dispatch(setCurrentSpadeRetailer(updateChat));

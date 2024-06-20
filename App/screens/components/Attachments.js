@@ -53,7 +53,7 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
 
                 //updating chat latest message
                 setLoading(false);
-                const updateChat = { ...currentSpadeRetailer, unreadCount: 0, latestMessage: { _id: res.data._id, message: res.data.message } };
+                const updateChat = { ...currentSpadeRetailer, unreadCount: 0, latestMessage: { _id: res.data._id, message: res.data.message, bidType: "false", sender: { type: 'UserRequest', refId: currentSpade._id } } };
                 const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
                 dispatch(setCurrentSpadeRetailers(updatedRetailers));
                 dispatch(setCurrentSpadeRetailer(updateChat));
@@ -169,7 +169,7 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
             <TouchableOpacity onPress={() => setAttachmentScreen(false)}>
                 <View className="w-screen bg-transparent flex-1" />
             </TouchableOpacity>
-            <View style={{ position: 'absolute', bottom: 60, left: 0, right: 0, backgroundColor: 'white' }} className="py-[20px] gap-5">
+            <View style={{ position: 'absolute', bottom: 180, left: 0, right: 0, backgroundColor: 'white' }} className="py-[20px] gap-5">
                 <View className="flex-row justify-evenly">
                     <View className="items-center">
                         <Document />
