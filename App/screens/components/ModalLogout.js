@@ -26,17 +26,18 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
         try {
 
 
-            // await auth().signOut();
-            await messaging().deleteToken();
-            console.log("FCM token deleted.");
+            await auth().signOut();
+            
             await AsyncStorage.removeItem('userDetails');
 
             await axios.patch('http://173.212.193.109:5000/user/edit-profile', {
                 _id: userDetails._id,
                 updateData: { uniqueToken: "" }
             })
-                .then(res => {
+                .then(async(res) => {
                     console.log('UserName updated Successfully');
+                     await messaging().deleteToken();
+                     console.log("FCM token deleted.");
                 })
                 .catch(err => {
                     console.error('Error updating token: ' + err.message);

@@ -133,10 +133,10 @@ const MobileNumberEntryScreen = () => {
       setLoading(true);
       try {
         const phoneNumber = countryCode + mobileNumber;
-        // console.log(phoneNumber);
-        // const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-        // setConfirm(confirmation);
-        // console.log(confirmation);
+        console.log(phoneNumber);
+        const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+        setConfirm(confirmation);
+        console.log(confirmation);
         dispatch(setMobileNumber(phoneNumber));
         setMobileScreen(false);
       } catch (error) {
@@ -155,11 +155,11 @@ const MobileNumberEntryScreen = () => {
     try {
       // Make a request to your backend API to check if the mobile number is registered
 
-      // console.log(confirm)
-      // const res = await confirm.confirm(otp);
-      // console.log("res", res);
-      // console.log(otp);
-      // if (res) {
+      console.log(confirm)
+      const res = await confirm.confirm(otp);
+      console.log("res", res);
+      console.log(otp);
+      if (res) {
       const phoneNumber = countryCode + mobileNumber;
       console.log("phone", phoneNumber);
       const response = await axios.get("http://173.212.193.109:5000/user/", {
@@ -195,6 +195,7 @@ const MobileNumberEntryScreen = () => {
             setMobileNumberLocal("");
             setOtp("");
             setToken("")
+            setMobileScreen(true);
           })
           .catch((err) => {
             console.error("Error updating token: " + err.message);
@@ -204,14 +205,17 @@ const MobileNumberEntryScreen = () => {
         // setMobileNumberLocal("");
         navigation.navigate("registerUsername");
         setMobileNumberLocal("");
+        setOtp("");
+        setToken("")
+        setMobileScreen(true);
       }
-      // }
-      // else {
-      //   setLoading(false);
-      //   console.log('Invalid otp:');
-      //   alert('Invalid otp');
-      //   return;
-      // }
+      }
+      else {
+        setLoading(false);
+        console.log('Invalid otp:');
+        alert('Invalid otp');
+        return;
+      }
     } catch (error) {
       console.error("Error checking mobile number:", error);
     } finally {
@@ -328,7 +332,7 @@ const MobileNumberEntryScreen = () => {
                 className="w-full object-cover"
               />
               {/* <OtpPageBg width={width} /> */}
-              <Pressable onPress={() => { navigation.goBack() }} className="flex z-40 flex-row items-center absolute top-16 left-4 gap-2">
+              <Pressable onPress={() => { setMobileScreen(true) }} className="flex z-40 flex-row items-center absolute top-16 left-4 gap-2">
                 <View className="px-[24px]">
                   <BackArrow width={14} height={10} />
                 </View>
