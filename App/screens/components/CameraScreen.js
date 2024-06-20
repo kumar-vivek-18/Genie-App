@@ -27,6 +27,7 @@ import { formatDateTime } from "../../utils/logics/Logics";
 import {
     setCurrentSpadeRetailer,
     setCurrentSpadeRetailers,
+    setSpades,
 } from "../../redux/reducers/userDataSlice";
 const CameraScreen = () => {
     const [imageUri, setImageUri] = useState("");
@@ -38,6 +39,8 @@ const CameraScreen = () => {
 
     const details = useSelector((store) => store.user.currentSpadeRetailer);
     const userDetails = useSelector((store) => store.user.userDetails);
+
+    const spades = useSelector(store => store.user.spades);
 
     const dispatch = useDispatch();
     // console.log('store', openCamera, messages)
@@ -105,6 +108,14 @@ const CameraScreen = () => {
                     requestInfo: details,
                 };
                 await AttachmentSend(notification);
+
+                const idx = spades.findIndex(spade => spade._id === res.data.userRequest);
+                if (idx !== 0) {
+                    let data = spades.filter(spade => spade._id === res.data.userRequest);
+                    let data2 = spades.filter(spade => spade._id !== res.data.userRequest);
+                    const spadeData = [...data, ...data2]
+                    dispatch(setSpades(spadeData));
+                }
             })
             .catch((err) => {
                 setLoading(false);

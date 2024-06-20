@@ -233,6 +233,14 @@ const BargainingScreen = () => {
                     await BidAccepted(notification);
                     console.log('bid accepted');
 
+                    const idx = spades.findIndex(spade => spade._id === res.data.message.userRequest);
+                    if (idx !== 0) {
+                        let data = spades.filter(spade => spade._id === res.data.message.userRequest);
+                        let data2 = spades.filter(spade => spade._id !== res.data.message.userRequest);
+                        const spadeData = [...data, ...data2]
+                        dispatch(setSpades(spadeData));
+                    }
+
                 })
                 .catch(err => {
                     setLoading(false);
@@ -284,6 +292,14 @@ const BargainingScreen = () => {
                 requestInfo: currentSpadeRetailer,
             }
             await BidRejected(notification);
+
+            const idx = spades.findIndex(spade => spade._id === res.data.userRequest);
+            if (idx !== 0) {
+                let data = spades.filter(spade => spade._id === res.data.userRequest);
+                let data2 = spades.filter(spade => spade._id !== res.data.userRequest);
+                const spadeData = [...data, ...data2]
+                dispatch(setSpades(spadeData));
+            }
 
         } catch (error) {
             setLoading(false);

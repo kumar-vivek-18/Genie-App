@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useNavigation, useNavigationState } from "@react-navigation/native";
+import { useIsFocused, useNavigation, useNavigationState } from "@react-navigation/native";
 import {
   SafeAreaView,
   useSafeAreaInsets,
@@ -69,6 +69,7 @@ const HomeScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollViewRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
+  const isFocused = useIsFocused();
 
   const handleScroll = (event) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x;
@@ -76,6 +77,15 @@ const HomeScreen = () => {
     setCurrentIndex(index);
   };
 
+  useEffect(() => {
+    if (isFocused) {
+      dispatch(setCurrentSpade({}));
+
+      setTimeout(() => {
+        console.log('homeScreen is data', currentSpade);
+      }, 3000);
+    }
+  }, [isFocused]);
   // console.log("userDetails", userDetails);
   // useEffect(() => {
   //   getGeoCoordinates().then(coordinates => {
@@ -88,15 +98,17 @@ const HomeScreen = () => {
   //   })
   // })
 
+  const setNotificationSetUp = async () => {
+    await notificationListeners(dispatch, spades, currentSpade);
+  };
+
   useEffect(() => {
 
-    const setNotificationSetUp = async () => {
-      await notificationListeners(dispatch, spades, currentSpade);
-    }
+
     setNotificationSetUp();
 
 
-  }, [dispatch, spades]);
+  }, [spades, currentSpade]);
 
   useEffect(() => {
     const backAction = () => {
@@ -387,7 +399,7 @@ const HomeScreen = () => {
                     }
                     <View style={styles.imageContainer}>
                       <Image
-                        source={{ uri: spade.requestImages[0] }}
+                        source={{ uri: spade.requestImages.length > 0 ? spade.requestImages[0] : "https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg" }}
                         style={styles.image}
                       />
                     </View>
@@ -437,7 +449,8 @@ const styles = {
     marginBottom: 10,
     backgroundColor: "white",
     gap: 15,
-    height: 130,
+    // height: 130,
+    paddingVertical: 15,
     borderRadius: 15,
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,
@@ -455,7 +468,7 @@ const styles = {
   description: {
     fontSize: 14,
     fontFamily: "Poppins-Regular",
-    width: "83.33%", // 10/12 in tailwind is 83.33%
+    width: "60%", // 10/12 in tailwind is 83.33%
   },
   priceRow: {
     flexDirection: "row",

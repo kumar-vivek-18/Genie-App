@@ -34,6 +34,7 @@ import {
   setCurrentChatMessages,
   setCurrentSpadeRetailer,
   setCurrentSpadeRetailers,
+  setSpades,
 } from "../../redux/reducers/userDataSlice";
 import { newMessageSend } from "../../notification/notificationMessages";
 import { formatDateTime } from "../../utils/logics/Logics";
@@ -53,6 +54,7 @@ const SendQueryScreen = () => {
     (store) => store.user.currentSpadeRetailers
   );
   const currentSpade = useSelector(store => store.user.currentSpade);
+  const spades = useSelector(store => store.user.spades);
 
   const dispatch = useDispatch();
 
@@ -119,6 +121,15 @@ const SendQueryScreen = () => {
         };
         // console.log("query page", spade);
         await newMessageSend(notification);
+
+        const idx = spades.findIndex(spade => spade._id === res.data.userRequest);
+        console.log('Idx', idx);
+        if (idx !== 0) {
+          let data = spades.filter(spade => spade._id === res.data.userRequest);
+          let data2 = spades.filter(spade => spade._id !== res.data.userRequest);
+          const spadeData = [...data, ...data2]
+          dispatch(setSpades(spadeData));
+        }
       })
       .catch((err) => {
         setIsLoading(false)

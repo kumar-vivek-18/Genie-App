@@ -19,6 +19,7 @@ import {
   setCurrentChatMessages,
   setCurrentSpadeRetailer,
   setCurrentSpadeRetailers,
+  setSpades,
 } from "../../redux/reducers/userDataSlice";
 import { newBidSend } from "../../notification/notificationMessages";
 import { emtpyRequestImages } from "../../redux/reducers/userRequestsSlice";
@@ -46,6 +47,7 @@ const CreateNewBidScreen = () => {
   const requestImages = useSelector((store) => store.userRequest.requestImages);
   const [addImg, setAddImg] = useState(false);
   const [loading, setLoading] = useState(false);
+  const spades = useSelector(store => store.user.spades);
 
   console.log("requestImages", requestImages);
 
@@ -107,6 +109,14 @@ const CreateNewBidScreen = () => {
           requestInfo: details,
         };
         await newBidSend(notification);
+
+        const idx = spades.findIndex(spade => spade._id === res.data.userRequest);
+        if (idx !== 0) {
+          let data = spades.filter(spade => spade._id === res.data.userRequest);
+          let data2 = spades.filter(spade => spade._id !== res.data.userRequest);
+          const spadeData = [...data, ...data2]
+          dispatch(setSpades(spadeData));
+        }
       })
       .catch((err) => {
         setLoading(false);

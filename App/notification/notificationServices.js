@@ -50,7 +50,7 @@ export async function notificationListeners(dispatch, spades, currentSpade) {
         const updatedId = details?.requestId?._id;
         console.log('FCM id', updatedId);
 
-        let spadesData = spades;
+        let spadesData = [...spades];
         console.log("Spades at notfication", spadesData.length, spades.length);
 
         const idx = spadesData.findIndex(spade => spade._id === updatedId);
@@ -59,13 +59,18 @@ export async function notificationListeners(dispatch, spades, currentSpade) {
         if (idx !== -1) {
 
             let data = spadesData.filter(spade => spade._id === updatedId);
+            // let spadeToUpdate = { ...spadesData[idx] };
             let data2 = spadesData.filter(spade => spade._id !== updatedId);
-            if (currentSpade._id === updatedId) {
-                data.unread = false;
+            console.log('notf', currentSpade._id, updatedId);
+            if (currentSpade && currentSpade?._id === updatedId) {
+                data[0] = { ...data[0], unread: false };
+                // spadeToUpdate.unread = false;
             }
             else {
-                data.unread = true;
+                data[0] = { ...data[0], unread: true };
+                // spadeToUpdate.unread = true;
             }
+
             // data = [spade[idx], ...data];
             console.log('data', data);
             spadesData = [...data, ...data2]
@@ -73,6 +78,7 @@ export async function notificationListeners(dispatch, spades, currentSpade) {
 
             console.log("Spdes updated Successfully", data.length, data2.length);
             dispatch(setSpades(spadesData));
+
         }
 
     });
