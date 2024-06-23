@@ -31,6 +31,7 @@ import { BidAccepted, BidRejected } from '../../notification/notificationMessage
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { formatDateTime, getGeoCoordinates } from '../../utils/logics/Logics';
 import { emtpyRequestImages } from '../../redux/reducers/userRequestsSlice';
+import RetailerContactDetailModal from '../components/RetailerContactDetailModal';
 
 const BargainingScreen = () => {
     const navigation = useNavigation();
@@ -40,6 +41,7 @@ const BargainingScreen = () => {
     const [cameraScreen, setCameraScreen] = useState(false);
     // const [acceptModal, setAcceptModal] = useState(false);
     const [modalVisible, setModalVisibile] = useState(false);
+    const [retailerModal, setRetailerModal] = useState(false);
     // console.log('spade details', details);
     const spade = useSelector(store => store.user.currentSpade);
     const spades = useSelector(store => store.user.spades);
@@ -446,10 +448,13 @@ const BargainingScreen = () => {
                         </View>
 
                         <View className="flex-row gap-[6px] items-center mt-[16px]">
-                            <View className="flex-row gap-[7px] items-center">
-                                <Contact />
-                                <Text style={{ fontFamily: "Poppins-Regular", color: "#FB8C00" }}>Contact Details</Text>
-                            </View>
+                            <TouchableOpacity onPress={() => setRetailerModal(true)}>
+                                <View className="flex-row gap-[7px] items-center">
+                                    <Contact />
+                                    <Text style={{ fontFamily: "Poppins-Regular", color: "#FB8C00" }}>Contact Details</Text>
+                                </View>
+                            </TouchableOpacity>
+
                             <TouchableOpacity onPress={() => { handleOpenGoogleMaps() }}>
                                 <View className="flex-row gap-[7px] items-center">
                                     <LocationImg />
@@ -520,7 +525,7 @@ const BargainingScreen = () => {
 
                         {((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === 'rejected' && spade?.requestActive === "active") || (spade?.requestActive === "active" && messages[messages?.length - 1]?.bidType === "false")) && <TouchableOpacity onPress={() => { navigation.navigate('send-bid', { messages, setMessages }); dispatch(emtpyRequestImages([])); }}>
                             <View className="w-full h-[68px]  bg-[#fb8c00] justify-center  bottom-0 left-0 right-0">
-                                <Text className="text-white  text-center text-[16px]" style={{ fontFamily: "Poppins-Black" }}>Send a new bid</Text>
+                                <Text className="text-white  text-center text-[16px]" style={{ fontFamily: "Poppins-Black" }}>Send a new bargaining bid</Text>
                             </View>
                         </TouchableOpacity>}
 
@@ -557,6 +562,9 @@ const BargainingScreen = () => {
 
             {
                 modalVisible && <RequestAcceptModal modalVisible={modalVisible} setModalVisible={setModalVisibile} acceptBid={acceptBid} loading={loading} />
+            }
+            {
+                retailerModal && <RetailerContactDetailModal retailerModal={retailerModal} setRetailerModal={setRetailerModal} />
             }
         </>
     )

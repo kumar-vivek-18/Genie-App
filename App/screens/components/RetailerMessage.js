@@ -1,8 +1,12 @@
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
 import React from 'react'
 import DPIcon from "../../assets/DPIcon.svg";
+import { useSelector } from 'react-redux';
 
 const RetailerMessage = ({ bidDetails, pic }) => {
+    const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
+    // console.log('currentSpadeRetailer', currentSpadeRetailer);
+
     return (
         <View className="flex gap-[19px] bg-[#fafafa]   rounded-3xl w-[297px] h-[max-content] py-[10px] items-center">
             <View className="flex-row px-[45px] ">
@@ -14,15 +18,15 @@ const RetailerMessage = ({ bidDetails, pic }) => {
                         />
                     </View>
                     <View className="w-[60%]">
-                        <Text className="text-[14px] text-[#2e2c43] " style={{fontFamily:"Poppins-Bold"}}>Retailer</Text>
-                        <Text className="text-[14px] text-[#2e2c43]" style={{fontFamily:"Poppins-Regular"}}>{bidDetails?.message}</Text>
+                        <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Bold" }}>{currentSpadeRetailer.retailerId.storeOwnerName}</Text>
+                        <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails?.message}</Text>
                     </View>
                 </View>
                 <View>
-                    <Text className="text-[12px] pt-[10px]" style={{fontFamily:"Poppins-Regular"}}>{bidDetails.createdAt}</Text>
+                    <Text className="text-[12px] pt-[10px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text>
                 </View>
             </View>
-            <ScrollView horizontal={true} contentContainerStyle={{ flexDirection: 'row',  paddingHorizontal: 25, }}>
+            <ScrollView horizontal={true} contentContainerStyle={{ flexDirection: 'row', paddingHorizontal: 25, }}>
                 {
                     bidDetails.bidImages?.map((image, index) => (
                         <View key={index}>

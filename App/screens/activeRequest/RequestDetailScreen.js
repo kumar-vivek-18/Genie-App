@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, Image } from 'react-native'
+import { View, Text, ScrollView, Pressable, Image, TouchableOpacity } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -91,6 +91,8 @@ const RequestDetail = () => {
         connectSocket(spadeId);
 
         handleSpadeNaviagtion();
+
+        dispatch(setCurrentSpadeRetailers([]));
 
         // socket.on('updated retailer', (updatedUser) => {
         //     console.log('Message receiver for chat for unread chat', updatedUser);
@@ -468,9 +470,17 @@ const RequestDetail = () => {
                 </ScrollView>
 
                 {spade.requestActive === "completed" && <View className="w-screen h-[68px]  bg-[#fb8c00] justify-center absolute bottom-0 left-0 right-0">
-                    <Pressable onPress={() => { setConfirmModal(true); }}>
+                    <TouchableOpacity onPress={() => { setConfirmModal(true); }}>
                         <Text className="text-white text-center text-[16px]" style={{ fontFamily: "Poppins-Black" }}>Close Request</Text>
-                    </Pressable>
+                    </TouchableOpacity>
+                </View>}
+                {spade.requestActive === "active" && currentSpadeRetailers.length === 0 && <View className="w-screen h-[68px]  justify-center absolute bottom-[20px] left-0 right-0">
+
+                    <View className="bg-[#ffe7c8] mx-[16px] h-[68px] flex-row items-center justify-center rounded-full">
+
+
+                        <Text className="text-[#fb8c00] text-center text-[14px]" style={{ fontFamily: "Poppins-Black" }}>Waiting for retailers response..... </Text>
+                    </View>
                 </View>}
             </View>}
             {confirmModal && <CloseSpadeModal confirmModal={confirmModal} setConfirmModal={setConfirmModal} setSuccessModal={setSuccessModal} />}

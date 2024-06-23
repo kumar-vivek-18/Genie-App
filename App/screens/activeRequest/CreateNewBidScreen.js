@@ -26,6 +26,8 @@ import { emtpyRequestImages } from "../../redux/reducers/userRequestsSlice";
 import UploadImage from "../../assets/AddImg.svg";
 import AddImages from "../components/AddImages";
 import { formatDateTime } from "../../utils/logics/Logics";
+
+
 const CreateNewBidScreen = () => {
   const route = useRoute();
   const { messages, setMessages } = route.params;

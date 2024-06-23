@@ -152,7 +152,7 @@ const RequestPreviewScreen = () => {
         </View>
         <View className="px-[32px]">
           <Text className="text-[14px]  text-[#2e2c43]" style={{ fontFamily: "Poppins-Black" }}>
-            Splades of master
+            Spade of master
           </Text>
           <Text className="text-[14px] text-[#2e2c43] w-4/5 mt-[5px]" style={{ fontFamily: "Poppins-Regular" }}>
             {requestDetail}
@@ -161,7 +161,7 @@ const RequestPreviewScreen = () => {
 
         <View className="px-[32px] mt-[36px]">
           <Text className="text-[14px]  text-[#2e2c43]" style={{ fontFamily: "Poppins-Black" }}>
-            Reference Images for sellers
+            Reference images for shopkeepers
           </Text>
           <ScrollView
             horizontal={true}
