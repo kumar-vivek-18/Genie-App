@@ -73,7 +73,7 @@ const HomeScreen = () => {
 
   const handleScroll = (event) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x;
-    const index = Math.floor(contentOffsetX / width);
+    const index = Math.floor(contentOffsetX / (width - 150));
     setCurrentIndex(index);
   };
 
@@ -305,7 +305,7 @@ const HomeScreen = () => {
         <View className="mt-[10px]">
           <Text className="text-center text-[14px] text-[#001b33] " style={{ fontFamily: "Poppins-Light" }}>Ask Genie for any shopping item or</Text>
           <Text className="text-center text-[14px] text-[#001b33]  " style={{ fontFamily: "Poppins-Light" }}>maintenance service you need. Start real</Text>
-          <Text className="text-center text-[14px] text-[#001b33]  " style={{ fontFamily: "Poppins-Light" }}>time bargaining now. </Text>
+          <Text className="text-center text-[14px] text-[#001b33]  " style={{ fontFamily: "Poppins-Light" }}>time bargaining to avail now. </Text>
 
           <Pressable
             onPress={() => {
@@ -316,7 +316,7 @@ const HomeScreen = () => {
           >
             <View className="h-[60px] w-full">
               <Text className="text-[#fb8c00] text-[14px] border-[1px] border-[#fb8c00] w-full bg-white text-center py-[19px] rounded-3xl" style={{ fontFamily: "Poppins-Italic" }}>
-                Type your spades my master...
+                Type your spade my master...
               </Text>
             </View>
           </Pressable>
@@ -339,7 +339,7 @@ const HomeScreen = () => {
                   Now bargaining is possible from your couch. Do you want anything new or to repair the old one?
                 </Text>
                 <Text className="text-[#3f3d56] text-[14px] text-center" style={{ fontFamily: "Poppins-Regular" }}>
-                  Connect with nearby retailers and bargain for the best prices for your shopping list items. You can also avail of all types of maintenance services here,  like plumber, electrician, carpenter & lot more.
+                  Connect with nearby shopkeepers and bargain for the best prices for your shopping list items. You can also avail any types of maintenance services here,  like plumber, electrician, carpenter & lot more.
                 </Text>
               </View>
               <View style={styles.scrollcontainer}>
@@ -348,15 +348,18 @@ const HomeScreen = () => {
                   pagingEnabled
                   showsHorizontalScrollIndicator={false}
                   onScroll={handleScroll}
-                  scrollEventThrottle={16}
+                  // scrollEventThrottle={16}
                   ref={scrollViewRef}
                 >
                   {images.map((SvgComponent, index) => (
-                    <View key={index} style={styles.scrollimageContainer}>
-                      <SvgComponent width={460} height={450} />
+                    <View key={index} className="flex-row rounded-2xl   mx-[10px] my-[10px] shadow-2xl" >
+
+                      <SvgComponent width={width - 150} height={250} />
                     </View>
+
                   ))}
                 </ScrollView>
+
                 <View style={styles.indicatorContainer}>
                   {images.map((_, index) => (
                     <View
@@ -500,15 +503,34 @@ const styles = {
 
   scrollcontainer: {
     flex: 1,
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor:"black"
+    backgroundColor: "white",
+    marginHorizontal: 20,
+    marginVertical: 40,
+    gap: 20,
+
+
   },
   scrollimageContainer: {
-    width: width,
-    height: 400,
+    // width: width,
+    // height: 600,
+    // marginHorizontal: 20,
+
     justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'fff',
+    shadowColor: "#000",
+    shadowOffset: { width: 3, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 16,
+    elevation: 5,
+    borderRadius: 16,
+
+    // border: 2,
+    // borderColor: "#FB8C00",
+    // borderWidth: 2,
+
 
 
 
@@ -516,7 +538,7 @@ const styles = {
   indicatorContainer: {
     flexDirection: "row",
     position: "absolute",
-    bottom: 20,
+    bottom: -25,
     gap: 4,
   },
   indicator: {

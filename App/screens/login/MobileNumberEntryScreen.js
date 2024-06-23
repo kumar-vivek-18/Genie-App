@@ -133,10 +133,10 @@ const MobileNumberEntryScreen = () => {
       setLoading(true);
       try {
         const phoneNumber = countryCode + mobileNumber;
-        console.log(phoneNumber);
-        const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-        setConfirm(confirmation);
-        console.log(confirmation);
+        // console.log(phoneNumber);
+        // const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+        // setConfirm(confirmation);
+        // console.log(confirmation);
         dispatch(setMobileNumber(phoneNumber));
         setMobileScreen(false);
       } catch (error) {
@@ -155,67 +155,67 @@ const MobileNumberEntryScreen = () => {
     try {
       // Make a request to your backend API to check if the mobile number is registered
 
-      console.log(confirm)
-      const res = await confirm.confirm(otp);
-      console.log("res", res);
-      console.log(otp);
-      if (res.status === 200 || res?.user?.phoneNumber?.length > 0) {
-        const phoneNumber = countryCode + mobileNumber;
-        console.log("phone", phoneNumber);
-        const response = await axios.get("http://173.212.193.109:5000/user/", {
-          params: {
-            mobileNo: phoneNumber,
-          },
-        });
-        // console.log("res", response);
-        setMobileScreen(true);
-        if (response.data.mobileNo) {
-          // If mobile number is registered, navigate to home screen
-          // console.log('userDetails from mobileScreen', response.data);
-          dispatch(setUserDetails(response.data));
-          await AsyncStorage.setItem(
-            "userDetails",
-            JSON.stringify(response.data)
-          );
+      // console.log(confirm)
+      // const res = await confirm.confirm(otp);
+      // console.log("res", res);
+      // console.log(otp);
+      // if (res.status === 200 || res?.user?.phoneNumber?.length > 0) {
+      const phoneNumber = countryCode + mobileNumber;
+      console.log("phone", phoneNumber);
+      const response = await axios.get("http://173.212.193.109:5000/user/", {
+        params: {
+          mobileNo: phoneNumber,
+        },
+      });
+      // console.log("res", response);
+      setMobileScreen(true);
+      if (response.data.mobileNo) {
+        // If mobile number is registered, navigate to home screen
+        // console.log('userDetails from mobileScreen', response.data);
+        dispatch(setUserDetails(response.data));
+        await AsyncStorage.setItem(
+          "userDetails",
+          JSON.stringify(response.data)
+        );
 
-          // setMobileNumberLocal("");
-          navigation.navigate("home");
-          await axios
-            .patch("http://173.212.193.109:5000/user/edit-profile", {
-              _id: response.data._id,
-              updateData: { uniqueToken: token },
-            })
-            .then(async (res) => {
-              console.log("UserToken updated Successfully", res.data);
-              await AsyncStorage.setItem(
-                "userDetails",
-                JSON.stringify(res.data)
-              );
-              dispatch(setUserDetails(res.data));
-              setMobileNumberLocal("");
-              setOtp("");
-              setToken("")
-              setMobileScreen(true);
-            })
-            .catch((err) => {
-              console.error("Error updating token: " + err.message);
-            });
-        } else if (response.data.status === 404) {
-          // If mobile number is not registered, continue with the registration process
-          // setMobileNumberLocal("");
-          navigation.navigate("registerUsername");
-          setMobileNumberLocal("");
-          setOtp("");
-          setToken("")
-          setMobileScreen(true);
-        }
+        // setMobileNumberLocal("");
+        navigation.navigate("home");
+        await axios
+          .patch("http://173.212.193.109:5000/user/edit-profile", {
+            _id: response.data._id,
+            updateData: { uniqueToken: token },
+          })
+          .then(async (res) => {
+            console.log("UserToken updated Successfully", res.data);
+            await AsyncStorage.setItem(
+              "userDetails",
+              JSON.stringify(res.data)
+            );
+            dispatch(setUserDetails(res.data));
+            setMobileNumberLocal("");
+            setOtp("");
+            setToken("")
+            setMobileScreen(true);
+          })
+          .catch((err) => {
+            console.error("Error updating token: " + err.message);
+          });
+      } else if (response.data.status === 404) {
+
+
+        navigation.navigate("registerUsername");
+        setMobileNumberLocal("");
+        setOtp("");
+        setToken("")
+        setMobileScreen(true);
       }
-      else {
-        setLoading(false);
-        console.log('Invalid Otp:');
-        alert('Invalid otp');
-        return;
-      }
+      // }
+      // else {
+      //   setLoading(false);
+      //   console.log('Invalid Otp:');
+      //   alert('Invalid otp');
+      //   return;
+      // }
     } catch (error) {
       alert('Invalid Otp');
       console.error("Error checking mobile number:", error);

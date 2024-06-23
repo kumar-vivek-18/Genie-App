@@ -26,7 +26,7 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
         try {
 
 
-            await auth().signOut();
+            // await auth().signOut();
 
             await AsyncStorage.removeItem('userDetails');
 
@@ -45,7 +45,6 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
                 });
 
             setModalVisible(false);
-            // await auth().signOut();
             setLoading(false)
             dispatch(requestClear());
 

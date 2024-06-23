@@ -92,7 +92,7 @@ const RequestCategory = () => {
                 <ScrollView className="flex-1 px-0 mb-[63px] " showsVerticalScrollIndicator={false} >
 
                     <View className=" flex z-40 flex-row items-center mt-[24px] mb-[10px]">
-                        <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
+                        <Pressable onPress={() => navigation.goBack()} className="px-[10px] py-[15px]">
                             <BackArrow width={14} height={10} />
 
                         </Pressable>
@@ -109,8 +109,8 @@ const RequestCategory = () => {
                             placeholderTextColor="#DBCDBB"
                             value={searchQuery}
                             onChangeText={handleTextChange}
-                            className="flex  text-center text-[14px] flex-1"
-                            style={{ fontFamily: "Poppins-Italic" }}
+                            className="flex text-[14px] flex-1"
+                            style={{ fontFamily: "Poppins-Italic", marginLeft: searchQuery.length == 0 ? 64 : 20 }}
                         />
                     </View>
                     <View className="px-[10px]">

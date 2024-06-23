@@ -147,10 +147,10 @@ const AddImageScreen = () => {
         // setImagesLocal((prevImages) => [...prevImages, result.secure_url]);
         dispatch(setRequestImages(result.secure_url));
         setCameraScreen(false);
-         setLoading(false);
+        setLoading(false);
       }
     } catch (err) {
-        setLoading(false);
+      setLoading(false);
       console.log(err);
     }
   };
@@ -184,25 +184,25 @@ const AddImageScreen = () => {
   return (
     <>
       {!cameraScreen && (
-        <View edges={["top", "bottom"]} style={{ flex: 1 ,backgroundColor: "white" }}>
+        <View edges={["top", "bottom"]} style={{ flex: 1, backgroundColor: "white" }}>
           <View style={{ flex: 1 }}>
             <View className=" flex  mt-[40px] flex-row  items-center  px-[32px]">
-              <Pressable onPress={() => navigation.goBack()} className="p-2">
+              <Pressable onPress={() => navigation.goBack()} className="px-[8px] py-[20px] ">
                 <BackArrow width={14} height={10} />
               </Pressable>
-              <Text className="text-[16px] flex flex-1 justify-center  items-center text-center" style={{fontFamily:"Poppins-ExtraBold"}}>
+              <Text className="text-[16px] flex flex-1 justify-center  items-center text-center" style={{ fontFamily: "Poppins-ExtraBold" }}>
                 Add Image
               </Text>
               {imagesLocal.length === 0 && <Pressable onPress={() => navigation.navigate("addexpectedprice")} className="">
-                <Text className="text-[16px] text-[#FB8C00]" style={{fontFamily:"Poppins-Medium"}}>Skip</Text>
+                <Text className="text-[16px] text-[#FB8C00]" style={{ fontFamily: "Poppins-Medium" }}>Skip</Text>
               </Pressable>}
             </View>
             <View className="mt-[10px] mb-[27px] px-[32px]">
-              <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] " style={{fontFamily:"Poppins-Medium"}}>
+              <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] " style={{ fontFamily: "Poppins-Medium" }}>
                 Step 3/4
               </Text>
-              <Text className="text-[14px] text-center text-[#2e2c43]" style={{fontFamily:"Poppins-Regular"}}>
-                Provide image references for retailers & maintenance service providers to understand your need better
+              <Text className="text-[14px] text-center text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>
+                Provide image references for shopkeepers & maintenance service providers to understand your need better
               </Text>
 
             </View>
@@ -216,7 +216,7 @@ const AddImageScreen = () => {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => pickImage()}>
                   <View className="mx-[28px] mt-[30px] h-[63px] flex-row items-center justify-center border-2 border-[#fb8c00] rounded-3xl">
-                    <Text className="text-[16px]  text-[#fb8c00] text-center" style={{fontFamily:"Poppins-Black"}}>
+                    <Text className="text-[16px]  text-[#fb8c00] text-center" style={{ fontFamily: "Poppins-Black" }}>
                       Browse Image
                     </Text>
                   </View>
@@ -296,26 +296,48 @@ const AddImageScreen = () => {
                     }
                   >
                     <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
-                      <Text className="text-white text-[18px]" style={{fontFamily:"Poppins-Black"}}>Continue</Text>
+                      <Text className="text-white text-[18px]" style={{ fontFamily: "Poppins-Black" }}>Continue</Text>
                     </View>
                   </TouchableOpacity>
                 </View>
               )
             ) : (
-              <View className="w-full z-40 bg-white absolute bottom-0 items-center left-0 right-0 px-[10px]">
-                <TouchableOpacity onPress={() => { setAddMore(!addMore); pickImage(); }}>
-                  <View className="w-full flex flex-row justify-between px-[40px] py-[20px] border-b-[1px] border-b-[#dcdbdb]">
-                    <Text className="text-[14px]" style={{fontFamily:"Poppins-Regular"}}>Upload Image</Text>
-                    <RightArrow />
+              // <View className="w-full z-40 bg-white absolute bottom-0 items-center left-0 right-0 px-[10px] shadow-xl">
+              //   <TouchableOpacity onPress={() => { setAddMore(!addMore); pickImage(); }}>
+              //     <View className="w-full flex flex-row justify-between px-[40px] py-[30px] border-b-[1px] border-b-[#dcdbdb]">
+              //       <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>Upload Image</Text>
+              //       <RightArrow />
+              //     </View>
+              //   </TouchableOpacity>
+              //   {/* <View className="h-[2px] w-full bg-black"></View> */}
+              //   <TouchableOpacity onPress={() => { setAddMore(!addMore); takePicture() }}>
+              //     <View className="w-full flex flex-row justify-between px-[40px] py-[30px]">
+              //       <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>Click Image</Text>
+              //       <RightArrow />
+              //     </View>
+              //   </TouchableOpacity>
+              // </View>
+              <View style={{ flex: 1 }} className="absolute  left-0 right-0 bottom-0 z-50 h-screen shadow-2xl " >
+                <TouchableOpacity onPress={() => { setAddMore(false) }}>
+                  <View className="h-full w-screen " style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}  >
                   </View>
                 </TouchableOpacity>
-                {/* <View className="h-[2px] w-full bg-black"></View> */}
-                <TouchableOpacity onPress={() => { setAddMore(!addMore); takePicture() }}>
-                  <View className="w-full flex flex-row justify-between px-[40px] py-[20px]">
-                    <Text className="text-[14px]" style={{fontFamily:"Poppins-Regular"}}>Click Image</Text>
-                    <RightArrow />
-                  </View>
-                </TouchableOpacity>
+                <View className="bg-white absolute bottom-0 left-0 right-0 ">
+
+                  <TouchableOpacity onPress={() => { pickImage(); setAddMore(false) }}>
+                    <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[30px]  border-b-[1px] border-gray-400">
+                      <Text style={{ fontFamily: "Poppins-Regular" }}>Upload Image</Text>
+                      <RightArrow />
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => { takePicture(); setAddMore(false); }}>
+                    <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[30px]">
+                      <Text style={{ fontFamily: "Poppins-Regular" }}>Click Image</Text>
+                      <RightArrow />
+                    </View>
+                  </TouchableOpacity>
+
+                </View>
               </View>
             )}
           </View>

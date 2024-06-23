@@ -15,7 +15,9 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import {
   emtpyRequestImages,
+  requestClear,
   setCreatedRequest,
+  setExpectedPrice,
   setRequestImages,
 } from "../../redux/reducers/userRequestsSlice";
 import { setSpades, setUserDetails } from "../../redux/reducers/userDataSlice";
@@ -45,19 +47,25 @@ const RequestPreviewScreen = () => {
   const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
+  // console.log('expected Price', expectedPrice > 0 ? "HII" : expectedPrice);
   // console.log("spadePride", spadePrice);
+
   // console.log('coupon', spadeCouponCode);
 
   // const { imagesLocal } = route.params
 
   // console.log('spades request', spades);
-  // useEffect(() => {
-  //     if (route.params) {
-  //         setImages(route.params.data);
-  //         //         // console.log('images', images);
-  //         //         // console.log('route.params.data', route.params.data);
-  //     }
-  // }, [])
+  useEffect(() => {
+    // if (expectedPrice > 0) {
+    //   dispatch(setExpectedPrice(expectedPrice));
+    // }
+    // else {
+    //   setExpectedPrice(0);
+    // }
+
+
+  }, [])
+
 
   const handleSubmit = async () => {
     console.log(
@@ -78,18 +86,18 @@ const RequestPreviewScreen = () => {
           request: requestDetail,
           requestCategory: requestCategory,
           requestImages: requestImages,
-          expectedPrice: expectedPrice,
+          expectedPrice: expectedPrice > 0 ? expectedPrice : 0,
           lastSpadePrice: spadePrice
         }
       );
 
-       console.log("created request data", response.data);
+      console.log("created request data", response.data);
 
       if (response.status === 201) {
 
         dispatch(setUserDetails(response.data.userDetails));
         await AsyncStorage.setItem('userDetails', JSON.stringify(response.data.userDetails));
-        
+
         let res = response.data.userRequest;
         const dateTime = formatDateTime(res.updatedAt);
         res.createdAt = dateTime.formattedTime;
@@ -102,25 +110,29 @@ const RequestPreviewScreen = () => {
         }, 3000);
         // dispatch(setCreatedRequest(res));
 
+        //make redux to its inital state
 
         const notification = {
           token: response.data.uniqueTokens,
           title: userDetails?.userName,
           body: requestDetail,
           image: requestImages.length > 0 ? requestImages[0] : "",
-          userRequest:response.data.userRequest._id
+          userRequest: response.data.userRequest._id
         };
 
         await NewRequestCreated(notification);
 
-        dispatch(emtpyRequestImages());
+        // dispatch(emtpyRequestImages());
+        dispatch(requestClear());
 
       } else {
-        dispatch(emtpyRequestImages());
+        // dispatch(emtpyRequestImages());
+        dispatch(requestClear());
         console.error("Error while creating request");
       }
     } catch (error) {
-      dispatch(emtpyRequestImages());
+      // dispatch(emtpyRequestImages());
+      dispatch(requestClear());
       console.error("Error while creating request", error.message);
     } finally {
       setLoading(false);
@@ -130,11 +142,11 @@ const RequestPreviewScreen = () => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <View style={{ flex: 1 }}>
-        <View className=" flex flex-row items-center mt-[50px] mb-[24px] px-[34px]">
-          <Pressable onPress={() => navigation.goBack()} className="">
+        <View className=" flex flex-row items-center mt-[50px] mb-[24px] px-[24px]">
+          <Pressable onPress={() => navigation.goBack()} style={{ paddingHorizontal: 16, paddingVertical: 16 }}>
             <BackArrow />
           </Pressable>
-          <Text className="flex flex-1 justify-center items-center text-center text-[16px] " style={{ fontFamily: "Poppins-Bold" }}>
+          <Text className="flex flex-1 justify-center items-center text-center text-[16px]  " style={{ fontFamily: "Poppins-Bold" }}>
             Request Preview
           </Text>
         </View>
@@ -177,13 +189,13 @@ const RequestPreviewScreen = () => {
             Your expected price
           </Text>
           <Text className="text-[24px] text-[#558b2f] mb-[10px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
-            {expectedPrice} Rs
+            {expectedPrice === 0 ? "NaN" : expectedPrice}
           </Text>
           <Text className=" text-[14px] text-[#2e2c43] mb-[6px] " style={{ fontFamily: "Poppins-Bold" }}>
             Applied Coupon
           </Text>
           <Text className="text-[18px]  text-[#558b2f] pb-[20px] border-b-[1px] border-[#dcdbdb]" style={{ fontFamily: "Poppins-ExtraBold" }}>
-            {spadeCouponCode}
+            {spadeCouponCode.length > 0 ? spadeCouponCode : "No Coupon Applied"}
           </Text>
 
           <Text className=" text-[14px] text-[#2e2c43] mb-[6px] mt-[20px] " style={{ fontFamily: "Poppins-Bold" }}>
