@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import navigationService from '../navigation/navigationService';
 import { setSpades } from '../redux/reducers/userDataSlice';
-// import notifee from '@notifee/react-native';
+import notifee from '@notifee/react-native';
 // import * as Notifications from 'expo-notifications';
 // import * as Clipboard from 'expo-clipboard';
 
