@@ -27,6 +27,7 @@ import BackArrow from "../../assets/BackArrowImg.svg";
 import { ActivityIndicator } from "react-native";
 import SuccessPopup from "../components/SuccessPopup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { socket } from "../../utils/scoket.io/socket";
 
 const RequestPreviewScreen = () => {
   const route = useRoute();
@@ -110,6 +111,7 @@ const RequestPreviewScreen = () => {
         }, 3000);
         // dispatch(setCreatedRequest(res));
 
+        socket.emit('new request', response.data.userRequest._id);
         //make redux to its inital state
 
         const notification = {

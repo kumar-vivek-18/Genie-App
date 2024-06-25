@@ -246,12 +246,12 @@ export const newMessageSend = async (mess) => {
             },
             data: {
                 redirect_to: "requestPage",
-                requestInfo: JSON.stringify(mess?.requestInfo)
+                // requestInfo: JSON.stringify(mess?.requestInfo)
             }
         };
 
         for (const token of tokens) {
-            if (token.length > 0) {
+            if (token?.length > 0) {
 
 
                 const message = {
@@ -271,7 +271,7 @@ export const newMessageSend = async (mess) => {
                 // console.log('Raw response:', textResponse);
 
                 if (!response.ok) {
-                    // console.error('Failed to send notification error:', textResponse);
+                    console.error('Failed to send notification error:', textResponse);
                     console.error('Failed to send notification');
                     throw new Error('Failed to send notification');
                 } else {
