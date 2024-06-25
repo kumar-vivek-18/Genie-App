@@ -69,7 +69,7 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
             // }}
             className=" flex justify-center items-center  rounded-lg h-full ">
             <View className="flex-1  justify-center items-center">
-                <View className="bg-white w-[90%] p-[30px] justify-center items-center mt-[10px] gap-[24px] shadow-gray-600 shadow-2xl">
+            <View className="bg-white w-[85%] px-[30px] justify-center items-center mt-[10px] gap-[24px] shadow-gray-600 shadow-2xl  pt-[80px] pb-[40px]">
                     <ModalImg classname="w-[117px] h-[75px]" />
                     <View className="">
                         <Text className="text-[15px] text-center" style={{ fontFamily: "Poppins-ExtraBold" }}>Are you sure? </Text>

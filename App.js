@@ -11,6 +11,11 @@ import navigationService from './App/navigation/navigationService';
 import { notificationListeners } from './App/notification/notificationServices';
 import { setUniqueToken } from './App/redux/reducers/userDataSlice';
 import { useFonts } from 'expo-font';
+import * as Notifications from 'expo-notifications';
+
+
+
+
 
 export default function App() {
   let [fontsLoaded] = useFonts(
@@ -35,6 +40,14 @@ export default function App() {
   //   return <AppLoading/>;
   // }
 
+  useEffect(() => {
+    (async () => {
+      // const media = await MediaLibrary.requestPermissionsAsync();
+      const notification= await Notifications.requestPermissionsAsync();
+      console.log("status notification", notification);
+
+    })();
+  }, []);
 
 
   // useEffect(() => {
