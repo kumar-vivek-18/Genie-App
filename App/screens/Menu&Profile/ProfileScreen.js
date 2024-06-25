@@ -9,6 +9,8 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   StyleSheet,
+  Animated,
+  Modal,
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -21,7 +23,7 @@ import { manipulateAsync } from "expo-image-manipulator";
 import { Camera } from "expo-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScrollView } from "react-native";
-import Cross from "../../assets/cross.svg"
+import Cross from "../../assets/goldenCross.svg"
 import EditIcon from "../../assets/editIcon.svg"
 
 const ProfileScreen = () => {
@@ -35,6 +37,25 @@ const ProfileScreen = () => {
   const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [picLoading, setPicLoading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [scaleAnimation] = useState(new Animated.Value(0));
+
+  const handleImagePress = (image) => {
+    setSelectedImage(image);
+    Animated.timing(scaleAnimation, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handleClose = () => {
+    Animated.timing(scaleAnimation, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => setSelectedImage(null));
+  };
 
 
 
@@ -163,7 +184,7 @@ const ProfileScreen = () => {
           const newImageUri = response.assets[0].uri;
           const compressedImage = await manipulateAsync(
             newImageUri,
-            [{ resize: { width: 800, height: 800 } }],
+            [{ resize: { width: 600, height: 800 } }],
             { compress: 0.5, format: "jpeg", base64: true }
           );
           await getImageUrl(compressedImage);
@@ -187,12 +208,12 @@ const ProfileScreen = () => {
           </Text>
         </View>
 
-        <View className="absolute top-[42px] right-[30px]">
+        <View className="absolute mt-[30px] right-[30px]">
           <TouchableOpacity
             onPress={() => {
               navigation.goBack();
             }}
-            style={{padding: 6}}
+            style={{padding: 16}}
           >
             <Cross />
           </TouchableOpacity>
@@ -201,10 +222,13 @@ const ProfileScreen = () => {
         <View className="flex items-center mt-[57px] relative">
           <View>
             {/* <Image source={require('../../assets/ProfileImg.png')} className="w-[132px] h-[132px] " /> */}
+            <Pressable
+                            onPress={() => handleImagePress( userDetails.pic )}>
             <Image
               source={{ uri: userDetails.pic }}
-              className="w-[130px] h-[130px] rounded-full"
+             className="w-[130px] h-[130px] rounded-full object-contain"
             />
+            </Pressable>
             <TouchableOpacity
               onPress={() => {
                 takePicture();
@@ -217,12 +241,32 @@ const ProfileScreen = () => {
                 />
               </View>
             </TouchableOpacity>
+
+             
+            <Modal
+                        transparent
+                        visible={!!selectedImage}
+                        onRequestClose={handleClose}
+                      >
+                         <Pressable style={styles.modalContainer}  onPress={handleClose}>
+                          <Animated.Image
+                            source={{ uri: selectedImage }}
+                            style={[
+                              styles.modalImage,
+                              {
+                                transform: [{ scale: scaleAnimation }],
+                              },
+                            ]}
+                          />
+                          
+                        </Pressable>
+                      </Modal>
           </View>
         </View>
 
-        <View className="flex-row gap-[28px] justify-center items-center mt-[6px]">
+        <View className="flex-row gap-[10px] justify-center items-center mt-[6px]">
           {editUser && (
-            <View className="relative">
+            <View className="relative flex flex-row justify-center">
               <TextInput
                 placeholder={
                   userDetails.email.length > 0
@@ -244,16 +288,16 @@ const ProfileScreen = () => {
                 }}
               >
                 {isLoading ? (
-                  <View className="absolute -right-20 -top-10 px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl ">
+                  <View className=" px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl ">
                     <ActivityIndicator size="small" color="#ffffff" />
                   </View>
                 ) : (
-                  <View className="absolute -right-20 -top-10 px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl ">
+                  <View className=" px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl ">
                     <Text
                       className="text-white font-semibold"
                       style={{ fontFamily: "Poppins-SemiBold" }}
                     >
-                      save
+                      Save
                     </Text>
                   </View>)
                 }
@@ -275,7 +319,7 @@ const ProfileScreen = () => {
                   setEditUser(true);
                 }}
               >
-                <View className=" px-[20px] py-[10px]">
+                <View className="absolute -top-[18] px-[20px] py-[10px]">
                   <EditIcon />
                 </View>
               </TouchableOpacity>
@@ -390,6 +434,22 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+  },
+  modalImage: {
+    width: 300,
+    height: 400,
+    borderRadius: 10,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 20,
+    right: 20,
   },
 
 });

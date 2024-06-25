@@ -9,7 +9,7 @@ import ThreeDots from '../../assets/3dots.svg';
 import ArrowLeft from '../../assets/arrow-left.svg';
 import axios from 'axios';
 import Tick from '../../assets/Tick.svg';
-import { Clipboard } from 'expo';
+import * as Clipboard from 'expo-clipboard';
 import { setCurrentSpade, setCurrentSpadeRetailer, setUserDetails } from '../../redux/reducers/userDataSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import CloseSpadeModal from '../components/CloseSpadeModal';
@@ -308,6 +308,22 @@ const RequestDetail = () => {
         // console.log(R, dLat, dLon, a, c, distance);
         return distance;
     });
+    const [copied, setCopied] = useState(false);
+
+    const copyToClipboard = async () => {
+        try {
+            await Clipboard.setStringAsync('hello world');
+            console.log('Text copied to clipboard');
+            setCopied(true);
+
+            // Hide the notification after 2 seconds
+            setTimeout(() => setCopied(false), 2000);
+        } catch (error) {
+            console.error('Failed to copy text to clipboard', error);
+        }
+    };
+
+
 
     return (
         <>
@@ -352,9 +368,10 @@ const RequestDetail = () => {
                             <View className="flex-row gap-[10px] items-center ">
                                 <Text className=" text-[12px]" style={{ fontFamily: "Poppins-Bold" }}>Request ID:</Text>
                                 <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{spade._id}</Text>
-                                <Pressable onPress={() => { Clipboard.setString(spade._id) }}>
+                                <TouchableOpacity onPress={() => {copyToClipboard()}}>
                                     <Copy />
-                                </Pressable>
+                                </TouchableOpacity>
+                                {copied && <Text>Copied!</Text>}
 
 
                             </View>
