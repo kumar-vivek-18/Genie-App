@@ -70,6 +70,7 @@ const HomeScreen = () => {
   const scrollViewRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const isFocused = useIsFocused();
+  const [socketConnected, setSocketConnected] = useState(false);
 
   const handleScroll = (event) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x;
@@ -98,17 +99,17 @@ const HomeScreen = () => {
   //   })
   // })
 
-  const setNotificationSetUp = async () => {
-    await notificationListeners(dispatch, spades, currentSpade);
-  };
+  // const setNotificationSetUp = async () => {
+  //   await notificationListeners(dispatch, spades, currentSpade);
+  // };
 
-  useEffect(() => {
-
-
-    setNotificationSetUp();
+  // useEffect(() => {
 
 
-  }, [spades, currentSpade]);
+  //   setNotificationSetUp();
+
+
+  // }, [spades, currentSpade]);
 
   useEffect(() => {
     const backAction = () => {
@@ -231,6 +232,78 @@ const HomeScreen = () => {
     }
     // navigation.navigate("requestentry");
   }
+
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //HomeScreen Socket Settings
+
+  const connectSocket = useCallback(async () => {
+    // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
+    const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
+    if (userData) {
+      socket.emit("setup", userData._id);
+      //  console.log('Request connected with socket with id', spadeId);
+      socket.on('connected', () => setSocketConnected(true));
+      console.log('HomeScreen spade socekt connect with id', userData._id);
+    }
+
+  })
+
+  useEffect(() => {
+    connectSocket();
+
+    return () => {
+      socket.disconnect();
+      console.log('Socket Disconnected Successfully');
+      // socket.emit('leave room', spadeId);
+      // console.log('Reailer disconnected');
+    };
+  }, []);
+
+
+  useEffect(() => {
+    const handleMessageReceived = (updatedId) => {
+      console.log('Update message received at Home socket', updatedId);
+      let spadesData = [...spades];
+      const idx = spadesData.findIndex(spade => spade._id === updatedId);
+
+      console.log("Spdes updated ", idx);
+      if (idx !== -1) {
+
+        let data = spadesData.filter(spade => spade._id === updatedId);
+        // let spadeToUpdate = { ...spadesData[idx] };
+        let data2 = spadesData.filter(spade => spade._id !== updatedId);
+        console.log('notf', currentSpade._id, updatedId);
+        // if (currentSpade && currentSpade?._id === updatedId) {
+        //   data[0] = { ...data[0], unread: false };
+        //   // spadeToUpdate.unread = false;
+        // }
+        // else {
+        data[0] = { ...data[0], unread: true };
+        // spadeToUpdate.unread = true;
+        // }
+
+        // data = [spade[idx], ...data];
+        console.log('data', data);
+        spadesData = [...data, ...data2]
+        // spadesData.unshift(data);
+
+        console.log("Spdes updated Successfully", data.length, data2.length);
+        dispatch(setSpades(spadesData));
+      }
+    };
+
+    socket.on("update userspade", handleMessageReceived);
+
+    // Cleanup the effect
+    return () => {
+      socket.off("update userspade", handleMessageReceived);
+    };
+  }, [spades, dispatch]);
+
+
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 

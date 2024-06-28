@@ -78,18 +78,32 @@ const RequestPreviewScreen = () => {
       expectedPrice,
       spadePrice
     );
+
+    const formData = new FormData();
+
+    requestImages.forEach((image, index) => {
+      formData.append('requestImages', {
+        uri: image,
+        type: 'image/jpeg', // Adjust this based on the image type
+        name: `photo-${Date.now()}-${index}.jpg`, // Adjust this based on the image name
+      });
+    });
+
+    formData.append('customerID', userDetails._id);
+    formData.append('request', requestDetail);
+    formData.append('requestCategory', requestCategory);
+    formData.append('expectedPrice', expectedPrice > 0 ? expectedPrice : 0);
+    formData.append('lastSpadePrice', spadePrice);
+
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://173.212.193.109:5000/user/createrequest",
-        {
-          customerID: userDetails._id,
-          request: requestDetail,
-          requestCategory: requestCategory,
-          requestImages: requestImages,
-          expectedPrice: expectedPrice > 0 ? expectedPrice : 0,
-          lastSpadePrice: spadePrice
+        "http://192.168.51.192:5000/user/createrequest", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
         }
+      }
+
       );
 
       console.log("created request data", response.data);

@@ -64,19 +64,25 @@ const CreateNewBidScreen = () => {
       }
     );
 
-    console.log("create bid", details.requestId);
+    // console.log("create bid", details.requestId);
+    const formData = new FormData();
+    requestImages.forEach((uri, index) => {
+      formData.append('bidImages', {
+        uri: uri,  // Correctly use the URI property from ImagePicker result
+        type: 'image/jpeg', // Adjust this based on the image type
+        name: `photo-${Date.now()}.jpg`,
+      });
+    });
+
+    formData.append('sender', JSON.stringify({ type: 'UserRequest', refId: details.requestId }));
+    formData.append('userRequest', currentSpade._id);
+    formData.append('message', query);
+    formData.append('bidType', "true");
+    formData.append('chat', details._id);
+    formData.append('bidPrice', price);
     await axios
-      .post("http://173.212.193.109:5000/chat/send-message", {
-        sender: {
-          type: "UserRequest",
-          refId: details.requestId._id,
-        },
-        message: query,
-        userRequest: currentSpade._id,
-        bidType: "true",
-        bidImages: requestImages,
-        bidPrice: price,
-        chat: details._id,
+      .post("http://192.168.51.192:5000/chat/send-message", formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
       })
       .then(async (res) => {
         console.log(res);
