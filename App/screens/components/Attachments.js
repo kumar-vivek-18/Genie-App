@@ -11,6 +11,7 @@ import { socket } from '../../utils/scoket.io/socket';
 import { formatDateTime } from '../../utils/logics/Logics';
 import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
 const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessages }) => {
 
@@ -32,16 +33,35 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
             }
         });
 
-        await axios.post('http://173.212.193.109:5000/chat/send-message', {
-            sender: {
-                type: 'UserRequest',
-                refId: details.requestId,
+        const formData = new FormData();
+        // imageUri.forEach((uri, index) => {
+        formData.append('bidImages', {
+            uri: uri.uri,  // Correctly use the URI property from ImagePicker result
+            type: 'image/jpeg', // Adjust this based on the image type
+            name: `photo-${Date.now()}.jpg`,
+        });        // });
+
+        formData.append('sender', JSON.stringify({ type: 'UserRequest', refId: details.requestId }));
+        formData.append('userRequest', currentSpade._id);
+        formData.append('message', query);
+        formData.append('bidType', "false");
+        formData.append('chat', details._id);
+
+        // await axios.post('http://173.212.193.109:5000/chat/send-message', {
+        //     sender: {
+        //         type: 'UserRequest',
+        //         refId: details.requestId,
+        //     },
+        //     userRequest: currentSpade._id,
+        //     message: query,
+        //     bidType: "false",
+        //     bidImages: [imageUri],
+        //     chat: details._id,
+        // })
+        await axios.post('http://192.168.51.192:5000/chat/send-message', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
             },
-            userRequest: currentSpade._id,
-            message: query,
-            bidType: "false",
-            bidImages: [imageUri],
-            chat: details._id,
         })
             .then(res => {
                 console.log(res);
@@ -69,40 +89,40 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
 
     }
 
-    const getImageUrl = async (image) => {
+    // const getImageUrl = async (image) => {
 
 
-        let CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/kumarvivek/image/upload';
+    //     let CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/kumarvivek/image/upload';
 
-        let base64Img = `data:image/jpg;base64,${image.base64}`;
+    //     let base64Img = `data:image/jpg;base64,${image.base64}`;
 
-        let data = {
-            "file": base64Img,
-            "upload_preset": "CulturTap",
-        }
+    //     let data = {
+    //         "file": base64Img,
+    //         "upload_preset": "CulturTap",
+    //     }
 
-        // console.log('base64', data);
-        fetch(CLOUDINARY_URL, {
-            body: JSON.stringify(data),
-            headers: {
-                'content-type': 'application/json'
-            },
-            method: 'POST',
-        }).then(async r => {
-            let data = await r.json()
+    //     // console.log('base64', data);
+    //     fetch(CLOUDINARY_URL, {
+    //         body: JSON.stringify(data),
+    //         headers: {
+    //             'content-type': 'application/json'
+    //         },
+    //         method: 'POST',
+    //     }).then(async r => {
+    //         let data = await r.json()
 
-            // setPhoto(data.url);
-            const imgUri = data.secure_url;
-            if (imgUri) {
+    //         // setPhoto(data.url);
+    //         const imgUri = data.secure_url;
+    //         if (imgUri) {
 
-                setImageUri(imgUri);
-                sendAttachment;
-            }
-            console.log('dataImg', data.secure_url);
-            // return data.secure_url;
-        }).catch(err => console.log(err));
+    //             setImageUri(imgUri);
+    //             sendAttachment;
+    //         }
+    //         console.log('dataImg', data.secure_url);
+    //         // return data.secure_url;
+    //     }).catch(err => console.log(err));
 
-    };
+    // };
 
     const pickImage = async () => {
         console.log("object", "hii");
@@ -114,11 +134,12 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
             quality: 1,
         });
 
-        console.log('pickImage', "result");
+        // console.log('pickImage', "result");
         if (!result.canceled) {
-            // setImage(result.assets[0].uri);
+            setImageUri(result.assets[0].uri);
+            console.log('attachment image file', result.assets[0].uri);
             // console.log(object)
-            await getImageUrl(result.assets[0]);
+            // await getImageUrl(result.assets[0]);
 
         }
     };

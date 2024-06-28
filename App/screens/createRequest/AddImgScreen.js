@@ -107,7 +107,8 @@ const AddImageScreen = () => {
             [{ resize: { width: 800, height: 800 } }],
             { compress: 0.5, format: "jpeg", base64: true }
           );
-          await getImageUrl(compressedImage);
+          dispatch(setRequestImages(newImageUri));
+          // await getImageUrl(compressedImage);
           //   setImagesLocal((prevImages) => [...prevImages, compressedImage.uri]);
           //   dispatch(setRequestImages(compressedImage));
           // //   console.log("ImgUris", compressedImage.uri);
@@ -169,8 +170,9 @@ const AddImageScreen = () => {
       quality: 0.5,
     });
 
-    if (!result.cancelled) {
-      await getImageUrl(result.assets[0]);
+    if (!result.canceled) {
+      // await getImageUrl(result.assets[0]);
+      dispatch(setRequestImages(result.assets[0].uri));
     }
   };
 

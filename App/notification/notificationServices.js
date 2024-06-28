@@ -4,57 +4,57 @@ import { Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import navigationService from '../navigation/navigationService';
 import { setSpades } from '../redux/reducers/userDataSlice';
-import notifee ,{EventType,AndroidImportance,AndroidStyle} from '@notifee/react-native';
+import notifee, { EventType, AndroidImportance, AndroidStyle } from '@notifee/react-native';
 // import * as Notifications from 'expo-notifications';
 // import * as Clipboard from 'expo-clipboard';
 
 async function onDisplayNotification(remoteMessage) {
-        // Request permissions (required for iOS)
-        await notifee.requestPermission()
-        console.log(remoteMessage.notification)
-    
-        // Create a channel (required for Android)
-        const channelId = await notifee.createChannel({
-          id: 'default',
-          name: 'Default Channel1',
-        });
-    
-        // Display a notification
-        await notifee.displayNotification({
-          title: remoteMessage.notification.title,
-          body:remoteMessage.notification.body,
-          android: {
+    // Request permissions (required for iOS)
+    await notifee.requestPermission()
+    console.log(remoteMessage.notification)
+
+    // Create a channel (required for Android)
+    const channelId = await notifee.createChannel({
+        id: 'default',
+        name: 'Default Channel1',
+    });
+
+    // Display a notification
+    await notifee.displayNotification({
+        title: remoteMessage.notification.title,
+        body: remoteMessage.notification.body,
+        android: {
             channelId,
             largeIcon: 'https://my-cdn.com/users/123456.png',
 
             // smallIcon: 'ic_launcher',
-           
+
             // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
             // pressAction is needed if you want the notification to open the app when pressed
             pressAction: {
-              id: 'default',
+                id: 'default',
             },
             importance: AndroidImportance.HIGH,
             style: { type: AndroidStyle.BIGPICTURE, picture: remoteMessage.notification.android.imageUrl },
-            
-        
-          },
-        });
-        return notifee.onForegroundEvent(({ type, detail }) => {
-            switch (type) {
-              case EventType.DISMISSED:
+
+
+        },
+    });
+    return notifee.onForegroundEvent(({ type, detail }) => {
+        switch (type) {
+            case EventType.DISMISSED:
                 // console.log('User dismissed notification', detail.notification);
                 break;
-              case EventType.PRESS:
+            case EventType.PRESS:
                 setTimeout(() => {
                     console.log("pressed")
-                    navigationService.navigate("activerequest",{ data: remoteMessage?.data })
+                    navigationService.navigate("activerequest", { data: remoteMessage?.data })
                 }, 1200);
                 break;
-            }
-          });
-      }
-export async function notificationListeners(dispatch, spades, currentSpade) {
+        }
+    });
+}
+export async function notificationListeners() {
     messaging().getInitialNotification().then(async (remoteMessage) => {
         if (remoteMessage) {
             console.log("Notifications caused app to open from quit state", remoteMessage)
@@ -87,10 +87,10 @@ export async function notificationListeners(dispatch, spades, currentSpade) {
 
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
         // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-         console.log("FCM message", remoteMessage.data);
+        console.log("FCM message", remoteMessage.data);
         // handleNotifcation(remoteMessage);
         await onDisplayNotification(remoteMessage);
-       
+
         // const details = JSON.parse(remoteMessage.data.requestInfo);
         // // console.log('FCM message', details);
         // const updatedId = details?.requestId?._id;

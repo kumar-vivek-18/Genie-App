@@ -10,42 +10,42 @@ import { Camera } from 'expo-camera';
 const AddImages = ({ addImg, setAddImg }) => {
 
     const dispatch = useDispatch();
-    const getImageUrl = async (image) => {
+    // const getImageUrl = async (image) => {
 
-        // console.log('imageFunction', image);
-        let CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/kumarvivek/image/upload';
+    //     // console.log('imageFunction', image);
+    //     let CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/kumarvivek/image/upload';
 
-        let base64Img = `data:image/jpg;base64,${image.base64}`;
+    //     let base64Img = `data:image/jpg;base64,${image.base64}`;
 
-        // console.log('base64Image: ', base64Img);
+    //     // console.log('base64Image: ', base64Img);
 
-        let data = {
-            "file": base64Img,
-            "upload_preset": "CulturTap",
-        }
+    //     let data = {
+    //         "file": base64Img,
+    //         "upload_preset": "CulturTap",
+    //     }
 
-        fetch(CLOUDINARY_URL, {
-            body: JSON.stringify(data),
-            headers: {
-                'content-type': 'application/json'
-            },
-            method: 'POST',
-        }).then(async r => {
-            let data = await r.json()
+    //     fetch(CLOUDINARY_URL, {
+    //         body: JSON.stringify(data),
+    //         headers: {
+    //             'content-type': 'application/json'
+    //         },
+    //         method: 'POST',
+    //     }).then(async r => {
+    //         let data = await r.json()
 
-            // setPhoto(data.url);
-            const imgUri = data.secure_url;
-            if (imgUri) {
+    //         // setPhoto(data.url);
+    //         const imgUri = data.secure_url;
+    //         if (imgUri) {
 
-                dispatch(setRequestImages(imgUri));
-                console.log('ImgUris', imgUri);
+    //             dispatch(setRequestImages(imgUri));
+    //             console.log('ImgUris', imgUri);
 
-            }
-            console.log('dataImg', data.secure_url);
-            // return data.secure_url;
-        }).catch(err => console.log(err))
+    //         }
+    //         console.log('dataImg', data.secure_url);
+    //         // return data.secure_url;
+    //     }).catch(err => console.log(err))
 
-    };
+    // };
 
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
 
@@ -78,7 +78,8 @@ const AddImages = ({ addImg, setAddImg }) => {
                         [{ resize: { width: 800, height: 800 } }],
                         { compress: 0.5, format: "jpeg", base64: true }
                     );
-                    await getImageUrl(compressedImage);
+                    dispatch(setRequestImages(newImageUri));
+                    // await getImageUrl(compressedImage);
                 } catch (error) {
                     console.error('Error processing image: ', error);
                 }
@@ -98,9 +99,10 @@ const AddImages = ({ addImg, setAddImg }) => {
 
         console.log('pickImage', "result");
         if (!result.canceled) {
+            dispatch(setRequestImages(result.assets[0].uri))
             // setImage(result.assets[0].uri);
             // console.log(object)
-            await getImageUrl(result.assets[0]);
+            // await getImageUrl(result.assets[0]);
             // setImagesLocal(prevImages => [...prevImages, imgUri]);
             // dispatch(setRequestImages(imgUri));
             // console.log('ImgUri', imgUri);
