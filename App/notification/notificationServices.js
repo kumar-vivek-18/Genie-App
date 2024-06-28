@@ -9,7 +9,6 @@ import notifee, { EventType, AndroidImportance, AndroidStyle } from '@notifee/re
 // import * as Clipboard from 'expo-clipboard';
 
 async function onDisplayNotification(remoteMessage) {
-<<<<<<< HEAD
         // Request permissions (required for iOS)
         await notifee.requestPermission()
        
@@ -18,22 +17,10 @@ async function onDisplayNotification(remoteMessage) {
           name: 'chat',
         });
     
-        // Display a notification
-        await notifee.displayNotification({
-          title: remoteMessage.notification.title,
-          body:remoteMessage.notification.body,
-          android: {
-            channelId,
-=======
-    // Request permissions (required for iOS)
-    await notifee.requestPermission()
-    console.log(remoteMessage.notification)
+      
 
     // Create a channel (required for Android)
-    const channelId = await notifee.createChannel({
-        id: 'default',
-        name: 'Default Channel1',
-    });
+  
 
     // Display a notification
     await notifee.displayNotification({
@@ -47,42 +34,31 @@ async function onDisplayNotification(remoteMessage) {
 
             // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
             // pressAction is needed if you want the notification to open the app when pressed
->>>>>>> 25d82b4428bf751fc31e331ac146f7e43e3059e6
+
             pressAction: {
                 id: 'default',
             },
-<<<<<<< HEAD
             importance: AndroidImportance.HIGH, 
             // style: { type: AndroidStyle.BIGPICTURE, picture: remoteMessage?.notification?.android?.image },
             
         
           },
         });
-        return notifee.onForegroundEvent(({ type, detail }) => {
-            switch (type) {
-              case EventType.DISMISSED:
-=======
-            importance: AndroidImportance.HIGH,
-            style: { type: AndroidStyle.BIGPICTURE, picture: remoteMessage.notification.android.imageUrl },
-
-
-        },
-    });
+      
     return notifee.onForegroundEvent(({ type, detail }) => {
         switch (type) {
             case EventType.DISMISSED:
->>>>>>> 25d82b4428bf751fc31e331ac146f7e43e3059e6
+
                 // console.log('User dismissed notification', detail.notification);
                 break;
             case EventType.PRESS:
                 setTimeout(() => {
-<<<<<<< HEAD
+
                     console.log("pressed",remoteMessage?.data)
-                    navigationService.navigate("bargain",{ data: remoteMessage?.data })
-=======
-                    console.log("pressed")
-                    navigationService.navigate("activerequest", { data: remoteMessage?.data })
->>>>>>> 25d82b4428bf751fc31e331ac146f7e43e3059e6
+                    navigationService.navigate("home",{ data: remoteMessage?.data })
+
+            
+
                 }, 1200);
                 break;
         }
@@ -121,11 +97,9 @@ export async function notificationListeners() {
 
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
         // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-<<<<<<< HEAD
-        //  console.log("FCM message", remoteMessage.data);
-=======
+
         console.log("FCM message", remoteMessage.data);
->>>>>>> 25d82b4428bf751fc31e331ac146f7e43e3059e6
+
         // handleNotifcation(remoteMessage);
         await onDisplayNotification(remoteMessage);
 
