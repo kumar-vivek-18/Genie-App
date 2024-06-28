@@ -170,10 +170,10 @@ const HistoryScreen = () => {
                                             />
                                         </View>
 
-                                        <View>
-                                            <View>
-                                                <Text style={styles.description}>{spade.requestDescription}</Text>
-                                            </View>
+                                        <View className="w-10/12 px-[10px]">
+                                        <View className="flex flex-wrap w-[70%] pb-1 ">
+                                          <Text className="text-[14px] w-full flex flex-wrap " style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>
+                                        </View>
 
                                             <View style={styles.priceRow}>
                                                 <Text style={styles.priceText}>Expected Price:</Text>
@@ -212,7 +212,8 @@ const styles = {
         marginBottom: 10,
         backgroundColor: 'white',
         gap: 15,
-        height: 130,
+        // height: 130,
+        paddingVertical: 15,
         borderRadius: 15,
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.3,
@@ -220,7 +221,7 @@ const styles = {
         elevation: 6,
     },
     imageContainer: {
-        paddingHorizontal: 18,
+        paddingHorizontal: 10,
     },
     image: {
         width: 95,
@@ -228,14 +229,16 @@ const styles = {
         borderRadius: 15
     },
     description: {
-        fontSize: 14,
-        width: '83.33%',
-        fontFamily: "Poppins-Regular" // 10/12 in tailwind is 83.33%
+        fontSize: 14,// 10/12 in tailwind is 83.33%
+        width: '70%',
+        fontFamily: "Poppins-Regular" 
+        // 10/12 in tailwind is 83.33%
     },
     priceRow: {
         flexDirection: 'row',
         paddingVertical: 0,
-        paddingBottom: 10
+        paddingBottom: 10,
+        width: '70%',
     },
     priceText: {
         fontSize: 12,
@@ -244,10 +247,13 @@ const styles = {
     priceValue: {
         fontSize: 12,
         color: '#70B241',
+        fontFamily: "Poppins-Bold",
+
     },
     infoRow: {
         flexDirection: 'row',
         gap: 8,
+        width: '70%',
     },
     infoItem: {
         flexDirection: 'row',

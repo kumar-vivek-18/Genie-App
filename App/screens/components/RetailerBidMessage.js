@@ -1,12 +1,35 @@
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Image, ScrollView, Animated, Pressable, Modal } from 'react-native'
+import React, { useState } from 'react'
 import DPIcon from "../../assets/DPIcon.svg";
 import Tick from "../../assets/Tick.svg";
 import { Entypo } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
+import { Feather } from '@expo/vector-icons'; 
+import { handleDownloadPress } from '../../utils/logics/Logics';
+
 
 const RetailerBidMessage = ({ bidDetails, pic }) => {
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [scaleAnimation] = useState(new Animated.Value(0));
+    const [downloadProgress, setDownloadProgress] = useState({});
+  
+    const handleImagePress = (image) => {
+      setSelectedImage(image);
+      Animated.timing(scaleAnimation, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    };
+  
+    const handleClose = () => {
+      Animated.timing(scaleAnimation, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start(() => setSelectedImage(null));
+    };
     // console.log('currentSpadeRetailer', currentSpadeRetailer);
     return (
         <View className="flex gap-[19px] bg-[#fafafa] rounded-3xl w-[297px] h-[max-content] py-[20px] items-center ">
@@ -27,32 +50,92 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
                     <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text>
                 </View>
             </View>
-            <ScrollView horizontal={true} contentContainerStyle={{ flexDirection: 'row', gap: 4, paddingHorizontal: 25, }}>
-                {
-                    bidDetails.bidImages?.map((image, index) => (
-                        <View key={index}>
-                            <Image source={{ uri: image }} style={{ height: 132, width: 96, borderRadius: 24, backgroundColor: '#EBEBEB' }} />
-                        </View>
-                    ))
+            {bidDetails?.bidImages?.length > 0 && (
+        <ScrollView
+          horizontal={true}
+          contentContainerStyle={{
+            flexDirection: "row",
+            gap: 4,
+            paddingHorizontal: 25,
+          }}
+        >
+          {bidDetails?.bidImages.map((image, index) => (
+            <View
+              key={index}
+              style={{ position: "relative", width: 96, height: 132 }}
+            >
+              <Pressable onPress={() => handleImagePress(image)}>
+                <Image
+                  source={{ uri: image }}
+                  style={{ height: 132, width: 96, borderRadius: 20 }}
+                />
+              </Pressable>
+              <Pressable
+                style={{
+                  position: "absolute",
+                  bottom: 5,
+                  right: 5,
+                  backgroundColor: "gray",
+                  padding: 2,
+                  borderRadius: 100,
+                }}
+                onPress={() =>
+                  handleDownloadPress(
+                    image,
+                    index,
+                    downloadProgress,
+                    setDownloadProgress
+                  )
                 }
-            </ScrollView>
-            <View>
-                {
-                    bidDetails?.warranty > 0 && <View className="flex-row gap-[5px]">
-                        <Text>Warranty: </Text>
-                        <Text className=" text-[##79B649]" style={{ fontFamily: "Poppins-Bold" }}> {bidDetails.warranty} months</Text>
-
-
-                    </View>
-                }
-            </View>
-            <View className="gap-[4px]">
-                <View className="flex-row gap-[5px]">
-                    <Text style={{ fontFamily: "Poppins-SemiBold" }}>Offered Price: </Text>
-                    <Text className=" text-[##79B649]" style={{ fontFamily: "Poppins-Bold" }}>Rs. {bidDetails.bidPrice}</Text>
-
-
+              >
+                <Feather name="download" size={18} color="white" />
+              </Pressable>
+              {downloadProgress[index] !== undefined && (
+                <View style={styles.progressContainer}>
+                  <Text style={styles.progressText}>
+                    {Math.round(downloadProgress[index] * 100)}%
+                  </Text>
                 </View>
+              )}
+            </View>
+          ))}
+          <Modal
+            transparent
+            visible={!!selectedImage}
+            onRequestClose={handleClose}
+          >
+            <Pressable style={styles.modalContainer} onPress={handleClose}>
+              <Animated.Image
+                source={{ uri: selectedImage }}
+                style={[
+                  styles.modalImage,
+                  {
+                    transform: [{ scale: scaleAnimation }],
+                  },
+                ]}
+              />
+            </Pressable>
+          </Modal>
+        </ScrollView>
+      )}
+          
+            <View className="gap-[4px]">
+            <View className="flex-row gap-[5px]">
+          <Text style={{ fontFamily: "Poppins-Medium" }}>Offered Price: </Text>
+          <Text className=" text-[#79B649]" style={{ fontFamily: "Poppins-SemiBold" }}>
+            Rs. {bidDetails.bidPrice}
+          </Text>
+        </View>
+        {
+            bidDetails?.warranty>0 &&
+            <View className="flex-row gap-[5px]">
+          <Text style={{ fontFamily: "Poppins-Medium" }}>Warranty: </Text>
+          <Text className="text-[#79B649]" style={{ fontFamily: "Poppins-SemiBold" }}>
+            {" "}
+            {bidDetails.warranty} months
+          </Text>
+        </View>
+        }
 
                 {bidDetails?.bidAccepted === "rejected" && (
                     <View className="flex-row items-center gap-1">
@@ -79,6 +162,37 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
 
 export default RetailerBidMessage;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    modalContainer: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "rgba(0, 0, 0, 0.7)",
+    },
+    modalImage: {
+      width: 300,
+      height: 400,
+      borderRadius: 10,
+    },
+    closeButton: {
+      position: "absolute",
+      top: 20,
+      right: 20,
+    },
+    progressContainer: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "rgba(0,0,0,0.5)",
+    },
+    progressText: {
+      color: "white",
+      fontSize: 16,
+    },
+  });
 
 

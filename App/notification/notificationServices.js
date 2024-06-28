@@ -11,12 +11,10 @@ import notifee ,{EventType,AndroidImportance,AndroidStyle} from '@notifee/react-
 async function onDisplayNotification(remoteMessage) {
         // Request permissions (required for iOS)
         await notifee.requestPermission()
-        console.log(remoteMessage.notification)
-    
-        // Create a channel (required for Android)
+       
         const channelId = await notifee.createChannel({
           id: 'default',
-          name: 'Default Channel1',
+          name: 'chat',
         });
     
         // Display a notification
@@ -25,17 +23,11 @@ async function onDisplayNotification(remoteMessage) {
           body:remoteMessage.notification.body,
           android: {
             channelId,
-            largeIcon: 'https://my-cdn.com/users/123456.png',
-
-            // smallIcon: 'ic_launcher',
-           
-            // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
-            // pressAction is needed if you want the notification to open the app when pressed
             pressAction: {
               id: 'default',
             },
-            importance: AndroidImportance.HIGH,
-            style: { type: AndroidStyle.BIGPICTURE, picture: remoteMessage.notification.android.imageUrl },
+            importance: AndroidImportance.HIGH, 
+            // style: { type: AndroidStyle.BIGPICTURE, picture: remoteMessage?.notification?.android?.image },
             
         
           },
@@ -47,8 +39,8 @@ async function onDisplayNotification(remoteMessage) {
                 break;
               case EventType.PRESS:
                 setTimeout(() => {
-                    console.log("pressed")
-                    navigationService.navigate("activerequest",{ data: remoteMessage?.data })
+                    console.log("pressed",remoteMessage?.data)
+                    navigationService.navigate("bargain",{ data: remoteMessage?.data })
                 }, 1200);
                 break;
             }
@@ -87,7 +79,7 @@ export async function notificationListeners(dispatch, spades, currentSpade) {
 
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
         // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-         console.log("FCM message", remoteMessage.data);
+        //  console.log("FCM message", remoteMessage.data);
         // handleNotifcation(remoteMessage);
         await onDisplayNotification(remoteMessage);
        

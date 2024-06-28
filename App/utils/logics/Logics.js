@@ -139,3 +139,47 @@ export const haversineDistance = (lat1, lon1, lat2, lon2) => {
     // console.log(R, dLat, dLon, a, c, distance);
     return distance;
 }
+
+
+
+export const handleDownloadPress = async (imageUri, index, downloadProgress, setDownloadProgress) => {
+    // const mediaLibraryPermission = await MediaLibrary.getPermissionsAsync();
+    // console.log("mediaLibraryPermission", mediaLibraryPermission)
+    // if (mediaLibraryPermission.status !== 'granted') {
+    //     alert('Permission required', 'We need permission to save images to your gallery.');
+    //     return;
+    //   }
+  
+    //   const fileUri = FileSystem.documentDirectory + imageUri.split('/').pop();
+  
+    //   const downloadResumable = FileSystem.createDownloadResumable(
+    //     imageUri,
+    //     fileUri,
+    //     {},
+    //     (downloadProgress) => {
+    //       const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite;
+    //       setDownloadProgress((prevState) => ({
+    //         ...prevState,
+    //         [index]: progress,
+    //       }));
+    //     }
+    //   );
+  
+    //   try {
+    //     const { uri } = await downloadResumable.downloadAsync();
+    //     const asset = await MediaLibrary.createAssetAsync(uri);
+    //     await MediaLibrary.createAlbumAsync('Download', asset, true);
+    //     setDownloadProgress((prevState) => ({
+    //       ...prevState,
+    //       [index]: undefined, // Clear progress after download completion
+    //     }));
+    //     alert('Download complete');
+    //   } catch (e) {
+    //     console.error(e);
+    //     setDownloadProgress((prevState) => ({
+    //       ...prevState,
+    //       [index]: undefined, // Clear progress on error
+    //     }));
+    //     alert('Download failed');
+    //   }
+  }

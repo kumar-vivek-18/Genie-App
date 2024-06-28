@@ -419,14 +419,14 @@ const BargainingScreen = () => {
                             <Attachments setAttachmentScreen={setAttachmentScreen} setCameraScreen={setCameraScreen} messages={messages} setMessages={setMessages} />
                         </View>
                     }
-                    <View className="z-50 w-full flex flex-row px-[29px] absolute justify-between items-center  top-[50px]">
-                        <Pressable onPress={() => { navigation.goBack(); }}>
-                            <ArrowLeft />
-                        </Pressable>
+                    <View className="z-50 w-full flex flex-row absolute justify-between items-center  top-[40px]">
+                        <TouchableOpacity onPress={() => { navigation.goBack();}} style={{padding:16,paddingLeft:30,zIndex:50}}>
+                                    <ArrowLeft />
+                        </TouchableOpacity>
 
-                        <Pressable onPress={() => { }}>
+                        {/* <Pressable onPress={() => { }}>
                             <ThreeDots />
-                        </Pressable>
+                        </Pressable> */}
 
                     </View>
 
@@ -531,23 +531,22 @@ const BargainingScreen = () => {
 
                         {((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "new" && messages[messages?.length - 1]?.sender?.type === "Retailer")) && <View className="w-screen flex-col  ">
                             <View>
-                                <Text className="text-center text-[14px] " style={{ fontFamily: "Poppins-SemiBold" }}>Are you accepting the sellers bid ?</Text>
-                                <Text className="text-center text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>If you don’t understand the sellers response, </Text>
-                                <Text className="text-center text-[14px] mb-[8px] " style={{ fontFamily: "Poppins-Regular" }}>select no and send query for clarification</Text>
+                                <Text className="text-center text-[14px] " style={{ fontFamily: "Poppins-SemiBold" }}>Are you accepting the offer?</Text>
+                                <Text className="text-center text-[14px] px-[32px]" style={{ fontFamily: "Poppins-Regular" }}>If you don’t like the shopkeeper's offer, select 'no' and send a query for clarification.</Text>
                             </View>
                             <View className="flex-row">
                                 <View className="w-1/2 flex-row justify-center bg-[#fb8c00]">
 
 
                                     <TouchableOpacity onPress={() => { setModalVisibile(true) }} >
-                                        <View className=" py-[10px]  ">
+                                        <View className="w-full py-[10px]  ">
                                             <Text className="text-[14px] text-white " style={{ fontFamily: "Poppins-Black" }}>Yes</Text>
                                         </View>
                                     </TouchableOpacity>
                                 </View>
                                 <View className="w-1/2 border-2 border-[#fb8c00] flex-row justify-center">
                                     <TouchableOpacity onPress={() => { rejectBid() }} >
-                                        <View className=" flex-row  py-[10px]  gap-[5px]">
+                                        <View className="w-full flex-row  py-[10px]  gap-[5px]">
 
                                             <Text className="text-[14px] text-[#fb8c00]  " style={{ fontFamily: "Poppins-Regular" }}>No</Text>
                                         </View>

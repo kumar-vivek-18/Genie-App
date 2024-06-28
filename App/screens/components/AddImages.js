@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react';
 import ArrowRight from '../../assets/arrow-right.svg';
 import { useDispatch, useSelector } from 'react-redux';
@@ -117,12 +117,16 @@ const AddImages = ({ addImg, setAddImg }) => {
     }
 
     return (
-        <View style={styles.attachments} className="absolute  left-0 right-0 bottom-0 z-50 h-screen  ">
+        <View  className="absolute  left-0 right-0 bottom-0 z-50 h-screen" style={styles.overlay}>
             <TouchableOpacity onPress={() => { setAddImg(false) }}>
-                <View className="h-4/5 w-screen bg-transparent" >
+                <View className="h-4/5 w-screen "  >
                 </View>
             </TouchableOpacity>
-            <View className="bg-white h-1/5 ">
+            <View className=" h-1/5 bg-white " styles={{  shadowColor: '#bdbdbd',
+        shadowOffset: { width: 2, height: -2 },  // Shadow on top side
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 80,  }}>
 
                 <TouchableOpacity onPress={() => { pickImage(); setAddImg(false) }}>
                     <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[20px]  border-b-[1px] border-gray-400">
@@ -142,11 +146,20 @@ const AddImages = ({ addImg, setAddImg }) => {
     )
 }
 
-const styles = {
-    attachments: {
-
-        zIndex: 100, // Ensure the overlay is on top
+const styles = StyleSheet.create({
+    overlay: {
+     zIndex: 100,
+    //   flex: 1,
+    //   ...StyleSheet.absoluteFillObject,
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      //  position:"absolute",
+      //  bottom:0// Semi-transparent greyish background
     },
-};
+    // menuContainer: {
+    //     flex: 1,
+    //     // Add other styles for menu container
+    // },
+    
+  });
 
 export default AddImages

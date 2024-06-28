@@ -327,7 +327,7 @@ const RequestDetail = () => {
 
     return (
         <>
-            {<View style={{ flex: 1, position: 'relative' }} >
+            {<Pressable style={{ flex: 1, position: 'relative' }} onPress={() => { setModal(false) }}>
 
                 <ScrollView style={{ flex: 1 }} className="relative">
                     <View style={{ flex: 1, position: 'relative' }} className="relative">
@@ -335,29 +335,32 @@ const RequestDetail = () => {
                         <View className="z-50 w-full flex flex-row px-[9px] absolute justify-between items-center top-[30px]">
 
 
-                            <Pressable onPress={() => { navigation.goBack(); }}>
+                            <TouchableOpacity onPress={() => { navigation.goBack(); }} style={{padding:4}}>
                                 <View className="px-[20px] py-[10px] ">
                                     <ArrowLeft />
                                 </View>
-                            </Pressable>
+                            </TouchableOpacity>
 
-                            {spade.requestActive !== "closed" && <Pressable onPress={() => { setModal(!modal) }} >
+                            {spade.requestActive !== "closed" && <TouchableOpacity onPress={() => { setModal(!modal) }} >
                                 <View className="px-[20px] py-[10px] ">
                                     <ThreeDots />
                                 </View>
-                            </Pressable>}
+                            </TouchableOpacity>}
 
 
 
                         </View>
 
-                        {modal && <View className="absolute top-[20px] right-[50px] z-50 bg-white">
-                            <Pressable onPress={() => navigation.navigate('view-request', { data: spade })}>
-                                <Text className="mx-5 border-1 border-b-[1px] py-5" style={{ fontFamily: "Poppins-Regular" }}>View Request</Text>
-                            </Pressable>
-                            <Pressable onPress={() => closeRequest()}>
-                                <Text className="mx-5 py-5" style={{ fontFamily: "Poppins-Regular" }}>Close Request</Text>
-                            </Pressable>
+                        {modal && <View className="absolute top-[30px] right-[50px] z-50 bg-white rounded-md">
+                            <TouchableOpacity onPress={() => {navigation.navigate('view-request', { data: spade });setModal(!modal)} }>
+                                <Text className="mx-5 border-1 border-b-[1px] py-3" style={{ fontFamily: "Poppins-Regular" }}>View Request</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => closeRequest()}>
+                                <Text className="mx-5 py-3 border-1 border-b-[1px]" style={{ fontFamily: "Poppins-Regular" }}>Close Request</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity  onPress={() => {navigation.navigate("help");setModal(!modal)}}>
+                                <Text className="mx-5 py-3" style={{ fontFamily: "Poppins-Regular" }}>Report Shopkeeper</Text>
+                            </TouchableOpacity>
                         </View>}
 
                         <View className="bg-[#ffe7c8] px-[64px] py-[30px] pt-[40px]">
@@ -365,13 +368,13 @@ const RequestDetail = () => {
                             <View className=" flex-row">
                                 <Text className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestCategory}</Text>
                             </View>
-                            <View className="flex-row gap-[10px] items-center ">
+                            <View className="flex-row gap-[10px] relative items-center ">
                                 <Text className=" text-[12px]" style={{ fontFamily: "Poppins-Bold" }}>Request ID:</Text>
                                 <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{spade._id}</Text>
-                                <TouchableOpacity onPress={() => {copyToClipboard()}}>
+                                <TouchableOpacity onPress={() => {copyToClipboard()}} style={{padding:4}}>
                                     <Copy />
                                 </TouchableOpacity>
-                                {copied && <Text>Copied!</Text>}
+                                {copied && <Text className="bg-[#ebebeb] p-2 rounded-lg absolute -top-10 right-0">Copied!</Text>}
 
 
                             </View>
@@ -499,7 +502,7 @@ const RequestDetail = () => {
                         <Text className="text-[#fb8c00] text-center text-[14px]" style={{ fontFamily: "Poppins-Black" }}>Waiting for retailers response..... </Text>
                     </View>
                 </View>}
-            </View>}
+            </Pressable>}
             {confirmModal && <CloseSpadeModal confirmModal={confirmModal} setConfirmModal={setConfirmModal} setSuccessModal={setSuccessModal} />}
             {successModal && <SuccessModal successModal={successModal} setSuccessModal={setSuccessModal} successMessage={"Request Closed"} />}
         </>

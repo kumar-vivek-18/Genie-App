@@ -407,12 +407,10 @@ const HomeScreen = () => {
                       />
                     </View>
 
-                    <View>
-                      <View>
-                        <Text style={styles.description}>
-                          {spade.requestDescription}
-                        </Text>
-                      </View>
+                    <View className="w-10/12 px-[10px]">
+                    <View className="flex flex-wrap w-[70%] pb-1 ">
+                                          <Text className="text-[14px] w-full flex flex-wrap " style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>
+                                        </View>
 
                       <View style={styles.priceRow}>
                         <Text style={styles.priceText}>Expected Price:</Text>
@@ -461,7 +459,7 @@ const styles = {
     elevation: 6,
   },
   imageContainer: {
-    paddingHorizontal: 18,
+    paddingHorizontal: 10,
   },
   image: {
     width: 95,
@@ -471,7 +469,8 @@ const styles = {
   description: {
     fontSize: 14,
     fontFamily: "Poppins-Regular",
-    width: "60%", // 10/12 in tailwind is 83.33%
+    width: '83.33%',
+    // 10/12 in tailwind is 83.33%
   },
   priceRow: {
     flexDirection: "row",

@@ -30,7 +30,7 @@ export const NewRequestCreated = async (mess) => {
                 }
             },
             data: {
-                redirect_to: "home",
+                redirect_to:"home",
                 userRequest: mess?.userRequest
             }
         };
@@ -223,6 +223,7 @@ export const newMessageSend = async (mess) => {
         const tokens = mess.token;
 
         const accessToken = await getAccessToken();
+        console.log("accessToken", accessToken)
 
         const url = 'https://fcm.googleapis.com/v1/projects/genie-retailer/messages:send'; // Replace YOUR_PROJECT_ID with your actual project ID
 
@@ -246,7 +247,7 @@ export const newMessageSend = async (mess) => {
             },
             data: {
                 redirect_to: "requestPage",
-                // requestInfo: JSON.stringify(mess?.requestInfo)
+                requestInfo: JSON.stringify(mess?.requestInfo)
             }
         };
 

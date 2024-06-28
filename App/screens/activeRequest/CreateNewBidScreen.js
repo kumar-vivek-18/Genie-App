@@ -135,13 +135,13 @@ const CreateNewBidScreen = () => {
               <ArrowLeft />
             </Pressable>
             <Text className="flex flex-1 justify-center items-center text-center text-[16px]" style={{ fontFamily: "Poppins-Bold" }}>
-              Send new bid
+              Send new offer
             </Text>
           </View>
 
           <View className="mt-[35px] mx-[28px]">
             <Text className="text-[14px] text-[#2e2c43] mx-[6px]" style={{ fontFamily: "Poppins-Bold" }}>
-              Youe expected price
+              Your expected price
             </Text>
             <TextInput
               placeholder="Ex:1,200 Rs"
@@ -155,12 +155,11 @@ const CreateNewBidScreen = () => {
               style={{ fontFamily: "Poppins-Bold" }}
             />
             <Text className="text-[14px] text-[#2e2c43] mt-[20px]" style={{ fontFamily: "Poppins-Regular" }}>
-              Please tell sellers about what you feel the right price for your
-              request.{" "}
+            Please tell the shopkeeper the price that you feel is right.{" "}
             </Text>
 
             <Text className="text-[14px]  text-[#2e2c43] mx-[6px] mt-[30px] mb-[15px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
-              Type your query
+              Type your response
             </Text>
 
             <View className="  h-[127px] bg-[#f9f9f9] rounded-xl ">
@@ -225,25 +224,39 @@ const CreateNewBidScreen = () => {
             </TouchableOpacity>
           </View>
         </ScrollView>
-        <View className="absolute bottom-[0px] left-[0px] right-[0px] gap-[10px]">
-          <TouchableOpacity
-            onPress={() => {
-              sendBid();
+        <TouchableOpacity
+        disabled={!price}
+        onPress={() => {
+          sendBid();
+        }}
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 63,
+          width: "100%",
+          backgroundColor: !price ? "#e6e6e6" : "#FB8C00",
+          justifyContent: "center", // Center content vertically
+          alignItems: "center", // Center content horizontally
+        }}
+      >
+        {loading ? (
+          <ActivityIndicator size="small" color="#ffffff" />
+        ) : (
+          <Text
+            style={{
+              fontSize: 18,
+              color: !price ? "#888888" : "white",
+              fontFamily: "Poppins-Black"
             }}
           >
-            <View className="w-full h-[68px]  bg-[#fb8c00] justify-center  bottom-0 left-0 right-0">
-              {loading ? (
-                <ActivityIndicator size="small" color="#ffffff" />
-              ) : (
-                <Text className="text-white  text-center text-[16px]" style={{ fontFamily: "Poppins-Black" }}>
-                  Send a new bid
-                </Text>
-              )}
-            </View>
-          </TouchableOpacity>
-        </View>
+            Send bargaining bid
+          </Text>)}
+      </TouchableOpacity>
+        {addImg && <AddImages addImg={addImg} setAddImg={setAddImg} />}
       </View>
-      {addImg && <AddImages addImg={addImg} setAddImg={setAddImg} />}
+     
     </View>
   );
 };
