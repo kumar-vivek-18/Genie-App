@@ -59,11 +59,11 @@ const ProfileScreen = () => {
 
 
 
-  console.log("userDetails", userDetails);
+  // console.log("userDetails", userDetails);
   const dispatch = useDispatch();
 
   const handleEmailUpdate = async () => {
-    console.log("user", userDetails._id, email);
+    // console.log("user", userDetails._id, email);
     if (email.length < 7) return;
     setLoading(true);
     await axios
@@ -85,7 +85,7 @@ const ProfileScreen = () => {
   };
   const handeEditUserName = async () => {
     // setEditUser(false);
-    console.log("userNmae", userName);
+    // console.log("userNmae", userName);
     if (userName.length < 3) return;
     setIsLoading(true);
     await axios
@@ -121,47 +121,75 @@ const ProfileScreen = () => {
         await AsyncStorage.setItem("userDetails", JSON.stringify(res.data));
 
         setEditUser(false);
-        console.log("updated pic", res.data);
+        // console.log("updated pic", res.data);
       })
       .catch((err) => {
         console.error("error while updating profile", err.message);
       });
   };
 
+  // const getImageUrl = async (image) => {
+  //   setPicLoading(true);
+  //   let CLOUDINARY_URL =
+  //     "https://api.cloudinary.com/v1_1/kumarvivek/image/upload";
+
+  //   let base64Img = `data:image/jpg;base64,${image.base64}`;
+
+  //   let data = {
+  //     file: base64Img,
+  //     upload_preset: "CulturTap",
+  //   };
+
+  //   // console.log('base64', data);
+  //   fetch(CLOUDINARY_URL, {
+  //     body: JSON.stringify(data),
+  //     headers: {
+  //       "content-type": "application/json",
+  //     },
+  //     method: "POST",
+  //   })
+  //     .then(async (r) => {
+  //       let data = await r.json();
+
+  //       // setPhoto(data.url);
+  //       const imgUri = data.secure_url;
+  //       if (imgUri) {
+  //         console.log("Image Updated Successfully");
+  //         handlePicUpdate(imgUri);
+  //       }
+  //       setPicLoading(false);
+  //       console.log("dataImg", data.secure_url);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
+
   const getImageUrl = async (image) => {
-    setPicLoading(true);
-    let CLOUDINARY_URL =
-      "https://api.cloudinary.com/v1_1/kumarvivek/image/upload";
+    try {
+      const formData = new FormData();
 
-    let base64Img = `data:image/jpg;base64,${image.base64}`;
-
-    let data = {
-      file: base64Img,
-      upload_preset: "CulturTap",
-    };
-
-    // console.log('base64', data);
-    fetch(CLOUDINARY_URL, {
-      body: JSON.stringify(data),
-      headers: {
-        "content-type": "application/json",
-      },
-      method: "POST",
-    })
-      .then(async (r) => {
-        let data = await r.json();
-
-        // setPhoto(data.url);
-        const imgUri = data.secure_url;
-        if (imgUri) {
-          console.log("Image Updated Successfully");
-          handlePicUpdate(imgUri);
-        }
-        setPicLoading(false);
-        console.log("dataImg", data.secure_url);
+      formData.append('storeImages', {
+        uri: image,
+        type: 'image/jpeg',
+        name: `photo-${Date.now()}.jpg`
       })
-      .catch((err) => console.log(err));
-  };
+
+      await axios.post('http://173.212.193.109:5000/upload', formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+        .then(res => {
+          console.log('imageUrl updated from server', res.data[0]);
+          const imgUri = res.data[0];
+          if (imgUri) {
+            console.log("Image Updated Successfully");
+            handlePicUpdate(imgUri);
+          }
+        })
+    } catch (error) {
+
+    }
+  }
 
   const takePicture = async () => {
     const { status } = await Camera.requestCameraPermissionsAsync();
@@ -185,9 +213,10 @@ const ProfileScreen = () => {
           const compressedImage = await manipulateAsync(
             newImageUri,
             [{ resize: { width: 600, height: 800 } }],
-            { compress: 0.5, format: "jpeg", base64: true }
+            { compress: 0.5, format: "jpeg" }
           );
-          await getImageUrl(compressedImage);
+          console.log('image url raw', newImageUri, compressedImage.uri);
+          await getImageUrl(compressedImage.uri);
         } catch (error) {
           console.error("Error processing image: ", error);
         }
@@ -213,7 +242,7 @@ const ProfileScreen = () => {
             onPress={() => {
               navigation.goBack();
             }}
-            style={{padding: 16}}
+            style={{ padding: 16 }}
           >
             <Cross />
           </TouchableOpacity>
@@ -223,11 +252,11 @@ const ProfileScreen = () => {
           <View>
             {/* <Image source={require('../../assets/ProfileImg.png')} className="w-[132px] h-[132px] " /> */}
             <Pressable
-                            onPress={() => handleImagePress( userDetails.pic )}>
-            <Image
-              source={{ uri: userDetails.pic }}
-             className="w-[130px] h-[130px] rounded-full object-contain"
-            />
+              onPress={() => handleImagePress(userDetails.pic)}>
+              <Image
+                source={{ uri: userDetails.pic }}
+                className="w-[130px] h-[130px] rounded-full object-contain"
+              />
             </Pressable>
             <TouchableOpacity
               onPress={() => {
@@ -242,25 +271,25 @@ const ProfileScreen = () => {
               </View>
             </TouchableOpacity>
 
-             
+
             <Modal
-                        transparent
-                        visible={!!selectedImage}
-                        onRequestClose={handleClose}
-                      >
-                         <Pressable style={styles.modalContainer}  onPress={handleClose}>
-                          <Animated.Image
-                            source={{ uri: selectedImage }}
-                            style={[
-                              styles.modalImage,
-                              {
-                                transform: [{ scale: scaleAnimation }],
-                              },
-                            ]}
-                          />
-                          
-                        </Pressable>
-                      </Modal>
+              transparent
+              visible={!!selectedImage}
+              onRequestClose={handleClose}
+            >
+              <Pressable style={styles.modalContainer} onPress={handleClose}>
+                <Animated.Image
+                  source={{ uri: selectedImage }}
+                  style={[
+                    styles.modalImage,
+                    {
+                      transform: [{ scale: scaleAnimation }],
+                    },
+                  ]}
+                />
+
+              </Pressable>
+            </Modal>
           </View>
         </View>
 

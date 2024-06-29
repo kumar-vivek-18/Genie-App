@@ -98,7 +98,7 @@ const RequestPreviewScreen = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://192.168.51.192:5000/user/createrequest", formData, {
+        "http://173.212.193.109:5000/user/createrequest", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         }

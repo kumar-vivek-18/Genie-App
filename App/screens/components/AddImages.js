@@ -75,10 +75,10 @@ const AddImages = ({ addImg, setAddImg }) => {
                     const newImageUri = response.assets[0].uri;
                     const compressedImage = await manipulateAsync(
                         newImageUri,
-                        [{ resize: { width: 800, height: 800 } }],
+                        [{ resize: { width: 600, height: 800 } }],
                         { compress: 0.5, format: "jpeg", base64: true }
                     );
-                    dispatch(setRequestImages(newImageUri));
+                    dispatch(setRequestImages(compressedImage.uri));
                     // await getImageUrl(compressedImage);
                 } catch (error) {
                     console.error('Error processing image: ', error);
@@ -99,7 +99,13 @@ const AddImages = ({ addImg, setAddImg }) => {
 
         console.log('pickImage', "result");
         if (!result.canceled) {
-            dispatch(setRequestImages(result.assets[0].uri))
+            const newImageUri = result?.assets[0]?.uri;
+            const compressedImage = await manipulateAsync(
+                newImageUri,
+                [{ resize: { width: 600, height: 800 } }],
+                { compress: 0.5, format: "jpeg" }
+            );
+            dispatch(setRequestImages(compressedImage.uri));
             // setImage(result.assets[0].uri);
             // console.log(object)
             // await getImageUrl(result.assets[0]);
@@ -119,16 +125,18 @@ const AddImages = ({ addImg, setAddImg }) => {
     }
 
     return (
-        <View  className="absolute  left-0 right-0 bottom-0 z-50 h-screen" style={styles.overlay}>
+        <View className="absolute  left-0 right-0 bottom-0 z-50 h-screen" style={styles.overlay}>
             <TouchableOpacity onPress={() => { setAddImg(false) }}>
                 <View className="h-4/5 w-screen "  >
                 </View>
             </TouchableOpacity>
-            <View className=" h-1/5 bg-white " styles={{  shadowColor: '#bdbdbd',
-        shadowOffset: { width: 2, height: -2 },  // Shadow on top side
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 80,  }}>
+            <View className=" h-1/5 bg-white " styles={{
+                shadowColor: '#bdbdbd',
+                shadowOffset: { width: 2, height: -2 },  // Shadow on top side
+                shadowOpacity: 0.25,
+                shadowRadius: 4,
+                elevation: 80,
+            }}>
 
                 <TouchableOpacity onPress={() => { pickImage(); setAddImg(false) }}>
                     <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[20px]  border-b-[1px] border-gray-400">
@@ -150,18 +158,18 @@ const AddImages = ({ addImg, setAddImg }) => {
 
 const styles = StyleSheet.create({
     overlay: {
-     zIndex: 100,
-    //   flex: 1,
-    //   ...StyleSheet.absoluteFillObject,
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-      //  position:"absolute",
-      //  bottom:0// Semi-transparent greyish background
+        zIndex: 100,
+        //   flex: 1,
+        //   ...StyleSheet.absoluteFillObject,
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        //  position:"absolute",
+        //  bottom:0// Semi-transparent greyish background
     },
     // menuContainer: {
     //     flex: 1,
     //     // Add other styles for menu container
     // },
-    
-  });
+
+});
 
 export default AddImages

@@ -104,10 +104,10 @@ const AddImageScreen = () => {
           const newImageUri = response.assets[0].uri;
           const compressedImage = await manipulateAsync(
             newImageUri,
-            [{ resize: { width: 800, height: 800 } }],
+            [{ resize: { width: 600, height: 800 } }],
             { compress: 0.5, format: "jpeg", base64: true }
           );
-          dispatch(setRequestImages(newImageUri));
+          dispatch(setRequestImages(compressedImage.uri));
           // await getImageUrl(compressedImage);
           //   setImagesLocal((prevImages) => [...prevImages, compressedImage.uri]);
           //   dispatch(setRequestImages(compressedImage));
@@ -122,39 +122,39 @@ const AddImageScreen = () => {
 
 
 
-  const getImageUrl = async (image) => {
-    setLoading(true);
-    const CLOUDINARY_URL =
-      "https://api.cloudinary.com/v1_1/kumarvivek/image/upload";
-    const base64Img = `data:image/jpg;base64,${image.base64}`;
-    const data = {
-      file: base64Img,
-      upload_preset: "CulturTap",
-      quality: 50,
-    };
+  // const getImageUrl = async (image) => {
+  //   setLoading(true);
+  //   const CLOUDINARY_URL =
+  //     "https://api.cloudinary.com/v1_1/kumarvivek/image/upload";
+  //   const base64Img = `data:image/jpg;base64,${image.base64}`;
+  //   const data = {
+  //     file: base64Img,
+  //     upload_preset: "CulturTap",
+  //     quality: 50,
+  //   };
 
-    try {
-      const response = await fetch(CLOUDINARY_URL, {
-        body: JSON.stringify(data),
-        headers: {
-          "content-type": "application/json",
-        },
-        method: "POST",
-      });
+  //   try {
+  //     const response = await fetch(CLOUDINARY_URL, {
+  //       body: JSON.stringify(data),
+  //       headers: {
+  //         "content-type": "application/json",
+  //       },
+  //       method: "POST",
+  //     });
 
-      const result = await response.json();
-      if (result.secure_url) {
-        console.log("cloud", result.secure_url)
-        // setImagesLocal((prevImages) => [...prevImages, result.secure_url]);
-        dispatch(setRequestImages(result.secure_url));
-        setCameraScreen(false);
-        setLoading(false);
-      }
-    } catch (err) {
-      setLoading(false);
-      console.log(err);
-    }
-  };
+  //     const result = await response.json();
+  //     if (result.secure_url) {
+  //       console.log("cloud", result.secure_url)
+  //       // setImagesLocal((prevImages) => [...prevImages, result.secure_url]);
+  //       dispatch(setRequestImages(result.secure_url));
+  //       setCameraScreen(false);
+  //       setLoading(false);
+  //     }
+  //   } catch (err) {
+  //     setLoading(false);
+  //     console.log(err);
+  //   }
+  // };
 
   const deleteImage = (index) => {
     setImgIndex(index);
@@ -172,7 +172,13 @@ const AddImageScreen = () => {
 
     if (!result.canceled) {
       // await getImageUrl(result.assets[0]);
-      dispatch(setRequestImages(result.assets[0].uri));
+      const newImageUri = result?.assets[0]?.uri;
+      const compressedImage = await manipulateAsync(
+        newImageUri,
+        [{ resize: { width: 600, height: 800 } }],
+        { compress: 0.5, format: "jpeg" }
+      );
+      dispatch(setRequestImages(compressedImage.uri));
     }
   };
 

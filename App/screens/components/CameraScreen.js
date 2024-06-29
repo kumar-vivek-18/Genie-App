@@ -209,11 +209,11 @@ const CameraScreen = () => {
                     const newImageUri = response?.assets[0]?.uri;
                     const compressedImage = await manipulateAsync(
                         newImageUri,
-                        [{ resize: { width: 800, height: 800 } }],
+                        [{ resize: { width: 600, height: 800 } }],
                         { compress: 0.5, format: "jpeg" }
                     );
                     // await getImageUrl(compressedImage);
-                    setImageUri(newImageUri);
+                    setImageUri(compressedImage.uri);
                     console.log('compressedImage', compressedImage.uri);
                 } catch (error) {
                     console.error("Error processing image: ", error);
@@ -234,7 +234,14 @@ const CameraScreen = () => {
 
         console.log("pickImage", "result");
         if (!result.canceled) {
-            getImageUrl(result.assets[0]);
+            const newImageUri = result?.assets[0]?.uri;
+            const compressedImage = await manipulateAsync(
+                newImageUri,
+                [{ resize: { width: 600, height: 800 } }],
+                { compress: 0.5, format: "jpeg" }
+            );
+            setImageUri(compressedImage.uri);
+            // getImageUrl(result.assets[0]);
         }
     };
 
