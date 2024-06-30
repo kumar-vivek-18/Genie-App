@@ -56,16 +56,16 @@ const RequestPreviewScreen = () => {
   // const { imagesLocal } = route.params
 
   // console.log('spades request', spades);
-  useEffect(() => {
-    // if (expectedPrice > 0) {
-    //   dispatch(setExpectedPrice(expectedPrice));
-    // }
-    // else {
-    //   setExpectedPrice(0);
-    // }
+  // useEffect(() => {
+  // if (expectedPrice > 0) {
+  //   dispatch(setExpectedPrice(expectedPrice));
+  // }
+  // else {
+  //   setExpectedPrice(0);
+  // }
 
 
-  }, [])
+  // }, [])
 
 
   const handleSubmit = async () => {
@@ -93,7 +93,7 @@ const RequestPreviewScreen = () => {
     formData.append('request', requestDetail);
     formData.append('requestCategory', requestCategory);
     formData.append('expectedPrice', expectedPrice > 0 ? expectedPrice : 0);
-    formData.append('lastSpadePrice', spadePrice);
+    formData.append('lastSpadePrice', userDetails.freeSpades > 0 ? 0 : spadePrice);
 
     setLoading(true);
     try {
@@ -218,7 +218,7 @@ const RequestPreviewScreen = () => {
             Cost for this request
           </Text>
           <Text className="text-[18px]  text-[#558b2f] pb-[20px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
-            {spadePrice} Rs
+            {userDetails.freeSpades > 0 ? 0 : spadePrice} Rs
           </Text>
         </View>
         {isVisible && (

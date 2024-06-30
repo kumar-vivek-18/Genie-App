@@ -187,7 +187,7 @@ const ProfileScreen = () => {
           }
         })
     } catch (error) {
-
+      console.error('Error while updating image', error);
     }
   }
 

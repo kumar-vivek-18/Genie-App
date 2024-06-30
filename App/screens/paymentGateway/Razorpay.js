@@ -96,19 +96,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUserDetails } from "../../redux/reducers/userDataSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ActivityIndicator } from "react-native";
+import PaymentSuccessFulModal from "../components/PaymentSuccessFulModal";
 
 const PaymentScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const userDetails = useSelector((store) => store.user.userDetails);
   const [loading, setLoading] = useState(false);
-
+  const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
-    console.log('lastSpade', userDetails.lastSpade);
+    // console.log('lastSpade', userDetails.lastSpade);
     if (userDetails.lastPaymentStatus === "paid") {
       navigation.navigate("home");
     }
-  });
+  }, []);
   const PayNow = async () => {
     const username = "rzp_live_oz8kr6Ix29mKyC";
     const password = "IADDTICFJ2oXYLX3H2pLjvcx";
@@ -190,12 +191,45 @@ const PaymentScreen = () => {
         dispatch(setUserDetails(res.data));
         console.log("res after user update", res.data);
         await AsyncStorage.setItem("userDetails", JSON.stringify(res.data));
-        navigation.navigate("home");
+        setIsVisible(true);
+        setTimeout(() => {
+          setIsVisible(false);
+          navigation.navigate("home");
+        }, 3000);
       })
       .catch((err) => {
         console.error("error while updating profile", err.message);
       });
   };
+
+
+  // /////////////////////////////////////////////////////////////////////////////////////////////
+  //Handle free spade
+  const handleFreeSpade = async () => {
+    try {
+      setLoading(true);
+      await axios
+        .patch("http://173.212.193.109:5000/user/edit-profile", {
+          _id: userDetails._id,
+          updateData: { freeSpades: userDetails.freeSpades - 1, lastPaymentStatus: "paid" },
+        })
+        .then(async (res) => {
+          console.log('Payment Successfully updated');
+          dispatch(setUserDetails(res.data));
+          await AsyncStorage.setItem("userDetails", JSON.stringify(res.data));
+          setIsVisible(true);
+          setTimeout(() => {
+            setIsVisible(false);
+            navigation.navigate("home");
+          }, 3000);
+        })
+
+    } catch (error) {
+      setLoading(false);
+      console.error("Error while sending free spade request:", error);
+      Alert.alert("Error Sending Free Spade Request", error.message);
+    }
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -243,6 +277,7 @@ const PaymentScreen = () => {
                 <Image source={require("../../assets/copy.png")} />
               </Pressable>
             </View>
+
             <Text
               className="mt-[5px]"
               style={{ fontFamily: "Poppins-Regular" }}
@@ -250,14 +285,26 @@ const PaymentScreen = () => {
               {userDetails.lastSpade?.requestDescription?.substring(0, 30)}....
             </Text>
           </View>
-          <View className="w-screen  flex justify-center items-center mt-[20px]">
-            <PaymentImg />
+          <View className="w-screen  flex justify-center items-center mt-[60px]">
+            {/* <PaymentImg /> */}
+            <Text style={{ fontFamily: "Poppins-ExtraBold" }} className="text-center text-[16px]">Request Charges</Text>
+            <View className="flex-row ">
+              <Text style={{ fontFamily: "Poppins-Bold" }} className="text-center text-[28px] text-[#45801a]">40 </Text>
+              <Text style={{ fontFamily: "Poppins-Bold" }} className="text-center text-[18px] text-[#70B241]">Rs</Text>
+            </View>
+
+            <Text style={{ fontFamily: "Poppins-ExtraBold" }} className="text-center text-[16px]">After Discount</Text>
+            <View className="flex-row ">
+              <Text style={{ fontFamily: "Poppins-Bold" }} className="text-center text-[28px] text-[#45801a]">{userDetails.lastSpadePrice} </Text>
+              <Text style={{ fontFamily: "Poppins-Bold" }} className="text-center text-[18px] text-[#70B241]">Rs</Text>
+            </View>
+
           </View>
         </View>
         <View className="absolute bottom-[0px] left-[0px] right-[0px] gap-[10px]">
           <TouchableOpacity
             onPress={() => {
-              PayNow();
+              userDetails.freeSpades > 0 ? handleFreeSpade() : PayNow();
             }}
           >
             <View className="w-full h-[63px]  bg-[#fb8c00] justify-center  bottom-0 left-0 right-0">
@@ -275,6 +322,9 @@ const PaymentScreen = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      {
+        isVisible && <PaymentSuccessFulModal isVisible={isVisible} setIsVisible={setIsVisible} />
+      }
     </View>
   );
 };

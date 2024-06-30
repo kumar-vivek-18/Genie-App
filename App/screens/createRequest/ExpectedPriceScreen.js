@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setExpectedPrice, setSpadeCouponCode, setSpadePrice } from '../../redux/reducers/userRequestsSlice';
 import BackArrow from "../../assets/BackArrowImg.svg";
 import axios from 'axios';
+import { setUserDetails } from '../../redux/reducers/userDataSlice';
 
 
 const ExpectedPriceScreen = () => {
@@ -15,6 +16,7 @@ const ExpectedPriceScreen = () => {
     // const { imagesLocal } = route.params
 
     const requestImages = useSelector(store => store.userRequest.requestImages);
+    const userDetails = useSelector(store => store.user.userDetails);
     console.log('images', requestImages);
     const [price, setPrice] = useState("");
     const navigation = useNavigation();
@@ -92,38 +94,38 @@ const ExpectedPriceScreen = () => {
 
                 />
                 <Text className="text-[14px] text-[#2e2c43] mt-[20px]" style={{ fontFamily: "Poppins-Regular" }}>Please inform shopkeepers about the price that you believe is appropriate for this request. If you haven't researched pricing, you can skip this.</Text>
+                {userDetails.freeSpades === 0 && <View>
+                    <Text className="text-[14px]  text-[#2e2c43] mx-[6px] mt-[40px]" style={{ fontFamily: "Poppins-SemiBold" }}>Apply Coupon </Text>
+                    <TextInput
+                        placeholder='Type here...'
+                        value={couponCode}
+                        onChangeText={(val) => {
+                            // setPrice(val);
+                            // dispatch(setExpectedPrice(parseInt(price)));
+                            setCouponCode(val);
+                            console.log(couponCode);
+                            setCouponFailed(false);
+                            // console.log(expectedPrice);
+                        }}
+                        // keyboardType="numeric"
+                        placeholderTextColor={"#558b2f"}
+                        className="text-[14px] text-center bg-[#F9F9F9]  text-[#2e2c43]  mt-[10px]  rounded-3xl h-[54px] py-[10px] "
+                        style={{ fontFamily: "Poppins-SemiBold" }}
 
-                <Text className="text-[14px]  text-[#2e2c43] mx-[6px] mt-[40px]" style={{ fontFamily: "Poppins-SemiBold" }}>Apply Coupon </Text>
-                <TextInput
-                    placeholder='Type here...'
-                    value={couponCode}
-                    onChangeText={(val) => {
-                        // setPrice(val);
-                        // dispatch(setExpectedPrice(parseInt(price)));
-                        setCouponCode(val);
-                        console.log(couponCode);
-                        setCouponFailed(false);
-                        // console.log(expectedPrice);
-                    }}
-                    // keyboardType="numeric"
-                    placeholderTextColor={"#558b2f"}
-                    className="text-[14px] text-center bg-[#F9F9F9]  text-[#2e2c43]  mt-[10px]  rounded-3xl h-[54px] py-[10px] "
-                    style={{ fontFamily: "Poppins-SemiBold" }}
-
-                />
-                {!verifiedCouponCode && !couponFailed && <TouchableOpacity onPress={() => { VerifyCoupon() }}>
-                    <View className="w-full flex items-center justify-center border-2 border-[#fb8c00] py-[16px] mt-[40px]">
-                        <Text className="text-[14px]  text-[#fb8c00] " style={{ fontFamily: "Poppins-SemiBold" }}>Apply Coupon </Text>
-                    </View>
-                </TouchableOpacity>}
-                {verifiedCouponCode && <View className="w-full flex items-center justify-center  py-[16px] mt-[40px]" style={{ border: 2, borderColor: '#558b2f', borderWidth: 2 }}>
-                    <Text className="text-[14px]  text-[#558b2f] " style={{ fontFamily: "Poppins-SemiBold" }}>Coupon Added Successfully </Text>
+                    />
+                    {!verifiedCouponCode && !couponFailed && <TouchableOpacity onPress={() => { VerifyCoupon() }}>
+                        <View className="w-full flex items-center justify-center border-2 border-[#fb8c00] py-[16px] mt-[40px]">
+                            <Text className="text-[14px]  text-[#fb8c00] " style={{ fontFamily: "Poppins-SemiBold" }}>Apply Coupon </Text>
+                        </View>
+                    </TouchableOpacity>}
+                    {verifiedCouponCode && <View className="w-full flex items-center justify-center  py-[16px] mt-[40px]" style={{ border: 2, borderColor: '#558b2f', borderWidth: 2 }}>
+                        <Text className="text-[14px]  text-[#558b2f] " style={{ fontFamily: "Poppins-SemiBold" }}>Coupon Added Successfully </Text>
+                    </View>}
+                    {couponFailed && <View className="w-full flex items-center justify-center  py-[16px] mt-[40px]" style={{ border: 2, borderColor: '#e76063', borderWidth: 2 }}>
+                        <Text className="text-[14px]  text-[#E76063] " style={{ fontFamily: "Poppins-SemiBold" }}>Invalid Coupon Code </Text>
+                    </View>}
+                    <Text className="text-[14px] text-[#2e2c43] mt-[20px] pb-[100px]" style={{ fontFamily: "Poppins-Regular" }}>If you have a coupon code available, you can enter the code here to redeem the offer.</Text>
                 </View>}
-                {couponFailed && <View className="w-full flex items-center justify-center  py-[16px] mt-[40px]" style={{ border: 2, borderColor: '#e76063', borderWidth: 2 }}>
-                    <Text className="text-[14px]  text-[#E76063] " style={{ fontFamily: "Poppins-SemiBold" }}>Invalid Coupon Code </Text>
-                </View>}
-                <Text className="text-[14px] text-[#2e2c43] mt-[20px] pb-[100px]" style={{ fontFamily: "Poppins-Regular" }}>If you have a coupon code available, you can enter the code here to redeem the offer.</Text>
-
 
             </View>
             <View className="absolute bottom-0 left-0 right-0">
