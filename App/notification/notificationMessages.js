@@ -457,8 +457,8 @@ export const sendCloseSpadeNotification = async (mess) => {
                     },
                 },
                 data: {
-                    redirect_to: "home",
-                    close: mess?.close
+                    redirect_to: "requestPage",
+                    requestInfo: JSON.stringify(mess?.requestInfo)
                 },
             },
         };

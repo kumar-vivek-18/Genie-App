@@ -230,7 +230,10 @@ const BargainingScreen = () => {
                         token: res.data.uniqueTokens,
                         body: spade?.requestDetail,
                         image: "",
-                        requestInfo: currentSpadeRetailer,
+                        requestInfo: {
+                            requestId: currentSpadeRetailer?.requestId?._id,
+                            userId: currentSpadeRetailer?.users[0]._id
+                          }
                     }
                     await BidAccepted(notification);
                     console.log('bid accepted');
@@ -291,7 +294,10 @@ const BargainingScreen = () => {
                 title: userDetails?.userName,
                 body: spade?.requestDetail,
                 image: "",
-                requestInfo: currentSpadeRetailer,
+                requestInfo: {
+                    requestId: currentSpadeRetailer?.requestId?._id,
+                    userId: currentSpadeRetailer?.users[0]._id
+                  }
             }
             await BidRejected(notification);
 
