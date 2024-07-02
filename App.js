@@ -50,11 +50,11 @@ export default function App() {
   }, []);
 
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   notificationListeners();
+    notificationListeners();
 
-  // }, []);
+  }, []);
 
   return (
     <Provider store={store}>

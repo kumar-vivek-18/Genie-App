@@ -114,7 +114,10 @@ const CreateNewBidScreen = () => {
           body: query,
           price: price,
           image: requestImages.length > 0 ? requestImages[0] : "",
-          requestInfo: details,
+          requestInfo: {
+            requestId: details?.requestId?._id,
+            userId: details?.users[0]._id
+          }
         };
         await newBidSend(notification);
 

@@ -115,7 +115,10 @@ const CameraScreen = () => {
                     title: userDetails?.userName,
                     body: query,
                     image: imageUri,
-                    requestInfo: details,
+                    requestInfo: {
+                        requestId: details?.requestId?._id,
+                        userId: details?.users[0]._id
+                      }
                 };
                 await AttachmentSend(notification);
 

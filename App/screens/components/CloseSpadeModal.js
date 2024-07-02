@@ -64,14 +64,17 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
 
                         if (token.length > 0) {
                             const notification = {
-                                token: [token.data],
+                                token: token.data,
                                 title: userDetails?.userName,
                                 // close: currentSpade._id,
                                 body: "Customer close the chat",
-                                requestInfo: currentSpadeRetailers[0]
+                                requestInfo: {
+                                    requestId: currentSpadeRetailers[0]?.requestId?._id,
+                                    userId:currentSpadeRetailers[0]?.users[0]._id
+                                  }
                             }
                             console.log("close notification", token)
-                            await newMessageSend(notification);
+                            await sendCloseSpadeNotification(notification);
 
                         }
                         // Send Notification to reatiler 

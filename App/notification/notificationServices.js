@@ -57,8 +57,6 @@ async function onDisplayNotification(remoteMessage) {
                     console.log("pressed",remoteMessage?.data)
                     navigationService.navigate("home",{ data: remoteMessage?.data })
 
-            
-
                 }, 1200);
                 break;
         }
