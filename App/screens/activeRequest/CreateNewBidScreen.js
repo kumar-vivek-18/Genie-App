@@ -81,7 +81,7 @@ const CreateNewBidScreen = () => {
     formData.append('chat', details._id);
     formData.append('bidPrice', price);
     await axios
-      .post("http://192.168.51.192:5000/chat/send-message", formData, {
+      .post("http://173.212.193.109:5000/chat/send-message", formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       .then(async (res) => {
@@ -161,7 +161,7 @@ const CreateNewBidScreen = () => {
               style={{ fontFamily: "Poppins-Bold" }}
             />
             <Text className="text-[14px] text-[#2e2c43] mt-[20px]" style={{ fontFamily: "Poppins-Regular" }}>
-            Please tell the shopkeeper the price that you feel is right.{" "}
+              Please tell the shopkeeper the price that you feel is right.{" "}
             </Text>
 
             <Text className="text-[14px]  text-[#2e2c43] mx-[6px] mt-[30px] mb-[15px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
@@ -231,38 +231,38 @@ const CreateNewBidScreen = () => {
           </View>
         </ScrollView>
         <TouchableOpacity
-        disabled={!price}
-        onPress={() => {
-          sendBid();
-        }}
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: 63,
-          width: "100%",
-          backgroundColor: !price ? "#e6e6e6" : "#FB8C00",
-          justifyContent: "center", // Center content vertically
-          alignItems: "center", // Center content horizontally
-        }}
-      >
-        {loading ? (
-          <ActivityIndicator size="small" color="#ffffff" />
-        ) : (
-          <Text
-            style={{
-              fontSize: 18,
-              color: !price ? "#888888" : "white",
-              fontFamily: "Poppins-Black"
-            }}
-          >
-            Send bargaining bid
-          </Text>)}
-      </TouchableOpacity>
+          disabled={!price}
+          onPress={() => {
+            sendBid();
+          }}
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 63,
+            width: "100%",
+            backgroundColor: !price ? "#e6e6e6" : "#FB8C00",
+            justifyContent: "center", // Center content vertically
+            alignItems: "center", // Center content horizontally
+          }}
+        >
+          {loading ? (
+            <ActivityIndicator size="small" color="#ffffff" />
+          ) : (
+            <Text
+              style={{
+                fontSize: 18,
+                color: !price ? "#888888" : "white",
+                fontFamily: "Poppins-Black"
+              }}
+            >
+              Send bargaining bid
+            </Text>)}
+        </TouchableOpacity>
         {addImg && <AddImages addImg={addImg} setAddImg={setAddImg} />}
       </View>
-     
+
     </View>
   );
 };

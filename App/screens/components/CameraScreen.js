@@ -55,15 +55,17 @@ const CameraScreen = () => {
     const [loading, setLoading] = useState(false);
 
     const sendAttachment = async () => {
+        console.log('Sending attachment to user');
         setLoading(true);
         const token = await axios.get(
             "http://173.212.193.109:5000/retailer/unique-token",
             {
                 params: {
-                    id: details.retailerId._id,
+                    id: details?.retailerId?._id,
                 },
             }
         );
+        console.log('token of user', token.data);
         const formData = new FormData();
         // imageUri.forEach((uri, index) => {
         formData.append('bidImages', {
@@ -74,14 +76,14 @@ const CameraScreen = () => {
 
         formData.append('sender', JSON.stringify({ type: 'UserRequest', refId: details.requestId }));
         formData.append('userRequest', currentSpade._id);
-        formData.append('message', query);
+        formData.append('message', query && query.length > 0 ? query : "");
         formData.append('bidType', "false");
         formData.append('chat', details._id);
         formData.append('bidPrice', 0);
 
         // console.log('attachment form data', formData._parts);
 
-        await axios.post('http://192.168.51.192:5000/chat/send-message', formData, {
+        await axios.post('http://173.212.193.109:5000/chat/send-message', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },

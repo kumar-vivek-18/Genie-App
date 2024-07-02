@@ -78,19 +78,22 @@ const SendQueryScreen = () => {
 
     console.log("token", token.data);
 
+    const formData = new FormData();
+
+    formData.append('sender', JSON.stringify({ type: "UserRequest", refId: details?.requestId }));
+    formData.append('userRequest', spade?._id);
+    formData.append('message', query);
+    formData.append('bidType', false);
+    formData.append('bidPrice', 0);
+    formData.append('bidImages', 0);
+    formData.append('chat', details._id);
+    formData.append('warranty', 0);
+
     await axios
-      .post("http://173.212.193.109:5000/chat/send-message", {
-        sender: {
-          type: "UserRequest",
-          refId: details.requestId,
-        },
-        message: query,
-        userRequest: spade._id,
-        bidType: "false",
-        bidPrice: 0,
-        bidImages: [],
-        chat: details._id,
-        warranty: 0,
+      .post("http://173.212.193.109:5000/chat/send-message", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
       })
       .then(async (res) => {
         // console.log("query", res.data);
