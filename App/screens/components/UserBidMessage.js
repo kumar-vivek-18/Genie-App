@@ -6,7 +6,7 @@ import {
   ScrollView,
   Animated,
   Pressable,
-  Modal,
+  Modal
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import DPIcon from "../../assets/DPIcon.svg";
@@ -14,7 +14,7 @@ import { Entypo } from "@expo/vector-icons";
 import Tick from "../../assets/Tick.svg";
 import { useSelector } from "react-redux";
 import { formatDateTime, handleDownloadPress } from "../../utils/logics/Logics";
-import { Feather } from '@expo/vector-icons'; 
+import { Feather } from '@expo/vector-icons';
 
 
 const UserBidMessage = ({ bidDetails }) => {
@@ -53,7 +53,7 @@ const UserBidMessage = ({ bidDetails }) => {
             <Image
               source={{ uri: userDetails.pic }}
               style={{ width: 40, height: 40, borderRadius: 20 }}
-              // className="w-[40px] h-[40px] rounded-full"
+            // className="w-[40px] h-[40px] rounded-full"
             />
           </View>
           <View className="w-[60%]">
@@ -148,17 +148,17 @@ const UserBidMessage = ({ bidDetails }) => {
           </Modal>
         </ScrollView>
       )}
-       <View className="gap-[4px]">
+      <View className="gap-[4px]">
         <View className="flex-row gap-[5px]">
           <Text style={{ fontFamily: "Poppins-Medium" }}>Expected Price: </Text>
           <Text className=" text-[#79B649]" style={{ fontFamily: "Poppins-SemiBold" }}>
             Rs. {bidDetails.bidPrice}
           </Text>
         </View>
-        </View>
-        
+      </View>
+
       <View className="gap-[4px]">
-       
+
 
         {bidDetails?.bidAccepted === "rejected" && (
           <View className="flex-row items-center gap-1">
@@ -190,34 +190,34 @@ const UserBidMessage = ({ bidDetails }) => {
 export default UserBidMessage;
 
 const styles = StyleSheet.create({
-    modalContainer: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "rgba(0, 0, 0, 0.7)",
-    },
-    modalImage: {
-      width: 300,
-      height: 400,
-      borderRadius: 10,
-    },
-    closeButton: {
-      position: "absolute",
-      top: 20,
-      right: 20,
-    },
-    progressContainer: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "rgba(0,0,0,0.5)",
-    },
-    progressText: {
-      color: "white",
-      fontSize: 16,
-    },
-  });
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+  },
+  modalImage: {
+    width: 300,
+    height: 400,
+    borderRadius: 10,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 20,
+    right: 20,
+  },
+  progressContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  progressText: {
+    color: "white",
+    fontSize: 16,
+  },
+});
