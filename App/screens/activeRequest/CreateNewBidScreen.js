@@ -81,11 +81,11 @@ const CreateNewBidScreen = () => {
     formData.append('chat', details._id);
     formData.append('bidPrice', price);
     await axios
-      .post("http://192.168.51.192:5000/chat/send-message", formData, {
+      .post("http://173.212.193.109:5000/chat/send-message", formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       .then(async (res) => {
-        console.log(res);
+        console.log(res.data);
         // const mess = [...messages];
         // mess.push(res.data);
         // setMessages(mess);
@@ -113,7 +113,7 @@ const CreateNewBidScreen = () => {
           title: userDetails?.userName,
           body: query,
           price: price,
-          image: requestImages.length > 0 ? requestImages[0] : "",
+          image: res.data?.bidImages?.length > 0 ? res.data?.bidImages[0] : "",
           requestInfo: {
             requestId: details?.requestId?._id,
             userId: details?.users[0]._id

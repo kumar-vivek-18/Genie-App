@@ -6,6 +6,7 @@ import {
   ScrollView,
   Animated,
   Pressable,
+  Modal,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import DPIcon from "../../assets/DPIcon.svg";

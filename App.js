@@ -1,6 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, TextInput } from 'react-native';
-import { NavigationContainer } from "@react-navigation/native";
+// import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, TextInput, StatusBar } from 'react-native';
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import GlobalNavigation from './App/navigation/appNavigation';
 import './global.css';
 import { Provider, useDispatch } from 'react-redux';
@@ -18,6 +18,7 @@ import * as Notifications from 'expo-notifications';
 
 
 export default function App() {
+  
   let [fontsLoaded] = useFonts(
     {
       'Poppins-Regular': require('./App/assets/fonts/Poppins-Regular.ttf'),
@@ -46,6 +47,7 @@ export default function App() {
       const notification= await Notifications.requestPermissionsAsync();
       console.log("status notification", notification);
 
+
     })();
   }, []);
 
@@ -60,6 +62,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer ref={(ref) => navigationService.setTopLevelNavigator(ref)} >
         <GlobalNavigation />
+        {/* <StatusBar style="auto" /> */}
       </NavigationContainer>
     </Provider>
   );

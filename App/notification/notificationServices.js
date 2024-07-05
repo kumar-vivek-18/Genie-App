@@ -9,58 +9,58 @@ import notifee, { EventType, AndroidImportance, AndroidStyle } from '@notifee/re
 // import * as Clipboard from 'expo-clipboard';
 
 async function onDisplayNotification(remoteMessage) {
-        // Request permissions (required for iOS)
-        await notifee.requestPermission()
-       
-        const channelId = await notifee.createChannel({
-          id: 'default',
-          name: 'chat',
-        });
-    
-      
+  // Request permissions (required for iOS)
+  await notifee.requestPermission();
+  console.log("notification detail",remoteMessage)
 
-    // Create a channel (required for Android)
-  
 
-    // Display a notification
-    await notifee.displayNotification({
-        title: remoteMessage.notification.title,
-        body: remoteMessage.notification.body,
-        android: {
-            channelId,
-            largeIcon: 'https://my-cdn.com/users/123456.png',
+  const channelId = await notifee.createChannel({
+    id: "default",
+    name: "chat",
+    importance: AndroidImportance.HIGH,
+  });
 
-            // smallIcon: 'ic_launcher',
+  // Display a notification
+  await notifee.displayNotification({
+    title: remoteMessage.notification.title,
+    body: remoteMessage.notification.body,
+    android: {
+      channelId,
+      pressAction: {
+        id: "default",
+        launchActivity: remoteMessage?.data?.requestInfo,
+      },
+      importance: AndroidImportance.HIGH,
+      ...(remoteMessage?.notification?.android?.imageUrl ? {largeIcon:remoteMessage?.notification?.android?.imageUrl  } : {}),
+      timestamp: Date.now(),
+      ...(remoteMessage?.notification?.android?.imageUrl ? { style: { type: AndroidStyle.BIGPICTURE, picture:remoteMessage?.notification?.android?.imageUrl } } : {}),
+    },
+  });
+  return notifee.onForegroundEvent(({ type, detail }) => {
+    switch (type) {
+      case EventType.DISMISSED:
+        // console.log('User dismissed notification', detail.notification);
+        break;
+      case EventType.PRESS:
+        setTimeout(() => {
+          // console.log("pressed",remoteMessage?.data)
+          // const req=JSON.parse(remoteMessage?.data?.requestInfo);
+          // console.log("data",req)
+          // const reqt = detail.notification?.android?.pressAction?.launchActivity;
+          // console.log("pressed", reqt);
 
-            // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
-            // pressAction is needed if you want the notification to open the app when pressed
+          // // Assuming requestInfo is stored in the notification data
+          // const req = JSON.parse(reqt);
+          // console.log("data", req);
+         
 
-            pressAction: {
-                id: 'default',
-            },
-            importance: AndroidImportance.HIGH, 
-            // style: { type: AndroidStyle.BIGPICTURE, picture: remoteMessage?.notification?.android?.image },
-            
-        
-          },
-        });
-      
-    return notifee.onForegroundEvent(({ type, detail }) => {
-        switch (type) {
-            case EventType.DISMISSED:
-
-                // console.log('User dismissed notification', detail.notification);
-                break;
-            case EventType.PRESS:
-                setTimeout(() => {
-
-                    console.log("pressed",remoteMessage?.data)
-                    navigationService.navigate("home",{ data: remoteMessage?.data })
-
-                }, 1200);
-                break;
-        }
-    });
+          setTimeout(() => {
+          navigationService.navigate(`home`);
+        }, 200);
+        }, 1200);
+        break;
+    }
+  });
 }
 export async function notificationListeners() {
     messaging().getInitialNotification().then(async (remoteMessage) => {

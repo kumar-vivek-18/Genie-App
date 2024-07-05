@@ -132,7 +132,7 @@ const RequestPreviewScreen = () => {
           token: response.data.uniqueTokens,
           title: userDetails?.userName,
           body: requestDetail,
-          image: requestImages.length > 0 ? requestImages[0] : "",
+          image: response.data?.userRequest?.requestImages?.length > 0 ? response.data?.userRequest?.requestImages[0] : "",
           userRequest: response.data.userRequest._id
         };
 

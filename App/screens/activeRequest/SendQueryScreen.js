@@ -135,6 +135,7 @@ const SendQueryScreen = () => {
           token: [token.data],
           title: userDetails?.userName,
           body: query,
+          image:"",
           requestInfo: {
             requestId: details?.requestId?._id,
             userId: details?.users[0]._id

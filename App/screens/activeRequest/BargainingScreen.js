@@ -541,23 +541,23 @@ const BargainingScreen = () => {
                                 <Text className="text-center text-[14px] px-[32px]" style={{ fontFamily: "Poppins-Regular" }}>If you don’t like the shopkeeper's offer, select 'no' and send a query for clarification.</Text>
                             </View>
                             <View className="flex-row">
-                                <View className="w-1/2 flex-row justify-center bg-[#fb8c00]">
+                                {/* <View className="w-1/2 flex-row justify-center bg-[#fb8c00]"> */}
 
 
-                                    <TouchableOpacity onPress={() => { setModalVisibile(true) }} >
+                                    <TouchableOpacity onPress={() => { setModalVisibile(true) }} style={{width:"50%",justifyContent:"center",backgroundColor:"#fb8c00"}}>
                                         <View className="w-full py-[10px]  ">
-                                            <Text className="text-[14px] text-white " style={{ fontFamily: "Poppins-Black" }}>Yes</Text>
+                                            <Text className="text-[14px] text-white text-center" style={{ fontFamily: "Poppins-Black" }}>Yes</Text>
                                         </View>
                                     </TouchableOpacity>
-                                </View>
-                                <View className="w-1/2 border-2 border-[#fb8c00] flex-row justify-center">
-                                    <TouchableOpacity onPress={() => { rejectBid() }} >
-                                        <View className="w-full flex-row  py-[10px]  gap-[5px]">
+                          
+                               
+                                    <TouchableOpacity onPress={() => { rejectBid() }} style={{width:"50%",justifyContent:"center",borderColor:"#fb8c00",borderWidth:2}}>
+                                        <View className="w-full py-[10px]">
 
-                                            <Text className="text-[14px] text-[#fb8c00]  " style={{ fontFamily: "Poppins-Regular" }}>No</Text>
+                                            <Text className="text-[14px] text-[#fb8c00] text-center " style={{ fontFamily: "Poppins-Black" }}>No</Text>
                                         </View>
                                     </TouchableOpacity>
-                                </View>
+                             
                             </View>
 
                         </View>}

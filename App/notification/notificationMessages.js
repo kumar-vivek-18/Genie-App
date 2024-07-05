@@ -20,7 +20,7 @@ export const NewRequestCreated = async (mess) => {
             notification: {
                 title: `${mess.title} has requested for`,
                 body: mess.body,
-                image: mess?.image
+                image: mess?.image 
             },
             android: {
                 priority: "high",
@@ -236,7 +236,7 @@ export const newMessageSend = async (mess) => {
             notification: {
                 title: mess?.title,
                 body: mess?.body,
-                image: ""
+                image:mess?.image
             },
             android: {
                 priority: "high",

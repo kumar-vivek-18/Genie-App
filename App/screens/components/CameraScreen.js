@@ -81,7 +81,7 @@ const CameraScreen = () => {
 
         // console.log('attachment form data', formData._parts);
 
-        await axios.post('http://192.168.51.192:5000/chat/send-message', formData, {
+        await axios.post('http://173.212.193.109:5000/chat/send-message', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -112,7 +112,7 @@ const CameraScreen = () => {
                     token: [token.data],
                     title: userDetails?.userName,
                     body: query,
-                    image: imageUri,
+                    image:res.data.bidImages[0],
                     requestInfo: {
                         requestId: details?.requestId?._id,
                         userId: details?.users[0]._id

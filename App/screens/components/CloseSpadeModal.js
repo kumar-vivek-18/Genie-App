@@ -27,21 +27,39 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                 }
             });
             console.log("close notification", token.data, spade._id, spade.requestAcceptedChat);
-
-            await axios
-                .post("http://173.212.193.109:5000/chat/send-message", {
-                    sender: {
-                        type: "UserRequest",
-                        refId: spade._id,
-                    },
-                    message: "Customer close the chat",
-                    userRequest: spade._id,
-                    bidType: "update",
-                    bidPrice: 0,
-                    bidImages: [],
-                    chat: spade.requestAcceptedChat,
-                    warranty: 0,
-                })
+            // console.log("token", token.data);
+            const formData = new FormData();
+             
+          
+              formData.append('sender', JSON.stringify({  type: "UserRequest",
+                refId: spade._id,}));
+              formData.append('userRequest', spade._id);
+              formData.append('message', "Customer close the chat");
+              formData.append('bidType', "update");
+              formData.append('chat',spade.requestAcceptedChat);
+              formData.append('bidPrice',0);
+              formData.append('warranty',0);
+              formData.append('bidImages',[]);
+            // await axios
+            //     .post("http://173.212.193.109:5000/chat/send-message", {
+            //         sender: {
+            //             type: "UserRequest",
+            //             refId: spade._id,
+            //         },
+            //         message: "Customer close the chat",
+            //         userRequest: spade._id,
+            //         bidType: "update",
+            //         bidPrice: 0,
+            //         bidImages: [],
+            //         chat: spade.requestAcceptedChat,
+            //         warranty: 0,
+            //     })
+            await axios.post(
+                "http://173.212.193.109:5000/chat/send-message",
+                formData, {
+                  headers: { 'Content-Type': 'multipart/form-data' }
+                }
+              )
                 .then(async (res) => {
                     console.log('spade closed mess send successfully', res.status);
                     socket.emit("new message", res.data);
@@ -74,7 +92,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                                   }
                             }
                             console.log("close notification", token)
-                            await sendCloseSpadeNotification(notification);
+                             sendCloseSpadeNotification(notification);
 
                         }
                         // Send Notification to reatiler 
