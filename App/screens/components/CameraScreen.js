@@ -55,85 +55,93 @@ const CameraScreen = () => {
     const [loading, setLoading] = useState(false);
 
     const sendAttachment = async () => {
-        console.log('Sending attachment to user');
-        setLoading(true);
-        const token = await axios.get(
-            "http://173.212.193.109:5000/retailer/unique-token",
-            {
-                params: {
-                    id: details?.retailerId?._id,
-                },
-            }
-        );
-        console.log('token of user', token.data);
-        const formData = new FormData();
-        // imageUri.forEach((uri, index) => {
-        formData.append('bidImages', {
-            uri: imageUri,  // Correctly use the URI property from ImagePicker result
-            type: 'image/jpeg', // Adjust this based on the image type
-            name: `photo-${Date.now()}.jpg`,
-        });        // });
+        try {
 
-        formData.append('sender', JSON.stringify({ type: 'UserRequest', refId: details.requestId }));
-        formData.append('userRequest', currentSpade._id);
-        formData.append('message', query && query.length > 0 ? query : "");
-        formData.append('bidType', "false");
-        formData.append('chat', details._id);
-        formData.append('bidPrice', 0);
 
-        // console.log('attachment form data', formData._parts);
-
-        await axios.post('http://173.212.193.109:5000/chat/send-message', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        })
-            .then(async (res) => {
-                console.log('send message', res.data);
-                const data = formatDateTime(res.data.createdAt);
-                res.data.createdAt = data.formattedTime;
-
-                //updating messages
-                setMessages([...messages, res.data]);
-                setLoading(false);
-                //updating chat latest message
-                const updateChat = {
-                    ...currentSpadeRetailer,
-                    unreadCount: 0,
-                    latestMessage: { _id: res.data._id, message: res.data.message, bidType: "false", sender: { type: 'UserRequest', refId: currentSpade._id } },
-                };
-                const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
-                dispatch(setCurrentSpadeRetailers(updatedRetailers));
-                dispatch(setCurrentSpadeRetailer(updateChat));
-
-                setQuery("");
-                socket.emit("new message", res.data);
-
-                navigation.navigate("bargain");
-                const notification = {
-                    token: [token.data],
-                    title: userDetails?.userName,
-                    body: query,
-                    image:res.data.bidImages[0],
-                    requestInfo: {
-                        requestId: details?.requestId?._id,
-                        userId: details?.users[0]._id
-                      }
-                };
-                await AttachmentSend(notification);
-
-                const idx = spades.findIndex(spade => spade._id === res.data.userRequest);
-                if (idx !== 0) {
-                    let data = spades.filter(spade => spade._id === res.data.userRequest);
-                    let data2 = spades.filter(spade => spade._id !== res.data.userRequest);
-                    const spadeData = [...data, ...data2]
-                    dispatch(setSpades(spadeData));
+            console.log('Sending attachment to user');
+            setLoading(true);
+            const token = await axios.get(
+                "http://173.212.193.109:5000/retailer/unique-token",
+                {
+                    params: {
+                        id: details?.retailerId?._id,
+                    },
                 }
+            );
+            console.log('token of user', token.data);
+            const formData = new FormData();
+            // imageUri.forEach((uri, index) => {
+            formData.append('bidImages', {
+                uri: imageUri,  // Correctly use the URI property from ImagePicker result
+                type: 'image/jpeg', // Adjust this based on the image type
+                name: `photo-${Date.now()}.jpg`,
+            });        // });
+
+            formData.append('sender', JSON.stringify({ type: 'UserRequest', refId: details.requestId }));
+            formData.append('userRequest', currentSpade._id);
+            formData.append('message', query && query.length > 0 ? query : "");
+            formData.append('bidType', "false");
+            formData.append('chat', details._id);
+            formData.append('bidPrice', 0);
+
+            // console.log('attachment form data', formData._parts);
+
+            await axios.post('http://173.212.193.109:5000/chat/send-message', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
             })
-            .catch((err) => {
-                setLoading(false);
-                console.log(err);
-            });
+                .then(async (res) => {
+                    console.log('send message', res.data);
+                    const data = formatDateTime(res.data.createdAt);
+                    res.data.createdAt = data.formattedTime;
+
+                    //updating messages
+                    setMessages([...messages, res.data]);
+                    setLoading(false);
+                    //updating chat latest message
+                    const updateChat = {
+                        ...currentSpadeRetailer,
+                        unreadCount: 0,
+                        latestMessage: { _id: res.data._id, message: res.data.message, bidType: "false", sender: { type: 'UserRequest', refId: currentSpade._id } },
+                    };
+                    const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
+                    dispatch(setCurrentSpadeRetailers(updatedRetailers));
+                    dispatch(setCurrentSpadeRetailer(updateChat));
+
+                    setQuery("");
+                    socket.emit("new message", res.data);
+
+                    navigation.navigate("bargain");
+                    const notification = {
+                        token: [token.data],
+                        title: userDetails?.userName,
+                        body: query,
+                        image: res.data.bidImages[0],
+                        requestInfo: {
+                            requestId: details?.requestId?._id,
+                            userId: details?.users[0]._id
+                        }
+                    };
+                    await AttachmentSend(notification);
+
+                    const idx = spades.findIndex(spade => spade._id === res.data.userRequest);
+                    if (idx !== 0) {
+                        let data = spades.filter(spade => spade._id === res.data.userRequest);
+                        let data2 = spades.filter(spade => spade._id !== res.data.userRequest);
+                        const spadeData = [...data, ...data2]
+                        dispatch(setSpades(spadeData));
+                    }
+                })
+                .catch((err) => {
+                    setLoading(false);
+                    console.log(err);
+                });
+        }
+        catch (error) {
+            setLoading(false);
+            console.error("Error occured while sending attachments", error);
+        }
     };
 
     // const getImageUrl = async (image) => {

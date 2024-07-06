@@ -42,6 +42,7 @@ const BargainingScreen = () => {
     // const [acceptModal, setAcceptModal] = useState(false);
     const [modalVisible, setModalVisibile] = useState(false);
     const [retailerModal, setRetailerModal] = useState(false);
+    const [bidCounts, setBidCounts] = useState(0);
     // console.log('spade details', details);
     const spade = useSelector(store => store.user.currentSpade);
     const spades = useSelector(store => store.user.spades);
@@ -172,6 +173,11 @@ const BargainingScreen = () => {
                 })
                 // console.log('mess', messages);
                 setMessages(res.data);
+                let cnt = 0;
+                res.data.forEach(message => {
+                    if (message.bidType === "true") cnt++;
+                })
+                setBidCounts(cnt);
                 // console.log('mess res', res.data);
                 socket.emit("join chat", res.data[0]?.chat?._id);
 
@@ -233,7 +239,7 @@ const BargainingScreen = () => {
                         requestInfo: {
                             requestId: currentSpadeRetailer?.requestId?._id,
                             userId: currentSpadeRetailer?.users[0]._id
-                          }
+                        }
                     }
                     await BidAccepted(notification);
                     console.log('bid accepted');
@@ -297,7 +303,7 @@ const BargainingScreen = () => {
                 requestInfo: {
                     requestId: currentSpadeRetailer?.requestId?._id,
                     userId: currentSpadeRetailer?.users[0]._id
-                  }
+                }
             }
             await BidRejected(notification);
 
@@ -426,8 +432,8 @@ const BargainingScreen = () => {
                         </View>
                     }
                     <View className="z-50 w-full flex flex-row absolute justify-between items-center  top-[40px]">
-                        <TouchableOpacity onPress={() => { navigation.goBack();}} style={{padding:16,paddingLeft:30,zIndex:50}}>
-                                    <ArrowLeft />
+                        <TouchableOpacity onPress={() => { navigation.goBack(); }} style={{ padding: 16, paddingLeft: 30, zIndex: 50 }}>
+                            <ArrowLeft />
                         </TouchableOpacity>
 
                         {/* <Pressable onPress={() => { }}>
@@ -502,9 +508,16 @@ const BargainingScreen = () => {
                                         </View>}
 
 
+
+
                                     </View>
                                 ))
-                            }</View>
+                            }
+                            {messages.length === 1 && <View>
+                                <Text className="text-[#fb8c00] mx-[32px] text-center bg-[#ffe7c8] px-[50px] py-[10px] rounded-full" style={{ fontFamily: "Poppins-Bold" }}>Request Accepted, Start bidding now</Text>
+                            </View>}
+                        </View>
+
                     </ScrollView>
 
 
@@ -529,7 +542,7 @@ const BargainingScreen = () => {
                             </TouchableOpacity>
                         </View>}
 
-                        {((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === 'rejected' && spade?.requestActive === "active") || (spade?.requestActive === "active" && messages[messages?.length - 1]?.bidType === "false")) && <TouchableOpacity onPress={() => { navigation.navigate('send-bid', { messages, setMessages }); dispatch(emtpyRequestImages([])); }}>
+                        {bidCounts > 0 && ((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === 'rejected' && spade?.requestActive === "active") || (spade?.requestActive === "active" && messages[messages?.length - 1]?.bidType === "false")) && <TouchableOpacity onPress={() => { navigation.navigate('send-bid', { messages, setMessages }); dispatch(emtpyRequestImages([])); }}>
                             <View className="w-full h-[68px]  bg-[#fb8c00] justify-center  bottom-0 left-0 right-0">
                                 <Text className="text-white  text-center text-[16px]" style={{ fontFamily: "Poppins-Black" }}>Send a new bargaining bid</Text>
                             </View>
@@ -544,23 +557,33 @@ const BargainingScreen = () => {
                                 {/* <View className="w-1/2 flex-row justify-center bg-[#fb8c00]"> */}
 
 
-                                    <TouchableOpacity onPress={() => { setModalVisibile(true) }} style={{width:"50%",justifyContent:"center",backgroundColor:"#fb8c00"}}>
-                                        <View className="w-full py-[10px]  ">
-                                            <Text className="text-[14px] text-white text-center" style={{ fontFamily: "Poppins-Black" }}>Yes</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                          
-                               
-                                    <TouchableOpacity onPress={() => { rejectBid() }} style={{width:"50%",justifyContent:"center",borderColor:"#fb8c00",borderWidth:2}}>
-                                        <View className="w-full py-[10px]">
+                                <TouchableOpacity onPress={() => { setModalVisibile(true) }} style={{ width: "50%", justifyContent: "center", backgroundColor: "#fb8c00" }}>
+                                    <View className="w-full py-[10px]  ">
+                                        <Text className="text-[14px] text-white text-center" style={{ fontFamily: "Poppins-Black" }}>Yes</Text>
+                                    </View>
+                                </TouchableOpacity>
 
-                                            <Text className="text-[14px] text-[#fb8c00] text-center " style={{ fontFamily: "Poppins-Black" }}>No</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                             
+
+                                <TouchableOpacity onPress={() => { rejectBid() }} style={{ width: "50%", justifyContent: "center", borderColor: "#fb8c00", borderWidth: 2 }}>
+                                    <View className="w-full py-[10px]">
+
+                                        <Text className="text-[14px] text-[#fb8c00] text-center " style={{ fontFamily: "Poppins-Black" }}>No</Text>
+                                    </View>
+                                </TouchableOpacity>
+
                             </View>
 
                         </View>}
+                        {
+                            (messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "new" && messages[messages?.length - 1]?.sender?.type === "UserRequest") && <View className="w-screen h-[68px]  justify-center absolute bottom-[20px] left-0 right-0">
+
+                                <View className="bg-[#ffe7c8] mx-[16px] h-[68px] flex-row items-center justify-center rounded-full">
+
+
+                                    <Text className="text-[#fb8c00] text-center text-[14px]" style={{ fontFamily: "Poppins-Black" }}>Waiting for retailers response..... </Text>
+                                </View>
+                            </View>
+                        }
                     </View>
                 </View>}
             </View>}

@@ -18,7 +18,7 @@ import * as Notifications from 'expo-notifications';
 
 
 export default function App() {
-  
+
   let [fontsLoaded] = useFonts(
     {
       'Poppins-Regular': require('./App/assets/fonts/Poppins-Regular.ttf'),
@@ -44,7 +44,7 @@ export default function App() {
   useEffect(() => {
     (async () => {
       // const media = await MediaLibrary.requestPermissionsAsync();
-      const notification= await Notifications.requestPermissionsAsync();
+      const notification = await Notifications.requestPermissionsAsync();
       console.log("status notification", notification);
 
 
@@ -62,7 +62,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer ref={(ref) => navigationService.setTopLevelNavigator(ref)} >
         <GlobalNavigation />
-        {/* <StatusBar style="auto" /> */}
+        <StatusBar backgroundColor="#FB8C00" />
       </NavigationContainer>
     </Provider>
   );

@@ -186,12 +186,16 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
         //     </View>
         // </View>
 
-        <View style={{ zIndex: 100, flex: 1, position: 'relative' }} className="flex flex-col absolute top-0 bottom-0 left-0 right-0 z-50 h-screen ">
-            <TouchableOpacity onPress={() => setAttachmentScreen(false)}>
+        <View style={{ flex: 1 }} >
+            {/* <TouchableOpacity onPress={() => setAttachmentScreen(false)}>
                 <View className="w-screen bg-transparent flex-1" />
+            </TouchableOpacity> */}
+            <TouchableOpacity onPress={() => { setAttachmentScreen(false) }}>
+                <View className="h-full w-screen " style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}  >
+                </View>
             </TouchableOpacity>
-            <View style={{ position: 'absolute', bottom: 180, left: 0, right: 0, backgroundColor: 'white' }} className="py-[20px] gap-5">
-                <View className="flex-row justify-evenly">
+            <View style={{ zIndex: 100 }} className="bg-white absolute bottom-[180px] left-0 right-0 ">
+                <View className="flex-row justify-evenly py-[20px]">
                     <View className="items-center">
                         <Document />
                         <Text style={{ fontFamily: 'Poppins-Regular' }}>Document</Text>
