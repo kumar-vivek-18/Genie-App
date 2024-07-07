@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Image, ScrollView } from 'react-native'
+import { View, Text, Pressable, Image, ScrollView, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import ArrowLeft from '../../assets/arrow-left.svg';
@@ -11,11 +11,11 @@ const ViewRequestScreen = () => {
     const spade = useSelector(store => store.user.currentSpade);
 
     return (
-        <View style={{ flex: 1 , backgroundColor: "white"}}>
-            <View className=" flex z-40 flex-row items-center justify-center mt-[40px] mb-[24px] mx-[36px]">
-                <Pressable onPress={() => navigation.goBack()} >
+        <View style={{ flex: 1, backgroundColor: "white" }}>
+            <View className=" flex z-40 flex-row items-center justify-center mt-[20px] mb-[24px] mx-[16px] mr-[36px]">
+                <TouchableOpacity style={{ paddingHorizontal: 20, paddingVertical: 10 }} onPress={() => navigation.goBack()} >
                     <ArrowLeft />
-                </Pressable>
+                </TouchableOpacity>
                 <Text className="flex flex-1 justify-center items-center text-center text-[16px]" style={{ fontFamily: "Poppins-SemiBold" }}>View Request</Text>
                 <Pressable onPress={() => { navigation.navigate('requestpreview'); }}>
                     <Text className="text-[14px]"></Text>

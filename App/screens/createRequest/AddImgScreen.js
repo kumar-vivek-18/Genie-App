@@ -194,7 +194,7 @@ const AddImageScreen = () => {
       {!cameraScreen && (
         <View edges={["top", "bottom"]} style={{ flex: 1, backgroundColor: "white" }}>
           <View style={{ flex: 1 }}>
-            <View className=" flex  mt-[40px] flex-row  items-center  px-[32px]">
+            <View className=" flex  mt-[20px] flex-row  items-center  px-[32px]">
               <Pressable onPress={() => navigation.goBack()} className="px-[8px] py-[20px] ">
                 <BackArrow width={14} height={10} />
               </Pressable>

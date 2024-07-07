@@ -54,12 +54,12 @@ const RequestEntry = () => {
     return (
         <View style={{ flex: 1, backgroundColor: "white" }}>
             <View style={{ flex: 1 }}>
-                <TouchableOpacity onPress={() => { navigation.goBack(); console.log('HIIII') }} style={{ zIndex: 100, position: 'absolute', marginTop: 60 }}>
+                <TouchableOpacity onPress={() => { navigation.goBack(); }} style={{ zIndex: 100, position: 'absolute', marginTop: 20 }}>
                     <View className="  px-[32px] py-[15px] ">
                         <BackArrow width={14} height={10} />
                     </View>
                 </TouchableOpacity>
-                <View className="flex-row justify-center mt-[40px] mb-[10px] ">
+                <View className="flex-row justify-center mt-[20px] mb-[10px] ">
                     <Genie width={35} height={52} />
                 </View>
                 <Text className="text-[14.5px]  text-[#FB8C00] text-center mb-[10px] " style={{ fontFamily: "Poppins-Medium" }}>

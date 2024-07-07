@@ -29,19 +29,19 @@ const TermsandConditons = () => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView style={{ flex: 1 }} className="relative">
-        <View className="z-50 absolute mt-[30px] left-[20px]">
+        <View className="z-50 absolute mt-[20px] left-[20px]">
           <TouchableOpacity
             onPress={() => {
               navigation.goBack();
             }}
-            style={{ padding: 18 }}
+            style={{ padding: 10 }}
           >
             <BackArrow width={14} height={10} />
           </TouchableOpacity>
         </View>
 
         <Text
-          className="text-center pt-[42px] text-[16px] mb-[40px]"
+          className="text-center pt-[20px] text-[16px] mb-[40px]"
           style={{ fontFamily: "Poppins-Bold" }}
         >
           Terms and Conditions
@@ -51,7 +51,7 @@ const TermsandConditons = () => {
           <View className="gap-[0px] ">
             <Text
               className="text-[16px]  text-center"
-              style={{ fontFamily: "Poppins-Bold" ,color:"#001B33"}}
+              style={{ fontFamily: "Poppins-Bold", color: "#001B33" }}
             >
               Instructions First
             </Text>
@@ -63,14 +63,14 @@ const TermsandConditons = () => {
             </Text>
             <Text
               className="text-[14px] text-center mb-[20px]"
-              style={{ fontFamily: "Poppins-Regular",color:"#3F3D56" }}
+              style={{ fontFamily: "Poppins-Regular", color: "#3F3D56" }}
             >
               Be sure to provide clear and accurate information about the items
               or services you are seeking.
             </Text>
             <Text
               className="text-[16px] text-center mt-[10px]"
-              style={{ fontFamily: "Poppins-Bold",color:"#3F3D56" }}
+              style={{ fontFamily: "Poppins-Bold", color: "#3F3D56" }}
             >
               Type your message clearly first
             </Text>
@@ -80,14 +80,14 @@ const TermsandConditons = () => {
             <GenieIcon />
             <Text
               className="text-center text-[16px]"
-              style={{ fontFamily: "Poppins-Bold" ,color:"#2E2C43"}}
+              style={{ fontFamily: "Poppins-Bold", color: "#2E2C43" }}
             >
               Type your Spade
             </Text>
 
             <Text
               className="text-center text-[14px] "
-              style={{ fontFamily: "Poppins-Regular",color:"#2E2C43" }}
+              style={{ fontFamily: "Poppins-Regular", color: "#2E2C43" }}
             >
               Ex: My laptop charger get damaged / I want a 55 inch screen tv !
             </Text>
@@ -96,7 +96,7 @@ const TermsandConditons = () => {
           <View className="gap-[24px] items-center">
             <Text
               className="text-center text-[16px] "
-              style={{ fontFamily: "Poppins-Black",color:"#3F3D56" }}
+              style={{ fontFamily: "Poppins-Black", color: "#3F3D56" }}
             >
               Provide the exact image reference to the shopkeepers for a better
               understanding of your need.
@@ -108,14 +108,14 @@ const TermsandConditons = () => {
           <View className="gap-[20px] items-center">
             <Text
               className="text-center text-[16px] "
-              style={{ fontFamily: "Poppins-Bold",color:"#3F3D56" }}
+              style={{ fontFamily: "Poppins-Bold", color: "#3F3D56" }}
             >
               Kindly inform the sellers about your expected price.
             </Text>
 
             <Text
               className="text-center text-[14px] "
-              style={{ fontFamily: "Poppins-Regular",color:"#3F3D56" }}
+              style={{ fontFamily: "Poppins-Regular", color: "#3F3D56" }}
             >
               Try to complete your research on the prices of shopping items
               before submitting your request
@@ -132,14 +132,14 @@ const TermsandConditons = () => {
           <View className="gap-[20px]">
             <Text
               className="text-center text-[16px]"
-              style={{ fontFamily: "Poppins-Bold" ,color:"#3F3D56"}}
+              style={{ fontFamily: "Poppins-Bold", color: "#3F3D56" }}
             >
               Terms for requests
             </Text>
 
             <View style={styles.listItem}>
               <Text style={styles.dot}></Text>
-              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16,color:"#3F3D56" }}>
+              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#3F3D56" }}>
                 {" "}
                 Your first 5 spades are free! After that,each spade will cost 20
                 rupees.
@@ -147,21 +147,21 @@ const TermsandConditons = () => {
             </View>
             <View style={styles.listItem}>
               <Text style={styles.dot}></Text>
-              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16,color:"#3F3D56" }}>
+              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#3F3D56" }}>
                 {" "}
                 If the shopkeepers don't accept your request, there won't be any charge.
               </Text>
             </View>
             <View style={styles.listItem}>
               <Text style={styles.dot}></Text>
-              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16 ,color:"#3F3D56"}}>
+              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#3F3D56" }}>
                 {" "}
                 If you encounter any issues, please report your concerns to us.
               </Text>
             </View>
             <View style={styles.listItem}>
               <Text style={styles.dot}></Text>
-              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16,color:"#3F3D56" }}>
+              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#3F3D56" }}>
                 {" "}
                 Shopkeepers will list their store for home delivery, You can choose specific shops or service providers based on your delivery requirements.
               </Text>

@@ -332,7 +332,7 @@ const RequestDetail = () => {
                 <ScrollView style={{ flex: 1 }} className="relative">
                     <View style={{ flex: 1, position: 'relative' }} className="relative">
 
-                        <View className="z-50 w-full flex flex-row px-[9px] absolute justify-between items-center top-[30px]">
+                        <View className="z-50 w-full flex flex-row px-[9px] absolute justify-between items-center top-[20px]">
 
 
                             <TouchableOpacity onPress={() => { navigation.goBack(); }} style={{ padding: 4 }}>
@@ -363,7 +363,7 @@ const RequestDetail = () => {
                             </TouchableOpacity>
                         </View>}
 
-                        <View className="bg-[#ffe7c8] px-[64px] py-[30px] pt-[40px]">
+                        <View className="bg-[#ffe7c8] px-[64px] py-[30px] pt-[20px]">
                             <Text className="text-[16px] " style={{ fontFamily: "Poppins-Bold" }}>Request for</Text>
                             <View className=" flex-row">
                                 <Text className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestCategory}</Text>

@@ -24,7 +24,8 @@ import { Camera } from "expo-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScrollView } from "react-native";
 import Cross from "../../assets/goldenCross.svg"
-import EditIcon from "../../assets/editIcon.svg"
+import EditIcon from "../../assets/editIcon.svg";
+import BackArrow from "../../assets/BackArrowImg.svg"
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
@@ -228,7 +229,7 @@ const ProfileScreen = () => {
 
     <View style={{ flex: 1, backgroundColor: "white" }} className="relative">
       <ScrollView >
-        <View className="mt-[42px]">
+        <View className="mt-[20px]">
           <Text
             className="text-center text-[16px]"
             style={{ fontFamily: "Poppins-Bold" }}
@@ -237,14 +238,15 @@ const ProfileScreen = () => {
           </Text>
         </View>
 
-        <View className="absolute mt-[30px] right-[30px]">
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-            }}
-            style={{ padding: 16 }}
+
+        <View className="z-50 absolute top-[4px] left-[20px] ">
+          <TouchableOpacity onPress={() => { navigation.goBack(); }}
           >
-            <Cross />
+            <View className="p-[20px]">
+              <BackArrow width={14} height={10} />
+
+            </View>
+
           </TouchableOpacity>
         </View>
 

@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Pressable, Platform } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Octicons } from '@expo/vector-icons';
@@ -9,28 +9,10 @@ import BackArrow from "../../assets/BackArrowImg.svg";
 
 import { useDispatch, useSelector } from 'react-redux';
 import { emtpyRequestImages, setRequestCategory } from '../../redux/reducers/userRequestsSlice';
+import axios from 'axios';
 
 
-// const searchData = [
-//     { id: 1, name: 'Miscelleneous' },
-//     { id: 2, name: 'Spare Parts' },
-//     { id: 3, name: 'Mobile Repair' },
-//     { id: 4, name: 'Electronics & Electrical Items' },
-//     { id: 5, name: 'Home Appliances' },
-//     { id: 6, name: 'Furniture' },
-//     { id: 7, name: 'Clothing' },
-//     { id: 8, name: 'Footwear' },
-//     { id: 9, name: 'Health & Beauty' },
-//     { id: 10, name: 'Books & Stationery' },
-//     { id: 11, name: 'Sports & Outdoors' },
-//     { id: 12, name: 'Groceries & Food' },
-//     { id: 13, name: 'Paint & Supplies' },
-//     { id: 14, name: 'Music & Instruments' },
-//     { id: 15, name: 'Jewelry & Accessories' },
-//     { id: 16, name: 'Others' },
-// ];
-
-const RequestCategory = () => {
+const AvailableCategories = () => {
     const dispatch = useDispatch();
     const requestDetail = useSelector(store => store.userRequest.requestDetail);
     const requestCategory = useSelector(store => store.userRequest.requestCategory);
@@ -39,23 +21,53 @@ const RequestCategory = () => {
 
     const navigation = useNavigation();
     const [searchQuery, setSearchQuery] = useState('');
-    const searchData = useSelector(store => store.userRequest.nearByStoresCategory);
-    const [searchResults, setSearchResults] = useState(searchData);
-    const insets = useSafeAreaInsets();
-
+    const [searchResults, setSearchResults] = useState([]);
+    const [searchData, setSearchData] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
+    const userDetails = useSelector(store => store.user.userDetails);
+    const userLongitude = useSelector(store => store.user.userLongitude);
+    const userLatitude = useSelector(store => store.user.userLatitude);
 
+    const fetchNearByStores = useCallback(async () => {
+        try {
+            console.log('User coors', userLongitude, userLatitude, userDetails.longitude, userDetails.latitude);
+            const longitude = userLongitude !== 0 ? userLongitude : userDetails.longitude;
+            const latitude = userLatitude !== 0 ? userLatitude : userDetails.latitude;
+            console.log(longitude, latitude);
+            await axios.get('http://173.212.193.109:5000/retailer/stores-near-me', {
+                params: {
+                    longitude: longitude,
+                    latitude: latitude,
+                }
+            })
+                .then(res => {
+                    const categories = res.data.map((category, index) => {
+                        return { id: index + 1, name: category };
+                    });
 
+                    // Log the categories array to verify
+                    console.log(categories);
+                    // dispatch(setNearByStoresCategory(categories));
+                    setSearchData(categories);
+                    setSearchResults(categories);
+                })
+        } catch (error) {
+            console.error("error while fetching nearby stores", error);
+        }
+    })
 
-    console.log('searchData', searchData);
+    useEffect(() => {
+        fetchNearByStores();
+
+    }, []);
+
     const handleSelectResult = (id) => {
         setSelectedOption(id === selectedOption ? "" : id);
     };
 
     const search = (text) => {
-
         const filteredResults = searchData.filter(
-            (item) => item.name.toLowerCase().includes(text.toLowerCase())
+            (item) => item?.name?.toLowerCase().includes(text?.toLowerCase())
         );
         setSearchResults(filteredResults);
     };
@@ -65,67 +77,39 @@ const RequestCategory = () => {
         search(text);
     };
 
-    const handleSubmit = () => {
 
-        try {
-            if (selectedOption !== null) {
-                dispatch(setRequestCategory(searchData[selectedOption - 1].name));
-                // console.log(selectedOption);
-                // console.log(searchData[selectedOption - 1].name);
-                // console.log(requestCategory);
-
-                navigation.navigate('addimg');
-                dispatch(emtpyRequestImages([]));
-            }
-
-
-        } catch (error) {
-            console.error("Error while selecting category");
-        }
-
-    }
 
     return (
         <View style={styles.container} >
-            <View className=" flex z-40 flex-row items-center  mb-[10px] mr-[60px]">
-                <Pressable onPress={() => navigation.goBack()} className="px-[30px] py-[15px]">
-                    <BackArrow width={14} height={10} />
 
-                </Pressable>
-                <Text className="flex flex-1 justify-center items-center text-center text-[16px]" style={{ fontFamily: "Poppins-ExtraBold" }}>Select Spade Category</Text>
-
-            </View>
             <View className="flex-1 w-full bg-white flex-col  gap-[40px] px-[32px] ">
                 <ScrollView className="flex-1 px-0 mb-[63px] " showsVerticalScrollIndicator={false} >
 
+                    <View className=" flex z-40 flex-row items-center mt-[24px] mb-[10px]">
+                        <Pressable onPress={() => navigation.goBack()} className="px-[10px] py-[15px]">
+                            <BackArrow width={14} height={10} />
 
-                    <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] " style={{ fontFamily: "Poppins-Medium" }}>
-                        Step 2/4
-                    </Text>
+                        </Pressable>
+                        <Text className="flex flex-1 justify-center items-center text-center text-[16px]" style={{ fontFamily: "Poppins-ExtraBold" }}>Select Spade Category</Text>
+
+                    </View>
                     <View className="flex flex-row gap-2 h-[60px]  border-[1px] items-center border-[#000000] rounded-[24px] mb-[20px]">
                         <Octicons name="search" size={19} className="pl-[20px]" />
                         <TextInput
                             placeholder="Search here......."
                             placeholderTextColor="#DBCDBB"
                             value={searchQuery}
-                            onChangeText={handleTextChange}
+                            onChangeText={(val) => handleTextChange(val)}
                             className="flex text-[14px] flex-1"
-                            style={{ fontFamily: "Poppins-Italic", marginLeft: searchQuery.length == 0 ? 64 : 20 }}
+                            style={{ fontFamily: "Poppins-Italic", marginLeft: searchQuery?.length == 0 ? 64 : 20 }}
                         />
                     </View>
                     <View className="px-[10px]">
                         {searchResults?.map((result) => (
-                            <TouchableOpacity
-                                key={result.id}
-                                onPress={() => handleSelectResult(result.id)}
-                            >
-                                <View className="flex flex-row  py-[10px] gap-[30px] items-center">
-                                    <View className={`w-[16px] h-[16px] border-[1px] border-[#fd8c00] items-center ${result.id === selectedOption ? 'bg-[#fd8c00]' : ''}`}>
-                                        {result.id === selectedOption && <Octicons name="check" size={12} color="white" />}
-                                    </View>
-                                    <Text style={{ fontFamily: "Poppins-Regular" }}>{result.name}</Text>
-                                </View>
-                            </TouchableOpacity>
+
+                            <View key={result.id} className="flex flex-row  py-[10px] gap-[30px] items-center">
+                                <Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize">{result.name}</Text>
+                            </View>
                         ))}
                     </View>
                 </ScrollView>
@@ -138,7 +122,7 @@ const RequestCategory = () => {
                         </View>
                     </TouchableOpacity>
                 </View> */}
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={{
                         position: "absolute",
                         bottom: 0,
@@ -163,7 +147,7 @@ const RequestCategory = () => {
                             NEXT
                         </Text>
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
 
         </View>
@@ -175,7 +159,7 @@ const styles = {
         flex: 1,
         //  marginTop: Platform.OS === 'android' ? 44 : 0, 
         backgroundColor: 'white',
-        paddingTop: 20
+        // paddingTop: 20
     },
 
     nextButton: {
@@ -200,4 +184,4 @@ const styles = {
     },
 };
 
-export default RequestCategory;
+export default AvailableCategories;

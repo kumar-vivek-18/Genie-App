@@ -54,7 +54,7 @@ const BargainingScreen = () => {
     const dispatch = useDispatch();
     const userDetails = useSelector(store => store.user.userDetails || []);
     const scrollViewRef = useRef(null);
-
+    const [options, setOptions] = useState(false);
 
     const userLongitude = useSelector(store => store.user.userLongitude);
     const userLatitude = useSelector(store => store.user.userLatitude)
@@ -438,7 +438,7 @@ const BargainingScreen = () => {
                             <ArrowLeft />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => { }} style={{ padding: 16, paddingRight: 30, zIndex: 50 }}>
+                        <TouchableOpacity onPress={() => { setOptions(true) }} style={{ padding: 16, paddingRight: 30, zIndex: 50 }}>
                             <ThreeDots />
                         </TouchableOpacity>
 
@@ -447,7 +447,7 @@ const BargainingScreen = () => {
 
                     <View className="bg-[#ffe7c8] px-[64px] py-[30px]  pt-[20px] relative">
                         <View className=" flex-row gap-[18px] ">
-                            <TouchableOpacity style={{ backgroundColor: "black", zIndex: 200 }} onPress={() => { navigation.navigate('sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssretailer-profile') }} >
+                            <TouchableOpacity style={{ zIndex: 200 }} onPress={() => { navigation.navigate('sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssretailer-profile') }} >
                                 <View className=" z-50">
                                     <Image
                                         source={{ uri: details.users[0].populatedUser.storeImages[0] ? details.users[0].populatedUser.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
@@ -597,6 +597,15 @@ const BargainingScreen = () => {
             {
                 retailerModal && <RetailerContactDetailModal retailerModal={retailerModal} setRetailerModal={setRetailerModal} />
             }
+            {options && <View className="absolute top-[30px] right-[50px] z-50 bg-white rounded-md">
+
+                <TouchableOpacity onPress={() => { setOptions(false); }}>
+                    <Text className="mx-5 py-3 border-1 border-b-[1px]" style={{ fontFamily: "Poppins-Regular" }}>Rate Shopkeeper</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => { navigation.navigate("help"); setOptions(false) }}>
+                    <Text className="mx-5 py-3" style={{ fontFamily: "Poppins-Regular" }}>Report Shopkeeper</Text>
+                </TouchableOpacity>
+            </View>}
         </>
     )
 }

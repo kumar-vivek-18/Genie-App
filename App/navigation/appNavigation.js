@@ -28,6 +28,7 @@ import RatingAndFeedback from '../screens/Rating&Feedback/RatingAndFeedback';
 import SplashScreen from '../screens/SplashScreen';
 import StoreProfileScreen from '../screens/activeRequest/StoreProfileScreen';
 import Razorpay from '../screens/paymentGateway/Razorpay.js';
+import AvailableCategories from '../screens/components/AvailableCategories';
 const Stack = createNativeStackNavigator();
 const GlobalNavigation = () => {
 
@@ -65,6 +66,7 @@ const GlobalNavigation = () => {
             <Stack.Screen name="camera" component={CameraScreen} />
             <Stack.Screen name="rating-feedback" component={RatingAndFeedback} />
             <Stack.Screen name="retailer-profile" component={StoreProfileScreen} />
+            <Stack.Screen name="available-categories" component={AvailableCategories} />
         </Stack.Navigator>
 
     )

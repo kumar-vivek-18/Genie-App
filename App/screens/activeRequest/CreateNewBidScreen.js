@@ -139,7 +139,7 @@ const CreateNewBidScreen = () => {
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <View style={{ flex: 1 }}>
         <ScrollView className="mb-[100px]">
-          <View className=" flex z-40 flex-row items-center justify-center mt-[40px] mb-[24px] mx-[36px]">
+          <View className=" flex z-40 flex-row items-center justify-center mt-[20px] mb-[24px] mx-[36px]">
             <Pressable onPress={() => navigation.goBack()}>
               <ArrowLeft />
             </Pressable>

@@ -318,7 +318,7 @@ const HomeScreen = () => {
           <HomeScreenBg />
         </View>
 
-        <View className="w-full  flex flex-row px-[29px] justify-between items-center pt-[40px]">
+        <View className="w-full  flex flex-row px-[29px] justify-between items-center pt-[20px]">
           <Pressable onPress={() => navigation.navigate("menu")}>
             <View className="bg-[#fb8c00] w-[42px] h-[42px] rounded-full flex justify-center items-center mx-auto">
               {/* <Image
@@ -370,6 +370,12 @@ const HomeScreen = () => {
             </View>
           </TouchableOpacity>
         </View>
+        <TouchableOpacity onPress={() => { navigation.navigate('available-categories'); }}>
+          <View>
+            <Text className="text-center text-[#fb8c00] border-2 border-[#fb8c00] bg-[#ffe8cd] mx-[20px] rounded-full py-[10px] mt-[20px]" style={{ fontFamily: "Poppins-Regular" }}>Check the available categories in your city.</Text>
+          </View>
+        </TouchableOpacity>
+
 
         <View className=" relative mt-[20px]  w-full flex-row justify-center">
           <GenieLogo />
@@ -481,9 +487,9 @@ const HomeScreen = () => {
                     </View>
 
                     <View className="w-10/12 px-[10px]">
-                    <View className="flex flex-wrap w-[70%] pb-1 ">
-                                          <Text className="text-[14px] w-full flex flex-wrap " style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>
-                                        </View>
+                      <View className="flex flex-wrap w-[70%] pb-1 ">
+                        <Text className="text-[14px] w-full flex flex-wrap " style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>
+                      </View>
 
                       <View style={styles.priceRow}>
                         <Text style={styles.priceText}>Expected Price:</Text>

@@ -123,7 +123,7 @@ const SendQueryScreen = () => {
           token: [token.data],
           title: userDetails?.userName,
           body: query,
-          image:"",
+          image: "",
           requestInfo: {
             requestId: details?.requestId?._id,
             userId: details?.users[0]._id
@@ -153,7 +153,7 @@ const SendQueryScreen = () => {
         contentContainerStyle={{ flexGrow: 1 }}
         className="relative bg-[#ffe7c8] h-full"
       >
-        <View className="z-50 w-full flex flex-row px-[29px] absolute justify-between items-center  top-[50px]">
+        <View className="z-50 w-full flex flex-row px-[29px] absolute justify-between items-center  top-[20px]">
           <Pressable
             onPress={() => {
               navigation.goBack();
@@ -167,7 +167,7 @@ const SendQueryScreen = () => {
           </Pressable>
         </View>
 
-        <View className="bg-[#ffe7c8] px-[64px] py-[30px] pt-[40px] relative">
+        <View className="bg-[#ffe7c8] px-[64px] py-[30px] pt-[20px] relative">
           <View className=" flex-row gap-[18px]">
             <View>
               <Store />

@@ -234,7 +234,7 @@ const PaymentScreen = () => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView contentContainerStyle={{ flex: 1 }}>
-        <View className="flex w-screen mt-[40px]" style={{ flex: 1 }}>
+        <View className="flex w-screen mt-[20px]" style={{ flex: 1 }}>
           <View className="flex flex-row items-center pb-[20px] px-[32px]">
             <Text
               className="text-[16px]  flex-1 text-center"
