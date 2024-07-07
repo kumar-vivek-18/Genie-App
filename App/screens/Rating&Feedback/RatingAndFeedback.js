@@ -12,7 +12,7 @@ const RatingAndFeedback = () => {
     const retailers = useSelector(store => store.user.currentSpadeRetailers);
     const [retailer, setRetailer] = useState();
     const [feedback, setFeedback] = useState("");
-
+    const [rating, setRating] = useState(0);
     // console.log('retailers', retailer);
     // console.log(retailer.users[0]._id)
     const navigation = useNavigation();
@@ -27,11 +27,11 @@ const RatingAndFeedback = () => {
 
     const SubmitFeedback = async () => {
         try {
-
+            if (rating === 0) return;
             console.log(spade.customer, retailer.users[0].refId, rating, feedback);
             await axios.post('http://173.212.193.109:5000/retailer/rating-feedback', {
-                user: spade.customer,
-                retailer: retailer.users[0].refId,
+                sender: { type: "User", refId: spade.customer },
+                user: { type: "Retailer", refId: retailer.users[0].refId },
                 rating: rating,
                 feedback: feedback,
             })
@@ -48,7 +48,7 @@ const RatingAndFeedback = () => {
     }
 
 
-    const [rating, setRating] = useState(0);
+
 
     const handlePress = (star) => {
         setRating(star);

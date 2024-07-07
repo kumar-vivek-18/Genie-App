@@ -336,6 +336,7 @@ const BargainingScreen = () => {
                     const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
                     dispatch(setCurrentSpadeRetailers(updatedRetailers));
                     dispatch(setCurrentSpadeRetailer(updateChat));
+                    if (newMessageReceived.bidType === "true") setBidCounts(bidCounts + 1);
                     if (prevMessages[prevMessages.length - 1]?._id === newMessageReceived?._id) {
                         // Update the last message if it's the same as the new one
                         if (newMessageReceived.bidAccepted === "accepted") {
@@ -349,6 +350,7 @@ const BargainingScreen = () => {
                             })
                             dispatch(setSpades(allSpades));
                         }
+
                         return prevMessages.map(message =>
                             message._id === newMessageReceived._id ? newMessageReceived : message
                         );
@@ -431,21 +433,22 @@ const BargainingScreen = () => {
                             <Attachments setAttachmentScreen={setAttachmentScreen} setCameraScreen={setCameraScreen} messages={messages} setMessages={setMessages} />
                         </View>
                     }
-                    <View className="z-50 w-full flex flex-row absolute justify-between items-center  top-[40px]">
+                    <View className="z-50 w-full flex flex-row absolute justify-between items-center  top-[15px]">
                         <TouchableOpacity onPress={() => { navigation.goBack(); }} style={{ padding: 16, paddingLeft: 30, zIndex: 50 }}>
                             <ArrowLeft />
                         </TouchableOpacity>
 
-                        {/* <Pressable onPress={() => { }}>
+                        <TouchableOpacity onPress={() => { }} style={{ padding: 16, paddingRight: 30, zIndex: 50 }}>
                             <ThreeDots />
-                        </Pressable> */}
+                        </TouchableOpacity>
+
 
                     </View>
 
-                    <View className="bg-[#ffe7c8] px-[64px] py-[30px]  pt-[40px] relative">
-                        <View className=" flex-row gap-[18px]">
-                            <TouchableOpacity onPress={() => { navigation.navigate('retailer-profile') }}>
-                                <View>
+                    <View className="bg-[#ffe7c8] px-[64px] py-[30px]  pt-[20px] relative">
+                        <View className=" flex-row gap-[18px] ">
+                            <TouchableOpacity style={{ backgroundColor: "black", zIndex: 200 }} onPress={() => { navigation.navigate('sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssretailer-profile') }} >
+                                <View className=" z-50">
                                     <Image
                                         source={{ uri: details.users[0].populatedUser.storeImages[0] ? details.users[0].populatedUser.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
                                         style={{ width: 40, height: 40, borderRadius: 20 }}
@@ -454,7 +457,7 @@ const BargainingScreen = () => {
                             </TouchableOpacity>
                             <View>
                                 <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Regular" }}>{details.users ? details?.users[0].populatedUser.storeName : ""}</Text>
-                                <Text className="text-[12px] text-[#c4c4c4]" style={{ fontFamily: "Poppins-Regular" }}>Active 3 hr ago</Text>
+                                <Text className="text-[12px] text-[#79b649]" style={{ fontFamily: "Poppins-Regular" }}>Online</Text>
                             </View>
 
                         </View>
