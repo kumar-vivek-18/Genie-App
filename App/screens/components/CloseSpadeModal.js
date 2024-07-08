@@ -8,6 +8,7 @@ import { setSpades } from '../../redux/reducers/userDataSlice';
 import { sendCloseSpadeNotification } from '../../notification/notificationMessages';
 import { ActivityIndicator } from 'react-native';
 import { socket } from '../../utils/scoket.io/socket';
+import navigationService from '../../navigation/navigationService';
 
 const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => {
     const spade = useSelector(store => store.user.currentSpade);
@@ -16,8 +17,9 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
     const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
+    const navigation = useNavigation();
 
-    const closeSpade = async () => {
+    const closeCompleteSpade = async () => {
         setLoading(true);
         console.log('fello close', currentSpadeRetailers[0]?.retailerId._id);
         try {
@@ -29,37 +31,26 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
             console.log("close notification", token.data, spade._id, spade.requestAcceptedChat);
             // console.log("token", token.data);
             const formData = new FormData();
-             
-          
-              formData.append('sender', JSON.stringify({  type: "UserRequest",
-                refId: spade._id,}));
-              formData.append('userRequest', spade._id);
-              formData.append('message', "Customer close the chat");
-              formData.append('bidType', "update");
-              formData.append('chat',spade.requestAcceptedChat);
-              formData.append('bidPrice',0);
-              formData.append('warranty',0);
-              formData.append('bidImages',[]);
-            // await axios
-            //     .post("http://173.212.193.109:5000/chat/send-message", {
-            //         sender: {
-            //             type: "UserRequest",
-            //             refId: spade._id,
-            //         },
-            //         message: "Customer close the chat",
-            //         userRequest: spade._id,
-            //         bidType: "update",
-            //         bidPrice: 0,
-            //         bidImages: [],
-            //         chat: spade.requestAcceptedChat,
-            //         warranty: 0,
-            //     })
+
+
+            formData.append('sender', JSON.stringify({
+                type: "UserRequest",
+                refId: spade._id,
+            }));
+            formData.append('userRequest', spade._id);
+            formData.append('message', "Customer close the chat");
+            formData.append('bidType', "update");
+            formData.append('chat', spade.requestAcceptedChat);
+            formData.append('bidPrice', 0);
+            formData.append('warranty', 0);
+            formData.append('bidImages', []);
+
             await axios.post(
                 "http://173.212.193.109:5000/chat/send-message",
                 formData, {
-                  headers: { 'Content-Type': 'multipart/form-data' }
-                }
-              )
+                headers: { 'Content-Type': 'multipart/form-data' }
+            }
+            )
                 .then(async (res) => {
                     console.log('spade closed mess send successfully', res.status);
                     socket.emit("new message", res.data);
@@ -88,11 +79,11 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                                 body: "Customer close the chat",
                                 requestInfo: {
                                     requestId: currentSpadeRetailers[0]?.requestId?._id,
-                                    userId:currentSpadeRetailers[0]?.users[0]._id
-                                  }
+                                    userId: currentSpadeRetailers[0]?.users[0]._id
+                                }
                             }
                             console.log("close notification", token)
-                             sendCloseSpadeNotification(notification);
+                            sendCloseSpadeNotification(notification);
 
                         }
                         // Send Notification to reatiler 
@@ -140,6 +131,58 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
 
     }
 
+    const closeActiveSpade = async () => {
+        try {
+            await Promise.all(currentSpadeRetailers.map(async (retailer) => {
+                const formData = new FormData();
+
+
+                formData.append('sender', JSON.stringify({
+                    type: "UserRequest",
+                    refId: spade._id,
+                }));
+                formData.append('userRequest', spade._id);
+                formData.append('message', "Customer close the chat");
+                formData.append('bidType', "update");
+                formData.append('chat', retailer._id);
+                formData.append('bidPrice', 0);
+                formData.append('warranty', 0);
+                formData.append('bidImages', []);
+
+                await axios.post(
+                    "http://173.212.193.109:5000/chat/send-message",
+                    formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                }
+                )
+                    .then((res) => {
+                        socket.emit('new message', res.data);
+
+
+                    })
+            }));
+
+            await axios.patch('http://173.212.193.109:5000/user/close-active-spade/', {
+                id: spade._id,
+            })
+                .then((res) => {
+                    if (res.status === 200) {
+                        const updatedSpades = spades.filter(curr => curr._id !== spade._id);
+                        dispatch(setSpades(updatedSpades));
+                        setConfirmModal(false);
+                        setSuccessModal(true);
+
+                        setTimeout(() => {
+                            setSuccessModal(false);
+                            navigation.navigate('home');
+                        }, 2000);
+                    }
+                })
+        } catch (error) {
+            console.error('Error while closing spade');
+        }
+    }
+
     return (
 
         <Modal
@@ -164,7 +207,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                             </Pressable>
                         </View>
                         <View className="flex-1 mt-[5px]">
-                            <Pressable onPress={() => { closeSpade(); }}>
+                            <Pressable onPress={() => { spade.requestAcceptedChat ? closeCompleteSpade() : closeActiveSpade() }}>
                                 {loading ? (
                                     <ActivityIndicator size="small" color="#FB8C00" />
                                 ) : (

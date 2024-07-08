@@ -353,7 +353,7 @@ const RequestDetail = () => {
                             <TouchableOpacity onPress={() => { navigation.navigate('view-request', { data: spade }); setModal(!modal) }}>
                                 <Text className="mx-5 border-1 border-b-[1px] py-3" style={{ fontFamily: "Poppins-Regular" }}>View Request</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => closeRequest()}>
+                            <TouchableOpacity onPress={() => { setConfirmModal(true); setModal(false); }}>
                                 <Text className="mx-5 py-3 border-1 border-b-[1px]" style={{ fontFamily: "Poppins-Regular" }}>Close Request</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => { navigation.navigate("help"); setModal(!modal) }}>
