@@ -107,7 +107,9 @@ const CreateNewBidScreen = () => {
         dispatch(emtpyRequestImages([]));
         socket.emit("new message", res.data);
         setLoading(false);
-        navigation.navigate("bargain");
+        const requestId=details._id;
+        navigation.navigate(`bargain${requestId}`);
+       
         const notification = {
           token: [token.data],
           title: userDetails?.userName,
@@ -115,7 +117,7 @@ const CreateNewBidScreen = () => {
           price: price,
           image: res.data?.bidImages?.length > 0 ? res.data?.bidImages[0] : "",
           requestInfo: {
-            requestId: details?.requestId?._id,
+            requestId: details?._id,
             userId: details?.users[0]._id
           }
         };

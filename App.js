@@ -12,6 +12,8 @@ import { notificationListeners } from './App/notification/notificationServices';
 import { setUniqueToken } from './App/redux/reducers/userDataSlice';
 import { useFonts } from 'expo-font';
 import * as Notifications from 'expo-notifications';
+// import * as MediaLibrary from 'expo-media-library';
+
 
 
 
@@ -45,8 +47,7 @@ export default function App() {
     (async () => {
       // const media = await MediaLibrary.requestPermissionsAsync();
       const notification = await Notifications.requestPermissionsAsync();
-      console.log("status notification", notification);
-
+      // console.log("status notification", media,notification);
 
     })();
   }, []);
