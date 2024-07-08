@@ -1,12 +1,12 @@
 import { View, Text, Modal, TouchableOpacity, Linking } from 'react-native'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
-import DelImg from "../../assets/delImg.svg";
+import CallIcon from "../../assets/call-icon.svg";
 import ShopLogo from '../../assets/shopLogo.svg';
 
 const RetailerContactDetailModal = ({ retailerModal, setRetailerModal }) => {
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
-    const [copied, setCopied] = useState(false);
+
 
     const makeCall = () => {
         const url = `tel:${currentSpadeRetailer?.retailerId?.storeMobileNo}`;
@@ -14,53 +14,63 @@ const RetailerContactDetailModal = ({ retailerModal, setRetailerModal }) => {
     };
 
     return (
-
         <Modal
-            // animationType="slide"
             transparent={true}
             visible={retailerModal}
-            className="flex-row justify-center items-center rounded-lg shadow-2xl">
-            <View className="flex-1 justify-center items-center ">
-                <View className=" w-[80%] py-[40px] px-[40px] relative rounded-3xl bg-white ">
-                    <TouchableOpacity
-                        onPress={() => { setRetailerModal(false) }}
-                        style={{ position: 'absolute', top: 10, right: 10, zIndex: 50 }}
-                    >
-                        <DelImg />
-                    </TouchableOpacity>
+            animationType="fade"
+        >
+            <TouchableOpacity
+                style={styles.overlay}
+                activeOpacity={1}
+                onPress={() => setRetailerModal(false)}
+            >
+                <TouchableOpacity activeOpacity={1} style={styles.modalContainer}>
 
 
-
-                    <View className="gap-[5px]">
+                    <View className="">
                         <View className="flex-row justify-center">
                             <ShopLogo />
                         </View>
-                        <View className="flex flex-row gap-[10px] mt-[30px]">
-                            <Text className="text-[14px] " style={{ fontFamily: "Poppins-Regular" }}>Vendor Name :</Text>
-                            <Text className="capitalize w-[60%]" style={{ fontFamily: "Poppins-Bold" }}>{currentSpadeRetailer?.retailerId?.storeOwnerName.length <= 20 ? currentSpadeRetailer?.retailerId?.storeOwnerName : `${currentSpadeRetailer?.retailerId?.storeOwnerName.subString(0, 20)}...`}</Text>
-                            {/* <Text className="">Rohan Pratap Singh Chaudhary</Text> */}
-                        </View>
-                        <View className="flex flex-row gap-[10px]">
-                            <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>Shop Name :</Text>
-                            <Text className="capitalize w-[60%]" style={{ fontFamily: "Poppins-Bold" }}>{currentSpadeRetailer?.retailerId?.storeName.length <= 20 ? currentSpadeRetailer?.retailerId?.storeName : `${currentSpadeRetailer?.retailerId?.storeName.subString(0, 20)}...`}</Text>
-                        </View>
+                        <Text className="capitalize text-center mt-[30px] text-[16px]" style={{ fontFamily: "Poppins-Regularx" }}>
+                            {currentSpadeRetailer?.retailerId?.storeOwnerName.length <= 20 ? currentSpadeRetailer?.retailerId?.storeOwnerName : `${currentSpadeRetailer?.retailerId?.storeOwnerName.subString(0, 20)}...`}
+                        </Text>
 
-                        <View className="flex flex-row gap-[10px] mb-[20px]">
-                            <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>Mob. Number :</Text>
-                            <Text style={{ fontFamily: "Poppins-Bold" }}>{currentSpadeRetailer?.retailerId?.storeMobileNo}</Text>
-                        </View>
-                        <TouchableOpacity onPress={() => { makeCall() }}>
-                            <Text className="text-center border-2 text-[#fb8c00] border-[#fb8c00] mx-[30px] pb-[10px] pt-[15px]" style={{ fontFamily: 'Poppins-Bold' }}>
-                                Call Now
-                            </Text>
+                        <Text className="capitalize  text-center text-[#2b2c43] text-[16px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
+                            {currentSpadeRetailer?.retailerId?.storeName.length <= 20 ? currentSpadeRetailer?.retailerId?.storeName : `${currentSpadeRetailer?.retailerId?.storeName?.slice(0, 20)}...`}
+                        </Text>
+                        <Text className="capitalize text-center mb-[20px] text-[#79b649] text-[16px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
+                            {currentSpadeRetailer?.retailerId?.storeMobileNo}
+                        </Text>
+                        <TouchableOpacity onPress={() => makeCall()}>
+                            <View className="flex-row items-center justify-center gap-[10px] border-2 border-[#fb8c00] rounded-2xl mx-[30px] pb-[10px] pt-[15px]">
+                                <CallIcon />
+                                <Text className="text-center text-[#fb8c00] " style={{ fontFamily: 'Poppins-Bold' }}>
+                                    Call Vendor
+                                </Text>
+                            </View>
                         </TouchableOpacity>
-
                     </View>
-                </View>
-            </View>
+                </TouchableOpacity>
+            </TouchableOpacity>
         </Modal>
-
     )
+}
+
+const styles = {
+    overlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    modalContainer: {
+        width: '85%',
+        paddingVertical: 40,
+        paddingHorizontal: 40,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        position: 'relative'
+    }
 }
 
 export default RetailerContactDetailModal;

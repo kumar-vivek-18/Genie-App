@@ -9,7 +9,7 @@ import {
     Image,
     Button
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome6 } from "@expo/vector-icons";
@@ -21,9 +21,13 @@ import { useSelector } from "react-redux";
 import Star from "../../assets/Star.svg";
 import Pointer from "../../assets/pointer.svg";
 import RightArrow from "../../assets/rightarrow.svg";
+import ArrowLeft from '../../assets/arrow-left.svg';
 import Copy from "../../assets/copy.svg";
 import StarRating from 'react-native-star-rating';
 import { haversineDistance } from "../../utils/logics/Logics";
+import axios from "axios";
+import RatingAndFeedbackModal from "../components/RatingAndFeedbackModal";
+import RatingStar from "../../assets/Star.svg";
 // import {Clipboard} from '@react-native-clipboard/clipboard'
 
 
@@ -44,7 +48,8 @@ const StoreProfileScreen = () => {
     const [showAllReviews, setShowAllReviews] = useState(false);
     const [distance, setDistance] = useState(null);
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
-
+    const [feedbacks, setFeedbacks] = useState([]);
+    const [feedbackModal, setFeedbackModal] = useState(false);
     //   const copyToClipboard = async () => {
     //     // await Clipboard.setStringAsync(inputValue);
     //     setCopied(true);
@@ -71,36 +76,60 @@ const StoreProfileScreen = () => {
 
     //     const mainImage=useSelector(state => state.storeData.images.mainImage);
 
+    const fetchRetailerFeedbacks = useCallback(async () => {
+        try {
+            await axios.get('http://192.168.126.192:5000/rating/get-retailer-feedbacks', {
+                params: {
+                    id: currentSpadeRetailer.retailerId._id,
+                }
+            })
+                .then((res) => {
+                    console.log('Feedbacks fetched successfully', res.data.length);
+                    setFeedbacks(res.data);
+                })
+        } catch (error) {
+            console.error('Error while fetching retailer feedbacks');
+        }
+    })
+
     useEffect(() => {
+        fetchRetailerFeedbacks();
         if (currentSpadeRetailer.customerId.longitude !== 0 && currentSpadeRetailer.customerId.latitude !== 0 && currentSpadeRetailer.retailerId.longitude !== 0 && currentSpadeRetailer.retailerId.lattitude !== 0) {
             let value = haversineDistance(currentSpadeRetailer.customerId.latitude, currentSpadeRetailer.customerId.longitude, currentSpadeRetailer.retailerId.lattitude, currentSpadeRetailer.retailerId.longitude);
             setDistance(value);
         }
-    })
+    }, []);
 
     return (
         <SafeAreaView>
             <ScrollView showsverticallScrollIndicator={false}>
                 <View className="pt-[20px] flex ">
-                    <View className="flex flex-row px-[32px] ">
-                        <View className="">
-                            <Pressable
+
+                    <View className="flex flex-row ">
+                        <View className="absolute top-[10px]" style={{ zIndex: 100 }}>
+                            <TouchableOpacity
                                 onPress={() => {
                                     navigation.goBack();
                                 }}
-                                className="flex flex-row items-center  gap-2"
+                                style={{ paddingVertical: 10, paddingHorizontal: 20, zIndex: 100 }}
                             >
-                                <FontAwesome name="arrow-left" size={15} color="black" />
-                            </Pressable>
+                                <ArrowLeft />
+                            </TouchableOpacity>
                         </View>
-                        <Text className="text-[16px]  flex-1 flex text-center" style={{ fontFamily: "Poppins-ExtraBold" }}>
+                        <Text className="text-[16px]  flex-1 flex text-center " style={{ fontFamily: "Poppins-ExtraBold" }}>
                             Store Profile
                         </Text>
                     </View>
+                    <View className="flex-row items-center  gap-[5px]" style={{ position: 'absolute', top: 48, right: 15 }}>
+                        <RatingStar />
+                        <View>
+                            <Text style={{ fontFamily: "Poppins-SemiBold" }}><Text style={{ fontFamily: "Poppins-SemiBold" }}>{parseFloat(currentSpadeRetailer?.retailerId?.totalRating / currentSpadeRetailer?.retailerId?.totalReview).toFixed(1)}</Text>/5</Text>
+                        </View>
+                    </View>
                     <View className="relative flex-row items-center px-[30px] mb-[40px] ">
 
-                        <Text className="text-center flex-1 justify-center capitalize " style={{ fontFamily: "Poppins-Regular" }}>
-                            {currentSpadeRetailer.retailerId.storeName}
+                        <Text className="text-center flex-1 justify-center capitalize mx-[50px]" style={{ fontFamily: "Poppins-Regular" }}>
+                            {currentSpadeRetailer?.retailerId.storeName}
                         </Text>
 
                     </View>
@@ -157,14 +186,14 @@ const StoreProfileScreen = () => {
                                 <Text className="w-full text-[14px]  text-black capitalize bg-[#f9f9f9]  rounded-2xl items-center px-[20px] py-[16px]" style={{ fontFamily: "Poppins-SemiBold" }}>{currentSpadeRetailer.retailerId.location}</Text>
 
                             </View>
-                            {/* <TouchableOpacity>
+                            <TouchableOpacity>
                                 <View className="flex-row gap-2 mt-[20px] items-center">
                                     <Text className="text-[#FB8C00] font-bold text-[14px]">
                                         Go to the Map
                                     </Text>
                                     <RightArrow />
                                 </View>
-                            </TouchableOpacity> */}
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <View className="flex flex-col gap-[11px]">
@@ -262,31 +291,31 @@ const StoreProfileScreen = () => {
                         </ScrollView>
                     </View> */}
 
-                    {/* <View>
+                    <View>
                         <Text className="text-[16px] font-bold">Store Reviews</Text>
 
                         <View style={styles.revcontainer}>
                             <ScrollView>
-                                {initialReviews
-                                    .slice(0, showAllReviews ? initialReviews.length : 3)
+                                {feedbacks
+                                    .slice(0, showAllReviews ? feedbacks.length : 3)
                                     .map((review, index) => (
                                         <View key={index} style={styles.reviewContainer}>
                                             <Text style={styles.customerName}>
-                                                {review.customerName}
+                                                {review.senderName}
                                             </Text>
                                             <View className="w-[50%]">
                                                 <StarRating
                                                     disabled={true}
                                                     maxStars={5}
-                                                    rating={review.stars}
-                                                    starSize={14}
+                                                    rating={review.rating}
+                                                    starSize={16}
                                                     fullStarColor={"#fb8c00"}
-                                                    className="w-[50%]"
+
                                                 />
 
                                             </View>
 
-                                            <Text style={styles.reviewText}>{review.review}</Text>
+                                            <Text style={styles.reviewText}>{review.feedback}</Text>
                                         </View>
                                     ))}
                             </ScrollView>
@@ -300,10 +329,17 @@ const StoreProfileScreen = () => {
                             )
                             }
                         </View>
-                    </View> */}
+                    </View>
+                    <TouchableOpacity onPress={() => { setFeedbackModal(true); }}>
+                        <View>
+                            <Text className="text-[16px] text-[#fb8c00] text-center border-[1px] border-[#fb8c00] rounded-2xl py-[10px]" style={{ fontFamily: "Poppins-Regular" }}>Rate the Vendor</Text>
+                        </View>
+                    </TouchableOpacity>
+
                 </View>
             </ScrollView>
-        </SafeAreaView>
+            {feedbackModal && <RatingAndFeedbackModal feedbackModal={feedbackModal} setFeedbackModal={setFeedbackModal} />}
+        </SafeAreaView >
     );
 };
 

@@ -50,6 +50,7 @@ import Home4 from "../assets/Home4.svg";
 import Home5 from "../assets/Home5.svg";
 import Home6 from "../assets/Home6.svg";
 import Home7 from "../assets/Home7.svg";
+import DropArrow from '../assets/drop-arrow.svg';
 import ProfileIcon from '../assets/ProfileIcon.svg';
 import HistoryIcon from '../assets/historyIcon.svg';
 
@@ -371,8 +372,9 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={() => { navigation.navigate('available-categories'); }}>
-          <View>
-            <Text className="text-center text-[#fb8c00] border-2 border-[#fb8c00] bg-[#ffe8cd] mx-[20px] rounded-full py-[10px] mt-[20px]" style={{ fontFamily: "Poppins-Regular" }}>Check the available categories in your city.</Text>
+          <View className="flex-row items-center justify-center bg-[#ffe8cd] mt-[15px] py-[6px] mx-[16px] rounded-2xl border-[1px] border-[#fb8c00] gap-[5px]">
+            <Text className="text-center text-[#fb8c00]   " style={{ fontFamily: "Poppins-Regular" }}>Check the available categories in your city</Text>
+            <DropArrow />
           </View>
         </TouchableOpacity>
 

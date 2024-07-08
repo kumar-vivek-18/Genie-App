@@ -96,7 +96,7 @@ const RequestCategory = () => {
 
             </View>
             <View className="flex-1 w-full bg-white flex-col  gap-[40px] px-[32px] ">
-                <ScrollView className="flex-1 px-0 mb-[63px] " showsVerticalScrollIndicator={false} >
+                <ScrollView className="flex-1 px-0 mb-[3px] " showsVerticalScrollIndicator={false} >
 
 
                     <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] " style={{ fontFamily: "Poppins-Medium" }}>

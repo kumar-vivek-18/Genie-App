@@ -32,6 +32,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { formatDateTime, getGeoCoordinates } from '../../utils/logics/Logics';
 import { emtpyRequestImages } from '../../redux/reducers/userRequestsSlice';
 import RetailerContactDetailModal from '../components/RetailerContactDetailModal';
+import RatingAndFeedbackModal from '../components/RatingAndFeedbackModal';
 
 const BargainingScreen = () => {
     const navigation = useNavigation();
@@ -55,7 +56,7 @@ const BargainingScreen = () => {
     const userDetails = useSelector(store => store.user.userDetails || []);
     const scrollViewRef = useRef(null);
     const [options, setOptions] = useState(false);
-
+    const [feedbackModal, setFeedbackModal] = useState(false);
     const userLongitude = useSelector(store => store.user.userLongitude);
     const userLatitude = useSelector(store => store.user.userLatitude)
 
@@ -426,7 +427,7 @@ const BargainingScreen = () => {
 
     return (
         <>
-            {!cameraScreen && <View style={{ flex: 1, backgroundColor: "white" }} className="relative">
+            <View style={{ flex: 1, backgroundColor: "white" }} className="relative">
                 <View contentContainerStyle={{ flexGrow: 1 }} className="relative">
                     {attachmentScreen &&
                         <View style={styles.overlay}>
@@ -438,17 +439,18 @@ const BargainingScreen = () => {
                             <ArrowLeft />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => { setOptions(true) }} style={{ padding: 16, paddingRight: 30, zIndex: 50 }}>
+                        <TouchableOpacity onPress={() => { setOptions(!options) }} style={{ padding: 16, paddingRight: 30, zIndex: 50 }}>
                             <ThreeDots />
                         </TouchableOpacity>
 
 
                     </View>
 
+
                     <View className="bg-[#ffe7c8] px-[64px] py-[30px]  pt-[20px] relative">
                         <View className=" flex-row gap-[18px] ">
-                            <TouchableOpacity style={{ zIndex: 200 }} onPress={() => { navigation.navigate('sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssretailer-profile') }} >
-                                <View className=" z-50">
+                            <TouchableOpacity style={{ zIndex: 200 }} onPress={() => { navigation.navigate('retailer-profile'); }} >
+                                <View className="z-50 w-[max-content] h-[max-content] bg-white rounded-full">
                                     <Image
                                         source={{ uri: details.users[0].populatedUser.storeImages[0] ? details.users[0].populatedUser.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
                                         style={{ width: 40, height: 40, borderRadius: 20 }}
@@ -456,14 +458,14 @@ const BargainingScreen = () => {
                                 </View>
                             </TouchableOpacity>
                             <View>
-                                <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Regular" }}>{details.users ? details?.users[0].populatedUser.storeName : ""}</Text>
+                                <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Regular" }}>{details?.users[0].populatedUser.storeName.length > 25 ? `${details?.users[0].populatedUser.storeName.slice(0, 25)}...` : details?.users[0].populatedUser.storeName}</Text>
                                 <Text className="text-[12px] text-[#79b649]" style={{ fontFamily: "Poppins-Regular" }}>Online</Text>
                             </View>
 
                         </View>
 
                         <View className="flex-row gap-[6px] items-center mt-[16px]">
-                            <TouchableOpacity onPress={() => setRetailerModal(true)}>
+                            <TouchableOpacity onPress={() => { setRetailerModal(true); navigation.navigate('retailer-profile') }}>
                                 <View className="flex-row gap-[7px] items-center">
                                     <Contact />
                                     <Text style={{ fontFamily: "Poppins-Regular", color: "#FB8C00" }}>Contact Details</Text>
@@ -589,7 +591,7 @@ const BargainingScreen = () => {
                         }
                     </View>
                 </View>}
-            </View>}
+            </View>
 
             {
                 modalVisible && <RequestAcceptModal modalVisible={modalVisible} setModalVisible={setModalVisibile} acceptBid={acceptBid} loading={loading} />
@@ -599,13 +601,14 @@ const BargainingScreen = () => {
             }
             {options && <View className="absolute top-[30px] right-[50px] z-50 bg-white rounded-md">
 
-                <TouchableOpacity onPress={() => { setOptions(false); }}>
-                    <Text className="mx-5 py-3 border-1 border-b-[1px]" style={{ fontFamily: "Poppins-Regular" }}>Rate Shopkeeper</Text>
+                <TouchableOpacity onPress={() => { setOptions(false); setFeedbackModal(true); }}>
+                    <Text className="mx-5 py-3 border-1 border-b-[1px]" style={{ fontFamily: "Poppins-Regular" }}>Rate Vendor</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => { navigation.navigate("help"); setOptions(false) }}>
-                    <Text className="mx-5 py-3" style={{ fontFamily: "Poppins-Regular" }}>Report Shopkeeper</Text>
+                    <Text className="mx-5 py-3" style={{ fontFamily: "Poppins-Regular" }}>Report Vendor</Text>
                 </TouchableOpacity>
             </View>}
+            {feedbackModal && <RatingAndFeedbackModal feedbackModal={feedbackModal} setFeedbackModal={setFeedbackModal} />}
         </>
     )
 }

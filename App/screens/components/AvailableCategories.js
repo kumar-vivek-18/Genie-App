@@ -90,7 +90,7 @@ const AvailableCategories = () => {
                             <BackArrow width={14} height={10} />
 
                         </Pressable>
-                        <Text className="flex flex-1 justify-center items-center text-center text-[16px]" style={{ fontFamily: "Poppins-ExtraBold" }}>Select Spade Category</Text>
+                        <Text className="flex flex-1 justify-center items-center text-center text-[16px] text-[#2e2c43]" style={{ fontFamily: "Poppins-ExtraBold" }}>Available Categories</Text>
 
                     </View>
                     <View className="flex flex-row gap-2 h-[60px]  border-[1px] items-center border-[#000000] rounded-[24px] mb-[20px]">

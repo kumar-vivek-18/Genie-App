@@ -10,6 +10,7 @@ import axios from 'axios';
 const RatingAndFeedback = () => {
     const spade = useSelector(store => store.user.currentSpade);
     const retailers = useSelector(store => store.user.currentSpadeRetailers);
+    const userDetails = useSelector(store => store.user.userDetails);
     const [retailer, setRetailer] = useState();
     const [feedback, setFeedback] = useState("");
     const [rating, setRating] = useState(0);
@@ -29,9 +30,10 @@ const RatingAndFeedback = () => {
         try {
             if (rating === 0) return;
             console.log(spade.customer, retailer.users[0].refId, rating, feedback);
-            await axios.post('http://173.212.193.109:5000/retailer/rating-feedback', {
+            await axios.post('http://173.212.193.109:5000/rating/rating-feedback', {
                 sender: { type: "User", refId: spade.customer },
                 user: { type: "Retailer", refId: retailer.users[0].refId },
+                senderName: userDetails.userName,
                 rating: rating,
                 feedback: feedback,
             })

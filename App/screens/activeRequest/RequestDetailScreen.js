@@ -421,7 +421,7 @@ const RequestDetail = () => {
                                                 />}
                                                 <View className="gap-[10px] w-4/5">
                                                     <View className="flex-row justify-between">
-                                                        <Text className="text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Regular" }}>{details?.users[0].populatedUser.storeName}</Text>
+                                                        <Text className="text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Regular" }}>{details?.users[0].populatedUser.storeName.length > 20 ? `${details?.users[0].populatedUser.storeName.slice(0, 20)}...` : details?.users[0].populatedUser.storeName}</Text>
                                                         <View className="flex-row items-center gap-[5px]">
                                                             <GreenClock />
                                                             <Text className="text-[12px] text-[#558b2f]" style={{ fontFamily: "Poppins-Regular" }}>{details?.updatedAt}</Text>
