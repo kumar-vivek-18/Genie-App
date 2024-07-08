@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import CallIcon from "../../assets/call-icon.svg";
 import ShopLogo from '../../assets/shopLogo.svg';
-import StarRating from 'react-native-star-rating';
+import Cross from '../../assets/cross.svg';
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 
@@ -59,8 +59,13 @@ const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal }) => {
             >
                 <TouchableOpacity activeOpacity={1} style={styles.modalContainer}>
 
+                    <TouchableOpacity style={{ position: 'absolute', top: 15, right: 15, padding: 10 }} onPress={() => setFeedbackModal(false)}>
+                        <Cross />
+                    </TouchableOpacity>
+
 
                     <View className="w-[100%]">
+
                         <Text className="text-center text-[16px] text-[#2b2c43]" style={{ fontFamily: 'Poppins-Bold' }}>Feedback for vendor</Text>
 
                         <View className="flex-row justify-center items-center mt-[10px] mb-[20px]">
