@@ -59,7 +59,7 @@ const BargainingScreen = () => {
     const [feedbackModal, setFeedbackModal] = useState(false);
     const userLongitude = useSelector(store => store.user.userLongitude);
     const userLatitude = useSelector(store => store.user.userLatitude)
-
+    const currentSpadeChatId = useSelector(store => store.user.currentSpadeChatId);
 
     const route = useRoute();
 
@@ -98,22 +98,22 @@ const BargainingScreen = () => {
         }
     })
 
-    useEffect(() => {
-        fetchUserDetails();
-        if (route?.params?.data) {
-            const data = JSON.parse(route?.params?.data?.requestInfo);
-            // console.log('data', data);
-            console.log('object', route.params);
-            console.log('userDetails', data?.customerId);
-            console.log('currendspade', data?.requestId);
-            dispatch(setCurrentSpadeRetailer(data));
-            dispatch(setCurrentSpade(data?.requestId));
-            dispatch(setUserDetails(data?.customerId));
+    // useEffect(() => {
+    //     fetchUserDetails();
+    //     if (route?.params?.data) {
+    //         const data = JSON.parse(route?.params?.data?.requestInfo);
+    //         // console.log('data', data);
+    //         console.log('object', route.params);
+    //         console.log('userDetails', data?.customerId);
+    //         console.log('currendspade', data?.requestId);
+    //         dispatch(setCurrentSpadeRetailer(data));
+    //         dispatch(setCurrentSpade(data?.requestId));
+    //         dispatch(setUserDetails(data?.customerId));
 
-            fetchMessages(data?._id);
-            connectSocket(data?.users[1]._id);
-        }
-    }, []);
+    //         fetchMessages(data?._id);
+    //         connectSocket(data?.users[1]._id);
+    //     }
+    // }, []);
 
 
 
@@ -133,29 +133,37 @@ const BargainingScreen = () => {
 
     }
 
-    useEffect(() => {
-
-        if (currentSpadeRetailer?.users) {
-            connectSocket(currentSpadeRetailer?.users[1]._id);
-            setMessagesMarkAsRead();
-            // console.log('making unread message 0');
-        }
-        // console.log('spc', socket);
-        // socket.on('typing', () => setIsTyping(true));
-        // socket.on("stop typing", () => setIsTyping(false));
-        return () => {
-            if (socket) {
-                // socket.disconnect();
-                socket.emit('leave room', currentSpadeRetailer?.users[1]._id);
-            }
-        }
-    }, []);
-
     // useEffect(() => {
-    //     messages.map((mess, index) => {
-    //         console.log('mess', index, mess._id, mess.message);
-    //     })
-    // }, [messages]);
+
+    //     if (currentSpadeRetailer?.users) {
+    //         connectSocket(currentSpadeRetailer?.users[1]._id);
+    //         setMessagesMarkAsRead();
+    //         // console.log('making unread message 0');
+    //     }
+    //     // console.log('spc', socket);
+    //     // socket.on('typing', () => setIsTyping(true));
+    //     // socket.on("stop typing", () => setIsTyping(false));
+    //     return () => {
+    //         if (socket) {
+    //             // socket.disconnect();
+    //             socket.emit('leave room', currentSpadeRetailer?.users[1]._id);
+    //         }
+    //     }
+    // }, []);
+
+    const fetchCurrentSpadeRetailer = async () => {
+        await axios.get('http://173.212.193.109:5000/chat/get-spade-messages', {
+            params: {
+                id: currentSpadeChatId.chatId,
+            }
+        })
+            .then((res) => {
+                dispatch(setCurrentSpadeRetailers(res.data));
+                dispatch(setCurrentSpade(res?.data?.requestId));
+                dispatch(setUserDetails(res?.data?.customerId));
+                fetchMessages(res?.data?._id);
+            })
+    }
 
 
     const fetchMessages = (id) => {
@@ -189,12 +197,36 @@ const BargainingScreen = () => {
             })
     }
 
+    // useEffect(() => {
+    //     if (details?._id) {
+    //         fetchMessages(details._id);
+    //     }
+
+    // }, []);
+
     useEffect(() => {
-        if (details?._id) {
-            fetchMessages(details._id);
+        fetchUserDetails();
+        connectSocket(currentSpadeChatId.socketId);
+
+        if (currentSpadeRetailer && currentSpadeChatId.chatId === currentSpadeRetailer._id) {
+            fetchMessages(currentSpadeChatId.chatId);
+            setMessagesMarkAsRead();
+
+        }
+        else {
+            fetchCurrentSpadeRetailer();
+            setMessagesMarkAsRead();
         }
 
+        return () => {
+            if (socket) {
+                // socket.disconnect();
+                socket.emit('leave room', currentSpadeRetailer?.users[1]._id);
+            }
+        }
     }, []);
+
+
 
 
     const acceptBid = async () => {
@@ -511,10 +543,6 @@ const BargainingScreen = () => {
                                         {message?.bidType === "true" && message?.sender?.type === 'Retailer' && <View className="flex flex-row justify-start">
                                             <RetailerBidMessage bidDetails={message} pic={details?.users[0]?.populatedUser?.storeImages[0]} />
                                         </View>}
-
-
-
-
                                     </View>
                                 ))
                             }

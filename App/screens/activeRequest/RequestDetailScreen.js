@@ -10,7 +10,7 @@ import ArrowLeft from '../../assets/arrow-left.svg';
 import axios from 'axios';
 import Tick from '../../assets/Tick.svg';
 import * as Clipboard from 'expo-clipboard';
-import { setCurrentSpade, setCurrentSpadeRetailer, setUserDetails } from '../../redux/reducers/userDataSlice';
+import { setCurrentSpade, setCurrentSpadeChatId, setCurrentSpadeRetailer, setUserDetails } from '../../redux/reducers/userDataSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import CloseSpadeModal from '../components/CloseSpadeModal';
 import SuccessModal from '../components/SuccessModal';
@@ -58,8 +58,6 @@ const RequestDetail = () => {
 
     const handleSpadeNaviagtion = async () => {
         if (currentSpade.unread === true) {
-
-
             try {
                 await axios.patch('http://173.212.193.109:5000/user/set-spade-mark-as-read', {
                     id: currentSpade._id
@@ -412,7 +410,7 @@ const RequestDetail = () => {
                                     // Calculate distance if coordinates are valid
                                     // distance = validCoordinates ? haversineDistance(details.customerId.latitude, details.customerId.longitude, details.retailerId.lattitude, details.retailerId.longitude) : null;
                                     return (
-                                        <Pressable key={index} onPress={() => { dispatch(setCurrentSpadeRetailer(details)); navigation.navigate('bargain') }}>
+                                        <TouchableOpacity key={index} onPress={() => { dispatch(setCurrentSpadeRetailer(details)); dispatch(setCurrentSpadeChatId({ chatId: details?._id, socketId: details?.users[1]._id })); navigation.navigate('bargain') }}>
                                             <View className={`flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#3f3d56] ${((spade.requestActive === "completed" || spade.requestActive === "closed") && spade.requestAcceptedChat !== details._id) ? "bg-[#001b33] opacity-50" : ""}`}>
                                                 {/* {console.log('chat details after bid accept', spade.requestActive, spade.requestAcceptedChat, details._id)} */}
                                                 {details?.users.length > 0 && <Image
@@ -479,7 +477,7 @@ const RequestDetail = () => {
 
                                                 </View>
                                             </View>
-                                        </Pressable>
+                                        </TouchableOpacity>
                                     )
                                 })
                             }
