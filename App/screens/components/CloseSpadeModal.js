@@ -87,7 +87,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                                 // close: currentSpade._id,
                                 body: "Customer close the chat",
                                 requestInfo: {
-                                    requestId: currentSpadeRetailers[0]?.requestId?._id,
+                                    requestId: currentSpadeRetailers[0]?._id,
                                     userId:currentSpadeRetailers[0]?.users[0]._id
                                   }
                             }

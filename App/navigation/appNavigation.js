@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MobileNumberEntryScreen from '../screens/login/MobileNumberEntryScreen';
@@ -29,8 +29,19 @@ import SplashScreen from '../screens/SplashScreen';
 import StoreProfileScreen from '../screens/activeRequest/StoreProfileScreen';
 import Razorpay from '../screens/paymentGateway/Razorpay.js';
 import AvailableCategories from '../screens/components/AvailableCategories';
+import { useSelector } from 'react-redux';
 const Stack = createNativeStackNavigator();
 const GlobalNavigation = () => {
+    const [userId,setUserId] = useState("")
+
+
+    const currentSpadeChatId = useSelector(store => store.user.currentSpadeChatId);
+
+            const chatUserId =currentSpadeChatId?.chatId;
+            console.log("Chat User ID in App.js:", chatUserId);
+            useEffect(() => {
+              setUserId(chatUserId);
+            }, [chatUserId]);
 
     return (
 
@@ -50,7 +61,7 @@ const GlobalNavigation = () => {
             <Stack.Screen name="profile" component={ProfileScreen} />
             <Stack.Screen name="history" component={HistoryScreen} />
             <Stack.Screen name="activerequest" component={RequestDetail} />
-            <Stack.Screen name="bargain" component={BargainingScreen} />
+            <Stack.Screen name={`bargain${userId}`} component={BargainingScreen} />
             <Stack.Screen name="requestentry" component={RequestEntry} />
             <Stack.Screen name="requestcategory" component={RequestCategory} />
             <Stack.Screen name="addimg" component={AddImgScreen} />

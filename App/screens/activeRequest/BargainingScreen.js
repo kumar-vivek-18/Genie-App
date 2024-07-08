@@ -33,6 +33,7 @@ import { formatDateTime, getGeoCoordinates } from '../../utils/logics/Logics';
 import { emtpyRequestImages } from '../../redux/reducers/userRequestsSlice';
 import RetailerContactDetailModal from '../components/RetailerContactDetailModal';
 import RatingAndFeedbackModal from '../components/RatingAndFeedbackModal';
+import navigationService from '../../navigation/navigationService.js';
 
 const BargainingScreen = () => {
     const navigation = useNavigation();
@@ -62,6 +63,7 @@ const BargainingScreen = () => {
     const currentSpadeChatId = useSelector(store => store.user.currentSpadeChatId);
 
     const route = useRoute();
+    
 
     const fetchUserDetails = async () => {
         const userData = JSON.parse(await AsyncStorage.getItem('userDetails'));
@@ -270,7 +272,7 @@ const BargainingScreen = () => {
                         body: spade?.requestDetail,
                         image: "",
                         requestInfo: {
-                            requestId: currentSpadeRetailer?.requestId?._id,
+                            requestId: currentSpadeRetailer?._id,
                             userId: currentSpadeRetailer?.users[0]._id
                         }
                     }
@@ -334,7 +336,7 @@ const BargainingScreen = () => {
                 body: spade?.requestDetail,
                 image: "",
                 requestInfo: {
-                    requestId: currentSpadeRetailer?.requestId?._id,
+                    requestId: currentSpadeRetailer?._id,
                     userId: currentSpadeRetailer?.users[0]._id
                 }
             }

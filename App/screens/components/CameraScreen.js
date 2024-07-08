@@ -111,15 +111,15 @@ const CameraScreen = () => {
 
                     setQuery("");
                     socket.emit("new message", res.data);
-
-                    navigation.navigate("bargain");
+                    const requestId=details._id;
+                    navigation.navigate(`bargain${requestId}`);
                     const notification = {
                         token: [token.data],
                         title: userDetails?.userName,
                         body: query,
                         image: res.data.bidImages[0],
                         requestInfo: {
-                            requestId: details?.requestId?._id,
+                            requestId: details?._id,
                             userId: details?.users[0]._id
                         }
                     };

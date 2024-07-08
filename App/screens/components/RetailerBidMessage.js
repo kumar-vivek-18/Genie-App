@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View, Image, ScrollView, Animated, Pressable, Modal } from 'react-native'
+import { StyleSheet, Text, View, Image, ScrollView, Animated, Pressable, Modal, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import DPIcon from "../../assets/DPIcon.svg";
 import Tick from "../../assets/Tick.svg";
 import { Entypo } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import { Feather } from '@expo/vector-icons'; 
-import { handleDownloadPress } from '../../utils/logics/Logics';
+import { handleDownload, handleDownloadPress } from '../../utils/logics/Logics';
 
 
 const RetailerBidMessage = ({ bidDetails, pic }) => {
@@ -29,6 +29,11 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
         duration: 300,
         useNativeDriver: true,
       }).start(() => setSelectedImage(null));
+      setDownloadProgress({})
+    };
+    const interpolateColor = (progress) => {
+      const greenValue = Math.round(progress * 180);
+      return `rgb(0, ${greenValue}, 0)`;
     };
     // console.log('currentSpadeRetailer', currentSpadeRetailer);
     return (
@@ -53,6 +58,7 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
             {bidDetails?.bidImages?.length > 0 && (
         <ScrollView
           horizontal={true}
+          showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
             flexDirection: "row",
             gap: 4,
@@ -70,7 +76,7 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
                   style={{ height: 132, width: 96, borderRadius: 20 }}
                 />
               </Pressable>
-              <Pressable
+              <TouchableOpacity
                 style={{
                   position: "absolute",
                   bottom: 5,
@@ -89,7 +95,7 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
                 }
               >
                 <Feather name="download" size={18} color="white" />
-              </Pressable>
+              </TouchableOpacity>
               {downloadProgress[index] !== undefined && (
                 <View style={styles.progressContainer}>
                   <Text style={styles.progressText}>
@@ -98,11 +104,15 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
                 </View>
               )}
             </View>
+            
           ))}
-          <Modal
+            <Modal
             transparent
             visible={!!selectedImage}
             onRequestClose={handleClose}
+            downloadProgress={downloadProgress}
+            setDownloadProgress={setDownloadProgress}
+           
           >
             <Pressable style={styles.modalContainer} onPress={handleClose}>
               <Animated.Image
@@ -114,6 +124,48 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
                   },
                 ]}
               />
+               <TouchableOpacity
+                style={{
+                  width: 300,
+                  backgroundColor: "#fb8c00",
+                  height:50, 
+                  borderRadius: 100,
+                  marginTop:20,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                disabled={downloadProgress[1] !== undefined}
+                onPress={() =>
+                  handleDownload(
+                    selectedImage,
+                    downloadProgress,
+                    setDownloadProgress
+                  )
+                 
+                }
+              >
+                {downloadProgress[1] !== undefined && (
+                <View style={[
+                  styles.progress,
+                  { backgroundColor: interpolateColor(downloadProgress[1]) },
+                ]}>
+                  <Text style={styles.progresstext}>
+  {downloadProgress[1] !== 1 ? `${Math.round(downloadProgress[1] * 100)}%` : "Downloaded"}
+</Text>
+                </View>
+              )}
+             
+               {
+                !downloadProgress[1] &&
+                <View className="w-full flex flex-row  gap-[20px]  justify-center items-center">
+
+                <Text className="text-white text-[16px]" style={{ fontFamily: "Poppins-Bold" }} >Download</Text>
+                <Feather name="download" size={18} color="white" />
+                </View>
+               }
+       
+              </TouchableOpacity>
+              
             </Pressable>
           </Modal>
         </ScrollView>
@@ -180,19 +232,39 @@ const styles = StyleSheet.create({
       right: 20,
     },
     progressContainer: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "rgba(0,0,0,0.5)",
-    },
-    progressText: {
-      color: "white",
-      fontSize: 16,
-    },
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0,0,0,0.5)",
+        borderRadius: 20 
+      },
+      progress: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 100,
+        height:50
+      },
+      progressText: {
+        color: "white",
+        fontSize: 16,
+        
+      },
+      progresstext: {
+        color: "white",
+        fontSize: 16,
+        fontFamily:"Poppins-Bold",
+        width:"100%",
+        textAlign:"center"
+      },
   });
 
 

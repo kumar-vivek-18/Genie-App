@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import navigationService from '../navigation/navigationService';
 import { setSpades } from '../redux/reducers/userDataSlice';
 import notifee, { EventType, AndroidImportance, AndroidStyle } from '@notifee/react-native';
+import store from '../redux/store';
 // import * as Notifications from 'expo-notifications';
 // import * as Clipboard from 'expo-clipboard';
 
@@ -46,16 +47,20 @@ async function onDisplayNotification(remoteMessage) {
           // console.log("pressed",remoteMessage?.data)
           // const req=JSON.parse(remoteMessage?.data?.requestInfo);
           // console.log("data",req)
-          // const reqt = detail.notification?.android?.pressAction?.launchActivity;
-          // console.log("pressed", reqt);
+          const reqt = detail.notification.android.pressAction.launchActivity;
+          console.log("pressed", reqt);
 
-          // // Assuming requestInfo is stored in the notification data
-          // const req = JSON.parse(reqt);
-          // console.log("data", req);
-         
+          // Assuming requestInfo is stored in the notification data
+          const req = JSON.parse(reqt);
+          console.log("data", req);
+          const requestId={
+            chatId:req.requestId,
+            socketId:req.userId
+          }
+          store.dispatch(setCurrentSpadeChatId(requestId))
 
           setTimeout(() => {
-          navigationService.navigate(`home`);
+          navigationService.navigate(`requestPage${req?.requestId}`);
         }, 200);
         }, 1200);
         break;
@@ -74,9 +79,21 @@ export async function notificationListeners() {
         console.log("Notification caused app to open from background state");
 
         if (!!remoteMessage?.data && remoteMessage?.data?.redirect_to) {
-            setTimeout(() => {
-                navigationService.navigate(remoteMessage?.data?.redirect_to, { data: remoteMessage?.data });
-            }, 1200);
+          setTimeout(() => {
+            if (remoteMessage?.data?.requestInfo) {
+              const req = JSON.parse(remoteMessage?.data?.requestInfo);
+              console.log("data", req);
+              const requestId={
+                chatId:req.requestId,
+                socketId:req.userId
+              }
+              store.dispatch(setCurrentSpadeChatId(requestId))
+    
+              setTimeout(() => {
+              navigationService.navigate(`requestPage${req?.requestId}`);
+          }, 200);
+            }
+          }, 1200);
         }
         // handleNotification(remoteMessage);
     })
@@ -86,9 +103,21 @@ export async function notificationListeners() {
         // console.log('Message handled in the background!', remoteMessage);
 
         if (!!remoteMessage?.data && remoteMessage?.data?.redirect_to) {
-            setTimeout(() => {
-                navigationService.navigate(remoteMessage?.data?.redirect_to, { data: remoteMessage?.data })
-            }, 1200);
+          setTimeout(() => {
+            if (remoteMessage?.data?.requestInfo) {
+              const req = JSON.parse(remoteMessage?.data?.requestInfo);
+              console.log("data", req);
+              const requestId={
+                chatId:req.requestId,
+                socketId:req.userId
+              }
+              store.dispatch(setCurrentSpadeChatId(requestId))
+    
+              setTimeout(() => {
+              navigationService.navigate(`requestPage${req?.requestId}`);
+          }, 200);
+            }
+          }, 1200);
         }
         // handleNotification(remoteMessage);
     });
@@ -96,11 +125,20 @@ export async function notificationListeners() {
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
         // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
 
-        console.log("FCM message", remoteMessage.data);
+        // console.log("FCM message", remoteMessage.data);
 
         // handleNotifcation(remoteMessage);
+        const currentRoute = navigationService.getCurrentRoute();
+        const currentScreen = currentRoute ? currentRoute.name : null;
+        console.log("Notification received on screen at notify:", currentScreen);
+        const req=JSON.parse(remoteMessage?.data?.requestInfo);
+        //  console.log("data", req?.requestId);
+         const currentId=req?.requestId;
+
+if (remoteMessage?.data?.requestInfo && currentScreen!==`requestPage${currentId}`){
         await onDisplayNotification(remoteMessage);
 
+}
         // const details = JSON.parse(remoteMessage.data.requestInfo);
         // // console.log('FCM message', details);
         // const updatedId = details?.requestId?._id;

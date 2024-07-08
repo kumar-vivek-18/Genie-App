@@ -1,4 +1,8 @@
 import * as Location from "expo-location";
+// import * as MediaLibrary from 'expo-media-library';
+// import * as FileSystem from 'expo-file-system';
+
+
 
 export const formatDateTime = (dateTimeString) => {
     const date = new Date(dateTimeString);
@@ -143,43 +147,87 @@ export const haversineDistance = (lat1, lon1, lat2, lon2) => {
 
 
 export const handleDownloadPress = async (imageUri, index, downloadProgress, setDownloadProgress) => {
-    // const mediaLibraryPermission = await MediaLibrary.getPermissionsAsync();
-    // console.log("mediaLibraryPermission", mediaLibraryPermission)
-    // if (mediaLibraryPermission.status !== 'granted') {
-    //     alert('Permission required', 'We need permission to save images to your gallery.');
-    //     return;
-    //   }
+    const mediaLibraryPermission = await MediaLibrary.getPermissionsAsync();
+    console.log("mediaLibraryPermission", mediaLibraryPermission)
+    if (mediaLibraryPermission.status !== 'granted') {
+        alert('Permission required', 'We need permission to save images to your gallery.');
+        return;
+      }
   
-    //   const fileUri = FileSystem.documentDirectory + imageUri.split('/').pop();
+      const fileUri = FileSystem.documentDirectory + imageUri.split('/').pop();
   
-    //   const downloadResumable = FileSystem.createDownloadResumable(
-    //     imageUri,
-    //     fileUri,
-    //     {},
-    //     (downloadProgress) => {
-    //       const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite;
-    //       setDownloadProgress((prevState) => ({
-    //         ...prevState,
-    //         [index]: progress,
-    //       }));
-    //     }
-    //   );
+      const downloadResumable = FileSystem.createDownloadResumable(
+        imageUri,
+        fileUri,
+        {},
+        (downloadProgress) => {
+          const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite;
+          setDownloadProgress((prevState) => ({
+            ...prevState,
+            [index]: progress,
+          }));
+        }
+      );
   
-    //   try {
-    //     const { uri } = await downloadResumable.downloadAsync();
-    //     const asset = await MediaLibrary.createAssetAsync(uri);
-    //     await MediaLibrary.createAlbumAsync('Download', asset, true);
-    //     setDownloadProgress((prevState) => ({
-    //       ...prevState,
-    //       [index]: undefined, // Clear progress after download completion
-    //     }));
-    //     alert('Download complete');
-    //   } catch (e) {
-    //     console.error(e);
-    //     setDownloadProgress((prevState) => ({
-    //       ...prevState,
-    //       [index]: undefined, // Clear progress on error
-    //     }));
-    //     alert('Download failed');
-    //   }
+      try {
+        const { uri } = await downloadResumable.downloadAsync();
+        const asset = await MediaLibrary.createAssetAsync(uri);
+        await MediaLibrary.createAlbumAsync('Download', asset, true);
+        setDownloadProgress((prevState) => ({
+          ...prevState,
+          [index]: undefined, // Clear progress after download completion
+        }));
+        alert('Download complete');
+      } catch (e) {
+        console.error(e);
+        setDownloadProgress((prevState) => ({
+          ...prevState,
+          [index]: undefined, // Clear progress on error
+        }));
+        alert('Download failed');
+      }
+  }
+
+  
+export const handleDownload = async (imageUri, downloadProgress, setDownloadProgress) => {
+    const index=1;
+    const mediaLibraryPermission = await MediaLibrary.getPermissionsAsync();
+    console.log("mediaLibraryPermission", mediaLibraryPermission)
+    if (mediaLibraryPermission.status !== 'granted') {
+        alert('Permission required', 'We need permission to save images to your gallery.');
+        return;
+      }
+  
+      const fileUri = FileSystem.documentDirectory + imageUri.split('/').pop();
+  
+      const downloadResumable = FileSystem.createDownloadResumable(
+        imageUri,
+        fileUri,
+        {},
+        (downloadProgress) => {
+          const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite;
+          setDownloadProgress((prevState) => ({
+            ...prevState,
+            [index]: progress,
+          }));
+        }
+      );
+  
+      try {
+        const { uri } = await downloadResumable.downloadAsync();
+        const asset = await MediaLibrary.createAssetAsync(uri);
+        await MediaLibrary.createAlbumAsync('Download', asset, true);
+        setDownloadProgress((prevState) => ({
+          ...prevState,
+          [index]:1, // Clear progress after download completion
+        }));
+        // alert('Download complete');
+      } catch (e) {
+        console.error(e);
+        setDownloadProgress((prevState) => ({
+          ...prevState,
+          [index]: undefined, // Clear progress on error
+        }));
+        // alert('Download failed');
+      }
   }

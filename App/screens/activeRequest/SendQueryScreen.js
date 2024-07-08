@@ -125,7 +125,7 @@ const SendQueryScreen = () => {
           body: query,
           image: "",
           requestInfo: {
-            requestId: details?.requestId?._id,
+            requestId: details?._id,
             userId: details?.users[0]._id
           }
         }
