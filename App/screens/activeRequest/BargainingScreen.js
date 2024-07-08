@@ -152,7 +152,7 @@ const BargainingScreen = () => {
     // }, []);
 
     const fetchCurrentSpadeRetailer = async () => {
-        await axios.get('http://173.212.193.109:5000/chat/get-spade-messages', {
+        await axios.get('http://173.212.193.109:5000/chat/get-particular-chat', {
             params: {
                 id: currentSpadeChatId.chatId,
             }
