@@ -63,7 +63,7 @@ const BargainingScreen = () => {
     const currentSpadeChatId = useSelector(store => store.user.currentSpadeChatId);
 
 
-    console.log('details', currentSpadeChatId);
+    console.log('detailss', currentSpadeChatId);
 
     const route = useRoute();
 
@@ -139,6 +139,7 @@ const BargainingScreen = () => {
         console.log('Chatting screen  socekt connect with id', id);
 
     }, []);
+    
 
     // useEffect(() => {
 
