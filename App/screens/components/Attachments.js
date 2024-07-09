@@ -194,7 +194,7 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
                 <View className="h-full w-screen " style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}  >
                 </View>
             </TouchableOpacity>
-            <View style={{ zIndex: 100 }} className="bg-white absolute bottom-[180px] left-0 right-0 ">
+            <View style={{ zIndex: 100, position: 'absolute', backgroundColor: 'white', bottom: 165, left: 0, right: 0 }}>
                 <View className="flex-row justify-evenly py-[20px]">
                     <View className="items-center">
                         <Document />

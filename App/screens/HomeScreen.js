@@ -245,7 +245,7 @@ const HomeScreen = () => {
       socket.emit("setup", userData._id);
       //  console.log('Request connected with socket with id', spadeId);
       socket.on('connected', () => setSocketConnected(true));
-      console.log('HomeScreen spade socekt connect with id', userData._id);
+      console.log('HomeScreen socekt connect with id', userData._id);
     }
 
   }, []);

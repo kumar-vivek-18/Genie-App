@@ -53,7 +53,7 @@ const RequestDetail = () => {
         socket.emit("setup", id);
         //  console.log('Request connected with socket with id', spadeId);
         socket.on('connected', () => setSocketConnected(true));
-        console.log('Particular spade socekt connect with id', id);
+        console.log('RequestDetail screen socekt connect with id', id);
     }
 
     const handleSpadeNaviagtion = async () => {
@@ -83,6 +83,33 @@ const RequestDetail = () => {
         }
     }
 
+    const fetchRetailers = () => {
+        axios.get(`http://173.212.193.109:5000/chat/spade-chats`, {
+            params: {
+                id: currentSpade._id,
+            }
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    // setRetailers(response.data);
+                    const chats = response.data;
+                    chats.map(chat => {
+                        const data = formatDateTime(chat.updatedAt);
+                        chat.updatedAt = data.formattedTime;
+                        chat.createdAt = data.formattedDate;
+                        // console.log(mess.createdAt);
+                        console.log(chat._id, chat.updatedAt);
+                    })
+
+                    console.log('all reatailers fetched while setting up socket');
+                    dispatch(setCurrentSpadeRetailers(chats));
+                }
+            })
+            .catch((error) => {
+                console.error('Error while fetching chats', error);
+            });
+    }
+
     useEffect(() => {
         // const socket = io('http://your-server-address:3000');
         const spadeId = currentSpade._id;
@@ -101,32 +128,7 @@ const RequestDetail = () => {
         //     // });
         // });
 
-        const fetchRetailers = () => {
-            axios.get(`http://173.212.193.109:5000/chat/spade-chats`, {
-                params: {
-                    id: currentSpade._id,
-                }
-            })
-                .then((response) => {
-                    if (response.status === 200) {
-                        // setRetailers(response.data);
-                        const chats = response.data;
-                        chats.map(chat => {
-                            const data = formatDateTime(chat.updatedAt);
-                            chat.updatedAt = data.formattedTime;
-                            chat.createdAt = data.formattedDate;
-                            // console.log(mess.createdAt);
-                            console.log(chat._id, chat.updatedAt);
-                        })
 
-                        console.log('all reatailers fetched while setting up socket');
-                        dispatch(setCurrentSpadeRetailers(chats));
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error while fetching chats', error);
-                });
-        }
         fetchRetailers();
 
         // getGeoCoordinates().then(coordinates => {

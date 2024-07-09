@@ -127,17 +127,18 @@ const BargainingScreen = () => {
 
     // console.log('curr spade retailer', currentSpadeRetailer.users);
 
-    const connectSocket = async (id) => {
+    const connectSocket = useCallback(async (id) => {
         // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
         // console.log('scoket', socket);
-        console.log('comming in socket');
+        // console.log('comming in socket');
         socket.emit("setup", id);
         socket.on('connected', () => {
             setSocketConnected(true);
-            console.log('socekt connect with id', id);
-        });
 
-    }
+        });
+        console.log('Chatting screen  socekt connect with id', id);
+
+    }, []);
 
     // useEffect(() => {
 
@@ -157,7 +158,7 @@ const BargainingScreen = () => {
     //     }
     // }, []);
 
-    const fetchCurrentSpadeRetailer = async () => {
+    const fetchCurrentSpadeRetailer = useCallback(async () => {
         console.log('currentSpadeChatId', currentSpadeChatId);
         await axios.get('http://173.212.193.109:5000/chat/get-particular-chat', {
             params: {
@@ -172,12 +173,12 @@ const BargainingScreen = () => {
                 dispatch(setUserDetails(res?.data?.customerId));
                 fetchMessages(res?.data?._id);
             })
-    }
+    }, []);
 
 
-    const fetchMessages = (id) => {
+    const fetchMessages = useCallback((id) => {
 
-
+        console.log('fetching messages', id);
         axios.get('http://173.212.193.109:5000/chat/get-spade-messages', {
             params: {
                 id: id
@@ -204,7 +205,7 @@ const BargainingScreen = () => {
             .catch(err => {
                 console.error("error", err);
             })
-    }
+    }, []);
 
     // useEffect(() => {
     //     if (details?._id) {
@@ -233,7 +234,7 @@ const BargainingScreen = () => {
                 socket.emit('leave room', currentSpadeRetailer?.users[1]._id);
             }
         }
-    }, []);
+    }, [, currentSpadeChatId?.chatId, currentSpadeChatId?.socketId]);
 
 
 
@@ -475,6 +476,7 @@ const BargainingScreen = () => {
                             <Attachments setAttachmentScreen={setAttachmentScreen} setCameraScreen={setCameraScreen} messages={messages} setMessages={setMessages} />
                         </View>
                     }
+
                     <View className="z-50 w-full flex flex-row absolute justify-between items-center  top-[15px]">
                         <TouchableOpacity onPress={() => { navigation.goBack(); }} style={{ padding: 16, paddingLeft: 30, zIndex: 50 }}>
                             <ArrowLeft />
@@ -483,25 +485,25 @@ const BargainingScreen = () => {
                         <TouchableOpacity onPress={() => { setOptions(!options) }} style={{ padding: 16, paddingRight: 30, zIndex: 50 }}>
                             <ThreeDots />
                         </TouchableOpacity>
-
+                        {console.log('hii1')}
 
                     </View>
 
 
                     <View className="bg-[#ffe7c8] px-[64px] py-[30px]  pt-[20px] relative">
                         <View className=" flex-row gap-[18px] ">
-                            {/* <TouchableOpacity style={{ zIndex: 200 }} onPress={() => { navigation.navigate('retailer-profile'); }} >
+                            <TouchableOpacity style={{ zIndex: 200 }} onPress={() => { navigation.navigate('retailer-profile'); }} >
                                 <View className="z-50 w-[max-content] h-[max-content] bg-white rounded-full">
                                     <Image
                                         source={{ uri: details?.users[0]?.populatedUser?.storeImages[0] ? details?.users[0]?.populatedUser?.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
                                         style={{ width: 40, height: 40, borderRadius: 20 }}
                                     />
                                 </View>
-                            </TouchableOpacity> */}
-                            {/* <View>
+                            </TouchableOpacity>
+                            <View>
                                 {details && <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Regular" }}>{details?.users[0]?.populatedUser?.storeName?.length > 25 ? `${details?.users[0]?.populatedUser?.storeName.slice(0, 25)}...` : details?.users[0]?.populatedUser?.storeName}</Text>}
                                 <Text className="text-[12px] text-[#79b649]" style={{ fontFamily: "Poppins-Regular" }}>Online</Text>
-                            </View> */}
+                            </View>
 
                         </View>
 
@@ -527,7 +529,7 @@ const BargainingScreen = () => {
                         </View>
                     </View>
 
-                    {/* <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
+                    <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
                         ref={scrollViewRef}
                         onContentSizeChange={() =>
                             scrollViewRef.current.scrollToEnd({ animated: true })
@@ -560,11 +562,11 @@ const BargainingScreen = () => {
                             </View>}
                         </View>
 
-                    </ScrollView> */}
+                    </ScrollView>
 
 
                 </View >
-                {spade?.requestActive !== "closed" && <View className={`absolute bottom-0 left-0 right-0 w-screen ${attachmentScreen ? "-z-50" : "z-50"}`}>
+                {details && spade?.requestActive !== "closed" && <View className={`absolute bottom-0 left-0 right-0 w-screen ${attachmentScreen ? "-z-50" : "z-50"}`}>
                     <View className="absolute bottom-[0px] left-[0px] right-[0px] gap-[10px] bg-white w-screen">
                         {
 
@@ -669,4 +671,4 @@ const styles = {
 
 };
 
-export default BargainingScreen;
+export default React.memo(BargainingScreen);
