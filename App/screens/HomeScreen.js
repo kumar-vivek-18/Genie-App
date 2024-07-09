@@ -79,15 +79,15 @@ const HomeScreen = () => {
     setCurrentIndex(index);
   };
 
-  useEffect(() => {
-    if (isFocused) {
-      dispatch(setCurrentSpade({}));
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     dispatch(setCurrentSpade({}));
 
-      setTimeout(() => {
-        console.log('homeScreen is data', currentSpade);
-      }, 3000);
-    }
-  }, [isFocused]);
+  //     setTimeout(() => {
+  //       console.log('homeScreen is data', currentSpade);
+  //     }, 3000);
+  //   }
+  // }, [isFocused]);
   // console.log("userDetails", userDetails);
   // useEffect(() => {
   //   getGeoCoordinates().then(coordinates => {
@@ -248,7 +248,7 @@ const HomeScreen = () => {
       console.log('HomeScreen spade socekt connect with id', userData._id);
     }
 
-  })
+  }, []);
 
   useEffect(() => {
     connectSocket();
@@ -274,20 +274,10 @@ const HomeScreen = () => {
         let data = spadesData.filter(spade => spade._id === updatedId);
         // let spadeToUpdate = { ...spadesData[idx] };
         let data2 = spadesData.filter(spade => spade._id !== updatedId);
-        console.log('notf', currentSpade._id, updatedId);
-        // if (currentSpade && currentSpade?._id === updatedId) {
-        //   data[0] = { ...data[0], unread: false };
-        //   // spadeToUpdate.unread = false;
-        // }
-        // else {
-        data[0] = { ...data[0], unread: true };
-        // spadeToUpdate.unread = true;
-        // }
 
-        // data = [spade[idx], ...data];
-        console.log('data', data);
+        data[0] = { ...data[0], unread: true };
+        // console.log('data', data);
         spadesData = [...data, ...data2]
-        // spadesData.unshift(data);
 
         console.log("Spdes updated Successfully", data.length, data2.length);
         dispatch(setSpades(spadesData));
@@ -300,7 +290,7 @@ const HomeScreen = () => {
     return () => {
       socket.off("update userspade", handleMessageReceived);
     };
-  }, [spades, dispatch]);
+  }, [spades]);
 
 
 

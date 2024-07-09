@@ -62,8 +62,11 @@ const BargainingScreen = () => {
     const userLatitude = useSelector(store => store.user.userLatitude)
     const currentSpadeChatId = useSelector(store => store.user.currentSpadeChatId);
 
+
+    console.log('details', currentSpadeChatId);
+
     const route = useRoute();
-    
+
 
     const fetchUserDetails = async () => {
         const userData = JSON.parse(await AsyncStorage.getItem('userDetails'));
@@ -127,6 +130,7 @@ const BargainingScreen = () => {
     const connectSocket = async (id) => {
         // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
         // console.log('scoket', socket);
+        console.log('comming in socket');
         socket.emit("setup", id);
         socket.on('connected', () => {
             setSocketConnected(true);
@@ -154,13 +158,16 @@ const BargainingScreen = () => {
     // }, []);
 
     const fetchCurrentSpadeRetailer = async () => {
+        console.log('currentSpadeChatId', currentSpadeChatId);
         await axios.get('http://173.212.193.109:5000/chat/get-particular-chat', {
             params: {
                 id: currentSpadeChatId.chatId,
             }
         })
             .then((res) => {
-                dispatch(setCurrentSpadeRetailers(res.data));
+                console.log('fetched current spade retaieler', res.data);
+
+                dispatch(setCurrentSpadeRetailer(res.data));
                 dispatch(setCurrentSpade(res?.data?.requestId));
                 dispatch(setUserDetails(res?.data?.customerId));
                 fetchMessages(res?.data?._id);
@@ -208,10 +215,10 @@ const BargainingScreen = () => {
 
     useEffect(() => {
         fetchUserDetails();
-        connectSocket(currentSpadeChatId.socketId);
+        connectSocket(currentSpadeChatId?.socketId);
 
-        if (currentSpadeRetailer && currentSpadeChatId.chatId === currentSpadeRetailer._id) {
-            fetchMessages(currentSpadeChatId.chatId);
+        if (currentSpadeRetailer && currentSpadeChatId?.chatId === currentSpadeRetailer?._id) {
+            fetchMessages(currentSpadeChatId?.chatId);
             setMessagesMarkAsRead();
 
         }
@@ -483,23 +490,23 @@ const BargainingScreen = () => {
 
                     <View className="bg-[#ffe7c8] px-[64px] py-[30px]  pt-[20px] relative">
                         <View className=" flex-row gap-[18px] ">
-                            <TouchableOpacity style={{ zIndex: 200 }} onPress={() => { navigation.navigate('retailer-profile'); }} >
+                            {/* <TouchableOpacity style={{ zIndex: 200 }} onPress={() => { navigation.navigate('retailer-profile'); }} >
                                 <View className="z-50 w-[max-content] h-[max-content] bg-white rounded-full">
                                     <Image
-                                        source={{ uri: details.users[0].populatedUser.storeImages[0] ? details.users[0].populatedUser.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
+                                        source={{ uri: details?.users[0]?.populatedUser?.storeImages[0] ? details?.users[0]?.populatedUser?.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
                                         style={{ width: 40, height: 40, borderRadius: 20 }}
                                     />
                                 </View>
-                            </TouchableOpacity>
-                            <View>
-                                <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Regular" }}>{details?.users[0].populatedUser.storeName.length > 25 ? `${details?.users[0].populatedUser.storeName.slice(0, 25)}...` : details?.users[0].populatedUser.storeName}</Text>
+                            </TouchableOpacity> */}
+                            {/* <View>
+                                {details && <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Regular" }}>{details?.users[0]?.populatedUser?.storeName?.length > 25 ? `${details?.users[0]?.populatedUser?.storeName.slice(0, 25)}...` : details?.users[0]?.populatedUser?.storeName}</Text>}
                                 <Text className="text-[12px] text-[#79b649]" style={{ fontFamily: "Poppins-Regular" }}>Online</Text>
-                            </View>
+                            </View> */}
 
                         </View>
 
                         <View className="flex-row gap-[6px] items-center mt-[16px]">
-                            <TouchableOpacity onPress={() => { setRetailerModal(true); navigation.navigate('retailer-profile') }}>
+                            <TouchableOpacity onPress={() => { setRetailerModal(true); }}>
                                 <View className="flex-row gap-[7px] items-center">
                                     <Contact />
                                     <Text style={{ fontFamily: "Poppins-Regular", color: "#FB8C00" }}>Contact Details</Text>
@@ -520,7 +527,7 @@ const BargainingScreen = () => {
                         </View>
                     </View>
 
-                    <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
+                    {/* <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
                         ref={scrollViewRef}
                         onContentSizeChange={() =>
                             scrollViewRef.current.scrollToEnd({ animated: true })
@@ -548,12 +555,12 @@ const BargainingScreen = () => {
                                     </View>
                                 ))
                             }
-                            {messages.length === 1 && <View>
+                            {messages?.length === 1 && <View>
                                 <Text className="text-[#fb8c00] mx-[32px] text-center bg-[#ffe7c8] px-[50px] py-[10px] rounded-full" style={{ fontFamily: "Poppins-Bold" }}>Request Accepted, Start bidding now</Text>
                             </View>}
                         </View>
 
-                    </ScrollView>
+                    </ScrollView> */}
 
 
                 </View >
@@ -589,7 +596,6 @@ const BargainingScreen = () => {
                                 <Text className="text-center text-[14px] px-[32px]" style={{ fontFamily: "Poppins-Regular" }}>If you don’t like the shopkeeper's offer, select 'no' and send a query for clarification.</Text>
                             </View>
                             <View className="flex-row">
-                                {/* <View className="w-1/2 flex-row justify-center bg-[#fb8c00]"> */}
 
 
                                 <TouchableOpacity onPress={() => { setModalVisibile(true) }} style={{ width: "50%", justifyContent: "center", backgroundColor: "#fb8c00" }}>

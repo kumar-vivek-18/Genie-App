@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MobileNumberEntryScreen from '../screens/login/MobileNumberEntryScreen';
@@ -32,16 +32,24 @@ import AvailableCategories from '../screens/components/AvailableCategories';
 import { useSelector } from 'react-redux';
 const Stack = createNativeStackNavigator();
 const GlobalNavigation = () => {
-    const [userId,setUserId] = useState("")
+    const [userId, setUserId] = useState("")
 
+    const bargainingScreens = useSelector(store => store.user.bargainingScreens);
+    // console.log('bargaining screens', bargainingScreens);
+    // const currentSpadeChatId = useSelector(store => store.user.currentSpadeChatId);
 
-    const currentSpadeChatId = useSelector(store => store.user.currentSpadeChatId);
+    // const chatUserId = currentSpadeChatId?.chatId;
+    // console.log("Chat User ID in App.js:", chatUserId);
+    // useEffect(() => {
+    //     setUserId(chatUserId);
+    // }, []);
 
-            const chatUserId =currentSpadeChatId?.chatId;
-            console.log("Chat User ID in App.js:", chatUserId);
-            useEffect(() => {
-              setUserId(chatUserId);
-            }, [chatUserId]);
+    const memoizedScreens = useMemo(() => {
+        console.log('bargaining screens', bargainingScreens);
+        return bargainingScreens.map((screen, index) => (
+            <Stack.Screen key={index} name={screen} component={BargainingScreen} />
+        ));
+    }, [bargainingScreens]);
 
     return (
 
@@ -78,6 +86,7 @@ const GlobalNavigation = () => {
             <Stack.Screen name="rating-feedback" component={RatingAndFeedback} />
             <Stack.Screen name="retailer-profile" component={StoreProfileScreen} />
             <Stack.Screen name="available-categories" component={AvailableCategories} />
+            {memoizedScreens}
         </Stack.Navigator>
 
     )

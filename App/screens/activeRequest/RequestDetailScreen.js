@@ -10,7 +10,7 @@ import ArrowLeft from '../../assets/arrow-left.svg';
 import axios from 'axios';
 import Tick from '../../assets/Tick.svg';
 import * as Clipboard from 'expo-clipboard';
-import { setCurrentSpade, setCurrentSpadeChatId, setCurrentSpadeRetailer, setUserDetails } from '../../redux/reducers/userDataSlice';
+import { setBargainingScreens, setCurrentSpade, setCurrentSpadeChatId, setCurrentSpadeRetailer, setUserDetails } from '../../redux/reducers/userDataSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import CloseSpadeModal from '../components/CloseSpadeModal';
 import SuccessModal from '../components/SuccessModal';
@@ -305,7 +305,8 @@ const RequestDetail = () => {
         const distance = R * c; // Distance in kilometers
         // console.log(R, dLat, dLon, a, c, distance);
         return distance;
-    });
+    }, []);
+
     const [copied, setCopied] = useState(false);
 
     const copyToClipboard = async () => {
@@ -410,10 +411,12 @@ const RequestDetail = () => {
                                     // Calculate distance if coordinates are valid
                                     // distance = validCoordinates ? haversineDistance(details.customerId.latitude, details.customerId.longitude, details.retailerId.lattitude, details.retailerId.longitude) : null;
                                     return (
-                                        <TouchableOpacity key={index} onPress={() => { dispatch(setCurrentSpadeRetailer(details)); dispatch(setCurrentSpadeChatId({ chatId: details?._id, socketId: details?.users[1]._id })); 
-                                         setTimeout(() => {
-                                            navigation.navigate(`bargain${details?._id}`);
-                                          }, 200);}}>
+                                        <TouchableOpacity key={index} onPress={() => {
+                                            dispatch(setCurrentSpadeRetailer(details)); dispatch(setCurrentSpadeChatId({ chatId: details?._id, socketId: details?.users[1]._id })); dispatch(setBargainingScreens(details?._id))
+                                            setTimeout(() => {
+                                                navigation.navigate(`${details?._id}`);
+                                            }, 200);
+                                        }}>
                                             <View className={`flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#3f3d56] ${((spade.requestActive === "completed" || spade.requestActive === "closed") && spade.requestAcceptedChat !== details._id) ? "bg-[#001b33] opacity-50" : ""}`}>
                                                 {/* {console.log('chat details after bid accept', spade.requestActive, spade.requestAcceptedChat, details._id)} */}
                                                 {details?.users.length > 0 && <Image

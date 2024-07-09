@@ -51,6 +51,8 @@ const CreateNewBidScreen = () => {
   const [loading, setLoading] = useState(false);
   const spades = useSelector(store => store.user.spades);
 
+  console.log('currentSpade', details);
+
   console.log("requestImages", requestImages);
 
   const sendBid = async () => {
@@ -107,9 +109,9 @@ const CreateNewBidScreen = () => {
         dispatch(emtpyRequestImages([]));
         socket.emit("new message", res.data);
         setLoading(false);
-        const requestId=details._id;
+        const requestId = details?._id;
         navigation.navigate(`bargain${requestId}`);
-       
+
         const notification = {
           token: [token.data],
           title: userDetails?.userName,
@@ -123,12 +125,15 @@ const CreateNewBidScreen = () => {
         };
         await newBidSend(notification);
 
-        const idx = spades.findIndex(spade => spade._id === res.data.userRequest);
-        if (idx !== 0) {
-          let data = spades.filter(spade => spade._id === res.data.userRequest);
-          let data2 = spades.filter(spade => spade._id !== res.data.userRequest);
-          const spadeData = [...data, ...data2]
-          dispatch(setSpades(spadeData));
+        if (spades) {
+
+          const idx = spades.findIndex(spade => spade._id === res.data.userRequest);
+          if (idx !== 0) {
+            let data = spades.filter(spade => spade._id === res.data.userRequest);
+            let data2 = spades.filter(spade => spade._id !== res.data.userRequest);
+            const spadeData = [...data, ...data2]
+            dispatch(setSpades(spadeData));
+          }
         }
       })
       .catch((err) => {
