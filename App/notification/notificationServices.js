@@ -59,7 +59,7 @@ async function onDisplayNotification(remoteMessage) {
           }
           store.dispatch(setCurrentSpadeChatId(requestId))
           store.dispatch(setBargainingScreens(requestId.chatId));
-          setTimeout(() => {
+          setTimeout(() => { 
             navigationService.navigate(`${req?.requestId}`);
           }, 400);
         }, 1200);
