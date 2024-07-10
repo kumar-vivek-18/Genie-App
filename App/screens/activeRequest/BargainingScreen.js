@@ -73,7 +73,7 @@ const BargainingScreen = () => {
     };
 
     const setMessagesMarkAsRead = useCallback(async () => {
-        console.log("marks as read0", currentSpadeRetailer.latestMessage);
+        console.log("marks as read0", currentSpadeRetailer?.latestMessage);
         try {
             if (
                 currentSpadeRetailer.unreadCount > 0 &&
@@ -108,29 +108,11 @@ const BargainingScreen = () => {
         }
     });
 
-    // useEffect(() => {
-    //     fetchUserDetails();
-    //     if (route?.params?.data) {
-    //         const data = JSON.parse(route?.params?.data?.requestInfo);
-    //         // console.log('data', data);
-    //         console.log('object', route.params);
-    //         console.log('userDetails', data?.customerId);
-    //         console.log('currendspade', data?.requestId);
-    //         dispatch(setCurrentSpadeRetailer(data));
-    //         dispatch(setCurrentSpade(data?.requestId));
-    //         dispatch(setUserDetails(data?.customerId));
 
-    //         fetchMessages(data?._id);
-    //         connectSocket(data?.users[1]._id);
-    //     }
-    // }, []);
 
-    // console.log('curr spade retailer', currentSpadeRetailer.users);
 
     const connectSocket = useCallback(async (id) => {
-        // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
-        // console.log('scoket', socket);
-        // console.log('comming in socket');
+
         socket.emit("setup", id);
         socket.on('connected', () => {
             setSocketConnected(true);
@@ -141,23 +123,6 @@ const BargainingScreen = () => {
     }, []);
 
 
-    // useEffect(() => {
-
-    //     if (currentSpadeRetailer?.users) {
-    //         connectSocket(currentSpadeRetailer?.users[1]._id);
-    //         setMessagesMarkAsRead();
-    //         // console.log('making unread message 0');
-    //     }
-    //     // console.log('spc', socket);
-    //     // socket.on('typing', () => setIsTyping(true));
-    //     // socket.on("stop typing", () => setIsTyping(false));
-    //     return () => {
-    //         if (socket) {
-    //             // socket.disconnect();
-    //             socket.emit('leave room', currentSpadeRetailer?.users[1]._id);
-    //         }
-    //     }
-    // }, []);
 
     const fetchCurrentSpadeRetailer = useCallback(async () => {
         console.log('currentSpadeChatId', currentSpadeChatId);
@@ -166,14 +131,17 @@ const BargainingScreen = () => {
                 id: currentSpadeChatId.chatId,
             }
         })
-            .then(async(res) => {
-                console.log('fetched current spade retaieler', res.data);
+            .then(async (res) => {
+                console.log('fetched current spade retaieler', res.data._id);
 
                 dispatch(setCurrentSpadeRetailer(res.data));
                 dispatch(setCurrentSpade(res?.data?.requestId));
                 dispatch(setUserDetails(res?.data?.customerId));
                 fetchMessages(res?.data?._id);
-                console.log("current spade updated successfully",currentSpadeRetailer)
+                setTimeout(() => {
+                    console.log("current spade updated successfully", currentSpadeRetailer?._id)
+                }, 500);
+
             })
     }, [currentSpadeChatId]);
 
@@ -201,7 +169,7 @@ const BargainingScreen = () => {
                 setBidCounts(cnt);
                 // console.log('mess res', res.data);
                 socket.emit("join chat", res.data[0]?.chat?._id);
-                console.log("current spade updated successfully at messages",currentSpadeRetailer)
+                console.log("current spade updated successfully at messages", currentSpadeRetailer?._id)
 
 
                 // console.log("messages", res.data);
@@ -211,12 +179,7 @@ const BargainingScreen = () => {
             });
     }, []);
 
-    // useEffect(() => {
-    //     if (details?._id) {
-    //         fetchMessages(details._id);
-    //     }
 
-    // }, []);
 
 
     useEffect(() => {
@@ -229,8 +192,8 @@ const BargainingScreen = () => {
         }
         else {
             console.log('removing old data of spade at bargaining screen');
-            // dispatch(setCurrentSpadeRetailer({}));
-            // dispatch(setCurrentSpadeRetailers([]));
+            dispatch(setCurrentSpadeRetailer({}));
+            dispatch(setCurrentSpadeRetailers([]));
             fetchCurrentSpadeRetailer();
             setMessagesMarkAsRead();
         }
@@ -238,7 +201,7 @@ const BargainingScreen = () => {
         return () => {
             if (socket) {
                 // socket.disconnect();
-                socket.emit('leave room', currentSpadeRetailer?.users[1]._id);
+                socket.emit('leave room', currentSpadeChatId?.socketId);
             }
         }
     }, [currentSpadeChatId?.chatId, currentSpadeChatId?.socketId]);
@@ -417,7 +380,7 @@ const BargainingScreen = () => {
 
     useEffect(() => {
         const handleMessageReceived = (newMessageReceived) => {
-            console.log("socket received", newMessageReceived,currentSpadeRetailer);
+            console.log("socket received", newMessageReceived, currentSpadeRetailer);
             setMessages((prevMessages) => {
                 const data = formatDateTime(newMessageReceived.createdAt);
                 newMessageReceived.createdAt = data.formattedTime;
@@ -435,7 +398,7 @@ const BargainingScreen = () => {
                             message: newMessageReceived.message,
                         },
                     };
-                    console.log("update Chat ",updateChat)
+                    console.log("update Chat ", updateChat)
                     const updatedRetailers = [
                         updateChat,
                         ...currentSpadeRetailers.filter((c) => c._id !== updateChat._id),
@@ -492,8 +455,8 @@ const BargainingScreen = () => {
         // Request permission to access location
         console.log("location");
         const storeLocation = {
-            latitude: currentSpadeRetailer.retailerId.lattitude,
-            longitude: currentSpadeRetailer.retailerId.longitude
+            latitude: currentSpadeRetailer?.retailerId.lattitude,
+            longitude: currentSpadeRetailer?.retailerId.longitude
         }
 
         // const { status } = await Location.requestForegroundPermissionsAsync();
@@ -516,8 +479,8 @@ const BargainingScreen = () => {
             //     longitude: location.coords.longitude,
             // });
             // console.log('location details of user at bargaining', location);
-            dispatch(setUserLongitude(location.coords.longitude));
-            dispatch(setUserLatitude(location.coords.latitude));
+            dispatch(setUserLongitude(location?.coords.longitude));
+            dispatch(setUserLatitude(location?.coords.latitude));
         }
 
         console.log(
@@ -885,8 +848,8 @@ const BargainingScreen = () => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
-                            const requestId=spade?._id;
-                            navigation.navigate("report-vendor",{requestId});
+                            const requestId = spade?._id;
+                            navigation.navigate("report-vendor", { requestId });
                             setOptions(false);
                         }}
                     >
