@@ -4,58 +4,58 @@ import DPIcon from "../../assets/DPIcon.svg";
 import Tick from "../../assets/Tick.svg";
 import { Entypo } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
-import { Feather } from '@expo/vector-icons'; 
+import { Feather } from '@expo/vector-icons';
 import { handleDownload, handleDownloadPress } from '../../utils/logics/Logics';
 
 
 const RetailerBidMessage = ({ bidDetails, pic }) => {
-    const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
-    const [selectedImage, setSelectedImage] = useState(null);
-    const [scaleAnimation] = useState(new Animated.Value(0));
-    const [downloadProgress, setDownloadProgress] = useState({});
-  
-    const handleImagePress = (image) => {
-      setSelectedImage(image);
-      Animated.timing(scaleAnimation, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    };
-  
-    const handleClose = () => {
-      Animated.timing(scaleAnimation, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }).start(() => setSelectedImage(null));
-      setDownloadProgress({})
-    };
-    const interpolateColor = (progress) => {
-      const greenValue = Math.round(progress * 180);
-      return `rgb(0, ${greenValue}, 0)`;
-    };
-    // console.log('currentSpadeRetailer', currentSpadeRetailer);
-    return (
-        <View className="flex gap-[19px] bg-[#fafafa] rounded-3xl w-[297px] h-[max-content] py-[20px] items-center ">
-            <View className='flex-row mx-[40px]'>
-                <View className="flex-row gap-[18px]">
-                    <View>
-                        <Image
-                            source={{ uri: pic ? pic : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
-                            style={{ width: 40, height: 40, borderRadius: 20 }}
-                        />
-                    </View>
-                    <View className="w-[60%]">
-                        <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Bold" }}>{currentSpadeRetailer.retailerId.storeOwnerName}</Text>
-                        <Text className="text-[12px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails?.message}</Text>
-                    </View>
-                </View>
-                <View>
-                    <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text>
-                </View>
-            </View>
-            {bidDetails?.bidImages?.length > 0 && (
+  const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [scaleAnimation] = useState(new Animated.Value(0));
+  const [downloadProgress, setDownloadProgress] = useState({});
+
+  const handleImagePress = (image) => {
+    setSelectedImage(image);
+    Animated.timing(scaleAnimation, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handleClose = () => {
+    Animated.timing(scaleAnimation, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => setSelectedImage(null));
+    setDownloadProgress({})
+  };
+  const interpolateColor = (progress) => {
+    const greenValue = Math.round(progress * 180);
+    return `rgb(0, ${greenValue}, 0)`;
+  };
+  // console.log('currentSpadeRetailer', currentSpadeRetailer);
+  return (
+    <View className="flex gap-[19px] bg-[#fafafa] rounded-3xl w-[297px] h-[max-content] py-[20px] items-center ">
+      <View className='flex-row mx-[40px]'>
+        <View className="flex-row gap-[18px]">
+          <View>
+            <Image
+              source={{ uri: pic ? pic : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
+              style={{ width: 40, height: 40, borderRadius: 20 }}
+            />
+          </View>
+          <View className="w-[60%]">
+            <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Bold" }}>{currentSpadeRetailer?.retailerId?.storeOwnerName}</Text>
+            <Text className="text-[12px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails?.message}</Text>
+          </View>
+        </View>
+        <View>
+          <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text>
+        </View>
+      </View>
+      {bidDetails?.bidImages?.length > 0 && (
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
@@ -104,15 +104,15 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
                 </View>
               )}
             </View>
-            
+
           ))}
-            <Modal
+          <Modal
             transparent
             visible={!!selectedImage}
             onRequestClose={handleClose}
             downloadProgress={downloadProgress}
             setDownloadProgress={setDownloadProgress}
-           
+
           >
             <Pressable style={styles.modalContainer} onPress={handleClose}>
               <Animated.Image
@@ -124,13 +124,13 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
                   },
                 ]}
               />
-               <TouchableOpacity
+              <TouchableOpacity
                 style={{
                   width: 300,
                   backgroundColor: "#fb8c00",
-                  height:50, 
+                  height: 50,
                   borderRadius: 100,
-                  marginTop:20,
+                  marginTop: 20,
                   justifyContent: "center",
                   alignItems: "center",
                 }}
@@ -141,52 +141,52 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
                     downloadProgress,
                     setDownloadProgress
                   )
-                 
+
                 }
               >
                 {downloadProgress[1] !== undefined && (
-                <View style={[
-                  styles.progress,
-                  { backgroundColor: interpolateColor(downloadProgress[1]) },
-                ]}>
-                  <Text style={styles.progresstext}>
-  {downloadProgress[1] !== 1 ? `${Math.round(downloadProgress[1] * 100)}%` : "Downloaded"}
-</Text>
-                </View>
-              )}
-             
-               {
-                !downloadProgress[1] &&
-                <View className="w-full flex flex-row  gap-[20px]  justify-center items-center">
+                  <View style={[
+                    styles.progress,
+                    { backgroundColor: interpolateColor(downloadProgress[1]) },
+                  ]}>
+                    <Text style={styles.progresstext}>
+                      {downloadProgress[1] !== 1 ? `${Math.round(downloadProgress[1] * 100)}%` : "Downloaded"}
+                    </Text>
+                  </View>
+                )}
 
-                <Text className="text-white text-[16px]" style={{ fontFamily: "Poppins-Bold" }} >Download</Text>
-                <Feather name="download" size={18} color="white" />
-                </View>
-               }
-       
+                {
+                  !downloadProgress[1] &&
+                  <View className="w-full flex flex-row  gap-[20px]  justify-center items-center">
+
+                    <Text className="text-white text-[16px]" style={{ fontFamily: "Poppins-Bold" }} >Download</Text>
+                    <Feather name="download" size={18} color="white" />
+                  </View>
+                }
+
               </TouchableOpacity>
-              
+
             </Pressable>
           </Modal>
         </ScrollView>
       )}
-          
-            <View className="gap-[4px]">
-            <View className="flex-row gap-[5px]">
+
+      <View className="gap-[4px]">
+        <View className="flex-row gap-[5px]">
           <Text style={{ fontFamily: "Poppins-Medium" }}>Offered Price: </Text>
           <Text className=" text-[#79B649]" style={{ fontFamily: "Poppins-SemiBold" }}>
             Rs. {bidDetails.bidPrice}
           </Text>
         </View>
         {
-            bidDetails?.warranty>0 &&
-            <View className="flex-row gap-[5px]">
-          <Text style={{ fontFamily: "Poppins-Medium" }}>Warranty: </Text>
-          <Text className="text-[#79B649]" style={{ fontFamily: "Poppins-SemiBold" }}>
-            {" "}
-            {bidDetails.warranty} months
-          </Text>
-        </View>
+          bidDetails?.warranty > 0 &&
+          <View className="flex-row gap-[5px]">
+            <Text style={{ fontFamily: "Poppins-Medium" }}>Warranty: </Text>
+            <Text className="text-[#79B649]" style={{ fontFamily: "Poppins-SemiBold" }}>
+              {" "}
+              {bidDetails.warranty} months
+            </Text>
+          </View>
         }
 
                 {bidDetails?.bidAccepted === "rejected" && (
@@ -207,64 +207,64 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
                 )}
 
 
-            </View>
-        </View>
-    )
+      </View>
+    </View>
+  )
 }
 
 export default RetailerBidMessage;
 
 const styles = StyleSheet.create({
-    modalContainer: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "rgba(0, 0, 0, 0.7)",
-    },
-    modalImage: {
-      width: 300,
-      height: 400,
-      borderRadius: 10,
-    },
-    closeButton: {
-      position: "absolute",
-      top: 20,
-      right: 20,
-    },
-    progressContainer: {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "rgba(0,0,0,0.5)",
-        borderRadius: 20 
-      },
-      progress: {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: 100,
-        height:50
-      },
-      progressText: {
-        color: "white",
-        fontSize: 16,
-        
-      },
-      progresstext: {
-        color: "white",
-        fontSize: 16,
-        fontFamily:"Poppins-Bold",
-        width:"100%",
-        textAlign:"center"
-      },
-  });
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+  },
+  modalImage: {
+    width: 300,
+    height: 400,
+    borderRadius: 10,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 20,
+    right: 20,
+  },
+  progressContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+    borderRadius: 20
+  },
+  progress: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
+    height: 50
+  },
+  progressText: {
+    color: "white",
+    fontSize: 16,
+
+  },
+  progresstext: {
+    color: "white",
+    fontSize: 16,
+    fontFamily: "Poppins-Bold",
+    width: "100%",
+    textAlign: "center"
+  },
+});
 
 
