@@ -71,14 +71,15 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                         // navigation.navigate('home');
 
 
-                        if (token.length > 0) {
+                        if (token.data.length > 0) {
                             const notification = {
                                 token: token.data,
                                 title: userDetails?.userName,
                                 // close: currentSpade._id,
+                                image:request?.data?.requestImages[0],
                                 body: "Customer close the chat",
                                 requestInfo: {
-                                    requestId: currentSpadeRetailers[0]?.requestId?._id,
+                                    requestId:currentSpadeRetailers[0]?._id,
                                     userId: currentSpadeRetailers[0]?.users[0]._id
                                 }
                             }

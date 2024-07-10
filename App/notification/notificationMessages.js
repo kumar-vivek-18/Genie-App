@@ -436,7 +436,7 @@ export const AttachmentSend = async (mess) => {
 };
 
 export const sendCloseSpadeNotification = async (mess) => {
-    console.log("notify retailer", mess.token)
+    console.log("notify retailer closed", mess.token)
 
     try {
         const message = {
