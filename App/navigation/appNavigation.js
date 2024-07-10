@@ -30,6 +30,7 @@ import StoreProfileScreen from '../screens/activeRequest/StoreProfileScreen';
 import Razorpay from '../screens/paymentGateway/Razorpay.js';
 import AvailableCategories from '../screens/components/AvailableCategories';
 import { useSelector } from 'react-redux';
+import ReportVendor from '../screens/components/ReportVendor.js';
 const Stack = createNativeStackNavigator();
 const GlobalNavigation = () => {
     const [userId, setUserId] = useState("")
@@ -78,6 +79,8 @@ const GlobalNavigation = () => {
             <Stack.Screen name="about" component={AboutScreen} />
             <Stack.Screen name="termsandconditions" component={TermsandConditons} />
             <Stack.Screen name="help" component={HelpScreen} />
+            <Stack.Screen name="report-vendor" component={ReportVendor} />
+
             <Stack.Screen name="image-refrences" component={ImageRefrencesScreen} />
             <Stack.Screen name="view-request" component={ViewRequestScreen} />
             <Stack.Screen name="send-bid" component={CreateNewBidScreen} />
