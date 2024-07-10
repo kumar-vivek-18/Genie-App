@@ -10,7 +10,7 @@ const store = configureStore({
     user: userDataSlice, // Setting the reducer for 'storeData' slice
     userRequest: userRequestsSlice,
     // Add other reducers if needed
-  },
+  }
 });
 
 export default store;

@@ -175,7 +175,7 @@ const SendQueryScreen = () => {
 
             <View>
               <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Regular" }}>
-                {details.users[0].populatedUser.storeName}
+                {details?.users[0].populatedUser.storeName}
               </Text>
               <Text className="text-[12px] text-[#c4c4c4]" style={{ fontFamily: "Poppins-Regular" }}>
                 Active 3 hr ago

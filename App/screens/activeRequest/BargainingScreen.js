@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Pressable, Image, TextInput, TouchableOpacity, Alert, Linking } from 'react-native'
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import ThreeDots from '../../assets/3dots.svg';
 import ArrowLeft from '../../assets/arrow-left.svg';
@@ -34,10 +34,10 @@ import { emtpyRequestImages } from '../../redux/reducers/userRequestsSlice';
 import RetailerContactDetailModal from '../components/RetailerContactDetailModal';
 import RatingAndFeedbackModal from '../components/RatingAndFeedbackModal';
 import navigationService from '../../navigation/navigationService.js';
+import store from '../../redux/store';
 
 const BargainingScreen = () => {
     const navigation = useNavigation();
-    const details = useSelector(store => store.user.currentSpadeRetailer);
     const [messages, setMessages] = useState([]);
     const [attachmentScreen, setAttachmentScreen] = useState(false);
     const [cameraScreen, setCameraScreen] = useState(false);
@@ -45,7 +45,6 @@ const BargainingScreen = () => {
     const [modalVisible, setModalVisibile] = useState(false);
     const [retailerModal, setRetailerModal] = useState(false);
     const [bidCounts, setBidCounts] = useState(0);
-    // console.log('spade details', details);
     const spade = useSelector(store => store.user.currentSpade);
     const spades = useSelector(store => store.user.spades);
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
@@ -61,9 +60,10 @@ const BargainingScreen = () => {
     const userLongitude = useSelector(store => store.user.userLongitude);
     const userLatitude = useSelector(store => store.user.userLatitude)
     const currentSpadeChatId = useSelector(store => store.user.currentSpadeChatId);
+    const [currentSpadeRetailerLocal, setCurrentSpadeRetailerLocal] = useState({});
+    const [currentSpadeLocal, setCurrentSpadeLocal] = useState({});
 
-
-    console.log('detailss', currentSpadeChatId);
+    console.log('currentSpadeRetailer from useSelector', currentSpadeRetailer);
 
     const route = useRoute();
 
@@ -139,7 +139,7 @@ const BargainingScreen = () => {
         console.log('Chatting screen  socekt connect with id', id);
 
     }, []);
-    
+
 
     // useEffect(() => {
 
@@ -161,20 +161,41 @@ const BargainingScreen = () => {
 
     const fetchCurrentSpadeRetailer = useCallback(async () => {
         console.log('currentSpadeChatId', currentSpadeChatId);
-        await axios.get('http://173.212.193.109:5000/chat/get-particular-chat', {
+        const res = await axios.get('http://173.212.193.109:5000/chat/get-particular-chat', {
             params: {
                 id: currentSpadeChatId.chatId,
             }
         })
-            .then((res) => {
-                console.log('fetched current spade retaieler', res.data);
+        // .then((res) => {
+        if (res.status == 200) {
+            // console.log('fetched current spade retaieler', res.data);
 
-                dispatch(setCurrentSpadeRetailer(res.data));
-                dispatch(setCurrentSpade(res?.data?.requestId));
-                dispatch(setUserDetails(res?.data?.customerId));
-                fetchMessages(res?.data?._id);
-            })
-    }, []);
+            dispatch(setCurrentSpadeRetailer(res.data));
+            dispatch(setCurrentSpade(res.data.requestId));
+            dispatch(setUserDetails(res.data.customerId));
+
+            // setCurrentSpadeRetailerLocal(res.data);
+            // setCurrentSpadeLocal(res.data.requestId);
+
+            // console.log('currentSpadeRetailer', res.data);
+            // console.log('currentSpade', res.data.requestId);
+            // console.log('userDetails', userDetails);
+
+
+            setTimeout(() => {
+                console.log('currentSpadeRetailer after dispatch', store.getState().user.currentSpadeRetailer); // Adjust to match your state structure
+                console.log('currentSpade after dispatch', store.getState().user.currentSpade); // Adjust to match your state structure
+                console.log('userDetails after dispatch', store.getState().user.userDetails); // Adjust to match your state structure
+                console.log('currentSpadeRetailer data', currentSpadeRetailer);
+            }, 1000);
+
+            fetchMessages(res?.data?._id);
+            console.log('reqDetails', res.data);
+            return res.data;
+        }
+        return {};
+        // })
+    }, [currentSpadeRetailer, setCurrentSpadeRetailer]);
 
 
     const fetchMessages = useCallback((id) => {
@@ -208,12 +229,10 @@ const BargainingScreen = () => {
             })
     }, []);
 
-    // useEffect(() => {
-    //     if (details?._id) {
-    //         fetchMessages(details._id);
-    //     }
 
-    // }, []);
+
+
+
 
     useEffect(() => {
         fetchUserDetails();
@@ -222,7 +241,6 @@ const BargainingScreen = () => {
         if (currentSpadeRetailer && currentSpadeChatId?.chatId === currentSpadeRetailer?._id) {
             fetchMessages(currentSpadeChatId?.chatId);
             setMessagesMarkAsRead();
-
         }
         else {
             fetchCurrentSpadeRetailer();
@@ -235,7 +253,7 @@ const BargainingScreen = () => {
                 socket.emit('leave room', currentSpadeRetailer?.users[1]._id);
             }
         }
-    }, [, currentSpadeChatId?.chatId, currentSpadeChatId?.socketId]);
+    }, [currentSpadeChatId?.chatId, currentSpadeChatId?.socketId]);
 
 
 
@@ -312,7 +330,7 @@ const BargainingScreen = () => {
         try {
             const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
                 params: {
-                    id: details.retailerId._id,
+                    id: currentSpadeRetailer.retailerId._id,
                 }
             });
 
@@ -425,8 +443,8 @@ const BargainingScreen = () => {
         // Request permission to access location
         console.log("location");
         const storeLocation = {
-            latitude: details.users[0].populatedUser.lattitude,
-            longitude: details.users[0].populatedUser.longitude
+            latitude: currentSpadeRetailer.users[0].populatedUser.lattitude,
+            longitude: currentSpadeRetailer.users[0].populatedUser.longitude
         }
 
         // const { status } = await Location.requestForegroundPermissionsAsync();
@@ -486,27 +504,26 @@ const BargainingScreen = () => {
                         <TouchableOpacity onPress={() => { setOptions(!options) }} style={{ padding: 16, paddingRight: 30, zIndex: 50 }}>
                             <ThreeDots />
                         </TouchableOpacity>
-                        {console.log('hii1')}
 
                     </View>
 
 
                     <View className="bg-[#ffe7c8] px-[64px] py-[30px]  pt-[20px] relative">
-                        <View className=" flex-row gap-[18px] ">
+                        {currentSpadeRetailer && <View className=" flex-row gap-[18px] ">
                             <TouchableOpacity style={{ zIndex: 200 }} onPress={() => { navigation.navigate('retailer-profile'); }} >
                                 <View className="z-50 w-[max-content] h-[max-content] bg-white rounded-full">
                                     <Image
-                                        source={{ uri: details?.users[0]?.populatedUser?.storeImages[0] ? details?.users[0]?.populatedUser?.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
+                                        source={{ uri: currentSpadeRetailer?.retailerId?.storeImages[0] ? currentSpadeRetailer?.retailerId?.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
                                         style={{ width: 40, height: 40, borderRadius: 20 }}
                                     />
                                 </View>
                             </TouchableOpacity>
                             <View>
-                                {details && <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Regular" }}>{details?.users[0]?.populatedUser?.storeName?.length > 25 ? `${details?.users[0]?.populatedUser?.storeName.slice(0, 25)}...` : details?.users[0]?.populatedUser?.storeName}</Text>}
+                                {currentSpadeRetailer && <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Regular" }}>{currentSpadeRetailer?.retailerId?.storeName?.length > 25 ? `${currentSpadeRetailer?.retailerId?.storeName.slice(0, 25)}...` : currentSpadeRetailer?.retailerId?.storeName}</Text>}
                                 <Text className="text-[12px] text-[#79b649]" style={{ fontFamily: "Poppins-Regular" }}>Online</Text>
                             </View>
 
-                        </View>
+                        </View>}
 
                         <View className="flex-row gap-[6px] items-center mt-[16px]">
                             <TouchableOpacity onPress={() => { setRetailerModal(true); }}>
@@ -547,13 +564,13 @@ const BargainingScreen = () => {
                                             <UserMessage bidDetails={message} />
                                         </View>}
                                         {(message?.bidType === "false" && message?.sender?.type === 'Retailer') && <View className="flex flex-row justify-start">
-                                            <RetailerMessage bidDetails={message} pic={details?.users[0]?.populatedUser?.storeImages[0]} />
+                                            <RetailerMessage bidDetails={message} pic={currentSpadeRetailer?.retailerId?.storeImages[0]} />
                                         </View>}
                                         {message?.bidType === "true" && message?.sender?.type === 'UserRequest' && <View className="flex flex-row justify-end">
                                             <UserBidMessage bidDetails={message} />
                                         </View>}
                                         {message?.bidType === "true" && message?.sender?.type === 'Retailer' && <View className="flex flex-row justify-start">
-                                            <RetailerBidMessage bidDetails={message} pic={details?.users[0]?.populatedUser?.storeImages[0]} />
+                                            <RetailerBidMessage bidDetails={message} pic={currentSpadeRetailer?.retailerId?.storeImages[0]} />
                                         </View>}
                                     </View>
                                 ))
@@ -567,7 +584,7 @@ const BargainingScreen = () => {
 
 
                 </View >
-                {details && spade?.requestActive !== "closed" && <View className={`absolute bottom-0 left-0 right-0 w-screen ${attachmentScreen ? "-z-50" : "z-50"}`}>
+                {currentSpadeRetailer && spade?.requestActive !== "closed" && <View className={`absolute bottom-0 left-0 right-0 w-screen ${attachmentScreen ? "-z-50" : "z-50"}`}>
                     <View className="absolute bottom-[0px] left-[0px] right-[0px] gap-[10px] bg-white w-screen">
                         {
 
@@ -672,4 +689,4 @@ const styles = {
 
 };
 
-export default React.memo(BargainingScreen);
+export default memo(BargainingScreen);

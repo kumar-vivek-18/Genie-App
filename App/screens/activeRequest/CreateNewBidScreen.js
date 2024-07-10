@@ -110,7 +110,7 @@ const CreateNewBidScreen = () => {
         socket.emit("new message", res.data);
         setLoading(false);
         const requestId = details?._id;
-        navigation.navigate(`bargain${requestId}`);
+        navigation.navigate(`${requestId}`);
 
         const notification = {
           token: [token.data],
