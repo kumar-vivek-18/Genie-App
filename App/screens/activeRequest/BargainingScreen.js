@@ -720,7 +720,7 @@ const BargainingScreen = () => {
                                             If you don’t like the shopkeeper's offer, select 'no'
                                             and send a query for clarification.
                                         </Text>
-                                        <View>
+                                        <View className="flex flex-col items-center">
                                             {messages &&
                                                 messages[messages.length - 1]?.bidImages &&
                                                 messages[messages.length - 1]?.bidImages?.length >
@@ -751,8 +751,9 @@ const BargainingScreen = () => {
                                                     </ScrollView>
                                                 )}
                                         </View>
+                                        <View>
                                         {messages && messages[messages.length - 1]?.bidPrice && (
-                                            <View className="flex-row gap-[5px] mt-[10px] items-center justify-center">
+                                            <View className="flex-row gap-[5px] my-[10px] items-center justify-center">
                                                 <Text style={{ fontFamily: "Poppins-Medium" }}>
                                                     Offered Price:{" "}
                                                 </Text>
@@ -764,22 +765,24 @@ const BargainingScreen = () => {
                                                 </Text>
                                             </View>
                                         )}
-                                        {messages &&
-                                            messages[messages.length - 1]?.warranty &&
-                                            messages[messages.length - 1]?.warranty >
-                                            0(
-                                                <View className="flex-row gap-[5px] mt-[10px] items-center justify-center">
-                                                    <Text style={{ fontFamily: "Poppins-Medium" }}>
-                                                        Warranty:{" "}
-                                                    </Text>
-                                                    <Text
-                                                        className=" text-[#79B649]"
-                                                        style={{ fontFamily: "Poppins-SemiBold" }}
-                                                    >
-                                                        Rs. {messages[messages.length - 1]?.warranty}
-                                                    </Text>
-                                                </View>
-                                            )}
+                                        
+                                            </View>
+                                            <View>
+                                        {messages && messages[messages.length - 1]?.warranty>0 && (
+                                            <View className="flex-row gap-[5px] mb-[10px] items-center justify-center">
+                                                <Text style={{ fontFamily: "Poppins-Medium" }}>
+                                                    Warranty:{" "}
+                                                </Text>
+                                                <Text
+                                                    className=" text-[#79B649]"
+                                                    style={{ fontFamily: "Poppins-SemiBold" }}
+                                                >
+                                                    {messages[messages.length - 1]?.warranty}
+                                                </Text>
+                                            </View>
+                                        )}
+                                        
+                                            </View>
                                     </View>
                                     <View className="flex-row">
                                         <TouchableOpacity

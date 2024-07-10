@@ -193,7 +193,7 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
                     <View className="flex-row items-center gap-1">
                         <Entypo name="circle-with-cross" size={20} color="#E76063" />
                         <Text className="text-[14px] text-[#E76063]" style={{ fontFamily: "Poppins-Regular" }}>
-                            Bid Rejected
+                            Bid Rejected by You
                         </Text>
                     </View>
                 )}
@@ -201,7 +201,7 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
                     <View className="flex-row items-center gap-1">
                         <Tick width={18} height={18} />
                         <Text className="text-[14px] text-[#79B649]" style={{ fontFamily: "Poppins-Regular" }}>
-                            Bid Accepted
+                            Bid Accepted by You
                         </Text>
                     </View>
                 )}

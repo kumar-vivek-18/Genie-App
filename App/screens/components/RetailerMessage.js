@@ -46,7 +46,7 @@ const RetailerMessage = ({ bidDetails, pic }) => {
                         />
                     </View>
                     <View className="w-[60%]">
-                        <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Bold" }}>{currentSpadeRetailer.retailerId.storeOwnerName}</Text>
+                        <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Bold" }}>{currentSpadeRetailer?.retailerId?.storeOwnerName}</Text>
                         <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails?.message}</Text>
                     </View>
                 </View>
