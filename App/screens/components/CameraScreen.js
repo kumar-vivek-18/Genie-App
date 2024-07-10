@@ -329,7 +329,7 @@ const CameraScreen = () => {
                             className="text-white pl-[40px] capitalize"
                             style={{ fontFamily: "Poppins-SemiBold" }}
                         >
-                            {details.users[0].populatedUser.storeName}
+                            {details?.retailerId.storeName}
                         </Text>
                         <TouchableOpacity
                             onPress={() => {

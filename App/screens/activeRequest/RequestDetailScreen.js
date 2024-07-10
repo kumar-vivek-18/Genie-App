@@ -424,12 +424,12 @@ const RequestDetail = () => {
                                             <View className={`flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#3f3d56] ${((spade.requestActive === "completed" || spade.requestActive === "closed") && spade.requestAcceptedChat !== details._id) ? "bg-[#001b33] opacity-50" : ""}`}>
                                                 {/* {console.log('chat details after bid accept', spade.requestActive, spade.requestAcceptedChat, details._id)} */}
                                                 {details?.users.length > 0 && <Image
-                                                    source={{ uri: details?.users[0].populatedUser.storeImages[0] ? details?.users[0].populatedUser.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
+                                                    source={{ uri: details?.retailerId.storeImages[0] ? details?.retailerId.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
                                                     style={styles.image}
                                                 />}
                                                 <View className="gap-[10px] w-4/5">
                                                     <View className="flex-row justify-between">
-                                                        <Text className="text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Regular" }}>{details?.users[0].populatedUser.storeName.length > 20 ? `${details?.users[0].populatedUser.storeName.slice(0, 20)}...` : details?.users[0].populatedUser.storeName}</Text>
+                                                        <Text className="text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Regular" }}>{details?.retailerId.storeName.length > 20 ? `${details?.retailerId.storeName.slice(0, 20)}...` : details?.retailerId.storeName}</Text>
                                                         <View className="flex-row items-center gap-[5px]">
                                                             <GreenClock />
                                                             <Text className="text-[12px] text-[#558b2f]" style={{ fontFamily: "Poppins-Regular" }}>{details?.updatedAt}</Text>
