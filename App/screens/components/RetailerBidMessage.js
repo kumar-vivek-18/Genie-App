@@ -13,7 +13,6 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [scaleAnimation] = useState(new Animated.Value(0));
   const [downloadProgress, setDownloadProgress] = useState({});
-
   const handleImagePress = (image) => {
     setSelectedImage(image);
     Animated.timing(scaleAnimation, {
