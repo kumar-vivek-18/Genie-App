@@ -37,22 +37,23 @@ const RetailerMessage = ({ bidDetails, pic }) => {
   };
   return (
     <View className="flex gap-[19px] bg-[#fafafa]   rounded-3xl w-[297px] h-[max-content] py-[10px] items-center">
-      <View className="flex-row px-[45px] ">
-        <View className="flex-row gap-[18px] ">
-          <View>
+      <View className="flex-row px-[25px]">
+        <View className="flex-row justify-start ">
+          <View className="w-[25%]">
             <Image
               source={{ uri: pic ? pic : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
               style={{ width: 40, height: 40, borderRadius: 20 }}
             />
           </View>
-          <View className="w-[60%]">
-            <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Bold" }}>{currentSpadeRetailer?.retailerId?.storeOwnerName}</Text>
-            <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails?.message}</Text>
+          <View className="w-[75%]">
+            <View className="flex-row items-center justify-between">
+              <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Bold" }}>{currentSpadeRetailer?.retailerId?.storeOwnerName}</Text>
+              <Text className="text-[12px] " style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text>
+            </View>
+            <Text className="text-[14px] text-[#2e2c43] w-full" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails?.message}</Text>
           </View>
         </View>
-        <View>
-          <Text className="text-[12px] pt-[10px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text>
-        </View>
+
       </View>
       {bidDetails?.bidImages?.length > 0 && (
         <ScrollView

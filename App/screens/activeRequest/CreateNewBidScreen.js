@@ -51,7 +51,7 @@ const CreateNewBidScreen = () => {
   const [loading, setLoading] = useState(false);
   const spades = useSelector(store => store.user.spades);
 
-  console.log('currentSpade', details);
+  // console.log('currentSpade', details);
 
   console.log("requestImages", requestImages);
 

@@ -442,7 +442,7 @@ const RequestDetail = () => {
                                                                 <Text><Text>{parseFloat(details.retailerId.totalRating / details.retailerId.totalReview).toFixed(1)}</Text>/5</Text>
                                                             </View>
                                                         )}
-
+                                                        {console.log('retailer data', details?.retailerId.homeDelivery, details?.retailerId.totalRating, details?.retailerId.totalReview)}
                                                         {details?.retailerId?.homeDelivery && <View>
                                                             <HomeIcon />
                                                         </View>}
@@ -476,7 +476,7 @@ const RequestDetail = () => {
                                                                     </View>
                                                                 )
                                                             }
-                                                            <Text className="text-[14px] text-[#c4c4c4]" style={{ fontFamily: "Poppins-Regular" }}>{details?.latestMessage?.message || 'No message available'}</Text>
+                                                            <Text className="text-[14px] text-[#c4c4c4]" style={{ fontFamily: "Poppins-Regular" }}>{details?.latestMessage?.message.length > 25 ? `${details?.latestMessage?.message.slice(0, 22)}...` : details?.latestMessage?.message || 'No message available'}</Text>
 
                                                         </View>
                                                         {details?.unreadCount > 0 && details?.latestMessage?.sender?.type === 'Retailer' && <View className="w-[18px] h-[18px] rounded-full bg-[#55cd00] flex-row justify-center items-center">

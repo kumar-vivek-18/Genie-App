@@ -222,9 +222,11 @@ const BargainingScreen = () => {
         if (currentSpadeRetailer && currentSpadeChatId?.chatId === currentSpadeRetailer?._id) {
             fetchMessages(currentSpadeChatId?.chatId);
             setMessagesMarkAsRead();
-
         }
         else {
+            console.log('removing old data of spade at bargaining screen');
+            dispatch(setCurrentSpadeRetailer({}));
+            dispatch(setCurrentSpadeRetailers([]));
             fetchCurrentSpadeRetailer();
             setMessagesMarkAsRead();
         }
@@ -235,7 +237,7 @@ const BargainingScreen = () => {
                 socket.emit('leave room', currentSpadeRetailer?.users[1]._id);
             }
         }
-    }, [, currentSpadeChatId?.chatId, currentSpadeChatId?.socketId]);
+    }, [currentSpadeChatId?.chatId, currentSpadeChatId?.socketId]);
 
 
 
@@ -752,37 +754,37 @@ const BargainingScreen = () => {
                                                 )}
                                         </View>
                                         <View>
-                                        {messages && messages[messages.length - 1]?.bidPrice && (
-                                            <View className="flex-row gap-[5px] my-[10px] items-center justify-center">
-                                                <Text style={{ fontFamily: "Poppins-Medium" }}>
-                                                    Offered Price:{" "}
-                                                </Text>
-                                                <Text
-                                                    className=" text-[#79B649]"
-                                                    style={{ fontFamily: "Poppins-SemiBold" }}
-                                                >
-                                                    Rs. {messages[messages.length - 1]?.bidPrice}
-                                                </Text>
-                                            </View>
-                                        )}
-                                        
-                                            </View>
-                                            <View>
-                                        {messages && messages[messages.length - 1]?.warranty>0 && (
-                                            <View className="flex-row gap-[5px] mb-[10px] items-center justify-center">
-                                                <Text style={{ fontFamily: "Poppins-Medium" }}>
-                                                    Warranty:{" "}
-                                                </Text>
-                                                <Text
-                                                    className=" text-[#79B649]"
-                                                    style={{ fontFamily: "Poppins-SemiBold" }}
-                                                >
-                                                    {messages[messages.length - 1]?.warranty}
-                                                </Text>
-                                            </View>
-                                        )}
-                                        
-                                            </View>
+                                            {messages && messages[messages.length - 1]?.bidPrice && (
+                                                <View className="flex-row gap-[5px] my-[10px] items-center justify-center">
+                                                    <Text style={{ fontFamily: "Poppins-Medium" }}>
+                                                        Offered Price:{" "}
+                                                    </Text>
+                                                    <Text
+                                                        className=" text-[#79B649]"
+                                                        style={{ fontFamily: "Poppins-SemiBold" }}
+                                                    >
+                                                        Rs. {messages[messages.length - 1]?.bidPrice}
+                                                    </Text>
+                                                </View>
+                                            )}
+
+                                        </View>
+                                        <View>
+                                            {messages && messages[messages.length - 1]?.warranty > 0 && (
+                                                <View className="flex-row gap-[5px] mb-[10px] items-center justify-center">
+                                                    <Text style={{ fontFamily: "Poppins-Medium" }}>
+                                                        Warranty:{" "}
+                                                    </Text>
+                                                    <Text
+                                                        className=" text-[#79B649]"
+                                                        style={{ fontFamily: "Poppins-SemiBold" }}
+                                                    >
+                                                        {messages[messages.length - 1]?.warranty}
+                                                    </Text>
+                                                </View>
+                                            )}
+
+                                        </View>
                                     </View>
                                     <View className="flex-row">
                                         <TouchableOpacity
