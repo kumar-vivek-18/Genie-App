@@ -166,15 +166,16 @@ const BargainingScreen = () => {
                 id: currentSpadeChatId.chatId,
             }
         })
-            .then((res) => {
+            .then(async(res) => {
                 console.log('fetched current spade retaieler', res.data);
 
                 dispatch(setCurrentSpadeRetailer(res.data));
                 dispatch(setCurrentSpade(res?.data?.requestId));
                 dispatch(setUserDetails(res?.data?.customerId));
                 fetchMessages(res?.data?._id);
+                console.log("current spade updated successfully",currentSpadeRetailer)
             })
-    }, []);
+    }, [currentSpadeChatId]);
 
 
     const fetchMessages = useCallback((id) => {
@@ -200,6 +201,8 @@ const BargainingScreen = () => {
                 setBidCounts(cnt);
                 // console.log('mess res', res.data);
                 socket.emit("join chat", res.data[0]?.chat?._id);
+                console.log("current spade updated successfully at messages",currentSpadeRetailer)
+
 
                 // console.log("messages", res.data);
             })
@@ -215,6 +218,7 @@ const BargainingScreen = () => {
 
     // }, []);
 
+
     useEffect(() => {
         fetchUserDetails();
         connectSocket(currentSpadeChatId?.socketId);
@@ -225,8 +229,8 @@ const BargainingScreen = () => {
         }
         else {
             console.log('removing old data of spade at bargaining screen');
-            dispatch(setCurrentSpadeRetailer({}));
-            dispatch(setCurrentSpadeRetailers([]));
+            // dispatch(setCurrentSpadeRetailer({}));
+            // dispatch(setCurrentSpadeRetailers([]));
             fetchCurrentSpadeRetailer();
             setMessagesMarkAsRead();
         }
@@ -413,7 +417,7 @@ const BargainingScreen = () => {
 
     useEffect(() => {
         const handleMessageReceived = (newMessageReceived) => {
-            console.log("socket received", newMessageReceived);
+            console.log("socket received", newMessageReceived,currentSpadeRetailer);
             setMessages((prevMessages) => {
                 const data = formatDateTime(newMessageReceived.createdAt);
                 newMessageReceived.createdAt = data.formattedTime;
@@ -431,6 +435,7 @@ const BargainingScreen = () => {
                             message: newMessageReceived.message,
                         },
                     };
+                    console.log("update Chat ",updateChat)
                     const updatedRetailers = [
                         updateChat,
                         ...currentSpadeRetailers.filter((c) => c._id !== updateChat._id),
@@ -481,7 +486,7 @@ const BargainingScreen = () => {
         return () => {
             socket.off("message received", handleMessageReceived);
         };
-    }, []);
+    }, [currentSpadeRetailer, currentSpadeRetailers]);
 
     const handleOpenGoogleMaps = async () => {
         // Request permission to access location
