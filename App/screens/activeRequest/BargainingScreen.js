@@ -885,7 +885,8 @@ const BargainingScreen = () => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
-                            navigation.navigate("help");
+                            const requestId=spade?._id;
+                            navigation.navigate("report-vendor",{requestId});
                             setOptions(false);
                         }}
                     >
