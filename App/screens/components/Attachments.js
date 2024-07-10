@@ -29,7 +29,7 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
         setLoading(true)
         const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
             params: {
-                id: details.retailerId._id,
+                id: currentSpadeRetailer.retailerId._id,
             }
         });
 
@@ -41,11 +41,11 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
             name: `photo-${Date.now()}.jpg`,
         });        // });
 
-        formData.append('sender', JSON.stringify({ type: 'UserRequest', refId: details.requestId }));
+        formData.append('sender', JSON.stringify({ type: 'UserRequest', refId: currentSpadeRetailer.requestId._id }));
         formData.append('userRequest', currentSpade._id);
         formData.append('message', query);
         formData.append('bidType', "false");
-        formData.append('chat', details._id);
+        formData.append('chat', currentSpadeRetailer._id);
 
         // await axios.post('http://173.212.193.109:5000/chat/send-message', {
         //     sender: {

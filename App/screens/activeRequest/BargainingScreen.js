@@ -37,7 +37,6 @@ import navigationService from '../../navigation/navigationService.js';
 
 const BargainingScreen = () => {
     const navigation = useNavigation();
-    const details = useSelector(store => store.user.currentSpadeRetailer);
     const [messages, setMessages] = useState([]);
     const [attachmentScreen, setAttachmentScreen] = useState(false);
     const [cameraScreen, setCameraScreen] = useState(false);
@@ -63,7 +62,7 @@ const BargainingScreen = () => {
     const currentSpadeChatId = useSelector(store => store.user.currentSpadeChatId);
 
 
-    console.log('detailss', currentSpadeChatId);
+
 
     const route = useRoute();
 
@@ -336,7 +335,7 @@ const BargainingScreen = () => {
         try {
             const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
                 params: {
-                    id: details.retailerId._id,
+                    id: currentSpadeRetailer.retailerId._id,
                 }
             });
 
@@ -486,8 +485,8 @@ const BargainingScreen = () => {
         // Request permission to access location
         console.log("location");
         const storeLocation = {
-            latitude: details.users[0].populatedUser.lattitude,
-            longitude: details.users[0].populatedUser.longitude
+            latitude: currentSpadeRetailer.retailerId.lattitude,
+            longitude: currentSpadeRetailer.retailerId.longitude
         }
 
         // const { status } = await Location.requestForegroundPermissionsAsync();
@@ -562,7 +561,6 @@ const BargainingScreen = () => {
                         <TouchableOpacity onPress={() => { setOptions(!options) }} style={{ padding: 16, paddingRight: 30, zIndex: 50 }}>
                             <ThreeDots />
                         </TouchableOpacity>
-                        {console.log('hii1')}
 
                     </View>
 
@@ -572,13 +570,13 @@ const BargainingScreen = () => {
                             <TouchableOpacity style={{ zIndex: 200 }} onPress={() => { navigation.navigate('retailer-profile'); }} >
                                 <View className="z-50 w-[max-content] h-[max-content] bg-white rounded-full">
                                     <Image
-                                        source={{ uri: details?.users[0]?.populatedUser?.storeImages[0] ? details?.users[0]?.populatedUser?.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
+                                        source={{ uri: currentSpadeRetailer?.retailerId?.storeImages[0] ? currentSpadeRetailer?.retailerId?.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
                                         style={{ width: 40, height: 40, borderRadius: 20 }}
                                     />
                                 </View>
                             </TouchableOpacity>
                             <View>
-                                {details && <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Regular" }}>{details?.users[0]?.populatedUser?.storeName?.length > 25 ? `${details?.users[0]?.populatedUser?.storeName.slice(0, 25)}...` : details?.users[0]?.populatedUser?.storeName}</Text>}
+                                {currentSpadeRetailer && <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Regular" }}>{currentSpadeRetailer?.retailerId?.storeName?.length > 25 ? `${currentSpadeRetailer?.retailerId?.storeName.slice(0, 25)}...` : currentSpadeRetailer?.retailerId?.storeName}</Text>}
                                 <Text className="text-[12px] text-[#79b649]" style={{ fontFamily: "Poppins-Regular" }}>Online</Text>
                             </View>
 
@@ -641,13 +639,13 @@ const BargainingScreen = () => {
                                             <UserMessage bidDetails={message} />
                                         </View>}
                                         {(message?.bidType === "false" && message?.sender?.type === 'Retailer') && <View className="flex flex-row justify-start">
-                                            <RetailerMessage bidDetails={message} pic={details?.retailerId?.storeImages[0]} />
+                                            <RetailerMessage bidDetails={message} pic={currentSpadeRetailer?.retailerId?.storeImages[0]} />
                                         </View>}
                                         {message?.bidType === "true" && message?.sender?.type === 'UserRequest' && <View className="flex flex-row justify-end">
                                             <UserBidMessage bidDetails={message} />
                                         </View>}
                                         {message?.bidType === "true" && message?.sender?.type === 'Retailer' && <View className="flex flex-row justify-start">
-                                            <RetailerBidMessage bidDetails={message} pic={details?.retailerId?.storeImages[0]} />
+                                            <RetailerBidMessage bidDetails={message} pic={currentSpadeRetailer?.retailerId?.storeImages[0]} />
                                         </View>}
                                     </View>
                                 ))
@@ -658,7 +656,7 @@ const BargainingScreen = () => {
 
 
                 </View >
-                {details && spade?.requestActive !== "closed" && <View className={`absolute bottom-0 left-0 right-0 w-screen ${attachmentScreen ? "-z-50" : "z-50"}`}>
+                {currentSpadeRetailer && spade?.requestActive !== "closed" && <View className={`absolute bottom-0 left-0 right-0 w-screen ${attachmentScreen ? "-z-50" : "z-50"}`}>
                     <View className="absolute bottom-[0px] left-[0px] right-[0px] gap-[10px] bg-white w-screen">
                         {
 
