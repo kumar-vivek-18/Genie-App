@@ -48,6 +48,8 @@ const RequestDetail = () => {
     const userLongitude = useSelector(store => store.user.userLongitude);
     const userLatitude = useSelector(store => store.user.userLatitude);
 
+
+    console.log('HIII');
     const connectSocket = async (id) => {
         // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
         socket.emit("setup", id);

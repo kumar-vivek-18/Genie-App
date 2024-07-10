@@ -8,53 +8,53 @@ import { TouchableOpacity } from 'react-native';
 
 
 const RetailerMessage = ({ bidDetails, pic }) => {
-    const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
-    // console.log('currentSpadeRetailer', currentSpadeRetailer);
-    const [selectedImage, setSelectedImage] = useState(null);
-    const [scaleAnimation] = useState(new Animated.Value(0));
-    const [downloadProgress, setDownloadProgress] = useState({});
-  
-    const handleImagePress = (image) => {
-      setSelectedImage(image);
-      Animated.timing(scaleAnimation, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    };
-  
-    const handleClose = () => {
-      Animated.timing(scaleAnimation, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }).start(() => setSelectedImage(null));
-      setDownloadProgress({})
-    };
-    const interpolateColor = (progress) => {
-      const greenValue = Math.round(progress * 180);
-      return `rgb(0, ${greenValue}, 0)`;
-    };
-    return (
-        <View className="flex gap-[19px] bg-[#fafafa]   rounded-3xl w-[297px] h-[max-content] py-[10px] items-center">
-            <View className="flex-row px-[45px] ">
-                <View className="flex-row gap-[18px] ">
-                    <View>
-                        <Image
-                            source={{ uri: pic ? pic : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
-                            style={{ width: 40, height: 40, borderRadius: 20 }}
-                        />
-                    </View>
-                    <View className="w-[60%]">
-                        <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Bold" }}>{currentSpadeRetailer.retailerId.storeOwnerName}</Text>
-                        <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails?.message}</Text>
-                    </View>
-                </View>
-                <View>
-                    <Text className="text-[12px] pt-[10px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text>
-                </View>
-            </View>
-            {bidDetails?.bidImages?.length > 0 && (
+  const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
+  // console.log('currentSpadeRetailer', currentSpadeRetailer);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [scaleAnimation] = useState(new Animated.Value(0));
+  const [downloadProgress, setDownloadProgress] = useState({});
+
+  const handleImagePress = (image) => {
+    setSelectedImage(image);
+    Animated.timing(scaleAnimation, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handleClose = () => {
+    Animated.timing(scaleAnimation, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => setSelectedImage(null));
+    setDownloadProgress({})
+  };
+  const interpolateColor = (progress) => {
+    const greenValue = Math.round(progress * 180);
+    return `rgb(0, ${greenValue}, 0)`;
+  };
+  return (
+    <View className="flex gap-[19px] bg-[#fafafa]   rounded-3xl w-[297px] h-[max-content] py-[10px] items-center">
+      <View className="flex-row px-[45px] ">
+        <View className="flex-row gap-[18px] ">
+          <View>
+            <Image
+              source={{ uri: pic ? pic : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
+              style={{ width: 40, height: 40, borderRadius: 20 }}
+            />
+          </View>
+          <View className="w-[60%]">
+            <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Bold" }}>{currentSpadeRetailer?.retailerId?.storeOwnerName}</Text>
+            <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails?.message}</Text>
+          </View>
+        </View>
+        <View>
+          <Text className="text-[12px] pt-[10px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text>
+        </View>
+      </View>
+      {bidDetails?.bidImages?.length > 0 && (
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
