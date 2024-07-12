@@ -34,6 +34,7 @@ import { emtpyRequestImages } from '../../redux/reducers/userRequestsSlice';
 import RetailerContactDetailModal from '../components/RetailerContactDetailModal';
 import RatingAndFeedbackModal from '../components/RatingAndFeedbackModal';
 import navigationService from '../../navigation/navigationService.js';
+import LocationMessage from '../components/LocationMessage';
 
 const BargainingScreen = () => {
     const navigation = useNavigation();
@@ -624,6 +625,10 @@ const BargainingScreen = () => {
                                         {message?.bidType === "true" && message?.sender?.type === 'Retailer' && <View className="flex flex-row justify-start">
                                             <RetailerBidMessage bidDetails={message} pic={currentSpadeRetailer?.retailerId?.storeImages[0]} />
                                         </View>}
+                                        {message?.bidType === "location" && <View className="flex flex-row justify-end">
+                                            <LocationMessage bidDetails={message} />
+                                        </View>}
+
                                     </View>
                                 ))
                             }
@@ -638,7 +643,7 @@ const BargainingScreen = () => {
                         {
 
                         }
-                        {(((spade?.requestActive === "completed" && spade?.requestAcceptedChat === currentSpadeRetailer?._id) || currentSpadeRetailer?.requestType === "ongoing") && ((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "accepted") || (messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "rejected") || messages[messages?.length - 1]?.bidType === "false")) && <View className="w-full flex-row justify-between px-[5px] pb-[5px]">
+                        {(((spade?.requestActive === "completed" && spade?.requestAcceptedChat === currentSpadeRetailer?._id) || currentSpadeRetailer?.requestType === "ongoing") && ((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "accepted") || (spade?.requestActive === "active" && messages[messages?.length - 1]?.bidType === "location") || (messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "rejected") || messages[messages?.length - 1]?.bidType === "false")) && <View className="w-full flex-row justify-between px-[5px] pb-[5px]">
 
                             <TouchableOpacity onPress={() => { navigation.navigate('send-query', { messages, setMessages }) }}>
                                 <View className="border-2 border-[#fb8c00]  px-[20px] h-[63px] justify-center items-center  w-[max-content] rounded-[24px]">
@@ -658,7 +663,8 @@ const BargainingScreen = () => {
                                 messages[messages?.length - 1]?.bidAccepted === "rejected" &&
                                 spade?.requestActive === "active") ||
                                 (spade?.requestActive === "active" &&
-                                    messages[messages?.length - 1]?.bidType === "false")) && (
+                                    messages[messages?.length - 1]?.bidType === "false") || (spade?.requestActive === "active" &&
+                                        messages[messages?.length - 1]?.bidType === "location")) && (
                                 <TouchableOpacity
                                     onPress={() => {
                                         navigation.navigate("send-bid", {

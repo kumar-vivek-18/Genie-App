@@ -1,6 +1,8 @@
 import * as Location from "expo-location";
 import * as MediaLibrary from 'expo-media-library';
 import * as FileSystem from 'expo-file-system';
+import store from "../../redux/store";
+import { setUserLatitude, setUserLongitude } from "../../redux/reducers/userDataSlice";
 
 
 
@@ -41,37 +43,56 @@ export const getLocationName = async (lat, lon) => {
 }
 
 
-export const getGeoCoordinates = async (dispatch, setUserLongitude, setUserLatitude) => {
+export const getGeoCoordinates = async () => {
   try {
     // Request permission to access location
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
-      Alert.alert('Permission Denied', 'Permission to access location was denied.');
+      console.error("Access denied");
       return null;
     }
 
+
     // Set location options for higher accuracy and reasonable timeout
     const locationOptions = {
-      accuracy: Location.Accuracy.High,
+      accuracy: Location.Accuracy.Lowest,
       timeInterval: 10000, // 10 seconds
       distanceInterval: 1, // 1 meter
     };
 
     // Get current location
     const location = await Location.getCurrentPositionAsync(locationOptions);
-    dispatch(setUserLatitude(location.coords.latitude));
-    dispatch(setUserLongitude(location.coords.longitude));
-    console.log('location', location);
 
+    store.dispatch(setUserLatitude(location.coords.latitude));
+    store.dispatch(setUserLongitude(location.coords.longitude));
+
+    console.log("location from logics", location.coords.latitude, location.coords.longitude);
 
     return location;
   } catch (error) {
     // Handle errors such as timeout or other exceptions
     console.error('Error getting location:', error);
-    // Alert.alert('Error', 'Unable to fetch location. Please try again.');
     return null;
   }
 };
+
+export const getPreciseGeoCoordinates = async () => {
+
+  for (let i = 0; i < 3; i++) {
+    try {
+      const coordinates = await getGeoCoordinates();
+
+      if (coordinates) {
+        return coordinates;
+      }
+    } catch (error) {
+      console.error(`Attempt ${i + 1} failed:`, error);
+      if (i === retries - 1) {
+        throw error;
+      }
+    }
+  }
+}
 
 // const calculateAverage = (array) => array.reduce((a, b) => a + b, 0) / array.length;
 

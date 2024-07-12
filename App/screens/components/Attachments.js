@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, TouchableWithoutFeedback, Dimensions } from 'react-native'
+import { View, Text, TouchableOpacity, TouchableWithoutFeedback, Dimensions, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react';
 import StoreLocation from '../../assets/StoreLocation.svg';
 import Document from '../../assets/Documents.svg';
@@ -8,13 +8,14 @@ import Gallery from '../../assets/Gallerys.svg';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { socket } from '../../utils/scoket.io/socket';
-import { formatDateTime } from '../../utils/logics/Logics';
+import { formatDateTime, getLocationName, getPreciseGeoCoordinates } from '../../utils/logics/Logics';
 import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { getLocation } from '../../utils/logics/LocationService';
+import LocationModal from './LocationModal';
 
-const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessages }) => {
+
+const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
 
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
     const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
@@ -23,161 +24,90 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
     const [imageUri, setImageUri] = useState("");
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
+    const [locationLoading, setLocationLoading] = useState(false);
+    const [openLocationModal, setOpenLocationModal] = useState(false);
 
-
-    // const sendAttachment = async () => {
-    //     // console.log('res', query, imageUri);
-    //     setLoading(true)
-    //     const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
-    //         params: {
-    //             id: currentSpadeRetailer.retailerId._id,
-    //         }
-    //     });
-
-    //     const formData = new FormData();
-    //     // imageUri.forEach((uri, index) => {
-    //     formData.append('bidImages', {
-    //         uri: uri.uri,  // Correctly use the URI property from ImagePicker result
-    //         type: 'image/jpeg', // Adjust this based on the image type
-    //         name: `photo-${Date.now()}.jpg`,
-    //     });        // });
-
-    //     formData.append('sender', JSON.stringify({ type: 'UserRequest', refId: currentSpadeRetailer.requestId._id }));
-    //     formData.append('userRequest', currentSpade._id);
-    //     formData.append('message', query);
-    //     formData.append('bidType', "false");
-    //     formData.append('chat', currentSpadeRetailer._id);
-
-    //     // await axios.post('http://173.212.193.109:5000/chat/send-message', {
-    //     //     sender: {
-    //     //         type: 'UserRequest',
-    //     //         refId: details.requestId,
-    //     //     },
-    //     //     userRequest: currentSpade._id,
-    //     //     message: query,
-    //     //     bidType: "false",
-    //     //     bidImages: [imageUri],
-    //     //     chat: details._id,
-    //     // })
-    //     await axios.post('http://192.168.51.192:5000/chat/send-message', formData, {
-    //         headers: {
-    //             'Content-Type': 'multipart/form-data',
-    //         },
-    //     })
-    //         .then(res => {
-    //             console.log(res);
-    //             const data = formatDateTime(res.data.createdAt);
-    //             res.data.createdAt = data.formattedTime;
-
-    //             //updating messages
-    //             setMessages([...messages, res.data]);
-
-    //             //updating chat latest message
-    //             setLoading(false);
-    //             const updateChat = { ...currentSpadeRetailer, unreadCount: 0, latestMessage: { _id: res.data._id, message: res.data.message, bidType: "false", sender: { type: 'UserRequest', refId: currentSpade._id } } };
-    //             const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
-    //             dispatch(setCurrentSpadeRetailers(updatedRetailers));
-    //             dispatch(setCurrentSpadeRetailer(updateChat));
-
-    //             socket.emit("new message", res.data);
-    //             navigation.navigate('bargain');
-    //         })
-    //         .catch(err => {
-    //             setLoading(false);
-
-    //             console.log(err);
-    //         })
-
-    // }
-
-    const [location, setLocation] = useState(null);
 
     const sendLocation = async () => {
-
+        // console.log('res', query, imageUri);
+        setLocationLoading(true);
         try {
-            const loc = await getLocation();
-            console.log(loc)
-            if (loc) {
-                setLocation(loc);
+            const loc = await getPreciseGeoCoordinates();
+            if (!loc) {
+                console.error("Couldn't get location");
+                return;
+            };
 
-                console.log('user live location', loc);
+            const locationName = await getLocationName(loc.coords.latitude, loc.coords.longitude);
 
+            setLoading(true)
+            const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
+                params: {
+                    id: currentSpadeRetailer.retailerId._id,
+                }
+            });
 
-                // Send the location to the server or another user
-                // fetch('https://your-backend-api.com/send-location', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //     },
-                //     body: JSON.stringify({
-                //         latitude: loc.coords.latitude,
-                //         longitude: loc.coords.longitude,
-                //     }),
-                // })
-                //     .then((response) => response.json())
-                //     .then((data) => {
-                //         Alert.alert('Success', 'Location sent successfully');
-                //     })
-                //     .catch((error) => {
-                //         Alert.alert('Error', 'Failed to send location');
-                //     });
-            }
+            const formData = new FormData();
+
+            formData.append('sender', JSON.stringify({ type: 'UserRequest', refId: currentSpadeRetailer.requestId._id }));
+            formData.append('userRequest', currentSpade._id);
+            formData.append('message', locationName);
+            formData.append('bidType', "location");
+            formData.append('chat', currentSpadeRetailer._id);
+            formData.append('latitude', loc.coords.latitude);
+            formData.append('longitude', loc.coords.longitude);
+            await axios.post('http://173.212.193.109:5000/chat/send-message', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+                .then(res => {
+                    console.log(res);
+                    const data = formatDateTime(res.data.createdAt);
+                    res.data.createdAt = data.formattedTime;
+
+                    //updating messages
+                    setMessages([...messages, res.data]);
+
+                    //updating chat latest message
+                    setLoading(false);
+                    const updateChat = { ...currentSpadeRetailer, unreadCount: 0, latestMessage: { _id: res.data._id, message: res.data.message, bidType: "false", sender: { type: 'UserRequest', refId: currentSpade._id } } };
+                    const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
+                    dispatch(setCurrentSpadeRetailers(updatedRetailers));
+                    dispatch(setCurrentSpadeRetailer(updateChat));
+
+                    socket.emit("new message", res.data);
+                    setAttachmentScreen(false);
+                    setLocationLoading(false);
+                })
+                .catch(err => {
+                    setLoading(false);
+                    setLocationLoading(false);
+                    console.log(err);
+                })
         } catch (error) {
-            console.error('Error', 'Failed to get location');
+            setLocationLoading(false);
+            setAttachmentScreen(false);
+            console.error('Error while sending location', error);
         }
-    };
 
+
+    }
 
 
 
     const { height } = Dimensions.get('window');
 
     return (
-        // <View style={{ zIndex: 100, flex: 1 }} className="flex flex-col  absolute top-0 bottom-0 left-0 right-0  z-50 h-screen">
-        //     <TouchableOpacity onPress={() => { setAttachmentScreen(false) }}>
-        //         <View className=" w-screen  bg-transparent" >
-        //         </View>
-        //     </TouchableOpacity>
-        //     <View className="bg-white  py-[20px]  gap-5 absolute bottom-0 left-0 right-0 ">
-        //         <View className="flex-row justify-evenly">
-        //             <View className="items-center">
-        //                 <Document />
-        //                 <Text style={{ fontFamily: "Poppins-Regular" }}>Document</Text>
-        //             </View>
-        //             {/* <View className="items-center">
-        //                 <NewBid />
-        //                 <Text style={{ fontFamily: "Poppins-Regular" }}>New Bid</Text>
-        //             </View> */}
-        //             <View className="items-center">
-        //                 <StoreLocation />
-        //                 <Text style={{ fontFamily: "Poppins-Regular" }}>Location</Text>
-        //             </View>
-        //             <TouchableOpacity onPress={() => { navigation.navigate('camera', { openCamera: true, messages, setMessages }) }}>
-        //                 <View className="items-center">
-        //                     <Camera />
-        //                     <Text style={{ fontFamily: "Poppins-Regular" }}>Camera</Text>
-        //                 </View>
-        //             </TouchableOpacity>
-        //             <TouchableOpacity onPress={() => { navigation.navigate('camera', { openCamera: false, messages, setMessages }) }}>
-        //                 <View className="items-center">
-        //                     <Gallery />
-        //                     <Text style={{ fontFamily: "Poppins-Regular" }}>Gallery</Text>
-        //                 </View>
-        //             </TouchableOpacity>
-        //         </View>
-        //         {/* <View className="flex-row justify-evenly">
 
-
-        //         </View> */}
-        //     </View>
-        // </View>
 
         <View style={{ flex: 1 }} >
-            {/* <TouchableOpacity onPress={() => setAttachmentScreen(false)}>
-                <View className="w-screen bg-transparent flex-1" />
-            </TouchableOpacity> */}
+
             <TouchableOpacity onPress={() => { setAttachmentScreen(false) }}>
                 <View className="h-full w-screen " style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}  >
+                    {locationLoading && <View className="h-screen rounded-full flex-row items-center justify-center">
+                        <ActivityIndicator color={'#fb8c00'} size={100} />
+                    </View>}
                 </View>
             </TouchableOpacity>
             <View style={{ zIndex: 100, position: 'absolute', backgroundColor: 'white', bottom: 165, left: 0, right: 0 }}>
@@ -186,9 +116,10 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
                         <Document />
                         <Text style={{ fontFamily: 'Poppins-Regular' }}>Document</Text>
                     </View>
-                    <TouchableOpacity onPress={() => { sendLocation() }}>
+                    <TouchableOpacity onPress={() => { setOpenLocationModal(!openLocationModal) }}>
                         <View className="items-center">
                             <StoreLocation />
+
                             <Text style={{ fontFamily: 'Poppins-Regular' }}>Location</Text>
                         </View>
                     </TouchableOpacity>
@@ -207,6 +138,7 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
                     </TouchableOpacity>
                 </View>
             </View>
+            {openLocationModal && <LocationModal openLocationModal={openLocationModal} setOpenLocationModal={setOpenLocationModal} locationLoading={locationLoading} sendLocation={sendLocation} />}
         </View>
     )
 }

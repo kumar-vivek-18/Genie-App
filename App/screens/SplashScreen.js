@@ -9,7 +9,7 @@ import { requestUserPermission } from '../utils/logics/NotificationLogic';
 import messaging from '@react-native-firebase/messaging';
 import Splash from "../assets/Splash.svg"
 import { notificationListeners } from '../notification/notificationServices';
-import { getGeoCoordinates } from '../utils/logics/Logics';
+import { getPreciseGeoCoordinates } from '../utils/logics/Logics';
 import * as Location from "expo-location";
 
 const SplashScreen = () => {
@@ -18,21 +18,24 @@ const SplashScreen = () => {
   const userDetails = useSelector(store => store.user.userDetails);
 
   const fetchLocation = useCallback(async () => {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('Permission Denied', 'Permission to access location was denied.');
-      return;
-    }
+    // const { status } = await Location.requestForegroundPermissionsAsync();
+    // if (status !== 'granted') {
+    //   Alert.alert('Permission Denied', 'Permission to access location was denied.');
+    //   return;
+    // }
 
-    getGeoCoordinates(dispatch, setUserLongitude, setUserLatitude).then(res => {
-      // console.log('coordinates', coordinates);
-      // if (coordinates) {
-      //   setUserLongitude(coordinates.coords.longitude);
-      //   setUserLatitude(coordinates.coords.latitude);
-      // }
+    const coordinates = await getPreciseGeoCoordinates();
+    console.log('update coordinates', coordinates);
+    // const userLocation = await getGeoLocation();
+    // if (userLocation) {
+    //   dispatch(setUserLongitude(userLocation.coords.longitude));
+    //   dispatch(setUserLatitude(userLocation.coords.latitude));
+    //   console.log('Location Updated Successfully on Splash Screen');
+    // }
+    // else {
+    //   console.log('Unable to get user location on Splash Screen');
 
-      console.log("Coordinates Updated Successfully at Splash Screen");
-    })
+    // }
   })
   useEffect(() => {
 
@@ -40,27 +43,6 @@ const SplashScreen = () => {
   }, []);
 
 
-
-  // useEffect(() => {
-  //     const checkStoredUser = async () => {
-  //         try {
-  //             // Check if user data exists in local storage
-  //             const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
-
-  //             if (userData) {
-  //                 navigation.navigate("home");
-  //                 dispatch(setUserDetails(userData));
-  //             }
-  //             else {
-  //                 navigation.replace('mobileNumber');
-  //             }
-  //         } catch (error) {
-  //             console.error("Error checking stored user:", error);
-  //         }
-  //     };
-
-  //     checkStoredUser();
-  // }, []);
 
   const opacity = useRef(new Animated.Value(0)).current;
 
