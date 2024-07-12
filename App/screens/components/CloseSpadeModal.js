@@ -76,10 +76,10 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                                 token: token.data,
                                 title: userDetails?.userName,
                                 // close: currentSpade._id,
-                                image:request?.data?.requestImages[0],
+                                image: request?.data?.requestImages[0],
                                 body: "Customer close the chat",
                                 requestInfo: {
-                                    requestId:currentSpadeRetailers[0]?._id,
+                                    requestId: currentSpadeRetailers[0]?._id,
                                     userId: currentSpadeRetailers[0]?.users[0]._id
                                 }
                             }
@@ -134,6 +134,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
 
     const closeActiveSpade = async () => {
         try {
+            console.log('hii');
             await Promise.all(currentSpadeRetailers.map(async (retailer) => {
                 const formData = new FormData();
 
@@ -167,6 +168,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                 id: spade._id,
             })
                 .then((res) => {
+                    console.log('res', res.data);
                     if (res.status === 200) {
                         const updatedSpades = spades.filter(curr => curr._id !== spade._id);
                         dispatch(setSpades(updatedSpades));

@@ -215,7 +215,7 @@ const UserBidMessage = ({ bidDetails }) => {
               className="text-[14px] text-[#E76063]"
               style={{ fontFamily: "Poppins-Regular" }}
             >
-              Bid Rejected by Retailer
+              Offer Rejected by Vendor
             </Text>
           </View>
         )}
@@ -226,7 +226,7 @@ const UserBidMessage = ({ bidDetails }) => {
               className="text-[14px] text-[#79B649]"
               style={{ fontFamily: "Poppins-Regular" }}
             >
-              Bid Accepted by Retailer
+              Offer Accepted by Vendor
             </Text>
           </View>
         )}

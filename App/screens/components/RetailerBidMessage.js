@@ -66,19 +66,19 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
             flexDirection: "row",
-            gap: 4,
+            gap: 10,
             paddingHorizontal: 25,
           }}
         >
           {bidDetails?.bidImages.map((image, index) => (
             <View
               key={index}
-              style={{ position: "relative", width: 96, height: 132 }}
+              style={{ position: "relative", width: 180, height: 232 }}
             >
               <Pressable onPress={() => handleImagePress(image)}>
                 <Image
                   source={{ uri: image }}
-                  style={{ height: 132, width: 96, borderRadius: 20 }}
+                  style={{ height: 232, width: 180, borderRadius: 20 }}
                 />
               </Pressable>
               <TouchableOpacity
@@ -132,12 +132,15 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
               <TouchableOpacity
                 style={{
                   width: 300,
-                  backgroundColor: "#fb8c00",
+                  backgroundColor: "white",
                   height: 50,
                   borderRadius: 100,
                   marginTop: 20,
                   justifyContent: "center",
                   alignItems: "center",
+
+                  borderColor: '#fb8c00',
+                  borderWidth: 2
                 }}
                 disabled={downloadProgress[1] !== undefined}
                 onPress={() =>
@@ -162,10 +165,10 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
 
                 {
                   !downloadProgress[1] &&
-                  <View className="w-full flex flex-row  gap-[20px]  justify-center items-center">
+                  <View className="w-full flex flex-row  gap-[20px]   justify-center items-center">
 
-                    <Text className="text-white text-[16px]" style={{ fontFamily: "Poppins-Bold" }} >Download</Text>
-                    <Feather name="download" size={18} color="white" />
+                    <Text className=" text-[16px] text-center text-[#fb8c00]" style={{ fontFamily: "Poppins-Bold" }} >Download</Text>
+                    <Feather name="download" size={20} color="#fb8c00" />
                   </View>
                 }
 
@@ -198,7 +201,7 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
           <View className="flex-row items-center gap-1">
             <Entypo name="circle-with-cross" size={20} color="#E76063" />
             <Text className="text-[14px] text-[#E76063]" style={{ fontFamily: "Poppins-Regular" }}>
-              Bid Rejected by You
+              Offer Rejected by You
             </Text>
           </View>
         )}
@@ -206,7 +209,7 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
           <View className="flex-row items-center gap-1">
             <Tick width={18} height={18} />
             <Text className="text-[14px] text-[#79B649]" style={{ fontFamily: "Poppins-Regular" }}>
-              Bid Accepted by You
+              Offer Accepted by You
             </Text>
           </View>
         )}

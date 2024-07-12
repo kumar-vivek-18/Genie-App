@@ -12,7 +12,7 @@ import { notificationListeners } from './App/notification/notificationServices';
 import { setUniqueToken } from './App/redux/reducers/userDataSlice';
 import { useFonts } from 'expo-font';
 import * as Notifications from 'expo-notifications';
-// import * as MediaLibrary from 'expo-media-library';
+import * as MediaLibrary from 'expo-media-library';
 
 
 

@@ -171,7 +171,7 @@ const CreateNewBidScreen = () => {
               style={{ fontFamily: "Poppins-Bold" }}
             />
             <Text className="text-[14px] text-[#2e2c43] mt-[20px]" style={{ fontFamily: "Poppins-Regular" }}>
-              Please tell the shopkeeper the price that you feel is right.{" "}
+              Please tell the vendor the price that you feel is right.{" "}
             </Text>
 
             <Text className="text-[14px]  text-[#2e2c43] mx-[6px] mt-[30px] mb-[15px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
@@ -267,7 +267,7 @@ const CreateNewBidScreen = () => {
                 fontFamily: "Poppins-Black"
               }}
             >
-              Send bargaining bid
+              Send an offer
             </Text>)}
         </TouchableOpacity>
         {addImg && <AddImages addImg={addImg} setAddImg={setAddImg} />}

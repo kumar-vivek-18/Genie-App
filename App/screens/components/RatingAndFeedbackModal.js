@@ -6,6 +6,7 @@ import ShopLogo from '../../assets/shopLogo.svg';
 import Cross from '../../assets/cross.svg';
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
+import Tick from '../../assets/Tick.svg';
 
 const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal }) => {
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
@@ -32,12 +33,12 @@ const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal }) => {
                 .then(res => {
                     console.log("Feedback posted successfully");
                     setSubmitted(true);
-                    // setTimeout(() => {
-                    //     setFeedbackModal(false);
-                    //     setRating(0);
-                    //     setFeedback("");
-                    //     setSubmitted(false);
-                    // }, 2000);
+                    setTimeout(() => {
+                        setFeedbackModal(false);
+                        setRating(0);
+                        setFeedback("");
+                        setSubmitted(false);
+                    }, 2000);
                 })
                 .catch(err => {
                     console.error(err);
@@ -127,10 +128,12 @@ const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal }) => {
 
                         {submitted && <View>
                             <View className="flex-row w-full items-center justify-center gap-[10px]  rounded-2xl  mt-[20px] pb-[10px] pt-[15px]" style={{ border: 2, borderColor: '#558b2f', borderWidth: 2 }} >
-
+                                <Tick />
                                 <Text className="text-center text-[#558b2f] " style={{ fontFamily: 'Poppins-Bold' }}>
                                     Submitted Successfully
                                 </Text>
+
+
                             </View>
                         </View>}
 

@@ -505,6 +505,7 @@ const BargainingScreen = () => {
 
     return (
         <>
+
             <View style={{ flex: 1, backgroundColor: "white" }} className="relative">
                 <View contentContainerStyle={{ flexGrow: 1 }} className="relative">
                     {attachmentScreen && (
@@ -521,7 +522,7 @@ const BargainingScreen = () => {
                     <View className="z-50 w-full flex flex-row absolute justify-between items-center  top-[15px]">
                         <TouchableOpacity
                             onPress={() => {
-                                navigation.goBack();
+                                navigation.navigate('activerequest');
                             }}
                             style={{ padding: 16, paddingLeft: 30, zIndex: 50 }}
                         >
@@ -591,6 +592,9 @@ const BargainingScreen = () => {
                             </Text>
                         </View>
                     </View>
+                    {messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "new" &&
+                        messages[messages?.length - 1]?.sender?.type ===
+                        "Retailer" && <View style={{ backgroundColor: "rgba(0,0,0,0.5)", height: 800, width: 360, position: 'absolute', zIndex: 100, top: 170 }}></View>}
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
                         ref={scrollViewRef}
@@ -599,7 +603,10 @@ const BargainingScreen = () => {
                         }
 
                     >
-                        <View className="flex gap-[10px] px-[10px] pt-[40px] pb-[300px]">
+                        {/* <View></View> */}
+
+                        <View className="flex gap-[10px] px-[10px] pt-[40px] pb-[300px]" >
+
                             {
                                 messages && messages?.map((message, index) => (
 
@@ -631,17 +638,17 @@ const BargainingScreen = () => {
                         {
 
                         }
-                        {(((spade?.requestActive === "completed" && spade?.requestAcceptedChat === currentSpadeRetailer?._id) || currentSpadeRetailer?.requestType === "ongoing") && ((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "accepted") || (messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "rejected") || messages[messages?.length - 1]?.bidType === "false")) && <View className="w-full flex-row justify-between px-[10px]">
+                        {(((spade?.requestActive === "completed" && spade?.requestAcceptedChat === currentSpadeRetailer?._id) || currentSpadeRetailer?.requestType === "ongoing") && ((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "accepted") || (messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "rejected") || messages[messages?.length - 1]?.bidType === "false")) && <View className="w-full flex-row justify-between px-[5px] pb-[5px]">
 
                             <TouchableOpacity onPress={() => { navigation.navigate('send-query', { messages, setMessages }) }}>
-                                <View className="border-2 border-[#fb8c00]  px-[30px] h-[63px] justify-center items-center  w-[max-content] rounded-[24px]">
-                                    <Text className="text-[14px] text-[#fb8c00]  " style={{ fontFamily: "Poppins-Regular" }}>Send message </Text>
+                                <View className="border-2 border-[#fb8c00]  px-[20px] h-[63px] justify-center items-center  w-[max-content] rounded-[24px]">
+                                    <Text className="text-[16px] text-[#fb8c00]  " style={{ fontFamily: "Poppins-Regular" }}>Send message </Text>
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => { setAttachmentScreen(true) }}>
-                                <View className="border-2 border-[#fb8c00] flex-row w-[max-content] px-[10px] h-[63px] justify-center items-center rounded-[24px] gap-[5px]">
+                                <View className="border-2 border-[#fb8c00] flex-row w-[max-content] px-[5px] h-[63px] justify-center items-center rounded-[24px] gap-[5px]">
                                     <Document />
-                                    <Text className="text-[14px] text-[#fb8c00] " style={{ fontFamily: "Poppins-Regular" }}>Send attachment</Text>
+                                    <Text className="text-[16px] text-[#fb8c00] " style={{ fontFamily: "Poppins-Regular" }}>Send attachment</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>}
@@ -666,7 +673,7 @@ const BargainingScreen = () => {
                                             className="text-white  text-center text-[16px]"
                                             style={{ fontFamily: "Poppins-Black" }}
                                         >
-                                            Send a new bargaining bid
+                                            Send an offer
                                         </Text>
                                     </View>
                                 </TouchableOpacity>
@@ -675,7 +682,7 @@ const BargainingScreen = () => {
                         {messages[messages?.length - 1]?.bidType === "true" &&
                             messages[messages?.length - 1]?.bidAccepted === "new" &&
                             messages[messages?.length - 1]?.sender?.type === "Retailer" && (
-                                <View className="w-screen flex-col  ">
+                                <View className="w-screen flex-col  pt-[15px]">
                                     <View>
                                         <Text
                                             className="text-center text-[14px] "
@@ -687,7 +694,7 @@ const BargainingScreen = () => {
                                             className="text-center text-[14px] px-[32px]"
                                             style={{ fontFamily: "Poppins-Regular" }}
                                         >
-                                            If you don’t like the shopkeeper's offer, select 'no'
+                                            If you don’t like the vendor's offer, select 'no'
                                             and send a query for clarification.
                                         </Text>
                                         <View className="flex flex-col items-center">
@@ -808,7 +815,7 @@ const BargainingScreen = () => {
                                             className="text-[#fb8c00] text-center text-[14px]"
                                             style={{ fontFamily: "Poppins-Black" }}
                                         >
-                                            Waiting for retailers response.....{" "}
+                                            Waiting for vendor response.....{" "}
                                         </Text>
                                     </View>
                                 </View>
@@ -816,6 +823,8 @@ const BargainingScreen = () => {
                     </View>
                 </View>}
             </View>
+
+
 
             {modalVisible && (
                 <RequestAcceptModal
@@ -832,7 +841,7 @@ const BargainingScreen = () => {
                 />
             )}
             {options && (
-                <View className="absolute top-[30px] right-[50px] z-50 bg-white rounded-md">
+                <View className="absolute top-[30px] right-[50px] z-50 bg-white rounded-md 9+99*">
                     <TouchableOpacity
                         onPress={() => {
                             setOptions(false);
@@ -840,7 +849,7 @@ const BargainingScreen = () => {
                         }}
                     >
                         <Text
-                            className="mx-5 py-3 border-1 border-b-[1px]"
+                            className="mx-5 py-4 border-1 border-b-[1px] border-[#cdcdd6]"
                             style={{ fontFamily: "Poppins-Regular" }}
                         >
                             Rate Vendor
@@ -854,7 +863,7 @@ const BargainingScreen = () => {
                         }}
                     >
                         <Text
-                            className="mx-5 py-3"
+                            className="mx-5 py-4"
                             style={{ fontFamily: "Poppins-Regular" }}
                         >
                             Report Vendor

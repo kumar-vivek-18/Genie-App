@@ -1,76 +1,76 @@
 import * as Location from "expo-location";
-// import * as MediaLibrary from 'expo-media-library';
-// import * as FileSystem from 'expo-file-system';
+import * as MediaLibrary from 'expo-media-library';
+import * as FileSystem from 'expo-file-system';
 
 
 
 export const formatDateTime = (dateTimeString) => {
-    const date = new Date(dateTimeString);
-    const timeOptions = { hour: 'numeric', minute: 'numeric' };
-    const dateFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+  const date = new Date(dateTimeString);
+  const timeOptions = { hour: 'numeric', minute: 'numeric' };
+  const dateFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
 
-    // Format time
-    const formattedTime = date.toLocaleTimeString('en-US', timeOptions);
+  // Format time
+  const formattedTime = date.toLocaleTimeString('en-US', timeOptions);
 
-    // Format date
-    const formattedDate = date.toLocaleDateString('en-US', dateFormatOptions);
-    // console.log(formattedDate, formattedTime)
+  // Format date
+  const formattedDate = date.toLocaleDateString('en-US', dateFormatOptions);
+  // console.log(formattedDate, formattedTime)
 
-    return { formattedTime, formattedDate };
+  return { formattedTime, formattedDate };
 };
 
 export const getLocationName = async (lat, lon) => {
-    const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
+  const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
 
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        if (!data.error) {
-            return data.display_name;
-        } else {
-            return null;
-        }
-    } catch (error) {
-        console.error('Error fetching location:', error);
-        return null;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    const data = await response.json();
+    if (!data.error) {
+      return data.display_name;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching location:', error);
+    return null;
+  }
 }
 
 
 export const getGeoCoordinates = async (dispatch, setUserLongitude, setUserLatitude) => {
-    try {
-        // Request permission to access location
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-            Alert.alert('Permission Denied', 'Permission to access location was denied.');
-            return null;
-        }
-
-        // Set location options for higher accuracy and reasonable timeout
-        const locationOptions = {
-            accuracy: Location.Accuracy.High,
-            timeInterval: 10000, // 10 seconds
-            distanceInterval: 1, // 1 meter
-        };
-
-        // Get current location
-        const location = await Location.getCurrentPositionAsync(locationOptions);
-        dispatch(setUserLatitude(location.coords.latitude));
-        dispatch(setUserLongitude(location.coords.longitude));
-        console.log('location', location);
-
-
-        return location;
-    } catch (error) {
-        // Handle errors such as timeout or other exceptions
-        console.error('Error getting location:', error);
-        // Alert.alert('Error', 'Unable to fetch location. Please try again.');
-        return null;
+  try {
+    // Request permission to access location
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission Denied', 'Permission to access location was denied.');
+      return null;
     }
+
+    // Set location options for higher accuracy and reasonable timeout
+    const locationOptions = {
+      accuracy: Location.Accuracy.High,
+      timeInterval: 10000, // 10 seconds
+      distanceInterval: 1, // 1 meter
+    };
+
+    // Get current location
+    const location = await Location.getCurrentPositionAsync(locationOptions);
+    dispatch(setUserLatitude(location.coords.latitude));
+    dispatch(setUserLongitude(location.coords.longitude));
+    console.log('location', location);
+
+
+    return location;
+  } catch (error) {
+    // Handle errors such as timeout or other exceptions
+    console.error('Error getting location:', error);
+    // Alert.alert('Error', 'Unable to fetch location. Please try again.');
+    return null;
+  }
 };
 
 // const calculateAverage = (array) => array.reduce((a, b) => a + b, 0) / array.length;
@@ -125,109 +125,109 @@ export const getGeoCoordinates = async (dispatch, setUserLongitude, setUserLatit
 // };
 
 export const haversineDistance = (lat1, lon1, lat2, lon2) => {
-    // console.log('deg', lat1, lon1, lat2, lon2);
-    const toRadians = (degree) => degree * (Math.PI / 180);
+  // console.log('deg', lat1, lon1, lat2, lon2);
+  const toRadians = (degree) => degree * (Math.PI / 180);
 
-    const R = 6371; // Radius of the Earth in kilometers
-    const dLat = toRadians(lat2 - lat1);
-    const dLon = toRadians(lon2 - lon1);
+  const R = 6371; // Radius of the Earth in kilometers
+  const dLat = toRadians(lat2 - lat1);
+  const dLon = toRadians(lon2 - lon1);
 
-    const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    const distance = R * c; // Distance in kilometers
-    // console.log(R, dLat, dLon, a, c, distance);
-    return distance;
+  const distance = R * c; // Distance in kilometers
+  // console.log(R, dLat, dLon, a, c, distance);
+  return distance;
 }
 
 
 
 export const handleDownloadPress = async (imageUri, index, downloadProgress, setDownloadProgress) => {
-    const mediaLibraryPermission = await MediaLibrary.getPermissionsAsync();
-    console.log("mediaLibraryPermission", mediaLibraryPermission)
-    if (mediaLibraryPermission.status !== 'granted') {
-        alert('Permission required', 'We need permission to save images to your gallery.');
-        return;
-      }
-  
-      const fileUri = FileSystem.documentDirectory + imageUri.split('/').pop();
-  
-      const downloadResumable = FileSystem.createDownloadResumable(
-        imageUri,
-        fileUri,
-        {},
-        (downloadProgress) => {
-          const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite;
-          setDownloadProgress((prevState) => ({
-            ...prevState,
-            [index]: progress,
-          }));
-        }
-      );
-  
-      try {
-        const { uri } = await downloadResumable.downloadAsync();
-        const asset = await MediaLibrary.createAssetAsync(uri);
-        await MediaLibrary.createAlbumAsync('Download', asset, true);
-        setDownloadProgress((prevState) => ({
-          ...prevState,
-          [index]: undefined, // Clear progress after download completion
-        }));
-        alert('Download complete');
-      } catch (e) {
-        console.error(e);
-        setDownloadProgress((prevState) => ({
-          ...prevState,
-          [index]: undefined, // Clear progress on error
-        }));
-        alert('Download failed');
-      }
+  const mediaLibraryPermission = await MediaLibrary.getPermissionsAsync();
+  console.log("mediaLibraryPermission", mediaLibraryPermission)
+  if (mediaLibraryPermission.status !== 'granted') {
+    alert('Permission required', 'We need permission to save images to your gallery.');
+    return;
   }
 
-  
-export const handleDownload = async (imageUri, downloadProgress, setDownloadProgress) => {
-    const index=1;
-    const mediaLibraryPermission = await MediaLibrary.getPermissionsAsync();
-    console.log("mediaLibraryPermission", mediaLibraryPermission)
-    if (mediaLibraryPermission.status !== 'granted') {
-        alert('Permission required', 'We need permission to save images to your gallery.');
-        return;
-      }
-  
-      const fileUri = FileSystem.documentDirectory + imageUri.split('/').pop();
-  
-      const downloadResumable = FileSystem.createDownloadResumable(
-        imageUri,
-        fileUri,
-        {},
-        (downloadProgress) => {
-          const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite;
-          setDownloadProgress((prevState) => ({
-            ...prevState,
-            [index]: progress,
-          }));
-        }
-      );
-  
-      try {
-        const { uri } = await downloadResumable.downloadAsync();
-        const asset = await MediaLibrary.createAssetAsync(uri);
-        await MediaLibrary.createAlbumAsync('Download', asset, true);
-        setDownloadProgress((prevState) => ({
-          ...prevState,
-          [index]:1, // Clear progress after download completion
-        }));
-        // alert('Download complete');
-      } catch (e) {
-        console.error(e);
-        setDownloadProgress((prevState) => ({
-          ...prevState,
-          [index]: undefined, // Clear progress on error
-        }));
-        // alert('Download failed');
-      }
+  const fileUri = FileSystem.documentDirectory + imageUri.split('/').pop();
+
+  const downloadResumable = FileSystem.createDownloadResumable(
+    imageUri,
+    fileUri,
+    {},
+    (downloadProgress) => {
+      const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite;
+      setDownloadProgress((prevState) => ({
+        ...prevState,
+        [index]: progress,
+      }));
+    }
+  );
+
+  try {
+    const { uri } = await downloadResumable.downloadAsync();
+    const asset = await MediaLibrary.createAssetAsync(uri);
+    await MediaLibrary.createAlbumAsync('Download', asset, true);
+    setDownloadProgress((prevState) => ({
+      ...prevState,
+      [index]: undefined, // Clear progress after download completion
+    }));
+    alert('Download complete');
+  } catch (e) {
+    console.error(e);
+    setDownloadProgress((prevState) => ({
+      ...prevState,
+      [index]: undefined, // Clear progress on error
+    }));
+    alert('Download failed');
   }
+}
+
+
+export const handleDownload = async (imageUri, downloadProgress, setDownloadProgress) => {
+  const index = 1;
+  const mediaLibraryPermission = await MediaLibrary.getPermissionsAsync();
+  console.log("mediaLibraryPermission", mediaLibraryPermission)
+  if (mediaLibraryPermission.status !== 'granted') {
+    alert('Permission required', 'We need permission to save images to your gallery.');
+    return;
+  }
+
+  const fileUri = FileSystem.documentDirectory + imageUri.split('/').pop();
+
+  const downloadResumable = FileSystem.createDownloadResumable(
+    imageUri,
+    fileUri,
+    {},
+    (downloadProgress) => {
+      const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite;
+      setDownloadProgress((prevState) => ({
+        ...prevState,
+        [index]: progress,
+      }));
+    }
+  );
+
+  try {
+    const { uri } = await downloadResumable.downloadAsync();
+    const asset = await MediaLibrary.createAssetAsync(uri);
+    await MediaLibrary.createAlbumAsync('Download', asset, true);
+    setDownloadProgress((prevState) => ({
+      ...prevState,
+      [index]: 1, // Clear progress after download completion
+    }));
+    // alert('Download complete');
+  } catch (e) {
+    console.error(e);
+    setDownloadProgress((prevState) => ({
+      ...prevState,
+      [index]: undefined, // Clear progress on error
+    }));
+    // alert('Download failed');
+  }
+}

@@ -182,7 +182,7 @@ const RequestDetail = () => {
                 // console.log('updatedRe', currentSpadeRetailers);
                 // console.log('updatedUser', updatedUser);
 
-                console.log('currentSpadeRetailers', updatedUser.retailerId);
+                // console.log('currentSpadeRetailers', updatedUser.retailerId);
 
                 // const updatedRetailers = [updatedUser, ...currentSpadeRetailers];
                 const updatedRetailers = [updatedUser, ...currentSpadeRetailers.filter(c => c._id !== updatedUser._id)];
@@ -228,66 +228,66 @@ const RequestDetail = () => {
     //     fetchRetailers();
     // }, []);
 
-    const closeRequest = async () => {
+    // const closeRequest = async () => {
 
-        const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
-            params: {
-                id: currentSpadeRetailers[0]?.retailerId._id,
-            }
-        });
+    //     const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
+    //         params: {
+    //             id: currentSpadeRetailers[0]?.retailerId._id,
+    //         }
+    //     });
 
-        await axios
-            .post("http://173.212.193.109:5000/chat/send-message", {
-                sender: {
-                    type: "UserRequest",
-                    refId: currentSpade._id,
-                },
-                message: "Customer close the chat",
-                userRequest: currentSpade._id,
-                bidType: "update",
-                bidPrice: 0,
-                bidImages: [],
-                chat: currentSpade.requestAcceptedChat,
-                warranty: 0,
-            })
-            .then(async (res) => {
-                socket.emit("new message", res.data);
-                const request = await axios.patch(`http://173.212.193.109:5000/user/closespade/`, {
-                    id: currentSpade._id
-                });
-                console.log('request', request);
-                if (request.status === 200) {
-                    console.log('request closed');
-                    spades = spades.filter(curr => curr._id !== request._id);
-                    console.log('Request closed successfully');
-                    dispatch(setSpades(spades));
-                    navigation.navigate('home');
-
-
-                    if (token.length > 0) {
-                        const notification = {
-                            token: token,
-                            title: userDetails.userName,
-                            close: currentSpade._id,
-                            image: currentSpade.requestImages ? currentSpade.requestImages[0] : ""
-                        }
-                        console.log("close notification", token)
-                        await sendCloseSpadeNotification(notification);
-
-                    }
-                    // Send Notification to reatiler 
-                }
-                else {
-                    console.error('Error occuring while closing user request');
-                }
-            })
+    //     await axios
+    //         .post("http://173.212.193.109:5000/chat/send-message", {
+    //             sender: {
+    //                 type: "UserRequest",
+    //                 refId: currentSpade._id,
+    //             },
+    //             message: "Customer close the chat",
+    //             userRequest: currentSpade._id,
+    //             bidType: "update",
+    //             bidPrice: 0,
+    //             bidImages: [],
+    //             chat: currentSpade.requestAcceptedChat,
+    //             warranty: 0,
+    //         })
+    //         .then(async (res) => {
+    //             socket.emit("new message", res.data);
+    //             const request = await axios.patch(`http://173.212.193.109:5000/user/closespade/`, {
+    //                 id: currentSpade._id
+    //             });
+    //             console.log('request', request);
+    //             if (request.status === 200) {
+    //                 console.log('request closed');
+    //                 spades = spades.filter(curr => curr._id !== request._id);
+    //                 console.log('Request closed successfully');
+    //                 dispatch(setSpades(spades));
+    //                 navigation.navigate('home');
 
 
+    //                 if (token.length > 0) {
+    //                     const notification = {
+    //                         token: token,
+    //                         title: userDetails.userName,
+    //                         close: currentSpade._id,
+    //                         image: currentSpade.requestImages ? currentSpade.requestImages[0] : ""
+    //                     }
+    //                     console.log("close notification", token)
+    //                     await sendCloseSpadeNotification(notification);
+
+    //                 }
+    //                 // Send Notification to reatiler 
+    //             }
+    //             else {
+    //                 console.error('Error occuring while closing user request');
+    //             }
+    //         })
 
 
 
 
-    }
+
+
+    // }
 
 
 
@@ -332,19 +332,19 @@ const RequestDetail = () => {
         <>
             {<Pressable style={{ flex: 1, position: 'relative' }} onPress={() => { setModal(false) }}>
 
-                <ScrollView style={{ flex: 1 }} className="relative">
-                    <View style={{ flex: 1, position: 'relative' }} className="relative">
+                <ScrollView style={{ flex: 1 }} className="relative bg-white">
+                    <View style={{ flex: 1, position: 'relative' }} className="relative ">
 
                         <View className="z-50 w-full flex flex-row px-[9px] absolute justify-between items-center top-[20px]">
 
 
-                            <TouchableOpacity onPress={() => { navigation.goBack(); }} style={{ padding: 4 }}>
+                            <TouchableOpacity onPress={() => { navigation.navigate('home'); }} style={{ padding: 4 }}>
                                 <View className="px-[20px] py-[10px] ">
                                     <ArrowLeft />
                                 </View>
                             </TouchableOpacity>
 
-                            {spade.requestActive !== "closed" && <TouchableOpacity onPress={() => { setModal(!modal) }} >
+                            {spade?.requestActive !== "closed" && <TouchableOpacity onPress={() => { setModal(!modal) }} >
                                 <View className="px-[20px] py-[10px] ">
                                     <ThreeDots />
                                 </View>
@@ -381,7 +381,7 @@ const RequestDetail = () => {
 
 
                             </View>
-                            <Text className="mt-[5px]" style={{ fontFamily: "Poppins-Regular" }}>{spade.requestDescription}</Text>
+                            <Text className="mt-[5px]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>
                             <Pressable onPress={() => navigation.navigate('image-refrences')}>
                                 <View className="flex-row gap-[15px] mt-[15px] items-center">
                                     <GalleryImg />
@@ -390,7 +390,7 @@ const RequestDetail = () => {
                             </Pressable>
 
                             <View>{
-                                (spade.requestActive === "completed" || spade.requestActive === "closed") && <View className="flex-row gap-[5px] mt-[15px]">
+                                (spade?.requestActive === "completed" || spade?.requestActive === "closed") && <View className="flex-row gap-[5px] mt-[15px]">
                                     <Tick />
                                     <Text className="text-[##79B649]" style={{ fontFamily: "Poppins-Bold" }}>Offer Accepted</Text>
 
@@ -401,10 +401,10 @@ const RequestDetail = () => {
 
                         <View>
                             {
-                                currentSpadeRetailers && currentSpadeRetailers.length > 0 && currentSpadeRetailers.map((details, index) => {
+                                currentSpadeRetailers && currentSpadeRetailers?.length > 0 && currentSpadeRetailers?.map((details, index) => {
                                     let distance = null;
-                                    if (userLongitude !== 0 && userLatitude !== 0 && details.retailerId.longitude !== 0 && details.retailerId.lattitude !== 0) {
-                                        distance = haversineDistance(userLatitude, userLongitude, details.retailerId.lattitude, details.retailerId.longitude);
+                                    if (userLongitude !== 0 && userLatitude !== 0 && details?.retailerId?.longitude !== 0 && details?.retailerId?.lattitude !== 0) {
+                                        distance = haversineDistance(userLatitude, userLongitude, details?.retailerId?.lattitude, details?.retailerId?.longitude);
                                         // console.log('dis', distance);
                                     }
                                     // else if (details && details?.customerId?.longitude !== 0 && details?.customerId.latitude !== 0 && details.retailerId.longitude !== 0 && details.retailerId.lattitude !== 0) {
@@ -421,15 +421,14 @@ const RequestDetail = () => {
                                                 navigation.navigate(`${details?._id}`);
                                             }, 200);
                                         }}>
-                                            <View className={`flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#3f3d56] ${((spade.requestActive === "completed" || spade.requestActive === "closed") && spade.requestAcceptedChat !== details._id) ? "bg-[#001b33] opacity-50" : ""}`}>
-                                                {/* {console.log('chat details after bid accept', spade.requestActive, spade.requestAcceptedChat, details._id)} */}
-                                                {details?.users.length > 0 && <Image
-                                                    source={{ uri: details?.retailerId.storeImages[0] ? details?.retailerId.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
+                                            {details && <View className={`flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#cdcdd6] ${((spade?.requestActive === "completed" || spade?.requestActive === "closed") && spade?.requestAcceptedChat !== details._id) ? "bg-[#001b33] opacity-50" : ""}`}>
+                                                {details?.users?.length > 0 && <Image
+                                                    source={{ uri: details?.retailerId?.storeImages ? details?.retailerId?.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
                                                     style={styles.image}
                                                 />}
                                                 <View className="gap-[10px] w-4/5">
                                                     <View className="flex-row justify-between">
-                                                        <Text className="text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Regular" }}>{details?.retailerId.storeName.length > 20 ? `${details?.retailerId.storeName.slice(0, 20)}...` : details?.retailerId.storeName}</Text>
+                                                        <Text className="text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Regular" }}>{details?.retailerId?.storeName?.length > 20 ? `${details?.retailerId?.storeName.slice(0, 20)}...` : details?.retailerId?.storeName}</Text>
                                                         <View className="flex-row items-center gap-[5px]">
                                                             <GreenClock />
                                                             <Text className="text-[12px] text-[#558b2f]" style={{ fontFamily: "Poppins-Regular" }}>{details?.updatedAt}</Text>
@@ -439,10 +438,9 @@ const RequestDetail = () => {
                                                         {details?.retailerId?.totalReview > 0 && (
                                                             <View className="flex-row items-center gap-[5px]">
                                                                 <Star />
-                                                                <Text><Text>{parseFloat(details.retailerId.totalRating / details.retailerId.totalReview).toFixed(1)}</Text>/5</Text>
+                                                                <Text><Text>{parseFloat(details?.retailerId?.totalRating / details?.retailerId?.totalReview).toFixed(1)}</Text>/5</Text>
                                                             </View>
                                                         )}
-                                                        {console.log('retailer data', details?.retailerId.homeDelivery, details?.retailerId.totalRating, details?.retailerId.totalReview)}
                                                         {details?.retailerId?.homeDelivery && <View>
                                                             <HomeIcon />
                                                         </View>}
@@ -480,13 +478,13 @@ const RequestDetail = () => {
 
                                                         </View>
                                                         {details?.unreadCount > 0 && details?.latestMessage?.sender?.type === 'Retailer' && <View className="w-[18px] h-[18px] rounded-full bg-[#55cd00] flex-row justify-center items-center">
-                                                            <Text className=" text-white text-[12px] " style={{ fontFamily: "Poppins-Bold" }}>{details.unreadCount}</Text>
+                                                            <Text className=" text-white text-[12px] " style={{ fontFamily: "Poppins-Bold" }}>{details?.unreadCount}</Text>
                                                         </View>}
                                                     </View>
 
 
                                                 </View>
-                                            </View>
+                                            </View>}
                                         </TouchableOpacity>
                                     )
                                 })
@@ -497,12 +495,12 @@ const RequestDetail = () => {
                     </View>
                 </ScrollView>
 
-                {spade.requestActive === "completed" && <View className="w-screen h-[68px]  bg-[#fb8c00] justify-center absolute bottom-0 left-0 right-0">
+                {spade?.requestActive === "completed" && <View className="w-screen h-[68px]  bg-[#fb8c00] justify-center absolute bottom-0 left-0 right-0">
                     <TouchableOpacity onPress={() => { setConfirmModal(true); }}>
                         <Text className="text-white text-center text-[16px]" style={{ fontFamily: "Poppins-Black" }}>Close Request</Text>
                     </TouchableOpacity>
                 </View>}
-                {spade.requestActive === "active" && currentSpadeRetailers.length === 0 && <View className="w-screen h-[68px]  justify-center absolute bottom-[20px] left-0 right-0">
+                {spade?.requestActive === "active" && currentSpadeRetailers?.length === 0 && <View className="w-screen h-[68px]  justify-center absolute bottom-[20px] left-0 right-0">
 
                     <View className="bg-[#ffe7c8] mx-[16px] h-[68px] flex-row items-center justify-center rounded-full">
 
