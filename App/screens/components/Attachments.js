@@ -12,6 +12,7 @@ import { formatDateTime } from '../../utils/logics/Logics';
 import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { getLocation } from '../../utils/logics/LocationService';
 
 const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessages }) => {
 
@@ -24,125 +25,110 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
     const [loading, setLoading] = useState(true);
 
 
-    const sendAttachment = async () => {
-        // console.log('res', query, imageUri);
-        setLoading(true)
-        const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
-            params: {
-                id: currentSpadeRetailer.retailerId._id,
-            }
-        });
-
-        const formData = new FormData();
-        // imageUri.forEach((uri, index) => {
-        formData.append('bidImages', {
-            uri: uri.uri,  // Correctly use the URI property from ImagePicker result
-            type: 'image/jpeg', // Adjust this based on the image type
-            name: `photo-${Date.now()}.jpg`,
-        });        // });
-
-        formData.append('sender', JSON.stringify({ type: 'UserRequest', refId: currentSpadeRetailer.requestId._id }));
-        formData.append('userRequest', currentSpade._id);
-        formData.append('message', query);
-        formData.append('bidType', "false");
-        formData.append('chat', currentSpadeRetailer._id);
-
-        // await axios.post('http://173.212.193.109:5000/chat/send-message', {
-        //     sender: {
-        //         type: 'UserRequest',
-        //         refId: details.requestId,
-        //     },
-        //     userRequest: currentSpade._id,
-        //     message: query,
-        //     bidType: "false",
-        //     bidImages: [imageUri],
-        //     chat: details._id,
-        // })
-        await axios.post('http://192.168.51.192:5000/chat/send-message', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        })
-            .then(res => {
-                console.log(res);
-                const data = formatDateTime(res.data.createdAt);
-                res.data.createdAt = data.formattedTime;
-
-                //updating messages
-                setMessages([...messages, res.data]);
-
-                //updating chat latest message
-                setLoading(false);
-                const updateChat = { ...currentSpadeRetailer, unreadCount: 0, latestMessage: { _id: res.data._id, message: res.data.message, bidType: "false", sender: { type: 'UserRequest', refId: currentSpade._id } } };
-                const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
-                dispatch(setCurrentSpadeRetailers(updatedRetailers));
-                dispatch(setCurrentSpadeRetailer(updateChat));
-
-                socket.emit("new message", res.data);
-                navigation.navigate('bargain');
-            })
-            .catch(err => {
-                setLoading(false);
-
-                console.log(err);
-            })
-
-    }
-
-    // const getImageUrl = async (image) => {
-
-
-    //     let CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/kumarvivek/image/upload';
-
-    //     let base64Img = `data:image/jpg;base64,${image.base64}`;
-
-    //     let data = {
-    //         "file": base64Img,
-    //         "upload_preset": "CulturTap",
-    //     }
-
-    //     // console.log('base64', data);
-    //     fetch(CLOUDINARY_URL, {
-    //         body: JSON.stringify(data),
-    //         headers: {
-    //             'content-type': 'application/json'
-    //         },
-    //         method: 'POST',
-    //     }).then(async r => {
-    //         let data = await r.json()
-
-    //         // setPhoto(data.url);
-    //         const imgUri = data.secure_url;
-    //         if (imgUri) {
-
-    //             setImageUri(imgUri);
-    //             sendAttachment;
+    // const sendAttachment = async () => {
+    //     // console.log('res', query, imageUri);
+    //     setLoading(true)
+    //     const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
+    //         params: {
+    //             id: currentSpadeRetailer.retailerId._id,
     //         }
-    //         console.log('dataImg', data.secure_url);
-    //         // return data.secure_url;
-    //     }).catch(err => console.log(err));
+    //     });
 
-    // };
+    //     const formData = new FormData();
+    //     // imageUri.forEach((uri, index) => {
+    //     formData.append('bidImages', {
+    //         uri: uri.uri,  // Correctly use the URI property from ImagePicker result
+    //         type: 'image/jpeg', // Adjust this based on the image type
+    //         name: `photo-${Date.now()}.jpg`,
+    //     });        // });
 
-    const pickImage = async () => {
-        console.log("object", "hii");
-        const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            base64: true,
-            quality: 1,
-        });
+    //     formData.append('sender', JSON.stringify({ type: 'UserRequest', refId: currentSpadeRetailer.requestId._id }));
+    //     formData.append('userRequest', currentSpade._id);
+    //     formData.append('message', query);
+    //     formData.append('bidType', "false");
+    //     formData.append('chat', currentSpadeRetailer._id);
 
-        // console.log('pickImage', "result");
-        if (!result.canceled) {
-            setImageUri(result.assets[0].uri);
-            console.log('attachment image file', result.assets[0].uri);
-            // console.log(object)
-            // await getImageUrl(result.assets[0]);
+    //     // await axios.post('http://173.212.193.109:5000/chat/send-message', {
+    //     //     sender: {
+    //     //         type: 'UserRequest',
+    //     //         refId: details.requestId,
+    //     //     },
+    //     //     userRequest: currentSpade._id,
+    //     //     message: query,
+    //     //     bidType: "false",
+    //     //     bidImages: [imageUri],
+    //     //     chat: details._id,
+    //     // })
+    //     await axios.post('http://192.168.51.192:5000/chat/send-message', formData, {
+    //         headers: {
+    //             'Content-Type': 'multipart/form-data',
+    //         },
+    //     })
+    //         .then(res => {
+    //             console.log(res);
+    //             const data = formatDateTime(res.data.createdAt);
+    //             res.data.createdAt = data.formattedTime;
 
+    //             //updating messages
+    //             setMessages([...messages, res.data]);
+
+    //             //updating chat latest message
+    //             setLoading(false);
+    //             const updateChat = { ...currentSpadeRetailer, unreadCount: 0, latestMessage: { _id: res.data._id, message: res.data.message, bidType: "false", sender: { type: 'UserRequest', refId: currentSpade._id } } };
+    //             const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
+    //             dispatch(setCurrentSpadeRetailers(updatedRetailers));
+    //             dispatch(setCurrentSpadeRetailer(updateChat));
+
+    //             socket.emit("new message", res.data);
+    //             navigation.navigate('bargain');
+    //         })
+    //         .catch(err => {
+    //             setLoading(false);
+
+    //             console.log(err);
+    //         })
+
+    // }
+
+    const [location, setLocation] = useState(null);
+
+    const sendLocation = async () => {
+
+        try {
+            const loc = await getLocation();
+            console.log(loc)
+            if (loc) {
+                setLocation(loc);
+
+                console.log('user live location', loc);
+
+
+                // Send the location to the server or another user
+                // fetch('https://your-backend-api.com/send-location', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //     },
+                //     body: JSON.stringify({
+                //         latitude: loc.coords.latitude,
+                //         longitude: loc.coords.longitude,
+                //     }),
+                // })
+                //     .then((response) => response.json())
+                //     .then((data) => {
+                //         Alert.alert('Success', 'Location sent successfully');
+                //     })
+                //     .catch((error) => {
+                //         Alert.alert('Error', 'Failed to send location');
+                //     });
+            }
+        } catch (error) {
+            console.error('Error', 'Failed to get location');
         }
     };
+
+
+
 
     const { height } = Dimensions.get('window');
 
@@ -200,10 +186,13 @@ const Attachments = ({ setAttachmentScreen, setCameraScreen, messages, setMessag
                         <Document />
                         <Text style={{ fontFamily: 'Poppins-Regular' }}>Document</Text>
                     </View>
-                    <View className="items-center">
-                        <StoreLocation />
-                        <Text style={{ fontFamily: 'Poppins-Regular' }}>Location</Text>
-                    </View>
+                    <TouchableOpacity onPress={() => { sendLocation() }}>
+                        <View className="items-center">
+                            <StoreLocation />
+                            <Text style={{ fontFamily: 'Poppins-Regular' }}>Location</Text>
+                        </View>
+                    </TouchableOpacity>
+
                     <TouchableOpacity onPress={() => { navigation.navigate('camera', { openCamera: true, messages, setMessages }); setAttachmentScreen(false) }}>
                         <View className="items-center">
                             <Camera />
