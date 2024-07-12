@@ -13,6 +13,7 @@ import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/r
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import LocationModal from './LocationModal';
+import * as DocumentPicker from 'expo-document-picker';
 
 
 const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
@@ -94,6 +95,11 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
 
     }
 
+    const pickDocument = async () => {
+        let result = await DocumentPicker.getDocumentAsync({});
+        console.log('file name', result);
+    }
+
 
 
     const { height } = Dimensions.get('window');
@@ -112,10 +118,13 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
             </TouchableOpacity>
             <View style={{ zIndex: 100, position: 'absolute', backgroundColor: 'white', bottom: 165, left: 0, right: 0 }}>
                 <View className="flex-row justify-evenly py-[20px]">
-                    <View className="items-center">
-                        <Document />
-                        <Text style={{ fontFamily: 'Poppins-Regular' }}>Document</Text>
-                    </View>
+                    <TouchableOpacity onPress={() => { pickDocument() }}>
+                        <View className="items-center">
+                            <Document />
+                            <Text style={{ fontFamily: 'Poppins-Regular' }}>Document</Text>
+                        </View>
+                    </TouchableOpacity>
+
                     <TouchableOpacity onPress={() => { setOpenLocationModal(!openLocationModal) }}>
                         <View className="items-center">
                             <StoreLocation />
