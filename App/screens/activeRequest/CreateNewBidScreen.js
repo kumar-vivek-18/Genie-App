@@ -8,7 +8,7 @@ import {
   Image,
   ActivityIndicator,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ArrowLeft from "../../assets/arrow-left.svg";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -142,6 +142,15 @@ const CreateNewBidScreen = () => {
       });
   };
 
+
+
+  const scrollViewRef = useRef(null);
+  useEffect(() => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollToEnd({ animated: true });
+    }
+  }, [requestImages]);
+
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <View style={{ flex: 1 }}>
@@ -204,40 +213,56 @@ const CreateNewBidScreen = () => {
             <Text className="text-[14px]  text-[#2e2c43] pb-[20px]" style={{ fontFamily: "Poppins-Black" }}>
               Add image reference
             </Text>
-            <ScrollView
-              horizontal={true}
-              contentContainerStyle={{
-                flexDirection: "row",
-                gap: 4,
-                paddingHorizontal: 25,
-              }}
-            >
-              {requestImages &&
-                requestImages.map((image, index) => (
-                  <View key={index}>
-                    <Image
-                      source={{ uri: image }}
-                      style={{
-                        height: 180,
-                        width: 130,
-                        borderRadius: 24,
-                        backgroundColor: "#EBEBEB",
-                      }}
-                    />
-                  </View>
-                ))}
-            </ScrollView>
+            <View style={{ display: 'flex', flexDirection: requestImages.length > 0 ? 'row-reverse' : 'row', alignItems: 'center' }}>
 
-            <TouchableOpacity
-              onPress={() => {
-                setAddImg(!addImg);
-                console.log("addImag", addImg);
-              }}
-            >
-              <View className="mt-[20px] ">
-                <UploadImage />
-              </View>
-            </TouchableOpacity>
+              {requestImages.length <= 1 && <TouchableOpacity
+                onPress={() => {
+                  setAddImg(!addImg);
+                  console.log("addImag", addImg);
+                }}
+              >
+                <View className="mt-[20px] ">
+                  <UploadImage />
+                </View>
+              </TouchableOpacity>}
+              {requestImages && <ScrollView
+                ref={scrollViewRef}
+                horizontal={true}
+                contentContainerStyle={{
+                  flexDirection: "row",
+                  alignItems: 'center',
+                  gap: 4,
+                  paddingHorizontal: 25,
+                }}
+              >
+                {requestImages &&
+                  requestImages.map((image, index) => (
+                    <View key={index}>
+                      <Image
+                        source={{ uri: image }}
+                        style={{
+                          height: 180,
+                          width: 130,
+                          borderRadius: 24,
+                          backgroundColor: "#EBEBEB",
+                        }}
+                      />
+                    </View>
+                  ))}
+                {requestImages.length > 1 && <TouchableOpacity
+                  onPress={() => {
+                    setAddImg(!addImg);
+                    console.log("addImag", addImg);
+                  }}
+                >
+                  <View className="pl-[20px] ">
+                    <UploadImage />
+                  </View>
+                </TouchableOpacity>}
+              </ScrollView>}
+
+
+            </View>
           </View>
         </ScrollView>
         <TouchableOpacity

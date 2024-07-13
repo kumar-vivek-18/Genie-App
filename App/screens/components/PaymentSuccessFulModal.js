@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-
+import SuccessImg from '../../assets/SuccessImg.svg'
 const PaymentSuccessFulModal = ({ isVisible, setIsVisible }) => {
 
 
@@ -15,8 +15,8 @@ const PaymentSuccessFulModal = ({ isVisible, setIsVisible }) => {
             >
                 <View style={styles.overlay}>
                     <View style={styles.popup}>
-                        <MaterialIcons name="check-circle" size={64} color="white" />
-                        <Text style={styles.popupText}>Payment Done Successfully!</Text>
+                        <SuccessImg />
+                        <Text style={styles.popupText}>Payment received Successfully!</Text>
                     </View>
                 </View>
             </Modal>
@@ -29,10 +29,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f2f2f2',
+        backgroundColor: 'white',
     },
     button: {
-        backgroundColor: '#4CAF50',
+        backgroundColor: 'white',
         padding: 15,
         borderRadius: 30,
         elevation: 3,
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
     },
     popup: {
-        backgroundColor: '#4CAF50',
+        backgroundColor: 'white',
         padding: 30,
         borderRadius: 15,
         alignItems: 'center',
@@ -63,10 +63,10 @@ const styles = StyleSheet.create({
         height: 300,
     },
     popupText: {
-        color: '#fff',
-        fontSize: 20,
+        color: '#2e2c43',
+        fontSize: 16,
         fontWeight: 'bold',
-        marginTop: 10,
+        marginTop: 30,
         fontFamily: "Poppins-ExtraBold",
         textAlign: "center"
     },

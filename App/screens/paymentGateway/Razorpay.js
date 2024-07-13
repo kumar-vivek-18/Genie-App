@@ -90,22 +90,29 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
 import { encode as btoa } from "base-64";
 import Close from "../../assets/BlackClose.svg";
-import PaymentImg from "../../assets/PaymentImg.svg";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserDetails } from "../../redux/reducers/userDataSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ActivityIndicator } from "react-native";
 import PaymentSuccessFulModal from "../components/PaymentSuccessFulModal";
-
+import { formatDateTime } from "../../utils/logics/Logics";
+import Trust from '../../assets/Trust.svg';
 const PaymentScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const userDetails = useSelector((store) => store.user.userDetails);
   const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [date, setDate] = useState(null);
+
   useEffect(() => {
     // console.log('lastSpade', userDetails.lastSpade);
+    console.log('hii')
+    const formattedDate = formatDateTime(Date.now());
+    console.log(formattedDate);
+    setDate(formattedDate.formattedDate);
+
     if (userDetails.lastPaymentStatus === "paid") {
       navigation.navigate("home");
     }
@@ -284,24 +291,51 @@ const PaymentScreen = () => {
             >
               {userDetails.lastSpade?.requestDescription?.substring(0, 30)}....
             </Text>
+            <View className="flex-row justify-between items-center">
+
+              <View>
+                <View className="flex-row items-center gap-[5px] ">
+                  <Text className="text-[12px] text-'#2e2c43" style={{ fontFamily: 'Poppins-Bold' }}>Date:</Text>
+                  <Text className="text-[14px]" style={{ fontFamily: 'Poppins-Regular' }}>{date}</Text>
+                </View>
+                <View className="flex-row items-center gap-[5px]">
+                  <Text className="text-[12px] text-'#2e2c43" style={{ fontFamily: 'Poppins-Bold' }}>Bill To:</Text>
+                  <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: 'Poppins-Regular' }}>{userDetails.userName}</Text>
+                </View>
+              </View>
+              <View className="">
+                <Trust />
+              </View>
+
+            </View>
           </View>
-          <View className="w-screen  flex justify-center items-center mt-[60px]">
-            {/* <PaymentImg /> */}
-            <Text style={{ fontFamily: "Poppins-ExtraBold" }} className="text-center text-[16px]">Request Charges</Text>
+          <View className="w-screen  flex  mt-[60px] mx-[32px] z-50">
+
+
+            <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[16px] text-[#2e2c43]">Cost for spade</Text>
             <View className="flex-row ">
-              <Text style={{ fontFamily: "Poppins-Bold" }} className="text-center text-[28px] text-[#45801a]">40 </Text>
-              <Text style={{ fontFamily: "Poppins-Bold" }} className="text-center text-[18px] text-[#70B241]">Rs</Text>
+              <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[24px] text-[#45801a]">20 </Text>
+              <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[24px] text-[#45801a]">Rs</Text>
             </View>
 
-            <Text style={{ fontFamily: "Poppins-ExtraBold" }} className="text-center text-[16px]">After Discount</Text>
-            <View className="flex-row ">
-              <Text style={{ fontFamily: "Poppins-Bold" }} className="text-center text-[28px] text-[#45801a]">{userDetails.lastSpadePrice} </Text>
-              <Text style={{ fontFamily: "Poppins-Bold" }} className="text-center text-[18px] text-[#70B241]">Rs</Text>
-            </View>
 
+            <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[16px]">Coupon Applied: NA</Text>
+            <View className="flex-row ">
+              <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[16px] text-[#E76063]">Discount - </Text>
+              <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[16px] text-[#E76063]"> {20 - userDetails.lastSpadePrice} Rs</Text>
+            </View>
+            <View className="flex-row ">
+              <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[16px] text-[#2E2C43]">Tax - </Text>
+              <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[16px] text-[#2e2c43]">0 Rs</Text>
+            </View>
+            <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[16px]">Total Cost</Text>
+            <View className="flex-row ">
+              <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[24px] text-[#45801a]">{userDetails.lastSpadePrice} </Text>
+              <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[24px] text-[#45801a]">Rs</Text>
+            </View>
           </View>
         </View>
-        <View className="absolute bottom-[0px] left-[0px] right-[0px] gap-[10px]">
+        <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
           <TouchableOpacity
             onPress={() => {
               userDetails.freeSpades > 0 ? handleFreeSpade() : PayNow();

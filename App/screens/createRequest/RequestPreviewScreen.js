@@ -133,8 +133,8 @@ const RequestPreviewScreen = () => {
           title: userDetails?.userName,
           body: requestDetail,
           image: response.data?.userRequest?.requestImages?.length > 0 ? response.data?.userRequest?.requestImages[0] : "",
-         
-        
+
+
         };
 
         await NewRequestCreated(notification);
@@ -212,7 +212,7 @@ const RequestPreviewScreen = () => {
             Applied Coupon
           </Text>
           <Text className="text-[18px]  text-[#558b2f] pb-[20px] border-b-[1px] border-[#dcdbdb]" style={{ fontFamily: "Poppins-ExtraBold" }}>
-            {spadeCouponCode.length > 0 ? spadeCouponCode : "No Coupon Applied"}
+            {spadeCouponCode.length > 0 ? spadeCouponCode : "NA"}
           </Text>
 
           <Text className=" text-[14px] text-[#2e2c43] mb-[6px] mt-[20px] " style={{ fontFamily: "Poppins-Bold" }}>

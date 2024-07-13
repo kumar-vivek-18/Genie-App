@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-
+import SuccessImg from '../../assets/SuccessImg.svg'
 const SuccessPopup = ({ isVisible, setIsVisible }) => {
-    //   const [isVisible, setIsVisible] = useState(false);
 
-    //   const showModal = () => {
-    //     setIsVisible(true);
-    //     setTimeout(() => {
-    //       setIsVisible(false);
-    //     }, 2000); // Hide the pop-up after 2 seconds
-    //   };
 
     return (
         <View style={styles.container}>
@@ -18,11 +11,11 @@ const SuccessPopup = ({ isVisible, setIsVisible }) => {
                 transparent={true}
                 animationType="fade"
                 visible={isVisible}
-                onRequestClose={() => setIsVisible(false)}
+            // onRequestClose={() => setIsVisible(false)}
             >
                 <View style={styles.overlay}>
                     <View style={styles.popup}>
-                        <MaterialIcons name="check-circle" size={64} color="white" />
+                        <SuccessImg />
                         <Text style={styles.popupText}>Spade Created Successfully!</Text>
                     </View>
                 </View>
@@ -36,10 +29,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f2f2f2',
+        backgroundColor: 'white',
     },
     button: {
-        backgroundColor: '#4CAF50',
+        backgroundColor: 'white',
         padding: 15,
         borderRadius: 30,
         elevation: 3,
@@ -56,7 +49,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
     },
     popup: {
-        backgroundColor: '#4CAF50',
+        backgroundColor: 'white',
         padding: 30,
         borderRadius: 15,
         alignItems: 'center',
@@ -70,10 +63,11 @@ const styles = StyleSheet.create({
         height: 300,
     },
     popupText: {
-        color: '#fff',
-        fontSize: 20,
+        color: '#2e2c43',
+        fontSize: 16,
         fontWeight: 'bold',
-        marginTop: 10,
+        marginTop: 30,
+        marginHorizontal: 20,
         fontFamily: "Poppins-ExtraBold",
         textAlign: "center"
     },
