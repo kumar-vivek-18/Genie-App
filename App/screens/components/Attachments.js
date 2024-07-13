@@ -26,6 +26,7 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
     const [locationLoading, setLocationLoading] = useState(false);
+
     const [openLocationModal, setOpenLocationModal] = useState(false);
 
 
@@ -57,6 +58,7 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
             formData.append('chat', currentSpadeRetailer._id);
             formData.append('latitude', loc.coords.latitude);
             formData.append('longitude', loc.coords.longitude);
+
             await axios.post('http://173.212.193.109:5000/chat/send-message', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -95,10 +97,41 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
 
     }
 
+
+
     const pickDocument = async () => {
-        let result = await DocumentPicker.getDocumentAsync({});
-        console.log('file name', result);
+        const MAX_FILE_SIZE_MB = 2; // Maximum file size in MB
+        const DOCUMENT_MIME_TYPES = [
+            'application/pdf',
+            'text/plain',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        ];
+
+        const result = await DocumentPicker.getDocumentAsync({
+            type: '*/*', // Allow all file types initially
+        });
+
+        if (!result.canceled) {
+            // const fileInfo = await RNFS.stat(result.uri.replace('file://', ''));
+
+            const fileSizeMB = parseFloat(result.assets[0].size) / (1e6); // Convert bytes to MB
+            console.log(fileSizeMB);
+            if (fileSizeMB > MAX_FILE_SIZE_MB) {
+                console.error(
+                    'File Size Limit Exceeded',
+                    `Please select a file smaller than ${MAX_FILE_SIZE_MB}MB`
+                );
+            }
+            else {
+                navigation.navigate('send-document', { result, messages, setMessages });
+            }
+        }
+
+        return null;
+
     }
+
+
 
 
 

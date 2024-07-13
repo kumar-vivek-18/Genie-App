@@ -31,6 +31,7 @@ import Razorpay from '../screens/paymentGateway/Razorpay.js';
 import AvailableCategories from '../screens/components/AvailableCategories';
 import { useSelector } from 'react-redux';
 import ReportVendor from '../screens/components/ReportVendor.js';
+import SendDocument from '../screens/components/SendDocument';
 const Stack = createNativeStackNavigator();
 const GlobalNavigation = () => {
     const [userId, setUserId] = useState("")
@@ -89,6 +90,7 @@ const GlobalNavigation = () => {
             <Stack.Screen name="rating-feedback" component={RatingAndFeedback} />
             <Stack.Screen name="retailer-profile" component={StoreProfileScreen} />
             <Stack.Screen name="available-categories" component={AvailableCategories} />
+            <Stack.Screen name={`send-document`} component={SendDocument} />
             {memoizedScreens}
         </Stack.Navigator>
 
