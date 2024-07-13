@@ -92,7 +92,7 @@ const RequestCategory = () => {
                     <BackArrow width={14} height={10} />
 
                 </Pressable>
-                <Text className="flex flex-1 justify-center items-center text-center text-[16px]" style={{ fontFamily: "Poppins-ExtraBold" }}>Select Spade Category</Text>
+                <Text className="flex flex-1 justify-center items-center text-[#2e2c43] text-center text-[16px]" style={{ fontFamily: "Poppins-ExtraBold" }}>Select Spade Category</Text>
 
             </View>
             <View className="flex-1 w-full bg-white flex-col  gap-[40px] px-[32px] ">
@@ -102,18 +102,19 @@ const RequestCategory = () => {
                     <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] " style={{ fontFamily: "Poppins-Medium" }}>
                         Step 2/4
                     </Text>
-                    <View className="flex flex-row gap-2 h-[60px]  border-[1px] items-center border-[#000000] rounded-[24px] mb-[20px]">
-                        <Octicons name="search" size={19} className="pl-[20px]" />
+                    <View className="flex flex-row h-[60px] border-[1px] items-center border-[#000000] border-opacity-25 rounded-[24px] mb-[50px] bg-white" style={{ borderWidth: 1, borderColor: 'rgba(0, 0, 0, 0.15)' }}>
+                        <Octicons name="search" size={19} style={{ paddingLeft: 20, position: 'absolute', left: 0 }} />
                         <TextInput
-                            placeholder="Search here......."
+                            placeholder="Search here...."
                             placeholderTextColor="#DBCDBB"
                             value={searchQuery}
                             onChangeText={handleTextChange}
-                            className="flex text-[14px] flex-1"
-                            style={{ fontFamily: "Poppins-Italic", marginLeft: searchQuery.length == 0 ? 64 : 20 }}
+                            className="flex text-center text-[14px] text-[#2E2C43] justify-center items-center flex-1 px-[40px]" // Adjusted padding to center the text
+                            style={{ fontFamily: "Poppins-Italic", textAlign: 'center' }} // Added textAlign for centering text
                         />
                     </View>
-                    <View className="px-[10px]">
+
+                    <View className="px-[10px] mt-[20px]" >
                         {searchResults?.map((result) => (
                             <TouchableOpacity
                                 key={result.id}

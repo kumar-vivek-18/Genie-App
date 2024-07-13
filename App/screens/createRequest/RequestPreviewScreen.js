@@ -158,12 +158,13 @@ const RequestPreviewScreen = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <View style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1 }}>
+        <Pressable onPress={() => navigation.goBack()} style={{ position: 'absolute', paddingHorizontal: 36, paddingVertical: 26 }}>
+          <BackArrow />
+        </Pressable>
         <View className=" flex flex-row items-center mt-[20px] mb-[24px] px-[24px]">
-          <Pressable onPress={() => navigation.goBack()} style={{ paddingHorizontal: 16, paddingVertical: 16 }}>
-            <BackArrow />
-          </Pressable>
-          <Text className="flex flex-1 justify-center items-center text-center text-[16px]  " style={{ fontFamily: "Poppins-Bold" }}>
+
+          <Text className="flex flex-1 justify-center text-[#2e2c43] items-center text-center text-[16px]  " style={{ fontFamily: "Poppins-Bold" }}>
             Request Preview
           </Text>
         </View>
@@ -176,7 +177,7 @@ const RequestPreviewScreen = () => {
           </Text>
         </View>
 
-        <View className="px-[32px] mt-[36px]">
+        <View className="px-[32px] mt-[20px]">
           <Text className="text-[14px]  text-[#2e2c43]" style={{ fontFamily: "Poppins-Black" }}>
             Reference images for shopkeepers
           </Text>
@@ -193,15 +194,15 @@ const RequestPreviewScreen = () => {
                 <View key={index} className="rounded-">
                   <Image
                     source={{ uri: image }}
-                    width={154}
-                    height={124}
+                    width={168}
+                    height={232}
                     className="rounded-3xl border-[1px] border-slate-600"
                   />
                 </View>
               ))}
           </ScrollView>
         </View>
-        <View className="mx-[32px] mt-[50px] ">
+        <View className="mx-[32px] mt-[30px] mb-[100px]">
           <Text className=" text-[14px]  text-[#2e2c43]   mb-[6px]" style={{ fontFamily: "Poppins-Bold" }}>
             Your expected price
           </Text>
@@ -211,7 +212,7 @@ const RequestPreviewScreen = () => {
           <Text className=" text-[14px] text-[#2e2c43] mb-[6px] " style={{ fontFamily: "Poppins-Bold" }}>
             Applied Coupon
           </Text>
-          <Text className="text-[18px]  text-[#558b2f] pb-[20px] border-b-[1px] border-[#dcdbdb]" style={{ fontFamily: "Poppins-ExtraBold" }}>
+          <Text className="text-[18px]  text-[#558b2f] pb-[10px] border-b-[1px] border-[#dcdbdb]" style={{ fontFamily: "Poppins-ExtraBold" }}>
             {spadeCouponCode.length > 0 ? spadeCouponCode : "NA"}
           </Text>
 
@@ -225,23 +226,24 @@ const RequestPreviewScreen = () => {
         {isVisible && (
           <SuccessPopup isVisible={isVisible} setIsVisible={setIsVisible} />
         )}
-        <View className=" absolute bottom-0 left-0 right-0">
-          <TouchableOpacity
-            onPress={() => {
-              handleSubmit();
-            }}
-          >
-            <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
-              {loading ? (
-                <ActivityIndicator size="small" color="#ffffff" />
-              ) : (
-                <Text className="text-white text-[18px] " style={{ fontFamily: "Poppins-Black" }}>
-                  Confirm Request
-                </Text>
-              )}
-            </View>
-          </TouchableOpacity>
-        </View>
+
+      </ScrollView>
+      <View className=" absolute bottom-0 left-0 right-0">
+        <TouchableOpacity
+          onPress={() => {
+            handleSubmit();
+          }}
+        >
+          <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
+            {loading ? (
+              <ActivityIndicator size="small" color="#ffffff" />
+            ) : (
+              <Text className="text-white text-[18px] " style={{ fontFamily: "Poppins-Black" }}>
+                Confirm Request
+              </Text>
+            )}
+          </View>
+        </TouchableOpacity>
       </View>
 
       {loading && (

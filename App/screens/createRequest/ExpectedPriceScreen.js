@@ -61,9 +61,9 @@ const ExpectedPriceScreen = () => {
                     <BackArrow width={14} height={10} />
 
                 </Pressable>
-                <Text className="flex flex-1 justify-center items-center text-center  text-[16px]  " style={{ fontFamily: "Poppins-Bold" }}>Your Expected Price</Text>
+                <Text className="flex flex-1 justify-center items-center text-center text-[#2e2c43]  text-[16px]  " style={{ fontFamily: "Poppins-Bold" }}>Your Expected Price</Text>
                 <Pressable onPress={() => { navigation.navigate('requestpreview'); }}>
-                    <Text className="text-[14px] mx-[16px]" style={{ fontFamily: "Poppins-Medium" }}>Skip</Text>
+                    <Text className="text-[16px] mx-[16px] text-[#fb8c00]" style={{ fontFamily: "Poppins-Medium" }}>Skip</Text>
                 </Pressable>
             </View>
 
@@ -93,7 +93,7 @@ const ExpectedPriceScreen = () => {
                     style={{ fontFamily: "Poppins-SemiBold" }}
 
                 />
-                <Text className="text-[14px] text-[#2e2c43] mt-[20px]" style={{ fontFamily: "Poppins-Regular" }}>Please inform shopkeepers about the price that you believe is appropriate for this request. If you haven't researched pricing, you can skip this.</Text>
+                <Text className="text-[14px] text-[#2e2c43] mt-[20px]" style={{ fontFamily: "Poppins-Regular" }}>Please inform vendors about the price that you believe is appropriate for this request. If you haven't researched pricing, you can skip this.</Text>
                 {userDetails.freeSpades === 0 && <View>
                     <Text className="text-[14px]  text-[#2e2c43] mx-[6px] mt-[40px]" style={{ fontFamily: "Poppins-SemiBold" }}>Apply Coupon </Text>
                     <TextInput

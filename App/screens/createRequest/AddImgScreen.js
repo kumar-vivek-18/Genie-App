@@ -198,7 +198,7 @@ const AddImageScreen = () => {
               <Pressable onPress={() => navigation.goBack()} className="px-[8px] py-[20px] ">
                 <BackArrow width={14} height={10} />
               </Pressable>
-              <Text className="text-[16px] flex flex-1 justify-center  items-center text-center" style={{ fontFamily: "Poppins-ExtraBold" }}>
+              <Text className="text-[16px] flex flex-1 justify-center text-[#2e2c43] items-center text-center" style={{ fontFamily: "Poppins-ExtraBold" }}>
                 Add Image
               </Text>
               {imagesLocal.length === 0 && <Pressable onPress={() => navigation.navigate("addexpectedprice")} className="">
@@ -210,7 +210,7 @@ const AddImageScreen = () => {
                 Step 3/4
               </Text>
               <Text className="text-[14px] text-center text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>
-                Provide image references for shopkeepers & maintenance service providers to understand your need better
+                Provide image references for vendors to better understand your needs.
               </Text>
 
             </View>
@@ -259,8 +259,9 @@ const AddImageScreen = () => {
                       transparent
                       visible={!!selectedImage}
                       onRequestClose={handleClose}
+
                     >
-                      <View style={styles.modalContainer}>
+                      <Pressable style={styles.modalContainer} onPress={() => { handleClose() }}>
                         <Animated.Image
                           source={{ uri: selectedImage }}
                           style={[
@@ -270,7 +271,7 @@ const AddImageScreen = () => {
                             },
                           ]}
                         />
-                        <Pressable
+                        {/* <Pressable
                           style={styles.closeButton}
                           onPress={handleClose}
                         >
@@ -279,8 +280,8 @@ const AddImageScreen = () => {
                             size={40}
                             color="white"
                           />
-                        </Pressable>
-                      </View>
+                        </Pressable> */}
+                      </Pressable>
                     </Modal>
                   </View>
                 </ScrollView>
