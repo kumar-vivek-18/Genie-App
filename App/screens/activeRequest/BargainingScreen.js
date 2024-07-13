@@ -881,7 +881,7 @@ const BargainingScreen = () => {
                                     <View className="bg-[#ffe7c8] mx-[16px] h-[68px] flex-row items-center justify-center rounded-full">
                                         <Text
                                             className="text-[#fb8c00] text-center text-[14px]"
-                                            style={{ fontFamily: "Poppins-Black" }}
+                                            style={{ fontFamily: "Poppins-Regular" }}
                                         >
                                             Waiting for vendor response.....{" "}
                                         </Text>

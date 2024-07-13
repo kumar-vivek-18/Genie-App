@@ -159,14 +159,14 @@ const CreateNewBidScreen = () => {
             <Pressable onPress={() => navigation.goBack()}>
               <ArrowLeft />
             </Pressable>
-            <Text className="flex flex-1 justify-center items-center text-center text-[16px]" style={{ fontFamily: "Poppins-Bold" }}>
+            <Text className="flex flex-1 justify-center text-[#2e2e43] items-center text-center text-[16px]" style={{ fontFamily: "Poppins-Bold" }}>
               Send new offer
             </Text>
           </View>
 
           <View className="mt-[35px] mx-[28px]">
             <Text className="text-[14px] text-[#2e2c43] mx-[6px]" style={{ fontFamily: "Poppins-Bold" }}>
-              Your expected price
+              Your offered price
             </Text>
             <TextInput
               placeholder="Ex:1,200 Rs"
@@ -183,7 +183,7 @@ const CreateNewBidScreen = () => {
               Please tell the vendor the price that you feel is right.{" "}
             </Text>
 
-            <Text className="text-[14px]  text-[#2e2c43] mx-[6px] mt-[30px] mb-[15px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
+            <Text className="text-[14px]  text-[#2e2c43] mx-[6px] mt-[30px] mb-[15px]" style={{ fontFamily: "Poppins-Bold" }}>
               Type your response
             </Text>
 
@@ -210,7 +210,7 @@ const CreateNewBidScreen = () => {
           </View>
 
           <View className="px-[30px] mt-[30px]">
-            <Text className="text-[14px]  text-[#2e2c43] pb-[20px]" style={{ fontFamily: "Poppins-Black" }}>
+            <Text className="text-[14px]  text-[#2e2c43] pb-[20px]" style={{ fontFamily: "Poppins-Bold" }}>
               Add image reference
             </Text>
             <View style={{ display: 'flex', flexDirection: requestImages.length > 0 ? 'row-reverse' : 'row', alignItems: 'center' }}>

@@ -7,6 +7,9 @@ import { launchCamera } from 'react-native-image-picker';
 import { manipulateAsync } from 'expo-image-manipulator';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera } from 'expo-camera';
+import OrangeRightArrow from '../../assets/Oragne-Right-Arrow.svg';
+
+
 const AddImages = ({ addImg, setAddImg }) => {
 
     const dispatch = useDispatch();
@@ -139,15 +142,15 @@ const AddImages = ({ addImg, setAddImg }) => {
             }}>
 
                 <TouchableOpacity onPress={() => { pickImage(); setAddImg(false) }}>
-                    <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[20px]  border-b-[1px] border-gray-400">
+                    <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[20px] pt-[30px]  border-b-[1px] border-gray-400">
                         <Text style={{ fontFamily: "Poppins-Regular" }}>Upload Image</Text>
-                        <ArrowRight />
+                        <OrangeRightArrow />
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => { takePicture(); setAddImg(false); }}>
                     <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[20px]">
                         <Text style={{ fontFamily: "Poppins-Regular" }}>Click Image</Text>
-                        <ArrowRight />
+                        <OrangeRightArrow />
                     </View>
                 </TouchableOpacity>
 
