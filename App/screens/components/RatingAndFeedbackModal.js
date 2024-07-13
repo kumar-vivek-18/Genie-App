@@ -1,19 +1,23 @@
 import { View, Text, Modal, TouchableOpacity, KeyboardAvoidingView, TextInput } from 'react-native'
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CallIcon from "../../assets/call-icon.svg";
 import ShopLogo from '../../assets/shopLogo.svg';
 import Cross from '../../assets/cross.svg';
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 import Tick from '../../assets/Tick.svg';
+import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
 
 const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal }) => {
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
     const userDetails = useSelector(store => store.user.userDetails);
+    const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
     const [rating, setRating] = useState(0);
     const [feedback, setFeedback] = useState("");
     const [submitted, setSubmitted] = useState(false);
+    const dispatch = useDispatch();
+
     const handlePress = (star) => {
         setRating(star);
 
@@ -29,9 +33,20 @@ const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal }) => {
                 senderName: userDetails.userName,
                 rating: rating,
                 feedback: feedback,
+                chatId: currentSpadeRetailer._id
             })
                 .then(res => {
                     console.log("Feedback posted successfully");
+
+                    let retailers = currentSpadeRetailers.map((retailer) => {
+                        if (retailer._id === currentSpadeRetailer._id) {
+                            return { ...retailer, unreadCount: 0 };
+                        }
+                        return retailer; // Ensure that the original retailer is returned if no match is found
+                    });
+                    dispatch(setCurrentSpadeRetailers(retailers));
+                    let updatedRetailer = { ...currentSpadeRetailer, retailerRated: true };
+                    dispatch(setCurrentSpadeRetailer(updatedRetailer));
                     setSubmitted(true);
                     setTimeout(() => {
                         setFeedbackModal(false);
@@ -39,6 +54,7 @@ const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal }) => {
                         setFeedback("");
                         setSubmitted(false);
                     }, 2000);
+
                 })
                 .catch(err => {
                     console.error(err);

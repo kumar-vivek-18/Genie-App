@@ -78,7 +78,7 @@ const StoreProfileScreen = () => {
 
     const fetchRetailerFeedbacks = useCallback(async () => {
         try {
-            await axios.get('http://192.168.126.192:5000/rating/get-retailer-feedbacks', {
+            await axios.get('http://173.212.193.109:5000/rating/get-retailer-feedbacks', {
                 params: {
                     id: currentSpadeRetailer.retailerId._id,
                 }
@@ -116,19 +116,19 @@ const StoreProfileScreen = () => {
                                 <ArrowLeft />
                             </TouchableOpacity>
                         </View>
-                        <Text className="text-[16px]  flex-1 flex text-center " style={{ fontFamily: "Poppins-ExtraBold" }}>
+                        <Text className="text-[16px] text-[#2e2c43]  flex-1 flex text-center " style={{ fontFamily: "Poppins-ExtraBold" }}>
                             Store Profile
                         </Text>
                     </View>
                     <View className="flex-row items-center  gap-[5px]" style={{ position: 'absolute', top: 48, right: 15 }}>
                         <RatingStar />
                         <View>
-                            <Text style={{ fontFamily: "Poppins-SemiBold" }}><Text style={{ fontFamily: "Poppins-SemiBold" }}>{parseFloat(currentSpadeRetailer?.retailerId?.totalRating / currentSpadeRetailer?.retailerId?.totalReview).toFixed(1)}</Text>/5</Text>
+                            <Text className=" text-[#2e2c43]" style={{ fontFamily: "Poppins-SemiBold" }}><Text className=" text-[#2e2c43]" style={{ fontFamily: "Poppins-SemiBold" }}>{parseFloat(currentSpadeRetailer?.retailerId?.totalRating / currentSpadeRetailer?.retailerId?.totalReview).toFixed(1)}</Text>/5</Text>
                         </View>
                     </View>
                     <View className="relative flex-row items-center px-[30px] mb-[40px] ">
 
-                        <Text className="text-center flex-1 justify-center capitalize mx-[50px]" style={{ fontFamily: "Poppins-Regular" }}>
+                        <Text className="text-center text-[#2e2c43] flex-1 justify-center capitalize mx-[50px]" style={{ fontFamily: "Poppins-Regular" }}>
                             {currentSpadeRetailer?.retailerId.storeName}
                         </Text>
 
@@ -183,7 +183,7 @@ const StoreProfileScreen = () => {
                         </View>
                         <View>
                             <View className="flex  items-center ">
-                                <Text className="w-full text-[14px]  text-black capitalize bg-[#f9f9f9]  rounded-2xl items-center px-[20px] py-[16px]" style={{ fontFamily: "Poppins-SemiBold" }}>{currentSpadeRetailer.retailerId.location}</Text>
+                                <Text className="w-full text-[14px]   text-[#2e2c43] capitalize bg-[#f9f9f9]  rounded-2xl items-center px-[20px] py-[16px]" style={{ fontFamily: "Poppins-SemiBold" }}>{currentSpadeRetailer.retailerId.location}</Text>
 
                             </View>
                             <TouchableOpacity>
@@ -200,7 +200,7 @@ const StoreProfileScreen = () => {
                         <Text className="text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Regular" }}>Store Name</Text>
                         <KeyboardAvoidingView className="flex items-center">
                             <View className="flex flex-row items-center justify-between w-[324px] h-[54px] px-[20px] bg-[#F9F9F9] rounded-[16px]">
-                                <Text className="w-[280px] text-[14px]  text-black capitalize" style={{ fontFamily: "Poppins-SemiBold" }}>{currentSpadeRetailer.retailerId.storeName}</Text>
+                                <Text className="w-[280px] text-[14px]   text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-SemiBold" }}>{currentSpadeRetailer.retailerId.storeName}</Text>
                             </View>
                         </KeyboardAvoidingView>
                     </View>
@@ -210,7 +210,7 @@ const StoreProfileScreen = () => {
                         </Text>
                         <KeyboardAvoidingView className="flex items-center">
                             <View className="flex flex-row items-center justify-between w-[324px] h-[54px] px-[20px] bg-[#F9F9F9] rounded-[16px]">
-                                <Text className="w-[280px] text-[14px]  text-black capitalize" style={{ fontFamily: "Poppins-SemiBold" }}>{currentSpadeRetailer.retailerId.storeOwnerName}</Text>
+                                <Text className="w-[280px] text-[14px]   text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-SemiBold" }}>{currentSpadeRetailer.retailerId.storeOwnerName}</Text>
                             </View>
                         </KeyboardAvoidingView>
                     </View>
@@ -219,25 +219,25 @@ const StoreProfileScreen = () => {
                         <KeyboardAvoidingView className="flex items-center">
                             <View className="flex flex-row items-center justify-between w-[324px] h-[54px] px-[20px] bg-[#F9F9F9] rounded-[16px]">
 
-                                <Text className="w-[280px] text-[14px]  text-black capitalize" style={{ fontFamily: "Poppins-SemiBold" }}>{currentSpadeRetailer.retailerId.storeCategory}</Text>
+                                <Text className="w-[280px] text-[14px]   text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-SemiBold" }}>{currentSpadeRetailer.retailerId.storeCategory}</Text>
                             </View>
                         </KeyboardAvoidingView>
                     </View>
 
-                    <View className="flex flex-col gap-[11px]">
+                    {/* <View className="flex flex-col gap-[11px]">
                         <Text className="  text-[14px] " style={{ fontFamily: "Poppins-Regular" }}>Mobile Number</Text>
                         <KeyboardAvoidingView className="flex items-center">
                             <View className="flex flex-row justify-between items-center gap-[10px] w-[324px] h-[54px] px-[20px] bg-[#F9F9F9] rounded-[16px]">
                                 <View className="text-[16px] font-extrabold border-r-[1px] border-[#dbcdbb] flex flex-row gap-[9px] pr-[9px] items-center">
-                                    <Text className="text-[16px] " style={{ fontFamily: "Poppins-ExtraBold" }}>+91</Text>
+                                    <Text className="text-[16px]  text-[#2e2c43]" style={{ fontFamily: "Poppins-ExtraBold" }}>+91</Text>
                                     <Entypo
                                         name="chevron-down"
                                         size={16}
-                                        color="black"
+                                        color="#2e2c43"
                                         className=""
                                     />
                                 </View>
-                                <Text className="text-[16px] flex-1 text-black" style={{ fontFamily: "Poppins-SemiBold" }}>
+                                <Text className="text-[16px] flex-1 text-[#2e2c43]" style={{ fontFamily: "Poppins-SemiBold" }}>
 
                                     {currentSpadeRetailer.retailerId.storeMobileNo.substring(3, 13)}
                                 </Text>
@@ -248,10 +248,10 @@ const StoreProfileScreen = () => {
                                 >
                                     <Copy />
                                 </TouchableOpacity>
-                                {copied && <Text className="text-black" style={{ fontFamily: "Poppins-Regular" }}>Copied</Text>}
+                                {copied && <Text className="text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Copied</Text>}
                             </View>
                         </KeyboardAvoidingView>
-                    </View>
+                    </View> */}
 
                     {/* <View>
                         <Text className="text-[16px] font-bold my-[10px]">
@@ -292,7 +292,7 @@ const StoreProfileScreen = () => {
                     </View> */}
 
                     <View>
-                        <Text className="text-[16px] font-bold">Store Reviews</Text>
+                        <Text className="capitalize text-[#2e2c43] text-[16px] " style={{ fontFamily: 'Poppins-Bold' }}>Store Reviews</Text>
 
                         <View style={styles.revcontainer}>
                             <ScrollView>
@@ -300,26 +300,26 @@ const StoreProfileScreen = () => {
                                     .slice(0, showAllReviews ? feedbacks.length : 3)
                                     .map((review, index) => (
                                         <View key={index} style={styles.reviewContainer}>
-                                            <Text style={styles.customerName}>
-                                                {review.senderName}
+                                            <Text className="capitalize text-[#2e2c43] text-[16px] mb-[5px]" style={{ fontFamily: 'Poppins-Bold' }}>
+                                                {review?.senderName}
                                             </Text>
                                             <View className="w-[50%]">
                                                 <StarRating
                                                     disabled={true}
                                                     maxStars={5}
                                                     rating={review.rating}
-                                                    starSize={16}
+                                                    starSize={18}
                                                     fullStarColor={"#fb8c00"}
 
                                                 />
 
                                             </View>
 
-                                            <Text style={styles.reviewText}>{review.feedback}</Text>
+                                            <Text style={{ color: '#7c7c7c', marginTop: 5, fontSize: 16, fontFamily: 'Poppins-Regular' }}>{review.feedback}</Text>
                                         </View>
                                     ))}
                             </ScrollView>
-                            {!showAllReviews && (
+                            {!showAllReviews && feedbacks.length > 4 && (
                                 <Pressable
                                     onPress={() => setShowAllReviews(true)}
                                     className=""
@@ -348,18 +348,11 @@ export default StoreProfileScreen;
 const styles = StyleSheet.create({
     revcontainer: {
         flex: 1,
-        padding: 20,
+        paddingTop: 20,
     },
     reviewContainer: {
         marginBottom: 20,
         paddingBottom: 10,
     },
-    customerName: {
-        fontWeight: 'bold',
-        fontSize: 14,
-    },
-    reviewText: {
-        marginTop: 5,
-        fontSize: 14,
-    },
+
 });

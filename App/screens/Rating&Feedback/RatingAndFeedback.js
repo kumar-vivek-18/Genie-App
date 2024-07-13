@@ -36,6 +36,7 @@ const RatingAndFeedback = () => {
                 senderName: userDetails.userName,
                 rating: rating,
                 feedback: feedback,
+                chatId: spade.requestAcceptedChat
             })
                 .then(res => {
                     console.log("Feedback posted successfully");

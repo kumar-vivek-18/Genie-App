@@ -572,27 +572,27 @@ const BargainingScreen = () => {
                         </View>
                     )}
 
-                    <View className="z-50 w-full flex flex-row absolute justify-between items-center  top-[15px]">
-                        <TouchableOpacity
-                            onPress={() => {
-                                navigation.navigate('activerequest');
-                            }}
-                            style={{ padding: 16, paddingLeft: 30, zIndex: 50 }}
-                        >
-                            <ArrowLeft />
-                        </TouchableOpacity>
+                    {/* <View className=" bg-black w-full flex flex-row absolute justify-between items-center  top-[15px]"> */}
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate('activerequest');
+                        }}
+                        style={{ position: 'absolute', paddingLeft: 30, paddingVertical: 35, zIndex: 50 }}
+                    >
+                        <ArrowLeft />
+                    </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => { setOptions(!options) }} style={{ padding: 16, paddingRight: 30, zIndex: 50 }}>
-                            <ThreeDots />
-                        </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { setOptions(!options) }} style={{ position: 'absolute', zIndex: 50, right: 0, top: 0, padding: 30 }}>
+                        <ThreeDots />
+                    </TouchableOpacity>
 
-                    </View>
+                    {/* </View> */}
 
 
                     <View className="bg-[#ffe7c8] px-[64px] py-[30px]  pt-[20px] relative">
                         <View className=" flex-row gap-[18px] ">
-                            <TouchableOpacity style={{ zIndex: 200 }} onPress={() => { navigation.navigate('retailer-profile'); }} >
-                                <View className="z-50 w-[max-content] h-[max-content] bg-white rounded-full">
+                            <TouchableOpacity onPress={() => { navigation.navigate('retailer-profile'); console.log('hello') }} >
+                                <View className=" bg-white rounded-full">
                                     <Image
                                         source={{ uri: currentSpadeRetailer?.retailerId?.storeImages[0] ? currentSpadeRetailer?.retailerId?.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
                                         style={{ width: 40, height: 40, borderRadius: 20 }}

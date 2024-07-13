@@ -36,10 +36,11 @@ const RetailerContactDetailModal = ({ retailerModal, setRetailerModal }) => {
                         </Text>
 
                         <Text className="capitalize  text-center text-[#2b2c43] text-[16px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
-                            {currentSpadeRetailer?.retailerId?.storeName.length <= 20 ? currentSpadeRetailer?.retailerId?.storeName : `${currentSpadeRetailer?.retailerId?.storeName?.slice(0, 20)}...`}
+                            {currentSpadeRetailer?.retailerId?.storeName.length <= 50 ? currentSpadeRetailer?.retailerId?.storeName : `${currentSpadeRetailer?.retailerId?.storeName?.slice(0, 50)}...`}
+
                         </Text>
                         <Text className="capitalize text-center mb-[20px] text-[#79b649] text-[16px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
-                            {currentSpadeRetailer?.retailerId?.storeMobileNo}
+                            +91 {currentSpadeRetailer?.retailerId?.storeMobileNo.slice(3)}
                         </Text>
                         <TouchableOpacity onPress={() => makeCall()}>
                             <View className="flex-row items-center justify-center gap-[10px] border-2 border-[#fb8c00] rounded-2xl mx-[30px] pb-[10px] pt-[15px]">
