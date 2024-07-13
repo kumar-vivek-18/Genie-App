@@ -10,37 +10,11 @@ import { TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import DocumentIcon from '../../assets/DocumentIcon.svg';
 
-const UserDocumentMessage = ({ bidDetails }) => {
+const RetailerDocumentMessage = ({ bidDetails }) => {
     // console.log("bidDetails", bidDetails);
 
 
-    const userDetails = useSelector(store => store.user.userDetails);
-    const [selectedImage, setSelectedImage] = useState(null);
-    const [scaleAnimation] = useState(new Animated.Value(0));
-    const [downloadProgress, setDownloadProgress] = useState({});
-
-
-    const handleImagePress = (image) => {
-        setSelectedImage(image);
-        Animated.timing(scaleAnimation, {
-            toValue: 1,
-            duration: 300,
-            useNativeDriver: true,
-        }).start();
-    };
-
-    const handleClose = () => {
-        Animated.timing(scaleAnimation, {
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: true,
-        }).start(() => setSelectedImage(null));
-        setDownloadProgress({})
-    };
-    const interpolateColor = (progress) => {
-        const greenValue = Math.round(progress * 180);
-        return `rgb(0, ${greenValue}, 0)`;
-    };
+    const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
 
     const handleDownloadDocument = async () => {
         // const url = `https://www.google.com/search?q=${encodeURIComponent(bidDetails.bidImages[0])}`
@@ -50,18 +24,18 @@ const UserDocumentMessage = ({ bidDetails }) => {
     }
 
     return (
-        <View className="flex gap-[19px]  border-[1px] border-gray-200   rounded-3xl w-[297px] h-[max-content] py-[10px] items-center bg-[#ebebeb]">
+        <View className="flex gap-[19px] bg-[#fafafa]   rounded-3xl w-[297px] h-[max-content] py-[10px] items-center">
             <View className="flex-row mx-[25px] ">
                 <View className="flex-row  ">
                     <View className="w-[25%]" >
                         <Image
-                            source={{ uri: userDetails.pic }}
+                            source={{ uri: currentSpadeRetailer?.retailerId.storeImages[0] }}
                             style={{ width: 40, height: 40, borderRadius: 20 }}
                         />
                     </View>
                     <View className="w-[75%]">
                         <View className="flex-row justify-between">
-                            <Text className="text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Bold" }}>You</Text>
+                            <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Bold" }}>{currentSpadeRetailer?.retailerId?.storeOwnerName}</Text>
                             <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text>
                         </View>
 
@@ -98,75 +72,14 @@ const UserDocumentMessage = ({ bidDetails }) => {
             </View>
 
 
-            {/* <Modal
-                transparent
-                visible={!!selectedImage}
-                onRequestClose={handleClose}
-                downloadProgress={downloadProgress}
-                setDownloadProgress={setDownloadProgress}
 
-            >
-                <Pressable style={styles.modalContainer} onPress={handleClose}>
-                    <Animated.Image
-                        source={{ uri: selectedImage }}
-                        style={[
-                            styles.modalImage,
-                            {
-                                transform: [{ scale: scaleAnimation }],
-                            },
-                        ]}
-                    />
-                    <TouchableOpacity
-                        style={{
-                            width: 300,
-                            backgroundColor: "#fb8c00",
-                            height: 50,
-                            borderRadius: 100,
-                            marginTop: 20,
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}
-                        disabled={downloadProgress[1] !== undefined}
-                        onPress={() =>
-                            handleDownload(
-                                selectedImage,
-                                downloadProgress,
-                                setDownloadProgress
-                            )
-
-                        }
-                    >
-                        {downloadProgress[1] !== undefined && (
-                            <View style={[
-                                styles.progress,
-                                { backgroundColor: interpolateColor(downloadProgress[1]) },
-                            ]}>
-                                <Text style={styles.progresstext}>
-                                    {downloadProgress[1] !== 1 ? `${Math.round(downloadProgress[1] * 100)}%` : "Downloaded"}
-                                </Text>
-                            </View>
-                        )}
-
-                        {
-                            !downloadProgress[1] &&
-                            <View className="w-full flex flex-row  gap-[20px]  justify-center items-center">
-
-                                <Text className="text-white text-[16px]" style={{ fontFamily: "Poppins-Bold" }} >Download</Text>
-                                <Feather name="download" size={18} color="white" />
-                            </View>
-                        }
-
-                    </TouchableOpacity>
-
-                </Pressable>
-            </Modal> */}
 
 
         </View >
     )
 }
 
-export default UserDocumentMessage;
+export default RetailerDocumentMessage;
 
 const styles = StyleSheet.create({
     modalContainer: {

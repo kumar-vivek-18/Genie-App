@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, Image, TextInput, TouchableOpacity, Alert, Linking } from 'react-native'
+import { View, Text, ScrollView, Pressable, Image, TextInput, TouchableOpacity, Alert, Linking, BackHandler } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import ThreeDots from '../../assets/3dots.svg';
@@ -10,7 +10,7 @@ import LocationImg from '../../assets/Location.svg';
 import Tick from '../../assets/Tick.svg';
 import Document from '../../assets/Document.svg';
 import Send from '../../assets/Send.svg';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useNavigationState, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import UserMessage from '../components/UserMessage.js';
 import RetailerMessage from '../components/RetailerMessage.js';
@@ -36,6 +36,7 @@ import RatingAndFeedbackModal from '../components/RatingAndFeedbackModal';
 import navigationService from '../../navigation/navigationService.js';
 import LocationMessage from '../components/LocationMessage';
 import UserDocumentMessage from '../components/UserDocumentMessage';
+import RetailerDocumentMessage from '../components/RetailerDocumentMessage';
 
 const BargainingScreen = () => {
     const navigation = useNavigation();
@@ -50,6 +51,7 @@ const BargainingScreen = () => {
     const spade = useSelector(store => store.user.currentSpade);
     const spades = useSelector(store => store.user.spades);
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
+    const currentSpade = useSelector(store => store.user.currentSpade);
     const [socketConnected, setSocketConnected] = useState(false);
     const [currentLocation, setCurrentLocation] = useState();
     const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
@@ -62,7 +64,26 @@ const BargainingScreen = () => {
     const userLongitude = useSelector(store => store.user.userLongitude);
     const userLatitude = useSelector(store => store.user.userLatitude)
     const currentSpadeChatId = useSelector(store => store.user.currentSpadeChatId);
+    const navigationState = useNavigationState((state) => state);
+    const isBargainScreen = navigationState.routes[navigationState.index].name === currentSpadeChatId.chatId;
 
+    useEffect(() => {
+        const backAction = () => {
+            if (isBargainScreen) {
+                navigation.navigate('activerequest')
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+
+        return () => backHandler.remove();
+    }, [isBargainScreen]);
 
 
 
@@ -75,7 +96,7 @@ const BargainingScreen = () => {
     };
 
     const setMessagesMarkAsRead = useCallback(async () => {
-        // console.log("marks as read0", currentSpadeRetailer?.latestMessage);
+        console.log("marks as read0", currentSpadeRetailer?.unreadCount, currentSpadeRetailer?.latestMessage.sender.type);
         try {
             if (
                 currentSpadeRetailer.unreadCount > 0 &&
@@ -108,7 +129,35 @@ const BargainingScreen = () => {
         } catch (error) {
             console.error("error while marking as read", error.message);
         }
-    });
+    }, []);
+
+    const handleSpadeNaviagtion = useCallback(async () => {
+        console.log('current spade unread data', currentSpade?.unread);
+        if (currentSpade?.unread === true) {
+            try {
+                await axios.patch('http://173.212.193.109:5000/user/set-spade-mark-as-read', {
+                    id: currentSpade._id
+                })
+                    .then((res) => {
+                        console.log('Mark as read successfully at Bargaining screen');
+                        let spadesData = [...spades];
+
+                        // Find and update the specific spade
+                        const updatedSpadesData = spadesData.map(spadeData => {
+                            if (spadeData?._id === currentSpade?._id) {
+                                return { ...spadeData, unread: false }; // Update unread property
+                            }
+                            return spadeData;
+                        });
+
+                        // Dispatch the updated spades data
+                        dispatch(setSpades(updatedSpadesData));
+                    })
+            } catch (error) {
+                console.error('Error while updating', error.message);
+            }
+        }
+    }, []);
 
 
 
@@ -197,6 +246,9 @@ const BargainingScreen = () => {
             dispatch(setCurrentSpadeRetailers([]));
             fetchCurrentSpadeRetailer();
             setMessagesMarkAsRead();
+            handleSpadeNaviagtion();
+
+
         }
 
         return () => {
@@ -630,6 +682,9 @@ const BargainingScreen = () => {
                                         </View>}
                                         {message?.bidType === "document" && message?.sender?.type === 'UserRequest' && <View className="flex flex-row justify-end">
                                             <UserDocumentMessage bidDetails={message} />
+                                        </View>}
+                                        {message?.bidType === "document" && message?.sender?.type === 'Retailer' && <View className="flex flex-row justify-start">
+                                            <RetailerDocumentMessage bidDetails={message} />
                                         </View>}
 
                                     </View>

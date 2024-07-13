@@ -354,7 +354,7 @@ const HomeScreen = () => {
               {isLoading ? (
                 <ActivityIndicator size="small" color="#fb8c00" />
               ) : (
-                <Text className="text-[14px]  text-[#fb8c00]" style={{ fontFamily: "Poppins-Black" }}>
+                <Text className="text-[14px]  text-[#fb8c00]" style={{ fontFamily: "Poppins-Regular" }}>
                   Refresh
                 </Text>
               )}

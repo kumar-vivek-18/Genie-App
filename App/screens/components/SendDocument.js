@@ -17,6 +17,7 @@ import axios from "axios";
 import { formatDateTime } from "../../utils/logics/Logics";
 import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from "../../redux/reducers/userDataSlice";
 import { socket } from "../../utils/scoket.io/socket";
+import { DocumentNotification } from "../../notification/notificationMessages";
 
 const SendDocument = () => {
 
@@ -26,6 +27,7 @@ const SendDocument = () => {
     const currentSpadeRetailer = useSelector(state => state.user.currentSpadeRetailer);
     const currentSpadeRetailers = useSelector(state => state.user.currentSpadeRetailers);
     const currentSpade = useSelector(state => state.user.currentSpade);
+    const userDetails = useSelector(state => state.user.userDetails);
     const route = useRoute();
     const { result, messages, setMessages } = route.params;
     const [loading, setLoading] = useState(false);
@@ -37,6 +39,11 @@ const SendDocument = () => {
         console.log('Sending document');
         try {
             setLoading(true);
+            const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
+                params: {
+                    id: currentSpadeRetailer.retailerId._id,
+                }
+            });
             if (!result) {
                 console.log('No document selected');
                 setLoading(false);
@@ -65,7 +72,7 @@ const SendDocument = () => {
             })
                 .then(res => {
                     console.log(res);
-                    const data = formatDateTime + (res.data.createdAt);
+                    const data = formatDateTime(res.data.createdAt);
                     res.data.createdAt = data.formattedTime;
 
                     //updating messages
@@ -80,10 +87,26 @@ const SendDocument = () => {
 
                     socket.emit("new message", res.data);
                     navigation.goBack();
+                    if (token.data.length > 0) {
+                        const notification = {
+                            token: token.data,
+                            title: userDetails?.userName,
+                            // close: currentSpade._id,
+                            image: currentSpadeRetailer.requestId?.requestImages[0],
+                            body: "Customer sent the document",
+                            requestInfo: {
+                                requestId: currentSpadeRetailer._id,
+                                userId: currentSpadeRetailer?.users[0]._id
+                            }
+                        }
+                        console.log("close notification", token)
+                        DocumentNotification(notification);
+
+                    }
                 })
                 .catch(err => {
                     setLoading(false);
-                    console.log(err);
+                    console.error(err);
                 })
         } catch (error) {
             setLoading(false);

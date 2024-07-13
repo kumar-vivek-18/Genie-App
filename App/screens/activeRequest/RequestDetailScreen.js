@@ -1,7 +1,7 @@
-import { View, Text, ScrollView, Pressable, Image, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, Pressable, Image, TouchableOpacity, BackHandler } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useNavigationState, useRoute } from '@react-navigation/native';
 import RandomImg from '../../assets/RandomImg.svg';
 import Gallery from '../../assets/grayGallery.svg';
 import GreenClock from '../../assets/greenClock.svg';
@@ -24,6 +24,8 @@ import { getGeoCoordinates } from '../../utils/logics/Logics';
 import { formatDateTime } from '../../utils/logics/Logics';
 import Copy from "../../assets/copy.svg";
 import GalleryImg from "../../assets/gallery.svg";
+import TextGalleryIcon from '../../assets/grayGallery.svg';
+
 import { sendCloseSpadeNotification } from '../../notification/notificationMessages';
 
 
@@ -47,7 +49,26 @@ const RequestDetail = () => {
     // const [userLatitude, setUserLatitude] = useState(0);
     const userLongitude = useSelector(store => store.user.userLongitude);
     const userLatitude = useSelector(store => store.user.userLatitude);
+    const navigationState = useNavigationState((state) => state);
+    const isRequestDetailScreen = navigationState.routes[navigationState.index].name === 'activerequest';
 
+    useEffect(() => {
+        const backAction = () => {
+            if (isRequestDetailScreen) {
+                navigation.navigate('home')
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+
+        return () => backHandler.remove();
+    }, [isRequestDetailScreen]);
 
     console.log('HIII');
     const connectSocket = async (id) => {
@@ -445,12 +466,12 @@ const RequestDetail = () => {
                                                         </View>}
                                                         {
                                                             distance && <View>
-                                                                <Text className="bg-[#ffe7c8] text-text  px-[5px] py-[2px] rounded-md"><Text>{parseFloat(distance).toFixed(1)}</Text> km</Text>
+                                                                <Text className="bg-[#ffe7c8] text-text  px-[5px]  rounded-md" style={{ fontFamily: "Poppins-Regular" }}><Text>{parseFloat(distance).toFixed(1)}</Text> km</Text>
                                                             </View>
                                                         }
                                                     </View>
 
-                                                    <View className="flex-row justify-between ">
+                                                    <View className="flex-row justify-between items-center ">
                                                         <View className="flex-row gap-[5px] ">
                                                             {
                                                                 details?.latestMessage?.bidType === "true" && (
@@ -473,7 +494,8 @@ const RequestDetail = () => {
                                                                     </View>
                                                                 )
                                                             }
-                                                            <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular", color: '#7c7c7c' }}>{details?.latestMessage?.message.length > 25 ? `${details?.latestMessage?.message.slice(0, 22)}...` : details?.latestMessage?.message || 'No message available'}</Text>
+                                                            {details?.latestMessage?.bidType !== "true" && details?.latestMessage?.bidImages?.length > 0 && <TextGalleryIcon />}
+                                                            <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular", color: '#7c7c7c' }}>{details?.latestMessage?.message?.length > 25 ? `${details?.latestMessage?.message.slice(0, 22)}...` : details?.latestMessage?.message || 'No message available'}</Text>
 
                                                         </View>
                                                         {details?.unreadCount > 0 && details?.latestMessage?.sender?.type === 'Retailer' && <View className="w-[18px] h-[18px] rounded-full bg-[#55cd00] flex-row justify-center items-center">

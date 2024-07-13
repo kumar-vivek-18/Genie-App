@@ -623,6 +623,63 @@ export const LocationSendNotification = async (mess) => {
     }
 };
 
+export const DocumentNotification = async (mess) => {
+    console.log("notify location", mess.token)
+
+    try {
+        const message = {
+            message: {
+                token: mess?.token,
+                notification: {
+                    title: mess.title,
+                    body: "Sent a document",
+
+                },
+                android: {
+                    priority: "high",
+                    notification: {
+                        sound: "default",
+                        //   icon: "fcm_push_icon",
+                        color: "#fcb800",
+                        //   tag: "bid_reject",
+                    },
+                },
+                data: {
+                    redirect_to: "requestPage",
+                    requestInfo: JSON.stringify(mess?.requestInfo)
+                },
+            },
+        };
+
+        const accessToken = await getAccessToken();
+
+        const notificationResponse = await fetch(
+            `https://fcm.googleapis.com/v1/projects/genie-retailer/messages:send`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8",
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify(message),
+            }
+        );
+
+        const textResponse = await notificationResponse.text();
+        console.log("Raw response:", textResponse);
+
+        if (!notificationResponse.ok) {
+            console.error("Failed to send notification error:", textResponse);
+            throw new Error("Failed to send notification");
+        } else {
+            const successResponse = JSON.parse(textResponse);
+            console.log("Notification sent successfully:");
+        }
+    } catch (e) {
+        console.error("Failed to send notification:", e);
+    }
+};
+
 
 // export const sendCustomNotificationChat = async () => {
 
