@@ -129,11 +129,12 @@ const RequestPreviewScreen = () => {
         //make redux to its inital state
 
         const notification = {
-          token: response.data.uniqueTokens,
+          uniqueTokens: response.data.uniqueTokens,
           title: userDetails?.userName,
           body: requestDetail,
           image: response.data?.userRequest?.requestImages?.length > 0 ? response.data?.userRequest?.requestImages[0] : "",
-          userRequest: response.data.userRequest._id
+         
+        
         };
 
         await NewRequestCreated(notification);
