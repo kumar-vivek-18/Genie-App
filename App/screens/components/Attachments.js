@@ -14,12 +14,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import LocationModal from './LocationModal';
 import * as DocumentPicker from 'expo-document-picker';
-
+import { LocationSendNotification } from '../../notification/notificationMessages';
 
 const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
 
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
     const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
+  const userDetails = useSelector((store) => store.user.userDetails);
+
     const currentSpade = useSelector((store) => store.user.currentSpade);
     const navigation = useNavigation();
     const [imageUri, setImageUri] = useState("");
@@ -28,7 +30,7 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
     const [locationLoading, setLocationLoading] = useState(false);
 
     const [openLocationModal, setOpenLocationModal] = useState(false);
-
+//  console.log(currentSpadeRetailer)
 
     const sendLocation = async () => {
         // console.log('res', query, imageUri);
@@ -65,7 +67,7 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
                 },
             })
                 .then(res => {
-                    console.log(res);
+                    console.log(res.data);
                     const data = formatDateTime(res.data.createdAt);
                     res.data.createdAt = data.formattedTime;
 
@@ -82,6 +84,22 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
                     socket.emit("new message", res.data);
                     setAttachmentScreen(false);
                     setLocationLoading(false);
+                    if (token.data.length > 0) {
+                        const notification = {
+                            token: token.data,
+                            title: userDetails?.userName,  
+                            // close: currentSpade._id,
+                            image:currentSpadeRetailer.requestId?.requestImages[0],
+                            body: "Customer sent the location",
+                            requestInfo: {
+                                requestId: currentSpadeRetailer._id,
+                                userId: currentSpadeRetailer?.users[0]._id
+                            }
+                        }
+                        console.log("close notification", token)
+                        LocationSendNotification(notification);
+
+                    }
                 })
                 .catch(err => {
                     setLoading(false);
