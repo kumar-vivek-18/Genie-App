@@ -13,8 +13,8 @@ import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/r
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import LocationModal from './LocationModal';
+import * as DocumentPicker from 'expo-document-picker';
 import { LocationSendNotification } from '../../notification/notificationMessages';
-
 
 const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
 
@@ -28,6 +28,7 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
     const [locationLoading, setLocationLoading] = useState(false);
+
     const [openLocationModal, setOpenLocationModal] = useState(false);
 //  console.log(currentSpadeRetailer)
 
@@ -59,6 +60,7 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
             formData.append('chat', currentSpadeRetailer._id);
             formData.append('latitude', loc.coords.latitude);
             formData.append('longitude', loc.coords.longitude);
+
             await axios.post('http://173.212.193.109:5000/chat/send-message', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -115,6 +117,42 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
 
 
 
+    const pickDocument = async () => {
+        const MAX_FILE_SIZE_MB = 2; // Maximum file size in MB
+        const DOCUMENT_MIME_TYPES = [
+            'application/pdf',
+            'text/plain',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        ];
+
+        const result = await DocumentPicker.getDocumentAsync({
+            type: '*/*', // Allow all file types initially
+        });
+
+        if (!result.canceled) {
+            // const fileInfo = await RNFS.stat(result.uri.replace('file://', ''));
+
+            const fileSizeMB = parseFloat(result.assets[0].size) / (1e6); // Convert bytes to MB
+            console.log(fileSizeMB);
+            if (fileSizeMB > MAX_FILE_SIZE_MB) {
+                console.error(
+                    'File Size Limit Exceeded',
+                    `Please select a file smaller than ${MAX_FILE_SIZE_MB}MB`
+                );
+            }
+            else {
+                navigation.navigate('send-document', { result, messages, setMessages });
+            }
+        }
+
+        return null;
+
+    }
+
+
+
+
+
     const { height } = Dimensions.get('window');
 
     return (
@@ -131,10 +169,13 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
             </TouchableOpacity>
             <View style={{ zIndex: 100, position: 'absolute', backgroundColor: 'white', bottom: 165, left: 0, right: 0 }}>
                 <View className="flex-row justify-evenly py-[20px]">
-                    <View className="items-center">
-                        <Document />
-                        <Text style={{ fontFamily: 'Poppins-Regular' }}>Document</Text>
-                    </View>
+                    <TouchableOpacity onPress={() => { pickDocument() }}>
+                        <View className="items-center">
+                            <Document />
+                            <Text style={{ fontFamily: 'Poppins-Regular' }}>Document</Text>
+                        </View>
+                    </TouchableOpacity>
+
                     <TouchableOpacity onPress={() => { setOpenLocationModal(!openLocationModal) }}>
                         <View className="items-center">
                             <StoreLocation />

@@ -330,11 +330,11 @@ const StoreProfileScreen = () => {
                             }
                         </View>
                     </View>
-                    <TouchableOpacity onPress={() => { setFeedbackModal(true); }}>
+                    {!currentSpadeRetailer.retailerRated && <TouchableOpacity TouchableOpacity onPress={() => { setFeedbackModal(true); }}>
                         <View>
                             <Text className="text-[16px] text-[#fb8c00] text-center border-[1px] border-[#fb8c00] rounded-2xl py-[10px]" style={{ fontFamily: "Poppins-Regular" }}>Rate the Vendor</Text>
                         </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
 
                 </View>
             </ScrollView>

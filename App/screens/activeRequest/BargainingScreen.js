@@ -35,6 +35,7 @@ import RetailerContactDetailModal from '../components/RetailerContactDetailModal
 import RatingAndFeedbackModal from '../components/RatingAndFeedbackModal';
 import navigationService from '../../navigation/navigationService.js';
 import LocationMessage from '../components/LocationMessage';
+import UserDocumentMessage from '../components/UserDocumentMessage';
 
 const BargainingScreen = () => {
     const navigation = useNavigation();
@@ -74,7 +75,7 @@ const BargainingScreen = () => {
     };
 
     const setMessagesMarkAsRead = useCallback(async () => {
-        console.log("marks as read0", currentSpadeRetailer?.latestMessage);
+        // console.log("marks as read0", currentSpadeRetailer?.latestMessage);
         try {
             if (
                 currentSpadeRetailer.unreadCount > 0 &&
@@ -126,7 +127,6 @@ const BargainingScreen = () => {
 
 
     const fetchCurrentSpadeRetailer = useCallback(async () => {
-        console.log('currentSpadeChatId', currentSpadeChatId);
         await axios.get('http://173.212.193.109:5000/chat/get-particular-chat', {
             params: {
                 id: currentSpadeChatId.chatId,
@@ -139,16 +139,16 @@ const BargainingScreen = () => {
                 dispatch(setCurrentSpade(res?.data?.requestId));
                 dispatch(setUserDetails(res?.data?.customerId));
                 fetchMessages(res?.data?._id);
-                setTimeout(() => {
-                    console.log("current spade updated successfully", currentSpadeRetailer?._id)
-                }, 500);
+                // setTimeout(() => {
+                //     console.log("current spade updated successfully", currentSpadeRetailer?._id)
+                // }, 500);
 
             })
     }, [currentSpadeChatId]);
 
 
     const fetchMessages = useCallback((id) => {
-        console.log("fetching messages", id);
+        // console.log("fetching messages", id);
         axios
             .get("http://173.212.193.109:5000/chat/get-spade-messages", {
                 params: {
@@ -170,7 +170,7 @@ const BargainingScreen = () => {
                 setBidCounts(cnt);
                 // console.log('mess res', res.data);
                 socket.emit("join chat", res.data[0]?.chat?._id);
-                console.log("current spade updated successfully at messages", currentSpadeRetailer?._id)
+                // console.log("current spade updated successfully at messages", currentSpadeRetailer?._id)
 
 
                 // console.log("messages", res.data);
@@ -192,7 +192,7 @@ const BargainingScreen = () => {
             setMessagesMarkAsRead();
         }
         else {
-            console.log('removing old data of spade at bargaining screen');
+            // console.log('removing old data of spade at bargaining screen');
             dispatch(setCurrentSpadeRetailer({}));
             dispatch(setCurrentSpadeRetailers([]));
             fetchCurrentSpadeRetailer();
@@ -628,6 +628,9 @@ const BargainingScreen = () => {
                                         {message?.bidType === "location" && <View className="flex flex-row justify-end">
                                             <LocationMessage bidDetails={message} />
                                         </View>}
+                                        {message?.bidType === "document" && message?.sender?.type === 'UserRequest' && <View className="flex flex-row justify-end">
+                                            <UserDocumentMessage bidDetails={message} />
+                                        </View>}
 
                                     </View>
                                 ))
@@ -643,20 +646,23 @@ const BargainingScreen = () => {
                         {
 
                         }
-                        {(((spade?.requestActive === "completed" && spade?.requestAcceptedChat === currentSpadeRetailer?._id) || currentSpadeRetailer?.requestType === "ongoing") && ((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "accepted") || (spade?.requestActive === "active" && messages[messages?.length - 1]?.bidType === "location") || (messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "rejected") || messages[messages?.length - 1]?.bidType === "false")) && <View className="w-full flex-row justify-between px-[5px] pb-[5px]">
+                        {(((spade?.requestActive === "completed" && spade?.requestAcceptedChat === currentSpadeRetailer?._id) || currentSpadeRetailer?.requestType === "ongoing") &&
+                            ((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "accepted") ||
+                                (spade?.requestActive === "active" && messages[messages?.length - 1]?.bidType === "location") || (spade?.requestActive === "active" && messages[messages?.length - 1]?.bidType === "document") || (messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "rejected") ||
+                                messages[messages?.length - 1]?.bidType === "false")) && <View className="w-full flex-row justify-between px-[5px] pb-[5px]">
 
-                            <TouchableOpacity onPress={() => { navigation.navigate('send-query', { messages, setMessages }) }}>
-                                <View className="border-2 border-[#fb8c00]  px-[20px] h-[63px] justify-center items-center  w-[max-content] rounded-[24px]">
-                                    <Text className="text-[16px] text-[#fb8c00]  " style={{ fontFamily: "Poppins-Regular" }}>Send message </Text>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => { setAttachmentScreen(true) }}>
-                                <View className="border-2 border-[#fb8c00] flex-row w-[max-content] px-[5px] h-[63px] justify-center items-center rounded-[24px] gap-[5px]">
-                                    <Document />
-                                    <Text className="text-[16px] text-[#fb8c00] " style={{ fontFamily: "Poppins-Regular" }}>Send attachment</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>}
+                                <TouchableOpacity onPress={() => { navigation.navigate('send-query', { messages, setMessages }) }}>
+                                    <View className="border-2 border-[#fb8c00]  px-[20px] h-[63px] justify-center items-center  w-[max-content] rounded-[24px]">
+                                        <Text className="text-[16px] text-[#fb8c00]  " style={{ fontFamily: "Poppins-Regular" }}>Send message </Text>
+                                    </View>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => { setAttachmentScreen(true) }}>
+                                    <View className="border-2 border-[#fb8c00] flex-row w-[max-content] px-[5px] h-[63px] justify-center items-center rounded-[24px] gap-[5px]">
+                                        <Document />
+                                        <Text className="text-[16px] text-[#fb8c00] " style={{ fontFamily: "Poppins-Regular" }}>Send attachment</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>}
 
                         {bidCounts > 0 &&
                             ((messages[messages?.length - 1]?.bidType === "true" &&
@@ -664,7 +670,8 @@ const BargainingScreen = () => {
                                 spade?.requestActive === "active") ||
                                 (spade?.requestActive === "active" &&
                                     messages[messages?.length - 1]?.bidType === "false") || (spade?.requestActive === "active" &&
-                                        messages[messages?.length - 1]?.bidType === "location")) && (
+                                        messages[messages?.length - 1]?.bidType === "location") || (spade?.requestActive === "active" &&
+                                            messages[messages?.length - 1]?.bidType === "document")) && (
                                 <TouchableOpacity
                                     onPress={() => {
                                         navigation.navigate("send-bid", {
@@ -848,7 +855,7 @@ const BargainingScreen = () => {
             )}
             {options && (
                 <View className="absolute top-[30px] right-[50px] z-50 bg-white rounded-md 9+99*">
-                    <TouchableOpacity
+                    {!currentSpadeRetailer.retailerRated && <TouchableOpacity
                         onPress={() => {
                             setOptions(false);
                             setFeedbackModal(true);
@@ -860,7 +867,7 @@ const BargainingScreen = () => {
                         >
                             Rate Vendor
                         </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
                     <TouchableOpacity
                         onPress={() => {
                             const requestId = spade?._id;

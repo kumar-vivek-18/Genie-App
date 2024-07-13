@@ -52,6 +52,7 @@ export const getGeoCoordinates = async () => {
       return null;
     }
 
+    console.log('statuse', status);
 
     // Set location options for higher accuracy and reasonable timeout
     const locationOptions = {
@@ -63,8 +64,12 @@ export const getGeoCoordinates = async () => {
     // Get current location
     const location = await Location.getCurrentPositionAsync(locationOptions);
 
-    store.dispatch(setUserLatitude(location.coords.latitude));
-    store.dispatch(setUserLongitude(location.coords.longitude));
+    console.log(location);
+    if (location) {
+      store.dispatch(setUserLatitude(location.coords.latitude));
+      store.dispatch(setUserLongitude(location.coords.longitude));
+    }
+
 
     console.log("location from logics", location.coords.latitude, location.coords.longitude);
 
