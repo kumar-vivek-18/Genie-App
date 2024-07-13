@@ -31,26 +31,25 @@ const SendDocument = () => {
     const [loading, setLoading] = useState(false);
     const fileSize = parseFloat(result.assets[0].size) / (1e6);
     console.log('document result', result);
-    console.log('fileSize', fileSize);
+
 
     const sendDocument = async () => {
         console.log('Sending document');
         try {
-
+            setLoading(true);
             if (!result) {
                 console.log('No document selected');
+                setLoading(false);
                 return;
             }
 
             const formData = new FormData();
-            const message = `${result.assets[0].size} | ${result.assets[0].name} | ${query}`
             formData.append('bidImages', {
                 uri: result.assets[0].uri,
                 name: result.assets[0].name,
                 type: result.assets[0].mimeType,
             });
 
-            const fileSizeMB = parseFloat(result.assets[0].size) / (1e6);
 
             formData.append('sender', JSON.stringify({ type: 'UserRequest', refId: currentSpadeRetailer.requestId._id }));
             formData.append('userRequest', currentSpade._id);
@@ -131,19 +130,18 @@ const SendDocument = () => {
                     >
                         {currentSpadeRetailer?.retailerId.storeName.length > 25 ? `${currentSpadeRetailer?.retailerId.storeName.slice(0, 25)}...` : currentSpadeRetailer?.retailerId.storeName}
                     </Text>
-                    <TouchableOpacity
+                    {loading &&
+                        <View className="bg-[#fb8c00] p-[20px] rounded-full">
+                            <ActivityIndicator size="small" color="#ffffff" />
+                        </View>}
+
+                    {!loading && <TouchableOpacity
                         onPress={() => {
                             sendDocument();
                         }}
                     >
-                        {loading ? (
-                            <View className="bg-[#fb8c00] p-[20px] rounded-full">
-                                <ActivityIndicator size="small" color="#ffffff" />
-                            </View>
-                        ) : (
-                            <Send />
-                        )}
-                    </TouchableOpacity>
+                        <Send />
+                    </TouchableOpacity>}
                 </View>
             </View>
 
