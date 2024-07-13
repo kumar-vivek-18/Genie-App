@@ -65,7 +65,7 @@ const RequestDetail = () => {
                     id: currentSpade._id
                 })
                     .then((res) => {
-                        console.log('Mars as read successfully');
+                        console.log('Mark as read successfully at request Detail screen');
                         let spadesData = [...spades];
 
                         // Find and update the specific spade
@@ -103,7 +103,6 @@ const RequestDetail = () => {
                         console.log(chat._id, chat.updatedAt);
                     })
 
-                    console.log('all reatailers fetched while setting up socket');
                     dispatch(setCurrentSpadeRetailers(chats));
                 }
             })
@@ -188,9 +187,9 @@ const RequestDetail = () => {
                 const updatedRetailers = [updatedUser, ...currentSpadeRetailers.filter(c => c._id !== updatedUser._id)];
 
                 dispatch(setCurrentSpadeRetailers(updatedRetailers));
-                setTimeout(() => {
-                    console.log('updatedTime', currentSpadeRetailers.length);
-                }, 2000);
+                // setTimeout(() => {
+                //     console.log('updatedTime', currentSpadeRetailers.length);
+                // }, 2000);
 
             }
         };

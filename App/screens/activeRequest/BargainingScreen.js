@@ -75,7 +75,7 @@ const BargainingScreen = () => {
     };
 
     const setMessagesMarkAsRead = useCallback(async () => {
-        console.log("marks as read0", currentSpadeRetailer?.latestMessage);
+        // console.log("marks as read0", currentSpadeRetailer?.latestMessage);
         try {
             if (
                 currentSpadeRetailer.unreadCount > 0 &&
@@ -127,7 +127,6 @@ const BargainingScreen = () => {
 
 
     const fetchCurrentSpadeRetailer = useCallback(async () => {
-        console.log('currentSpadeChatId', currentSpadeChatId);
         await axios.get('http://173.212.193.109:5000/chat/get-particular-chat', {
             params: {
                 id: currentSpadeChatId.chatId,
@@ -140,16 +139,16 @@ const BargainingScreen = () => {
                 dispatch(setCurrentSpade(res?.data?.requestId));
                 dispatch(setUserDetails(res?.data?.customerId));
                 fetchMessages(res?.data?._id);
-                setTimeout(() => {
-                    console.log("current spade updated successfully", currentSpadeRetailer?._id)
-                }, 500);
+                // setTimeout(() => {
+                //     console.log("current spade updated successfully", currentSpadeRetailer?._id)
+                // }, 500);
 
             })
     }, [currentSpadeChatId]);
 
 
     const fetchMessages = useCallback((id) => {
-        console.log("fetching messages", id);
+        // console.log("fetching messages", id);
         axios
             .get("http://173.212.193.109:5000/chat/get-spade-messages", {
                 params: {
@@ -171,7 +170,7 @@ const BargainingScreen = () => {
                 setBidCounts(cnt);
                 // console.log('mess res', res.data);
                 socket.emit("join chat", res.data[0]?.chat?._id);
-                console.log("current spade updated successfully at messages", currentSpadeRetailer?._id)
+                // console.log("current spade updated successfully at messages", currentSpadeRetailer?._id)
 
 
                 // console.log("messages", res.data);
@@ -193,7 +192,7 @@ const BargainingScreen = () => {
             setMessagesMarkAsRead();
         }
         else {
-            console.log('removing old data of spade at bargaining screen');
+            // console.log('removing old data of spade at bargaining screen');
             dispatch(setCurrentSpadeRetailer({}));
             dispatch(setCurrentSpadeRetailers([]));
             fetchCurrentSpadeRetailer();

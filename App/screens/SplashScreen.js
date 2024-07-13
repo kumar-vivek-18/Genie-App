@@ -18,24 +18,11 @@ const SplashScreen = () => {
   const userDetails = useSelector(store => store.user.userDetails);
 
   const fetchLocation = useCallback(async () => {
-    // const { status } = await Location.requestForegroundPermissionsAsync();
-    // if (status !== 'granted') {
-    //   Alert.alert('Permission Denied', 'Permission to access location was denied.');
-    //   return;
-    // }
+
 
     const coordinates = await getPreciseGeoCoordinates();
     console.log('update coordinates', coordinates);
-    // const userLocation = await getGeoLocation();
-    // if (userLocation) {
-    //   dispatch(setUserLongitude(userLocation.coords.longitude));
-    //   dispatch(setUserLatitude(userLocation.coords.latitude));
-    //   console.log('Location Updated Successfully on Splash Screen');
-    // }
-    // else {
-    //   console.log('Unable to get user location on Splash Screen');
 
-    // }
   })
   useEffect(() => {
 

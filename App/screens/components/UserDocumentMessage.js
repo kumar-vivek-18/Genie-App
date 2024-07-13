@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, ScrollView, Animated, Modal, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Image, ScrollView, Animated, Linking } from 'react-native'
 import React, { useState } from 'react'
 import { Entypo } from '@expo/vector-icons';
 import Tick from "../../assets/Tick.svg";
@@ -41,6 +41,13 @@ const UserDocumentMessage = ({ bidDetails }) => {
         return `rgb(0, ${greenValue}, 0)`;
     };
 
+    const handleDownloadDocument = async () => {
+        // const url = `https://www.google.com/search?q=${encodeURIComponent(bidDetails.bidImages[0])}`
+        const url = `${bidDetails.bidImages[0]}`;
+        Linking.openURL(url)
+            .catch((err) => console.error('An error occurred', err));
+    }
+
     return (
         <View className="flex gap-[19px]  border-[1px] border-gray-200   rounded-3xl w-[297px] h-[max-content] py-[10px] items-center bg-[#ebebeb]">
             <View className="flex-row mx-[25px] ">
@@ -68,7 +75,7 @@ const UserDocumentMessage = ({ bidDetails }) => {
                                 <Text>{bidDetails?.bidImages[0].slice(bidDetails?.bidImages[0].length - 15, bidDetails?.bidImages[0].length)}</Text>
                                 <View className="flex-row items-center gap-[10px]">
                                     <View>
-                                        {bidDetails?.bidImages.map((image, index) => (
+                                        {/* {bidDetails?.bidImages.map((image, index) => (
                                             <View key={index}>
 
                                                 <TouchableOpacity
@@ -97,7 +104,17 @@ const UserDocumentMessage = ({ bidDetails }) => {
                                                 )}
                                             </View>
 
-                                        ))}
+                                        ))} */}
+                                        <TouchableOpacity
+                                            style={{
+                                                backgroundColor: "gray",
+                                                padding: 3,
+                                                borderRadius: 100,
+                                            }}
+                                            onPress={() => { handleDownloadDocument() }}
+                                        >
+                                            <Feather name="download" size={18} color="white" />
+                                        </TouchableOpacity>
                                     </View>
                                     <Text>{(bidDetails.bidPrice) / (1e6) < 1 ? `${(parseFloat(bidDetails.bidPrice) / (1e3)).toFixed(1)}kb` : `${(parseFloat(bidDetails.bidPrice) / (1e6)).toFixed(1)}Mb`}</Text>
                                 </View>
