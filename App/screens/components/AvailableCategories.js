@@ -83,28 +83,29 @@ const AvailableCategories = () => {
         <View style={styles.container} >
 
             <View className="flex-1 w-full bg-white flex-col  gap-[40px] px-[32px] ">
+                <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', paddingHorizontal: 30, paddingVertical: 30, zIndex: 100 }}>
+                    <BackArrow width={14} height={10} />
+
+                </TouchableOpacity>
                 <ScrollView className="flex-1 px-0 mb-[63px] " showsVerticalScrollIndicator={false} >
 
                     <View className=" flex z-40 flex-row items-center mt-[24px] mb-[10px]">
-                        <Pressable onPress={() => navigation.goBack()} className="px-[10px] py-[15px]">
-                            <BackArrow width={14} height={10} />
 
-                        </Pressable>
                         <Text className="flex flex-1 justify-center items-center text-center text-[16px] text-[#2e2c43]" style={{ fontFamily: "Poppins-ExtraBold" }}>Available Categories</Text>
 
                     </View>
-                    <View className="flex flex-row gap-2 h-[60px]  border-[1px] items-center border-[#000000] rounded-[24px] mb-[20px]">
-                        <Octicons name="search" size={19} className="pl-[20px]" />
+                    <View className="flex flex-row mt-[20px] h-[60px] border-[1px] items-center border-[#000000] border-opacity-25 rounded-[24px] mb-[50px] bg-white" style={{ borderWidth: 1, borderColor: 'rgba(0, 0, 0, 0.15)' }}>
+                        <Octicons name="search" size={19} style={{ paddingLeft: 20, position: 'absolute', left: 0 }} />
                         <TextInput
-                            placeholder="Search here......."
+                            placeholder="Search here...."
                             placeholderTextColor="#DBCDBB"
                             value={searchQuery}
-                            onChangeText={(val) => handleTextChange(val)}
-                            className="flex text-[14px] flex-1"
-                            style={{ fontFamily: "Poppins-Italic", marginLeft: searchQuery?.length == 0 ? 64 : 20 }}
+                            onChangeText={handleTextChange}
+                            className="flex text-center text-[14px] text-[#2E2C43] justify-center items-center flex-1 px-[40px]" // Adjusted padding to center the text
+                            style={{ fontFamily: "Poppins-Italic", textAlign: 'center' }} // Added textAlign for centering text
                         />
                     </View>
-                    <View className="px-[10px]">
+                    <View className="px-[10px] mt-[30px]">
                         {searchResults?.map((result) => (
 
                             <View key={result.id} className="flex flex-row  py-[10px] gap-[30px] items-center">

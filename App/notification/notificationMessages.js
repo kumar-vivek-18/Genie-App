@@ -3,7 +3,7 @@ import { getAccessToken } from "./notification";
 export const NewRequestCreated = async (mess) => {
     try {
         const uniqueTokens = mess.uniqueTokens;
-        console.log("notification request creted",uniqueTokens)
+        console.log("notification request creted", uniqueTokens)
 
         const accessToken = await getAccessToken();
 
@@ -21,16 +21,16 @@ export const NewRequestCreated = async (mess) => {
 
             if (token.length > 0) {
                 console.log("notification send to", token);
-                const requestInfo={
-                   requestId:chatId,
-                   userId:socketId
+                const requestInfo = {
+                    requestId: chatId,
+                    userId: socketId
                 }
 
                 const notification = {
                     notification: {
                         title: `${mess.title} has requested for`,
                         body: mess.body,
-                        image: mess?.image 
+                        image: mess?.image
                     },
                     android: {
                         priority: "high",
@@ -310,7 +310,7 @@ export const newMessageSend = async (mess) => {
             notification: {
                 title: mess?.title,
                 body: mess?.body,
-                image:mess?.image
+                image: mess?.image
             },
             android: {
                 priority: "high",
@@ -381,8 +381,8 @@ export const newBidSend = async (mess) => {
 
         const notification = {
             notification: {
-                title: `${mess?.title} send a bid of ${mess?.price}`,
-                body: mess?.body,
+                title: mess?.title,
+                body: `Offered Price: Rs ${mess?.price}`,
                 image: mess?.image,
             },
             android: {

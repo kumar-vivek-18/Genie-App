@@ -365,7 +365,7 @@ const RequestDetail = () => {
                             </TouchableOpacity>
                         </View>}
 
-                        <View className="bg-[#ffe7c8] px-[64px] py-[30px] pt-[20px]">
+                        <View className="bg-[#ffe7c8] text-[#2e2c43] px-[64px] py-[30px] pt-[30px]">
                             <Text className="text-[16px] " style={{ fontFamily: "Poppins-Bold" }}>Request for</Text>
                             <View className=" flex-row">
                                 <Text className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestCategory}</Text>
@@ -384,7 +384,7 @@ const RequestDetail = () => {
                             <Pressable onPress={() => navigation.navigate('image-refrences')}>
                                 <View className="flex-row gap-[15px] mt-[15px] items-center">
                                     <GalleryImg />
-                                    <Text className="text-[14px]  text-[#fb8c00]" style={{ fontFamily: "Poppins-Black" }}>Image References</Text>
+                                    <Text className="text-[14px]  text-[#fb8c00]" style={{ fontFamily: "Poppins-Regular" }}>Image References</Text>
                                 </View>
                             </Pressable>
 
@@ -425,15 +425,15 @@ const RequestDetail = () => {
                                                     source={{ uri: details?.retailerId?.storeImages ? details?.retailerId?.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
                                                     style={styles.image}
                                                 />}
-                                                <View className="gap-[10px] w-4/5">
-                                                    <View className="flex-row justify-between">
-                                                        <Text className="text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Regular" }}>{details?.retailerId?.storeName?.length > 20 ? `${details?.retailerId?.storeName.slice(0, 20)}...` : details?.retailerId?.storeName}</Text>
+                                                <View className="gap-[5px] w-4/5">
+                                                    <View className="flex-row justify-between pt-[10px]">
+                                                        <Text className="text-[14px] text-[#2e2c43] capitalize " style={{ fontFamily: "Poppins-Regular" }}>{details?.retailerId?.storeName?.length > 20 ? `${details?.retailerId?.storeName.slice(0, 20)}...` : details?.retailerId?.storeName}</Text>
                                                         <View className="flex-row items-center gap-[5px]">
                                                             <GreenClock />
                                                             <Text className="text-[12px] text-[#558b2f]" style={{ fontFamily: "Poppins-Regular" }}>{details?.updatedAt}</Text>
                                                         </View>
                                                     </View>
-                                                    <View className="flex-row items-center gap-[15px]">
+                                                    <View className="flex-row items-center gap-[15px] ">
                                                         {details?.retailerId?.totalReview > 0 && (
                                                             <View className="flex-row items-center gap-[5px]">
                                                                 <Star />
@@ -450,8 +450,8 @@ const RequestDetail = () => {
                                                         }
                                                     </View>
 
-                                                    <View className="flex-row justify-between">
-                                                        <View className="flex-row gap-[5px]">
+                                                    <View className="flex-row justify-between ">
+                                                        <View className="flex-row gap-[5px] ">
                                                             {
                                                                 details?.latestMessage?.bidType === "true" && (
                                                                     <View >
@@ -473,7 +473,7 @@ const RequestDetail = () => {
                                                                     </View>
                                                                 )
                                                             }
-                                                            <Text className="text-[14px] text-[#c4c4c4]" style={{ fontFamily: "Poppins-Regular" }}>{details?.latestMessage?.message.length > 25 ? `${details?.latestMessage?.message.slice(0, 22)}...` : details?.latestMessage?.message || 'No message available'}</Text>
+                                                            <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular", color: '#7c7c7c' }}>{details?.latestMessage?.message.length > 25 ? `${details?.latestMessage?.message.slice(0, 22)}...` : details?.latestMessage?.message || 'No message available'}</Text>
 
                                                         </View>
                                                         {details?.unreadCount > 0 && details?.latestMessage?.sender?.type === 'Retailer' && <View className="w-[18px] h-[18px] rounded-full bg-[#55cd00] flex-row justify-center items-center">
@@ -504,7 +504,7 @@ const RequestDetail = () => {
                     <View className="bg-[#ffe7c8] mx-[16px] h-[68px] flex-row items-center justify-center rounded-full">
 
 
-                        <Text className="text-[#fb8c00] text-center text-[14px]" style={{ fontFamily: "Poppins-Black" }}>Waiting for retailers response..... </Text>
+                        <Text className="text-[#fb8c00] text-center text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>Waiting for vendors response..... </Text>
                     </View>
                 </View>}
             </Pressable>}
