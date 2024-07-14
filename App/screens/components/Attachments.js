@@ -15,12 +15,13 @@ import axios from 'axios';
 import LocationModal from './LocationModal';
 import * as DocumentPicker from 'expo-document-picker';
 import { LocationSendNotification } from '../../notification/notificationMessages';
+import ErrorModal from './ErrorModal';
 
 const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
 
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
     const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
-  const userDetails = useSelector((store) => store.user.userDetails);
+    const userDetails = useSelector((store) => store.user.userDetails);
 
     const currentSpade = useSelector((store) => store.user.currentSpade);
     const navigation = useNavigation();
@@ -28,9 +29,9 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
     const [locationLoading, setLocationLoading] = useState(false);
-
+    const [errorModal, setErrorModal] = useState(false);
     const [openLocationModal, setOpenLocationModal] = useState(false);
-//  console.log(currentSpadeRetailer)
+    //  console.log(currentSpadeRetailer)
 
     const sendLocation = async () => {
         // console.log('res', query, imageUri);
@@ -87,9 +88,9 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
                     if (token.data.length > 0) {
                         const notification = {
                             token: token.data,
-                            title: userDetails?.userName,  
+                            title: userDetails?.userName,
                             // close: currentSpade._id,
-                            image:currentSpadeRetailer.requestId?.requestImages[0],
+                            image: currentSpadeRetailer.requestId?.requestImages[0],
                             body: "Customer sent the location",
                             requestInfo: {
                                 requestId: currentSpadeRetailer._id,
@@ -169,7 +170,7 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
             </TouchableOpacity>
             <View style={{ zIndex: 100, position: 'absolute', backgroundColor: 'white', bottom: 165, left: 0, right: 0 }}>
                 <View className="flex-row justify-evenly py-[20px]">
-                    <TouchableOpacity onPress={() => { pickDocument() }}>
+                    <TouchableOpacity onPress={() => { pickDocument(); }}>
                         <View className="items-center">
                             <Document />
                             <Text style={{ fontFamily: 'Poppins-Regular' }}>Document</Text>
@@ -199,6 +200,7 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
                 </View>
             </View>
             {openLocationModal && <LocationModal openLocationModal={openLocationModal} setOpenLocationModal={setOpenLocationModal} locationLoading={locationLoading} sendLocation={sendLocation} />}
+            {/* {errorModal && <ErrorModal errorModal={errorModal} setErrorModal={setErrorModal} />} */}
         </View>
     )
 }
