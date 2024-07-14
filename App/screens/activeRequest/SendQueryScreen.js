@@ -153,19 +153,11 @@ const SendQueryScreen = () => {
         contentContainerStyle={{ flexGrow: 1 }}
         className="relative bg-[#ffe7c8] h-full"
       >
-        <View className="z-50 w-full flex flex-row px-[29px] absolute justify-between items-center  top-[20px]">
-          <Pressable
-            onPress={() => {
-              navigation.goBack();
-            }}
-          >
-            <ArrowLeft />
-          </Pressable>
 
-          <Pressable onPress={() => { }}>
-            <ThreeDots />
-          </Pressable>
-        </View>
+        <TouchableOpacity onPress={() => { navigation.goBack() }} style={{ position: 'absolute', paddingLeft: 30, paddingVertical: 38, zIndex: 100 }}>
+          <ArrowLeft />
+        </TouchableOpacity>
+
 
         <View className="bg-[#ffe7c8] px-[64px] py-[30px] pt-[20px] relative">
           <View className=" flex-row gap-[18px]">
@@ -175,7 +167,7 @@ const SendQueryScreen = () => {
 
             <View>
               <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Regular" }}>
-                {details?.retailerId.storeName}
+                {details?.retailerId.storeName.length > 25 ? `${details?.retailerId.storeName.slice(0, 25)}...` : details?.retailerId.storeName}
               </Text>
               <Text className="text-[12px] text-[#c4c4c4]" style={{ fontFamily: "Poppins-Regular" }}>
                 Active 3 hr ago
@@ -183,7 +175,7 @@ const SendQueryScreen = () => {
             </View>
           </View>
 
-          <View className="flex-row gap-[6px] items-center mt-[16px]">
+          {/* <View className="flex-row gap-[6px] items-center mt-[16px]">
             <View className="flex-row gap-[7px] items-center">
               <Contact />
               <Text style={{ fontFamily: "Poppins-Regular", color: "#FB8C00" }}>Contact Details</Text>
@@ -192,7 +184,7 @@ const SendQueryScreen = () => {
               <Location />
               <Text style={{ fontFamily: "Poppins-Regular", color: "#FB8C00" }}>Store Loction</Text>
             </View>
-          </View>
+          </View> */}
 
           <View className="flex-row gap-[5px] mt-[15px]">
             <Tick height={18} width={18} />
@@ -202,7 +194,7 @@ const SendQueryScreen = () => {
 
         <View className="px-[30px]">
           <Text className="text-[14px]  text-[#2e2c43] mx-[16px] mt-[30px] mb-[15px]" style={{ fontFamily: "Poppins-Bold" }}>
-            Send a query
+            Send your message to the vendor
           </Text>
 
           <View className="  h-[127px] bg-[#f9f9f9] rounded-xl ">
@@ -215,12 +207,13 @@ const SendQueryScreen = () => {
               value={query}
               placeholder="Type here..."
               placeholderTextColor="#dbcdbb"
-              className="w-full h-[127px] overflow-y-scroll px-[20px] border-[0.3px] border-[#2e2c43] rounded-xl "
-
+              className="w-full h-[127px] overflow-y-scroll px-[20px] border-[1px] border-[#000000] border-opacity-25 rounded-xl "
               style={{
                 padding: 20,
                 height: 300,
                 flex: 1,
+                borderWidth: 1,
+                borderColor: 'rgba(0, 0, 0, 0.15)',
                 textAlignVertical: "top",
                 fontFamily: "Poppins-Regular"
               }}

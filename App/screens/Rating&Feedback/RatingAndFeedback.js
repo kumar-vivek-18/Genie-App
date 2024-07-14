@@ -60,10 +60,10 @@ const RatingAndFeedback = () => {
 
     return (
 
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
             <ScrollView>
                 <View className="flex-row justify-between px-[30px] mt-[20px] items-center">
-                    <Text className="text-[18px] " style={{ fontFamily: "Poppins-Bold" }}>Seller Rate & Feedback</Text>
+                    <Text className="text-[18px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Bold" }}>Vendor Rate & Feedback</Text>
                     <Pressable onPress={() => { navigation.navigate('home') }} >
                         <View>
                             <Cancel />
@@ -74,13 +74,13 @@ const RatingAndFeedback = () => {
                 </View>
 
                 <View className="px-[34px] mt-[16px] bg-[#ffe7cb] py-[15px]">
-                    <Text className="text-[16px]  " style={{ fontFamily: "Poppins-ExtraBold" }}>Request for</Text>
+                    <Text className="text-[16px] text-[#2e2c43] " style={{ fontFamily: "Poppins-ExtraBold" }}>Request for</Text>
                     <View className=" flex-row">
                         <Text className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestCategory}</Text>
                     </View>
 
                     <View className="flex-row gap-[10px] items-center ">
-                        <Text className="text-[12px]" style={{ fontFamily: "Poppins-ExtraBold" }}>Request ID:</Text>
+                        <Text className="text-[12px] text-[#2e2c43]" style={{ fontFamily: "Poppins-ExtraBold" }}>Request ID:</Text>
                         <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{spade._id}</Text>
                         <Pressable onPress={() => { Clipboard.setString(spade._id) }}>
                             <Image source={require('../../assets/copy.png')} />
@@ -92,11 +92,11 @@ const RatingAndFeedback = () => {
                 </View>
 
                 <View>
-                    {retailer && <Text className="text-[18px] mx-[34px] capitalize text-[2e2c43] mt-[22px]" style={{ fontFamily: "Poppins-Regular" }}>{retailer?.users[0]?.populatedUser?.storeName}</Text>}
+                    {retailer && <Text className="text-[18px] mx-[34px] capitalize text-[#2e2c43] mt-[22px]" style={{ fontFamily: "Poppins-Regular" }}>{retailer?.users[0]?.populatedUser?.storeName}</Text>}
                 </View>
 
                 <View className="px-[30px] mt-[19px] ">
-                    <Text className="text-[14px]" style={{ fontFamily: "Poppins-Bold" }}>Rate your experience with seller</Text>
+                    <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Bold" }}>Rate your experience with vendor</Text>
                     <View className="flex-row gap-[5px] mt-[10px]">
                         {[...Array(5)].map((_, index) => {
                             const star = index + 1;
@@ -117,8 +117,30 @@ const RatingAndFeedback = () => {
                     </View>
                 </View>
 
-                <View className="px-[30px]">
-                    <Text className="text-[14px] text-[#2e2c43] mx-[6px] mt-[30px] mb-[15px]" style={{ fontFamily: "Poppins-ExtraBold" }}>Feedback for seller</Text>
+                <View className="px-[30px] mt-[19px] ">
+                    <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Bold" }}>Rate your overall experience</Text>
+                    <View className="flex-row gap-[5px] mt-[10px]">
+                        {[...Array(5)].map((_, index) => {
+                            const star = index + 1;
+                            return (
+                                <TouchableOpacity
+                                    key={star}
+                                    onPress={() => handlePress(star)}
+                                >
+                                    <FontAwesome
+                                        name={star <= rating ? 'star' : 'star-o'}
+                                        size={32}
+                                        color="#fb8c00"
+                                        className="mx-[5px]"
+                                    />
+                                </TouchableOpacity>
+                            );
+                        })}
+                    </View>
+                </View>
+
+                {/* <View className="px-[30px]">
+                    <Text className="text-[14px] text-[#2e2c43] mx-[6px] mt-[30px] mb-[15px]" style={{ fontFamily: "Poppins-ExtraBold" }}>Feedback for vendor</Text>
 
                     <KeyboardAvoidingView className="  h-[127px] bg-[#f9f9f9] rounded-xl ">
                         <TextInput
@@ -131,18 +153,24 @@ const RatingAndFeedback = () => {
                             placeholder="Type here..."
                             placeholderTextColor="#dbcdbb"
                             className="w-full h-[127px] overflow-y-scroll px-[20px] border-[0.3px] border-[#2e2c43] rounded-xl "
-                            style={{ padding: 20, height: 300, flex: 1, textAlignVertical: 'top', fontFamily: 'Poppins-Regular' }}
+
+                            style={{ borderWidth: 1, borderColor: 'rgba(0, 0, 0, 0.15)', padding: 20, height: 300, flex: 1, textAlignVertical: 'top', fontFamily: 'Poppins-Regular' }}
                         />
                     </KeyboardAvoidingView>
-                </View>
+                </View> */}
             </ScrollView>
             <View className="absolute bottom-[0px] left-[0px] right-[0px] gap-[10px]">
 
-                <TouchableOpacity onPress={() => { SubmitFeedback() }}>
+                {rating > 0 && <TouchableOpacity onPress={() => { SubmitFeedback() }}>
                     <View className="w-full h-[68px]  bg-[#fb8c00] justify-center  bottom-0 left-0 right-0">
                         <Text className="text-white  text-center text-[16px]" style={{ fontFamily: "Poppins-Black" }}>Submit</Text>
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity>}
+                {rating == 0 && <TouchableOpacity >
+                    <View className="w-full h-[68px]  justify-center  bottom-0 left-0 right-0" style={{ backgroundColor: "#e6e6e6" }}>
+                        <Text className=" text-center text-[16px]" style={{ fontFamily: "Poppins-Black", color: "#888888" }}>Submit</Text>
+                    </View>
+                </TouchableOpacity>}
             </View>
 
         </SafeAreaView>

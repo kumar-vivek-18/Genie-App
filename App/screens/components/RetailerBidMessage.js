@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, ScrollView, Animated, Pressable, Modal, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DPIcon from "../../assets/DPIcon.svg";
 import Tick from "../../assets/Tick.svg";
 import { Entypo } from '@expo/vector-icons';
@@ -21,6 +21,15 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
       useNativeDriver: true,
     }).start();
   };
+
+  useEffect(() => {
+    if (downloadProgress[1] === 1) {
+      const timer = setTimeout(() => {
+        handleClose();
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [downloadProgress]);
 
   const handleClose = () => {
     Animated.timing(scaleAnimation, {
@@ -66,19 +75,19 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
             flexDirection: "row",
-            gap: 10,
+            gap: 4,
             paddingHorizontal: 25,
           }}
         >
           {bidDetails?.bidImages.map((image, index) => (
             <View
               key={index}
-              style={{ position: "relative", width: 180, height: 232 }}
+              style={{ position: "relative", width: 190, height: 232 }}
             >
               <Pressable onPress={() => handleImagePress(image)}>
                 <Image
                   source={{ uri: image }}
-                  style={{ height: 232, width: 180, borderRadius: 20 }}
+                  style={{ height: 232, width: 190, borderRadius: 20 }}
                 />
               </Pressable>
               <TouchableOpacity
@@ -134,20 +143,19 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
                   width: 300,
                   backgroundColor: "white",
                   height: 50,
+
                   borderRadius: 100,
                   marginTop: 20,
                   justifyContent: "center",
                   alignItems: "center",
-
-                  borderColor: '#fb8c00',
-                  borderWidth: 2
                 }}
                 disabled={downloadProgress[1] !== undefined}
                 onPress={() =>
                   handleDownload(
                     selectedImage,
                     downloadProgress,
-                    setDownloadProgress
+                    setDownloadProgress,
+
                   )
 
                 }
@@ -155,7 +163,7 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
                 {downloadProgress[1] !== undefined && (
                   <View style={[
                     styles.progress,
-                    { backgroundColor: interpolateColor(downloadProgress[1]) },
+                    { borderColor: interpolateColor(downloadProgress[1]) },
                   ]}>
                     <Text style={styles.progresstext}>
                       {downloadProgress[1] !== 1 ? `${Math.round(downloadProgress[1] * 100)}%` : "Downloaded"}
@@ -165,12 +173,32 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
 
                 {
                   !downloadProgress[1] &&
-                  <View className="w-full flex flex-row  gap-[20px]   justify-center items-center">
+                  <View className="w-full flex flex-row  gap-[20px]  justify-center items-center" style={{
+                    borderColor: "#fb8c00",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 100,
+                    height: 50,
+                    borderWidth: 3
+                  }}>
 
-                    <Text className=" text-[16px] text-center text-[#fb8c00]" style={{ fontFamily: "Poppins-Bold" }} >Download</Text>
-                    <Feather name="download" size={20} color="#fb8c00" />
+
+                    <Text className=" text-[16px] text-[#fb8c00]" style={{ fontFamily: "Poppins-Bold" }} >Download</Text>
+                    <Feather name="download" size={18} color="#fb8c00" />
                   </View>
                 }
+
+
+
+
+
+
+
 
               </TouchableOpacity>
 
@@ -263,7 +291,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
-    height: 50
+    height: 50,
+    borderWidth: 3
   },
   progressText: {
     color: "white",
@@ -271,7 +300,7 @@ const styles = StyleSheet.create({
 
   },
   progresstext: {
-    color: "white",
+    color: "green",
     fontSize: 16,
     fontFamily: "Poppins-Bold",
     width: "100%",

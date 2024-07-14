@@ -29,6 +29,15 @@ const UserBidMessage = ({ bidDetails }) => {
   const [scaleAnimation] = useState(new Animated.Value(0));
   const [downloadProgress, setDownloadProgress] = useState({});
 
+  useEffect(() => {
+    if (downloadProgress[1] === 1) {
+      const timer = setTimeout(() => {
+        handleClose();
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [downloadProgress]);
+
   const handleImagePress = (image) => {
     setSelectedImage(image);
     Animated.timing(scaleAnimation, {
@@ -87,12 +96,12 @@ const UserBidMessage = ({ bidDetails }) => {
           {bidDetails?.bidImages.map((image, index) => (
             <View
               key={index}
-              style={{ position: "relative", width: 180, height: 232 }}
+              style={{ position: "relative", width: 190, height: 232 }}
             >
               <Pressable onPress={() => handleImagePress(image)}>
                 <Image
                   source={{ uri: image }}
-                  style={{ height: 232, width: 180, borderRadius: 20 }}
+                  style={{ height: 232, width: 190, borderRadius: 20 }}
                 />
               </Pressable>
               <TouchableOpacity
@@ -146,8 +155,9 @@ const UserBidMessage = ({ bidDetails }) => {
               <TouchableOpacity
                 style={{
                   width: 300,
-                  backgroundColor: "#fb8c00",
+                  backgroundColor: "white",
                   height: 50,
+
                   borderRadius: 100,
                   marginTop: 20,
                   justifyContent: "center",
@@ -158,7 +168,8 @@ const UserBidMessage = ({ bidDetails }) => {
                   handleDownload(
                     selectedImage,
                     downloadProgress,
-                    setDownloadProgress
+                    setDownloadProgress,
+
                   )
 
                 }
@@ -166,7 +177,7 @@ const UserBidMessage = ({ bidDetails }) => {
                 {downloadProgress[1] !== undefined && (
                   <View style={[
                     styles.progress,
-                    { backgroundColor: interpolateColor(downloadProgress[1]) },
+                    { borderColor: interpolateColor(downloadProgress[1]) },
                   ]}>
                     <Text style={styles.progresstext}>
                       {downloadProgress[1] !== 1 ? `${Math.round(downloadProgress[1] * 100)}%` : "Downloaded"}
@@ -176,10 +187,23 @@ const UserBidMessage = ({ bidDetails }) => {
 
                 {
                   !downloadProgress[1] &&
-                  <View className="w-full flex flex-row  gap-[20px]  justify-center items-center">
+                  <View className="w-full flex flex-row  gap-[20px]  justify-center items-center" style={{
+                    borderColor: "#fb8c00",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 100,
+                    height: 50,
+                    borderWidth: 3
+                  }}>
 
-                    <Text className="text-white text-[16px]" style={{ fontFamily: "Poppins-Bold" }} >Download</Text>
-                    <Feather name="download" size={18} color="white" />
+
+                    <Text className=" text-[16px] text-[#fb8c00]" style={{ fontFamily: "Poppins-Bold" }} >Download</Text>
+                    <Feather name="download" size={18} color="#fb8c00" />
                   </View>
                 }
 
@@ -274,7 +298,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
-    height: 50
+    height: 50,
+    borderWidth: 3
   },
   progressText: {
     color: "white",
@@ -282,7 +307,7 @@ const styles = StyleSheet.create({
 
   },
   progresstext: {
-    color: "white",
+    color: "green",
     fontSize: 16,
     fontFamily: "Poppins-Bold",
     width: "100%",
