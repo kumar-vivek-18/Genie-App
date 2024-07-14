@@ -18,10 +18,10 @@ const LocationModal = ({ openLocationModal, setOpenLocationModal, locationLoadin
             className=" flex justify-center items-center h-full ">
             <View className="flex-1  justify-center items-center">
                 <View className="bg-white w-[90%] p-[30px] justify-center items-center mt-[10px] gap-[24px] shadow-gray-600 shadow-2xl">
-                    <Ionicons name="location-outline" size={100} color="#fb8c00" />
+                    <Ionicons name="location-outline" size={90} color="#2e2c43" />
                     <View className="">
-                        <Text className="text-[15px] text-center" style={{ fontFamily: "Poppins-ExtraBold" }}>Are you sure? </Text>
-                        <Text className="text-[14px]  text-center  pt-[8px]" style={{ fontFamily: "Poppins-Regular" }}>Sending your live location to the vendor. </Text>
+                        <Text className="text-[15px] text-center text-[#2e2c43]" style={{ fontFamily: "Poppins-ExtraBold" }}>Are you sure? </Text>
+                        <Text className="text-[14px]  text-center text-[#2e2c43]  pt-[8px]" style={{ fontFamily: "Poppins-Regular" }}>Sending your live location to the vendor. </Text>
 
                     </View>
 
@@ -41,6 +41,7 @@ const LocationModal = ({ openLocationModal, setOpenLocationModal, locationLoadin
                         {locationLoading && <View className="flex-1 mt-[5px]">
                             <ActivityIndicator color={'#fb8c00'} />
                         </View>}
+
 
 
 

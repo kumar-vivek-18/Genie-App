@@ -30,20 +30,20 @@ const LocationMessage = ({ bidDetails }) => {
                     <View className="w-[75%]">
                         <View className="flex-row justify-between">
                             <Text className="text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Bold" }}>You</Text>
-                            <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text>
+                            {/* <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text> */}
                         </View>
 
 
                         <Text className="text-[#263238] text-[13px]" style={{ fontFamily: "Poppins-Regular" }}>You send your live location to the vendor.</Text>
-                        <View>
-                            <View className="flex-row items-center">
+                        <View className="pt-[10px]">
+                            <View className="flex-row items-center -translate-x-2 ">
                                 <Ionicons name="location-outline" size={26} color="black" />
                                 <Text className=" overflow-hidden text-[#001b33] text-[13px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails?.message.length > 50 ? `${bidDetails?.message.slice(0, 50)}..` : bidDetails.message}.</Text>
                             </View>
 
 
 
-                            <View className="flex-row  items-center gap-[5px]">
+                            <View className="flex-row  items-center gap-[5px] ">
                                 <Tick width={15} />
                                 <Text className="text-[12px] text-[#79b649]" style={{ fontFamily: "Poppins-Regular" }}>Location sent successfully</Text>
                             </View>
@@ -54,7 +54,10 @@ const LocationMessage = ({ bidDetails }) => {
 
             </View >
 
-
+            <View className="flex-row justify-end items-center gap-[5px]  w-full px-[30px]">
+                <Text className="text-[12px] text-[#7c7c7c]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt},</Text>
+                <Text className="text-[12px] text-[#7c7c7c] " style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.updatedAt.slice(0, 6)}</Text>
+            </View>
 
         </View >
     )

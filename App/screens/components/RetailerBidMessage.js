@@ -49,7 +49,7 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
           <View className="w-[75%]">
             <View className="flex-row items-center justify-between">
               <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Bold" }}>{currentSpadeRetailer?.retailerId?.storeOwnerName}</Text>
-              <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails?.createdAt}</Text>
+              {/* <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails?.createdAt}</Text> */}
             </View>
 
             <View>
@@ -86,8 +86,8 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
                   position: "absolute",
                   bottom: 5,
                   right: 5,
-                  backgroundColor: "gray",
-                  padding: 2,
+                  backgroundColor: "#ffe7c8",
+                  padding: 3,
                   borderRadius: 100,
                 }}
                 onPress={() =>
@@ -99,7 +99,7 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
                   )
                 }
               >
-                <Feather name="download" size={18} color="white" />
+                <Feather name="download" size={16} color="#fb8c00" />
               </TouchableOpacity>
               {downloadProgress[index] !== undefined && (
                 <View style={styles.progressContainer}>
@@ -215,6 +215,10 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
         )}
 
 
+      </View>
+      <View className="flex-row justify-end items-center gap-[5px]  w-full px-[30px]">
+        <Text className="text-[12px] text-[#7c7c7c]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt},</Text>
+        <Text className="text-[12px] text-[#7c7c7c] " style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.updatedAt.slice(0, 6)}</Text>
       </View>
     </View>
   )

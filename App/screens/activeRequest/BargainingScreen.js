@@ -37,6 +37,7 @@ import navigationService from '../../navigation/navigationService.js';
 import LocationMessage from '../components/LocationMessage';
 import UserDocumentMessage from '../components/UserDocumentMessage';
 import RetailerDocumentMessage from '../components/RetailerDocumentMessage';
+import ErrorModal from '../components/ErrorModal';
 
 const BargainingScreen = () => {
     const navigation = useNavigation();
@@ -61,6 +62,7 @@ const BargainingScreen = () => {
     const scrollViewRef = useRef(null);
     const [options, setOptions] = useState(false);
     const [feedbackModal, setFeedbackModal] = useState(false);
+    const [errorModal, setErrorModal] = useState(false);
     const userLongitude = useSelector(store => store.user.userLongitude);
     const userLatitude = useSelector(store => store.user.userLatitude)
     const currentSpadeChatId = useSelector(store => store.user.currentSpadeChatId);
@@ -208,6 +210,7 @@ const BargainingScreen = () => {
                 res.data.map((mess) => {
                     const data = formatDateTime(mess.createdAt);
                     mess.createdAt = data.formattedTime;
+                    mess.updatedAt = data.formattedDate;
                     // console.log(mess.createdAt);
                 });
                 // console.log('mess', messages);
@@ -437,6 +440,7 @@ const BargainingScreen = () => {
             setMessages((prevMessages) => {
                 const data = formatDateTime(newMessageReceived.createdAt);
                 newMessageReceived.createdAt = data.formattedTime;
+                newMessageReceived.updatedAt = data.formattedDate;
 
                 if (
                     prevMessages[prevMessages.length - 1]?.chat?._id ===
@@ -568,6 +572,7 @@ const BargainingScreen = () => {
                                 setCameraScreen={setCameraScreen}
                                 messages={messages}
                                 setMessages={setMessages}
+                                setErrorModal={setErrorModal}
                             />
                         </View>
                     )}
@@ -890,6 +895,7 @@ const BargainingScreen = () => {
                             )}
                     </View>
                 </View>}
+
             </View>
 
 
@@ -945,6 +951,8 @@ const BargainingScreen = () => {
                     setFeedbackModal={setFeedbackModal}
                 />
             )}
+            {errorModal && <ErrorModal errorModal={errorModal} setErrorModal={setErrorModal} />}
+
         </>
     );
 };

@@ -17,7 +17,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import { LocationSendNotification } from '../../notification/notificationMessages';
 import ErrorModal from './ErrorModal';
 
-const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
+const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal }) => {
 
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
     const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
@@ -29,7 +29,6 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
     const [locationLoading, setLocationLoading] = useState(false);
-    const [errorModal, setErrorModal] = useState(false);
     const [openLocationModal, setOpenLocationModal] = useState(false);
     //  console.log(currentSpadeRetailer)
 
@@ -136,6 +135,8 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
             const fileSizeMB = parseFloat(result.assets[0].size) / (1e6); // Convert bytes to MB
             console.log(fileSizeMB);
             if (fileSizeMB > MAX_FILE_SIZE_MB) {
+                setErrorModal(true);
+                setAttachmentScreen(false);
                 console.error(
                     'File Size Limit Exceeded',
                     `Please select a file smaller than ${MAX_FILE_SIZE_MB}MB`
@@ -200,7 +201,6 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages }) => {
                 </View>
             </View>
             {openLocationModal && <LocationModal openLocationModal={openLocationModal} setOpenLocationModal={setOpenLocationModal} locationLoading={locationLoading} sendLocation={sendLocation} />}
-            {/* {errorModal && <ErrorModal errorModal={errorModal} setErrorModal={setErrorModal} />} */}
         </View>
     )
 }

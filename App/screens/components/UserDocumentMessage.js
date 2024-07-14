@@ -62,13 +62,13 @@ const UserDocumentMessage = ({ bidDetails }) => {
                     <View className="w-[75%]">
                         <View className="flex-row justify-between">
                             <Text className="text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Bold" }}>You</Text>
-                            <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text>
+                            {/* <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text> */}
                         </View>
 
                         {bidDetails.message.length > 0 && <View>
                             <Text className="text-[12px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.message}</Text>
                         </View>}
-                        <View className="flex-row gap-[10px] pb-[10px] items-center">
+                        <View className="flex-row gap-[10px] pb-[10px] items-center -translate-x-2 pt-[10px]">
                             <View>
                                 <DocumentIcon width={50} height={50} color="#7c7c7c" />
                             </View>
@@ -98,68 +98,10 @@ const UserDocumentMessage = ({ bidDetails }) => {
             </View>
 
 
-            {/* <Modal
-                transparent
-                visible={!!selectedImage}
-                onRequestClose={handleClose}
-                downloadProgress={downloadProgress}
-                setDownloadProgress={setDownloadProgress}
-
-            >
-                <Pressable style={styles.modalContainer} onPress={handleClose}>
-                    <Animated.Image
-                        source={{ uri: selectedImage }}
-                        style={[
-                            styles.modalImage,
-                            {
-                                transform: [{ scale: scaleAnimation }],
-                            },
-                        ]}
-                    />
-                    <TouchableOpacity
-                        style={{
-                            width: 300,
-                            backgroundColor: "#fb8c00",
-                            height: 50,
-                            borderRadius: 100,
-                            marginTop: 20,
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}
-                        disabled={downloadProgress[1] !== undefined}
-                        onPress={() =>
-                            handleDownload(
-                                selectedImage,
-                                downloadProgress,
-                                setDownloadProgress
-                            )
-
-                        }
-                    >
-                        {downloadProgress[1] !== undefined && (
-                            <View style={[
-                                styles.progress,
-                                { backgroundColor: interpolateColor(downloadProgress[1]) },
-                            ]}>
-                                <Text style={styles.progresstext}>
-                                    {downloadProgress[1] !== 1 ? `${Math.round(downloadProgress[1] * 100)}%` : "Downloaded"}
-                                </Text>
-                            </View>
-                        )}
-
-                        {
-                            !downloadProgress[1] &&
-                            <View className="w-full flex flex-row  gap-[20px]  justify-center items-center">
-
-                                <Text className="text-white text-[16px]" style={{ fontFamily: "Poppins-Bold" }} >Download</Text>
-                                <Feather name="download" size={18} color="white" />
-                            </View>
-                        }
-
-                    </TouchableOpacity>
-
-                </Pressable>
-            </Modal> */}
+            <View className="flex-row justify-end items-center gap-[5px]  w-full px-[30px]">
+                <Text className="text-[12px] text-[#7c7c7c]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt},</Text>
+                <Text className="text-[12px] text-[#7c7c7c] " style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.updatedAt.slice(0, 6)}</Text>
+            </View>
 
 
         </View >

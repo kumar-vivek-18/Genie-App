@@ -100,8 +100,8 @@ const UserBidMessage = ({ bidDetails }) => {
                   position: "absolute",
                   bottom: 5,
                   right: 5,
-                  backgroundColor: "gray",
-                  padding: 2,
+                  backgroundColor: "#ffe7c8",
+                  padding: 3,
                   borderRadius: 100,
                 }}
                 onPress={() =>
@@ -113,7 +113,7 @@ const UserBidMessage = ({ bidDetails }) => {
                   )
                 }
               >
-                <Feather name="download" size={18} color="white" />
+                <Feather name="download" size={16} color="#fb8c00" />
               </TouchableOpacity>
               {downloadProgress[index] !== undefined && (
                 <View style={styles.progressContainer}>

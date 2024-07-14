@@ -114,7 +114,7 @@ const RequestCategory = () => {
                         />
                     </View>
 
-                    <View className="px-[10px] mt-[20px]" >
+                    <View className="px-[10px] " >
                         {searchResults?.map((result) => (
                             <TouchableOpacity
                                 key={result.id}
