@@ -68,7 +68,7 @@ const BargainingScreen = () => {
     const currentSpadeChatId = useSelector(store => store.user.currentSpadeChatId);
     const navigationState = useNavigationState((state) => state);
     const isBargainScreen = navigationState.routes[navigationState.index].name === currentSpadeChatId.chatId;
-    const [retailerOnline, setRetailerOnline] = useState(false);
+    const [online, setOnline] = useState(false);
 
     useEffect(() => {
         const backAction = () => {
@@ -165,9 +165,10 @@ const BargainingScreen = () => {
 
 
 
-    const connectSocket = useCallback(async (id) => {
-
-        socket.emit("setup", id);
+    const connectSocket = useCallback(async (id, id2) => {
+        const userId = id;
+        const senderId = id2;
+        socket.emit("setup", { userId, senderId });
         // socket.emit("online", id2);
         socket.on('connected', () => {
             setSocketConnected(true);
@@ -239,7 +240,7 @@ const BargainingScreen = () => {
 
     useEffect(() => {
         fetchUserDetails();
-        connectSocket(currentSpadeChatId?.socketId);
+        connectSocket(currentSpadeChatId?.socketId, currentSpadeChatId?.retailerSocketId);
 
         if (currentSpadeRetailer && currentSpadeChatId?.chatId === currentSpadeRetailer?._id) {
             fetchMessages(currentSpadeChatId?.chatId);
@@ -259,7 +260,9 @@ const BargainingScreen = () => {
         return () => {
             if (socket) {
                 // socket.disconnect();
-                socket.emit('leave room', currentSpadeChatId?.socketId);
+                const userId = currentSpadeChatId?.socketId;
+                const senderId = currentSpadeChatId?.retailerSocketId;
+                socket.emit('leave room', { userId, senderId });
             }
         }
     }, [currentSpadeChatId?.chatId, currentSpadeChatId?.socketId]);
@@ -511,7 +514,25 @@ const BargainingScreen = () => {
         };
     }, [currentSpadeRetailer, currentSpadeRetailers]);
 
+    useEffect(() => {
+        const handleUserOnline = () => {
+            setOnline(true);
+            console.log('user online');
+        };
 
+        const handleUserOffline = () => {
+            setOnline(false);
+            console.log('user offline');
+        };
+
+        socket.on("online", handleUserOnline);
+        socket.on("offline", handleUserOffline);
+
+        return () => {
+            socket.off("online", handleUserOnline);
+            socket.off("offline", handleUserOffline);
+        };
+    }, []);
 
 
     const handleOpenGoogleMaps = async () => {
@@ -612,7 +633,8 @@ const BargainingScreen = () => {
                             </TouchableOpacity>
                             <View>
                                 {currentSpadeRetailer && <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Regular" }}>{currentSpadeRetailer?.retailerId?.storeName?.length > 25 ? `${currentSpadeRetailer?.retailerId?.storeName.slice(0, 25)}...` : currentSpadeRetailer?.retailerId?.storeName}</Text>}
-                                <Text className="text-[12px] text-[#79b649]" style={{ fontFamily: "Poppins-Regular" }}>Online</Text>
+                                {online && <Text className="text-[12px] text-[#79b649]" style={{ fontFamily: "Poppins-Regular" }}>Online</Text>}
+                                {!online && <Text className="text-[12px] text-[#7c7c7c]" style={{ fontFamily: "Poppins-Regular" }}>Offline</Text>}
                             </View>
 
                         </View>

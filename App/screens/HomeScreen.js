@@ -242,7 +242,9 @@ const HomeScreen = () => {
     // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
     const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
     if (userData) {
-      socket.emit("setup", userData._id);
+      const userId = userData._id;
+      const senderId = userId;
+      socket.emit("setup", { userId, senderId });
       //  console.log('Request connected with socket with id', spadeId);
       socket.on('connected', () => setSocketConnected(true));
       console.log('HomeScreen socekt connect with id', userData._id);

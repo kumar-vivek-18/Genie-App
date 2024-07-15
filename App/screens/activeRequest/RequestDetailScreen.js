@@ -73,7 +73,9 @@ const RequestDetail = () => {
     console.log('HIII');
     const connectSocket = async (id) => {
         // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
-        socket.emit("setup", id);
+        const userId = id;
+        const senderId = id;
+        socket.emit("setup", { userId, senderId });
         //  console.log('Request connected with socket with id', spadeId);
         socket.on('connected', () => setSocketConnected(true));
         console.log('RequestDetail screen socekt connect with id', id);
@@ -164,7 +166,9 @@ const RequestDetail = () => {
 
         return () => {
             // socket.disconnect();
-            socket.emit('leave room', spadeId);
+            const userId = spadeId;
+            const senderId = spadeId;
+            socket.emit('leave room', { userId, senderId });
             console.log('Reailer disconnected');
         };
     }, []);
