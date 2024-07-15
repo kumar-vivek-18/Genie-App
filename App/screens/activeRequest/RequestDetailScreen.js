@@ -436,7 +436,7 @@ const RequestDetail = () => {
                                     // distance = validCoordinates ? haversineDistance(details.customerId.latitude, details.customerId.longitude, details.retailerId.lattitude, details.retailerId.longitude) : null;
                                     return (
                                         <TouchableOpacity key={index} onPress={() => {
-                                            dispatch(setCurrentSpadeRetailer(details)); dispatch(setCurrentSpadeChatId({ chatId: details?._id, socketId: details?.users[1]._id })); dispatch(setBargainingScreens(details?._id))
+                                            dispatch(setCurrentSpadeRetailer(details)); dispatch(setCurrentSpadeChatId({ chatId: details?._id, socketId: details?.users[1]._id, retailerSocketId: details?.users[0]._id })); dispatch(setBargainingScreens(details?._id))
                                             setTimeout(() => {
                                                 navigation.navigate(`${details?._id}`);
                                             }, 200);

@@ -68,6 +68,7 @@ const BargainingScreen = () => {
     const currentSpadeChatId = useSelector(store => store.user.currentSpadeChatId);
     const navigationState = useNavigationState((state) => state);
     const isBargainScreen = navigationState.routes[navigationState.index].name === currentSpadeChatId.chatId;
+    const [retailerOnline, setRetailerOnline] = useState(false);
 
     useEffect(() => {
         const backAction = () => {
@@ -164,9 +165,10 @@ const BargainingScreen = () => {
 
 
 
-    const connectSocket = useCallback(async (id) => {
+    const connectSocket = useCallback(async (id, id2) => {
 
-        socket.emit("setup", id);
+        socket.emit("setup", { id, id2 });
+        socket.emit("online", id2);
         socket.on('connected', () => {
             setSocketConnected(true);
 
@@ -237,7 +239,7 @@ const BargainingScreen = () => {
 
     useEffect(() => {
         fetchUserDetails();
-        connectSocket(currentSpadeChatId?.socketId);
+        connectSocket(currentSpadeChatId?.socketId, currentSpadeChatId?.retailerSocketId);
 
         if (currentSpadeRetailer && currentSpadeChatId?.chatId === currentSpadeRetailer?._id) {
             fetchMessages(currentSpadeChatId?.chatId);
@@ -278,7 +280,7 @@ const BargainingScreen = () => {
                     // console.log('res accepted bid', res.status, res.data.message);
                     const data = formatDateTime(res.data.message.createdAt);
                     res.data.message.createdAt = data.formattedTime;
-
+                    res.data.message.updatedAt = data.formattedDate;
                     // updating messages
                     let mess = [...messages];
                     mess[mess.length - 1] = res.data.message;
@@ -374,6 +376,7 @@ const BargainingScreen = () => {
             console.log("bid res", res.data);
             const data = formatDateTime(res.data.createdAt);
             res.data.createdAt = data.formattedTime;
+            res.data.updatedAt = data.formattedDate;
 
             //updating messages
             let mess = [...messages];
@@ -507,6 +510,9 @@ const BargainingScreen = () => {
             socket.off("message received", handleMessageReceived);
         };
     }, [currentSpadeRetailer, currentSpadeRetailers]);
+
+
+
 
     const handleOpenGoogleMaps = async () => {
         // Request permission to access location

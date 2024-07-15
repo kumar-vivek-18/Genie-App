@@ -14,29 +14,28 @@ const RatingAndFeedback = () => {
     const [retailer, setRetailer] = useState();
     const [feedback, setFeedback] = useState("");
     const [rating, setRating] = useState(0);
-    // console.log('retailers', retailer);
-    // console.log(retailer.users[0]._id)
+    const [spadeRating, setSpadeRating] = useState(0);
     const navigation = useNavigation();
 
     useEffect(() => {
         const foundRetailer = retailers.find(retailer => retailer._id === spade.requestAcceptedChat);
         // console.log('foundRetailer', foundRetailer);
         setRetailer(foundRetailer || {});
-        console.log("data", spade.customer)
+        console.log("data at feedback scrn", spade.customer)
     }, []);
 
 
     const SubmitFeedback = async () => {
         try {
             if (rating === 0) return;
-            console.log(spade.customer, retailer.users[0].refId, rating, feedback);
-            await axios.post('http://173.212.193.109:5000/rating/rating-feedback', {
-                sender: { type: "User", refId: spade.customer },
-                user: { type: "Retailer", refId: retailer.users[0].refId },
+            console.log(spade.customer, retailer.users[0].refId, rating, userDetails.userName, spadeRating, spade._id);
+            await axios.post('http://192.168.57.192:5000/rating/create-ratings', {
+                senderId: spade.customer,
+                userId: retailer.users[0].refId,
                 senderName: userDetails.userName,
-                rating: rating,
-                feedback: feedback,
-                chatId: spade.requestAcceptedChat
+                retailerRating: rating,
+                spadeRating: spadeRating,
+                spadeId: spade._id,
             })
                 .then(res => {
                     console.log("Feedback posted successfully");
@@ -57,6 +56,9 @@ const RatingAndFeedback = () => {
         setRating(star);
 
     };
+    const handleSpadeRating = (star) => {
+        setSpadeRating(star);
+    }
 
     return (
 
@@ -125,10 +127,10 @@ const RatingAndFeedback = () => {
                             return (
                                 <TouchableOpacity
                                     key={star}
-                                    onPress={() => handlePress(star)}
+                                    onPress={() => handleSpadeRating(star)}
                                 >
                                     <FontAwesome
-                                        name={star <= rating ? 'star' : 'star-o'}
+                                        name={star <= spadeRating ? 'star' : 'star-o'}
                                         size={32}
                                         color="#fb8c00"
                                         className="mx-[5px]"
