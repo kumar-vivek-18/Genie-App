@@ -165,10 +165,10 @@ const BargainingScreen = () => {
 
 
 
-    const connectSocket = useCallback(async (id, id2) => {
+    const connectSocket = useCallback(async (id) => {
 
-        socket.emit("setup", { id, id2 });
-        socket.emit("online", id2);
+        socket.emit("setup", id);
+        // socket.emit("online", id2);
         socket.on('connected', () => {
             setSocketConnected(true);
 
@@ -239,7 +239,7 @@ const BargainingScreen = () => {
 
     useEffect(() => {
         fetchUserDetails();
-        connectSocket(currentSpadeChatId?.socketId, currentSpadeChatId?.retailerSocketId);
+        connectSocket(currentSpadeChatId?.socketId);
 
         if (currentSpadeRetailer && currentSpadeChatId?.chatId === currentSpadeRetailer?._id) {
             fetchMessages(currentSpadeChatId?.chatId);
