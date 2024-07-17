@@ -42,6 +42,7 @@ import BackArrow from "../../assets/BackArrowImg.svg"
 
 
 import OtpPageBg from "../../assets/OtpVerificationPageBg.svg";
+import { handleRefreshLocation } from "../../utils/logics/updateLocation";
 
 const MobileNumberEntryScreen = () => {
   const navigation = useNavigation();
@@ -61,8 +62,7 @@ const MobileNumberEntryScreen = () => {
   const [token, setToken] = useState("")
 
   const navigationState = useNavigationState((state) => state);
-  const isLoginScreen =
-    navigationState.routes[navigationState.index].name === "mobileNumber";
+  const isLoginScreen = navigationState.routes[navigationState.index].name === "mobileNumber";
   console.log("mobil", isLoginScreen);
 
   async function requestUserPermission() {
@@ -177,6 +177,8 @@ const MobileNumberEntryScreen = () => {
           "userDetails",
           JSON.stringify(response.data)
         );
+
+        handleRefreshLocation(response.data._id);
 
         // setMobileNumberLocal("");
         navigation.navigate("home");

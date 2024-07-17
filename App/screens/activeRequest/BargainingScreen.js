@@ -272,13 +272,15 @@ const BargainingScreen = () => {
 
     const acceptBid = async () => {
         setLoading(true);
+        console.log(messages[messages?.length - 1]._id, spade?._id);
         try {
             await axios
-                .patch("http://173.212.193.109:5000/chat/accept-bid", {
-                    messageId: messages[messages.length - 1]._id,
-                    userRequestId: spade._id,
+                .patch("http://192.168.86.218:5000/chat/accept-bid", {
+                    messageId: messages[messages?.length - 1]._id,
+                    userRequestId: spade?._id,
                 })
                 .then(async (res) => {
+                    console.log(res.data);
                     // console.log('response of bid accept', res);
                     // console.log('res accepted bid', res.status, res.data.message);
                     const data = formatDateTime(res.data.message.createdAt);
@@ -296,13 +298,15 @@ const BargainingScreen = () => {
                         requestAcceptedChat: currentSpadeRetailer._id,
                     };
                     dispatch(setCurrentSpade(tmp));
-                    let allSpades = [...spades];
-                    allSpades.map((curr, index) => {
-                        if (curr._id === tmp._id) {
-                            allSpades[index] = tmp;
-                        }
-                    });
-                    dispatch(setSpades(allSpades));
+                    // let allSpades = [...spades];
+                    // allSpades.map((curr, index) => {
+                    //     if (curr._id === tmp._id) {
+                    //         allSpades[index] = tmp;
+                    //     }
+                    // });
+                    const updatedAllSpades = [tmp, ...spades.filter(curr => curr._id !== tmp._id)];
+
+                    dispatch(setSpades(updatedAllSpades));
 
                     const updateChat = {
                         ...currentSpadeRetailer,

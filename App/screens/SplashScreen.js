@@ -9,25 +9,27 @@ import { requestUserPermission } from '../utils/logics/NotificationLogic';
 import messaging from '@react-native-firebase/messaging';
 import Splash from "../assets/Splash.svg"
 import { notificationListeners } from '../notification/notificationServices';
-import { getPreciseGeoCoordinates } from '../utils/logics/Logics';
+import { getGeoCoordinates, getLocationName, getPreciseGeoCoordinates } from '../utils/logics/Logics';
 import * as Location from "expo-location";
+import axios from 'axios';
+import { handleRefreshLocation } from '../utils/logics/updateLocation';
 
 const SplashScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const userDetails = useSelector(store => store.user.userDetails);
 
-  const fetchLocation = useCallback(async () => {
+  // const fetchLocation = useCallback(async () => {
 
 
-    const coordinates = await getPreciseGeoCoordinates();
-    console.log('update coordinates', coordinates);
+  //   const coordinates = await getPreciseGeoCoordinates();
+  //   console.log('update coordinates', coordinates);
 
-  })
-  useEffect(() => {
+  // })
+  // useEffect(() => {
 
-    fetchLocation();
-  }, []);
+  //   handleRefreshLocation();
+  // }, []);
 
 
 
@@ -55,6 +57,8 @@ const SplashScreen = () => {
           if (userData !== null) {
             // await AsyncStorage.removeItem('userData');
             // console.log('hii going to home');
+            console.log("userData._id", userData);
+            handleRefreshLocation(userData._id);
             navigation.navigate("home");
             dispatch(setUserDetails(userData));
           } else {
@@ -70,28 +74,7 @@ const SplashScreen = () => {
     checkStoredUser();
   }, []);
 
-  //   useEffect(() => {
-  //     const timeout = setTimeout(() => {
 
-  //     }, 3000); // Adjust as needed for your splash screen duration
-
-  //     return () => clearTimeout(timeout);
-  //   }, [navigation]);
-
-  // useEffect(() => {
-
-
-  //   if (requestUserPermission()) {
-  //     messaging().getToken().then(token => {
-  //       console.log(token);
-  //       dispatch(setUniqueToken(token));
-  //     })
-  //   }
-  //   else {
-  //     console.log("permission not granted", authStatus);
-  //   }
-
-  // }, []);
 
   return (
     <View className="flex justify-center items-center">

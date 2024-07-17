@@ -159,7 +159,7 @@ const RequestPreviewScreen = () => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView style={{ flex: 1 }}>
-        <Pressable onPress={() => navigation.goBack()} style={{ position: 'absolute', paddingHorizontal: 36, paddingVertical: 26 }}>
+        <Pressable onPress={() => navigation.goBack()} style={{ position: 'absolute', paddingHorizontal: 36, paddingVertical: 26, zIndex: 100 }}>
           <BackArrow />
         </Pressable>
         <View className=" flex flex-row items-center mt-[20px] mb-[24px] px-[24px]">

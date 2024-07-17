@@ -29,7 +29,7 @@ const RatingAndFeedback = () => {
         try {
             if (rating === 0) return;
             console.log(spade.customer, retailer.users[0].refId, rating, userDetails.userName, spadeRating, spade._id);
-            await axios.post('http://192.168.57.192:5000/rating/create-ratings', {
+            await axios.post('http://173.212.193.109:5000/rating/create-ratings', {
                 senderId: spade.customer,
                 userId: retailer.users[0].refId,
                 senderName: userDetails.userName,
@@ -63,7 +63,7 @@ const RatingAndFeedback = () => {
     return (
 
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-            <ScrollView>
+            <ScrollView contentContainerStyle={{ flexGrow: 1, direction: 'inherit' }} >
                 <View className="flex-row justify-between px-[30px] mt-[20px] items-center">
                     <Text className="text-[18px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Bold" }}>Vendor Rate & Feedback</Text>
                     <Pressable onPress={() => { navigation.navigate('home') }} >
@@ -78,7 +78,7 @@ const RatingAndFeedback = () => {
                 <View className="px-[34px] mt-[16px] bg-[#ffe7cb] py-[15px]">
                     <Text className="text-[16px] text-[#2e2c43] " style={{ fontFamily: "Poppins-ExtraBold" }}>Request for</Text>
                     <View className=" flex-row">
-                        <Text className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestCategory}</Text>
+                        {spade?.requestCategory?.indexOf('-') > 0 && <Text className="text-[14px] bg-[#fb8c00] capitalize text-white px-1 py-1 my-[7px]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestCategory.slice(0, spade?.requestCategory.indexOf('-'))}</Text>}
                     </View>
 
                     <View className="flex-row gap-[10px] items-center ">
@@ -141,8 +141,8 @@ const RatingAndFeedback = () => {
                     </View>
                 </View>
 
-                {/* <View className="px-[30px]">
-                    <Text className="text-[14px] text-[#2e2c43] mx-[6px] mt-[30px] mb-[15px]" style={{ fontFamily: "Poppins-ExtraBold" }}>Feedback for vendor</Text>
+                <View className="px-[30px] " style={{ paddingBottom: 100 }}>
+                    <Text className="text-[14px] text-[#2e2c43]  mt-[30px] mb-[15px]" style={{ fontFamily: "Poppins-ExtraBold" }}>Feedback for vendor</Text>
 
                     <KeyboardAvoidingView className="  h-[127px] bg-[#f9f9f9] rounded-xl ">
                         <TextInput
@@ -159,7 +159,7 @@ const RatingAndFeedback = () => {
                             style={{ borderWidth: 1, borderColor: 'rgba(0, 0, 0, 0.15)', padding: 20, height: 300, flex: 1, textAlignVertical: 'top', fontFamily: 'Poppins-Regular' }}
                         />
                     </KeyboardAvoidingView>
-                </View> */}
+                </View>
             </ScrollView>
             <View className="absolute bottom-[0px] left-[0px] right-[0px] gap-[10px]">
 

@@ -7,6 +7,7 @@ import { setUserDetails, setUserName } from '../../redux/reducers/userDataSlice'
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import UsernameScreenBg from '../../assets/usernameverification.svg';
+import { handleRefreshLocation } from '../../utils/logics/updateLocation';
 
 const UserNameEntryScreen = () => {
     const navigation = useNavigation();
@@ -91,6 +92,7 @@ const UserNameEntryScreen = () => {
                             "userDetails",
                             JSON.stringify(res.data)
                         );
+                        handleRefreshLocation(res.data._id);
                         dispatch(setUserDetails(res.data));
                     })
                     .catch(err => {
