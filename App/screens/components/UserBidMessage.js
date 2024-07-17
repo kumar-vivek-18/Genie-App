@@ -73,7 +73,7 @@ const UserBidMessage = ({ bidDetails }) => {
           <View className="w-[75%]">
             <View className="flex-row justify-between">
               <Text className="text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Bold" }}>You</Text>
-              <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text>
+              {/* <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text> */}
             </View>
 
             <View>
@@ -96,12 +96,12 @@ const UserBidMessage = ({ bidDetails }) => {
           {bidDetails?.bidImages.map((image, index) => (
             <View
               key={index}
-              style={{ position: "relative", width: 190, height: 232 }}
+              style={{ position: "relative", width: 174, height: 232 }}
             >
               <Pressable onPress={() => handleImagePress(image)}>
                 <Image
                   source={{ uri: image }}
-                  style={{ height: 232, width: 190, borderRadius: 20 }}
+                  style={{ height: 232, width: 174, borderRadius: 20 }}
                 />
               </Pressable>
               <TouchableOpacity
@@ -222,7 +222,7 @@ const UserBidMessage = ({ bidDetails }) => {
       )}
       <View className="gap-[4px]">
         <View className="flex-row gap-[5px]">
-          <Text style={{ fontFamily: "Poppins-Medium" }}>Expected Price: </Text>
+          <Text style={{ fontFamily: "Poppins-Medium" }}>Offered Price: </Text>
           <Text className=" text-[#79B649]" style={{ fontFamily: "Poppins-SemiBold" }}>
             Rs. {bidDetails.bidPrice}
           </Text>
@@ -254,6 +254,10 @@ const UserBidMessage = ({ bidDetails }) => {
             </Text>
           </View>
         )}
+      </View>
+      <View className="flex-row justify-end items-center gap-[5px]  w-full px-[30px]">
+        <Text className="text-[12px] text-[#7c7c7c]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt},</Text>
+        <Text className="text-[12px] text-[#7c7c7c] " style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.updatedAt.slice(0, 6)}</Text>
       </View>
     </View>
   );

@@ -75,7 +75,7 @@ const HomeScreen = () => {
 
   const handleScroll = (event) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x;
-    const index = Math.floor(contentOffsetX / (width - 150));
+    const index = Math.floor(contentOffsetX / (width - 80));
     setCurrentIndex(index);
   };
 
@@ -337,11 +337,11 @@ const HomeScreen = () => {
 
         <View className="w-full bg-white mt-[20px] flex-row px-[30px] justify-between h-[55px] items-center">
           <View className="w-4/5">
-            <Text className="text-[14px] pt-[10px]  " style={{ fontFamily: "Poppins-Black" }}>
+            <Text className="text-[14px] pt-[10px] text-[#2e2c43]  " style={{ fontFamily: "Poppins-Black" }}>
               Location
             </Text>
 
-            <Text className="text-[#545455] text-[14px] " style={{ fontFamily: "Poppins-Regular" }}>
+            <Text className="text-[#7c7c7c] text-[14px] " style={{ fontFamily: "Poppins-Regular" }}>
               {userDetails?.location
                 ? `${userDetails.location.substring(0, 30)}....`
                 : "Refresh to fetch location..."}
@@ -412,7 +412,7 @@ const HomeScreen = () => {
                   Now bargaining is possible from your couch. Do you want anything new or to repair the old one?
                 </Text>
                 <Text className="text-[#3f3d56] text-[14px] text-center" style={{ fontFamily: "Poppins-Regular" }}>
-                  Connect with nearby shopkeepers and bargain for the best prices for your shopping list items. You can also avail any types of maintenance services here,  like plumber, electrician, carpenter & lot more.
+                  Connect with nearby vendors and bargain for the best prices for your shopping items. You can also avail any types of maintenance services here,  like plumber, electrician, carpenter & lot more.
                 </Text>
               </View>
               <View style={styles.scrollcontainer}>
@@ -425,9 +425,9 @@ const HomeScreen = () => {
                   ref={scrollViewRef}
                 >
                   {images.map((SvgComponent, index) => (
-                    <View key={index} className="flex-row rounded-2xl   mx-[10px] my-[10px] shadow-2xl" >
+                    <View key={index} className="flex-row rounded-2xl my-[10px] shadow-2xl " >
 
-                      <SvgComponent width={width - 150} height={250} />
+                      <SvgComponent width={width - 50} height={350} />
                     </View>
 
                   ))}
@@ -443,6 +443,7 @@ const HomeScreen = () => {
                           backgroundColor:
                             index <= currentIndex ? "orange" : "grey",
                         },
+
                       ]}
                     />
                   ))}
@@ -579,9 +580,9 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
-    marginHorizontal: 20,
+    marginHorizontal: 0,
     marginVertical: 40,
-    gap: 20,
+    gap: 0,
 
 
   },
@@ -623,7 +624,6 @@ const styles = {
     position: 'absolute',
     top: -5,
     right: 30,
-
     backgroundColor: '#e76063',
     height: 20,
     width: 20,

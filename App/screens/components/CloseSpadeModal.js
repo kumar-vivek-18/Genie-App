@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native';
-import ModalImg from "../../assets/Cancel.svg"
+import ModalImg from "../../assets/CloseSpadeIcon.svg"
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -198,7 +198,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                     <ModalImg classname="w-[117px] h-[75px]" />
                     <View className="">
                         <Text className="text-[15px] text-center" style={{ fontFamily: "Poppins-ExtraBold" }}>Are you sure? </Text>
-                        <Text className="text-[14px] text-center  pt-[8px]" style={{ fontFamily: "Poppins-Regular" }}>We are closing this request, you can check status on history section. </Text>
+                        <Text className="text-[14px] text-center  pt-[8px]" style={{ fontFamily: "Poppins-Regular" }}>You are closing this request, you can check the status in the history section. </Text>
 
                     </View>
 

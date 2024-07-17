@@ -99,11 +99,11 @@ const BargainingScreen = () => {
     };
 
     const setMessagesMarkAsRead = useCallback(async () => {
-        console.log("marks as read0", currentSpadeRetailer?.unreadCount, currentSpadeRetailer?.latestMessage.sender.type);
+        console.log("marks as read0", currentSpadeRetailer?.unreadCount, currentSpadeRetailer?.latestMessage?.sender?.type);
         try {
             if (
-                currentSpadeRetailer.unreadCount > 0 &&
-                currentSpadeRetailer.latestMessage.sender.type === "Retailer"
+                currentSpadeRetailer?.unreadCount > 0 &&
+                currentSpadeRetailer?.latestMessage?.sender?.type === "Retailer"
             ) {
                 const response = await axios.patch(
                     "http://173.212.193.109:5000/chat/mark-as-read",
@@ -796,7 +796,7 @@ const BargainingScreen = () => {
                                             style={{ fontFamily: "Poppins-Regular" }}
                                         >
                                             If you don’t like the vendor's offer, select 'no'
-                                            and send a query for clarification.
+                                            and send a message for clarification.
                                         </Text>
                                         <View className="flex flex-col items-center">
                                             {messages &&
@@ -812,15 +812,15 @@ const BargainingScreen = () => {
                                                             gap: 4,
                                                         }}
                                                         showsHorizontalScrollIndicator={false}
-                                                        style={{ maxHeight: 150 }}
+                                                        style={{ maxHeight: 250 }}
                                                     >
                                                         {messages[messages.length - 1]?.bidImages.map(
                                                             (image, index) => (
                                                                 <View key={index} className="rounded-3xl">
                                                                     <Image
                                                                         source={{ uri: image }}
-                                                                        width={100}
-                                                                        height={140}
+                                                                        width={174}
+                                                                        height={232}
                                                                         className="rounded-3xl border-[1px] border-slate-400 object-contain"
                                                                     />
                                                                 </View>
@@ -871,9 +871,10 @@ const BargainingScreen = () => {
                                                 width: "50%",
                                                 justifyContent: "center",
                                                 backgroundColor: "#fb8c00",
+                                                height: 63,
                                             }}
                                         >
-                                            <View className="w-full py-[10px]  ">
+                                            <View className="w-full   ">
                                                 <Text
                                                     className="text-[14px] text-white text-center"
                                                     style={{ fontFamily: "Poppins-Black" }}
@@ -892,9 +893,10 @@ const BargainingScreen = () => {
                                                 justifyContent: "center",
                                                 borderColor: "#fb8c00",
                                                 borderWidth: 2,
+                                                height: 63
                                             }}
                                         >
-                                            <View className="w-full py-[10px]">
+                                            <View className="w-full">
                                                 <Text
                                                     className="text-[14px] text-[#fb8c00] text-center "
                                                     style={{ fontFamily: "Poppins-Black" }}

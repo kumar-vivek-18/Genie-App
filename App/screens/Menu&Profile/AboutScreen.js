@@ -32,7 +32,7 @@ const AboutScreen = () => {
 
 
 
-                <Text className="text-center pt-[20px] text-[16px]  mb-[60px]" style={{ fontFamily: "Poppins-Bold" }}>About Culturtap {"\n"} Genie</Text>
+                <Text className="text-center pt-[20px] text-[#2e2c43] text-[16px]  mb-[60px]" style={{ fontFamily: "Poppins-Bold" }}>About Culturtap {"\n"} Genie</Text>
 
 
 
@@ -41,41 +41,41 @@ const AboutScreen = () => {
                         <AboutImg width={width} className="" />
                     </View>
                     <View className="gap-[20px]">
-                        <Text className="text-center text-[14px] " style={{ fontFamily: "Poppins-Bold" }}>
+                        <Text className="text-center text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Bold" }}>
                             Bargaining is the consumer's right, money doesn't grow on trees.
                         </Text>
-                        <Text className="text-center text-[14px] " style={{ fontFamily: "Poppins-Regular" }}>
+                        <Text className="text-center text-[14px]text-[#2e2c43]  " style={{ fontFamily: "Poppins-Regular" }}>
 
-                            Now bargaining is possible from your couch. Want anything new or to repair the old one, Connect with your nearby shops and bargain for the best prices of products and services available in your city
+                            Now bargaining is possible from your couch. Want anything new or to repair the old one, Connect with your nearby vendors and bargaining for the best prices of shopping items and maintenance services available in your city.
                         </Text>
                     </View>
                     <View className="gap-[15px] items-center">
-                        <Text className="text-center text-[14px]" style={{ fontFamily: "Poppins-Bold" }}>
+                        <Text className="text-center text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Bold" }}>
                             Do smart  shopping
                         </Text>
                         <SmartImg />
 
-                        <Text className="text-center text-[14px] " style={{ fontFamily: "Poppins-Regular" }}>
-                            First, check if the products and services you need are available in your city. You no longer need to wander for shopping list items and services in other places.
+                        <Text className="text-center text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Regular" }}>
+                            First, check if the shopping item and maintenance service you need are available in your city. You no longer need to wander in the market for shopping items and maintenance services.
                         </Text>
                     </View>
                     <View className="gap-[15px] items-center">
-                        <Text className="text-center text-[14px]" style={{ fontFamily: "Poppins-Bold" }}>
+                        <Text className="text-center text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Bold" }}>
                             Save Time
                         </Text>
                         <Time />
 
-                        <Text className="text-center text-[14px] " style={{ fontFamily: "Poppins-Regular" }}>
-                            Save your valuable time to search and explore best prices for your shopping list items and services,
+                        <Text className="text-center text-[14px] text-[#2e2c43]  " style={{ fontFamily: "Poppins-Regular" }}>
+                            Save your valuable time to search and explore best prices for your shopping items and maintenance services,
                         </Text>
                     </View>
                     <View className="gap-[15px] items-center">
-                        <Text className="text-center text-[14px]" style={{ fontFamily: "Poppins-Bold" }}>
+                        <Text className="text-center text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Bold" }}>
                             Save Wealth
                         </Text>
                         <Wealth />
 
-                        <Text className="text-center text-[14px] " style={{ fontFamily: "Poppins-Regular" }}>
+                        <Text className="text-center text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Regular" }}>
                             Why rush around town searching for the best deals when you can have them come to you? By gathering offers from multiple stores, you'll save on fuel costs and get products at the lowest prices available.
                         </Text>
                     </View>

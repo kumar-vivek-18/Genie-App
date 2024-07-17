@@ -41,62 +41,65 @@ const MenuScreen = () => {
 
 
 
-                <Text className="text-center pt-[20px] text-[16px] mb-[40px]" style={{ fontFamily: "Poppins-Bold" }}>Menu</Text>
+                <Text className="text-center pt-[20px] text-[16px] text-[#2e2c43] mb-[40px]" style={{ fontFamily: "Poppins-Bold" }}>Menu</Text>
 
 
                 <TouchableOpacity onPress={() => navigation.navigate("profile")}
                     style={{
                         backgroundColor: '#fff', // Ensure the background is white
                         marginHorizontal: 16, // Add some margin if necessary for better shadow visibility
-                        shadowColor: '#000',
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: 0.3,
-                        shadowRadius: 4,
-                        elevation: 5,
-                        borderRadius: 16
+                        shadowColor: '#bdbdbd',
+                        shadowOffset: { width: 9, height: 9 },
+                        shadowOpacity: 0.35,
+                        shadowRadius: 50,
+                        elevation: 80,
+                        borderRadius: 16,
+                        borderWidth: .5,
+                        borderColor: 'rgba(0, 0, 0, 0.05)'
                     }}
                 >
                     <View className="flex items-center">
-                        <View className="flex flex-row gap-[32px] bg-white py-[40px] justify-center  w-[90%] items-center ">
-                            {
+                        <View className="flex flex-row gap-[32px] bg-white py-[40px] justify-center  w-[90%] items-center px-[20px]">
+                            <View className="w-[30%]">{
                                 userDetails?.pic ? (<Image source={{ uri: userDetails?.pic }} width={70} height={70} className="rounded-full" />) :
                                     (
                                         <Profile width={40} height={40} />
                                     )
 
                             }
-                            <View className="flex-col">
-                                <Text className="text-[16px]  text-center capitalize" style={{ fontFamily: "Poppins-Black" }}>{userDetails?.userName}</Text>
-                                <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>{userDetails?.mobileNo}</Text>
+                            </View>
+                            <View className="w-[70%]">
+                                <Text className="text-[16px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Black" }}>{userDetails.userName}</Text>
+                                <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>+91 {userDetails?.mobileNo.slice(3)}</Text>
                             </View>
                         </View>
 
                     </View>
                 </TouchableOpacity>
 
-                <View className="px-[60px] mt-[65px] gap-[45px]">
+                <View className=" mt-[65px] gap-[30px]" style={{ marginLeft: 60, marginRight: 40 }}>
 
                     <TouchableOpacity onPress={() => { navigation.navigate("about") }}>
                         <View className="flex flex-row justify-between items-center">
-                            <Text className="text-[15px]" style={{ fontFamily: "Poppins-Regular" }}>About CulturTap Genie </Text>
+                            <Text className="text-[15px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>About CulturTap Genie </Text>
                             <ArrowRight />
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => { navigation.navigate("termsandconditions") }}>
                         <View className="flex flex-row justify-between items-center">
-                            <Text className="text-[15px]" style={{ fontFamily: "Poppins-Regular" }}>Terms and Conditions</Text>
+                            <Text className="text-[15px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Terms and Conditions</Text>
                             <ArrowRight />
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => { navigation.navigate("help") }}>
                         <View className="flex flex-row justify-between items-center">
-                            <Text className="text-[15px]" style={{ fontFamily: "Poppins-Regular" }}>Need any Help?</Text>
+                            <Text className="text-[15px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Need any Help?</Text>
                             <ArrowRight />
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <View className="flex flex-row justify-between ">
-                            <Text className="text-[15px]" style={{ fontFamily: "Poppins-Regular" }}>Looking to start a new small
+                            <Text className="text-[15px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Looking to start a new small
                                 business</Text>
                             <View className="mt-2">
                                 <ArrowRight />
@@ -105,7 +108,7 @@ const MenuScreen = () => {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={deleteUserData}>
                         <View className="flex flex-row justify-between items-center">
-                            <Text className="text-[15px]" style={{ fontFamily: "Poppins-Regular" }}>Log Out</Text>
+                            <Text className="text-[15px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Log Out</Text>
                             <ArrowRight />
                         </View>
                     </TouchableOpacity>

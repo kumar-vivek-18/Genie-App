@@ -194,7 +194,7 @@ const RequestPreviewScreen = () => {
                 <View key={index} className="rounded-">
                   <Image
                     source={{ uri: image }}
-                    width={168}
+                    width={174}
                     height={232}
                     className="rounded-3xl border-[1px] border-slate-600"
                   />

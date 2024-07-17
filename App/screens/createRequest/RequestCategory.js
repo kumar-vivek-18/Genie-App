@@ -124,7 +124,8 @@ const RequestCategory = () => {
                                     <View className={`w-[16px] h-[16px] border-[1px] border-[#fd8c00] items-center ${result.id === selectedOption ? 'bg-[#fd8c00]' : ''}`}>
                                         {result.id === selectedOption && <Octicons name="check" size={12} color="white" />}
                                     </View>
-                                    <Text style={{ fontFamily: "Poppins-Regular" }}>{result.name}</Text>
+                                    {result?.name.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize"><Text style={{ fontFamily: 'Poppins-Bold' }}>{result?.name.slice(0, result.name.indexOf('-'))}</Text>{result.name.indexOf('-') >= 0 ? result.name.slice(result.name.indexOf('-')) : ""}</Text>}
+                                    {result?.name.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold" }} className="capitalize">{result?.name}</Text>}
                                 </View>
                             </TouchableOpacity>
                         ))}

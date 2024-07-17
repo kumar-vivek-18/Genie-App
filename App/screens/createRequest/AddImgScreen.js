@@ -165,7 +165,7 @@ const AddImageScreen = () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [3, 4],
       base64: true,
       quality: 0.5,
     });

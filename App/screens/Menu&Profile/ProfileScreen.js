@@ -295,22 +295,21 @@ const ProfileScreen = () => {
           </View>
         </View>
 
-        <View className="flex-row gap-[10px] justify-center items-center mt-[6px]">
+        <View className="flex-row gap-[10px] justify-center items-center mt-[6px] ">
           {editUser && (
             <View className="relative flex flex-row justify-center">
               <TextInput
                 placeholder={
-                  userDetails.email.length > 0
-                    ? userDetails.userName
-                    : "username..."
+
+                  "username..."
                 }
                 onChangeText={(val) => {
                   setUserName(val);
-                  console.log("userName", userName);
+                  // console.log("userName", userName);
                 }}
                 value={userName}
-                className=" border-[#2e2c43] w-[max-content]  rounded  text-center text-[16px]  opacity-50 min-w-[150px]"
-                style={{ fontFamily: "Poppins-Black" }}
+                className=" border-[#2e2c43]  w-[max-content] rounded-full   text-center text-[16px]  opacity-50 min-w-[150px]"
+                style={{ fontFamily: "Poppins-SemiBold", backgroundColor: '#ffe7c8', paddingHorizontal: 20 }}
               />
 
               <TouchableOpacity
@@ -319,11 +318,11 @@ const ProfileScreen = () => {
                 }}
               >
                 {isLoading ? (
-                  <View className=" px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl ">
+                  <View className=" px-[10px] bg-[#f9bc6c] py-[10px] rounded-3xl ">
                     <ActivityIndicator size="small" color="#ffffff" />
                   </View>
                 ) : (
-                  <View className=" px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl ">
+                  <View className=" px-[10px] bg-[#f9bc6c] py-[10px] rounded-3xl ">
                     <Text
                       className="text-white font-semibold"
                       style={{ fontFamily: "Poppins-SemiBold" }}
@@ -340,8 +339,8 @@ const ProfileScreen = () => {
           {!editUser && (
             <View className="relative mt-[6px] flex-row items-center justify-center">
               <Text
-                className=" text-[#001b33] text-[14px] capitalize"
-                style={{ fontFamily: "Poppins-Black" }}
+                className=" text-[#001b33] text-[14px] capitalize text-center"
+                style={{ fontFamily: "Poppins-Black", maxWidth: 200 }}
               >
                 {userDetails.userName}
               </Text>
@@ -349,10 +348,11 @@ const ProfileScreen = () => {
                 onPress={() => {
                   setEditUser(true);
                 }}
+                style={{ position: 'absolute', padding: 10, transform: [{ translateX: 120 }] }}
               >
-                <View className="absolute -top-[18] px-[20px] py-[10px]">
-                  <EditIcon />
-                </View>
+                {/* <View className="absolute -top-[18] px-[20px] py-[10px] bg-black"> */}
+                <EditIcon />
+                {/* </View> */}
               </TouchableOpacity>
             </View>
           )}
@@ -373,7 +373,7 @@ const ProfileScreen = () => {
             style={{ fontFamily: "Poppins-Regular" }}
           >
             {" "}
-            {userDetails.mobileNo}
+            +91 {userDetails.mobileNo.slice(3)}
           </Text>
           {/* <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
                 <TextInput
@@ -389,7 +389,7 @@ const ProfileScreen = () => {
           >
             Email ID
           </Text>
-          <View className="mx-[36px] flex flex-row pl-[25px] items-center justify-between bg-[#f9f9f9] h-[54px] rounded-3xl">
+          <View className="mx-[36px] flex flex-row pl-[25px] items-center justify-between h-[54px] rounded-3xl" style={{ backgroundColor: editEmail ? '#ffe7c8' : '#f9f9f9' }}>
             {editEmail && (
               <TextInput
                 placeholder={
@@ -433,7 +433,7 @@ const ProfileScreen = () => {
                     handleEmailUpdate();
                   }}
                 >
-                  <View className="px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl">
+                  <View className="px-[20px] bg-[#fb8c00] py-[10px] rounded-3xl">
                     <Text
                       className="text-white"
                       style={{ fontFamily: "Poppins-SemiBold" }}

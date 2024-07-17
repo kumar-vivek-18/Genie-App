@@ -326,10 +326,10 @@ const CameraScreen = () => {
                     </KeyboardAvoidingView>
                     <View className=" flex-row justify-between items-center mx-[25px] pb-[10px]">
                         <Text
-                            className="text-white pl-[40px] capitalize"
+                            className="text-white pl-[10px] capitalize"
                             style={{ fontFamily: "Poppins-SemiBold" }}
                         >
-                            {details?.retailerId.storeName}
+                            {details?.retailerId.storeName.length > 30 ? `${details?.retailerId.storeName.slice(0, 30)}...` : details?.retailerId.storeName}
                         </Text>
                         <TouchableOpacity
                             onPress={() => {

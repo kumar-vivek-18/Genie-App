@@ -109,7 +109,8 @@ const AvailableCategories = () => {
                         {searchResults?.map((result) => (
 
                             <View key={result.id} className="flex flex-row  py-[10px] gap-[30px] items-center">
-                                <Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize">{result.name}</Text>
+                                {result?.name.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize"><Text style={{ fontFamily: 'Poppins-Bold' }}>{result?.name.slice(0, result.name.indexOf('-'))}</Text>{result.name.indexOf('-') >= 0 ? result.name.slice(result.name.indexOf('-')) : ""}</Text>}
+                                {result?.name.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold" }} className="capitalize">{result?.name}</Text>}
                             </View>
                         ))}
                     </View>

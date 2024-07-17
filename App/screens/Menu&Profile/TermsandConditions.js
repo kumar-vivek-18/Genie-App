@@ -41,7 +41,7 @@ const TermsandConditons = () => {
         </View>
 
         <Text
-          className="text-center pt-[20px] text-[16px] mb-[40px]"
+          className="text-center pt-[20px] text-[16px] mb-[40px] text-[#2e2c43] "
           style={{ fontFamily: "Poppins-Bold" }}
         >
           Terms and Conditions
@@ -51,26 +51,26 @@ const TermsandConditons = () => {
           <View className="gap-[0px] ">
             <Text
               className="text-[16px]  text-center"
-              style={{ fontFamily: "Poppins-Bold", color: "#001B33" }}
+              style={{ fontFamily: "Poppins-Bold", color: "#2e2c43" }}
             >
               Instructions First
             </Text>
             <Text
               className="text-[14px]  text-center mb-[20px]"
-              style={{ fontFamily: "Poppins-Bold", color: "#3F3D56" }}
+              style={{ fontFamily: "Poppins-Bold", color: "#2e2c43" }}
             >
               Raise your spade very clear
             </Text>
             <Text
               className="text-[14px] text-center mb-[20px]"
-              style={{ fontFamily: "Poppins-Regular", color: "#3F3D56" }}
+              style={{ fontFamily: "Poppins-Regular", color: "#2e2c43" }}
             >
-              Be sure to provide clear and accurate information about the items
-              or services you are seeking.
+              Be sure to provide clear and accurate information about the shopping items
+              or maintenance services you are seeking.
             </Text>
             <Text
               className="text-[16px] text-center mt-[10px]"
-              style={{ fontFamily: "Poppins-Bold", color: "#3F3D56" }}
+              style={{ fontFamily: "Poppins-Bold", color: "#2e2c43" }}
             >
               Type your message clearly first
             </Text>
@@ -96,9 +96,9 @@ const TermsandConditons = () => {
           <View className="gap-[24px] items-center">
             <Text
               className="text-center text-[16px] "
-              style={{ fontFamily: "Poppins-Black", color: "#3F3D56" }}
+              style={{ fontFamily: "Poppins-Bold", color: "#2e2c43" }}
             >
-              Provide the exact image reference to the shopkeepers for a better
+              Provide the exact image reference to the vendors for a better
               understanding of your need.
             </Text>
             <Sample1 width={width} />
@@ -108,14 +108,14 @@ const TermsandConditons = () => {
           <View className="gap-[20px] items-center">
             <Text
               className="text-center text-[16px] "
-              style={{ fontFamily: "Poppins-Bold", color: "#3F3D56" }}
+              style={{ fontFamily: "Poppins-Bold", color: "#2e2c43" }}
             >
-              Kindly inform the sellers about your expected price.
+              Kindly inform the vendors about your expected price.
             </Text>
 
             <Text
               className="text-center text-[14px] "
-              style={{ fontFamily: "Poppins-Regular", color: "#3F3D56" }}
+              style={{ fontFamily: "Poppins-Regular", color: "#2e2c43" }}
             >
               Try to complete your research on the prices of shopping items
               before submitting your request
@@ -132,38 +132,38 @@ const TermsandConditons = () => {
           <View className="gap-[20px]">
             <Text
               className="text-center text-[16px]"
-              style={{ fontFamily: "Poppins-Bold", color: "#3F3D56" }}
+              style={{ fontFamily: "Poppins-Bold", color: "#2e2c43" }}
             >
               Terms for requests
             </Text>
 
             <View style={styles.listItem}>
               <Text style={styles.dot}></Text>
-              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#3F3D56" }}>
+              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#2e2c43" }}>
                 {" "}
-                Your first 5 spades are free! After that,each spade will cost 20
+                Your first 5 spades are free! After that, each spade will cost 20
                 rupees.
               </Text>
             </View>
             <View style={styles.listItem}>
               <Text style={styles.dot}></Text>
-              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#3F3D56" }}>
+              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#2e2c43" }}>
                 {" "}
-                If the shopkeepers don't accept your request, there won't be any charge.
+                If the vendors don't accept your request, there won't be any charge.
               </Text>
             </View>
             <View style={styles.listItem}>
               <Text style={styles.dot}></Text>
-              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#3F3D56" }}>
+              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#2e2c43" }}>
                 {" "}
                 If you encounter any issues, please report your concerns to us.
               </Text>
             </View>
             <View style={styles.listItem}>
               <Text style={styles.dot}></Text>
-              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#3F3D56" }}>
+              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#2e2c43" }}>
                 {" "}
-                Shopkeepers will list their store for home delivery, You can choose specific shops or service providers based on your delivery requirements.
+                Vendors will list their store for home delivery, You can choose specific shops or service providers based on your delivery requirements.
               </Text>
             </View>
           </View>

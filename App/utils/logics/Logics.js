@@ -83,7 +83,7 @@ export const getGeoCoordinates = async () => {
 
 export const getPreciseGeoCoordinates = async () => {
 
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 1; i++) {
     try {
       const coordinates = await getGeoCoordinates();
 

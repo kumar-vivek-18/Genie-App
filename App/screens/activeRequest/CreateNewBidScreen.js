@@ -7,6 +7,9 @@ import {
   ScrollView,
   Image,
   ActivityIndicator,
+  Modal,
+  StyleSheet,
+  Animated
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -50,8 +53,8 @@ const CreateNewBidScreen = () => {
   const [addImg, setAddImg] = useState(false);
   const [loading, setLoading] = useState(false);
   const spades = useSelector(store => store.user.spades);
-
-  // console.log('currentSpade', details);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [scaleAnimation] = useState(new Animated.Value(0));
 
   console.log("requestImages", requestImages);
 
@@ -143,6 +146,23 @@ const CreateNewBidScreen = () => {
   };
 
 
+  const handleClose = () => {
+    Animated.timing(scaleAnimation, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => setSelectedImage(null));
+
+  };
+  const handleImagePress = (image) => {
+    setSelectedImage(image);
+    Animated.timing(scaleAnimation, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
 
   const scrollViewRef = useRef(null);
   useEffect(() => {
@@ -184,7 +204,7 @@ const CreateNewBidScreen = () => {
             </Text>
 
             <Text className="text-[14px]  text-[#2e2c43] mx-[6px] mt-[30px] mb-[15px]" style={{ fontFamily: "Poppins-Bold" }}>
-              Type your response
+              Type your message
             </Text>
 
             <View className="  h-[127px] bg-[#f9f9f9] rounded-xl ">
@@ -211,7 +231,7 @@ const CreateNewBidScreen = () => {
 
           <View className="px-[30px] mt-[30px]">
             <Text className="text-[14px]  text-[#2e2c43] pb-[20px]" style={{ fontFamily: "Poppins-Bold" }}>
-              Add image reference
+              Add image references
             </Text>
             <View style={{ display: 'flex', flexDirection: requestImages.length > 0 ? 'row-reverse' : 'row', alignItems: 'center' }}>
 
@@ -238,15 +258,17 @@ const CreateNewBidScreen = () => {
                 {requestImages &&
                   requestImages.map((image, index) => (
                     <View key={index}>
-                      <Image
-                        source={{ uri: image }}
-                        style={{
-                          height: 180,
-                          width: 130,
-                          borderRadius: 24,
-                          backgroundColor: "#EBEBEB",
-                        }}
-                      />
+                      <Pressable onPress={() => { handleImagePress(image) }}>
+                        <Image
+                          source={{ uri: image }}
+                          style={{
+                            height: 232,
+                            width: 174,
+                            borderRadius: 24,
+                            backgroundColor: "#EBEBEB",
+                          }}
+                        />
+                      </Pressable>
                     </View>
                   ))}
                 {requestImages.length > 1 && <TouchableOpacity
@@ -297,9 +319,83 @@ const CreateNewBidScreen = () => {
         </TouchableOpacity>
         {addImg && <AddImages addImg={addImg} setAddImg={setAddImg} />}
       </View>
+      <Modal
+        transparent
+        visible={!!selectedImage}
+        onRequestClose={handleClose}
 
+
+      >
+        <Pressable style={styles.modalContainer} onPress={handleClose}>
+          <Animated.Image
+            source={{ uri: selectedImage }}
+            style={[
+              styles.modalImage,
+              {
+                transform: [{ scale: scaleAnimation }],
+              },
+            ]}
+          />
+
+
+        </Pressable>
+      </Modal>
     </View>
   );
 };
 
 export default CreateNewBidScreen;
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+  },
+  modalImage: {
+    width: 300,
+    height: 400,
+    borderRadius: 10,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 20,
+    right: 20,
+  },
+  progressContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+    borderRadius: 20
+  },
+  progress: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
+    height: 50,
+    borderWidth: 3
+  },
+  progressText: {
+    color: "white",
+    fontSize: 16,
+
+  },
+  progresstext: {
+    color: "green",
+    fontSize: 16,
+    fontFamily: "Poppins-Bold",
+    width: "100%",
+    textAlign: "center"
+  },
+
+});

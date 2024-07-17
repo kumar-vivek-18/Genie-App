@@ -27,6 +27,7 @@ import GalleryImg from "../../assets/gallery.svg";
 import TextGalleryIcon from '../../assets/grayGallery.svg';
 
 import { sendCloseSpadeNotification } from '../../notification/notificationMessages';
+import { FullWindowOverlay } from 'react-native-screens';
 
 
 
@@ -363,7 +364,7 @@ const RequestDetail = () => {
 
 
                             <TouchableOpacity onPress={() => { navigation.navigate('home'); }} style={{ padding: 4 }}>
-                                <View className="px-[20px] py-[10px] ">
+                                <View className="px-[10px] py-[15px] ">
                                     <ArrowLeft />
                                 </View>
                             </TouchableOpacity>
@@ -390,37 +391,46 @@ const RequestDetail = () => {
                             </TouchableOpacity>
                         </View>}
 
-                        <View className="bg-[#ffe7c8] text-[#2e2c43] px-[64px] py-[30px] pt-[30px]">
-                            <Text className="text-[16px] " style={{ fontFamily: "Poppins-Bold" }}>Request for</Text>
-                            <View className=" flex-row">
-                                <Text className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestCategory}</Text>
-                            </View>
-                            <View className="flex-row gap-[10px] relative items-center ">
-                                <Text className=" text-[12px]" style={{ fontFamily: "Poppins-Bold" }}>Request ID:</Text>
-                                <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{spade._id}</Text>
-                                <TouchableOpacity onPress={() => { copyToClipboard() }} style={{ padding: 4 }}>
-                                    <Copy />
-                                </TouchableOpacity>
-                                {copied && <Text className="bg-[#ebebeb] p-2 rounded-lg absolute -top-10 right-0">Copied!</Text>}
+                        <View className="bg-[#ffe7c8] text-[#2e2c43]  py-[30px] pt-[30px]">
+                            <View className="px-[50px]">
 
 
-                            </View>
-                            <Text className="mt-[5px]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>
-                            <Pressable onPress={() => navigation.navigate('image-refrences')}>
-                                <View className="flex-row gap-[15px] mt-[15px] items-center">
-                                    <GalleryImg />
-                                    <Text className="text-[14px]  text-[#fb8c00]" style={{ fontFamily: "Poppins-Regular" }}>Image References</Text>
+                                <Text className="text-[16px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Bold" }}>Request for</Text>
+                                <View className=" flex-row">
+                                    <Text className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px] capitalize" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestCategory.indexOf('-') > 0 ? spade?.requestCategory.slice(0, spade?.requestCategory.indexOf('-')) : spade?.requestCategory}</Text>
                                 </View>
-                            </Pressable>
+                                <View className="flex-col relative  ">
+                                    <Text className=" text-[12px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Bold" }}>Request ID:</Text>
+                                    <View className="flex-row items-center gap-[15px]">
+                                        <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-SemiBold" }}>{spade._id}</Text>
+                                        <TouchableOpacity onPress={() => { copyToClipboard() }} style={{ padding: 4 }}>
+                                            <Copy />
+                                        </TouchableOpacity>
+                                        {copied && <Text className="bg-[#ebebeb] p-2 rounded-lg absolute -top-10 right-0">Copied!</Text>}
+                                    </View>
 
-                            <View>{
-                                (spade?.requestActive === "completed" || spade?.requestActive === "closed") && <View className="flex-row gap-[5px] mt-[15px]">
-                                    <Tick />
-                                    <Text className="text-[##79B649]" style={{ fontFamily: "Poppins-Bold" }}>Offer Accepted</Text>
 
 
                                 </View>
-                            }</View>
+                            </View>
+                            <View className="pl-[50px] pr-[32px]">
+                                <Text className="mt-[5px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>
+                                <Pressable onPress={() => navigation.navigate('image-refrences')}>
+                                    <View className="flex-row gap-[15px] mt-[15px] items-center">
+                                        <GalleryImg />
+                                        <Text className="text-[14px]  text-[#fb8c00]" style={{ fontFamily: "Poppins-Regular" }}>Image References</Text>
+                                    </View>
+                                </Pressable>
+
+                                <View>{
+                                    (spade?.requestActive === "completed" || spade?.requestActive === "closed") && <View className="flex-row gap-[5px] mt-[15px]">
+                                        <Tick />
+                                        <Text className="text-[##79B649]" style={{ fontFamily: "Poppins-Bold" }}>Offer Accepted</Text>
+
+
+                                    </View>
+                                }</View>
+                            </View>
                         </View>
 
                         <View>
@@ -445,7 +455,10 @@ const RequestDetail = () => {
                                                 navigation.navigate(`${details?._id}`);
                                             }, 200);
                                         }}>
-                                            {details && <View className={`flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#cdcdd6] ${((spade?.requestActive === "completed" || spade?.requestActive === "closed") && spade?.requestAcceptedChat !== details._id) ? "bg-[#001b33] opacity-50" : ""}`}>
+                                            {((spade?.requestActive === "completed" || spade?.requestActive === "closed") && spade?.requestAcceptedChat !== details._id) && <View style={{ backgroundColor: 'rgba(0,0,0,0.3)', width: FullWindowOverlay, height: 98, zIndex: 200, position: 'absolute', top: 0, left: 0, right: 0 }}>
+
+                                            </View>}
+                                            {details && <View className="flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#cdcdd6] ">
                                                 {details?.users?.length > 0 && <Image
                                                     source={{ uri: details?.retailerId?.storeImages ? details?.retailerId?.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
                                                     style={styles.image}
