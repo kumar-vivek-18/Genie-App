@@ -276,7 +276,7 @@ const BargainingScreen = () => {
         console.log(messages[messages?.length - 1]._id, spade?._id);
         try {
             await axios
-                .patch("http://192.168.86.218:5000/chat/accept-bid", {
+                .patch("http://173.212.193.109:5000/chat/accept-bid", {
                     messageId: messages[messages?.length - 1]._id,
                     userRequestId: spade?._id,
                 })
