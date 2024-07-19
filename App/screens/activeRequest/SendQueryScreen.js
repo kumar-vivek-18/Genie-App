@@ -38,6 +38,7 @@ import {
 } from "../../redux/reducers/userDataSlice";
 import { newMessageSend } from "../../notification/notificationMessages";
 import { formatDateTime } from "../../utils/logics/Logics";
+import { baseUrl } from "../../utils/logics/constants";
 
 const SendQueryScreen = () => {
   const navigation = useNavigation();
@@ -68,7 +69,7 @@ const SendQueryScreen = () => {
   const sendQuery = async () => {
     setIsLoading(true);
     const token = await axios.get(
-      "http://173.212.193.109:5000/retailer/unique-token",
+      `${baseUrl}/retailer/unique-token`,
       {
         params: {
           id: currentSpadeRetailer.retailerId._id,
@@ -93,7 +94,7 @@ const SendQueryScreen = () => {
     formData.append('bidImages', []);
 
     await axios
-      .post("http://173.212.193.109:5000/chat/send-message", formData, {
+      .post(`${baseUrl}/chat/send-message`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

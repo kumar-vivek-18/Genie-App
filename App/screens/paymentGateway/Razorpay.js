@@ -98,6 +98,7 @@ import { ActivityIndicator } from "react-native";
 import PaymentSuccessFulModal from "../components/PaymentSuccessFulModal";
 import { formatDateTime } from "../../utils/logics/Logics";
 import Trust from '../../assets/Trust.svg';
+import { baseUrl } from "../../utils/logics/constants";
 const PaymentScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -189,7 +190,7 @@ const PaymentScreen = () => {
     // console.log('userNmae', userName);
     // if (userName.length < 3) return;
     await axios
-      .patch("http://173.212.193.109:5000/user/edit-profile", {
+      .patch(`${baseUrl}/user/edit-profile`, {
         _id: userDetails._id,
         updateData: { lastPaymentStatus: "paid" },
       })
@@ -216,7 +217,7 @@ const PaymentScreen = () => {
     try {
       setLoading(true);
       await axios
-        .patch("http://173.212.193.109:5000/user/edit-profile", {
+        .patch(`${baseUrl}/user/edit-profile`, {
           _id: userDetails._id,
           updateData: { freeSpades: userDetails.freeSpades - 1, lastPaymentStatus: "paid" },
         })

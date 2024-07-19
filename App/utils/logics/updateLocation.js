@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { setUserDetails } from "../../redux/reducers/userDataSlice";
 import store from "../../redux/store";
+import { baseUrl } from "./constants";
 import { getGeoCoordinates, getLocationName } from "./Logics";
 
 
@@ -27,7 +28,7 @@ export const handleRefreshLocation = async (id) => {
                 };
                 // console.log('updatedUserData', updatedUserData);
                 await axios
-                    .patch("http://173.212.193.109:5000/user/edit-profile", {
+                    .patch(`${baseUrl}/user/edit-profile`, {
                         _id: id,
                         updateData: {
                             longitude: updatedUserData.longitude,

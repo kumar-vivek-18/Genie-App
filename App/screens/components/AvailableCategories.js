@@ -10,6 +10,7 @@ import BackArrow from "../../assets/BackArrowImg.svg";
 import { useDispatch, useSelector } from 'react-redux';
 import { emtpyRequestImages, setRequestCategory } from '../../redux/reducers/userRequestsSlice';
 import axios from 'axios';
+import { baseUrl } from '../../utils/logics/constants';
 
 
 const AvailableCategories = () => {
@@ -34,7 +35,7 @@ const AvailableCategories = () => {
             const longitude = userLongitude !== 0 ? userLongitude : userDetails.longitude;
             const latitude = userLatitude !== 0 ? userLatitude : userDetails.latitude;
             console.log(longitude, latitude);
-            await axios.get('http://173.212.193.109:5000/retailer/stores-near-me', {
+            await axios.get(`${baseUrl}/retailer/stores-near-me`, {
                 params: {
                     longitude: longitude,
                     latitude: latitude,

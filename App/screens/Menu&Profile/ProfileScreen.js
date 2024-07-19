@@ -26,6 +26,7 @@ import { ScrollView } from "react-native";
 import Cross from "../../assets/goldenCross.svg"
 import EditIcon from "../../assets/editIcon.svg";
 import BackArrow from "../../assets/BackArrowImg.svg"
+import { baseUrl } from "../../utils/logics/constants";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
@@ -68,7 +69,7 @@ const ProfileScreen = () => {
     if (email.length < 7) return;
     setLoading(true);
     await axios
-      .patch("http://173.212.193.109:5000/user/edit-profile", {
+      .patch(`${baseUrl}/user/edit-profile`, {
         _id: userDetails._id,
         updateData: { email: email },
       })
@@ -90,7 +91,7 @@ const ProfileScreen = () => {
     if (userName.length < 3) return;
     setIsLoading(true);
     await axios
-      .patch("http://173.212.193.109:5000/user/edit-profile", {
+      .patch(`${baseUrl}/user/edit-profile`, {
         _id: userDetails._id,
         updateData: { userName: userName },
       })
@@ -111,7 +112,7 @@ const ProfileScreen = () => {
     console.log("image uri", image);
     if (!image) return;
     await axios
-      .patch("http://173.212.193.109:5000/user/edit-profile", {
+      .patch(`${baseUrl}/user/edit-profile`, {
         _id: userDetails._id,
         updateData: { pic: image },
       })
@@ -174,7 +175,7 @@ const ProfileScreen = () => {
         name: `photo-${Date.now()}.jpg`
       })
 
-      await axios.post('http://173.212.193.109:5000/upload', formData, {
+      await axios.post(`${baseUrl}/upload`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

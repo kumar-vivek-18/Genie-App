@@ -28,6 +28,7 @@ import TextGalleryIcon from '../../assets/grayGallery.svg';
 
 import { sendCloseSpadeNotification } from '../../notification/notificationMessages';
 import { FullWindowOverlay } from 'react-native-screens';
+import { baseUrl } from '../../utils/logics/constants';
 
 
 
@@ -85,7 +86,7 @@ const RequestDetail = () => {
     const handleSpadeNaviagtion = async () => {
         if (currentSpade.unread === true) {
             try {
-                await axios.patch('http://173.212.193.109:5000/user/set-spade-mark-as-read', {
+                await axios.patch(`${baseUrl}/user/set-spade-mark-as-read`, {
                     id: currentSpade._id
                 })
                     .then((res) => {
@@ -110,7 +111,7 @@ const RequestDetail = () => {
     }
 
     const fetchRetailers = () => {
-        axios.get(`http://173.212.193.109:5000/chat/spade-chats`, {
+        axios.get(`${baseUrl}/chat/spade-chats`, {
             params: {
                 id: currentSpade._id,
             }

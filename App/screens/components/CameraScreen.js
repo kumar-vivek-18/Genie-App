@@ -29,6 +29,7 @@ import {
     setCurrentSpadeRetailers,
     setSpades,
 } from "../../redux/reducers/userDataSlice";
+import { baseUrl } from "../../utils/logics/constants";
 const CameraScreen = () => {
     const [imageUri, setImageUri] = useState("");
     const navigation = useNavigation();
@@ -61,7 +62,7 @@ const CameraScreen = () => {
             console.log('Sending attachment to user');
             setLoading(true);
             const token = await axios.get(
-                "http://173.212.193.109:5000/retailer/unique-token",
+                `${baseUrl}/retailer/unique-token`,
                 {
                     params: {
                         id: details?.retailerId?._id,
@@ -86,7 +87,7 @@ const CameraScreen = () => {
 
             // console.log('attachment form data', formData._parts);
 
-            await axios.post('http://173.212.193.109:5000/chat/send-message', formData, {
+            await axios.post(`${baseUrl}/chat/send-message`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

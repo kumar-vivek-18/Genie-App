@@ -53,6 +53,7 @@ import Home7 from "../assets/Home7.svg";
 import DropArrow from '../assets/drop-arrow.svg';
 import ProfileIcon from '../assets/ProfileIcon.svg';
 import HistoryIcon from '../assets/historyIcon.svg';
+import { baseUrl } from "../utils/logics/constants";
 
 const { width } = Dimensions.get("window");
 
@@ -136,7 +137,7 @@ const HomeScreen = () => {
     try {
       // console.log('userHomeScreem', userDetails._id);
       const response = await axios.get(
-        "http://173.212.193.109:5000/user/getspades",
+        `${baseUrl}/user/getspades`,
         {
           params: {
             id: userData?._id,
@@ -189,7 +190,7 @@ const HomeScreen = () => {
           };
 
           await axios
-            .patch("http://173.212.193.109:5000/user/edit-profile", {
+            .patch(`${baseUrl}user/edit-profile`, {
               _id: userDetails._id,
               updateData: {
                 longitude: updatedUserData.longitude,

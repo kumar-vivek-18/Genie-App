@@ -38,6 +38,7 @@ import LocationMessage from '../components/LocationMessage';
 import UserDocumentMessage from '../components/UserDocumentMessage';
 import RetailerDocumentMessage from '../components/RetailerDocumentMessage';
 import ErrorModal from '../components/ErrorModal';
+import { baseUrl } from '../../utils/logics/constants';
 
 const BargainingScreen = () => {
     const navigation = useNavigation();
@@ -106,7 +107,7 @@ const BargainingScreen = () => {
                 currentSpadeRetailer?.latestMessage?.sender?.type === "Retailer"
             ) {
                 const response = await axios.patch(
-                    "http://173.212.193.109:5000/chat/mark-as-read",
+                    `${baseUrl}/chat/mark-as-read`,
                     {
                         id: currentSpadeRetailer._id,
                     }
@@ -138,7 +139,7 @@ const BargainingScreen = () => {
         console.log('current spade unread data', currentSpade?.unread);
         if (currentSpade?.unread === true) {
             try {
-                await axios.patch('http://173.212.193.109:5000/user/set-spade-mark-as-read', {
+                await axios.patch(`${baseUrl}/user/set-spade-mark-as-read`, {
                     id: currentSpade._id
                 })
                     .then((res) => {
@@ -181,7 +182,7 @@ const BargainingScreen = () => {
 
 
     const fetchCurrentSpadeRetailer = useCallback(async () => {
-        await axios.get('http://173.212.193.109:5000/chat/get-particular-chat', {
+        await axios.get(`${baseUrl}/chat/get-particular-chat`, {
             params: {
                 id: currentSpadeChatId.chatId,
             }
@@ -204,7 +205,7 @@ const BargainingScreen = () => {
     const fetchMessages = useCallback((id) => {
         // console.log("fetching messages", id);
         axios
-            .get("http://173.212.193.109:5000/chat/get-spade-messages", {
+            .get(`${baseUrl}/chat/get-spade-messages`, {
                 params: {
                     id: id,
                 },
@@ -367,14 +368,14 @@ const BargainingScreen = () => {
     const rejectBid = async () => {
         setLoading(true);
         try {
-            const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
+            const token = await axios.get(`${baseUrl}/retailer/unique-token`, {
                 params: {
                     id: currentSpadeRetailer.retailerId._id,
                 }
             });
 
             const res = await axios.patch(
-                "http://173.212.193.109:5000/chat/reject-bid",
+                `${baseUrl}/chat/reject-bid`,
                 {
                     messageId: messages[messages.length - 1]._id,
                 }

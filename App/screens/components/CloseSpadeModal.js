@@ -9,6 +9,7 @@ import { sendCloseSpadeNotification } from '../../notification/notificationMessa
 import { ActivityIndicator } from 'react-native';
 import { socket } from '../../utils/scoket.io/socket';
 import navigationService from '../../navigation/navigationService';
+import { baseUrl } from '../../utils/logics/constants';
 
 const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => {
     const spade = useSelector(store => store.user.currentSpade);
@@ -23,7 +24,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
         setLoading(true);
         console.log('fello close', currentSpadeRetailers[0]?.retailerId._id);
         try {
-            const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
+            const token = await axios.get(`${baseUrl}/retailer/unique-token`, {
                 params: {
                     id: currentSpadeRetailers[0]?.retailerId._id,
                 }
@@ -46,7 +47,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
             formData.append('bidImages', []);
 
             await axios.post(
-                "http://173.212.193.109:5000/chat/send-message",
+                `${baseUrl}/chat/send-message`,
                 formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             }
@@ -54,7 +55,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                 .then(async (res) => {
                     console.log('spade closed mess send successfully', res.status);
                     socket.emit("new message", res.data);
-                    const request = await axios.patch(`http://173.212.193.109:5000/user/close-spade/`, {
+                    const request = await axios.patch(`${baseUrl}/user/close-spade/`, {
                         id: spade._id
                     });
                     console.log('request', request);
@@ -152,7 +153,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                 formData.append('bidImages', []);
 
                 await axios.post(
-                    "http://173.212.193.109:5000/chat/send-message",
+                    `${baseUrl}/chat/send-message`,
                     formData, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 }
@@ -164,7 +165,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                     })
             }));
 
-            await axios.patch('http://173.212.193.109:5000/user/close-active-spade/', {
+            await axios.patch(`${baseUrl}/user/close-active-spade/`, {
                 id: spade._id,
             })
                 .then((res) => {

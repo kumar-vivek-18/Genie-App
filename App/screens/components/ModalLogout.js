@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import messaging from "@react-native-firebase/messaging";
 import { ActivityIndicator } from 'react-native';
 import { requestClear } from '../../redux/reducers/userRequestsSlice';
+import { baseUrl } from '../../utils/logics/constants';
 
 
 
@@ -30,7 +31,7 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
 
             await AsyncStorage.removeItem('userDetails');
 
-            await axios.patch('http://173.212.193.109:5000/user/edit-profile', {
+            await axios.patch(`${baseUrl}/user/edit-profile`, {
                 _id: userDetails._id,
                 updateData: { uniqueToken: "" }
             })
@@ -69,7 +70,7 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
             // }}
             className=" flex justify-center items-center  rounded-lg h-full ">
             <View className="flex-1  justify-center items-center">
-            <View className="bg-white w-[85%] px-[30px] justify-center items-center mt-[10px] gap-[24px] shadow-gray-600 shadow-2xl  pt-[80px] pb-[40px]">
+                <View className="bg-white w-[85%] px-[30px] justify-center items-center mt-[10px] gap-[24px] shadow-gray-600 shadow-2xl  pt-[80px] pb-[40px]">
                     <ModalImg classname="w-[117px] h-[75px]" />
                     <View className="">
                         <Text className="text-[15px] text-center" style={{ fontFamily: "Poppins-ExtraBold" }}>Are you sure? </Text>

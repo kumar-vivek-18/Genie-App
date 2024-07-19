@@ -29,6 +29,7 @@ import { emtpyRequestImages } from "../../redux/reducers/userRequestsSlice";
 import UploadImage from "../../assets/AddImg.svg";
 import AddImages from "../components/AddImages";
 import { formatDateTime } from "../../utils/logics/Logics";
+import { baseUrl } from "../../utils/logics/constants";
 
 
 const CreateNewBidScreen = () => {
@@ -61,7 +62,7 @@ const CreateNewBidScreen = () => {
   const sendBid = async () => {
     setLoading(true);
     const token = await axios.get(
-      "http://173.212.193.109:5000/retailer/unique-token",
+      `${baseUrl}/retailer/unique-token`,
       {
         params: {
           id: details.retailerId._id,
@@ -86,7 +87,7 @@ const CreateNewBidScreen = () => {
     formData.append('chat', details._id);
     formData.append('bidPrice', price);
     await axios
-      .post("http://173.212.193.109:5000/chat/send-message", formData, {
+      .post(`${baseUrl}/chat/send-message`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       .then(async (res) => {

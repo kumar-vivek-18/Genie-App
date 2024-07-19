@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
+import { baseUrl } from '../../utils/logics/constants';
 import { socket } from '../../utils/scoket.io/socket';
 
 const useRequestSocket = (spadeId) => {
@@ -26,7 +27,7 @@ const useRequestSocket = (spadeId) => {
         });
 
         const fetchRetailers = () => {
-            axios.get(`http://173.212.193.109:5000/chat/spade-chats`, {
+            axios.get(`${baseUrl}/chat/spade-chats`, {
                 params: {
                     id: currentSpade._id,
                 }

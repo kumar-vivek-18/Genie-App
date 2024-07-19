@@ -7,6 +7,7 @@ import { setHistory } from '../../redux/reducers/userRequestsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentSpade } from '../../redux/reducers/userDataSlice';
 import BackArrow from "../../assets/arrow-left.svg"
+import { baseUrl } from '../../utils/logics/constants';
 
 
 const HistoryScreen = () => {
@@ -65,7 +66,7 @@ const HistoryScreen = () => {
 
         try {
             // console.log('userHomeScreem', userDetails);
-            const response = await axios.get('http://173.212.193.109:5000/user/history', {
+            const response = await axios.get(`${baseUrl}/user/history`, {
                 params: {
                     id: userDetails._id,
                 }
@@ -171,9 +172,9 @@ const HistoryScreen = () => {
                                         </View>
 
                                         <View className="w-10/12 px-[10px]">
-                                        <View className="flex flex-wrap w-[70%] pb-1 ">
-                                          <Text className="text-[14px] w-full flex flex-wrap " style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>
-                                        </View>
+                                            <View className="flex flex-wrap w-[70%] pb-1 ">
+                                                <Text className="text-[14px] w-full flex flex-wrap " style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>
+                                            </View>
 
                                             <View style={styles.priceRow}>
                                                 <Text style={styles.priceText}>Expected Price:</Text>
@@ -231,7 +232,7 @@ const styles = {
     description: {
         fontSize: 14,// 10/12 in tailwind is 83.33%
         width: '70%',
-        fontFamily: "Poppins-Regular" 
+        fontFamily: "Poppins-Regular"
         // 10/12 in tailwind is 83.33%
     },
     priceRow: {

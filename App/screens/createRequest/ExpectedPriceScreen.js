@@ -8,6 +8,7 @@ import { setExpectedPrice, setSpadeCouponCode, setSpadePrice } from '../../redux
 import BackArrow from "../../assets/BackArrowImg.svg";
 import axios from 'axios';
 import { setUserDetails } from '../../redux/reducers/userDataSlice';
+import { baseUrl } from '../../utils/logics/constants';
 
 
 const ExpectedPriceScreen = () => {
@@ -30,7 +31,7 @@ const ExpectedPriceScreen = () => {
     const VerifyCoupon = async () => {
         console.log("Adding coupon");
         try {
-            await axios.get('http://173.212.193.109:5000/coupon/verify-coupon', {
+            await axios.get(`${baseUrl}/coupon/verify-coupon`, {
                 params: {
                     couponCode: couponCode
                 }

@@ -43,6 +43,7 @@ import BackArrow from "../../assets/BackArrowImg.svg"
 
 import OtpPageBg from "../../assets/OtpVerificationPageBg.svg";
 import { handleRefreshLocation } from "../../utils/logics/updateLocation";
+import { baseUrl } from "../../utils/logics/constants";
 
 const MobileNumberEntryScreen = () => {
   const navigation = useNavigation();
@@ -162,7 +163,7 @@ const MobileNumberEntryScreen = () => {
       // if (res.status === 200 || res?.user?.phoneNumber?.length > 0) {
       const phoneNumber = countryCode + mobileNumber;
       console.log("phone", phoneNumber);
-      const response = await axios.get("http://173.212.193.109:5000/user/", {
+      const response = await axios.get(`${baseUrl}/user/`, {
         params: {
           mobileNo: phoneNumber,
         },
@@ -183,7 +184,7 @@ const MobileNumberEntryScreen = () => {
         // setMobileNumberLocal("");
         navigation.navigate("home");
         await axios
-          .patch("http://173.212.193.109:5000/user/edit-profile", {
+          .patch(`${baseUrl}/user/edit-profile`, {
             _id: response.data._id,
             updateData: { uniqueToken: token },
           })

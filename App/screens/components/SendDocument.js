@@ -18,6 +18,7 @@ import { formatDateTime } from "../../utils/logics/Logics";
 import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from "../../redux/reducers/userDataSlice";
 import { socket } from "../../utils/scoket.io/socket";
 import { DocumentNotification } from "../../notification/notificationMessages";
+import { baseUrl } from "../../utils/logics/constants";
 
 const SendDocument = () => {
 
@@ -39,7 +40,7 @@ const SendDocument = () => {
         console.log('Sending document');
         try {
             setLoading(true);
-            const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
+            const token = await axios.get(`${baseUrl}/retailer/unique-token`, {
                 params: {
                     id: currentSpadeRetailer.retailerId._id,
                 }
@@ -65,7 +66,7 @@ const SendDocument = () => {
             formData.append('chat', currentSpadeRetailer._id);
             formData.append('bidPrice', result.assets[0].size);
 
-            await axios.post('http://173.212.193.109:5000/chat/send-message', formData, {
+            await axios.post(`${baseUrl}/chat/send-message`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

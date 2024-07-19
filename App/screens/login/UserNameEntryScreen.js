@@ -8,6 +8,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import UsernameScreenBg from '../../assets/usernameverification.svg';
 import { handleRefreshLocation } from '../../utils/logics/updateLocation';
+import { baseUrl } from '../../utils/logics/constants';
 
 const UserNameEntryScreen = () => {
     const navigation = useNavigation();
@@ -65,7 +66,7 @@ const UserNameEntryScreen = () => {
 
             // Send user data to the server
             console.log("User data sent to", mobileNumber, name);
-            const response = await axios.post('http://173.212.193.109:5000/user/', {
+            const response = await axios.post(`${baseUrl}/user/`, {
                 mobileNo: mobileNumber,
                 userName: name,
 
@@ -82,7 +83,7 @@ const UserNameEntryScreen = () => {
 
                 //  console.log("user",user);
                 await AsyncStorage.setItem('userDetails', JSON.stringify(response.data));
-                await axios.patch('http://173.212.193.109:5000/user/edit-profile', {
+                await axios.patch(`${baseUrl}/user/edit-profile`, {
                     _id: response.data._id,
                     updateData: { uniqueToken: userToken }
                 })

@@ -28,6 +28,7 @@ import { haversineDistance } from "../../utils/logics/Logics";
 import axios from "axios";
 import RatingAndFeedbackModal from "../components/RatingAndFeedbackModal";
 import RatingStar from "../../assets/Star.svg";
+import { baseUrl } from "../../utils/logics/constants";
 // import {Clipboard} from '@react-native-clipboard/clipboard'
 
 
@@ -78,7 +79,7 @@ const StoreProfileScreen = () => {
 
     const fetchRetailerFeedbacks = useCallback(async () => {
         try {
-            await axios.get('http://173.212.193.109:5000/rating/get-retailer-feedbacks', {
+            await axios.get(`${baseUrl}/rating/get-retailer-feedbacks`, {
                 params: {
                     id: currentSpadeRetailer.retailerId._id,
                 }

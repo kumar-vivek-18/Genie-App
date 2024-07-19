@@ -16,6 +16,7 @@ import LocationModal from './LocationModal';
 import * as DocumentPicker from 'expo-document-picker';
 import { LocationSendNotification } from '../../notification/notificationMessages';
 import ErrorModal from './ErrorModal';
+import { baseUrl } from '../../utils/logics/constants';
 
 const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal }) => {
 
@@ -45,7 +46,7 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
             const locationName = await getLocationName(loc.coords.latitude, loc.coords.longitude);
 
             setLoading(true)
-            const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
+            const token = await axios.get(`${baseUrl}/retailer/unique-token`, {
                 params: {
                     id: currentSpadeRetailer.retailerId._id,
                 }
@@ -61,7 +62,7 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
             formData.append('latitude', loc.coords.latitude);
             formData.append('longitude', loc.coords.longitude);
 
-            await axios.post('http://173.212.193.109:5000/chat/send-message', formData, {
+            await axios.post(`${baseUrl}/chat/send-message`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

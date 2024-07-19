@@ -28,6 +28,7 @@ import { ActivityIndicator } from "react-native";
 import SuccessPopup from "../components/SuccessPopup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { socket } from "../../utils/scoket.io/socket";
+import { baseUrl } from "../../utils/logics/constants";
 
 const RequestPreviewScreen = () => {
   const route = useRoute();
@@ -98,7 +99,7 @@ const RequestPreviewScreen = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://173.212.193.109:5000/user/createrequest", formData, {
+        `${baseUrl}/user/createrequest`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         }
