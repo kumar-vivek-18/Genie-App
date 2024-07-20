@@ -248,31 +248,7 @@ const HomeScreen = () => {
 
   ////////////////////////////////////////////////////////////////////Fetch user details for getting payment status ////////////////////////////////////////////////////////////////////////////////////
 
-  const fetchSpadeDetails = async (spadeId) => {
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-        params: {
-          id: spadeId
-        },
-      }
-      console.log(config);
 
-      await axios.get(`${baseUrl}/user/spade-details`, config)
-        .then((response) => {
-          console.log('razopay scrn', response.data, response.status);
-          if (response.status === 200) {
-            navigation.navigate('payment-gateway', { spadeDetails: response.data });
-            // setSpadeDetails(response.data);
-          }
-        })
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   const fetchUserDetails = async () => {
     try {

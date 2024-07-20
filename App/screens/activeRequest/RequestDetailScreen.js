@@ -178,11 +178,6 @@ const RequestDetail = () => {
                 const data = formatDateTime(updatedUser.updatedAt);
                 updatedUser.createdAt = data.formattedDate;
                 updatedUser.updatedAt = data.formattedTime;
-                // dispatch(setCurrentSpadeRetailers((prevUsers) => {
-                //     return prevUsers.map((user) =>
-                //         user._id === updatedUser._id ? updatedUser : user
-                //     );
-                // }));
 
                 if (updatedUser.latestMessage.bidType === "true" && updatedUser.latestMessage.bidAccepted === "accepted") {
                     const tmp = { ...currentSpade, requestActive: "completed", requestAcceptedChat: updatedUser._id };
@@ -196,23 +191,28 @@ const RequestDetail = () => {
                     dispatch(setSpades(allSpades));
                 }
 
-                // let retailers = [currentSpadeRetailers];
-                // retailers = currentSpadeRetailers.filter(c => c._id !== updatedUser._id);
-                // retailers = [updatedUser, ...retailers];
-                // dispatch(setCurrentSpadeRetailers(retailers));
-                // console.log('updatedRe', currentSpadeRetailers);
-                // console.log('updatedUser', updatedUser);
 
-                // console.log('currentSpadeRetailers', updatedUser.retailerId);
-
-                // const updatedRetailers = [updatedUser, ...currentSpadeRetailers];
                 const updatedRetailers = [updatedUser, ...currentSpadeRetailers.filter(c => c._id !== updatedUser._id)];
 
                 dispatch(setCurrentSpadeRetailers(updatedRetailers));
-                // setTimeout(() => {
-                //     console.log('updatedTime', currentSpadeRetailers.length);
-                // }, 2000);
 
+                let spadesData = [...spades];
+                const idx = spadesData.findIndex(spade => spade._id === updatedUser.requestId._id);
+
+                console.log("Spdes updated ", idx);
+                if (idx !== -1) {
+
+                    let data = spadesData.filter(spade => spade._id === updatedUser.requestId._id);
+                    // let spadeToUpdate = { ...spadesData[idx] };
+                    let data2 = spadesData.filter(spade => spade._id !== updatedUser.requestId._id);
+
+                    data[0] = { ...data[0], unread: false };
+                    // console.log('data', data);
+                    spadesData = [...data, ...data2]
+
+                    console.log("Spdes updated Successfully", data.length, data2.length);
+                    dispatch(setSpades(spadesData));
+                }
             }
         };
 
