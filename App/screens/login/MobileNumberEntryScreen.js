@@ -27,7 +27,9 @@ import {
 } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  setAccessToken,
   setMobileNumber,
+  setRefreshToken,
   setUniqueToken,
   setUserDetails,
 } from "../../redux/reducers/userDataSlice";
@@ -168,26 +170,37 @@ const MobileNumberEntryScreen = () => {
           mobileNo: phoneNumber,
         },
       });
-      // console.log("res", response);
+      console.log("res", response.data.user);
       setMobileScreen(true);
-      if (response.data.mobileNo) {
+      if (response.data.user.mobileNo) {
         // If mobile number is registered, navigate to home screen
         // console.log('userDetails from mobileScreen', response.data);
-        dispatch(setUserDetails(response.data));
+        dispatch(setUserDetails(response.data.user));
         await AsyncStorage.setItem(
           "userDetails",
-          JSON.stringify(response.data)
+          JSON.stringify(response.data.user)
         );
 
-        handleRefreshLocation(response.data._id);
+        await AsyncStorage.setItem("refreshToken", JSON.stringify(response.data.refreshToken));
+        await AsyncStorage.setItem("accessToken", JSON.stringify(response.data.accessToken));
+        dispatch(setAccessToken(response.data.accessToken));
+        dispatch(setRefreshToken(response.data.refreshToken));
+
+        handleRefreshLocation(response.data.user._id, response.data.accessToken);
 
         // setMobileNumberLocal("");
         navigation.navigate("home");
+        const config = {
+          headers: { // Use "headers" instead of "header"
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${response.data.accessToken}`,
+          }
+        };
         await axios
           .patch(`${baseUrl}/user/edit-profile`, {
-            _id: response.data._id,
+            _id: response.data.user._id,
             updateData: { uniqueToken: token },
-          })
+          }, config)
           .then(async (res) => {
             console.log("UserToken updated Successfully", res.data);
             await AsyncStorage.setItem(
@@ -203,7 +216,7 @@ const MobileNumberEntryScreen = () => {
           .catch((err) => {
             console.error("Error updating token: " + err.message);
           });
-      } else if (response.data.status === 404) {
+      } else if (response.status === 404) {
 
 
         navigation.navigate("registerUsername");

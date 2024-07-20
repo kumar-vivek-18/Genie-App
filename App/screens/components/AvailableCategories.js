@@ -28,19 +28,28 @@ const AvailableCategories = () => {
     const userDetails = useSelector(store => store.user.userDetails);
     const userLongitude = useSelector(store => store.user.userLongitude);
     const userLatitude = useSelector(store => store.user.userLatitude);
+    const accessToken = useSelector(store => store.user.accessToken);
 
+    console.log(accessToken);
     const fetchNearByStores = useCallback(async () => {
         try {
             console.log('User coors', userLongitude, userLatitude, userDetails.longitude, userDetails.latitude);
             const longitude = userLongitude !== 0 ? userLongitude : userDetails.longitude;
             const latitude = userLatitude !== 0 ? userLatitude : userDetails.latitude;
             console.log(longitude, latitude);
-            await axios.get(`${baseUrl}/retailer/stores-near-me`, {
-                params: {
+
+            const config = {
+                headers: { // Use "headers" instead of "header"
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                params: { // Move "params" inside the config object
                     longitude: longitude,
                     latitude: latitude,
                 }
-            })
+            };
+            console.log(config)
+            await axios.get(`${baseUrl}/retailer/stores-near-me`, config)
                 .then(res => {
                     const categories = res.data.map((category, index) => {
                         return { id: index + 1, name: category };

@@ -90,7 +90,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
 import { encode as btoa } from "base-64";
 import Close from "../../assets/BlackClose.svg";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserDetails } from "../../redux/reducers/userDataSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -106,18 +106,47 @@ const PaymentScreen = () => {
   const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [date, setDate] = useState(null);
+  const accessToken = useSelector(store => store.user.accessToken);
+  const [spadeDetails, setSpadeDetails] = useState({});
+  const route = useRoute();
+  const { spadeId } = route.params;
 
   useEffect(() => {
     // console.log('lastSpade', userDetails.lastSpade);
-    console.log('hii')
-    const formattedDate = formatDateTime(Date.now());
-    console.log(formattedDate);
-    setDate(formattedDate.formattedDate);
+    // console.log('hii')
+    if (spadeId)
+      fetchSpadeDetails();
 
-    if (userDetails.lastPaymentStatus === "paid") {
-      navigation.navigate("home");
+    const formattedDate = formatDateTime(Date.now());
+    setDate(formattedDate.formattedDate);
+  }, [route.params, spadeId]);
+
+  console.log('spadeId', spadeId);
+  const fetchSpadeDetails = async () => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        params: {
+          id: spadeId,
+        },
+      }
+      console.log(config);
+
+      await axios.get(`${baseUrl}/user/spade-details`, config)
+        .then((response) => {
+          console.log('razopay scrn', response.data, response.status);
+          if (response.status === 200) {
+            setSpadeDetails(response.data);
+          }
+        })
+    } catch (error) {
+      console.error(error);
     }
-  }, []);
+  }
+
   const PayNow = async () => {
     const username = "rzp_live_oz8kr6Ix29mKyC";
     const password = "IADDTICFJ2oXYLX3H2pLjvcx";
@@ -189,15 +218,21 @@ const PaymentScreen = () => {
     // setEditUser(false);
     // console.log('userNmae', userName);
     // if (userName.length < 3) return;
+    const config = {
+      headers: { // Use "headers" instead of "header"
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      }
+    };
     await axios
-      .patch(`${baseUrl}/user/edit-profile`, {
-        _id: userDetails._id,
-        updateData: { lastPaymentStatus: "paid" },
-      })
+      .patch(`${baseUrl}/user/update-payment-status`, {
+        userId: userDetails._id,
+        spadeId: spadeDetails._id,
+      }, config)
       .then(async (res) => {
         console.log("userData updated Successfully after payment ");
         dispatch(setUserDetails(res.data));
-        console.log("res after user update", res.data);
+        // console.log("res after user update", res.data);
         await AsyncStorage.setItem("userDetails", JSON.stringify(res.data));
         setIsVisible(true);
         setTimeout(() => {
@@ -211,16 +246,22 @@ const PaymentScreen = () => {
   };
 
 
-  // /////////////////////////////////////////////////////////////////////////////////////////////
-  //Handle free spade
+  // ////////////////////////////////////////Handle free spade///////////////////////////////////////////////////////
+
   const handleFreeSpade = async () => {
     try {
       setLoading(true);
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        }
+      };
       await axios
-        .patch(`${baseUrl}/user/edit-profile`, {
-          _id: userDetails._id,
-          updateData: { freeSpades: userDetails.freeSpades - 1, lastPaymentStatus: "paid" },
-        })
+        .patch(`${baseUrl}/user/update-payment-status`, {
+          userId: userDetails._id,
+          spadeId: spadeDetails._id
+        }, config)
         .then(async (res) => {
           console.log('Payment Successfully updated');
           dispatch(setUserDetails(res.data));
@@ -250,7 +291,7 @@ const PaymentScreen = () => {
             >
               Payment Invoice
             </Text>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 10 }}>
               <Close />
             </TouchableOpacity>
           </View>
@@ -266,31 +307,35 @@ const PaymentScreen = () => {
                 className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px]"
                 style={{ fontFamily: "Poppins-Regular" }}
               >
-                {userDetails?.lastSpade?.requestCategory}
+                {spadeDetails?.requestCategory?.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Bold" }} className="capitalize">{spadeDetails?.requestCategory?.slice(0, spadeDetails?.requestCategory?.indexOf('-'))}</Text>}
+                {spadeDetails?.requestCategory?.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold" }} className="capitalize">{spadeDetails?.requestCategory}</Text>}
               </Text>
             </View>
-            <View className="flex-row gap-[10px] items-center ">
+            <View className=" ">
               <Text
                 className=" text-[14px] "
                 style={{ fontFamily: "Poppins-ExtraBold" }}
               >
                 Request ID:
               </Text>
-              <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular" }}> {userDetails?.lastSpade?._id}</Text>
-              <Pressable
-                onPress={() => {
-                  console.log("hii");
-                }}
-              >
-                <Image source={require("../../assets/copy.png")} />
-              </Pressable>
+              <View className="flex-row items-center gap-[5px] ">
+                <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular" }}> {spadeDetails?._id}</Text>
+                <Pressable
+                  onPress={() => {
+                    console.log("hii");
+                  }}
+                >
+                  <Image source={require("../../assets/copy.png")} />
+                </Pressable>
+              </View>
+
             </View>
 
             <Text
               className="mt-[5px]"
               style={{ fontFamily: "Poppins-Regular" }}
             >
-              {userDetails.lastSpade?.requestDescription?.substring(0, 30)}....
+              {spadeDetails?.requestDescription?.substring(0, 30)}....
             </Text>
             <View className="flex-row justify-between items-center">
 
@@ -310,7 +355,11 @@ const PaymentScreen = () => {
 
             </View>
           </View>
-          <View className="w-screen  flex  mt-[60px] mx-[32px] z-50">
+          <View className="flex-row gap-[5px] mt-[20px] mx-[32px]">
+            <Text style={{ fontFamily: 'Poppins-Bold' }}>Payments Remaining - </Text>
+            <Text>{userDetails.unpaidSpades.length}</Text>
+          </View>
+          <View className="w-screen  flex  mt-[40px] mx-[32px] z-50">
 
 
             <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[16px] text-[#2e2c43]">Cost for spade</Text>
@@ -320,10 +369,10 @@ const PaymentScreen = () => {
             </View>
 
 
-            <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[16px]">Coupon Applied: NA</Text>
+            <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[16px]">Coupon Applied: <Text className="text-[#45801a]">{spadeDetails?.appliedCouponCode}</Text></Text>
             <View className="flex-row ">
               <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[16px] text-[#E76063]">Discount - </Text>
-              <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[16px] text-[#E76063]"> {20 - userDetails.lastSpadePrice} Rs</Text>
+              <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[16px] text-[#E76063]"> {20 - spadeDetails?.spadePrice} Rs</Text>
             </View>
             <View className="flex-row ">
               <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[16px] text-[#2E2C43]">Tax - </Text>
@@ -331,15 +380,15 @@ const PaymentScreen = () => {
             </View>
             <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[16px]">Total Cost</Text>
             <View className="flex-row ">
-              <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[24px] text-[#45801a]">{userDetails.lastSpadePrice} </Text>
+              <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[24px] text-[#45801a]">{spadeDetails?.spadePrice} </Text>
               <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[24px] text-[#45801a]">Rs</Text>
             </View>
           </View>
         </View>
         <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
-          <TouchableOpacity
+          {spadeDetails?.spadePrice && <TouchableOpacity
             onPress={() => {
-              userDetails.freeSpades > 0 ? handleFreeSpade() : PayNow();
+              spadeDetails.spadePrice === 0 ? handleFreeSpade() : PayNow();
             }}
           >
             <View className="w-full h-[63px]  bg-[#fb8c00] justify-center  bottom-0 left-0 right-0">
@@ -354,7 +403,7 @@ const PaymentScreen = () => {
                 </Text>
               )}
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity>}
         </View>
       </ScrollView>
       {

@@ -51,6 +51,7 @@ const StoreProfileScreen = () => {
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
     const [feedbacks, setFeedbacks] = useState([]);
     const [feedbackModal, setFeedbackModal] = useState(false);
+    const accessToken = useSelector(store => store.user.accessToken);
     //   const copyToClipboard = async () => {
     //     // await Clipboard.setStringAsync(inputValue);
     //     setCopied(true);
@@ -79,11 +80,16 @@ const StoreProfileScreen = () => {
 
     const fetchRetailerFeedbacks = useCallback(async () => {
         try {
-            await axios.get(`${baseUrl}/rating/get-retailer-feedbacks`, {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
                 params: {
                     id: currentSpadeRetailer.retailerId._id,
                 }
-            })
+            }
+            await axios.get(`${baseUrl}/rating/get-retailer-feedbacks`, config)
                 .then((res) => {
                     console.log('Feedbacks fetched successfully', res.data.length);
                     setFeedbacks(res.data);

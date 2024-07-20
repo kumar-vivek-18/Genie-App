@@ -26,16 +26,22 @@ const ExpectedPriceScreen = () => {
     const [couponCode, setCouponCode] = useState("");
     const [verifiedCouponCode, setVerifiedCouponCode] = useState(false);
     const [couponFailed, setCouponFailed] = useState(false);
+    const accessToken = useSelector(store => store.user.accessToken);
 
     console.log('expected price at exp', expectedPrice);
     const VerifyCoupon = async () => {
         console.log("Adding coupon");
         try {
-            await axios.get(`${baseUrl}/coupon/verify-coupon`, {
+            const config = {
+                headers: { // Use "headers" instead of "header"
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
                 params: {
                     couponCode: couponCode
                 }
-            })
+            };
+            await axios.get(`${baseUrl}/coupon/verify-coupon`, config)
                 .then(res => {
                     console.log('res', res.data);
                     if (res.data.message === "Coupon code is valid") {

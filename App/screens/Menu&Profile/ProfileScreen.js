@@ -41,6 +41,7 @@ const ProfileScreen = () => {
   const [picLoading, setPicLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [scaleAnimation] = useState(new Animated.Value(0));
+  const accessToken = useSelector(store => store.user.accessToken);
 
   const handleImagePress = (image) => {
     setSelectedImage(image);
@@ -63,7 +64,12 @@ const ProfileScreen = () => {
 
   // console.log("userDetails", userDetails);
   const dispatch = useDispatch();
-
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    }
+  };
   const handleEmailUpdate = async () => {
     // console.log("user", userDetails._id, email);
     if (email.length < 7) return;
@@ -72,7 +78,7 @@ const ProfileScreen = () => {
       .patch(`${baseUrl}/user/edit-profile`, {
         _id: userDetails._id,
         updateData: { email: email },
-      })
+      }, config)
       .then(async (res) => {
         console.log("Email updated Successfully");
         dispatch(setUserDetails(res.data));
@@ -94,7 +100,7 @@ const ProfileScreen = () => {
       .patch(`${baseUrl}/user/edit-profile`, {
         _id: userDetails._id,
         updateData: { userName: userName },
-      })
+      }, config)
       .then(async (res) => {
         console.log("UserName updated Successfully");
         dispatch(setUserDetails(res.data));
@@ -115,7 +121,7 @@ const ProfileScreen = () => {
       .patch(`${baseUrl}/user/edit-profile`, {
         _id: userDetails._id,
         updateData: { pic: image },
-      })
+      }, config)
       .then(async (res) => {
         console.log("UserName updated Successfully");
         dispatch(setUserDetails(res.data));
@@ -130,40 +136,6 @@ const ProfileScreen = () => {
       });
   };
 
-  // const getImageUrl = async (image) => {
-  //   setPicLoading(true);
-  //   let CLOUDINARY_URL =
-  //     "https://api.cloudinary.com/v1_1/kumarvivek/image/upload";
-
-  //   let base64Img = `data:image/jpg;base64,${image.base64}`;
-
-  //   let data = {
-  //     file: base64Img,
-  //     upload_preset: "CulturTap",
-  //   };
-
-  //   // console.log('base64', data);
-  //   fetch(CLOUDINARY_URL, {
-  //     body: JSON.stringify(data),
-  //     headers: {
-  //       "content-type": "application/json",
-  //     },
-  //     method: "POST",
-  //   })
-  //     .then(async (r) => {
-  //       let data = await r.json();
-
-  //       // setPhoto(data.url);
-  //       const imgUri = data.secure_url;
-  //       if (imgUri) {
-  //         console.log("Image Updated Successfully");
-  //         handlePicUpdate(imgUri);
-  //       }
-  //       setPicLoading(false);
-  //       console.log("dataImg", data.secure_url);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
 
   const getImageUrl = async (image) => {
     try {
@@ -174,12 +146,13 @@ const ProfileScreen = () => {
         type: 'image/jpeg',
         name: `photo-${Date.now()}.jpg`
       })
-
-      await axios.post(`${baseUrl}/upload`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      const configg = {
+        headers: { // Use "headers" instead of "header"
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${accessToken}`,
+        }
+      };
+      await axios.post(`${baseUrl}/upload`, formData, configg)
         .then(res => {
           console.log('imageUrl updated from server', res.data[0]);
           const imgUri = res.data[0];

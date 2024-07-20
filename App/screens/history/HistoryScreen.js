@@ -16,6 +16,7 @@ const HistoryScreen = () => {
 
     const userDetails = useSelector(state => state.user.userDetails);
     const history = useSelector(state => state.userRequest.history);
+    const accessToken = useSelector(state => state.user.accessToken);
     // console.log('HistoryScreen', history);
 
     const formatDateTime = (dateTimeString) => {
@@ -66,11 +67,17 @@ const HistoryScreen = () => {
 
         try {
             // console.log('userHomeScreem', userDetails);
-            const response = await axios.get(`${baseUrl}/user/history`, {
+            console.log(accessToken)
+            const config = {
+                headers: { // Use "headers" instead of "header"
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
                 params: {
                     id: userDetails._id,
                 }
-            });
+            };
+            const response = await axios.get(`${baseUrl}/user/history`, config);
 
             // console.log('HomeScreen', response.data);
 

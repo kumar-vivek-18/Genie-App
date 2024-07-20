@@ -14,6 +14,7 @@ const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal }) => {
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
     const userDetails = useSelector(store => store.user.userDetails);
     const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
+    const accessToken = useSelector(store => store.user.accessToken);
     const [rating, setRating] = useState(0);
     const [feedback, setFeedback] = useState("");
     const [submitted, setSubmitted] = useState(false);
@@ -28,6 +29,12 @@ const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal }) => {
         try {
             if (rating === 0) return;
             // console.log(spade.customer, retailer.users[0].refId, rating, feedback);
+            const config = {
+                headers: { // Use "headers" instead of "header"
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                }
+            };
             await axios.post(`${baseUrl}/rating/rating-feedback`, {
                 sender: { type: "User", refId: userDetails._id },
                 user: { type: "Retailer", refId: currentSpadeRetailer.users[0].refId },
@@ -35,7 +42,7 @@ const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal }) => {
                 rating: rating,
                 feedback: feedback,
                 chatId: currentSpadeRetailer._id
-            })
+            }, config)
                 .then(res => {
                     console.log("Feedback posted successfully");
 

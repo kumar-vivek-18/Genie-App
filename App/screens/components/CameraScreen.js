@@ -54,6 +54,7 @@ const CameraScreen = () => {
     );
     const currentSpade = useSelector((store) => store.user.currentSpade);
     const [loading, setLoading] = useState(false);
+    const accessToken = useSelector(store => store.user.accessToken);
 
     const sendAttachment = async () => {
         try {
@@ -61,14 +62,19 @@ const CameraScreen = () => {
 
             console.log('Sending attachment to user');
             setLoading(true);
+            const configToken = {
+                headers: { // Use "headers" instead of "header"
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                params: {
+                    id: details?.retailerId?._id,
+                },
+            };
             const token = await axios.get(
-                `${baseUrl}/retailer/unique-token`,
-                {
-                    params: {
-                        id: details?.retailerId?._id,
-                    },
-                }
+                `${baseUrl}/retailer/unique-token`, configToken
             );
+
             console.log('token of user', token.data);
             const formData = new FormData();
             // imageUri.forEach((uri, index) => {
@@ -86,17 +92,20 @@ const CameraScreen = () => {
             formData.append('bidPrice', 0);
 
             // console.log('attachment form data', formData._parts);
-
-            await axios.post(`${baseUrl}/chat/send-message`, formData, {
+            const config = {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                },
-            })
+                    'Authorization': `Bearer ${accessToken}`,
+                }
+            };
+
+            await axios.post(`${baseUrl}/chat/send-message`, formData, config)
                 .then(async (res) => {
                     console.log('send message', res.data);
+
                     const data = formatDateTime(res.data.createdAt);
                     res.data.createdAt = data.formattedTime;
-
+                    res.data.updatedAt = data.formattedDate;
                     //updating messages
                     setMessages([...messages, res.data]);
                     setLoading(false);

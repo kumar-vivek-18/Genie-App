@@ -17,6 +17,8 @@ const initialState = {
   userLatitude: 0,
   currentSpadeChatId: {},
   bargainingScreens: [],
+  accessToken: "",
+  refreshToken: "",
 };
 
 const userDataSlice = createSlice({
@@ -76,9 +78,15 @@ const userDataSlice = createSlice({
       state.bargainingScreens = []; // clear array before pushing new one]\]\\      
       state.bargainingScreens.push(action.payload);
     },
+    setAccessToken: (state, action) => {
+      state.accessToken = action.payload;
 
+    },
+    setRefreshToken: (state, action) => {
+      state.refreshToken = action.payload;
+    }
   },
 });
 
-export const { setMobileNumber, setUserName, setUserLocation, setImages, setUserDetails, setSpades, setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers, setCurrentChatMessages, setUniqueToken, userClear, setUserLatitude, setUserLongitude, setCurrentSpadeChatId, setBargainingScreens } = userDataSlice.actions;
+export const { setMobileNumber, setUserName, setUserLocation, setImages, setUserDetails, setSpades, setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers, setCurrentChatMessages, setUniqueToken, userClear, setUserLatitude, setUserLongitude, setCurrentSpadeChatId, setBargainingScreens, setAccessToken, setRefreshToken } = userDataSlice.actions;
 export default userDataSlice.reducer;

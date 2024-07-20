@@ -33,6 +33,8 @@ const SendDocument = () => {
     const { result, messages, setMessages } = route.params;
     const [loading, setLoading] = useState(false);
     const fileSize = parseFloat(result.assets[0].size) / (1e6);
+    const accessToken = useSelector(state => state.user.accessToken);
+
     console.log('document result', result);
 
 
@@ -40,11 +42,16 @@ const SendDocument = () => {
         console.log('Sending document');
         try {
             setLoading(true);
-            const token = await axios.get(`${baseUrl}/retailer/unique-token`, {
+            const configToken = {
+                headers: { // Use "headers" instead of "header"
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
                 params: {
                     id: currentSpadeRetailer.retailerId._id,
                 }
-            });
+            };
+            const token = await axios.get(`${baseUrl}/retailer/unique-token`, configToken);
             if (!result) {
                 console.log('No document selected');
                 setLoading(false);
@@ -65,17 +72,20 @@ const SendDocument = () => {
             formData.append('bidType', "document");
             formData.append('chat', currentSpadeRetailer._id);
             formData.append('bidPrice', result.assets[0].size);
-
-            await axios.post(`${baseUrl}/chat/send-message`, formData, {
-                headers: {
+            const config = {
+                headers: { // Use "headers" instead of "header"
                     'Content-Type': 'multipart/form-data',
-                },
-            })
+                    'Authorization': `Bearer ${accessToken}`,
+                }
+            };
+            await axios.post(`${baseUrl}/chat/send-message`, formData, config)
                 .then(res => {
                     console.log(res);
+                    socket.emit("new message", res.data);
+
                     const data = formatDateTime(res.data.createdAt);
                     res.data.createdAt = data.formattedTime;
-
+                    res.data.updatedAt = data.formattedDate;
                     //updating messages
                     setMessages([...messages, res.data]);
                     console.log('mess after send document', res.data);
@@ -86,7 +96,7 @@ const SendDocument = () => {
                     dispatch(setCurrentSpadeRetailers(updatedRetailers));
                     dispatch(setCurrentSpadeRetailer(updateChat));
 
-                    socket.emit("new message", res.data);
+
                     navigation.goBack();
                     if (token.data.length > 0) {
                         const notification = {

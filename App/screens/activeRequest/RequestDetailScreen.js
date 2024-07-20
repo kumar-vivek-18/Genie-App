@@ -53,6 +53,7 @@ const RequestDetail = () => {
     const userLatitude = useSelector(store => store.user.userLatitude);
     const navigationState = useNavigationState((state) => state);
     const isRequestDetailScreen = navigationState.routes[navigationState.index].name === 'activerequest';
+    const accessToken = useSelector(store => store.user.accessToken);
 
     useEffect(() => {
         const backAction = () => {
@@ -86,9 +87,15 @@ const RequestDetail = () => {
     const handleSpadeNaviagtion = async () => {
         if (currentSpade.unread === true) {
             try {
+                const config = {
+                    headers: { // Use "headers" instead of "header"
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    }
+                };
                 await axios.patch(`${baseUrl}/user/set-spade-mark-as-read`, {
                     id: currentSpade._id
-                })
+                }, config)
                     .then((res) => {
                         console.log('Mark as read successfully at request Detail screen');
                         let spadesData = [...spades];
@@ -111,11 +118,17 @@ const RequestDetail = () => {
     }
 
     const fetchRetailers = () => {
-        axios.get(`${baseUrl}/chat/spade-chats`, {
+
+        const config = {
+            headers: { // Use "headers" instead of "header"
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
             params: {
                 id: currentSpade._id,
             }
-        })
+        };
+        axios.get(`${baseUrl}/chat/spade-chats`, config)
             .then((response) => {
                 if (response.status === 200) {
                     // setRetailers(response.data);
@@ -145,26 +158,7 @@ const RequestDetail = () => {
 
         dispatch(setCurrentSpadeRetailers([]));
 
-        // socket.on('updated retailer', (updatedUser) => {
-        //     console.log('Message receiver for chat for unread chat', updatedUser);
-        //     // setCurrentSpadeRetailers((prevUsers) => {
-        //     //     return prevUsers.map((user) =>
-        //     //         user._id === updatedUser._id ? updatedUser : user
-        //     //     );
-        //     // });
-        // });
-
-
         fetchRetailers();
-
-        // getGeoCoordinates().then(coordinates => {
-        //     console.log('coordinates', coordinates);
-        //     if (coordinates) {
-        //         setUserLongitude(coordinates.coords.longitude);
-        //         setUserLatitude(coordinates.coords.latitude);
-        //     }
-        // })
-
 
         return () => {
             // socket.disconnect();
@@ -318,6 +312,7 @@ const RequestDetail = () => {
 
 
     const haversineDistance = useCallback((lat1, lon1, lat2, lon2) => {
+        if (!lat1 || !lat2 || !lon1 || !lon2) return;
         console.log('deg', lat1, lon1, lat2, lon2);
         const toRadians = (degree) => degree * (Math.PI / 180);
 
@@ -475,6 +470,7 @@ const RequestDetail = () => {
                                                     <View className="flex-row items-center gap-[15px] ">
                                                         {details?.retailerId?.totalReview > 0 && (
                                                             <View className="flex-row items-center gap-[5px]">
+
                                                                 <Star />
                                                                 <Text><Text>{parseFloat(details?.retailerId?.totalRating / details?.retailerId?.totalReview).toFixed(1)}</Text>/5</Text>
                                                             </View>

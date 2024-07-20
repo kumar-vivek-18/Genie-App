@@ -20,7 +20,7 @@ import Attachments from '../components/Attachments';
 import CameraScreen from '../components/CameraScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import RequestAcceptModal from '../components/RequestAcceptModal';
-import { setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers, setUserLatitude, setUserLocation, setUserLongitude } from '../../redux/reducers/userDataSlice';
+import { setAccessToken, setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers, setRefreshToken, setUserLatitude, setUserLocation, setUserLongitude } from '../../redux/reducers/userDataSlice';
 import io from 'socket.io-client';
 import { socket } from '../../utils/scoket.io/socket.js';
 import * as Location from "expo-location";
@@ -70,6 +70,7 @@ const BargainingScreen = () => {
     const navigationState = useNavigationState((state) => state);
     const isBargainScreen = navigationState.routes[navigationState.index].name === currentSpadeChatId.chatId;
     const [online, setOnline] = useState(false);
+    const accessToken = useSelector(store => store.user.accessToken);
 
     useEffect(() => {
         const backAction = () => {
@@ -96,6 +97,10 @@ const BargainingScreen = () => {
 
     const fetchUserDetails = async () => {
         const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
+        const accessToken = JSON.parse(await AsyncStorage.getItem("accessToken"));
+        const refreshToken = JSON.parse(await AsyncStorage.getItem("refreshToken"));
+        dispatch(setAccessToken(accessToken));
+        dispatch(setRefreshToken(refreshToken));
         dispatch(setUserDetails(userData));
     };
 
@@ -106,11 +111,17 @@ const BargainingScreen = () => {
                 currentSpadeRetailer?.unreadCount > 0 &&
                 currentSpadeRetailer?.latestMessage?.sender?.type === "Retailer"
             ) {
+                const config = {
+                    headers: { // Use "headers" instead of "header"
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    }
+                };
                 const response = await axios.patch(
                     `${baseUrl}/chat/mark-as-read`,
                     {
                         id: currentSpadeRetailer._id,
-                    }
+                    }, config
                 );
                 // const updateChat = { ...currentSpadeRetailer, unreadCount: 0 };
                 let retailers = currentSpadeRetailers.map((retailer) => {
@@ -137,11 +148,17 @@ const BargainingScreen = () => {
 
     const handleSpadeNaviagtion = useCallback(async () => {
         console.log('current spade unread data', currentSpade?.unread);
+        const config = {
+            headers: { // Use "headers" instead of "header"
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            }
+        };
         if (currentSpade?.unread === true) {
             try {
                 await axios.patch(`${baseUrl}/user/set-spade-mark-as-read`, {
                     id: currentSpade._id
-                })
+                }, config)
                     .then((res) => {
                         console.log('Mark as read successfully at Bargaining screen');
                         let spadesData = [...spades];
@@ -182,11 +199,16 @@ const BargainingScreen = () => {
 
 
     const fetchCurrentSpadeRetailer = useCallback(async () => {
-        await axios.get(`${baseUrl}/chat/get-particular-chat`, {
+        const config = {
+            headers: { // Use "headers" instead of "header"
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
             params: {
                 id: currentSpadeChatId.chatId,
             }
-        })
+        };
+        await axios.get(`${baseUrl}/chat/get-particular-chat`, config)
             .then(async (res) => {
                 console.log('fetched current spade retaieler', res.data._id);
 
@@ -204,12 +226,17 @@ const BargainingScreen = () => {
 
     const fetchMessages = useCallback((id) => {
         // console.log("fetching messages", id);
+        const config = {
+            headers: { // Use "headers" instead of "header"
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            params: {
+                id: id,
+            },
+        };
         axios
-            .get(`${baseUrl}/chat/get-spade-messages`, {
-                params: {
-                    id: id,
-                },
-            })
+            .get(`${baseUrl}/chat/get-spade-messages`, config)
             .then((res) => {
                 res.data.map((mess) => {
                     const data = formatDateTime(mess.createdAt);
@@ -275,15 +302,23 @@ const BargainingScreen = () => {
         setLoading(true);
         console.log(messages[messages?.length - 1]._id, spade?._id);
         try {
+            const config = {
+                headers: { // Use "headers" instead of "header"
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+
+            };
             await axios
                 .patch("http://173.212.193.109:5000/chat/accept-bid", {
                     messageId: messages[messages?.length - 1]._id,
                     userRequestId: spade?._id,
-                })
+                }, config)
                 .then(async (res) => {
                     console.log(res.data);
                     // console.log('response of bid accept', res);
                     // console.log('res accepted bid', res.status, res.data.message);
+                    socket.emit("new message", res.data.message);
                     const data = formatDateTime(res.data.message.createdAt);
                     res.data.message.createdAt = data.formattedTime;
                     res.data.message.updatedAt = data.formattedDate;
@@ -327,7 +362,7 @@ const BargainingScreen = () => {
                     dispatch(setCurrentSpadeRetailers(updatedRetailers));
                     dispatch(setCurrentSpadeRetailer(updateChat));
 
-                    socket.emit("new message", res.data.message);
+
                     setLoading(false);
                     const notification = {
                         token: res.data.uniqueTokens,
@@ -368,19 +403,30 @@ const BargainingScreen = () => {
     const rejectBid = async () => {
         setLoading(true);
         try {
-            const token = await axios.get(`${baseUrl}/retailer/unique-token`, {
+            const configToken = {
+                headers: { // Use "headers" instead of "header"
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
                 params: {
                     id: currentSpadeRetailer.retailerId._id,
                 }
-            });
+            };
+            const token = await axios.get(`${baseUrl}/retailer/unique-token`, configToken);
 
+            const config = {
+                headers: { // Use "headers" instead of "header"
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                }
+            };
             const res = await axios.patch(
                 `${baseUrl}/chat/reject-bid`,
                 {
                     messageId: messages[messages.length - 1]._id,
-                }
+                }, config
             );
-
+            socket.emit("new message", res.data);
             console.log("bid res", res.data);
             const data = formatDateTime(res.data.createdAt);
             res.data.createdAt = data.formattedTime;
@@ -412,7 +458,7 @@ const BargainingScreen = () => {
             dispatch(setCurrentSpadeRetailer(updateChat));
 
             console.log("bid rejected");
-            socket.emit("new message", res.data);
+
             setLoading(false);
             const notification = {
                 token: [token.data],
@@ -637,7 +683,7 @@ const BargainingScreen = () => {
                                 </View>
                             </TouchableOpacity>
                             <View>
-                                {currentSpadeRetailer && <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Regular" }}>{currentSpadeRetailer?.retailerId?.storeName?.length > 25 ? `${currentSpadeRetailer?.retailerId?.storeName.slice(0, 25)}...` : currentSpadeRetailer?.retailerId?.storeName}</Text>}
+                                {currentSpadeRetailer && <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Regular" }}>{currentSpadeRetailer?.retailerId?.storeName?.length > 20 ? `${currentSpadeRetailer?.retailerId?.storeName.slice(0, 20)}...` : currentSpadeRetailer?.retailerId?.storeName}</Text>}
                                 {online && <Text className="text-[12px] text-[#79b649]" style={{ fontFamily: "Poppins-Regular" }}>Online</Text>}
                                 {!online && <Text className="text-[12px] text-[#7c7c7c]" style={{ fontFamily: "Poppins-Regular" }}>Offline</Text>}
                             </View>
@@ -736,13 +782,11 @@ const BargainingScreen = () => {
                 </View >
                 {currentSpadeRetailer && spade?.requestActive !== "closed" && <View className={`absolute bottom-0 left-0 right-0 w-screen ${attachmentScreen ? "-z-50" : "z-50"}`}>
                     <View className="absolute bottom-[0px] left-[0px] right-[0px] gap-[10px] bg-white w-screen">
-                        {
 
-                        }
-                        {(((spade?.requestActive === "completed" && spade?.requestAcceptedChat === currentSpadeRetailer?._id) || currentSpadeRetailer?.requestType === "ongoing") &&
+                        {((spade?.requestActive === "completed" && spade?.requestAcceptedChat === currentSpadeRetailer?._id) || ((currentSpadeRetailer?.requestType === "ongoing") &&
                             ((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "accepted") ||
                                 (spade?.requestActive === "active" && messages[messages?.length - 1]?.bidType === "location") || (spade?.requestActive === "active" && messages[messages?.length - 1]?.bidType === "document") || (messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "rejected") ||
-                                messages[messages?.length - 1]?.bidType === "false")) && <View className="w-full flex-row justify-between px-[5px] pb-[5px]">
+                                messages[messages?.length - 1]?.bidType === "false"))) && <View className="w-full flex-row justify-between px-[5px] pb-[5px]">
 
                                 <TouchableOpacity onPress={() => { navigation.navigate('send-query', { messages, setMessages }) }}>
                                     <View className="border-2 border-[#fb8c00]  px-[20px] h-[63px] justify-center items-center  w-[max-content] rounded-[24px]">

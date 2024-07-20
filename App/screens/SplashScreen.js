@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { View, Text, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { setUniqueToken, setUserDetails, setUserLatitude, setUserLongitude } from '../redux/reducers/userDataSlice';
+import { setAccessToken, setRefreshToken, setUniqueToken, setUserDetails, setUserLatitude, setUserLongitude } from '../redux/reducers/userDataSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { requestUserPermission } from '../utils/logics/NotificationLogic';
 import messaging from '@react-native-firebase/messaging';
@@ -50,15 +50,20 @@ const SplashScreen = () => {
         animateSplash();
 
         // Check if user data exists in local storage
+        // await AsyncStorage.removeItem('userDetails');
         const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
+        const accessToken = JSON.parse(await AsyncStorage.getItem('accessToken'));
+        const refreshToken = JSON.parse(await AsyncStorage.getItem('refreshToken'));
+        dispatch(setAccessToken(accessToken));
+        dispatch(setRefreshToken(refreshToken));
 
         // console.log('userData', userData);
         setTimeout(() => {
           if (userData !== null) {
             // await AsyncStorage.removeItem('userData');
             // console.log('hii going to home');
-            console.log("userData._id", userData);
-            handleRefreshLocation(userData._id);
+            console.log("Location updated from splash screen");
+            handleRefreshLocation(userData._id, accessToken);
             navigation.navigate("home");
             dispatch(setUserDetails(userData));
           } else {

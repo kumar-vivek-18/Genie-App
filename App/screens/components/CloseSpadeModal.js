@@ -19,16 +19,22 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
+    const accessToken = useSelector(store => store.user.accessToken);
 
     const closeCompleteSpade = async () => {
         setLoading(true);
         console.log('fello close', currentSpadeRetailers[0]?.retailerId._id);
+        const configToken = {
+            headers: { // Use "headers" instead of "header"
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            params: {
+                id: currentSpadeRetailers[0]?.retailerId._id,
+            }
+        };
         try {
-            const token = await axios.get(`${baseUrl}/retailer/unique-token`, {
-                params: {
-                    id: currentSpadeRetailers[0]?.retailerId._id,
-                }
-            });
+            const token = await axios.get(`${baseUrl}/retailer/unique-token`, configToken);
             console.log("close notification", token.data, spade._id, spade.requestAcceptedChat);
             // console.log("token", token.data);
             const formData = new FormData();
@@ -46,18 +52,28 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
             formData.append('warranty', 0);
             formData.append('bidImages', []);
 
+            const config = {
+                headers: { // Use "headers" instead of "header"
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${accessToken}`,
+                }
+            };
             await axios.post(
                 `${baseUrl}/chat/send-message`,
-                formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            }
+                formData, config
             )
                 .then(async (res) => {
                     console.log('spade closed mess send successfully', res.status);
                     socket.emit("new message", res.data);
+                    const configg = {
+                        headers: { // Use "headers" instead of "header"
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${accessToken}`,
+                        }
+                    };
                     const request = await axios.patch(`${baseUrl}/user/close-spade/`, {
                         id: spade._id
-                    });
+                    }, configg);
                     console.log('request', request);
                     if (request.status === 200) {
                         // console.log('request closed');
@@ -136,10 +152,10 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
     const closeActiveSpade = async () => {
         try {
             console.log('hii');
+
+
             await Promise.all(currentSpadeRetailers.map(async (retailer) => {
                 const formData = new FormData();
-
-
                 formData.append('sender', JSON.stringify({
                     type: "UserRequest",
                     refId: spade._id,
@@ -151,14 +167,20 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                 formData.append('bidPrice', 0);
                 formData.append('warranty', 0);
                 formData.append('bidImages', []);
-
+                const config = {
+                    headers: { // Use "headers" instead of "header"
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${accessToken}`,
+                    }
+                };
                 await axios.post(
                     `${baseUrl}/chat/send-message`,
-                    formData, {
-                    headers: { 'Content-Type': 'multipart/form-data' }
-                }
+                    formData,
+                    config
+
                 )
                     .then((res) => {
+                        console.log('close mess send to retailer with id',)
                         socket.emit('new message', res.data);
 
 
@@ -167,7 +189,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
 
             await axios.patch(`${baseUrl}/user/close-active-spade/`, {
                 id: spade._id,
-            })
+            }, config)
                 .then((res) => {
                     console.log('res', res.data);
                     if (res.status === 200) {

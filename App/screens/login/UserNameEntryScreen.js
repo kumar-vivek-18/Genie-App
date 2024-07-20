@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useNavigation, useNavigationState } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserDetails, setUserName } from '../../redux/reducers/userDataSlice';
+import { setAccessToken, setRefreshToken, setUserDetails, setUserName } from '../../redux/reducers/userDataSlice';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import UsernameScreenBg from '../../assets/usernameverification.svg';
@@ -69,9 +69,8 @@ const UserNameEntryScreen = () => {
             const response = await axios.post(`${baseUrl}/user/`, {
                 mobileNo: mobileNumber,
                 userName: name,
-
             });
-            console.log("res", response.data);
+            console.log("res", response.data.user);
 
             // Check if user creation was successful
 
@@ -79,14 +78,25 @@ const UserNameEntryScreen = () => {
                 // Dispatch the action to store pan card locally
                 //  dispatch(setPanCard(panCard));
 
-                console.log("User created:", response.data);
+                console.log("User created:", response.data.user);
 
                 //  console.log("user",user);
-                await AsyncStorage.setItem('userDetails', JSON.stringify(response.data));
+                await AsyncStorage.setItem('userDetails', JSON.stringify(response.data.user));
+                await AsyncStorage.setItem("refreshToken", JSON.stringify(response.data.refreshToken));
+                await AsyncStorage.setItem("accessToken", JSON.stringify(response.data.accessToken));
+                dispatch(setAccessToken(response.data.accessToken));
+                dispatch(setRefreshToken(response.data.refreshToken));
+
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${response.data.accessToken}`
+                    }
+                }
                 await axios.patch(`${baseUrl}/user/edit-profile`, {
                     _id: response.data._id,
                     updateData: { uniqueToken: userToken }
-                })
+                }, config)
                     .then(async (res) => {
                         console.log('UserName updated Successfully');
                         await AsyncStorage.setItem(

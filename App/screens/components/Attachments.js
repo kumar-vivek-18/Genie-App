@@ -31,6 +31,8 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
     const [loading, setLoading] = useState(true);
     const [locationLoading, setLocationLoading] = useState(false);
     const [openLocationModal, setOpenLocationModal] = useState(false);
+    const accessToken = useSelector(store => store.user.accessToken);
+
     //  console.log(currentSpadeRetailer)
 
     const sendLocation = async () => {
@@ -45,12 +47,17 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
 
             const locationName = await getLocationName(loc.coords.latitude, loc.coords.longitude);
 
-            setLoading(true)
-            const token = await axios.get(`${baseUrl}/retailer/unique-token`, {
+            setLoading(true);
+            const configToken = {
+                headers: { // Use "headers" instead of "header"
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
                 params: {
                     id: currentSpadeRetailer.retailerId._id,
                 }
-            });
+            };
+            const token = await axios.get(`${baseUrl}/retailer/unique-token`, configToken);
 
             const formData = new FormData();
 
@@ -62,16 +69,21 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
             formData.append('latitude', loc.coords.latitude);
             formData.append('longitude', loc.coords.longitude);
 
-            await axios.post(`${baseUrl}/chat/send-message`, formData, {
-                headers: {
+            const config = {
+                headers: { // Use "headers" instead of "header"
                     'Content-Type': 'multipart/form-data',
-                },
-            })
+                    'Authorization': `Bearer ${accessToken}`,
+                }
+            };
+
+            await axios.post(`${baseUrl}/chat/send-message`, formData, config)
                 .then(res => {
                     console.log(res.data);
+
+                    socket.emit("new message", res.data);
                     const data = formatDateTime(res.data.createdAt);
                     res.data.createdAt = data.formattedTime;
-
+                    res.data.updatedAt = data.formattedDate;
                     //updating messages
                     setMessages([...messages, res.data]);
 
@@ -82,7 +94,7 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
                     dispatch(setCurrentSpadeRetailers(updatedRetailers));
                     dispatch(setCurrentSpadeRetailer(updateChat));
 
-                    socket.emit("new message", res.data);
+
                     setAttachmentScreen(false);
                     setLocationLoading(false);
                     if (token.data.length > 0) {

@@ -54,6 +54,7 @@ import DropArrow from '../assets/drop-arrow.svg';
 import ProfileIcon from '../assets/ProfileIcon.svg';
 import HistoryIcon from '../assets/historyIcon.svg';
 import { baseUrl } from "../utils/logics/constants";
+import { handleRefreshLocation } from "../utils/logics/updateLocation";
 
 const { width } = Dimensions.get("window");
 
@@ -73,7 +74,7 @@ const HomeScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const isFocused = useIsFocused();
   const [socketConnected, setSocketConnected] = useState(false);
-
+  const accessToken = useSelector(store => store.user.accessToken);
   const handleScroll = (event) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x;
     const index = Math.floor(contentOffsetX / (width - 80));
@@ -136,14 +137,17 @@ const HomeScreen = () => {
     dispatch(setUserDetails(userData));
     try {
       // console.log('userHomeScreem', userDetails._id);
+      const config = {
+        headers: { // Use "headers" instead of "header"
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        params: {
+          id: userData?._id,
+        },
+      };
       const response = await axios.get(
-        `${baseUrl}/user/getspades`,
-        {
-          params: {
-            id: userData?._id,
-          },
-        }
-      );
+        `${baseUrl}/user/getspades`, config);
 
       // console.log('HomeScreen', response.data);
 
@@ -171,59 +175,6 @@ const HomeScreen = () => {
     fetchData();
   }, []);
 
-  const handleRefreshLocation = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      await getGeoCoordinates(dispatch, setUserLongitude, setUserLatitude)
-        .then(async (res) => {
-          const location = await getLocationName(
-            res.coords.latitude,
-            res.coords.longitude
-          );
-
-          let updatedUserData = {
-            ...userDetails,
-            latitude: res.coords.latitude,
-            longitude: res.coords.longitude,
-
-            location: location,
-          };
-
-          await axios
-            .patch(`${baseUrl}user/edit-profile`, {
-              _id: userDetails._id,
-              updateData: {
-                longitude: updatedUserData.longitude,
-                latitude: updatedUserData.latitude,
-                coords: {
-                  type: 'Point',
-                  coordinates: [updatedUserData.longitude, updatedUserData.latitude]
-
-                },
-                location: updatedUserData.location,
-              },
-            })
-            .then(async (res) => {
-              dispatch(setUserDetails(res.data));
-              setIsLoading(false);
-              await AsyncStorage.setItem(
-                "userDetails",
-                JSON.stringify(updatedUserData)
-              );
-              console.log("User location updated successfully", res.data);
-            });
-
-        })
-
-
-    }
-    catch (error) {
-      setIsLoading(false);
-      console.error("Error updating location:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  });
 
   const handleSpadeCreation = async () => {
     if (userDetails.lastPaymentStatus === "unpaid") {
@@ -295,7 +246,63 @@ const HomeScreen = () => {
     };
   }, [spades]);
 
+  ////////////////////////////////////////////////////////////////////Fetch user details for getting payment status ////////////////////////////////////////////////////////////////////////////////////
 
+  const fetchSpadeDetails = async (spadeId) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        params: {
+          id: spadeId
+        },
+      }
+      console.log(config);
+
+      await axios.get(`${baseUrl}/user/spade-details`, config)
+        .then((response) => {
+          console.log('razopay scrn', response.data, response.status);
+          if (response.status === 200) {
+            navigation.navigate('payment-gateway', { spadeDetails: response.data });
+            // setSpadeDetails(response.data);
+          }
+        })
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const fetchUserDetails = async () => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        params: {
+          userId: userDetails._id,
+        },
+      }
+      await axios.get(`${baseUrl}/user/user-details`, config)
+        .then((response) => {
+          console.log('userdetails for paymest check', response.data);
+          AsyncStorage.setItem("userDetails", JSON.stringify(response.data));
+
+          if (response.data.unpaidSpades.length > 0) {
+            navigation.navigate('payment-gateway', { spadeId: response.data.unpaidSpades[0] });
+            // fetchSpadeDetails(userDetails.unpaidSpades[0]);
+
+          }
+          else {
+            navigation.navigate('requestentry');
+          }
+        })
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -349,8 +356,10 @@ const HomeScreen = () => {
             </Text>
           </View>
           <TouchableOpacity
-            onPress={() => {
-              handleRefreshLocation();
+            onPress={async () => {
+              setIsLoading(true);
+              await handleRefreshLocation(userDetails._id, accessToken);
+              setIsLoading(false);
             }}
           >
             <View>
@@ -384,7 +393,7 @@ const HomeScreen = () => {
           <Pressable
             onPress={() => {
 
-              handleSpadeCreation();
+              fetchUserDetails();
             }}
             className="mx-[16px] mt-[16px]"
           >

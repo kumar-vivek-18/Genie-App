@@ -64,7 +64,7 @@ export const getGeoCoordinates = async () => {
     // Get current location
     const location = await Location.getCurrentPositionAsync(locationOptions);
 
-    console.log(location);
+    // console.log(location);
     if (location) {
       store.dispatch(setUserLatitude(location.coords.latitude));
       store.dispatch(setUserLongitude(location.coords.longitude));

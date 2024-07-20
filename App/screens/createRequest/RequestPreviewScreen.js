@@ -44,10 +44,13 @@ const RequestPreviewScreen = () => {
   const spadePrice = useSelector((store) => store.userRequest.spadePrice);
   const spadeCouponCode = useSelector(store => store.userRequest.spadeCouponCode);
   const spades = useSelector((store) => store.user.spades);
+  const userLongitude = useSelector(store => store.user.userLongitude);
+  const userLatitude = useSelector(store => store.user.userLatitude);
   const dispatch = useDispatch();
   // console.log('userData', userDetails);
   const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const accessToken = useSelector(store => store.user.accessToken);
 
   // console.log('expected Price', expectedPrice > 0 ? "HII" : expectedPrice);
   // console.log("spadePride", spadePrice);
@@ -94,16 +97,21 @@ const RequestPreviewScreen = () => {
     formData.append('request', requestDetail);
     formData.append('requestCategory', requestCategory);
     formData.append('expectedPrice', expectedPrice > 0 ? expectedPrice : 0);
-    formData.append('lastSpadePrice', userDetails.freeSpades > 0 ? 0 : spadePrice);
+    formData.append('spadePrice', userDetails.freeSpades > 0 ? 0 : spadePrice);
+    formData.append('appliedCoupon', spadeCouponCode.length > 0 ? spadeCouponCode : "NA");
+    formData.append('longitude', userLongitude);
+    formData.append('latitude', userLatitude);
 
     setLoading(true);
     try {
-      const response = await axios.post(
-        `${baseUrl}/user/createrequest`, formData, {
-        headers: {
+      const config = {
+        headers: { // Use "headers" instead of "header"
           'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${accessToken}`,
         }
-      }
+      };
+      const response = await axios.post(
+        `${baseUrl}/user/createrequest`, formData, config
 
       );
 
@@ -134,8 +142,6 @@ const RequestPreviewScreen = () => {
           title: userDetails?.userName,
           body: requestDetail,
           image: response.data?.userRequest?.requestImages?.length > 0 ? response.data?.userRequest?.requestImages[0] : "",
-
-
         };
 
         await NewRequestCreated(notification);

@@ -20,6 +20,7 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
     const userDetails = useSelector(store => store.user.userDetails);
     console.log("userDetails", userDetails);
     const [loading, setLoading] = useState(false);
+    const accessToken = useSelector(store => store.user.accessToken);
 
     const navigation = useNavigation();
     const handleModal = async () => {
@@ -30,11 +31,16 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
             // await auth().signOut();
 
             await AsyncStorage.removeItem('userDetails');
-
+            const config = {
+                headers: { // Use "headers" instead of "header"
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                }
+            };
             await axios.patch(`${baseUrl}/user/edit-profile`, {
                 _id: userDetails._id,
                 updateData: { uniqueToken: "" }
-            })
+            }, config)
                 .then(async (res) => {
                     console.log('UserName updated Successfully');
                     await messaging().deleteToken();

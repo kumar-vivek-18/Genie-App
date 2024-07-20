@@ -61,14 +61,16 @@ const CreateNewBidScreen = () => {
 
   const sendBid = async () => {
     setLoading(true);
-    const token = await axios.get(
-      `${baseUrl}/retailer/unique-token`,
-      {
-        params: {
-          id: details.retailerId._id,
-        },
-      }
-    );
+    const configToken = {
+      headers: { // Use "headers" instead of "header"
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      params: {
+        id: details.retailerId._id,
+      },
+    };
+    const token = await axios.get(`${baseUrl}/retailer/unique-token`, configToken);
 
     // console.log("create bid", details.requestId);
     const formData = new FormData();
@@ -86,15 +88,21 @@ const CreateNewBidScreen = () => {
     formData.append('bidType', "true");
     formData.append('chat', details._id);
     formData.append('bidPrice', price);
+
+    const config = {
+      headers: { // Use "headers" instead of "header"
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${accessToken}`,
+      }
+    };
     await axios
-      .post(`${baseUrl}/chat/send-message`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      })
+      .post(`${baseUrl}/chat/send-message`, formData, config)
       .then(async (res) => {
         console.log(res.data);
         // const mess = [...messages];
         // mess.push(res.data);
         // setMessages(mess);
+        socket.emit("new message", res.data);
         const data = formatDateTime(res.data.createdAt);
         res.data.createdAt = data.formattedTime;
         //updating messages
@@ -111,7 +119,7 @@ const CreateNewBidScreen = () => {
         dispatch(setCurrentSpadeRetailer(updateChat));
         // dispatch(setCurrentChatMessages(mess));
         dispatch(emtpyRequestImages([]));
-        socket.emit("new message", res.data);
+
         setLoading(false);
         const requestId = details?._id;
         navigation.navigate(`${requestId}`);

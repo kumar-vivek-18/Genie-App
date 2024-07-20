@@ -61,6 +61,8 @@ const SendQueryScreen = () => {
 
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const accessToken = useSelector(store => store.user.accessToken);
+
   // console.log('spade details', details);
   // const currrentChatMessages = useSelector(store => store.user.currentChatMessages);
   // console.log('messages', currrentChatMessages);
@@ -68,14 +70,17 @@ const SendQueryScreen = () => {
 
   const sendQuery = async () => {
     setIsLoading(true);
-    const token = await axios.get(
-      `${baseUrl}/retailer/unique-token`,
-      {
-        params: {
-          id: currentSpadeRetailer.retailerId._id,
-        },
+    const configToken = {
+      headers: { // Use "headers" instead of "header"
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      params: {
+        id: currentSpadeRetailer.retailerId._id,
       }
-    );
+    };
+    const token = await axios.get(
+      `${baseUrl}/retailer/unique-token`, configToken);
 
     console.log("token", token.data);
 
@@ -93,16 +98,20 @@ const SendQueryScreen = () => {
     formData.append('warranty', 0);
     formData.append('bidImages', []);
 
+    const config = {
+      headers: { // Use "headers" instead of "header"
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${accessToken}`,
+      }
+    };
     await axios
-      .post(`${baseUrl}/chat/send-message`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+      .post(`${baseUrl}/chat/send-message`, formData, config)
       .then(async (res) => {
-        console.log("query", res.data);
+        // console.log("query", res.data);
+        socket.emit("new message", res.data);
         const data = formatDateTime(res.data.createdAt);
         res.data.createdAt = data.formattedTime;
+        res.data.updatedAt = data.formattedDate;
 
         //updating latest message
         setMessages([...messages, res.data]);
@@ -117,7 +126,7 @@ const SendQueryScreen = () => {
         dispatch(setCurrentSpadeRetailers(updatedRetailers));
         dispatch(setCurrentSpadeRetailer(updateChat));
 
-        socket.emit("new message", res.data);
+
         navigation.goBack();
         setIsLoading(false)
         const notification = {

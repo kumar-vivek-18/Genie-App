@@ -6,7 +6,7 @@ import { baseUrl } from "./constants";
 import { getGeoCoordinates, getLocationName } from "./Logics";
 
 
-export const handleRefreshLocation = async (id) => {
+export const handleRefreshLocation = async (id, accessToken) => {
 
     try {
         await getGeoCoordinates()
@@ -16,10 +16,13 @@ export const handleRefreshLocation = async (id) => {
                     return;
                 }
                 // console.log('res coords while updating at splash', res.coords);
+                // console.log("coords", res.coords);
                 const location = await getLocationName(
                     res.coords.latitude,
                     res.coords.longitude
                 );
+
+                // console.log('location name', location);
 
                 let updatedUserData = {
                     latitude: res.coords.latitude,
@@ -27,6 +30,12 @@ export const handleRefreshLocation = async (id) => {
                     location: location,
                 };
                 // console.log('updatedUserData', updatedUserData);
+                const config = {
+                    headers: { // Use "headers" instead of "header"
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    }
+                };
                 await axios
                     .patch(`${baseUrl}/user/edit-profile`, {
                         _id: id,
@@ -40,7 +49,7 @@ export const handleRefreshLocation = async (id) => {
                             },
                             location: updatedUserData.location,
                         },
-                    })
+                    }, config)
                     .then(async (res) => {
                         store.dispatch(setUserDetails(res.data))
                         await AsyncStorage.setItem(

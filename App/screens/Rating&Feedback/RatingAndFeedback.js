@@ -17,6 +17,7 @@ const RatingAndFeedback = () => {
     const [rating, setRating] = useState(0);
     const [spadeRating, setSpadeRating] = useState(0);
     const navigation = useNavigation();
+    const accessToken = useSelector(store => store.user.accessToken);
 
     useEffect(() => {
         const foundRetailer = retailers.find(retailer => retailer._id === spade.requestAcceptedChat);
@@ -30,6 +31,12 @@ const RatingAndFeedback = () => {
         try {
             if (rating === 0) return;
             console.log(spade.customer, retailer.users[0].refId, rating, userDetails.userName, spadeRating, spade._id);
+            const config = {
+                headers: { // Use "headers" instead of "header"
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                }
+            };
             await axios.post(`${baseUrl}/rating/create-ratings`, {
                 senderId: spade.customer,
                 userId: retailer.users[0].refId,
@@ -37,7 +44,7 @@ const RatingAndFeedback = () => {
                 retailerRating: rating,
                 spadeRating: spadeRating,
                 spadeId: spade._id,
-            })
+            }, config)
                 .then(res => {
                     console.log("Feedback posted successfully");
                     navigation.navigate('home');
