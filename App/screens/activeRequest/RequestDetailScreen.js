@@ -183,6 +183,7 @@ const RequestDetail = () => {
                 //         user._id === updatedUser._id ? updatedUser : user
                 //     );
                 // }));
+
                 if (updatedUser.latestMessage.bidType === "true" && updatedUser.latestMessage.bidAccepted === "accepted") {
                     const tmp = { ...currentSpade, requestActive: "completed", requestAcceptedChat: updatedUser._id };
                     dispatch(setCurrentSpade(tmp));
@@ -222,6 +223,7 @@ const RequestDetail = () => {
             socket.off("updated retailer", handleMessageReceived);
         };
     }, [currentSpadeRetailers, currentSpade, spades, dispatch]); // No dependencies
+
 
 
     // console.log('spade details', spade);

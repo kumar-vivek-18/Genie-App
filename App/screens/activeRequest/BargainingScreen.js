@@ -29,7 +29,7 @@ import { setSpades } from "../../redux/reducers/userDataSlice";
 import { setUserDetails } from '../../redux/reducers/userDataSlice';
 import { BidAccepted, BidRejected } from '../../notification/notificationMessages';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { formatDateTime, getGeoCoordinates } from '../../utils/logics/Logics';
+import { formatDateTime, getGeoCoordinates, haversineDistance } from '../../utils/logics/Logics';
 import { emtpyRequestImages } from '../../redux/reducers/userRequestsSlice';
 import RetailerContactDetailModal from '../components/RetailerContactDetailModal';
 import RatingAndFeedbackModal from '../components/RatingAndFeedbackModal';
@@ -39,6 +39,7 @@ import UserDocumentMessage from '../components/UserDocumentMessage';
 import RetailerDocumentMessage from '../components/RetailerDocumentMessage';
 import ErrorModal from '../components/ErrorModal';
 import { baseUrl } from '../../utils/logics/constants';
+import RatingStar from "../../assets/Star.svg";
 
 const BargainingScreen = () => {
     const navigation = useNavigation();
@@ -72,6 +73,8 @@ const BargainingScreen = () => {
     const [online, setOnline] = useState(false);
     const accessToken = useSelector(store => store.user.accessToken);
 
+    const [distance, setDistance] = useState(null);
+
     useEffect(() => {
         const backAction = () => {
             if (isBargainScreen) {
@@ -89,9 +92,6 @@ const BargainingScreen = () => {
 
         return () => backHandler.remove();
     }, [isBargainScreen]);
-
-
-
     const route = useRoute();
 
 
@@ -273,6 +273,14 @@ const BargainingScreen = () => {
         if (currentSpadeRetailer && currentSpadeChatId?.chatId === currentSpadeRetailer?._id) {
             fetchMessages(currentSpadeChatId?.chatId);
             setMessagesMarkAsRead();
+            console.log(userLongitude, userLatitude, currentSpadeRetailer.retailerId.longitude, currentSpadeRetailer.retailerId.latitude);
+            if (userLongitude !== 0 && userLatitude !== 0 && currentSpadeRetailer?.retailerId?.longitude !== 0 && currentSpadeRetailer?.retailerId?.lattitude !== 0) {
+                const dis = haversineDistance(userLatitude, userLongitude, currentSpadeRetailer?.retailerId?.lattitude, currentSpadeRetailer?.retailerId?.longitude);
+                console.log('dis', dis);
+                if (dis)
+                    setDistance(dis);
+
+            }
         }
         else {
             // console.log('removing old data of spade at bargaining screen');
@@ -281,7 +289,14 @@ const BargainingScreen = () => {
             fetchCurrentSpadeRetailer();
             setMessagesMarkAsRead();
             handleSpadeNaviagtion();
+            console.log(userLongitude, userLatitude, currentSpadeRetailer.retailerId.longitude, currentSpadeRetailer.retailerId.latitude);
+            if (userLongitude !== 0 && userLatitude !== 0 && currentSpadeRetailer?.retailerId?.longitude !== 0 && currentSpadeRetailer?.retailerId?.lattitude !== 0) {
+                const dis = haversineDistance(userLatitude, userLongitude, currentSpadeRetailer?.retailerId?.lattitude, currentSpadeRetailer?.retailerId?.longitude);
+                console.log('dis', dis);
+                if (dis)
+                    setDistance(dis);
 
+            }
 
         }
 
@@ -688,6 +703,15 @@ const BargainingScreen = () => {
                                 {!online && <Text className="text-[12px] text-[#7c7c7c]" style={{ fontFamily: "Poppins-Regular" }}>Offline</Text>}
                             </View>
 
+                        </View>
+                        <View className="flex-row items-center gap-[10px] mt-[10px]">
+                            {currentSpadeRetailer?.retailerId?.totalRating > 0 && <View className="flex-row items-center  gap-[5px] " >
+                                <RatingStar />
+                                <View>
+                                    <Text className=" text-[#2e2c43]" style={{ fontFamily: "Poppins-SemiBold" }}><Text className=" text-[#2e2c43]" style={{ fontFamily: "Poppins-SemiBold" }}>{parseFloat(currentSpadeRetailer?.retailerId?.totalRating / currentSpadeRetailer?.retailerId?.totalReview).toFixed(1)}</Text>/5</Text>
+                                </View>
+                            </View>}
+                            {distance && <Text className="bg-[#fb8c00] w-[max-content] px-[10px] py-[1px] text-white rounded-lg" style={{ fontFamily: 'Poppins-Regular' }}>{parseFloat(distance).toFixed(1)} KM</Text>}
                         </View>
 
                         <View className="flex-row gap-[6px] items-center mt-[16px]">

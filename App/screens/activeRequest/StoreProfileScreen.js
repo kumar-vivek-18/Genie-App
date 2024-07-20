@@ -127,12 +127,12 @@ const StoreProfileScreen = () => {
                             Store Profile
                         </Text>
                     </View>
-                    <View className="flex-row items-center  gap-[5px]" style={{ position: 'absolute', top: 48, right: 15 }}>
+                    {currentSpadeRetailer?.retailerId?.totalRating > 0 && <View className="flex-row items-center  gap-[5px]" style={{ position: 'absolute', top: 48, right: 15 }}>
                         <RatingStar />
                         <View>
                             <Text className=" text-[#2e2c43]" style={{ fontFamily: "Poppins-SemiBold" }}><Text className=" text-[#2e2c43]" style={{ fontFamily: "Poppins-SemiBold" }}>{parseFloat(currentSpadeRetailer?.retailerId?.totalRating / currentSpadeRetailer?.retailerId?.totalReview).toFixed(1)}</Text>/5</Text>
                         </View>
-                    </View>
+                    </View>}
                     <View className="relative flex-row items-center px-[30px] mb-[40px] ">
 
                         <Text className="text-center text-[#2e2c43] flex-1 justify-center capitalize mx-[50px]" style={{ fontFamily: "Poppins-Regular" }}>
@@ -224,9 +224,9 @@ const StoreProfileScreen = () => {
                     <View className="flex flex-col gap-[11px]">
                         <Text className="text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Regular" }}>Store Category</Text>
                         <KeyboardAvoidingView className="flex items-center">
-                            <View className="flex flex-row items-center justify-between w-[324px] h-[54px] px-[20px] bg-[#F9F9F9] rounded-[16px]">
+                            <View className="flex flex-row items-center justify-between w-[324px] px-[20px] bg-[#F9F9F9] rounded-[16px]">
 
-                                <Text className="w-[280px] text-[14px]   text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-SemiBold" }}>{currentSpadeRetailer.retailerId.storeCategory}</Text>
+                                <Text className="w-[280px] text-[14px] py-[5px]  text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-SemiBold" }}>{currentSpadeRetailer.retailerId.storeCategory}</Text>
                             </View>
                         </KeyboardAvoidingView>
                     </View>
