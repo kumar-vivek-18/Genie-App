@@ -56,6 +56,7 @@ const CreateNewBidScreen = () => {
   const spades = useSelector(store => store.user.spades);
   const [selectedImage, setSelectedImage] = useState(null);
   const [scaleAnimation] = useState(new Animated.Value(0));
+  const accessToken = useSelector((store) => store.user.accessToken);
 
   console.log("requestImages", requestImages);
 

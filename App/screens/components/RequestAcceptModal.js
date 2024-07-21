@@ -1,65 +1,64 @@
 import React, { useState } from "react";
-import { Alert, Modal, StyleSheet, Text, Pressable, View, ActivityIndicator } from "react-native";
+import { Alert, Modal, StyleSheet, Text, Pressable, View, ActivityIndicator, TouchableOpacity } from "react-native";
 import ModalImg from "../../assets/AcceptOfferIcon.svg";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 
-const RequestAcceptModal = ({
-  modalVisible,
-  setModalVisible,
-  acceptBid,
-  loading,
-}) => {
+const RequestAcceptModal = ({ modalVisible, setModalVisible, acceptBid, loading, }) => {
+
   return (
     <Modal
-      animationType="slide"
+      animationType="fade"
       transparent={true}
       visible={modalVisible}
       className=" flex justify-center items-center  rounded-lg h-full "
     >
-      <View className="flex-1  justify-center items-center">
-        <View className="bg-white w-[90%] p-[30px] justify-center items-center mt-[10px] gap-[24px] shadow-gray-600 shadow-2xl">
-          <ModalImg classname="w-[117px] h-[75px]" />
-          <View className="">
-            <Text className="text-[15px]  text-center" style={{ fontFamily: "Poppins-ExtraBold" }}>
-              Are you sure?{" "}
-            </Text>
-            <Text className="text-[14px]  text-center  pt-[8px]" style={{ fontFamily: "Poppins-Regular" }}>
-              You are accepting the bid request{" "}
-            </Text>
-          </View>
 
-          <View className="w-full flex flex-row  justify-center">
-            <View className="flex-1 mt-[5px]">
-              <Pressable
-                onPress={() => {
-                  setModalVisible(false);
-                }}
-              >
-                <Text className="text-[14.5px] text-[#FB8C00]  text-center" style={{ fontFamily: "Poppins-Regular" }}>
-                  Close
-                </Text>
-              </Pressable>
+      <Pressable onPress={() => { setModalVisible(false) }} style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }}>
+        <Pressable>
+          <View className="bg-white w-[90%] p-[30px] justify-center items-center mt-[10px] gap-[24px] shadow-gray-600 shadow-2xl relative">
+            <ModalImg classname="w-[117px] h-[75px]" />
+            <View className="">
+              <Text className="text-[15px] text-[#2e2c43]  text-center" style={{ fontFamily: "Poppins-ExtraBold" }}>
+                Are you sure?{" "}
+              </Text>
+              <Text className="text-[14px] text-[#2e2c43] text-center  pt-[8px]" style={{ fontFamily: "Poppins-Regular" }}>
+                You are accepting the vendor's offer{" "}
+              </Text>
             </View>
-            <View className="flex-1 mt-[5px]">
-              <Pressable
-                onPress={() => {
-                  acceptBid();
-                  setModalVisible(false);
-                }}
-              >
-                {loading ? (
-                  <ActivityIndicator size="small" color="#FB8C00" />
-                ) : (
-                  <Text className="text-[14.5px] text-[#FB8C00]  text-center" style={{ fontFamily: "Poppins-SemiBold" }}>
-                    Accept
+
+            <View className="w-full flex flex-row  justify-center">
+              <View className="flex-1 mt-[5px]">
+                <Pressable
+                  onPress={() => {
+                    setModalVisible(false);
+                  }}
+                >
+                  <Text className="text-[14.5px] text-[#FB8C00]  text-center" style={{ fontFamily: "Poppins-Regular" }}>
+                    Close
                   </Text>
-                )}
-              </Pressable>
+                </Pressable>
+              </View>
+              <View className="flex-1 mt-[5px]">
+                <Pressable
+                  onPress={() => {
+                    acceptBid();
+                    setModalVisible(false);
+                  }}
+                >
+                  {loading ? (
+                    <ActivityIndicator size="small" color="#FB8C00" />
+                  ) : (
+                    <Text className="text-[14.5px] text-[#FB8C00]  text-center" style={{ fontFamily: "Poppins-SemiBold" }}>
+                      Accept
+                    </Text>
+                  )}
+                </Pressable>
+              </View>
             </View>
           </View>
-        </View>
-      </View>
+        </Pressable>
+      </Pressable>
     </Modal>
   );
 };

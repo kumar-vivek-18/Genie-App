@@ -32,7 +32,7 @@ const RetailerContactDetailModal = ({ retailerModal, setRetailerModal }) => {
                             <ShopLogo />
                         </View>
                         <Text className="capitalize text-center mt-[30px] text-[16px]" style={{ fontFamily: "Poppins-Regularx" }}>
-                            {currentSpadeRetailer?.retailerId?.storeOwnerName.length <= 20 ? currentSpadeRetailer?.retailerId?.storeOwnerName : `${currentSpadeRetailer?.retailerId?.storeOwnerName.subString(0, 20)}...`}
+                            {currentSpadeRetailer?.retailerId?.storeOwnerName.length <= 20 ? currentSpadeRetailer?.retailerId?.storeOwnerName : `${currentSpadeRetailer?.retailerId?.storeOwnerName.slice(0, 20)}...`}
                         </Text>
 
                         <Text className="capitalize  text-center text-[#2b2c43] text-[16px]" style={{ fontFamily: "Poppins-ExtraBold" }}>

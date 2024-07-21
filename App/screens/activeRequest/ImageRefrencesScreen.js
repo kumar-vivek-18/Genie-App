@@ -27,14 +27,17 @@ const ImageRefrencesScreen = () => {
             <View>
                 <Text className="text-[#2e2c43] mx-[50px] text-[14px] text-center mt-[24px] mb-[24px] " style={{ fontFamily: "Poppins-Regular" }}>You provided image references for the seller.</Text>
             </View>
-            <ScrollView horizontal style={{ paddingHorizontal: 20, marginRight: 10 }}>
-                {
-                    spade.requestImages?.map((image, index) => (
-                        <View key={index} style={{ paddingHorizontal: 3, borderRadius: 24 }}>
-                            <Image source={{ uri: image }} style={{ height: 250, width: 170, borderRadius: 24, backgroundColor: '#EBEBEB', borderColor: 'black', borderWidth: 2 }} />
-                        </View>
-                    ))
-                }
+            <ScrollView horizontal style={{ flexDirection: 'row', paddingLeft: 20, alignSelf: 'flex-start' }}>
+                <View className="flex-row gap-4 px-[32px]">
+                    {
+                        spade.requestImages?.map((image, index) => (
+                            <View key={index} style={{ borderRadius: 24 }}>
+                                <Image source={{ uri: image }} style={{ height: 232, width: 174, borderRadius: 24, }} />
+                            </View>
+                        ))
+                    }
+                </View>
+
             </ScrollView>
 
 

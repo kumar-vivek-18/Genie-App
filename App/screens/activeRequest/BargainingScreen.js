@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, Image, TextInput, TouchableOpacity, Alert, Linking, BackHandler } from 'react-native'
+import { View, Text, ScrollView, Pressable, Image, Animated, TouchableOpacity, Modal, Linking, BackHandler } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import ThreeDots from '../../assets/3dots.svg';
@@ -20,7 +20,7 @@ import Attachments from '../components/Attachments';
 import CameraScreen from '../components/CameraScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import RequestAcceptModal from '../components/RequestAcceptModal';
-import { setAccessToken, setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers, setRefreshToken, setUserLatitude, setUserLocation, setUserLongitude } from '../../redux/reducers/userDataSlice';
+import { setAccessToken, setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers, setIsOnline, setRefreshToken, setUserLatitude, setUserLocation, setUserLongitude } from '../../redux/reducers/userDataSlice';
 import io from 'socket.io-client';
 import { socket } from '../../utils/scoket.io/socket.js';
 import * as Location from "expo-location";
@@ -583,11 +583,13 @@ const BargainingScreen = () => {
     useEffect(() => {
         const handleUserOnline = () => {
             setOnline(true);
+            dispatch(setIsOnline(true));
             console.log('user online');
         };
 
         const handleUserOffline = () => {
             setOnline(false);
+            dispatch(setIsOnline(false));
             console.log('user offline');
         };
 
@@ -653,6 +655,40 @@ const BargainingScreen = () => {
         }
     };
 
+
+    ///////////////////////////////////////////////////For image zoom out/////////////////////////////////////////////////////////////////////
+
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [scaleAnimation] = useState(new Animated.Value(0));
+
+    const handleClose = () => {
+        Animated.timing(scaleAnimation, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+        }).start(() => setSelectedImage(null));
+
+    };
+    const handleImagePress = (image) => {
+        // console.log('handleImagePress')
+        setSelectedImage(image);
+        Animated.timing(scaleAnimation, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    /////////////////////////////////////////////////////////////////Calculating height from top/////////////////////////////////////////////////
+    const [viewHeight, setViewHeight] = useState(null);
+
+    const handleLayout = (event) => {
+        const { height } = event.nativeEvent.layout;
+        setViewHeight(height);
+
+    };
+
+
     return (
         <>
 
@@ -687,7 +723,7 @@ const BargainingScreen = () => {
                     {/* </View> */}
 
 
-                    <View className="bg-[#ffe7c8] px-[64px] py-[30px]  pt-[20px] relative">
+                    <View onLayout={handleLayout} className="bg-[#ffe7c8] px-[64px] py-[30px]  pt-[20px] relative">
                         <View className=" flex-row gap-[18px] ">
                             <TouchableOpacity onPress={() => { navigation.navigate('retailer-profile'); console.log('hello') }} >
                                 <View className=" bg-white rounded-full">
@@ -746,16 +782,17 @@ const BargainingScreen = () => {
                             </TouchableOpacity>
                         </View>
 
-                        <View className="flex-row gap-[5px] mt-[15px] items-center">
+                        {currentSpadeRetailer?.retailerId?.homeDelivery && <View className="flex-row gap-[5px] mt-[15px] items-center">
                             <Tick height={18} width={18} />
                             <Text style={{ fontFamily: "Poppins-Regular", color: "#79B649" }}>
                                 Home delivery available
                             </Text>
-                        </View>
+                        </View>}
                     </View>
+
                     {messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "new" &&
                         messages[messages?.length - 1]?.sender?.type ===
-                        "Retailer" && <View style={{ backgroundColor: "rgba(0,0,0,0.5)", height: 800, width: 360, position: 'absolute', zIndex: 100, top: 170 }}></View>}
+                        "Retailer" && <View style={{ backgroundColor: "rgba(0,0,0,0.5)", height: 800, width: 360, position: 'absolute', zIndex: 100, top: viewHeight }}></View>}
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
                         ref={scrollViewRef}
@@ -864,13 +901,8 @@ const BargainingScreen = () => {
                                         >
                                             Are you accepting the offer?
                                         </Text>
-                                        <Text
-                                            className="text-center text-[14px] px-[32px]"
-                                            style={{ fontFamily: "Poppins-Regular" }}
-                                        >
-                                            If you don’t like the vendor's offer, select 'no'
-                                            and send a message for clarification.
-                                        </Text>
+                                        <Text className="text-center text-[14px] " style={{ fontFamily: 'Poppins-Regular' }}>{messages[messages.length - 1].message}</Text>
+
                                         <View className="flex flex-col items-center">
                                             {messages &&
                                                 messages[messages.length - 1]?.bidImages &&
@@ -889,20 +921,22 @@ const BargainingScreen = () => {
                                                     >
                                                         {messages[messages.length - 1]?.bidImages.map(
                                                             (image, index) => (
-                                                                <View key={index} className="rounded-3xl">
-                                                                    <Image
-                                                                        source={{ uri: image }}
-                                                                        width={174}
-                                                                        height={232}
-                                                                        className="rounded-3xl border-[1px] border-slate-400 object-contain"
-                                                                    />
-                                                                </View>
+                                                                <TouchableOpacity key={index} style={{ zIndex: 200, }} onPress={() => { handleImagePress(image); }}>
+                                                                    <View className="rounded-3xl ">
+                                                                        <Image
+                                                                            source={{ uri: image }}
+                                                                            width={174}
+                                                                            height={232}
+                                                                            className="rounded-3xl border-[1px] border-slate-400 object-contain"
+                                                                        />
+                                                                    </View>
+                                                                </TouchableOpacity>
                                                             )
                                                         )}
                                                     </ScrollView>
                                                 )}
-                                        </View>
-                                        <View>
+
+
                                             {messages && messages[messages.length - 1]?.bidPrice && (
                                                 <View className="flex-row gap-[5px] my-[10px] items-center justify-center">
                                                     <Text style={{ fontFamily: "Poppins-Medium" }}>
@@ -916,22 +950,17 @@ const BargainingScreen = () => {
                                                     </Text>
                                                 </View>
                                             )}
-
-                                        </View>
-                                        <View>
                                             {messages && messages[messages.length - 1]?.warranty > 0 && (
                                                 <View className="flex-row gap-[5px] mb-[10px] items-center justify-center">
                                                     <Text style={{ fontFamily: "Poppins-Medium" }}>
                                                         Warranty:{" "}
                                                     </Text>
-                                                    <Text
-                                                        className=" text-[#79B649]"
-                                                        style={{ fontFamily: "Poppins-SemiBold" }}
-                                                    >
-                                                        {messages[messages.length - 1]?.warranty}
+                                                    <Text className=" text-[#79B649]" style={{ fontFamily: "Poppins-SemiBold" }} >
+                                                        {messages[messages.length - 1]?.warranty} months
                                                     </Text>
                                                 </View>
                                             )}
+                                            <Text className="text-center text-[14px] px-[32px] py-[10px]" style={{ fontFamily: "Poppins-Regular" }}>(If you don’t like the vendor's offer, select 'no' and send a message for clarification.)</Text>
 
                                         </View>
                                     </View>
@@ -1055,7 +1084,25 @@ const BargainingScreen = () => {
                 />
             )}
             {errorModal && <ErrorModal errorModal={errorModal} setErrorModal={setErrorModal} />}
+            <Modal
+                transparent
+                visible={!!selectedImage}
+                onRequestClose={handleClose}
+            >
+                <Pressable style={styles.modalContainer} onPress={handleClose}>
+                    <Animated.Image
+                        source={{ uri: selectedImage }}
+                        style={[
+                            styles.modalImage,
+                            {
+                                transform: [{ scale: scaleAnimation }],
+                            },
+                        ]}
+                    />
 
+
+                </Pressable>
+            </Modal>
         </>
     );
 };
@@ -1076,6 +1123,58 @@ const styles = {
     attachments: {
         zIndex: -20, // Ensure the overlay is on top
     },
+    modalContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.7)",
+    },
+    modalImage: {
+        width: 300,
+        height: 400,
+        borderRadius: 10,
+    },
+    closeButton: {
+        position: "absolute",
+        top: 20,
+        right: 20,
+    },
+    progressContainer: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0,0,0,0.5)",
+        borderRadius: 20
+    },
+    progress: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 100,
+        height: 50,
+        borderWidth: 3
+    },
+    progressText: {
+        color: "white",
+        fontSize: 16,
+
+    },
+    progresstext: {
+        color: "green",
+        fontSize: 16,
+        fontFamily: "Poppins-Bold",
+        width: "100%",
+        textAlign: "center"
+    },
 };
+
 
 export default React.memo(BargainingScreen);

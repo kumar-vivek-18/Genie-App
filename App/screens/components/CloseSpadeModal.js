@@ -153,8 +153,21 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
         try {
             console.log('hii');
 
+            const configg = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                params: {
+                    id: spade._id
+                }
+            }
 
-            await Promise.all(currentSpadeRetailers.map(async (retailer) => {
+            const retailers = await axios.get(`${baseUrl}/chat/new-status-retailers`, configg);
+
+            const allRetailers = [...retailers, ...currentSpadeRetailers];
+
+            await Promise.all(allRetailers.map(async (retailer) => {
                 const formData = new FormData();
                 formData.append('sender', JSON.stringify({
                     type: "UserRequest",

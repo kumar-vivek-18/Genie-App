@@ -29,7 +29,7 @@ import TextGalleryIcon from '../../assets/grayGallery.svg';
 import { sendCloseSpadeNotification } from '../../notification/notificationMessages';
 import { FullWindowOverlay } from 'react-native-screens';
 import { baseUrl } from '../../utils/logics/constants';
-
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 const RequestDetail = () => {
@@ -54,7 +54,7 @@ const RequestDetail = () => {
     const navigationState = useNavigationState((state) => state);
     const isRequestDetailScreen = navigationState.routes[navigationState.index].name === 'activerequest';
     const accessToken = useSelector(store => store.user.accessToken);
-
+    const [viewMore, setViewMore] = useState(false);
     useEffect(() => {
         const backAction = () => {
             if (isRequestDetailScreen) {
@@ -372,9 +372,6 @@ const RequestDetail = () => {
                                     <ThreeDots />
                                 </View>
                             </TouchableOpacity>}
-
-
-
                         </View>
 
                         {modal && <View className="absolute top-[30px] right-[50px] z-50 bg-white rounded-md">
@@ -412,7 +409,19 @@ const RequestDetail = () => {
                                 </View>
                             </View>
                             <View className="pl-[50px] pr-[32px]">
-                                <Text className="mt-[5px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>
+                                {spade?.requestDescription.length < 50 && <Text className="mt-[5px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>}
+                                {spade?.requestDescription.length >= 50 && <View>
+                                    {!viewMore && <Text className="mt-[5px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription.slice(0, 50)}...</Text>}
+                                    {viewMore && <Text className="mt-[5px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>}
+
+                                    <Pressable onPress={() => setViewMore(!viewMore)}>
+                                        <View className="flex-row items-center">
+                                            <Text className={`text-[14px]  ${viewMore ? 'text-[#fb8c00]' : 'text-[#fb8c00]'}`} style={{ fontFamily: 'Poppins-Regular' }}>{viewMore ? 'View Less' : 'View More'}</Text>
+                                            {!viewMore && <MaterialIcons name="keyboard-arrow-down" size={20} color="#fb8c00" />}
+                                            {viewMore && <MaterialIcons name="keyboard-arrow-up" size={20} color="#fb8c00" />}
+                                        </View>
+                                    </Pressable>
+                                </View>}
                                 <Pressable onPress={() => navigation.navigate('image-refrences')}>
                                     <View className="flex-row gap-[15px] mt-[15px] items-center">
                                         <GalleryImg />

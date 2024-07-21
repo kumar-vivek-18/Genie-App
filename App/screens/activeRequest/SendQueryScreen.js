@@ -62,7 +62,7 @@ const SendQueryScreen = () => {
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const accessToken = useSelector(store => store.user.accessToken);
-
+  const isOnline = useSelector(store => store.user.isOnline);
   // console.log('spade details', details);
   // const currrentChatMessages = useSelector(store => store.user.currentChatMessages);
   // console.log('messages', currrentChatMessages);
@@ -179,9 +179,8 @@ const SendQueryScreen = () => {
               <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Regular" }}>
                 {details?.retailerId.storeName.length > 25 ? `${details?.retailerId.storeName.slice(0, 25)}...` : details?.retailerId.storeName}
               </Text>
-              <Text className="text-[12px] text-[#c4c4c4]" style={{ fontFamily: "Poppins-Regular" }}>
-                Active 3 hr ago
-              </Text>
+              {isOnline && <Text className="text-[12px] text-[#79b649]" style={{ fontFamily: "Poppins-Regular" }}>Online</Text>}
+              {!isOnline && <Text className="text-[12px] text-[#7c7c7c]" style={{ fontFamily: "Poppins-Regular" }}>Offline</Text>}
             </View>
           </View>
 
