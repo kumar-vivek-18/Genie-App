@@ -17,6 +17,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import { LocationSendNotification } from '../../notification/notificationMessages';
 import ErrorModal from './ErrorModal';
 import { baseUrl } from '../../utils/logics/constants';
+import axiosInstance from '../../utils/logics/axiosInstance';
 
 const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal }) => {
 
@@ -57,7 +58,7 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
                     id: currentSpadeRetailer.retailerId._id,
                 }
             };
-            const token = await axios.get(`${baseUrl}/retailer/unique-token`, configToken);
+            const token = await axiosInstance.get(`${baseUrl}/retailer/unique-token`, configToken);
 
             const formData = new FormData();
 
@@ -76,7 +77,7 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
                 }
             };
 
-            await axios.post(`${baseUrl}/chat/send-message`, formData, config)
+            await axiosInstance.post(`${baseUrl}/chat/send-message`, formData, config)
                 .then(res => {
                     console.log(res.data);
 

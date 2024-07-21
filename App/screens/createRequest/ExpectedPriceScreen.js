@@ -9,6 +9,7 @@ import BackArrow from "../../assets/BackArrowImg.svg";
 import axios from 'axios';
 import { setUserDetails } from '../../redux/reducers/userDataSlice';
 import { baseUrl } from '../../utils/logics/constants';
+import axiosInstance from '../../utils/logics/axiosInstance';
 
 
 const ExpectedPriceScreen = () => {
@@ -41,7 +42,7 @@ const ExpectedPriceScreen = () => {
                     couponCode: couponCode
                 }
             };
-            await axios.get(`${baseUrl}/coupon/verify-coupon`, config)
+            await axiosInstance.get(`${baseUrl}/coupon/verify-coupon`, config)
                 .then(res => {
                     console.log('res', res.data);
                     if (res.data.message === "Coupon code is valid") {

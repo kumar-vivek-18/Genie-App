@@ -30,6 +30,7 @@ import { sendCloseSpadeNotification } from '../../notification/notificationMessa
 import { FullWindowOverlay } from 'react-native-screens';
 import { baseUrl } from '../../utils/logics/constants';
 import { MaterialIcons } from '@expo/vector-icons';
+import axiosInstance from '../../utils/logics/axiosInstance';
 
 
 const RequestDetail = () => {
@@ -93,7 +94,7 @@ const RequestDetail = () => {
                         'Authorization': `Bearer ${accessToken}`,
                     }
                 };
-                await axios.patch(`${baseUrl}/user/set-spade-mark-as-read`, {
+                await axiosInstance.patch(`${baseUrl}/user/set-spade-mark-as-read`, {
                     id: currentSpade._id
                 }, config)
                     .then((res) => {
@@ -128,7 +129,7 @@ const RequestDetail = () => {
                 id: currentSpade._id,
             }
         };
-        axios.get(`${baseUrl}/chat/spade-chats`, config)
+        axiosInstance.get(`${baseUrl}/chat/spade-chats`, config)
             .then((response) => {
                 if (response.status === 200) {
                     // setRetailers(response.data);

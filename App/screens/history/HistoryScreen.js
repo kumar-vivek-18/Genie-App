@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentSpade } from '../../redux/reducers/userDataSlice';
 import BackArrow from "../../assets/arrow-left.svg"
 import { baseUrl } from '../../utils/logics/constants';
+import axiosInstance from '../../utils/logics/axiosInstance';
 
 
 const HistoryScreen = () => {
@@ -77,7 +78,7 @@ const HistoryScreen = () => {
                     id: userDetails._id,
                 }
             };
-            const response = await axios.get(`${baseUrl}/user/history`, config);
+            const response = await axiosInstance.get(`${baseUrl}/user/history`, config);
 
             // console.log('HomeScreen', response.data);
 

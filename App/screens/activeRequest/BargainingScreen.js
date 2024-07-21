@@ -40,6 +40,7 @@ import RetailerDocumentMessage from '../components/RetailerDocumentMessage';
 import ErrorModal from '../components/ErrorModal';
 import { baseUrl } from '../../utils/logics/constants';
 import RatingStar from "../../assets/Star.svg";
+import axiosInstance from '../../utils/logics/axiosInstance';
 
 const BargainingScreen = () => {
     const navigation = useNavigation();
@@ -117,7 +118,7 @@ const BargainingScreen = () => {
                         'Authorization': `Bearer ${accessToken}`,
                     }
                 };
-                const response = await axios.patch(
+                const response = await axiosInstance.patch(
                     `${baseUrl}/chat/mark-as-read`,
                     {
                         id: currentSpadeRetailer._id,
@@ -156,7 +157,7 @@ const BargainingScreen = () => {
         };
         if (currentSpade?.unread === true) {
             try {
-                await axios.patch(`${baseUrl}/user/set-spade-mark-as-read`, {
+                await axiosInstance.patch(`${baseUrl}/user/set-spade-mark-as-read`, {
                     id: currentSpade._id
                 }, config)
                     .then((res) => {
@@ -208,7 +209,7 @@ const BargainingScreen = () => {
                 id: currentSpadeChatId.chatId,
             }
         };
-        await axios.get(`${baseUrl}/chat/get-particular-chat`, config)
+        await axiosInstance.get(`${baseUrl}/chat/get-particular-chat`, config)
             .then(async (res) => {
                 console.log('fetched current spade retaieler', res.data._id);
 
@@ -235,7 +236,7 @@ const BargainingScreen = () => {
                 id: id,
             },
         };
-        axios
+        axiosInstance
             .get(`${baseUrl}/chat/get-spade-messages`, config)
             .then((res) => {
                 res.data.map((mess) => {
@@ -324,7 +325,7 @@ const BargainingScreen = () => {
                 },
 
             };
-            await axios
+            await axiosInstance
                 .patch("http://173.212.193.109:5000/chat/accept-bid", {
                     messageId: messages[messages?.length - 1]._id,
                     userRequestId: spade?._id,
@@ -427,7 +428,7 @@ const BargainingScreen = () => {
                     id: currentSpadeRetailer.retailerId._id,
                 }
             };
-            const token = await axios.get(`${baseUrl}/retailer/unique-token`, configToken);
+            const token = await axiosInstance.get(`${baseUrl}/retailer/unique-token`, configToken);
 
             const config = {
                 headers: { // Use "headers" instead of "header"
@@ -435,7 +436,7 @@ const BargainingScreen = () => {
                     'Authorization': `Bearer ${accessToken}`,
                 }
             };
-            const res = await axios.patch(
+            const res = await axiosInstance.patch(
                 `${baseUrl}/chat/reject-bid`,
                 {
                     messageId: messages[messages.length - 1]._id,

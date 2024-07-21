@@ -29,6 +29,7 @@ import SuccessPopup from "../components/SuccessPopup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { socket } from "../../utils/scoket.io/socket";
 import { baseUrl } from "../../utils/logics/constants";
+import axiosInstance from "../../utils/logics/axiosInstance";
 
 const RequestPreviewScreen = () => {
   const route = useRoute();
@@ -110,7 +111,7 @@ const RequestPreviewScreen = () => {
           'Authorization': `Bearer ${accessToken}`,
         }
       };
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${baseUrl}/user/createrequest`, formData, config
 
       );

@@ -55,6 +55,7 @@ import ProfileIcon from '../assets/ProfileIcon.svg';
 import HistoryIcon from '../assets/historyIcon.svg';
 import { baseUrl } from "../utils/logics/constants";
 import { handleRefreshLocation } from "../utils/logics/updateLocation";
+import axiosInstance from "../utils/logics/axiosInstance";
 
 const { width } = Dimensions.get("window");
 
@@ -146,7 +147,7 @@ const HomeScreen = () => {
           id: userData?._id,
         },
       };
-      const response = await axios.get(
+      const response = await axiosInstance.get(
         `${baseUrl}/user/getspades`, config);
 
       // console.log('HomeScreen', response.data);
@@ -261,7 +262,7 @@ const HomeScreen = () => {
           userId: userDetails._id,
         },
       }
-      await axios.get(`${baseUrl}/user/user-details`, config)
+      await axiosInstance.get(`${baseUrl}/user/user-details`, config)
         .then((response) => {
           console.log('userdetails for paymest check', response.data);
           AsyncStorage.setItem("userDetails", JSON.stringify(response.data));

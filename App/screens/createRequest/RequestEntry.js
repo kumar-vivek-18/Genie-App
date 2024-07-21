@@ -10,6 +10,7 @@ import BackArrow from "../../assets/BackArrowImg.svg";
 import axios from 'axios';
 import { setUserDetails } from '../../redux/reducers/userDataSlice';
 import { baseUrl } from '../../utils/logics/constants';
+import axiosInstance from '../../utils/logics/axiosInstance';
 
 
 const RequestEntry = () => {
@@ -38,7 +39,7 @@ const RequestEntry = () => {
                     latitude: latitude,
                 }
             };
-            await axios.get(`${baseUrl}/retailer/stores-near-me`, config)
+            await axiosInstance.get(`${baseUrl}/retailer/stores-near-me`, config)
                 .then(res => {
                     const categories = res.data.map((category, index) => {
                         return { id: index + 1, name: category };

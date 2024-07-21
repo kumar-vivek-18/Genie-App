@@ -30,6 +30,7 @@ import UploadImage from "../../assets/AddImg.svg";
 import AddImages from "../components/AddImages";
 import { formatDateTime } from "../../utils/logics/Logics";
 import { baseUrl } from "../../utils/logics/constants";
+import axiosInstance from "../../utils/logics/axiosInstance";
 
 
 const CreateNewBidScreen = () => {
@@ -71,7 +72,7 @@ const CreateNewBidScreen = () => {
         id: details.retailerId._id,
       },
     };
-    const token = await axios.get(`${baseUrl}/retailer/unique-token`, configToken);
+    const token = await axiosInstance.get(`${baseUrl}/retailer/unique-token`, configToken);
 
     // console.log("create bid", details.requestId);
     const formData = new FormData();
@@ -96,7 +97,7 @@ const CreateNewBidScreen = () => {
         'Authorization': `Bearer ${accessToken}`,
       }
     };
-    await axios
+    await axiosInstance
       .post(`${baseUrl}/chat/send-message`, formData, config)
       .then(async (res) => {
         console.log(res.data);

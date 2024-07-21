@@ -46,6 +46,7 @@ import BackArrow from "../../assets/BackArrowImg.svg"
 import OtpPageBg from "../../assets/OtpVerificationPageBg.svg";
 import { handleRefreshLocation } from "../../utils/logics/updateLocation";
 import { baseUrl } from "../../utils/logics/constants";
+import axiosInstance from "../../utils/logics/axiosInstance";
 
 const MobileNumberEntryScreen = () => {
   const navigation = useNavigation();
@@ -196,7 +197,7 @@ const MobileNumberEntryScreen = () => {
             'Authorization': `Bearer ${response.data.accessToken}`,
           }
         };
-        await axios
+        await axiosInstance
           .patch(`${baseUrl}/user/edit-profile`, {
             _id: response.data.user._id,
             updateData: { uniqueToken: token },

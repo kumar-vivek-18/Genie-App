@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { setUserDetails } from "../../redux/reducers/userDataSlice";
 import store from "../../redux/store";
+import axiosInstance from "./axiosInstance";
 import { baseUrl } from "./constants";
 import { getGeoCoordinates, getLocationName } from "./Logics";
 
@@ -36,7 +37,7 @@ export const handleRefreshLocation = async (id, accessToken) => {
                         'Authorization': `Bearer ${accessToken}`,
                     }
                 };
-                await axios
+                await axiosInstance
                     .patch(`${baseUrl}/user/edit-profile`, {
                         _id: id,
                         updateData: {

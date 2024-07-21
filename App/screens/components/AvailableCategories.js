@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { emtpyRequestImages, setRequestCategory } from '../../redux/reducers/userRequestsSlice';
 import axios from 'axios';
 import { baseUrl } from '../../utils/logics/constants';
+import axiosInstance from '../../utils/logics/axiosInstance';
 
 
 const AvailableCategories = () => {
@@ -49,7 +50,7 @@ const AvailableCategories = () => {
                 }
             };
             console.log(config)
-            await axios.get(`${baseUrl}/retailer/stores-near-me`, config)
+            await axiosInstance.get(`${baseUrl}/retailer/stores-near-me`, config)
                 .then(res => {
                     const categories = res.data.map((category, index) => {
                         return { id: index + 1, name: category };

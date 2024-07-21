@@ -19,6 +19,7 @@ import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from "../../redux/r
 import { socket } from "../../utils/scoket.io/socket";
 import { DocumentNotification } from "../../notification/notificationMessages";
 import { baseUrl } from "../../utils/logics/constants";
+import axiosInstance from "../../utils/logics/axiosInstance";
 
 const SendDocument = () => {
 
@@ -51,7 +52,7 @@ const SendDocument = () => {
                     id: currentSpadeRetailer.retailerId._id,
                 }
             };
-            const token = await axios.get(`${baseUrl}/retailer/unique-token`, configToken);
+            const token = await axiosInstance.get(`${baseUrl}/retailer/unique-token`, configToken);
             if (!result) {
                 console.log('No document selected');
                 setLoading(false);

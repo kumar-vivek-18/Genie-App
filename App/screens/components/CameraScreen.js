@@ -30,6 +30,7 @@ import {
     setSpades,
 } from "../../redux/reducers/userDataSlice";
 import { baseUrl } from "../../utils/logics/constants";
+import axiosInstance from "../../utils/logics/axiosInstance";
 const CameraScreen = () => {
     const [imageUri, setImageUri] = useState("");
     const navigation = useNavigation();
@@ -71,7 +72,7 @@ const CameraScreen = () => {
                     id: details?.retailerId?._id,
                 },
             };
-            const token = await axios.get(
+            const token = await axiosInstance.get(
                 `${baseUrl}/retailer/unique-token`, configToken
             );
 
@@ -99,7 +100,7 @@ const CameraScreen = () => {
                 }
             };
 
-            await axios.post(`${baseUrl}/chat/send-message`, formData, config)
+            await axiosInstance.post(`${baseUrl}/chat/send-message`, formData, config)
                 .then(async (res) => {
                     console.log('send message', res.data);
 

@@ -11,6 +11,7 @@ import messaging from "@react-native-firebase/messaging";
 import { ActivityIndicator } from 'react-native';
 import { requestClear } from '../../redux/reducers/userRequestsSlice';
 import { baseUrl } from '../../utils/logics/constants';
+import axiosInstance from '../../utils/logics/axiosInstance';
 
 
 
@@ -37,7 +38,7 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
                     'Authorization': `Bearer ${accessToken}`,
                 }
             };
-            await axios.patch(`${baseUrl}/user/edit-profile`, {
+            await axiosInstance.patch(`${baseUrl}/user/edit-profile`, {
                 _id: userDetails._id,
                 updateData: { uniqueToken: "" }
             }, config)

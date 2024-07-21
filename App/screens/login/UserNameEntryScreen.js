@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import UsernameScreenBg from '../../assets/usernameverification.svg';
 import { handleRefreshLocation } from '../../utils/logics/updateLocation';
 import { baseUrl } from '../../utils/logics/constants';
+import axiosInstance from '../../utils/logics/axiosInstance';
 
 const UserNameEntryScreen = () => {
     const navigation = useNavigation();
@@ -93,7 +94,7 @@ const UserNameEntryScreen = () => {
                         'Authorization': `Bearer ${response.data.accessToken}`
                     }
                 }
-                await axios.patch(`${baseUrl}/user/edit-profile`, {
+                await axiosInstance.patch(`${baseUrl}/user/edit-profile`, {
                     _id: response.data._id,
                     updateData: { uniqueToken: userToken }
                 }, config)

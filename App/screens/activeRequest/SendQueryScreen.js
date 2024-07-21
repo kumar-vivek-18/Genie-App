@@ -39,6 +39,7 @@ import {
 import { newMessageSend } from "../../notification/notificationMessages";
 import { formatDateTime } from "../../utils/logics/Logics";
 import { baseUrl } from "../../utils/logics/constants";
+import axiosInstance from "../../utils/logics/axiosInstance";
 
 const SendQueryScreen = () => {
   const navigation = useNavigation();
@@ -79,7 +80,7 @@ const SendQueryScreen = () => {
         id: currentSpadeRetailer.retailerId._id,
       }
     };
-    const token = await axios.get(
+    const token = await axiosInstance.get(
       `${baseUrl}/retailer/unique-token`, configToken);
 
     console.log("token", token.data);
@@ -104,7 +105,7 @@ const SendQueryScreen = () => {
         'Authorization': `Bearer ${accessToken}`,
       }
     };
-    await axios
+    await axiosInstance
       .post(`${baseUrl}/chat/send-message`, formData, config)
       .then(async (res) => {
         // console.log("query", res.data);

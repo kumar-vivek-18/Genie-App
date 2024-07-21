@@ -10,6 +10,7 @@ import { ActivityIndicator } from 'react-native';
 import { socket } from '../../utils/scoket.io/socket';
 import navigationService from '../../navigation/navigationService';
 import { baseUrl } from '../../utils/logics/constants';
+import axiosInstance from '../../utils/logics/axiosInstance';
 
 const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => {
     const spade = useSelector(store => store.user.currentSpade);
@@ -34,7 +35,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
             }
         };
         try {
-            const token = await axios.get(`${baseUrl}/retailer/unique-token`, configToken);
+            const token = await axiosInstance.get(`${baseUrl}/retailer/unique-token`, configToken);
             console.log("close notification", token.data, spade._id, spade.requestAcceptedChat);
             // console.log("token", token.data);
             const formData = new FormData();
@@ -58,7 +59,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                     'Authorization': `Bearer ${accessToken}`,
                 }
             };
-            await axios.post(
+            await axiosInstance.post(
                 `${baseUrl}/chat/send-message`,
                 formData, config
             )
@@ -71,7 +72,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                             'Authorization': `Bearer ${accessToken}`,
                         }
                     };
-                    const request = await axios.patch(`${baseUrl}/user/close-spade/`, {
+                    const request = await axiosInstance.patch(`${baseUrl}/user/close-spade/`, {
                         id: spade._id
                     }, configg);
                     console.log('request', request);
@@ -163,7 +164,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                 }
             }
 
-            const retailers = await axios.get(`${baseUrl}/chat/new-status-retailers`, configg);
+            const retailers = await axiosInstance.get(`${baseUrl}/chat/new-status-retailers`, configg);
 
             const allRetailers = [...retailers, ...currentSpadeRetailers];
 
@@ -186,7 +187,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                         'Authorization': `Bearer ${accessToken}`,
                     }
                 };
-                await axios.post(
+                await axiosInstance.post(
                     `${baseUrl}/chat/send-message`,
                     formData,
                     config
@@ -200,7 +201,13 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                     })
             }));
 
-            await axios.patch(`${baseUrl}/user/close-active-spade/`, {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                }
+            }
+            await axiosInstance.patch(`${baseUrl}/user/close-active-spade/`, {
                 id: spade._id,
             }, config)
                 .then((res) => {

@@ -29,6 +29,7 @@ import axios from "axios";
 import RatingAndFeedbackModal from "../components/RatingAndFeedbackModal";
 import RatingStar from "../../assets/Star.svg";
 import { baseUrl } from "../../utils/logics/constants";
+import axiosInstance from "../../utils/logics/axiosInstance";
 // import {Clipboard} from '@react-native-clipboard/clipboard'
 
 
@@ -89,7 +90,7 @@ const StoreProfileScreen = () => {
                     id: currentSpadeRetailer.retailerId._id,
                 }
             }
-            await axios.get(`${baseUrl}/rating/get-retailer-feedbacks`, config)
+            await axiosInstance.get(`${baseUrl}/rating/get-retailer-feedbacks`, config)
                 .then((res) => {
                     console.log('Feedbacks fetched successfully', res.data.length);
                     setFeedbacks(res.data);

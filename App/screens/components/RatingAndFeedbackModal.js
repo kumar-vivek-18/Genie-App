@@ -9,6 +9,7 @@ import axios from 'axios';
 import Tick from '../../assets/Tick.svg';
 import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
 import { baseUrl } from '../../utils/logics/constants';
+import axiosInstance from '../../utils/logics/axiosInstance';
 
 const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal }) => {
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
@@ -35,7 +36,7 @@ const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal }) => {
                     'Authorization': `Bearer ${accessToken}`,
                 }
             };
-            await axios.post(`${baseUrl}/rating/rating-feedback`, {
+            await axiosInstance.post(`${baseUrl}/rating/rating-feedback`, {
                 sender: { type: "User", refId: userDetails._id },
                 user: { type: "Retailer", refId: currentSpadeRetailer.users[0].refId },
                 senderName: userDetails.userName,

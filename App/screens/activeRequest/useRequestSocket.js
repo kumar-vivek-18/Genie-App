@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
+import axiosInstance from '../../utils/logics/axiosInstance';
 import { baseUrl } from '../../utils/logics/constants';
 import { socket } from '../../utils/scoket.io/socket';
 
@@ -27,7 +28,7 @@ const useRequestSocket = (spadeId) => {
         });
 
         const fetchRetailers = () => {
-            axios.get(`${baseUrl}/chat/spade-chats`, {
+            axiosInstance.get(`${baseUrl}/chat/spade-chats`, {
                 params: {
                     id: currentSpade._id,
                 }
