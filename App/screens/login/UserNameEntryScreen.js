@@ -94,8 +94,8 @@ const UserNameEntryScreen = () => {
                         'Authorization': `Bearer ${response.data.accessToken}`
                     }
                 }
-                await axiosInstance.patch(`${baseUrl}/user/edit-profile`, {
-                    _id: response.data._id,
+                await axios.patch(`${baseUrl}/user/edit-profile`, {
+                    _id: response.data.user._id,
                     updateData: { uniqueToken: userToken }
                 }, config)
                     .then(async (res) => {

@@ -154,6 +154,9 @@ const MobileNumberEntryScreen = () => {
     }
   };
 
+
+
+
   const checkMobileNumber = async () => {
     setIsLoading(true);
     try {
@@ -171,9 +174,9 @@ const MobileNumberEntryScreen = () => {
           mobileNo: phoneNumber,
         },
       });
-      console.log("res", response.data.user);
+      // console.log("res", response);
       setMobileScreen(true);
-      if (response.data.user.mobileNo) {
+      if (response?.data?.user?.mobileNo) {
         // If mobile number is registered, navigate to home screen
         // console.log('userDetails from mobileScreen', response.data);
         dispatch(setUserDetails(response.data.user));
@@ -197,7 +200,7 @@ const MobileNumberEntryScreen = () => {
             'Authorization': `Bearer ${response.data.accessToken}`,
           }
         };
-        await axiosInstance
+        await axios
           .patch(`${baseUrl}/user/edit-profile`, {
             _id: response.data.user._id,
             updateData: { uniqueToken: token },
@@ -217,15 +220,15 @@ const MobileNumberEntryScreen = () => {
           .catch((err) => {
             console.error("Error updating token: " + err.message);
           });
-      } else if (response.status === 404) {
-
-
+      }
+      else if (response.data.status === 404) {
         navigation.navigate("registerUsername");
         setMobileNumberLocal("");
         setOtp("");
         setToken("")
         setMobileScreen(true);
       }
+
       // }
       // else {
       //   setLoading(false);
@@ -235,6 +238,7 @@ const MobileNumberEntryScreen = () => {
       // }
     } catch (error) {
       alert('Invalid Otp');
+      setLoading(false);
       console.error("Error checking mobile number:", error);
     } finally {
       setIsLoading(false);

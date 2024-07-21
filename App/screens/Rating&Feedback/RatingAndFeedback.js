@@ -7,6 +7,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { baseUrl } from '../../utils/logics/constants';
+import axiosInstance from '../../utils/logics/axiosInstance';
 
 const RatingAndFeedback = () => {
     const spade = useSelector(store => store.user.currentSpade);
@@ -37,7 +38,7 @@ const RatingAndFeedback = () => {
                     'Authorization': `Bearer ${accessToken}`,
                 }
             };
-            await axios.post(`${baseUrl}/rating/create-ratings`, {
+            await axiosInstance.post(`${baseUrl}/rating/create-ratings`, {
                 senderId: spade.customer,
                 userId: retailer.users[0].refId,
                 senderName: userDetails.userName,

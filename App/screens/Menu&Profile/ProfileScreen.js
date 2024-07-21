@@ -27,6 +27,7 @@ import Cross from "../../assets/goldenCross.svg"
 import EditIcon from "../../assets/editIcon.svg";
 import BackArrow from "../../assets/BackArrowImg.svg"
 import { baseUrl } from "../../utils/logics/constants";
+import axiosInstance from "../../utils/logics/axiosInstance";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
@@ -74,7 +75,7 @@ const ProfileScreen = () => {
     // console.log("user", userDetails._id, email);
     if (email.length < 7) return;
     setLoading(true);
-    await axios
+    await axiosInstance
       .patch(`${baseUrl}/user/edit-profile`, {
         _id: userDetails._id,
         updateData: { email: email },
@@ -96,7 +97,7 @@ const ProfileScreen = () => {
     // console.log("userNmae", userName);
     if (userName.length < 3) return;
     setIsLoading(true);
-    await axios
+    await axiosInstance
       .patch(`${baseUrl}/user/edit-profile`, {
         _id: userDetails._id,
         updateData: { userName: userName },
@@ -117,7 +118,7 @@ const ProfileScreen = () => {
   const handlePicUpdate = async (image) => {
     console.log("image uri", image);
     if (!image) return;
-    await axios
+    await axiosInstance
       .patch(`${baseUrl}/user/edit-profile`, {
         _id: userDetails._id,
         updateData: { pic: image },
@@ -152,7 +153,7 @@ const ProfileScreen = () => {
           'Authorization': `Bearer ${accessToken}`,
         }
       };
-      await axios.post(`${baseUrl}/upload`, formData, configg)
+      await axiosInstance.post(`${baseUrl}/upload`, formData, configg)
         .then(res => {
           console.log('imageUrl updated from server', res.data[0]);
           const imgUri = res.data[0];

@@ -99,6 +99,7 @@ import PaymentSuccessFulModal from "../components/PaymentSuccessFulModal";
 import { formatDateTime } from "../../utils/logics/Logics";
 import Trust from '../../assets/Trust.svg';
 import { baseUrl } from "../../utils/logics/constants";
+import axiosInstance from "../../utils/logics/axiosInstance";
 const PaymentScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -135,7 +136,7 @@ const PaymentScreen = () => {
       }
       console.log(config);
 
-      await axios.get(`${baseUrl}/user/spade-details`, config)
+      await axiosInstance.get(`${baseUrl}/user/spade-details`, config)
         .then((response) => {
           console.log('razopay scrn', response.data, response.status);
           if (response.status === 200) {
@@ -154,7 +155,7 @@ const PaymentScreen = () => {
     const encodedCredentials = btoa(credentials);
     setLoading(true);
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         "https://api.razorpay.com/v1/orders",
         {
           amount: 100,
@@ -224,7 +225,7 @@ const PaymentScreen = () => {
         'Authorization': `Bearer ${accessToken}`,
       }
     };
-    await axios
+    await axiosInstance
       .patch(`${baseUrl}/user/update-payment-status`, {
         userId: userDetails._id,
         spadeId: spadeDetails._id,
@@ -257,7 +258,7 @@ const PaymentScreen = () => {
           'Authorization': `Bearer ${accessToken}`,
         }
       };
-      await axios
+      await axiosInstance
         .patch(`${baseUrl}/user/update-payment-status`, {
           userId: userDetails._id,
           spadeId: spadeDetails._id
@@ -346,7 +347,7 @@ const PaymentScreen = () => {
                 </View>
                 <View className="flex-row items-center gap-[5px]">
                   <Text className="text-[12px] text-'#2e2c43" style={{ fontFamily: 'Poppins-Bold' }}>Bill To:</Text>
-                  <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: 'Poppins-Regular' }}>{userDetails.userName}</Text>
+                  <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: 'Poppins-Regular' }}>{userDetails?.userName}</Text>
                 </View>
               </View>
               <View className="">
@@ -357,9 +358,9 @@ const PaymentScreen = () => {
           </View>
           <View className="flex-row gap-[5px] mt-[20px] mx-[32px]">
             <Text style={{ fontFamily: 'Poppins-Bold' }}>Payments Remaining - </Text>
-            <Text>{userDetails.unpaidSpades.length}</Text>
+            <Text>{userDetails?.unpaidSpades?.length}</Text>
           </View>
-          <View className="w-screen  flex  mt-[40px] mx-[32px] z-50">
+          <View className="w-screen  flex  mt-[10px] mx-[32px] z-50">
 
 
             <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[16px] text-[#2e2c43]">Cost for spade</Text>
@@ -386,9 +387,9 @@ const PaymentScreen = () => {
           </View>
         </View>
         <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
-          {spadeDetails?.spadePrice && <TouchableOpacity
+          {spadeDetails?.spadePrice >= 0 && <TouchableOpacity
             onPress={() => {
-              spadeDetails.spadePrice === 0 ? handleFreeSpade() : PayNow();
+              spadeDetails?.spadePrice === 0 ? handleFreeSpade() : PayNow();
             }}
           >
             <View className="w-full h-[63px]  bg-[#fb8c00] justify-center  bottom-0 left-0 right-0">

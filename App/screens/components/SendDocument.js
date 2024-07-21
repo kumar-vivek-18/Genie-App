@@ -79,7 +79,7 @@ const SendDocument = () => {
                     'Authorization': `Bearer ${accessToken}`,
                 }
             };
-            await axios.post(`${baseUrl}/chat/send-message`, formData, config)
+            await axiosInstance.post(`${baseUrl}/chat/send-message`, formData, config)
                 .then(res => {
                     console.log(res);
                     socket.emit("new message", res.data);
