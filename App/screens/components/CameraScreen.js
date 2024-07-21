@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Send from "../../assets/SendMessage.svg";
 import axios from "axios";
 import { launchCamera } from "react-native-image-picker";
-import { manipulateAsync } from "expo-image-manipulator";
+
 import { socket } from "../../utils/scoket.io/socket";
 import { AttachmentSend } from "../../notification/notificationMessages";
 import { formatDateTime } from "../../utils/logics/Logics";
@@ -31,12 +31,12 @@ import {
 } from "../../redux/reducers/userDataSlice";
 import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
+
 const CameraScreen = () => {
-    const [imageUri, setImageUri] = useState("");
     const navigation = useNavigation();
     const insets = useSafeAreaInsets();
     const route = useRoute();
-    const { openCamera, messages, setMessages } = route.params;
+    const { imageUri, messages, setMessages } = route.params;
     const [camScreen, setCamScreen] = useState(true);
 
     const details = useSelector((store) => store.user.currentSpadeRetailer);
@@ -155,147 +155,12 @@ const CameraScreen = () => {
         }
     };
 
-    // const getImageUrl = async (image) => {
-    //     setCamScreen(false);
-    //     let CLOUDINARY_URL =
-    //         "https://api.cloudinary.com/v1_1/kumarvivek/image/upload";
 
-    //     let base64Img = `data:image/jpg;base64,${image.base64}`;
 
-    //     let data = {
-    //         file: base64Img,
-    //         upload_preset: "CulturTap",
-    //     };
-
-    //     // console.log('base64', data);
-    //     fetch(CLOUDINARY_URL, {
-    //         body: JSON.stringify(data),
-    //         headers: {
-    //             "content-type": "application/json",
-    //         },
-    //         method: "POST",
-    //     })
-    //         .then(async (r) => {
-    //             let data = await r.json();
-
-    //             // setPhoto(data.url);
-    //             const imgUri = data.secure_url;
-    //             if (imgUri) {
-    //                 setImageUri(imgUri);
-    //             }
-    //             console.log("dataImg", data.secure_url);
-    //             // return data.secure_url;
-    //         })
-    //         .catch((err) => console.log(err));
-    // };
-
-    const [hasCameraPermission, setHasCameraPermission] = useState(null);
-
-    const [camera, setCamera] = useState(null);
-
-    useEffect(() => {
-        (async () => {
-            const { status } = await Camera.requestCameraPermissionsAsync();
-            setHasCameraPermission(status === "granted");
-        })();
-    }, [camScreen]);
-
-    // const takePicture = async () => {
-    //     if (camera) {
-    //         const photo = await camera.takePictureAsync({
-    //             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //             allowsEditing: true,
-    //             aspect: [4, 3],
-    //             base64: true,
-    //             quality: 1,
-    //         });
-
-    //         console.log('photo click ph', "photo");
-
-    //         await getImageUrl(photo);
-
-    //     }
-    // };
-
-    const takePicture = async () => {
-        const options = {
-            mediaType: "photo",
-            saveToPhotos: true,
-        };
-        console.log("start camera", options);
-        launchCamera(options, async (response) => {
-            if (response.didCancel) {
-                console.log("User cancelled image picker");
-            } else if (response.error) {
-                console.log("ImagePicker Error: ", response.error);
-            } else {
-                try {
-                    const newImageUri = response?.assets[0]?.uri;
-                    const compressedImage = await manipulateAsync(
-                        newImageUri,
-                        [{ resize: { width: 600, height: 800 } }],
-                        { compress: 0.5, format: "jpeg" }
-                    );
-                    // await getImageUrl(compressedImage);
-                    setImageUri(compressedImage.uri);
-                    console.log('compressedImage', compressedImage.uri);
-                } catch (error) {
-                    console.error("Error processing image: ", error);
-                }
-            }
-        });
-    };
-
-    const pickImage = async () => {
-        console.log("object", "hii");
-        const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [3, 4],
-            base64: true,
-            quality: 1,
-        });
-
-        console.log("pickImage", "result");
-        if (!result.canceled) {
-            const newImageUri = result?.assets[0]?.uri;
-            const compressedImage = await manipulateAsync(
-                newImageUri,
-                [{ resize: { width: 600, height: 800 } }],
-                { compress: 0.5, format: "jpeg" }
-            );
-            setImageUri(compressedImage.uri);
-            // getImageUrl(result.assets[0]);
-        }
-    };
-
-    useEffect(() => {
-        console.log("hello opening camera", openCamera);
-        if (openCamera === false) {
-            pickImage();
-        } else {
-            takePicture();
-        }
-    }, [openCamera]);
-
-    if (hasCameraPermission === null) {
-        return <View />;
-    }
-    if (hasCameraPermission === false) {
-        return <Text>No access to camera</Text>;
-    }
 
     return (
         <View style={{ flex: 1 }}>
-            {/* {camScreen && openCamera === true && <Camera
-                style={{ flex: 1 }}
-                type={Camera.Constants.Type.back}
-                ref={ref => setCamera(ref)}
-            >
-                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end', marginBottom: 20 }}>
-                    <Button title="Take Photo" onPress={() => takePicture()} />
-                </View>
-            </Camera>} */}
+
             {imageUri && (
                 <View style={{ flex: 1 }}>
                     <Image

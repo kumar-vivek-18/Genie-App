@@ -1,9 +1,9 @@
 import { View, Text, TouchableOpacity, TouchableWithoutFeedback, Dimensions, ActivityIndicator } from 'react-native'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import StoreLocation from '../../assets/StoreLocation.svg';
 import Document from '../../assets/Documents.svg';
 import NewBid from '../../assets/NewBid.svg';
-import Camera from '../../assets/Camera.svg';
+import CameraIcon from '../../assets/Camera.svg';
 import Gallery from '../../assets/Gallerys.svg';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
@@ -18,6 +18,9 @@ import { LocationSendNotification } from '../../notification/notificationMessage
 import ErrorModal from './ErrorModal';
 import { baseUrl } from '../../utils/logics/constants';
 import axiosInstance from '../../utils/logics/axiosInstance';
+import { Camera } from "expo-camera";
+import { launchCamera } from 'react-native-image-picker';
+import { manipulateAsync } from "expo-image-manipulator";
 
 const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal }) => {
 
@@ -165,6 +168,92 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
 
     }
 
+    const [hasCameraPermission, setHasCameraPermission] = useState(null);
+
+    const [camera, setCamera] = useState(null);
+
+    const getCameraPermission = async () => {
+        const { status } = await Camera.requestCameraPermissionsAsync();
+        setHasCameraPermission(status === "granted");
+    }
+    useEffect(() => {
+        getCameraPermission()
+    }, []);
+
+
+    const takePicture = async () => {
+        const options = {
+            mediaType: "photo",
+            saveToPhotos: true,
+        };
+        console.log("start camera", options);
+        launchCamera(options, async (response) => {
+            if (response.didCancel) {
+                console.log("User cancelled image picker");
+            } else if (response.error) {
+                console.log("ImagePicker Error: ", response.error);
+            } else {
+                try {
+                    const newImageUri = response?.assets[0]?.uri;
+                    const compressedImage = await manipulateAsync(
+                        newImageUri,
+                        [{ resize: { width: 600, height: 800 } }],
+                        { compress: 0.5, format: "jpeg" }
+                    );
+                    // await getImageUrl(compressedImage);
+                    setImageUri(compressedImage.uri);
+                    if (compressedImage)
+                        navigation.navigate('camera', { imageUri: compressedImage.uri, messages, setMessages });
+                    console.log('compressedImage', compressedImage.uri);
+                } catch (error) {
+                    console.error("Error processing image: ", error);
+                }
+            }
+        });
+    };
+
+    const pickImage = async () => {
+        console.log("object", "hii");
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [3, 4],
+            base64: true,
+            quality: 1,
+        });
+
+        console.log("pickImage", "result");
+        if (!result.canceled) {
+            const newImageUri = result?.assets[0]?.uri;
+            const compressedImage = await manipulateAsync(
+                newImageUri,
+                [{ resize: { width: 600, height: 800 } }],
+                { compress: 0.5, format: "jpeg" }
+            );
+            setImageUri(compressedImage.uri);
+            if (compressedImage)
+                navigation.navigate('camera', { imageUri: compressedImage.uri, messages, setMessages });
+            // getImageUrl(result.assets[0]);
+        }
+    };
+
+    // useEffect(() => {
+    //     console.log("hello opening camera", openCamera);
+    //     if (openCamera === false) {
+    //         pickImage();
+    //     } else {
+    //         takePicture();
+    //     }
+    // }, [openCamera]);
+
+    // if (hasCameraPermission === null) {
+    //     return <View />;
+    // }
+    // if (hasCameraPermission === false) {
+    //     return <Text>No access to camera</Text>;
+    // }
+
+
 
 
 
@@ -177,7 +266,9 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
     }
 
     const { height, width } = Dimensions.get('window');
-    console.log(height, width, viewHeight);
+    // console.log(height, width, viewHeight);
+    // navigation.navigate('camera', { openCamera: true, messages, setMessages });
+    // navigation.navigate('camera', { openCamera: false, messages, setMessages });
 
     return (
 
@@ -208,13 +299,13 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => { navigation.navigate('camera', { openCamera: true, messages, setMessages }); setAttachmentScreen(false) }}>
+                    <TouchableOpacity onPress={() => { takePicture(); setAttachmentScreen(false) }}>
                         <View className="items-center">
-                            <Camera />
+                            <CameraIcon />
                             <Text style={{ fontFamily: 'Poppins-Regular' }}>Camera</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { navigation.navigate('camera', { openCamera: false, messages, setMessages }); setAttachmentScreen(false) }}>
+                    <TouchableOpacity onPress={() => { pickImage(); setAttachmentScreen(false) }}>
                         <View className="items-center">
                             <Gallery />
                             <Text style={{ fontFamily: 'Poppins-Regular' }}>Gallery</Text>
