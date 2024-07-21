@@ -168,8 +168,16 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
 
 
 
+    const [viewHeight, setViewHeight] = useState(0);
 
-    const { height } = Dimensions.get('window');
+    const handleLayout = (event) => {
+        const { height } = event.nativeEvent.layout;
+        console.log(height)
+        setViewHeight(height);
+    }
+
+    const { height, width } = Dimensions.get('window');
+    console.log(height, width, viewHeight);
 
     return (
 
@@ -177,13 +185,13 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
         <View style={{ flex: 1 }} >
 
             <TouchableOpacity onPress={() => { setAttachmentScreen(false) }}>
-                <View className="h-full w-screen " style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}  >
+                <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', height: height - viewHeight, width: width }}  >
                     {locationLoading && <View className="h-screen rounded-full flex-row items-center justify-center">
                         <ActivityIndicator color={'#fb8c00'} size={100} />
                     </View>}
                 </View>
             </TouchableOpacity>
-            <View style={{ zIndex: 100, position: 'absolute', backgroundColor: 'white', bottom: 165, left: 0, right: 0 }}>
+            <View onLayout={handleLayout} style={{ zIndex: 100, position: 'relative', backgroundColor: 'white' }}>
                 <View className="flex-row justify-evenly py-[20px]">
                     <TouchableOpacity onPress={() => { pickDocument(); }}>
                         <View className="items-center">

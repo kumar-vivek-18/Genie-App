@@ -166,7 +166,8 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
 
             const retailers = await axiosInstance.get(`${baseUrl}/chat/new-status-retailers`, configg);
 
-            const allRetailers = [...retailers, ...currentSpadeRetailers];
+            console.log('retailers to close spade', retailers.data);
+            const allRetailers = [...retailers.data, ...currentSpadeRetailers];
 
             await Promise.all(allRetailers.map(async (retailer) => {
                 const formData = new FormData();
@@ -194,13 +195,15 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
 
                 )
                     .then((res) => {
-                        console.log('close mess send to retailer with id',)
-                        socket.emit('new message', res.data);
+                        // console.log('close mess send to retailer with id', res.data.userRequest);
+                        if (res.data)
+                            socket.emit('new message', res.data);
 
 
                     })
             }));
 
+            console.log('spade id', spade._id)
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
@@ -225,7 +228,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                     }
                 })
         } catch (error) {
-            console.error('Error while closing spade');
+            console.error('Error while closing spade', error);
         }
     }
 
