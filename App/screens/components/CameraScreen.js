@@ -103,7 +103,7 @@ const CameraScreen = () => {
             await axiosInstance.post(`${baseUrl}/chat/send-message`, formData, config)
                 .then(async (res) => {
                     console.log('send message', res.data);
-
+                    socket.emit("new message", res.data);
                     const data = formatDateTime(res.data.createdAt);
                     res.data.createdAt = data.formattedTime;
                     res.data.updatedAt = data.formattedDate;
@@ -121,7 +121,7 @@ const CameraScreen = () => {
                     dispatch(setCurrentSpadeRetailer(updateChat));
 
                     setQuery("");
-                    socket.emit("new message", res.data);
+
                     const requestId = details._id;
                     navigation.navigate(`${requestId}`);
                     const notification = {

@@ -284,14 +284,14 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
             </TouchableOpacity>
             <View onLayout={handleLayout} style={{ zIndex: 100, position: 'relative', backgroundColor: 'white' }}>
                 <View className="flex-row justify-evenly py-[20px]">
-                    <TouchableOpacity onPress={() => { pickDocument(); }}>
+                    <TouchableOpacity onPress={() => { pickDocument(); setAttachmentScreen(false) }}>
                         <View className="items-center">
                             <Document />
                             <Text style={{ fontFamily: 'Poppins-Regular' }}>Document</Text>
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => { setOpenLocationModal(!openLocationModal) }}>
+                    <TouchableOpacity onPress={() => { setOpenLocationModal(!openLocationModal); setAttachmentScreen(false) }}>
                         <View className="items-center">
                             <StoreLocation />
 
