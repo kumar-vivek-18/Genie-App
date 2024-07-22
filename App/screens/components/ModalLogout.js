@@ -12,6 +12,7 @@ import { ActivityIndicator } from 'react-native';
 import { requestClear } from '../../redux/reducers/userRequestsSlice';
 import { baseUrl } from '../../utils/logics/constants';
 import axiosInstance from '../../utils/logics/axiosInstance';
+import { setSpades } from '../../redux/reducers/userDataSlice';
 
 
 
@@ -29,7 +30,7 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
         try {
 
 
-            // await auth().signOut();
+            await auth().signOut();
 
             await AsyncStorage.removeItem('userDetails');
             const config = {
@@ -46,6 +47,7 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
                     console.log('UserName updated Successfully');
                     await messaging().deleteToken();
                     console.log("FCM token deleted.");
+                    dispatch(setSpades([]));
                 })
                 .catch(err => {
                     console.error('Error updating token: ' + err.message);
