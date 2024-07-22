@@ -25,6 +25,7 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:allowBackup="false"
     android:theme="@style/AppTheme"
+    android:networkSecurityConfig="@xml/network_security_config"
     >
     <!-- Your other application components -->
     <meta-data android:name="expo.modules.updates.ENABLED" android:value="false"/>
@@ -39,7 +40,7 @@
         android:theme="@style/Theme.App.SplashScreen"
         android:exported="true"
         android:screenOrientation="portrait"
-        android:networkSecurityConfig="@xml/network_security_config">
+        >
         <intent-filter>
             <action android:name="android.intent.action.MAIN"/>
             <category android:name="android.intent.category.LAUNCHER"/>
