@@ -19,7 +19,8 @@ const initialState = {
   bargainingScreens: [],
   accessToken: "",
   refreshToken: "",
-  isOnline: false
+  isOnline: false,
+  isHome: true,
 };
 
 const userDataSlice = createSlice({
@@ -88,9 +89,12 @@ const userDataSlice = createSlice({
     },
     setIsOnline: (state, action) => {
       state.isOnline = action.payload;
-    }
+    },
+    setIsHome: (state, action) => {
+      state.isHome = action.payload;
+    },
   },
 });
 
-export const { setMobileNumber, setUserName, setUserLocation, setImages, setUserDetails, setSpades, setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers, setCurrentChatMessages, setUniqueToken, userClear, setUserLatitude, setUserLongitude, setCurrentSpadeChatId, setBargainingScreens, setAccessToken, setRefreshToken, setIsOnline } = userDataSlice.actions;
+export const { setMobileNumber, setUserName, setUserLocation, setImages, setUserDetails, setSpades, setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers, setCurrentChatMessages, setUniqueToken, userClear, setUserLatitude, setUserLongitude, setCurrentSpadeChatId, setBargainingScreens, setAccessToken, setRefreshToken, setIsOnline, setIsHome } = userDataSlice.actions;
 export default userDataSlice.reducer;

@@ -122,6 +122,10 @@ const CreateNewBidScreen = () => {
         // dispatch(setCurrentChatMessages(mess));
         dispatch(emtpyRequestImages([]));
 
+        let allSpadesData = spades.filter(s => s._id !== currentSpade._id);
+        allSpadesData = [currentSpade, ...allSpadesData];
+        dispatch(setSpades(allSpadesData));
+
         setLoading(false);
         const requestId = details?._id;
         navigation.navigate(`${requestId}`);

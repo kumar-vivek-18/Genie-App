@@ -120,6 +120,10 @@ const CameraScreen = () => {
                     dispatch(setCurrentSpadeRetailers(updatedRetailers));
                     dispatch(setCurrentSpadeRetailer(updateChat));
 
+                    let allSpadesData = spades.filter(s => s._id !== currentSpade._id);
+                    allSpadesData = [currentSpade, ...allSpadesData];
+                    dispatch(setSpades(allSpadesData));
+
                     setQuery("");
 
                     const requestId = details._id;
@@ -136,13 +140,13 @@ const CameraScreen = () => {
                     };
                     await AttachmentSend(notification);
 
-                    const idx = spades.findIndex(spade => spade._id === res.data.userRequest);
-                    if (idx !== 0) {
-                        let data = spades.filter(spade => spade._id === res.data.userRequest);
-                        let data2 = spades.filter(spade => spade._id !== res.data.userRequest);
-                        const spadeData = [...data, ...data2]
-                        dispatch(setSpades(spadeData));
-                    }
+                    // const idx = spades.findIndex(spade => spade._id === res.data.userRequest);
+                    // if (idx !== 0) {
+                    //     let data = spades.filter(spade => spade._id === res.data.userRequest);
+                    //     let data2 = spades.filter(spade => spade._id !== res.data.userRequest);
+                    //     const spadeData = [...data, ...data2]
+                    //     dispatch(setSpades(spadeData));
+                    // }
                 })
                 .catch((err) => {
                     setLoading(false);

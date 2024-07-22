@@ -10,7 +10,7 @@ import ArrowLeft from '../../assets/arrow-left.svg';
 import axios from 'axios';
 import Tick from '../../assets/Tick.svg';
 import * as Clipboard from 'expo-clipboard';
-import { setBargainingScreens, setCurrentSpade, setCurrentSpadeChatId, setCurrentSpadeRetailer, setUserDetails } from '../../redux/reducers/userDataSlice';
+import { setBargainingScreens, setCurrentSpade, setCurrentSpadeChatId, setCurrentSpadeRetailer, setIsHome, setUserDetails } from '../../redux/reducers/userDataSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import CloseSpadeModal from '../components/CloseSpadeModal';
 import SuccessModal from '../components/SuccessModal';
@@ -56,10 +56,16 @@ const RequestDetail = () => {
     const isRequestDetailScreen = navigationState.routes[navigationState.index].name === 'activerequest';
     const accessToken = useSelector(store => store.user.accessToken);
     const [viewMore, setViewMore] = useState(false);
+    const isHome = useSelector(store => store.user.isHome);
     useEffect(() => {
         const backAction = () => {
             if (isRequestDetailScreen) {
-                navigation.navigate('home')
+                if (isHome)
+                    navigation.navigate('home');
+                else {
+                    navigation.navigate('history');
+                    dispatch(setIsHome(true));
+                }
                 return true;
             } else {
                 return false;
@@ -368,23 +374,26 @@ const RequestDetail = () => {
                                 </View>
                             </TouchableOpacity>
 
-                            {spade?.requestActive !== "closed" && <TouchableOpacity onPress={() => { setModal(!modal) }} >
+                            <TouchableOpacity onPress={() => { setModal(!modal) }} >
                                 <View className="px-[20px] py-[10px] ">
                                     <ThreeDots />
                                 </View>
-                            </TouchableOpacity>}
+                            </TouchableOpacity>
                         </View>
 
                         {modal && <View className="absolute top-[30px] right-[50px] z-50 bg-white rounded-md">
                             <TouchableOpacity onPress={() => { navigation.navigate('view-request', { data: spade }); setModal(!modal) }}>
                                 <Text className="mx-5 border-1 border-b-[1px] py-3" style={{ fontFamily: "Poppins-Regular" }}>View Request</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => { setConfirmModal(true); setModal(false); }}>
-                                <Text className="mx-5 py-3 border-1 border-b-[1px]" style={{ fontFamily: "Poppins-Regular" }}>Close Request</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => { navigation.navigate("help"); setModal(!modal) }}>
-                                <Text className="mx-5 py-3" style={{ fontFamily: "Poppins-Regular" }}>Report Shopkeeper</Text>
-                            </TouchableOpacity>
+                            {spade.requestActive !== "closed" && <View>
+                                <TouchableOpacity onPress={() => { setConfirmModal(true); setModal(false); }}>
+                                    <Text className="mx-5 py-3 border-1 border-b-[1px]" style={{ fontFamily: "Poppins-Regular" }}>Close Request</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => { navigation.navigate("help"); setModal(!modal) }}>
+                                    <Text className="mx-5 py-3" style={{ fontFamily: "Poppins-Regular" }}>Report Shopkeeper</Text>
+                                </TouchableOpacity>
+                            </View>}
+
                         </View>}
 
                         <View className="bg-[#ffe7c8] text-[#2e2c43]  py-[30px] pt-[30px]">

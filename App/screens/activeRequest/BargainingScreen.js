@@ -515,10 +515,12 @@ const BargainingScreen = () => {
                 newMessageReceived.createdAt = data.formattedTime;
                 newMessageReceived.updatedAt = data.formattedDate;
 
-                if (
-                    prevMessages[prevMessages.length - 1]?.chat?._id ===
-                    newMessageReceived?.chat?._id
-                ) {
+
+                let allSpadesData = spades.filter(s => s._id !== currentSpade._id);
+                allSpadesData = [currentSpade, ...allSpadesData];
+                dispatch(setSpades(allSpadesData));
+
+                if (prevMessages[prevMessages.length - 1]?.chat?._id === newMessageReceived?.chat?._id) {
                     //updating retailers latest message
                     const updateChat = {
                         ...currentSpadeRetailer,
@@ -537,10 +539,7 @@ const BargainingScreen = () => {
                     dispatch(setCurrentSpadeRetailer(updateChat));
                     if (newMessageReceived.bidType === "true")
                         setBidCounts(bidCounts + 1);
-                    if (
-                        prevMessages[prevMessages.length - 1]?._id ===
-                        newMessageReceived?._id
-                    ) {
+                    if (prevMessages[prevMessages.length - 1]?._id === newMessageReceived?._id) {
                         // Update the last message if it's the same as the new one
                         if (newMessageReceived.bidAccepted === "accepted") {
                             const tmp = {

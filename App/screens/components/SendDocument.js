@@ -15,7 +15,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { formatDateTime } from "../../utils/logics/Logics";
-import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from "../../redux/reducers/userDataSlice";
+import { setCurrentSpadeRetailer, setCurrentSpadeRetailers, setSpades } from "../../redux/reducers/userDataSlice";
 import { socket } from "../../utils/scoket.io/socket";
 import { DocumentNotification } from "../../notification/notificationMessages";
 import { baseUrl } from "../../utils/logics/constants";
@@ -29,6 +29,7 @@ const SendDocument = () => {
     const currentSpadeRetailer = useSelector(state => state.user.currentSpadeRetailer);
     const currentSpadeRetailers = useSelector(state => state.user.currentSpadeRetailers);
     const currentSpade = useSelector(state => state.user.currentSpade);
+    const spades = useSelector(state => state.user.spades);
     const userDetails = useSelector(state => state.user.userDetails);
     const route = useRoute();
     const { result, messages, setMessages } = route.params;
@@ -97,6 +98,9 @@ const SendDocument = () => {
                     dispatch(setCurrentSpadeRetailers(updatedRetailers));
                     dispatch(setCurrentSpadeRetailer(updateChat));
 
+                    let allSpadesData = spades.filter(s => s._id !== currentSpade._id);
+                    allSpadesData = [currentSpade, ...allSpadesData];
+                    dispatch(setSpades(allSpadesData));
 
                     navigation.goBack();
                     if (token.data.length > 0) {

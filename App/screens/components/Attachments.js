@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { socket } from '../../utils/scoket.io/socket';
 import { formatDateTime, getLocationName, getPreciseGeoCoordinates } from '../../utils/logics/Logics';
-import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
+import { setCurrentSpadeRetailer, setCurrentSpadeRetailers, setSpades } from '../../redux/reducers/userDataSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import LocationModal from './LocationModal';
@@ -29,6 +29,8 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
     const userDetails = useSelector((store) => store.user.userDetails);
 
     const currentSpade = useSelector((store) => store.user.currentSpade);
+    const spades = useSelector(store => store.user.spades);
+
     const navigation = useNavigation();
     const [imageUri, setImageUri] = useState("");
     const dispatch = useDispatch();
@@ -98,6 +100,9 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
                     dispatch(setCurrentSpadeRetailers(updatedRetailers));
                     dispatch(setCurrentSpadeRetailer(updateChat));
 
+                    let allSpadesData = spades.filter(s => s._id !== currentSpade._id);
+                    allSpadesData = [currentSpade, ...allSpadesData];
+                    dispatch(setSpades(allSpadesData));
 
                     setAttachmentScreen(false);
                     setLocationLoading(false);
@@ -291,7 +296,7 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => { setOpenLocationModal(!openLocationModal); setAttachmentScreen(false) }}>
+                    <TouchableOpacity onPress={() => { setOpenLocationModal(!openLocationModal); }}>
                         <View className="items-center">
                             <StoreLocation />
 

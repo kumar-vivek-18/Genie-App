@@ -128,6 +128,10 @@ const SendQueryScreen = () => {
         dispatch(setCurrentSpadeRetailer(updateChat));
 
 
+        let allSpadesData = spades.filter(s => s._id !== currentSpade._id);
+        allSpadesData = [currentSpade, ...allSpadesData];
+        dispatch(setSpades(allSpadesData));
+
         navigation.goBack();
         setIsLoading(false)
         const notification = {
@@ -143,14 +147,14 @@ const SendQueryScreen = () => {
         // console.log("query page", spade);
         await newMessageSend(notification);
 
-        const idx = spades.findIndex(spade => spade._id === res.data.userRequest);
-        console.log('Idx', idx);
-        if (idx !== 0) {
-          let data = spades.filter(spade => spade._id === res.data.userRequest);
-          let data2 = spades.filter(spade => spade._id !== res.data.userRequest);
-          const spadeData = [...data, ...data2]
-          dispatch(setSpades(spadeData));
-        }
+        // const idx = spades.findIndex(spade => spade._id === res.data.userRequest);
+        // console.log('Idx', idx);
+        // if (idx !== 0) {
+        //   let data = spades.filter(spade => spade._id === res.data.userRequest);
+        //   let data2 = spades.filter(spade => spade._id !== res.data.userRequest);
+        //   const spadeData = [...data, ...data2]
+        //   dispatch(setSpades(spadeData));
+        // }
       })
       .catch((err) => {
         setIsLoading(false)

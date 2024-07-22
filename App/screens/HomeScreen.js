@@ -23,6 +23,7 @@ import {
   setUserDetails,
   setUserLongitude,
   setUserLatitude,
+  setIsHome,
 } from "../redux/reducers/userDataSlice";
 import io from "socket.io-client";
 import { socket } from "../utils/scoket.io/socket";
@@ -309,7 +310,7 @@ const HomeScreen = () => {
 
           <GenieCulturTapLogo />
 
-          <Pressable onPress={() => navigation.navigate("history")}>
+          <Pressable onPress={() => { navigation.navigate("history"); dispatch(setIsHome(false)) }}>
             <View className="bg-[#fb8c00] w-[42px] h-[42px] rounded-full flex justify-center items-center mx-auto">
               {/* <Image
                 source={require("../assets/SettingIcon.png")}
