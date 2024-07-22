@@ -155,7 +155,7 @@ const PaymentScreen = () => {
     const encodedCredentials = btoa(credentials);
     setLoading(true);
     try {
-      const response = await axiosInstance.post(
+      const response = await axios.post(
         "https://api.razorpay.com/v1/orders",
         {
           amount: 100,
@@ -211,7 +211,7 @@ const PaymentScreen = () => {
     } catch (error) {
       setLoading(false);
       console.error("Order creation failed:", error);
-      Alert.alert("Order creation failed", error.message);
+      // Alert.alert("Order creation failed", error.message);
     }
   };
 

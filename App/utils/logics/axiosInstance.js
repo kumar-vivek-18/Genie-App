@@ -1,7 +1,8 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { baseUrl } from './constants';
 
-const API_URL = 'http://192.168.86.218:5000';
+const API_URL = baseUrl;
 
 // Function to get stored token
 const getToken = async (key) => {
@@ -31,7 +32,7 @@ const refreshToken = async () => {
         console.log(refreshToken);
         if (!refreshToken) throw new Error('No refresh token available');
 
-        const response = await axios.get(`http://192.168.86.218:5000/user/refresh-token`, { params: { refreshToken: refreshToken } });
+        const response = await axios.get(`${baseUrl}/user/refresh-token`, { params: { refreshToken: refreshToken } });
         // console.log(response);
         const { accessToken, refreshToken: newRefreshToken } = response.data;
         console.log('refresh token:', accessToken, refreshToken);
@@ -71,6 +72,7 @@ axiosInstance.interceptors.response.use(
     },
     async (error) => {
         const originalRequest = error.config;
+        console.log("error", error.response.status);
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             try {
