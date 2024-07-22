@@ -751,7 +751,7 @@ const BargainingScreen = () => {
                         </View>
 
                         <View className="flex-row gap-[6px] items-center mt-[16px]">
-                            <TouchableOpacity
+                            {currentSpade.requestActive === "completed" && currentSpade.requestAcceptedChat === currentSpadeRetailer._id && <TouchableOpacity
                                 onPress={() => {
                                     setRetailerModal(true);
                                 }}
@@ -764,7 +764,7 @@ const BargainingScreen = () => {
                                         Contact Details
                                     </Text>
                                 </View>
-                            </TouchableOpacity>
+                            </TouchableOpacity>}
 
                             <TouchableOpacity
                                 onPress={() => {
