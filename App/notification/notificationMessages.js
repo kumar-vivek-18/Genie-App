@@ -169,7 +169,7 @@ export const BidAccepted = async (mess) => {
 
         const notification = {
             notification: {
-                title: "This bid has accepted",
+                title: "This offer has accepted",
                 body: mess?.body,
                 image: mess?.image
             },
@@ -240,7 +240,7 @@ export const BidRejected = async (mess) => {
 
         const notification = {
             notification: {
-                title: `${mess?.title} has rejected your bid`,
+                title: `${mess?.title} has rejected your offet`,
                 body: mess?.body,
                 image: mess?.image
             },

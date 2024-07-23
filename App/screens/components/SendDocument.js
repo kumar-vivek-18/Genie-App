@@ -20,6 +20,8 @@ import { socket } from "../../utils/scoket.io/socket";
 import { DocumentNotification } from "../../notification/notificationMessages";
 import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
+import ErrorDocument from '../../assets/ErrorDocument.svg';
+import UnableToSendMessage from "./UnableToSendMessageModal";
 
 const SendDocument = () => {
 
@@ -36,8 +38,9 @@ const SendDocument = () => {
     const [loading, setLoading] = useState(false);
     const fileSize = parseFloat(result.assets[0].size) / (1e6);
     const accessToken = useSelector(state => state.user.accessToken);
+    const [openModal, setOpenModal] = useState(false);
 
-    console.log('document result', result);
+    // console.log('document result', result);
 
 
     const sendDocument = async () => {
@@ -83,7 +86,17 @@ const SendDocument = () => {
             await axiosInstance.post(`${baseUrl}/chat/send-message`, formData, config)
                 .then(res => {
                     console.log(res);
+                    setLoading(false);
+                    if (res.status === 200) {
+                        setOpenModal(true);
+                        setTimeout(() => {
+                            navigation.goBack();
+                            setOpenModal(false);
+                        }, 2000);
+                    }
+                    if (res.status !== 201) return;
                     socket.emit("new message", res.data);
+
 
                     const data = formatDateTime(res.data.createdAt);
                     res.data.createdAt = data.formattedTime;
@@ -183,6 +196,7 @@ const SendDocument = () => {
                     </TouchableOpacity>}
                 </View>
             </View>
+            {openModal && <UnableToSendMessage openModal={openModal} setOpenModal={setOpenModal} errorContent="The attachment can not be sent because the customer sent you the new offer.Please accept or reject the customer offer before sending the new attachment" ErrorIcon={ErrorDocument} />}
 
         </View>
     )

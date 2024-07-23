@@ -40,6 +40,8 @@ import { newMessageSend } from "../../notification/notificationMessages";
 import { formatDateTime } from "../../utils/logics/Logics";
 import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
+import UnableToSendMessage from "../components/UnableToSendMessageModal";
+import ErrorMessage from '../../assets/ErrorMessage.svg';
 
 const SendQueryScreen = () => {
   const navigation = useNavigation();
@@ -64,6 +66,7 @@ const SendQueryScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const accessToken = useSelector(store => store.user.accessToken);
   const isOnline = useSelector(store => store.user.isOnline);
+  const [openModal, setOpenModal] = useState(false);
   // console.log('spade details', details);
   // const currrentChatMessages = useSelector(store => store.user.currentChatMessages);
   // console.log('messages', currrentChatMessages);
@@ -109,6 +112,14 @@ const SendQueryScreen = () => {
       .post(`${baseUrl}/chat/send-message`, formData, config)
       .then(async (res) => {
         // console.log("query", res.data);
+        if (res.status === 200) {
+          setOpenModal(true);
+          setTimeout(() => {
+            navigation.goBack();
+            setOpenModal(false);
+          }, 2000);
+        }
+        if (res.status !== 201) return;
         socket.emit("new message", res.data);
         const data = formatDateTime(res.data.createdAt);
         res.data.createdAt = data.formattedTime;
@@ -276,6 +287,7 @@ const SendQueryScreen = () => {
             Next
           </Text>)}
       </TouchableOpacity>
+      {openModal && <UnableToSendMessage openModal={openModal} setOpenModal={setOpenModal} errorContent="The message can not be sent because the customer sent you the new offer.Please accept or reject the customer offer before sending the new message" ErrorIcon={ErrorMessage} />}
     </View>
   );
 };

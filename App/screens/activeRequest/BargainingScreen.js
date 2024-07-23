@@ -274,7 +274,7 @@ const BargainingScreen = () => {
         if (currentSpadeRetailer && currentSpadeChatId?.chatId === currentSpadeRetailer?._id) {
             fetchMessages(currentSpadeChatId?.chatId);
             setMessagesMarkAsRead();
-            console.log(userLongitude, userLatitude, currentSpadeRetailer.retailerId.longitude, currentSpadeRetailer.retailerId.latitude);
+            // console.log(userLongitude, userLatitude, currentSpadeRetailer.retailerId.longitude, currentSpadeRetailer.retailerId.latitude);
             if (userLongitude !== 0 && userLatitude !== 0 && currentSpadeRetailer?.retailerId?.longitude !== 0 && currentSpadeRetailer?.retailerId?.lattitude !== 0) {
                 const dis = haversineDistance(userLatitude, userLongitude, currentSpadeRetailer?.retailerId?.lattitude, currentSpadeRetailer?.retailerId?.longitude);
                 console.log('dis', dis);
@@ -290,7 +290,7 @@ const BargainingScreen = () => {
             fetchCurrentSpadeRetailer();
             setMessagesMarkAsRead();
             handleSpadeNaviagtion();
-            console.log(userLongitude, userLatitude, currentSpadeRetailer.retailerId.longitude, currentSpadeRetailer.retailerId.latitude);
+            // console.log(userLongitude, userLatitude, currentSpadeRetailer.retailerId.longitude, currentSpadeRetailer.retailerId.latitude);
             if (userLongitude !== 0 && userLatitude !== 0 && currentSpadeRetailer?.retailerId?.longitude !== 0 && currentSpadeRetailer?.retailerId?.lattitude !== 0) {
                 const dis = haversineDistance(userLatitude, userLongitude, currentSpadeRetailer?.retailerId?.lattitude, currentSpadeRetailer?.retailerId?.longitude);
                 console.log('dis', dis);
@@ -383,14 +383,14 @@ const BargainingScreen = () => {
                     const notification = {
                         token: res.data.uniqueTokens,
                         body: spade?.requestDetail,
-                        image: "",
+                        image: currentSpadeRetailer?.requestId?.requestImages.length > 0 ? currentSpadeRetailer.requestId.requestImages[0] : "",
                         requestInfo: {
                             requestId: currentSpadeRetailer?._id,
                             userId: currentSpadeRetailer?.users[0]._id,
                         },
                     };
                     await BidAccepted(notification);
-                    console.log("bid accepted");
+                    console.log("Offer accepted");
 
                     const idx = spades.findIndex(
                         (spade) => spade._id === res.data.message.userRequest
@@ -480,7 +480,7 @@ const BargainingScreen = () => {
                 token: [token.data],
                 title: userDetails?.userName,
                 body: spade?.requestDetail,
-                image: "",
+                image: currentSpadeRetailer?.requestId?.requestImages.length > 0 ? currentSpadeRetailer.requestId.requestImages[0] : "",
                 requestInfo: {
                     requestId: currentSpadeRetailer?._id,
                     userId: currentSpadeRetailer?.users[0]._id,

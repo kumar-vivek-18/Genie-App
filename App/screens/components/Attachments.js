@@ -21,6 +21,8 @@ import axiosInstance from '../../utils/logics/axiosInstance';
 import { Camera } from "expo-camera";
 import { launchCamera } from 'react-native-image-picker';
 import { manipulateAsync } from "expo-image-manipulator";
+import ErrorDocument from '../../assets/ErrorDocument.svg';
+import UnableToSendMessage from './UnableToSendMessageModal';
 
 const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal }) => {
 
@@ -38,7 +40,7 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
     const [locationLoading, setLocationLoading] = useState(false);
     const [openLocationModal, setOpenLocationModal] = useState(false);
     const accessToken = useSelector(store => store.user.accessToken);
-
+    const [openModal, setOpenModal] = useState(false);
     //  console.log(currentSpadeRetailer)
 
     const sendLocation = async () => {
@@ -85,7 +87,15 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
             await axiosInstance.post(`${baseUrl}/chat/send-message`, formData, config)
                 .then(res => {
                     console.log(res.data);
-
+                    setLoading(false);
+                    if (res.status === 200) {
+                        setOpenModal(true);
+                        setTimeout(() => {
+                            setOpenModal(false);
+                            navigator.goBack();
+                        }, 2000);
+                    }
+                    if (res.status !== 201) return;
                     socket.emit("new message", res.data);
                     const data = formatDateTime(res.data.createdAt);
                     res.data.createdAt = data.formattedTime;
@@ -319,6 +329,8 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
                 </View>
             </View>
             {openLocationModal && <LocationModal openLocationModal={openLocationModal} setOpenLocationModal={setOpenLocationModal} locationLoading={locationLoading} sendLocation={sendLocation} />}
+            {openModal && <UnableToSendMessage openModal={openModal} setOpenModal={setOpenModal} errorContent="The attachment can not be sent because the customer sent you the new offer.Please accept or reject the customer offer before sending the new attachment" ErrorIcon={ErrorDocument} />}
+
         </View>
     )
 }

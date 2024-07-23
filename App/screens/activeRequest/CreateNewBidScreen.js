@@ -31,7 +31,8 @@ import AddImages from "../components/AddImages";
 import { formatDateTime } from "../../utils/logics/Logics";
 import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
-
+import ErrorOffer from '../../assets/ErrorOffer.svg';
+import UnableToSendMessage from "../components/UnableToSendMessageModal";
 
 const CreateNewBidScreen = () => {
   const route = useRoute();
@@ -58,6 +59,7 @@ const CreateNewBidScreen = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [scaleAnimation] = useState(new Animated.Value(0));
   const accessToken = useSelector((store) => store.user.accessToken);
+  const [openModal, setOpenModal] = useState(false);
 
   console.log("requestImages", requestImages);
 
@@ -101,6 +103,15 @@ const CreateNewBidScreen = () => {
       .post(`${baseUrl}/chat/send-message`, formData, config)
       .then(async (res) => {
         console.log(res.data);
+        setLoading(false);
+        if (res.status === 200) {
+          setOpenModal(true);
+          setTimeout(() => {
+            setOpenModal(false);
+            navigation.goBack();
+          }, 2000);
+        }
+        if (res.status !== 201) return;
         // const mess = [...messages];
         // mess.push(res.data);
         // setMessages(mess);
@@ -355,6 +366,8 @@ const CreateNewBidScreen = () => {
 
         </Pressable>
       </Modal>
+      {openModal && <UnableToSendMessage openModal={openModal} setOpenModal={setOpenModal} errorContent="The offer can not be sent because the customer sent you the new offer.Please accept or reject the customer offer before sending the new offer" ErrorIcon={ErrorOffer} />}
+
     </View>
   );
 };

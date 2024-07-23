@@ -215,7 +215,7 @@ const RequestPreviewScreen = () => {
             Your expected price
           </Text>
           <Text className="text-[24px] text-[#558b2f] mb-[10px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
-            {expectedPrice === 0 ? "NaN" : expectedPrice}
+            {expectedPrice === 0 ? "NaN" : `${expectedPrice} Rs`}
           </Text>
           <Text className=" text-[14px] text-[#2e2c43] mb-[6px] " style={{ fontFamily: "Poppins-Bold" }}>
             Applied Coupon

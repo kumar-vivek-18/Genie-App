@@ -31,6 +31,7 @@ import {
 } from "../../redux/reducers/userDataSlice";
 import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
+import ErrorDocument from '../../assets/ErrorDocument.svg';
 
 const CameraScreen = () => {
     const navigation = useNavigation();
@@ -56,6 +57,7 @@ const CameraScreen = () => {
     const currentSpade = useSelector((store) => store.user.currentSpade);
     const [loading, setLoading] = useState(false);
     const accessToken = useSelector(store => store.user.accessToken);
+    const [openModal, setOpenModal] = useState(false);
 
     const sendAttachment = async () => {
         try {
@@ -102,6 +104,16 @@ const CameraScreen = () => {
 
             await axiosInstance.post(`${baseUrl}/chat/send-message`, formData, config)
                 .then(async (res) => {
+                    setLoading(false);
+                    if (res.status === 200) {
+                        setOpenModal(true);
+                        setTimeout(() => {
+                            setOpenModal(false);
+                            navigation.goBack();
+                        }, 2000);
+                    }
+                    if (res.status !== 201) return;
+
                     console.log('send message', res.data);
                     socket.emit("new message", res.data);
                     const data = formatDateTime(res.data.createdAt);
