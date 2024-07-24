@@ -57,6 +57,7 @@ import HistoryIcon from '../assets/historyIcon.svg';
 import { baseUrl } from "../utils/logics/constants";
 import { handleRefreshLocation } from "../utils/logics/updateLocation";
 import axiosInstance from "../utils/logics/axiosInstance";
+import NetworkError from "./components/NetworkError";
 
 const { width } = Dimensions.get("window");
 
@@ -82,6 +83,8 @@ const HomeScreen = () => {
     const index = Math.floor(contentOffsetX / (width - 80));
     setCurrentIndex(index);
   };
+  const [spadesLoading, setSpadesLoading] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
 
   // useEffect(() => {
   //   if (isFocused) {
@@ -135,6 +138,8 @@ const HomeScreen = () => {
   }, [isHomeScreen]);
 
   const fetchData = async () => {
+    setSpadesLoading(true);
+
     const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
     dispatch(setUserDetails(userData));
     try {
@@ -154,6 +159,7 @@ const HomeScreen = () => {
       // console.log('HomeScreen', response.data);
 
       // Check the status from the response object
+      setSpadesLoading(false);
       if (response.status === 200) {
         // Dispatch the action with the spades data
         const spadesData = response.data;
@@ -169,6 +175,10 @@ const HomeScreen = () => {
         console.error("No Spades Found");
       }
     } catch (error) {
+      setSpadesLoading(false);
+      if (!error?.response?.status) {
+        setNetworkError(true);
+      }
       console.error("Error while finding spades", error);
     }
   };
@@ -178,15 +188,6 @@ const HomeScreen = () => {
   }, []);
 
 
-  const handleSpadeCreation = async () => {
-    if (userDetails.lastPaymentStatus === "unpaid") {
-      navigation.navigate('payment-gateway');
-    }
-    else {
-      navigation.navigate("requestentry");
-    }
-    // navigation.navigate("requestentry");
-  }
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -212,8 +213,6 @@ const HomeScreen = () => {
     return () => {
       socket.disconnect();
       console.log('Socket Disconnected Successfully');
-      // socket.emit('leave room', spadeId);
-      // console.log('Reailer disconnected');
     };
   }, []);
 
@@ -254,6 +253,10 @@ const HomeScreen = () => {
 
   const fetchUserDetails = async () => {
     try {
+      if (userDetails.unpaidSpades.length > 0) {
+        navigation.navigate('payment-gateway', { spadeId: userDetails.unpaidSpades[0] });
+        return;
+      }
       const config = {
         headers: {
           'Content-Type': 'application/json',
@@ -312,10 +315,7 @@ const HomeScreen = () => {
 
           <Pressable onPress={() => { navigation.navigate("history"); dispatch(setIsHome(false)) }}>
             <View className="bg-[#fb8c00] w-[42px] h-[42px] rounded-full flex justify-center items-center mx-auto">
-              {/* <Image
-                source={require("../assets/SettingIcon.png")}
-                className="w-[26px] h-[26px]"
-              /> */}
+
               <HistoryIcon />
             </View>
           </Pressable>
@@ -384,7 +384,7 @@ const HomeScreen = () => {
 
           {/* How it works when user have no ongoing requests */}
 
-          {spades.length === 0 && (
+          {spades.length === 0 && !networkError && !spadesLoading && (
             <View className="">
               <Text className=" text-text text-[16px] text-center mt-[50px]" style={{ fontFamily: "Poppins-Bold" }}>
                 How it works?
@@ -440,9 +440,9 @@ const HomeScreen = () => {
             </View>
           )}
 
-          {/* User ongoing requests  */}
 
-          {spades.length > 0 && (
+
+          {spades.length > 0 && !networkError && !spadesLoading && (
             <View>
               <Text
                 className={`text-center  text-text my-[33px]`}
@@ -497,6 +497,10 @@ const HomeScreen = () => {
               ))}
             </View>
           )}
+
+          {spadesLoading && <View className="py-[150px]"><ActivityIndicator size={30} color={'#fb8c00'} /></View>}
+
+          {networkError && <View className="mt-[100px]"><NetworkError callFunction={fetchData} setNetworkError={setNetworkError} /></View>}
         </View>
       </ScrollView>
     </View>

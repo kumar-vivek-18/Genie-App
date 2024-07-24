@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, Image, Animated, TouchableOpacity, Modal, Linking, BackHandler } from 'react-native'
+import { View, Text, ScrollView, Pressable, Image, Animated, TouchableOpacity, Modal, Linking, BackHandler, Dimensions, ActivityIndicator } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import ThreeDots from '../../assets/3dots.svg';
@@ -41,6 +41,7 @@ import ErrorModal from '../components/ErrorModal';
 import { baseUrl } from '../../utils/logics/constants';
 import RatingStar from "../../assets/Star.svg";
 import axiosInstance from '../../utils/logics/axiosInstance';
+import NetworkError from '../components/NetworkError';
 
 const BargainingScreen = () => {
     const navigation = useNavigation();
@@ -73,8 +74,10 @@ const BargainingScreen = () => {
     const isBargainScreen = navigationState.routes[navigationState.index].name === currentSpadeChatId.chatId;
     const [online, setOnline] = useState(false);
     const accessToken = useSelector(store => store.user.accessToken);
-
     const [distance, setDistance] = useState(null);
+    const [networkError, setNetworkError] = useState(false);
+    const [messageLoading, setMessageLoading] = useState(false);
+
 
     useEffect(() => {
         const backAction = () => {
@@ -227,6 +230,7 @@ const BargainingScreen = () => {
 
     const fetchMessages = useCallback((id) => {
         // console.log("fetching messages", id);
+        setMessageLoading(true);
         const config = {
             headers: { // Use "headers" instead of "header"
                 'Content-Type': 'application/json',
@@ -239,6 +243,7 @@ const BargainingScreen = () => {
         axiosInstance
             .get(`${baseUrl}/chat/get-spade-messages`, config)
             .then((res) => {
+                setMessageLoading(false);
                 res.data.map((mess) => {
                     const data = formatDateTime(mess.createdAt);
                     mess.createdAt = data.formattedTime;
@@ -260,6 +265,9 @@ const BargainingScreen = () => {
                 // console.log("messages", res.data);
             })
             .catch((err) => {
+                setMessageLoading(false);
+                if (!err?.response?.status)
+                    setNetworkError(true);
                 console.error("error", err);
             });
     }, []);
@@ -326,7 +334,7 @@ const BargainingScreen = () => {
 
             };
             await axiosInstance
-                .patch("http://173.212.193.109:5000/chat/accept-bid", {
+                .patch(`${baseUrl}/chat/accept-bid`, {
                     messageId: messages[messages?.length - 1]._id,
                     userRequestId: spade?._id,
                 }, config)
@@ -350,12 +358,7 @@ const BargainingScreen = () => {
                         requestAcceptedChat: currentSpadeRetailer._id,
                     };
                     dispatch(setCurrentSpade(tmp));
-                    // let allSpades = [...spades];
-                    // allSpades.map((curr, index) => {
-                    //     if (curr._id === tmp._id) {
-                    //         allSpades[index] = tmp;
-                    //     }
-                    // });
+
                     const updatedAllSpades = [tmp, ...spades.filter(curr => curr._id !== tmp._id)];
 
                     dispatch(setSpades(updatedAllSpades));
@@ -392,19 +395,7 @@ const BargainingScreen = () => {
                     await BidAccepted(notification);
                     console.log("Offer accepted");
 
-                    const idx = spades.findIndex(
-                        (spade) => spade._id === res.data.message.userRequest
-                    );
-                    if (idx !== 0) {
-                        let data = spades.filter(
-                            (spade) => spade._id === res.data.message.userRequest
-                        );
-                        let data2 = spades.filter(
-                            (spade) => spade._id !== res.data.message.userRequest
-                        );
-                        const spadeData = [...data, ...data2];
-                        dispatch(setSpades(spadeData));
-                    }
+
                 })
                 .catch((err) => {
                     setLoading(false);
@@ -681,12 +672,13 @@ const BargainingScreen = () => {
 
     /////////////////////////////////////////////////////////////////Calculating height from top/////////////////////////////////////////////////
     const [viewHeight, setViewHeight] = useState(null);
-
+    const { width } = Dimensions.get('window');
     const handleLayout = (event) => {
         const { height } = event.nativeEvent.layout;
         setViewHeight(height);
-
     };
+
+
 
 
     return (
@@ -792,7 +784,8 @@ const BargainingScreen = () => {
 
                     {messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "new" &&
                         messages[messages?.length - 1]?.sender?.type ===
-                        "Retailer" && <View style={{ backgroundColor: "rgba(0,0,0,0.5)", height: 800, width: 360, position: 'absolute', zIndex: 100, top: viewHeight }}></View>}
+                        "Retailer" && <View style={{ backgroundColor: "rgba(0,0,0,0.5)", height: 800, width: width, position: 'absolute', zIndex: 100, top: viewHeight }}></View>}
+                    {networkError && <View style={{ marginTop: 50 }}><NetworkError callFunction={fetchMessages} setNetworkError={setNetworkError} /></View>}
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
                         ref={scrollViewRef}
@@ -802,7 +795,6 @@ const BargainingScreen = () => {
 
                     >
                         {/* <View></View> */}
-
                         <View className="flex gap-[10px] px-[10px] pt-[40px] pb-[300px]" >
 
                             {
@@ -835,7 +827,9 @@ const BargainingScreen = () => {
                                     </View>
                                 ))
                             }
+                            {messageLoading && <View className="mt-[150px]"><ActivityIndicator size={30} color={'#fb8c00'} /></View>}
                         </View>
+
 
                     </ScrollView>
 

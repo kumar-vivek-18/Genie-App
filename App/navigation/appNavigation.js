@@ -32,6 +32,7 @@ import AvailableCategories from '../screens/components/AvailableCategories';
 import { useSelector } from 'react-redux';
 import ReportVendor from '../screens/components/ReportVendor.js';
 import SendDocument from '../screens/components/SendDocument';
+import NetworkError from '../screens/components/NetworkError';
 const Stack = createNativeStackNavigator();
 const GlobalNavigation = () => {
     const [userId, setUserId] = useState("")
@@ -61,6 +62,7 @@ const GlobalNavigation = () => {
                 animation: "slide_from_right",
                 animationDuration: "50"
             }}>
+            <Stack.Screen name="network-error" component={NetworkError} />
             <Stack.Screen name="payment-gateway" component={Razorpay} />
             <Stack.Screen name="splash" component={SplashScreen} />
             <Stack.Screen name="mobileNumber" component={MobileNumberEntryScreen} />

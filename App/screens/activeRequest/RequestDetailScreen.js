@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, Image, TouchableOpacity, BackHandler } from 'react-native'
+import { View, Text, ScrollView, Pressable, Image, TouchableOpacity, BackHandler, ActivityIndicator } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation, useNavigationState, useRoute } from '@react-navigation/native';
@@ -31,6 +31,7 @@ import { FullWindowOverlay } from 'react-native-screens';
 import { baseUrl } from '../../utils/logics/constants';
 import { MaterialIcons } from '@expo/vector-icons';
 import axiosInstance from '../../utils/logics/axiosInstance';
+import NetworkError from '../components/NetworkError';
 
 
 const RequestDetail = () => {
@@ -57,6 +58,9 @@ const RequestDetail = () => {
     const accessToken = useSelector(store => store.user.accessToken);
     const [viewMore, setViewMore] = useState(false);
     const isHome = useSelector(store => store.user.isHome);
+    const [retailersLoading, setRetailersLoading] = useState(false);
+    const [networkError, setNetworkError] = useState(false);
+
     useEffect(() => {
         const backAction = () => {
             if (isRequestDetailScreen) {
@@ -80,7 +84,7 @@ const RequestDetail = () => {
         return () => backHandler.remove();
     }, [isRequestDetailScreen]);
 
-    console.log('HIII');
+
     const connectSocket = async (id) => {
         // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
         const userId = id;
@@ -125,7 +129,7 @@ const RequestDetail = () => {
     }
 
     const fetchRetailers = () => {
-
+        setRetailersLoading(true);
         const config = {
             headers: { // Use "headers" instead of "header"
                 'Content-Type': 'application/json',
@@ -137,6 +141,7 @@ const RequestDetail = () => {
         };
         axiosInstance.get(`${baseUrl}/chat/spade-chats`, config)
             .then((response) => {
+                setRetailersLoading(false);
                 if (response.status === 200) {
                     // setRetailers(response.data);
                     const chats = response.data;
@@ -147,11 +152,14 @@ const RequestDetail = () => {
                         // console.log(mess.createdAt);
                         console.log(chat._id, chat.updatedAt);
                     })
-
                     dispatch(setCurrentSpadeRetailers(chats));
                 }
             })
             .catch((error) => {
+                setRetailersLoading(false);
+                if (!error?.response?.status) {
+                    setNetworkError(true);
+                }
                 console.error('Error while fetching chats', error);
             });
     }
@@ -229,94 +237,9 @@ const RequestDetail = () => {
         return () => {
             socket.off("updated retailer", handleMessageReceived);
         };
-    }, [currentSpadeRetailers, currentSpade, spades, dispatch]); // No dependencies
+    }, [currentSpadeRetailers, currentSpade, spades, dispatch]);
 
 
-
-    // console.log('spade details', spade);
-
-    // useEffect(() => {
-    //     // console.log('object', spade._id);
-    //     const fetchRetailers = () => {
-    //         axios.get(`https://culturtap.com/api/chat/spade-chats`, {
-    //             params: {
-    //                 id: spade._id,
-    //             }
-    //         })
-    //             .then((response) => {
-    //                 if (response.status === 200) {
-    //                     setRetailers(response.data);
-    //                     // console.log('all reatailers', response.data);
-    //                     dispatch(setCurrentSpadeRetailers(response.data));
-    //                 }
-    //             })
-    //             .catch((error) => {
-    //                 console.error('Error while fetching chats', error);
-    //             });
-    //     }
-    //     fetchRetailers();
-    // }, []);
-
-    // const closeRequest = async () => {
-
-    //     const token = await axios.get('http://173.212.193.109:5000/retailer/unique-token', {
-    //         params: {
-    //             id: currentSpadeRetailers[0]?.retailerId._id,
-    //         }
-    //     });
-
-    //     await axios
-    //         .post("http://173.212.193.109:5000/chat/send-message", {
-    //             sender: {
-    //                 type: "UserRequest",
-    //                 refId: currentSpade._id,
-    //             },
-    //             message: "Customer close the chat",
-    //             userRequest: currentSpade._id,
-    //             bidType: "update",
-    //             bidPrice: 0,
-    //             bidImages: [],
-    //             chat: currentSpade.requestAcceptedChat,
-    //             warranty: 0,
-    //         })
-    //         .then(async (res) => {
-    //             socket.emit("new message", res.data);
-    //             const request = await axios.patch(`http://173.212.193.109:5000/user/closespade/`, {
-    //                 id: currentSpade._id
-    //             });
-    //             console.log('request', request);
-    //             if (request.status === 200) {
-    //                 console.log('request closed');
-    //                 spades = spades.filter(curr => curr._id !== request._id);
-    //                 console.log('Request closed successfully');
-    //                 dispatch(setSpades(spades));
-    //                 navigation.navigate('home');
-
-
-    //                 if (token.length > 0) {
-    //                     const notification = {
-    //                         token: token,
-    //                         title: userDetails.userName,
-    //                         close: currentSpade._id,
-    //                         image: currentSpade.requestImages ? currentSpade.requestImages[0] : ""
-    //                     }
-    //                     console.log("close notification", token)
-    //                     await sendCloseSpadeNotification(notification);
-
-    //                 }
-    //                 // Send Notification to reatiler 
-    //             }
-    //             else {
-    //                 console.error('Error occuring while closing user request');
-    //             }
-    //         })
-
-
-
-
-
-
-    // }
 
 
 
@@ -548,6 +471,8 @@ const RequestDetail = () => {
 
 
                         </View>
+                        {retailersLoading && <View className="mt-[100px]"><ActivityIndicator color="#fb8c00" /></View>}
+                        {networkError && <View className="mt-[100px]"><NetworkError callFunction={fetchRetailers} setNetworkError={setNetworkError} /></View>}
                     </View>
                 </ScrollView>
 

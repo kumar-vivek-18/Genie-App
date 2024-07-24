@@ -1,5 +1,5 @@
-import { View, Text, Pressable, Image, ScrollView } from 'react-native'
-import React, { useEffect } from 'react';
+import { View, Text, Pressable, Image, ScrollView, ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import axios from 'axios';
@@ -9,6 +9,7 @@ import { setCurrentSpade } from '../../redux/reducers/userDataSlice';
 import BackArrow from "../../assets/arrow-left.svg"
 import { baseUrl } from '../../utils/logics/constants';
 import axiosInstance from '../../utils/logics/axiosInstance';
+import NetworkError from '../components/NetworkError';
 
 
 const HistoryScreen = () => {
@@ -18,6 +19,8 @@ const HistoryScreen = () => {
     const userDetails = useSelector(state => state.user.userDetails);
     const history = useSelector(state => state.userRequest.history);
     const accessToken = useSelector(state => state.user.accessToken);
+    const [networkError, setNetworkError] = useState(false);
+    const [loading, setLoading] = useState(false);
     // console.log('HistoryScreen', history);
 
     const formatDateTime = (dateTimeString) => {
@@ -35,42 +38,16 @@ const HistoryScreen = () => {
         return { formattedTime, formattedDate };
     };
 
-    // useEffect(() => {
-    //     const fetchHistory = async () => {
-    //         try {
-    //             console.log('historyId', userDetails._id);
-    //             const historys = await axios.get('https://culturtap.com/api/user/history', {
-    //                 params: {
-    //                     id: userDetails._id,
-    //                 }
-    //             });
-
-    //             // console.log('historyDaata', historys.data);
-    //             if (historys.status === 200) {
-    //                 const historyData = historys.data;
-
-    //                 historyData.map((history, index) => {
-    //                     const dateTime = formatDateTime(history.updatedAt);
-    //                     historyData[index].createdAt = dateTime.formattedTime;
-    //                     historyData[index].updatedAt = dateTime.formattedDate;
-    //                 });
-    //                 dispatch(setHistory(historyData));
-    //                 console.log("historyScreenData", historyData);
-    //             }
-    //         } catch (error) {
-    //             console.error("Error occurred while fetching history");
-    //         }
-    //     }
-    //     fetchHistory();
-    // }, []);
 
     const fetchData = async () => {
 
         try {
             // console.log('userHomeScreem', userDetails);
+            setLoading(true);
+            console.log('hii');
             console.log(accessToken)
             const config = {
-                headers: { // Use "headers" instead of "header"
+                headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`,
                 },
@@ -80,9 +57,9 @@ const HistoryScreen = () => {
             };
             const response = await axiosInstance.get(`${baseUrl}/user/history`, config);
 
-            // console.log('HomeScreen', response.data);
+            // console.log(response);
 
-            // Check the status from the response object
+            setLoading(false);
             if (response.status === 200) {
                 // Dispatch the action with the spades data
                 const spadesData = response.data;
@@ -96,18 +73,24 @@ const HistoryScreen = () => {
 
                 // console.log('spades', response.data);
 
-            } else {
-                console.error('No Spades Found');
             }
 
+
         } catch (error) {
+            setLoading(false);
+            console.log(error);
+            if (!error?.response?.status) {
+                setNetworkError(true);
+            }
             console.error('Error while finding spades', error);
         }
     };
 
 
     useEffect(() => {
+        setLoading(true);
         fetchData();
+
     }, []);
 
 
@@ -128,37 +111,7 @@ const HistoryScreen = () => {
 
                     <Text className="text-center pt-[20px] text-[16px]  " style={{ fontFamily: "Poppins-Bold" }}>History</Text>
                     <Text className="text-center text-[14px] mb-[28px]" style={{ fontFamily: "Poppins-Regular" }}>Closed Requests</Text>
-                    {/* {
-                        history.map((data, index) => (
-                            <View key={index} className="flex-row items-center mx-[9px] bg-white gap-[15px] h-[153px] rounded-3xl shadow-3xl">
-                                <View className="px-[18px]">
-                                    <Image source={require('../../assets/Item.png')} />
-                                </View>
 
-                                <View >
-                                    <View>
-                                        <Text className="text-[14px] w-10/12">{data.requestDescription}</Text>
-                                    </View>
-
-                                    <View className="flex-row py-1">
-                                        <Text className="text-[12px]">Expected Price:</Text>
-                                        <Text className="text-[12px] text-[#70B241]">{data.expectedPrice} Rs</Text>
-                                    </View>
-                                    <View className="flex-row gap-[8px]">
-                                        <View className="flex-row items-center gap-[8px]">
-                                            <Image source={require('../../assets/time.png')} />
-                                            <Text className="text-[12px]">{data.createdAt}</Text>
-                                        </View>
-                                        <View className="flex-row items-center gap-[8px]">
-                                            <Image source={require('../../assets/calender.png')} />
-                                            <Text className="text-[12px]">{data.updatedAt}</Text>
-                                        </View>
-                                    </View>
-
-                                </View>
-                            </View>
-                        ))
-                    } */}
                     {history.length > 0 && <View>
                         {
                             history.map((spade, index) => (
@@ -208,6 +161,8 @@ const HistoryScreen = () => {
                     </View>}
 
                 </View>
+                {networkError && <NetworkError callFunction={fetchData} setNetworkError={setNetworkError} />}
+                {loading && <View className="flex-row mt-[100px] justify-center items-center "><ActivityIndicator color={'#fb8c00'} /></View>}
             </ScrollView>
         </SafeAreaView>
     )
