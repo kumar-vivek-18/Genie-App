@@ -481,7 +481,7 @@ const RequestDetail = () => {
                         <Text className="text-white text-center text-[16px]" style={{ fontFamily: "Poppins-Black" }}>Close Request</Text>
                     </TouchableOpacity>
                 </View>}
-                {spade?.requestActive === "active" && currentSpadeRetailers?.length === 0 && <View className="w-screen h-[68px]  justify-center absolute bottom-[20px] left-0 right-0">
+                {spade?.requestActive === "active" && currentSpadeRetailers?.length === 0 && !networkError && <View className="w-screen h-[68px]  justify-center absolute bottom-[20px] left-0 right-0">
 
                     <View className="bg-[#ffe7c8] mx-[16px] h-[68px] flex-row items-center justify-center rounded-full">
 

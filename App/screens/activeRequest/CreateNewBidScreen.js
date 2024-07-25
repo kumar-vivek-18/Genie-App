@@ -118,6 +118,7 @@ const CreateNewBidScreen = () => {
         socket.emit("new message", res.data);
         const data = formatDateTime(res.data.createdAt);
         res.data.createdAt = data.formattedTime;
+        res.data.updatedAt = data.formattedDate;
         //updating messages
         setMessages([...messages, res.data]);
 

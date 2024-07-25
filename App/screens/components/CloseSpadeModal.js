@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSpades } from '../../redux/reducers/userDataSlice';
-import { sendCloseSpadeNotification } from '../../notification/notificationMessages';
+import { CloseActiveSpadeNotification, sendCloseSpadeNotification } from '../../notification/notificationMessages';
 import { ActivityIndicator } from 'react-native';
 import { socket } from '../../utils/scoket.io/socket';
 import navigationService from '../../navigation/navigationService';
@@ -95,7 +95,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                                 title: userDetails?.userName,
                                 // close: currentSpade._id,
                                 image: request?.data?.requestImages[0],
-                                body: "Customer close the chat",
+                                body: spade?.requestDescription,
                                 requestInfo: {
                                     requestId: currentSpadeRetailers[0]?._id,
                                     userId: currentSpadeRetailers[0]?.users[0]._id
@@ -214,12 +214,28 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                 id: spade._id,
             }, config)
                 .then((res) => {
-                    console.log('res', res.data);
+                    console.log('res', res.data.updateRequest);
                     if (res.status === 200) {
                         const updatedSpades = spades.filter(curr => curr._id !== spade._id);
                         dispatch(setSpades(updatedSpades));
                         setConfirmModal(false);
                         setSuccessModal(true);
+
+                        const notification = {
+                            token: res.data.uniqueTokens,
+                            title: userDetails?.userName,
+                            // close: currentSpade._id,
+                            image: request?.data?.requestImages[0],
+                            body: spade?.requestDescription,
+                            requestInfo: {
+                                requestId: currentSpadeRetailers[0]?._id,
+                                userId: currentSpadeRetailers[0]?.users[0]._id
+                            }
+                        }
+                        // console.log("close notification", token)
+                        // sendCloseSpadeNotification(notification);
+                        CloseActiveSpadeNotification(notification);
+
 
                         setTimeout(() => {
                             setSuccessModal(false);

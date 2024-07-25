@@ -393,8 +393,9 @@ const BargainingScreen = () => {
 
                     setLoading(false);
                     const notification = {
+                        title: userDetails?.userName,
                         token: res.data.uniqueTokens,
-                        body: spade?.requestDetail,
+                        body: spade?.requestDescription,
                         image: currentSpadeRetailer?.requestId?.requestImages.length > 0 ? currentSpadeRetailer.requestId.requestImages[0] : "",
                         requestInfo: {
                             requestId: currentSpadeRetailer?._id,
@@ -807,7 +808,8 @@ const BargainingScreen = () => {
                     {messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "new" &&
                         messages[messages?.length - 1]?.sender?.type ===
                         "Retailer" && <View style={{ backgroundColor: "rgba(0,0,0,0.5)", height: 800, width: width, position: 'absolute', zIndex: 100, top: viewHeight }}></View>}
-                    {networkError && <View style={{ marginTop: 50 }}><NetworkError callFunction={fetchMessages} setNetworkError={setNetworkError} /></View>}
+
+                    {networkError && <View style={{ marginTop: 5 }}><NetworkError callFunction={fetchMessages} setNetworkError={setNetworkError} /></View>}
 
                     <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
                         ref={scrollViewRef}

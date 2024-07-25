@@ -169,7 +169,7 @@ export const BidAccepted = async (mess) => {
 
         const notification = {
             notification: {
-                title: "This offer has accepted",
+                title: `${mess.title} has accepted your offer`,
                 body: mess?.body,
                 image: mess?.image
             },
@@ -240,8 +240,8 @@ export const BidRejected = async (mess) => {
 
         const notification = {
             notification: {
-                title: `${mess?.title} has rejected your offet`,
-                body: mess?.body,
+                title: `${mess?.title} has rejected your offer`,
+                body: "Try with better offer!",
                 image: mess?.image
             },
             android: {
@@ -525,7 +525,7 @@ export const sendCloseSpadeNotification = async (mess) => {
                 token: mess?.token,
                 notification: {
                     title: `${mess.title} has closed the request`,
-                    body: "Welcome again!",
+                    body: mess?.body,
                     image: mess?.image,
                 },
                 android: {
@@ -570,6 +570,86 @@ export const sendCloseSpadeNotification = async (mess) => {
         }
     } catch (e) {
         console.error("Failed to send notification:", e);
+    }
+};
+
+
+export const CloseActiveSpadeNotification = async (mess) => {
+    try {
+        const uniqueTokens = mess.uniqueTokens;
+        console.log("notification request creted", uniqueTokens)
+
+        const accessToken = await getAccessToken();
+
+        const url = 'https://fcm.googleapis.com/v1/projects/genie-retailer/messages:send'; // Replace YOUR_PROJECT_ID with your actual project ID
+
+        const headers = {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': `Bearer ${accessToken}`
+        };
+
+        console.log('Access token: ', accessToken);
+
+        for (const token of uniqueTokens) {
+
+
+            if (token.length > 0) {
+                console.log("notification send to", token);
+
+
+                const notification = {
+                    notification: {
+                        title: `${mess.title} has closed the request`,
+                        body: mess?.body,
+                        image: mess?.image,
+                    },
+                    android: {
+                        priority: "high",
+                        notification: {
+                            sound: "default",
+                            // tag: mess?.requestId
+                        }
+                    },
+                    data: {
+                        redirect_to: "requestPage",
+                        requestInfo: JSON.stringify(requestInfo)
+                    }
+                };
+
+                const message = {
+                    message: {
+                        token: token,
+                        ...notification
+                    }
+                };
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(message),
+                });
+
+                const textResponse = await response.text();
+                // console.log('Raw response:', textResponse);
+
+                if (!response.ok) {
+                    const errorResponse = JSON.parse(textResponse);
+                    if (errorResponse.error && errorResponse.error.code === 404) {
+                        continue;
+                        console.warn("Invalid token has been skipped");
+                    }
+                    else {
+                        console.error('Failed to send notification error:', textResponse);
+                        throw new Error('Failed to send notification');
+                    }
+                } else {
+                    const successResponse = JSON.parse(textResponse);
+                    console.log("Notification sent successfully", successResponse);
+                }
+            }
+        }
+    } catch (e) {
+        console.error('Failed to send notification:', e);
     }
 };
 
