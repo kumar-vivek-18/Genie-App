@@ -152,7 +152,7 @@ const RequestPreviewScreen = () => {
 
       } else {
         // dispatch(emtpyRequestImages());
-        dispatch(requestClear());
+        // dispatch(requestClear());
         console.error("Error while creating request");
       }
     } catch (error) {
@@ -187,7 +187,7 @@ const RequestPreviewScreen = () => {
 
         <View className="px-[32px] mt-[20px]">
           <Text className="text-[14px]  text-[#2e2c43]" style={{ fontFamily: "Poppins-Black" }}>
-            Reference images for shopkeepers
+            Reference images for vendors
           </Text>
           <ScrollView
             horizontal={true}

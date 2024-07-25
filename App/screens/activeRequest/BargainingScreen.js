@@ -192,10 +192,19 @@ const BargainingScreen = () => {
         const senderId = id2;
         socket.emit("setup", { userId, senderId });
         // socket.emit("online", id2);
-        socket.on('connected', () => {
-            setSocketConnected(true);
+        // socket.on('connected', (value) => {
+        //     console.log('connected socket res', value);
+        //     setSocketConnected(true);
+        //     if (value) {
+        //         setOnline(true);
+        //         dispatch(setIsOnline(true));
+        //     }
+        //     else {
+        //         setOnline(false);
+        //         dispatch(setIsOnline(false));
+        //     }
 
-        });
+        // });
         console.log('Chatting screen  socekt connect with id', id);
 
     }, []);
@@ -583,13 +592,26 @@ const BargainingScreen = () => {
             dispatch(setIsOnline(false));
             console.log('user offline');
         };
+        const connectWithSocket = (value) => {
+            console.log('connecting with socket', value);
+            if (value.value) {
+                setOnline(true);
+                dispatch(setIsOnline(true));
+            }
+            else {
+                setOnline(false);
+                dispatch(setIsOnline(false));
+            }
+        }
 
         socket.on("online", handleUserOnline);
         socket.on("offline", handleUserOffline);
+        socket.on("connected", connectWithSocket);
 
         return () => {
             socket.off("online", handleUserOnline);
             socket.off("offline", handleUserOffline);
+            socket.off("connected", connectWithSocket);
         };
     }, []);
 

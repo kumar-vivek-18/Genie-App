@@ -44,25 +44,25 @@ const ModalCancel = ({ modalVisible, setModalVisible, index }) => {
       //   setModalVisible(!modalVisible);
       // }}
       className=" flex justify-center items-center  rounded-lg h-full ">
-      <View className="flex-1  justify-center items-center">
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
         <View className="bg-white w-[90%] p-[30px] justify-center items-center mt-[10px] gap-[24px] shadow-gray-600 shadow-2xl">
           <ModalImg classname="w-[117px] h-[75px]" />
           <View className="">
-            <Text className="text-[15px] text-center" style={{fontFamily:"Poppins-ExtraBold"}}>Are you sure? </Text>
-            <Text className="text-[14px]  text-center  pt-[8px]" style={{fontFamily:"Poppins-Regular"}}>you are removing a Image reference. </Text>
+            <Text className="text-[15px] text-center" style={{ fontFamily: "Poppins-ExtraBold" }}>Are you sure? </Text>
+            <Text className="text-[14px]  text-center  pt-[8px]" style={{ fontFamily: "Poppins-Regular" }}>you are removing a Image reference. </Text>
 
           </View>
 
           <View className="w-full flex flex-row  justify-center">
             <View className="flex-1 mt-[5px]">
               <TouchableOpacity onPress={() => { setModalVisible(false) }} >
-                <Text className="text-[14.5px] text-[#FB8C00] text-center" style={{fontFamily:"Poppins-Regular"}}>Cancel</Text>
+                <Text className="text-[14.5px] text-[#FB8C00] text-center" style={{ fontFamily: "Poppins-Regular" }}>Cancel</Text>
 
               </TouchableOpacity>
             </View>
             <View className="flex-1 mt-[5px]">
               <TouchableOpacity onPress={handleModal}>
-                <Text className="text-[14.5px] text-[#FB8C00]  text-center" style={{fontFamily:"Poppins-SemiBold"}}>Remove</Text>
+                <Text className="text-[14.5px] text-[#FB8C00]  text-center" style={{ fontFamily: "Poppins-SemiBold" }}>Remove</Text>
 
               </TouchableOpacity>
             </View>

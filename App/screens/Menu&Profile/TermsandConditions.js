@@ -141,7 +141,7 @@ const TermsandConditons = () => {
               <Text style={styles.dot}></Text>
               <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#2e2c43" }}>
                 {" "}
-                Your first 5 spades are free! After that, each spade will cost 20
+                Your first 5 spades are free! After that, each spade will cost 10
                 rupees.
               </Text>
             </View>

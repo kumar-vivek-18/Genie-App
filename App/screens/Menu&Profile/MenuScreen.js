@@ -99,8 +99,11 @@ const MenuScreen = () => {
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <View className="flex flex-row justify-between ">
-                            <Text className="text-[15px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Looking to start a new small
-                                business</Text>
+                            <View>
+                                <Text className="text-[15px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Looking to start a new small</Text>
+                                <Text className="text-[15px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>business.</Text>
+                            </View>
+
                             <View className="mt-2">
                                 <ArrowRight />
                             </View>

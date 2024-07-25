@@ -16,7 +16,7 @@ const LocationModal = ({ openLocationModal, setOpenLocationModal, locationLoadin
             transparent={true}
             visible={openLocationModal}
             className=" flex justify-center items-center h-full ">
-            <View className="flex-1  justify-center items-center">
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
                 <View className="bg-white w-[90%] p-[30px] justify-center items-center mt-[10px] gap-[24px] shadow-gray-600 shadow-2xl">
                     <Ionicons name="location-outline" size={90} color="#2e2c43" />
                     <View className="">
