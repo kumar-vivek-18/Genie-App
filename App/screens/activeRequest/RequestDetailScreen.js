@@ -471,7 +471,7 @@ const RequestDetail = () => {
 
 
                         </View>
-                        {retailersLoading && <View className="mt-[100px]"><ActivityIndicator color="#fb8c00" /></View>}
+                        {retailersLoading && <View className="mt-[100px]"><ActivityIndicator color="#fb8c00" size={35} /></View>}
                         {networkError && <View className="mt-[100px]"><NetworkError callFunction={fetchRetailers} setNetworkError={setNetworkError} /></View>}
                     </View>
                 </ScrollView>

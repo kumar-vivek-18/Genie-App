@@ -77,8 +77,6 @@ const RequestCategory = () => {
                 navigation.navigate('addimg');
                 dispatch(emtpyRequestImages([]));
             }
-
-
         } catch (error) {
             console.error("Error while selecting category");
         }
@@ -124,8 +122,8 @@ const RequestCategory = () => {
                                     <View className={`w-[16px] h-[16px] border-[1px] border-[#fd8c00] items-center ${result.id === selectedOption ? 'bg-[#fd8c00]' : ''}`}>
                                         {result.id === selectedOption && <Octicons name="check" size={12} color="white" />}
                                     </View>
-                                    {result?.name.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize"><Text style={{ fontFamily: 'Poppins-Bold' }}>{result?.name.slice(0, result.name.indexOf('-'))}</Text>{result.name.indexOf('-') >= 0 ? result.name.slice(result.name.indexOf('-')) : ""}</Text>}
-                                    {result?.name.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold" }} className="capitalize">{result?.name}</Text>}
+                                    {result?.name.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize color-[#2e2c43]"><Text style={{ fontFamily: 'Poppins-Bold' }}>{result?.name.slice(0, result.name.indexOf('-'))}</Text>{result.name.indexOf('-') >= 0 ? result.name.slice(result.name.indexOf('-')) : ""}</Text>}
+                                    {result?.name.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold" }} className="capitalize color-[#2e2e43]">{result?.name}</Text>}
                                 </View>
                             </TouchableOpacity>
                         ))}
@@ -133,13 +131,7 @@ const RequestCategory = () => {
                 </ScrollView>
 
 
-                {/* <View className=" absolute bottom-0 left-0 right-0">
-                    <TouchableOpacity onPress={() => { handleSubmit() }}>
-                        <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
-                            <Text className="text-white text-[18px] font-extrabold">NEXT</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View> */}
+
                 <TouchableOpacity
                     style={{
                         position: "absolute",

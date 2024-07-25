@@ -1,6 +1,6 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Pressable, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Octicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -12,6 +12,7 @@ import { emtpyRequestImages, setRequestCategory } from '../../redux/reducers/use
 import axios from 'axios';
 import { baseUrl } from '../../utils/logics/constants';
 import axiosInstance from '../../utils/logics/axiosInstance';
+import NetworkError from './NetworkError';
 
 
 const AvailableCategories = () => {
@@ -30,9 +31,12 @@ const AvailableCategories = () => {
     const userLongitude = useSelector(store => store.user.userLongitude);
     const userLatitude = useSelector(store => store.user.userLatitude);
     const accessToken = useSelector(store => store.user.accessToken);
+    const [networkError, setNetworkError] = useState(false);
+    const [categoriesLoading, setCategoriesLoading] = useState(false);
 
     console.log(accessToken);
     const fetchNearByStores = useCallback(async () => {
+        setCategoriesLoading(true);
         try {
             console.log('User coors', userLongitude, userLatitude, userDetails.longitude, userDetails.latitude);
             const longitude = userLongitude !== 0 ? userLongitude : userDetails.longitude;
@@ -52,6 +56,7 @@ const AvailableCategories = () => {
             console.log(config)
             await axiosInstance.get(`${baseUrl}/retailer/stores-near-me`, config)
                 .then(res => {
+                    setCategoriesLoading(false);
                     const categories = res.data.map((category, index) => {
                         return { id: index + 1, name: category };
                     });
@@ -63,6 +68,9 @@ const AvailableCategories = () => {
                     setSearchResults(categories);
                 })
         } catch (error) {
+            setCategoriesLoading(false);
+            if (!error?.response?.status)
+                setNetworkError(true);
             console.error("error while fetching nearby stores", error);
         }
     })
@@ -116,7 +124,7 @@ const AvailableCategories = () => {
                             style={{ fontFamily: "Poppins-Italic", textAlign: 'center' }} // Added textAlign for centering text
                         />
                     </View>
-                    <View className="px-[10px] mt-[30px]">
+                    {!categoriesLoading && <View className="px-[10px] mt-[30px]">
                         {searchResults?.map((result) => (
 
                             <View key={result.id} className="flex flex-row  py-[10px] gap-[30px] items-center">
@@ -124,8 +132,12 @@ const AvailableCategories = () => {
                                 {result?.name.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold" }} className="capitalize">{result?.name}</Text>}
                             </View>
                         ))}
-                    </View>
+                    </View>}
+                    {categoriesLoading && <View className="my-[150px]"><ActivityIndicator color={'#fb8c00'} size={35} /></View>}
+                    {networkError && <View className="my-[150px]"><NetworkError callFunction={fetchNearByStores} setNetworkError={setNetworkError} /></View>}
                 </ScrollView>
+
+
 
 
                 {/* <View className=" absolute bottom-0 left-0 right-0">
