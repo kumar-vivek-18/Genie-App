@@ -3,9 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import axios from 'axios';
-import { setHistory } from '../../redux/reducers/userRequestsSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentSpade } from '../../redux/reducers/userDataSlice';
+import { setCurrentSpade, setHistory } from '../../redux/reducers/userDataSlice';
 import BackArrow from "../../assets/arrow-left.svg"
 import { baseUrl } from '../../utils/logics/constants';
 import axiosInstance from '../../utils/logics/axiosInstance';
@@ -17,7 +16,7 @@ const HistoryScreen = () => {
     const dispatch = useDispatch();
 
     const userDetails = useSelector(state => state.user.userDetails);
-    const history = useSelector(state => state.userRequest.history);
+    const history = useSelector(state => state.user.history);
     const accessToken = useSelector(state => state.user.accessToken);
     const [networkError, setNetworkError] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -69,6 +68,7 @@ const HistoryScreen = () => {
                     spadesData[index].createdAt = dateTime.formattedTime;
                     spadesData[index].updatedAt = dateTime.formattedDate;
                 });
+                // console.log(object)
                 dispatch(setHistory(spadesData));
 
                 // console.log('spades', response.data);
@@ -112,7 +112,7 @@ const HistoryScreen = () => {
                     <Text className="text-center pt-[40px] text-[16px]  " style={{ fontFamily: "Poppins-Bold" }}>History</Text>
                     <Text className="text-center text-[14px] mb-[28px]" style={{ fontFamily: "Poppins-Regular" }}>Closed Requests</Text>
 
-                    {history.length > 0 && <View>
+                    {history?.length > 0 && <View>
                         {
                             history.map((spade, index) => (
 

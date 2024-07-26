@@ -2,12 +2,13 @@ import { View, Text, Pressable, Image, TouchableOpacity, TextInput, KeyboardAvoi
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Cancel from '../../assets/cross.svg'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { baseUrl } from '../../utils/logics/constants';
 import axiosInstance from '../../utils/logics/axiosInstance';
+import { setHistory } from '../../redux/reducers/userDataSlice';
 
 const RatingAndFeedback = () => {
     const spade = useSelector(store => store.user.currentSpade);
@@ -19,6 +20,9 @@ const RatingAndFeedback = () => {
     const [spadeRating, setSpadeRating] = useState(0);
     const navigation = useNavigation();
     const accessToken = useSelector(store => store.user.accessToken);
+    const isHome = useSelector(store => store.user.isHome);
+    const history = useSelector(store => store.user.history);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const foundRetailer = retailers.find(retailer => retailer._id === spade.requestAcceptedChat);
@@ -47,8 +51,19 @@ const RatingAndFeedback = () => {
                 spadeId: spade._id,
             }, config)
                 .then(res => {
+                    if (!isHome) {
+                        dispatch(setHistory(history.map(data => {
+                            if (data._id === spade._id) {
+                                return { ...data, rated: true };
+                            }
+                            return data;
+                        })));
+                    }
                     console.log("Feedback posted successfully");
-                    navigation.navigate('home');
+                    if (isHome)
+                        navigation.navigate('home');
+                    else
+                        navigation.goBack();
                 })
                 .catch(err => {
                     console.error(err);
@@ -75,7 +90,11 @@ const RatingAndFeedback = () => {
             <ScrollView contentContainerStyle={{ flexGrow: 1, direction: 'inherit' }} >
                 <View className="flex-row justify-between px-[30px] mt-[20px] items-center">
                     <Text className="text-[18px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Bold" }}>Vendor Rate & Feedback</Text>
-                    <Pressable onPress={() => { navigation.navigate('home') }} >
+                    <Pressable onPress={() => {
+                        if (isHome)
+                            navigation.navigate('home')
+                        else navigation.goBack();
+                    }} >
                         <View>
                             <Cancel />
                         </View>

@@ -153,6 +153,9 @@ const RequestDetail = () => {
                         console.log(chat._id, chat.updatedAt);
                     })
                     dispatch(setCurrentSpadeRetailers(chats));
+
+                    if (!isHome && !currentSpade?.rated && currentSpade?.requestAcceptedChat)
+                        navigation.navigate('rating-feedback');
                 }
             })
             .catch((error) => {
@@ -174,6 +177,8 @@ const RequestDetail = () => {
         dispatch(setCurrentSpadeRetailers([]));
 
         fetchRetailers();
+
+
 
         return () => {
             // socket.disconnect();

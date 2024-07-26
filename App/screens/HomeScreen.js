@@ -58,6 +58,8 @@ import { baseUrl } from "../utils/logics/constants";
 import { handleRefreshLocation } from "../utils/logics/updateLocation";
 import axiosInstance from "../utils/logics/axiosInstance";
 import NetworkError from "./components/NetworkError";
+import Calender from '../assets/calender.svg';
+import Time from '../assets/time.svg';
 
 const { width } = Dimensions.get("window");
 
@@ -486,11 +488,13 @@ const HomeScreen = () => {
 
                       <View style={styles.infoRow}>
                         <View style={styles.infoItem}>
-                          <Image source={require("../assets/time.png")} />
+                          {/* <Image source={require("../assets/time.png")} /> */}
+                          <Time />
                           <Text style={styles.infoText}>{spade.createdAt}</Text>
                         </View>
                         <View style={styles.infoItem}>
-                          <Image source={require("../assets/calender.png")} />
+                          {/* <Image source={require("../assets/calender.png")} /> */}
+                          <Calender />
                           <Text style={styles.infoText}>{spade.updatedAt}</Text>
                         </View>
                       </View>

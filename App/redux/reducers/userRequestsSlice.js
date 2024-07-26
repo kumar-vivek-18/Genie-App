@@ -7,7 +7,6 @@ const initialState = {
     expectedPrice: 0,
     spadePrice: 10,
     createdRequest: [],
-    history: [],
     spadeCouponCode: "",
     nearByStoresCategory: [],
 
@@ -33,9 +32,6 @@ const userRequestDataSlice = createSlice({
         setCreatedRequest: (state, action) => {
             state.createdRequest = action.payload;
         },
-        setHistory: (state, action) => {
-            state.history = action.payload;
-        },
         emtpyRequestImages: (state, action) => {
             state.requestImages = [];
         },
@@ -55,5 +51,5 @@ const userRequestDataSlice = createSlice({
     },
 });
 
-export const { setRequestDetail, setRequestCategory, setRequestImages, setExpectedPrice, setCreatedRequest, setHistory, emtpyRequestImages, setSpadePrice, setSpadeCouponCode, requestClear, setNearByStoresCategory } = userRequestDataSlice.actions;
+export const { setRequestDetail, setRequestCategory, setRequestImages, setExpectedPrice, setCreatedRequest, emtpyRequestImages, setSpadePrice, setSpadeCouponCode, requestClear, setNearByStoresCategory } = userRequestDataSlice.actions;
 export default userRequestDataSlice.reducer;

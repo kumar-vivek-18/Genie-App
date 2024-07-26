@@ -21,6 +21,7 @@ const initialState = {
   refreshToken: "",
   isOnline: false,
   isHome: true,
+  history: [],
 };
 
 const userDataSlice = createSlice({
@@ -93,8 +94,11 @@ const userDataSlice = createSlice({
     setIsHome: (state, action) => {
       state.isHome = action.payload;
     },
+    setHistory: (state, action) => {
+      state.history = action.payload;
+    }
   },
 });
 
-export const { setMobileNumber, setUserName, setUserLocation, setImages, setUserDetails, setSpades, setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers, setCurrentChatMessages, setUniqueToken, userClear, setUserLatitude, setUserLongitude, setCurrentSpadeChatId, setBargainingScreens, setAccessToken, setRefreshToken, setIsOnline, setIsHome } = userDataSlice.actions;
+export const { setMobileNumber, setUserName, setUserLocation, setImages, setUserDetails, setSpades, setCurrentSpade, setCurrentSpadeRetailer, setCurrentSpadeRetailers, setCurrentChatMessages, setUniqueToken, userClear, setUserLatitude, setUserLongitude, setCurrentSpadeChatId, setBargainingScreens, setAccessToken, setRefreshToken, setIsOnline, setIsHome, setHistory } = userDataSlice.actions;
 export default userDataSlice.reducer;

@@ -291,6 +291,7 @@ const BargainingScreen = () => {
         if (currentSpadeRetailer && currentSpadeChatId?.chatId === currentSpadeRetailer?._id) {
             fetchMessages(currentSpadeChatId?.chatId);
             setMessagesMarkAsRead();
+
             // console.log(userLongitude, userLatitude, currentSpadeRetailer.retailerId.longitude, currentSpadeRetailer.retailerId.latitude);
             if (userLongitude !== 0 && userLatitude !== 0 && currentSpadeRetailer?.retailerId?.longitude !== 0 && currentSpadeRetailer?.retailerId?.lattitude !== 0) {
                 const dis = haversineDistance(userLatitude, userLongitude, currentSpadeRetailer?.retailerId?.lattitude, currentSpadeRetailer?.retailerId?.longitude);
@@ -1070,16 +1071,27 @@ const BargainingScreen = () => {
             )}
             {options && (
                 <View className="absolute top-[30px] right-[50px] z-50 bg-white rounded-md 9+99*">
-                    {!currentSpadeRetailer.retailerRated && <TouchableOpacity
+                    <TouchableOpacity
                         onPress={() => {
+
+                            navigation.navigate('view-request', { data: spade });
                             setOptions(false);
-                            setFeedbackModal(true);
                         }}
                     >
                         <Text
                             className="mx-5 py-4 border-1 border-b-[1px] border-[#cdcdd6]"
                             style={{ fontFamily: "Poppins-Regular" }}
                         >
+                            View Request
+                        </Text>
+                    </TouchableOpacity>
+                    {!currentSpadeRetailer.retailerRated && <TouchableOpacity
+                        onPress={() => {
+                            setOptions(false);
+                            setFeedbackModal(true);
+                        }}
+                    >
+                        <Text className="mx-5 py-4 border-1 border-b-[1px] border-[#cdcdd6]" style={{ fontFamily: "Poppins-Regular" }} >
                             Rate Vendor
                         </Text>
                     </TouchableOpacity>}
