@@ -67,7 +67,7 @@ const UserMessage = ({ bidDetails }) => {
             </View>
 
             <View className="flex-row justify-between">
-              <Text className="text-[12px] text-[#2e2c43] w-[max-content]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.message}</Text>
+              <Text className="text-[14px] text-[#2e2c43] w-[max-content]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.message}</Text>
               {/* <Text className="text-[12px] w-[max-content]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text> */}
             </View>
           </View>

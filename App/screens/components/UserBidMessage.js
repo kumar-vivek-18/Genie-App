@@ -77,7 +77,7 @@ const UserBidMessage = ({ bidDetails }) => {
             </View>
 
             <View>
-              <Text className="text-[12px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.message}</Text>
+              <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.message}</Text>
             </View>
           </View>
         </View>

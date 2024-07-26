@@ -100,7 +100,7 @@ const HistoryScreen = () => {
                 <View style={{ flex: 1 }} className="relative">
 
 
-                    <View className="z-50 absolute top-[20px] left-[40px]  ">
+                    <View className="z-50 absolute top-[40px] left-[40px]  ">
                         <Pressable onPress={() => { navigation.goBack(); }} style={{ padding: 8 }}>
                             <BackArrow width={14} height={10} />
 
@@ -109,7 +109,7 @@ const HistoryScreen = () => {
 
 
 
-                    <Text className="text-center pt-[20px] text-[16px]  " style={{ fontFamily: "Poppins-Bold" }}>History</Text>
+                    <Text className="text-center pt-[40px] text-[16px]  " style={{ fontFamily: "Poppins-Bold" }}>History</Text>
                     <Text className="text-center text-[14px] mb-[28px]" style={{ fontFamily: "Poppins-Regular" }}>Closed Requests</Text>
 
                     {history.length > 0 && <View>

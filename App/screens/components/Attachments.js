@@ -121,7 +121,7 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
                             token: token.data,
                             title: userDetails?.userName,
                             // close: currentSpade._id,
-                            image: currentSpadeRetailer.requestId?.requestImages[0],
+                            // image: currentSpadeRetailer.requestId?.requestImages[0],
                             body: "Customer sent the location",
                             requestInfo: {
                                 requestId: currentSpadeRetailer._id,

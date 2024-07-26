@@ -127,6 +127,7 @@ const RequestPreviewScreen = () => {
         const dateTime = formatDateTime(res.updatedAt);
         res.createdAt = dateTime.formattedTime;
         res.updatedAt = dateTime.formattedDate;
+
         dispatch(setSpades([res, ...spades]));
         setIsVisible(true);
         setTimeout(() => {
@@ -167,10 +168,10 @@ const RequestPreviewScreen = () => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView style={{ flex: 1 }}>
-        <Pressable onPress={() => navigation.goBack()} style={{ position: 'absolute', paddingHorizontal: 36, paddingVertical: 26, zIndex: 100 }}>
+        <Pressable onPress={() => navigation.goBack()} style={{ position: 'absolute', paddingHorizontal: 36, paddingVertical: 50, zIndex: 100 }}>
           <BackArrow />
         </Pressable>
-        <View className=" flex flex-row items-center mt-[20px] mb-[24px] px-[24px]">
+        <View className=" flex flex-row items-center mt-[40px] mb-[24px] px-[24px]">
 
           <Text className="flex flex-1 justify-center text-[#2e2c43] items-center text-center text-[16px]  " style={{ fontFamily: "Poppins-Bold" }}>
             Request Preview

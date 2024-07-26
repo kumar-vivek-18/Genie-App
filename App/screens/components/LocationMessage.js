@@ -38,14 +38,14 @@ const LocationMessage = ({ bidDetails }) => {
                         <View className="pt-[10px]">
                             <View className="flex-row items-center -translate-x-2 ">
                                 <Ionicons name="location-outline" size={26} color="black" />
-                                <Text className=" overflow-hidden text-[#001b33] text-[13px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails?.message.length > 50 ? `${bidDetails?.message.slice(0, 50)}..` : bidDetails.message}.</Text>
+                                <Text className=" overflow-hidden text-[#001b33] text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails?.message.length > 50 ? `${bidDetails?.message.slice(0, 50)}..` : bidDetails.message}.</Text>
                             </View>
 
 
 
                             <View className="flex-row  items-center gap-[5px] ">
                                 <Tick width={15} />
-                                <Text className="text-[12px] text-[#79b649]" style={{ fontFamily: "Poppins-Regular" }}>Location sent successfully</Text>
+                                <Text className="text-[14px] text-[#79b649]" style={{ fontFamily: "Poppins-Regular" }}>Location sent successfully</Text>
                             </View>
 
                         </View>

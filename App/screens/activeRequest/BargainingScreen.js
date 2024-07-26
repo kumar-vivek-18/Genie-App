@@ -77,7 +77,7 @@ const BargainingScreen = () => {
     const [distance, setDistance] = useState(null);
     const [networkError, setNetworkError] = useState(false);
     const [messageLoading, setMessageLoading] = useState(false);
-
+    // const [bottomHeight, setBottomHeight] = useState();
 
     useEffect(() => {
         const backAction = () => {
@@ -701,7 +701,11 @@ const BargainingScreen = () => {
         setViewHeight(height);
     };
 
-
+    // const handleBottomComponentHeight = (event) => {
+    //     const { height } = event.nativeEvent.layout;
+    //     console.log(height);
+    //     setBottomHeight(height);
+    // }
 
 
     return (
@@ -819,7 +823,7 @@ const BargainingScreen = () => {
 
                     >
                         {/* <View></View> */}
-                        <View className="flex gap-[10px] px-[10px] pt-[40px] pb-[300px]" >
+                        <View className="flex gap-[10px] px-[10px] pt-[40px] " style={{ paddingBottom: 350 }}>
 
                             {
                                 messages && messages?.map((message, index) => (

@@ -29,7 +29,7 @@ const TermsandConditons = () => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView style={{ flex: 1 }} className="relative">
-        <View className="z-50 absolute mt-[20px] left-[20px]">
+        <View className="z-50 absolute mt-[40px] left-[20px]">
           <TouchableOpacity
             onPress={() => {
               navigation.goBack();
@@ -41,7 +41,7 @@ const TermsandConditons = () => {
         </View>
 
         <Text
-          className="text-center pt-[20px] text-[16px] mb-[40px] text-[#2e2c43] "
+          className="text-center pt-[40px] text-[16px] mb-[40px] text-[#2e2c43] "
           style={{ fontFamily: "Poppins-Bold" }}
         >
           Terms and Conditions

@@ -384,7 +384,7 @@ const PaymentScreen = () => {
               <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[16px]">Coupon Applied: <Text className="text-[#45801a]">{spadeDetails?.appliedCouponCode}</Text></Text>
               <View className="flex-row ">
                 <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[16px] text-[#E76063]">Discount - </Text>
-                <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[16px] text-[#E76063]"> {20 - spadeDetails?.spadePrice} Rs</Text>
+                <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[16px] text-[#E76063]"> {10 - spadeDetails?.spadePrice} Rs</Text>
               </View>
               <View className="flex-row ">
                 <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[16px] text-[#2E2C43]">Tax - </Text>

@@ -204,7 +204,7 @@ const ProfileScreen = () => {
 
     <View style={{ flex: 1, backgroundColor: "white" }} className="relative">
       <ScrollView >
-        <View className="mt-[20px]">
+        <View className="mt-[40px]">
           <Text
             className="text-center text-[16px]"
             style={{ fontFamily: "Poppins-Bold" }}
@@ -214,7 +214,7 @@ const ProfileScreen = () => {
         </View>
 
 
-        <View className="z-50 absolute top-[4px] left-[20px] ">
+        <View className="z-50 absolute top-[24px] left-[20px] ">
           <TouchableOpacity onPress={() => { navigation.goBack(); }}
           >
             <View className="p-[20px]">

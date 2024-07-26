@@ -178,6 +178,7 @@ const HomeScreen = () => {
       setSpadesLoading(false);
       if (!error?.response?.status) {
         setNetworkError(true);
+        console.log('Network Error occurred: ');
       }
       console.error("Error while finding spades", error);
     }
@@ -296,9 +297,9 @@ const HomeScreen = () => {
       <ScrollView style={{ flex: 1 }} className="relative">
         {/* <Image source={require('../assets/HomImg.png')} className="w-full object-cover " /> */}
         {/* <HomeImage /> */}
-        <View className="absolute ">
+        {!networkError && <View className="absolute top-0 left-0 right-0">
           <HomeScreenBg />
-        </View>
+        </View>}
 
         <View className="w-full  flex flex-row px-[29px] justify-between items-center pt-[20px]">
           <Pressable onPress={() => navigation.navigate("menu")}>
@@ -321,66 +322,68 @@ const HomeScreen = () => {
           </Pressable>
         </View>
 
-        <View className="w-full bg-white mt-[20px] flex-row px-[30px] justify-between h-[55px] items-center">
-          <View className="w-4/5">
-            <Text className="text-[14px] pt-[10px] text-[#2e2c43]  " style={{ fontFamily: "Poppins-Black" }}>
-              Location
-            </Text>
 
-            <Text className="text-[#7c7c7c] text-[14px] " style={{ fontFamily: "Poppins-Regular" }}>
-              {userDetails?.location
-                ? `${userDetails.location.substring(0, 30)}....`
-                : "Refresh to fetch location..."}
-            </Text>
-          </View>
-          <TouchableOpacity
-            onPress={async () => {
-              setIsLoading(true);
-              await handleRefreshLocation(userDetails._id, accessToken);
-              setIsLoading(false);
-            }}
-          >
-            <View>
-              {isLoading ? (
-                <ActivityIndicator size="small" color="#fb8c00" />
-              ) : (
-                <Text className="text-[14px]  text-[#fb8c00]" style={{ fontFamily: "Poppins-Regular" }}>
-                  Refresh
-                </Text>
-              )}
-            </View>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity onPress={() => { navigation.navigate('available-categories'); }}>
-          <View className="flex-row items-center justify-center bg-[#ffe8cd] mt-[15px] py-[6px] mx-[16px] rounded-2xl border-[1px] border-[#fb8c00] gap-[5px]">
-            <Text className="text-center text-[#fb8c00]   " style={{ fontFamily: "Poppins-Regular" }}>Check the available categories in your city</Text>
-            <DropArrow />
-          </View>
-        </TouchableOpacity>
+        {!networkError && <View>
+          <View className="w-full bg-white mt-[20px] flex-row px-[30px] justify-between h-[55px] items-center">
+            <View className="w-4/5">
+              <Text className="text-[14px] pt-[10px] text-[#2e2c43]  " style={{ fontFamily: "Poppins-Black" }}>
+                Location
+              </Text>
 
-
-        <View className=" relative mt-[20px]  w-full flex-row justify-center">
-          <GenieLogo />
-        </View>
-
-        <View className="mt-[10px]">
-          <Text className="text-center text-[14px] text-[#001b33] " style={{ fontFamily: "Poppins-Light" }}>Ask Genie for any shopping item or</Text>
-          <Text className="text-center text-[14px] text-[#001b33]  " style={{ fontFamily: "Poppins-Light" }}>maintenance service you need. Start real</Text>
-          <Text className="text-center text-[14px] text-[#001b33]  " style={{ fontFamily: "Poppins-Light" }}>time bargaining to avail now. </Text>
-
-          <Pressable
-            onPress={() => {
-
-              fetchUserDetails();
-            }}
-            className="mx-[16px] mt-[16px]"
-          >
-            <View className="h-[60px] w-full">
-              <Text className="text-[#fb8c00] text-[14px] border-[1px] border-[#fb8c00] w-full bg-white text-center py-[19px] rounded-3xl" style={{ fontFamily: "Poppins-Italic" }}>
-                Type your spade my master...
+              <Text className="text-[#7c7c7c] text-[14px] " style={{ fontFamily: "Poppins-Regular" }}>
+                {userDetails?.location
+                  ? `${userDetails.location.substring(0, 30)}....`
+                  : "Refresh to fetch location..."}
               </Text>
             </View>
-          </Pressable>
+            <TouchableOpacity
+              onPress={async () => {
+                setIsLoading(true);
+                await handleRefreshLocation(userDetails._id, accessToken);
+                setIsLoading(false);
+              }}
+            >
+              <View>
+                {isLoading ? (
+                  <ActivityIndicator size="small" color="#fb8c00" />
+                ) : (
+                  <Text className="text-[14px]  text-[#fb8c00]" style={{ fontFamily: "Poppins-Regular" }}>
+                    Refresh
+                  </Text>
+                )}
+              </View>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity onPress={() => { navigation.navigate('available-categories'); }}>
+            <View className="flex-row items-center justify-center bg-[#ffe8cd] mt-[15px] py-[6px] mx-[16px] rounded-2xl border-[1px] border-[#fb8c00] gap-[5px]">
+              <Text className="text-center text-[#fb8c00]   " style={{ fontFamily: "Poppins-Regular" }}>Check the available categories in your city</Text>
+              <DropArrow />
+            </View>
+          </TouchableOpacity>
+
+
+          <View className=" relative mt-[20px]  w-full flex-row justify-center">
+            <GenieLogo />
+          </View>
+
+          <View className="mt-[10px]">
+            <Text className="text-center px-[20px] text-[14px] text-[#001b33] " style={{ fontFamily: "Poppins-Light" }}>Ask Genie for any shopping item or maintenance service you need. Start real time bargaining to avail the best prices now.</Text>
+
+
+            <Pressable
+              onPress={() => {
+
+                fetchUserDetails();
+              }}
+              className="mx-[16px] mt-[16px]"
+            >
+              <View className="h-[60px] w-full">
+                <Text className="text-[#fb8c00] text-[14px] border-[1px] border-[#fb8c00] w-full bg-white text-center py-[19px] rounded-3xl" style={{ fontFamily: "Poppins-Italic" }}>
+                  Type your spade my master...
+                </Text>
+              </View>
+            </Pressable>
+          </View>
 
           {/* How it works when user have no ongoing requests */}
 
@@ -500,8 +503,9 @@ const HomeScreen = () => {
 
           {spadesLoading && <View className="py-[150px]"><ActivityIndicator size={30} color={'#fb8c00'} /></View>}
 
-          {networkError && <View className="mt-[100px]"><NetworkError callFunction={fetchData} setNetworkError={setNetworkError} /></View>}
-        </View>
+
+        </View>}
+        {networkError && <View className="mt-[100px] "><NetworkError callFunction={fetchData} setNetworkError={setNetworkError} /></View>}
       </ScrollView>
     </View>
   );

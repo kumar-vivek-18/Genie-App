@@ -47,7 +47,7 @@ const ExpectedPriceScreen = () => {
                     console.log('res', res.data);
                     if (res.data.message === "Coupon code is valid") {
                         setVerifiedCouponCode(true);
-                        dispatch(setSpadePrice(10));
+                        dispatch(setSpadePrice(5));
                         dispatch(setSpadeCouponCode(couponCode));
                     }
                     else {
@@ -63,7 +63,7 @@ const ExpectedPriceScreen = () => {
 
     return (
         <View style={{ flex: 1, backgroundColor: "white" }}>
-            <View className=" flex z-40 flex-row items-center justify-center mt-[20px]  mx-[20px]">
+            <View className=" flex z-40 flex-row items-center justify-center mt-[40px]  mx-[20px]">
                 <Pressable onPress={() => navigation.goBack()} style={{ paddingHorizontal: 16, paddingVertical: 16 }} >
 
                     <BackArrow width={14} height={10} />
@@ -101,7 +101,7 @@ const ExpectedPriceScreen = () => {
                     style={{ fontFamily: "Poppins-SemiBold" }}
 
                 />
-                <Text className="text-[14px] text-[#2e2c43] mt-[20px]" style={{ fontFamily: "Poppins-Regular" }}>Please inform vendors about the price that you believe is appropriate for this request. If you haven't researched pricing, you can skip this.</Text>
+                <Text className="text-[14px] text-[#2e2c43] mt-[20px]" style={{ fontFamily: "Poppins-Regular" }}>Please inform vendors about the price that you believe is appropriate for this request. If you haven't researched pricing, you can skip this step.</Text>
                 {userDetails.freeSpades === 0 && <View>
                     <Text className="text-[14px]  text-[#2e2c43] mx-[6px] mt-[40px]" style={{ fontFamily: "Poppins-SemiBold" }}>Apply Coupon </Text>
                     <TextInput

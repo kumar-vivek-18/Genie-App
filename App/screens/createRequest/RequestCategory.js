@@ -94,7 +94,7 @@ const RequestCategory = () => {
 
             </View>
             <View className="flex-1 w-full bg-white flex-col  gap-[40px] px-[32px] ">
-                <ScrollView className="flex-1 px-0 mb-[3px] " showsVerticalScrollIndicator={false} >
+                <ScrollView className="px-0 mb-[3px] " showsVerticalScrollIndicator={false} >
 
 
                     <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] " style={{ fontFamily: "Poppins-Medium" }}>
@@ -112,18 +112,19 @@ const RequestCategory = () => {
                         />
                     </View>
 
-                    <View className="px-[10px] " >
+                    <View  >
                         {searchResults?.map((result) => (
                             <TouchableOpacity
                                 key={result.id}
                                 onPress={() => handleSelectResult(result.id)}
                             >
-                                <View className="flex flex-row  py-[10px] gap-[30px] items-center">
+                                <View className="flex flex-row  my-[10px] gap-[20px] items-center">
                                     <View className={`w-[16px] h-[16px] border-[1px] border-[#fd8c00] items-center ${result.id === selectedOption ? 'bg-[#fd8c00]' : ''}`}>
                                         {result.id === selectedOption && <Octicons name="check" size={12} color="white" />}
                                     </View>
-                                    {result?.name.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize color-[#2e2c43]"><Text style={{ fontFamily: 'Poppins-Bold' }}>{result?.name.slice(0, result.name.indexOf('-'))}</Text>{result.name.indexOf('-') >= 0 ? result.name.slice(result.name.indexOf('-')) : ""}</Text>}
-                                    {result?.name.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold" }} className="capitalize color-[#2e2e43]">{result?.name}</Text>}
+                                    {result?.name.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize text-[#2e2c43] w-[90%]"><Text style={{ fontFamily: 'Poppins-Bold' }}>{result?.name.slice(0, result.name.indexOf('-'))}</Text>{result.name.indexOf('-') >= 0 ? result.name.slice(result.name.indexOf('-')) : ""}</Text>}
+                                    {result?.name.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold" }} className="capitalize text-[#2e2e43] w-[90%]">{result?.name}</Text>}
+                                    {/* <Text className="w-[85%]">My name is Vivek Panwar. I am from Bijnor and I also like coding</Text> */}
                                 </View>
                             </TouchableOpacity>
                         ))}
@@ -169,7 +170,7 @@ const styles = {
         flex: 1,
         //  marginTop: Platform.OS === 'android' ? 44 : 0, 
         backgroundColor: 'white',
-        paddingTop: 20
+        paddingTop: 40
     },
 
     nextButton: {

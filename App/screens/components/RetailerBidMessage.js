@@ -57,12 +57,12 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
 
           <View className="w-[75%]">
             <View className="flex-row items-center justify-between">
-              <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Bold" }}>{currentSpadeRetailer?.retailerId?.storeOwnerName}</Text>
+              <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Bold" }}>{currentSpadeRetailer?.retailerId?.storeOwnerName}</Text>
               {/* <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails?.createdAt}</Text> */}
             </View>
 
             <View>
-              <Text className="text-[12px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails?.message}</Text>
+              <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails?.message}</Text>
             </View>
           </View>
         </View>

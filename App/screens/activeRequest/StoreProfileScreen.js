@@ -111,7 +111,7 @@ const StoreProfileScreen = () => {
     return (
         <SafeAreaView>
             <ScrollView showsverticallScrollIndicator={false}>
-                <View className="pt-[20px] flex ">
+                <View className="pt-[40px] flex ">
 
                     <View className="flex flex-row ">
                         <View className="absolute top-[10px]" style={{ zIndex: 100 }}>

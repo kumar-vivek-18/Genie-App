@@ -40,7 +40,7 @@ const RetailerDocumentMessage = ({ bidDetails }) => {
                         </View>
 
                         {bidDetails.message.length > 0 && <View>
-                            <Text className="text-[12px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.message}</Text>
+                            <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.message}</Text>
                         </View>}
                         <View className="flex-row gap-[10px] pb-[10px] items-center" >
                             <View>

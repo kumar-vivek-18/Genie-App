@@ -23,7 +23,7 @@ const AboutScreen = () => {
             <ScrollView style={{ flex: 1 }} className="relative">
 
 
-                <View className="z-50 absolute top-[20px] left-[30px] ">
+                <View className="z-50 absolute top-[40px] left-[30px] ">
                     <TouchableOpacity onPress={() => { navigation.goBack(); }} style={{ padding: 8 }}>
                         <BackArrow width={14} height={10} />
 
@@ -32,7 +32,7 @@ const AboutScreen = () => {
 
 
 
-                <Text className="text-center pt-[20px] text-[#2e2c43] text-[16px]  mb-[60px]" style={{ fontFamily: "Poppins-Bold" }}>About Culturtap {"\n"} Genie</Text>
+                <Text className="text-center pt-[40px] text-[#2e2c43] text-[16px]  mb-[60px]" style={{ fontFamily: "Poppins-Bold" }}>About Culturtap {"\n"} Genie</Text>
 
 
 

@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     popupText: {
         color: '#2e2c43',
         fontSize: 16,
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         marginTop: 30,
         marginHorizontal: 20,
         fontFamily: "Poppins-ExtraBold",

@@ -313,7 +313,7 @@ const RequestDetail = () => {
                                     <Text className="mx-5 py-3 border-1 border-b-[1px]" style={{ fontFamily: "Poppins-Regular" }}>Close Request</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={() => { navigation.navigate("help"); setModal(!modal) }}>
-                                    <Text className="mx-5 py-3" style={{ fontFamily: "Poppins-Regular" }}>Report Shopkeeper</Text>
+                                    <Text className="mx-5 py-3" style={{ fontFamily: "Poppins-Regular" }}>Report Concern</Text>
                                 </TouchableOpacity>
                             </View>}
 

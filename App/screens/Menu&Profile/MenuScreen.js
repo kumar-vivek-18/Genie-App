@@ -28,7 +28,7 @@ const MenuScreen = () => {
             <View style={{ flex: 1 }} className="relative">
 
 
-                <View className="z-50 absolute top-[4px] left-[20px] ">
+                <View className="z-50 absolute top-[24px] left-[20px] ">
                     <TouchableOpacity onPress={() => { navigation.goBack(); }}
                     >
                         <View className="p-[20px]">
@@ -41,7 +41,7 @@ const MenuScreen = () => {
 
 
 
-                <Text className="text-center pt-[20px] text-[16px] text-[#2e2c43] mb-[40px]" style={{ fontFamily: "Poppins-Bold" }}>Menu</Text>
+                <Text className="text-center pt-[30px] text-[16px] text-[#2e2c43] mb-[40px]" style={{ fontFamily: "Poppins-Bold" }}>Menu</Text>
 
 
                 <TouchableOpacity onPress={() => navigation.navigate("profile")}

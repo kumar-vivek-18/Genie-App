@@ -662,8 +662,8 @@ export const LocationSendNotification = async (mess) => {
                 token: mess?.token,
                 notification: {
                     title: `${mess.title} has send location`,
-                    body: "See it!",
-                    image: mess?.image,
+                    body: "Check delivery location",
+                    // image: mess?.image,
                 },
                 android: {
                     priority: "high",

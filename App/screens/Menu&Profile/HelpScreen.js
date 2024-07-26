@@ -30,7 +30,7 @@ const HelpScreen = () => {
           mobileNo: mobileNo,
           email: "Info@culturtap.com",
           concern: query,
-          requestId:""
+          requestId: ""
         }
       );
       console.log("res", res.data);
@@ -62,7 +62,7 @@ const HelpScreen = () => {
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <View style={{ paddingHorizontal: 30 }}>
 
-            <View className="z-50 absolute top-[20px] left-[30px] ">
+            <View className="z-50 absolute top-[40px] left-[30px] ">
               <TouchableOpacity onPress={() => { navigation.goBack(); }} style={{ padding: 10, borderRadius: 100 }}>
                 <BackArrow width={14} height={10} />
 
@@ -71,7 +71,7 @@ const HelpScreen = () => {
 
 
 
-            <Text className="text-center pt-[20px] text-[16px]" style={{ fontFamily: "Poppins-Bold" }}>Need any Help?</Text>
+            <Text className="text-center pt-[40px] text-[16px]" style={{ fontFamily: "Poppins-Bold" }}>Need any Help?</Text>
 
             <View style={{ marginTop: 40, marginBottom: 40 }}>
               <View style={{ marginBottom: 40 }}>

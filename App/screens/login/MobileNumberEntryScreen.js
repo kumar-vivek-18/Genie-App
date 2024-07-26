@@ -268,7 +268,7 @@ const MobileNumberEntryScreen = () => {
                 <View className="mt-[20px] px-[32px]">
                   <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>
                     Now bargaining is possible {"\n"}from your couch! Connect
-                    online with nearby retailers now.
+                    online with nearby vendors now.
                   </Text>
                 </View>
                 <View className="flex flex-col gap-[10px] my-[40px]">
@@ -371,7 +371,7 @@ const MobileNumberEntryScreen = () => {
                 </View>
                 <View>
                   <Text className="text-[14px] text-[#2e2c43] pt-[24px]" style={{ fontFamily: "Poppins-Regular" }}>
-                    Get the best price for your next purchase, Smart shopping is
+                    Get the best price for your next shopping items, Smart shopping is
                     on now.{" "}
                   </Text>
                 </View>

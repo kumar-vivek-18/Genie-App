@@ -5,7 +5,7 @@ const initialState = {
     requestCategory: null,
     requestImages: [],
     expectedPrice: 0,
-    spadePrice: 20,
+    spadePrice: 10,
     createdRequest: [],
     history: [],
     spadeCouponCode: "",
