@@ -482,7 +482,7 @@ const HomeScreen = () => {
                       <View style={styles.priceRow}>
                         <Text style={styles.priceText}>Expected Price:</Text>
                         <Text style={styles.priceValue}>
-                          {spade.expectedPrice} Rs
+                          {spade?.expectedPrice > 0 ? `${spade?.expectedPrice} Rs` : 'Na'}
                         </Text>
                       </View>
 

@@ -224,6 +224,15 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
             </Text>
           </View>
         }
+        {
+          bidDetails?.warranty === 0 &&
+          <View className="flex-row gap-[5px]">
+            <Text style={{ fontFamily: "Poppins-Medium" }}>Warranty: </Text>
+            <Text className="text-[#79B649]" style={{ fontFamily: "Poppins-SemiBold" }}>
+              Na
+            </Text>
+          </View>
+        }
 
         {bidDetails?.bidAccepted === "rejected" && (
           <View className="flex-row items-center gap-1">

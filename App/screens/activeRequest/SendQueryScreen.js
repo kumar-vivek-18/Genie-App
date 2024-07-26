@@ -211,10 +211,10 @@ const SendQueryScreen = () => {
             </View>
           </View> */}
 
-          <View className="flex-row gap-[5px] mt-[15px]">
+          {currentSpadeRetailer?.retailerId?.homeDelivery && <View className="flex-row gap-[5px] mt-[15px]">
             <Tick height={18} width={18} />
             <Text style={{ fontFamily: "Poppins-Regular", color: "#79B649" }}>Home delivery available</Text>
-          </View>
+          </View>}
         </View>
 
         <View className="px-[30px]">
