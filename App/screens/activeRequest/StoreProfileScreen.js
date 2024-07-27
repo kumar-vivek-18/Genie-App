@@ -30,6 +30,8 @@ import RatingAndFeedbackModal from "../components/RatingAndFeedbackModal";
 import RatingStar from "../../assets/Star.svg";
 import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
+import { setUserDetails } from "../../redux/reducers/userDataSlice";
+import EditCommentModal from "../components/EditCommentModal";
 // import {Clipboard} from '@react-native-clipboard/clipboard'
 
 
@@ -52,7 +54,10 @@ const StoreProfileScreen = () => {
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
     const [feedbacks, setFeedbacks] = useState([]);
     const [feedbackModal, setFeedbackModal] = useState(false);
+    const [editModal, setEditModal] = useState(false);
     const accessToken = useSelector(store => store.user.accessToken);
+    const userDetails = useSelector(store => store.user.userDetails);
+    const [selectedReview, setSelectedReview] = useState(null);
     //   const copyToClipboard = async () => {
     //     // await Clipboard.setStringAsync(inputValue);
     //     setCopied(true);
@@ -92,7 +97,7 @@ const StoreProfileScreen = () => {
             }
             await axiosInstance.get(`${baseUrl}/rating/get-retailer-feedbacks`, config)
                 .then((res) => {
-                    console.log('Feedbacks fetched successfully', res.data.length);
+                    console.log('Feedbacks fetched successfully', res.data);
                     setFeedbacks(res.data);
                 })
         } catch (error) {
@@ -307,10 +312,13 @@ const StoreProfileScreen = () => {
                                 {feedbacks
                                     .slice(0, showAllReviews ? feedbacks.length : 3)
                                     .map((review, index) => (
-                                        <View key={index} style={styles.reviewContainer}>
-                                            <Text className="capitalize text-[#2e2c43] text-[16px] mb-[5px]" style={{ fontFamily: 'Poppins-Bold' }}>
-                                                {review?.senderName}
-                                            </Text>
+                                        <View key={index} className="shadow-2xl" style={{ marginBottom: 20, paddingBottom: 10, backgroundColor: 'white', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 20 }}>
+                                            <View className="flex-row items-center gap-[20px] mb-[5px] ">
+                                                <Text className="capitalize text-[#2e2c43] text-[16px] " style={{ fontFamily: 'Poppins-Bold' }}>
+                                                    {review?.senderName}
+                                                </Text>
+                                                {review?.sender?.refId === userDetails?._id && <TouchableOpacity onPress={() => { setSelectedReview(review); setEditModal(true) }}><EditIcon /></TouchableOpacity>}
+                                            </View>
                                             <View className="w-[50%]">
                                                 <StarRating
                                                     disabled={true}
@@ -332,7 +340,16 @@ const StoreProfileScreen = () => {
                                     onPress={() => setShowAllReviews(true)}
                                     className=""
                                 >
-                                    <Text className="text-[#fb8c00]">View All</Text>
+                                    <Text className="text-[#fb8c00] text-center">View All</Text>
+                                </Pressable>
+                            )
+                            }
+                            {showAllReviews && feedbacks.length > 4 && (
+                                <Pressable
+                                    onPress={() => setShowAllReviews(false)}
+                                    className=""
+                                >
+                                    <Text className="text-[#fb8c00] text-center">View Less</Text>
                                 </Pressable>
                             )
                             }
@@ -347,6 +364,7 @@ const StoreProfileScreen = () => {
                 </View>
             </ScrollView>
             {feedbackModal && <RatingAndFeedbackModal feedbackModal={feedbackModal} setFeedbackModal={setFeedbackModal} />}
+            {editModal && <EditCommentModal feedbacks={feedbacks} setFeedbacks={setFeedbacks} commentId={selectedReview?._id} userId={selectedReview?.user?.refId} oldRating={selectedReview?.rating} oldFeedback={selectedReview?.feedback} editModal={editModal} setEditModal={setEditModal} />}
         </SafeAreaView >
     );
 };

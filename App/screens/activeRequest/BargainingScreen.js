@@ -383,6 +383,7 @@ const BargainingScreen = () => {
                             bidAccepted: "accepted",
                             sender: { type: "UserRequest", refId: spade._id },
                         },
+                        updatedAt: res.data.message.createdAt
                     };
                     const updatedRetailers = [
                         updateChat,
@@ -467,6 +468,7 @@ const BargainingScreen = () => {
                     bidAccepted: "rejected",
                     sender: { type: "UserRequest", refId: spade._id },
                 },
+                updatedAt: res.data.createdAt,
             };
             const updatedRetailers = [
                 updateChat,
@@ -531,6 +533,7 @@ const BargainingScreen = () => {
                             _id: newMessageReceived._id,
                             message: newMessageReceived.message,
                         },
+                        updatedAt: newMessageReceived.createdAt
                     };
                     console.log("update Chat ", updateChat)
                     const updatedRetailers = [
