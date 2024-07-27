@@ -122,8 +122,8 @@ const RequestCategory = () => {
                                     <View className={`w-[16px] h-[16px] border-[1px] border-[#fd8c00] items-center ${result.id === selectedOption ? 'bg-[#fd8c00]' : ''}`}>
                                         {result.id === selectedOption && <Octicons name="check" size={12} color="white" />}
                                     </View>
-                                    {result?.name.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize text-[#2e2c43] w-[90%]"><Text style={{ fontFamily: 'Poppins-Bold' }}>{result?.name.slice(0, result.name.indexOf('-'))}</Text>{result.name.indexOf('-') >= 0 ? result.name.slice(result.name.indexOf('-')) : ""}</Text>}
-                                    {result?.name.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold" }} className="capitalize text-[#2e2e43] w-[90%]">{result?.name}</Text>}
+                                    {result?.name.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize text-[#2e2c43] w-[87%]"><Text style={{ fontFamily: 'Poppins-Bold' }}>{result?.name.slice(0, result.name.indexOf('-'))}</Text>{result.name.indexOf('-') >= 0 ? result.name.slice(result.name.indexOf('-')) : ""}</Text>}
+                                    {result?.name.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold" }} className="capitalize text-[#2e2e43] w-[87%]">{result?.name}</Text>}
                                     {/* <Text className="w-[85%]">My name is Vivek Panwar. I am from Bijnor and I also like coding</Text> */}
                                 </View>
                             </TouchableOpacity>

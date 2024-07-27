@@ -82,7 +82,7 @@ const HomeScreen = () => {
   const accessToken = useSelector(store => store.user.accessToken);
   const handleScroll = (event) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x;
-    const index = Math.floor(contentOffsetX / (width - 80));
+    const index = Math.floor(contentOffsetX / (width - 90));
     setCurrentIndex(index);
   };
   const [spadesLoading, setSpadesLoading] = useState(false);
@@ -411,7 +411,7 @@ const HomeScreen = () => {
               <View style={styles.scrollcontainer}>
                 <ScrollView
                   horizontal
-                  pagingEnabled
+                  // pagingEnabled
                   showsHorizontalScrollIndicator={false}
                   onScroll={handleScroll}
                   // scrollEventThrottle={16}
@@ -420,7 +420,7 @@ const HomeScreen = () => {
                   {images.map((SvgComponent, index) => (
                     <View key={index} className="flex-row rounded-2xl my-[10px] shadow-2xl " >
 
-                      <SvgComponent width={width - 50} height={350} />
+                      <SvgComponent width={width - 70} height={350} />
                     </View>
 
                   ))}
@@ -490,12 +490,12 @@ const HomeScreen = () => {
                         <View style={styles.infoItem}>
                           {/* <Image source={require("../assets/time.png")} /> */}
                           <Time />
-                          <Text style={styles.infoText}>{spade.createdAt}</Text>
+                          <Text style={styles.infoText}>{spade?.createdAt}</Text>
                         </View>
                         <View style={styles.infoItem}>
                           {/* <Image source={require("../assets/calender.png")} /> */}
                           <Calender />
-                          <Text style={styles.infoText}>{spade.updatedAt}</Text>
+                          <Text style={styles.infoText}>{spade?.updatedAt}</Text>
                         </View>
                       </View>
                     </View>

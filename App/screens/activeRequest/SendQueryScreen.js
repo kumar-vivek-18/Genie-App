@@ -133,6 +133,7 @@ const SendQueryScreen = () => {
           ...currentSpadeRetailer,
           unreadCount: 0,
           latestMessage: { _id: res.data._id, message: res.data.message, bidType: "false", sender: { type: 'UserRequest', refId: currentSpade._id } },
+          updatedAt: res.data.createdAt,
         };
         const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
         dispatch(setCurrentSpadeRetailers(updatedRetailers));

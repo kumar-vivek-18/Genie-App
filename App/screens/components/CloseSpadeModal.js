@@ -75,7 +75,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                     const request = await axiosInstance.patch(`${baseUrl}/user/close-spade/`, {
                         id: spade._id
                     }, configg);
-                    console.log('request', request);
+                    // console.log('request', request);
                     if (request.status === 200) {
                         // console.log('request closed');
                         const updatedSpades = spades.filter(curr => curr._id !== spade._id);
@@ -151,8 +151,8 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
     }
 
     const closeActiveSpade = async () => {
+        setLoading(true);
         try {
-            console.log('hii');
 
             const configg = {
                 headers: {
@@ -166,7 +166,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
 
             const retailers = await axiosInstance.get(`${baseUrl}/chat/new-status-retailers`, configg);
 
-            console.log('retailers to close spade', retailers.data);
+            // console.log('retailers to close spade', retailers.data);
             const allRetailers = [...retailers.data, ...currentSpadeRetailers];
 
             await Promise.all(allRetailers.map(async (retailer) => {
@@ -222,10 +222,10 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                         setSuccessModal(true);
 
                         const notification = {
-                            token: res.data.uniqueTokens,
+                            token: res?.data?.uniqueTokens,
                             title: userDetails?.userName,
                             // close: currentSpade._id,
-                            image: request?.data?.requestImages[0],
+                            image: res?.data?.updateRequest?.requestImages.length > 0 ? res?.data?.updateRequest?.requestImages[0] : "",
                             body: spade?.requestDescription,
                             requestInfo: {
                                 requestId: currentSpadeRetailers[0]?._id,
@@ -233,17 +233,18 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                             }
                         }
                         // console.log("close notification", token)
-                        // sendCloseSpadeNotification(notification);
                         CloseActiveSpadeNotification(notification);
 
-
+                        setLoading(false);
                         setTimeout(() => {
                             setSuccessModal(false);
+
                             navigation.navigate('home');
                         }, 2000);
                     }
                 })
         } catch (error) {
+            setLoading(fale);
             console.error('Error while closing spade', error);
         }
     }
