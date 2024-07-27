@@ -57,7 +57,7 @@ export const handleRefreshLocation = async (id, accessToken) => {
                             "userDetails",
                             JSON.stringify(res.data)
                         );
-                        console.log("User location updated successfully", res.data);
+                        console.log("User location updated successfully");
                     });
 
             })

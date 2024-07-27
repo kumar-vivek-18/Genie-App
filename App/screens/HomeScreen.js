@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Dimensions,
   ActivityIndicator,
+  AppState,
 } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useIsFocused, useNavigation, useNavigationState } from "@react-navigation/native";
@@ -87,39 +88,9 @@ const HomeScreen = () => {
   };
   const [spadesLoading, setSpadesLoading] = useState(false);
   const [networkError, setNetworkError] = useState(false);
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
-  // useEffect(() => {
-  //   if (isFocused) {
-  //     dispatch(setCurrentSpade({}));
-
-  //     setTimeout(() => {
-  //       console.log('homeScreen is data', currentSpade);
-  //     }, 3000);
-  //   }
-  // }, [isFocused]);
-  // console.log("userDetails", userDetails);
-  // useEffect(() => {
-  //   getGeoCoordinates().then(coordinates => {
-  //     console.log('coordinates', coordinates);
-  //     if (coordinates) {
-  //       setUserLongitude(coordinates.coords.longitude);
-  //       setUserLatitude(coordinates.coords.latitude);
-  //     }
-
-  //   })
-  // })
-
-  // const setNotificationSetUp = async () => {
-  //   await notificationListeners(dispatch, spades, currentSpade);
-  // };
-
-  // useEffect(() => {
-
-
-  //   setNotificationSetUp();
-
-
-  // }, [spades, currentSpade]);
 
   useEffect(() => {
     const backAction = () => {
@@ -219,6 +190,23 @@ const HomeScreen = () => {
     };
   }, []);
 
+  ////////////////////////////////////////////////////////////////////////Connecting the socket when app comes to foreground from background////////////////////////////////////////////////////////////////////////////////
+
+
+  useEffect(() => {
+    const subcription = AppState.addEventListener('change', nextAppState => {
+      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+        connectSocket();
+        console.log('App has come to the foreground!');
+      }
+      appState.current = nextAppState;
+      setAppStateVisible(appState.current);
+      console.log('AppState', appState.current);
+    });
+    return () => subcription.remove();
+  }, []);
+
+  //////////////////////////////////////////////////////////////////////Getting data from socket/////////////////////////////////////////////////////////////////////////////////////
 
   useEffect(() => {
     const handleMessageReceived = (updatedId) => {

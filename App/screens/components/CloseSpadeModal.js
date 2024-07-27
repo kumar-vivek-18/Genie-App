@@ -153,7 +153,6 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
     const closeActiveSpade = async () => {
         setLoading(true);
         try {
-
             const configg = {
                 headers: {
                     'Content-Type': 'application/json',
@@ -167,8 +166,10 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
             const retailers = await axiosInstance.get(`${baseUrl}/chat/new-status-retailers`, configg);
 
             // console.log('retailers to close spade', retailers.data);
+
             const allRetailers = [...retailers.data, ...currentSpadeRetailers];
 
+            console.log('All retailers to close spade', allRetailers)
             await Promise.all(allRetailers.map(async (retailer) => {
                 const formData = new FormData();
                 formData.append('sender', JSON.stringify({
@@ -183,7 +184,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                 formData.append('warranty', 0);
                 formData.append('bidImages', []);
                 const config = {
-                    headers: { // Use "headers" instead of "header"
+                    headers: {
                         'Content-Type': 'multipart/form-data',
                         'Authorization': `Bearer ${accessToken}`,
                     }
@@ -195,7 +196,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
 
                 )
                     .then((res) => {
-                        // console.log('close mess send to retailer with id', res.data.userRequest);
+                        console.log('close mess send to retailer with id', res.data);
                         if (res.data)
                             socket.emit('new message', res.data);
 
@@ -232,7 +233,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                                 userId: currentSpadeRetailers[0]?.users[0]._id
                             }
                         }
-                        // console.log("close notification", token)
+                        console.log("close notification", notification);
                         CloseActiveSpadeNotification(notification);
 
                         setLoading(false);

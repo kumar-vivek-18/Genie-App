@@ -1,5 +1,5 @@
-import { View, Text, ScrollView, Pressable, Image, TouchableOpacity, BackHandler, ActivityIndicator } from 'react-native'
-import React, { useCallback, useEffect, useState } from 'react';
+import { View, Text, ScrollView, Pressable, Image, TouchableOpacity, BackHandler, ActivityIndicator, AppState } from 'react-native'
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation, useNavigationState, useRoute } from '@react-navigation/native';
 import RandomImg from '../../assets/RandomImg.svg';
@@ -60,7 +60,31 @@ const RequestDetail = () => {
     const isHome = useSelector(store => store.user.isHome);
     const [retailersLoading, setRetailersLoading] = useState(false);
     const [networkError, setNetworkError] = useState(false);
+    const appState = useRef(AppState.currentState);
+    const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
+    ////////////////////////////////////////////////////////////////////////Connecting the socket when app comes to foreground from background////////////////////////////////////////////////////////////////////////////////
+
+
+    useEffect(() => {
+        const subcription = AppState.addEventListener('change', nextAppState => {
+            if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+                const spadeId = currentSpade?._id;
+                if (spadeId)
+                    connectSocket(spadeId);
+                else
+                    navigation.navigate('home');
+                console.log('App has come to the RequestId foreground!');
+            }
+            appState.current = nextAppState;
+            setAppStateVisible(appState.current);
+            console.log('AppState', appState.current);
+        });
+        return () => subcription.remove();
+    }, []);
+
+
+    // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     useEffect(() => {
         const backAction = () => {
             if (isRequestDetailScreen) {

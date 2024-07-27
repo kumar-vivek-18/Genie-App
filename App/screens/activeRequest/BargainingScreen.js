@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, Image, Animated, TouchableOpacity, Modal, Linking, BackHandler, Dimensions, ActivityIndicator } from 'react-native'
+import { View, Text, ScrollView, Pressable, Image, Animated, TouchableOpacity, Modal, Linking, BackHandler, Dimensions, ActivityIndicator, AppState } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import ThreeDots from '../../assets/3dots.svg';
@@ -78,6 +78,28 @@ const BargainingScreen = () => {
     const [networkError, setNetworkError] = useState(false);
     const [messageLoading, setMessageLoading] = useState(false);
     // const [bottomHeight, setBottomHeight] = useState();
+    const appState = useRef(AppState.currentState);
+    const [appStateVisible, setAppStateVisible] = useState(appState.current);
+
+    ////////////////////////////////////////////////////////////////////////Connecting the socket when app comes to foreground from background////////////////////////////////////////////////////////////////////////////////
+
+
+    useEffect(() => {
+        const subcription = AppState.addEventListener('change', nextAppState => {
+            if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+                const spadeId = currentSpade?._id;
+                if (currentSpadeChatId?.socketId && currentSpadeChatId?.retailerSocketId)
+                    connectSocket(currentSpadeChatId?.socketId, currentSpadeChatId?.retailerSocketId);
+                else
+                    navigation.navigate('home');
+                console.log('App has come to the Bargaining foreground!');
+            }
+            appState.current = nextAppState;
+            setAppStateVisible(appState.current);
+            console.log('AppState', appState.current);
+        });
+        return () => subcription.remove();
+    }, []);
 
     useEffect(() => {
         const backAction = () => {
@@ -191,20 +213,7 @@ const BargainingScreen = () => {
         const userId = id;
         const senderId = id2;
         socket.emit("setup", { userId, senderId });
-        // socket.emit("online", id2);
-        // socket.on('connected', (value) => {
-        //     console.log('connected socket res', value);
-        //     setSocketConnected(true);
-        //     if (value) {
-        //         setOnline(true);
-        //         dispatch(setIsOnline(true));
-        //     }
-        //     else {
-        //         setOnline(false);
-        //         dispatch(setIsOnline(false));
-        //     }
 
-        // });
         console.log('Chatting screen  socekt connect with id', id);
 
     }, []);
