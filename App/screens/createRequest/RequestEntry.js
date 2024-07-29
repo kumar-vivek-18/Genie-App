@@ -25,10 +25,12 @@ const RequestEntry = () => {
     // console.log('hii')
     const fetchNearByStores = useCallback(async () => {
         try {
-            console.log('User coors', userLongitude, userLatitude, userDetails.longitude, userDetails.latitude);
+            // console.log('User coors', userLongitude, userLatitude, userDetails.longitude, userDetails.latitude);
             const longitude = userLongitude !== 0 ? userLongitude : userDetails.longitude;
             const latitude = userLatitude !== 0 ? userLatitude : userDetails.latitude;
-            console.log(longitude, latitude);
+            // console.log(longitude, latitude);
+            if (!longitude || !latitude) return;
+
             const config = {
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Pressable, Platform } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Pressable, RefreshControl } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Octicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -8,7 +8,9 @@ import ArrowLeft from '../../assets/arrow-left.svg';
 import BackArrow from "../../assets/BackArrowImg.svg";
 
 import { useDispatch, useSelector } from 'react-redux';
-import { emtpyRequestImages, setRequestCategory } from '../../redux/reducers/userRequestsSlice';
+import { emtpyRequestImages, setNearByStoresCategory, setRequestCategory } from '../../redux/reducers/userRequestsSlice';
+import axiosInstance from '../../utils/logics/axiosInstance';
+import { baseUrl } from '../../utils/logics/constants';
 
 
 // const searchData = [
@@ -42,9 +44,45 @@ const RequestCategory = () => {
     const searchData = useSelector(store => store.userRequest.nearByStoresCategory);
     const [searchResults, setSearchResults] = useState(searchData);
     const insets = useSafeAreaInsets();
-
+    const userDetails = useSelector(store => store.user.userDetails);
     const [selectedOption, setSelectedOption] = useState(null);
+    const userLongitude = useSelector(store => store.user.userLongitude);
+    const userLatitude = useSelector(store => store.user.userLatitude);
+    const accessToken = useSelector(store => store.user.accessToken);
+    const [refreshing, setRefreshing] = useState(false);
 
+    const fetchNearByStores = useCallback(async () => {
+        try {
+            // console.log('User coors', userLongitude, userLatitude, userDetails.longitude, userDetails.latitude);
+            const longitude = userLongitude !== 0 ? userLongitude : userDetails.longitude;
+            const latitude = userLatitude !== 0 ? userLatitude : userDetails.latitude;
+            // console.log(longitude, latitude);
+            if (!longitude || !latitude) return;
+
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                params: {
+                    longitude: longitude,
+                    latitude: latitude,
+                }
+            };
+            await axiosInstance.get(`${baseUrl}/retailer/stores-near-me`, config)
+                .then(res => {
+                    const categories = res.data.map((category, index) => {
+                        return { id: index + 1, name: category };
+                    });
+
+                    // Log the categories array to verify
+                    console.log(categories);
+                    dispatch(setNearByStoresCategory(categories));
+                })
+        } catch (error) {
+            console.error("error while fetching nearby stores", error);
+        }
+    })
 
 
     console.log('searchData', searchData);
@@ -83,6 +121,18 @@ const RequestCategory = () => {
 
     }
 
+    const handleRefresh = async () => {
+        try {
+            fetchNearByStores();
+
+        } catch (error) {
+            console.error("Error while fetching nearby stores");
+        }
+        finally {
+            setRefreshing(false);
+        }
+    }
+
     return (
         <View style={styles.container} >
             <View className=" flex z-40 flex-row items-center  mb-[10px] mr-[60px]">
@@ -94,7 +144,11 @@ const RequestCategory = () => {
 
             </View>
             <View className="flex-1 w-full bg-white flex-col  gap-[40px] px-[32px] ">
-                <ScrollView className="px-0 mb-[3px] " showsVerticalScrollIndicator={false} >
+                <ScrollView className="px-0 mb-[3px] " showsVerticalScrollIndicator={false} refreshControl={<RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={handleRefresh}
+                    colors={["#9Bd35A", "#FB8C00"]}
+                />}>
 
 
                     <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] " style={{ fontFamily: "Poppins-Medium" }}>
