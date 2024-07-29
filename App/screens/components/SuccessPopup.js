@@ -16,7 +16,7 @@ const SuccessPopup = ({ isVisible, setIsVisible }) => {
                 <View style={styles.overlay}>
                     <View style={styles.popup}>
                         <SuccessImg />
-                        <Text style={styles.popupText}>Spade Created Successfully!</Text>
+                        <Text style={styles.popupText} >Spade Created Successfully!</Text>
                     </View>
                 </View>
             </Modal>
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         // fontWeight: 'bold',
         marginTop: 30,
         marginHorizontal: 20,
-        fontFamily: "Poppins-ExtraBold",
+        fontFamily: "Poppins-Regular",
         textAlign: "center"
     },
 });

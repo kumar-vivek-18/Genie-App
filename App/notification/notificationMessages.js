@@ -23,7 +23,8 @@ export const NewRequestCreated = async (mess) => {
                 console.log("notification send to", token);
                 const requestInfo = {
                     requestId: chatId,
-                    userId: socketId
+                    userId: socketId,
+                    senderId:null
                 }
 
                 const notification = {

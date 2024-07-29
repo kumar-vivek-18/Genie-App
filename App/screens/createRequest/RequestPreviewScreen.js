@@ -149,6 +149,7 @@ const RequestPreviewScreen = () => {
           title: userDetails?.userName,
           body: requestDetail,
           image: response.data?.userRequest?.requestImages?.length > 0 ? response.data?.userRequest?.requestImages[0] : "",
+
         };
 
         await NewRequestCreated(notification);

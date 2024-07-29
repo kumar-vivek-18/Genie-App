@@ -125,7 +125,8 @@ const SendDocument = () => {
                             body: "Customer sent the document",
                             requestInfo: {
                                 requestId: currentSpadeRetailer._id,
-                                userId: currentSpadeRetailer?.users[0]._id
+                                userId: currentSpadeRetailer?.users[0]._id,
+                                senderId: currentSpadeRetailer?.users[1]._id,
                             }
                         }
                         console.log("close notification", token)

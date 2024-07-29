@@ -124,7 +124,7 @@ const StoreProfileScreen = () => {
                                 onPress={() => {
                                     navigation.goBack();
                                 }}
-                                style={{ paddingVertical: 10, paddingHorizontal: 20, zIndex: 100 }}
+                                style={{ paddingVertical: 10, paddingHorizontal: 20, zIndex: 100, }}
                             >
                                 <ArrowLeft />
                             </TouchableOpacity>

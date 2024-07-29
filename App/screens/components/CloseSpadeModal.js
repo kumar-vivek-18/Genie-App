@@ -98,7 +98,8 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                                 body: spade?.requestDescription,
                                 requestInfo: {
                                     requestId: currentSpadeRetailers[0]?._id,
-                                    userId: currentSpadeRetailers[0]?.users[0]._id
+                                    userId: currentSpadeRetailers[0]?.users[0]._id,
+                                    senderId: currentSpadeRetailers[0]?.users[0]._id,
                                 }
                             }
                             console.log("close notification", token)
@@ -230,7 +231,8 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                             body: spade?.requestDescription,
                             requestInfo: {
                                 requestId: currentSpadeRetailers[0]?._id,
-                                userId: currentSpadeRetailers[0]?.users[0]._id
+                                userId: currentSpadeRetailers[0]?.users[0]._id,
+                                senderId: null,
                             }
                         }
                         console.log("close notification", notification);

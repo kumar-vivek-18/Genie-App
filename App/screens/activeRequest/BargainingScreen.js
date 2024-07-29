@@ -408,11 +408,12 @@ const BargainingScreen = () => {
                     const notification = {
                         title: userDetails?.userName,
                         token: res.data.uniqueTokens,
-                        body: spade?.requestDescription,
-                        image: currentSpadeRetailer?.requestId?.requestImages.length > 0 ? currentSpadeRetailer.requestId.requestImages[0] : "",
+                        body: res.data.message.message,
+                        image: res.data.message.bidImages.length > 0 ? res.data.message.bidImages[0] : "",
                         requestInfo: {
                             requestId: currentSpadeRetailer?._id,
                             userId: currentSpadeRetailer?.users[0]._id,
+                            senderId: currentSpadeRetailer?.users[1]._id,
                         },
                     };
                     await BidAccepted(notification);
@@ -499,6 +500,7 @@ const BargainingScreen = () => {
                 requestInfo: {
                     requestId: currentSpadeRetailer?._id,
                     userId: currentSpadeRetailer?.users[0]._id,
+                    senderId: currentSpadeRetailer?.users[1]._id,
                 },
             };
             await BidRejected(notification);

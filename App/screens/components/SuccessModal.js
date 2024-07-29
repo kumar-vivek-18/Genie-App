@@ -31,8 +31,8 @@ const CloseSpadeModal = ({ successModal, setSuccessModal, successMessage }) => {
                 <View className="bg-white w-[90%] p-[30px] justify-center items-center mt-[10px] py-[60px] gap-[24px] shadow-gray-600 shadow-2xl">
                     <SuccessImg classname="w-[117px] h-[75px]" />
                     <View className="">
-                        <Text className="text-[15px] text-center" style={{ fontFamily: "Poppins-ExtraBold" }}>{successMessage} </Text>
-                        <Text className="text-[15px] text-center" style={{ fontFamily: "Poppins-ExtraBold" }}>Successfully </Text>
+                        <Text className="text-[15px] text-center" style={{ fontFamily: "Poppins-Regular" }}>{successMessage} </Text>
+                        <Text className="text-[15px] text-center" style={{ fontFamily: "Poppins-Regular" }}>Successfully </Text>
 
                     </View>
 

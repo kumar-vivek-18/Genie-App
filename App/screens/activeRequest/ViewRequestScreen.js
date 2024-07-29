@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Image, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, Pressable, Image, ScrollView, TouchableOpacity, Animated, Modal } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import ArrowLeft from '../../assets/arrow-left.svg';
@@ -9,6 +9,25 @@ import { useDispatch, useSelector } from 'react-redux';
 const ViewRequestScreen = () => {
     const navigation = useNavigation();
     const spade = useSelector(store => store.user.currentSpade);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [scaleAnimation] = useState(new Animated.Value(0));
+
+    const handleClose = () => {
+        Animated.timing(scaleAnimation, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+        }).start(() => setSelectedImage(null));
+
+    };
+    const handleImagePress = (image) => {
+        setSelectedImage(image);
+        Animated.timing(scaleAnimation, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+        }).start();
+    };
 
     return (
         <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -33,7 +52,9 @@ const ViewRequestScreen = () => {
                     {
                         spade.requestImages?.map((image, index) => (
                             <View key={index}>
-                                <Image source={{ uri: image }} style={{ height: 150, width: 120, borderRadius: 24, backgroundColor: '#EBEBEB' }} />
+                                <Pressable onPress={() => { handleImagePress(image) }}>
+                                    <Image source={{ uri: image }} style={{ height: 150, width: 120, borderRadius: 24, backgroundColor: '#EBEBEB' }} />
+                                </Pressable>
                             </View>
                         ))
                     }
@@ -44,7 +65,29 @@ const ViewRequestScreen = () => {
             </View>
 
 
+            <Modal
+                transparent
+                visible={!!selectedImage}
+                onRequestClose={handleClose}
 
+
+            >
+                <Pressable style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0, 0, 0, 0.7)", }} onPress={handleClose}>
+                    <Animated.Image
+                        source={{ uri: selectedImage }}
+                        style={
+                            {
+                                width: 300,
+                                height: 400,
+                                borderRadius: 10,
+                                transform: [{ scale: scaleAnimation }],
+                            }
+                        }
+                    />
+
+
+                </Pressable>
+            </Modal>
 
 
         </View>

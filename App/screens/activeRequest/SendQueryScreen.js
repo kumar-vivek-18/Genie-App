@@ -153,7 +153,8 @@ const SendQueryScreen = () => {
           image: "",
           requestInfo: {
             requestId: details?._id,
-            userId: details?.users[0]._id
+            userId: details?.users[0]._id,
+            senderId: details?.users[1]._id
           }
         }
         // console.log("query page", spade);

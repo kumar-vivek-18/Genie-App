@@ -125,7 +125,8 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
                             body: "Customer sent the location",
                             requestInfo: {
                                 requestId: currentSpadeRetailer._id,
-                                userId: currentSpadeRetailer?.users[0]._id
+                                userId: currentSpadeRetailer?.users[0]._id,
+                                senderId: currentSpadeRetailer?.users[1]._id,
                             }
                         }
                         console.log("close notification", token)

@@ -302,7 +302,7 @@ const PaymentScreen = () => {
 
                 <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[14px] text-[#2e2c43]">Cost for spade</Text>
                 <View className="flex-row ">
-                  <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[14px] text-[#45801a]">20 </Text>
+                  <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[14px] text-[#45801a]">10 </Text>
                   <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[14px] text-[#45801a]">Rs</Text>
                 </View>
 
