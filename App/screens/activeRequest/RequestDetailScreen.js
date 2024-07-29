@@ -154,6 +154,8 @@ const RequestDetail = () => {
 
     const fetchRetailers = () => {
         setRetailersLoading(true);
+        const spadeId = currentSpade._id;
+        connectSocket(spadeId);
         const config = {
             headers: { // Use "headers" instead of "header"
                 'Content-Type': 'application/json',

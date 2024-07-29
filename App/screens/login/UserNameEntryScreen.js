@@ -34,9 +34,7 @@ const UserNameEntryScreen = () => {
                 BackHandler.exitApp();
                 return true;
             }
-            // } else {
-            //   return false;
-            // }
+
         };
 
         const backHandler = BackHandler.addEventListener(

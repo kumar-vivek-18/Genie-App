@@ -114,6 +114,7 @@ const HomeScreen = () => {
 
   const fetchData = async () => {
     setSpadesLoading(true);
+    connectSocket();
 
     const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
     dispatch(setUserDetails(userData));
