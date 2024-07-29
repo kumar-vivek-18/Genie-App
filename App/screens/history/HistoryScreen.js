@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentSpade, setHistory } from '../../redux/reducers/userDataSlice';
+import { setCurrentSpade, setHistory, setIsHome } from '../../redux/reducers/userDataSlice';
 import BackArrow from "../../assets/arrow-left.svg"
 import { baseUrl } from '../../utils/logics/constants';
 import axiosInstance from '../../utils/logics/axiosInstance';
@@ -103,7 +103,7 @@ const HistoryScreen = () => {
 
 
                     <View className="z-50 absolute top-[40px] left-[40px]  ">
-                        <Pressable onPress={() => { navigation.goBack(); }} style={{ padding: 8 }}>
+                        <Pressable onPress={() => { navigation.goBack(); dispatch(setIsHome(true)); }} style={{ padding: 8 }}>
                             <BackArrow width={14} height={10} />
 
                         </Pressable>

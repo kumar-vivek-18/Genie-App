@@ -213,19 +213,25 @@ const HomeScreen = () => {
   //////////////////////////////////////////////////////////////////////Getting data from socket/////////////////////////////////////////////////////////////////////////////////////
 
   useEffect(() => {
-    const handleMessageReceived = (updatedId) => {
-      console.log('Update message received at Home socket', updatedId);
+    const handleMessageReceived = (updatedSpade) => {
+      console.log('Update message received at Home socket', updatedSpade._id);
       let spadesData = [...spades];
-      const idx = spadesData.findIndex(spade => spade._id === updatedId);
+      const idx = spadesData.findIndex(spade => spade._id === updatedSpade._id);
 
       console.log("Spdes updated ", idx);
       if (idx !== -1) {
 
-        let data = spadesData.filter(spade => spade._id === updatedId);
+        let data = spadesData.filter(spade => spade._id === updatedSpade._id);
         // let spadeToUpdate = { ...spadesData[idx] };
-        let data2 = spadesData.filter(spade => spade._id !== updatedId);
+        let data2 = spadesData.filter(spade => spade._id !== updatedSpade._id);
 
-        data[0] = { ...data[0], unread: true };
+
+        if (updatedSpade.bidAccepted === "accepted") {
+          data[0] = { ...data[0], unread: true, requestAcceptedChat: updatedSpade.chatId, requestActive: "completed" };
+        }
+        else {
+          data[0] = { ...data[0], unread: true };
+        }
         // console.log('data', data);
         spadesData = [...data, ...data2]
 
@@ -296,6 +302,7 @@ const HomeScreen = () => {
 
     try {
       fetchData();
+      connectSocket();
     } catch (error) {
       console.error("Error fetching data:", error);
     }

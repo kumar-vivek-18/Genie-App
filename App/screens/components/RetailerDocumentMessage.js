@@ -11,7 +11,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import DocumentIcon from '../../assets/DocumentIcon.svg';
 import StoreIcon from '../../assets/StoreIcon.svg';
 
-const RetailerDocumentMessage = ({ bidDetails }) => {
+const RetailerDocumentMessage = ({ bidDetails, pic }) => {
     // console.log("bidDetails", bidDetails);
 
 

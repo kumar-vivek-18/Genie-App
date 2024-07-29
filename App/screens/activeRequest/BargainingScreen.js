@@ -265,7 +265,7 @@ const BargainingScreen = () => {
             .then((res) => {
                 setMessageLoading(false);
                 res.data.map((mess) => {
-                    const data = formatDateTime(mess.createdAt);
+                    const data = formatDateTime(mess.updatedAt);
                     mess.createdAt = data.formattedTime;
                     mess.updatedAt = data.formattedDate;
                     // console.log(mess.createdAt);
@@ -457,6 +457,9 @@ const BargainingScreen = () => {
                     messageId: messages[messages.length - 1]._id,
                 }, config
             );
+
+            if (res.status !== 200) return;
+
             socket.emit("new message", res.data);
             console.log("bid res", res.data);
             const data = formatDateTime(res.data.createdAt);
@@ -506,12 +509,13 @@ const BargainingScreen = () => {
             await BidRejected(notification);
 
             const idx = spades.findIndex(
-                (spade) => spade._id === res.data.userRequest
+                (spade) => spade._id === res.data.userRequest._id
             );
+            console.log('index while rejecting', idx);
             if (idx !== 0) {
-                let data = spades.filter((spade) => spade._id === res.data.userRequest);
+                let data = spades.filter((spade) => spade._id === res.data.userRequest._id);
                 let data2 = spades.filter(
-                    (spade) => spade._id !== res.data.userRequest
+                    (spade) => spade._id !== res.data.userRequest._id
                 );
                 const spadeData = [...data, ...data2];
                 dispatch(setSpades(spadeData));
@@ -528,7 +532,7 @@ const BargainingScreen = () => {
         const handleMessageReceived = (newMessageReceived) => {
             console.log("socket received", newMessageReceived, currentSpadeRetailer);
             setMessages((prevMessages) => {
-                const data = formatDateTime(newMessageReceived.createdAt);
+                const data = formatDateTime(newMessageReceived.updatedAt);
                 newMessageReceived.createdAt = data.formattedTime;
                 newMessageReceived.updatedAt = data.formattedDate;
 
@@ -566,12 +570,13 @@ const BargainingScreen = () => {
                                 requestAcceptedChat: newMessageReceived.chat._id,
                             };
                             dispatch(setCurrentSpade(tmp));
-                            let allSpades = [...spades];
-                            allSpades.map((curr, index) => {
-                                if (curr._id === tmp._id) {
-                                    allSpades[index] = tmp;
-                                }
-                            });
+                            let allSpades = spades.filter(spade => spade._id !== tmp._id);
+                            // allSpades.map((curr, index) => {
+                            //     if (curr._id === tmp._id) {
+                            //         allSpades[index] = tmp;
+                            //     }
+                            // });
+                            allSpades = [tmp, ...allSpades];
                             dispatch(setSpades(allSpades));
                         }
 
@@ -849,7 +854,7 @@ const BargainingScreen = () => {
                                     <View key={index} className="flex-col gap-[5px]  overflow-y-scroll">
 
                                         {message?.bidType === "false" && message?.sender?.type === 'UserRequest' && <View className="flex flex-row justify-end">
-                                            <UserMessage bidDetails={message} messageCount={messages?.length} />
+                                            <UserMessage bidDetails={message} messageCount={index + 1} />
                                         </View>}
                                         {(message?.bidType === "false" && message?.sender?.type === 'Retailer') && <View className="flex flex-row justify-start">
                                             <RetailerMessage bidDetails={message} pic={currentSpadeRetailer?.retailerId?.storeImages[0]} />
@@ -867,7 +872,7 @@ const BargainingScreen = () => {
                                             <UserDocumentMessage bidDetails={message} />
                                         </View>}
                                         {message?.bidType === "document" && message?.sender?.type === 'Retailer' && <View className="flex flex-row justify-start">
-                                            <RetailerDocumentMessage bidDetails={message} />
+                                            <RetailerDocumentMessage bidDetails={message} pic={currentSpadeRetailer?.retailerId?.storeImages[0]} />
                                         </View>}
                                     </View>
                                 ))

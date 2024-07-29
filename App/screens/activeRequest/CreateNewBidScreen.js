@@ -127,7 +127,7 @@ const CreateNewBidScreen = () => {
           ...currentSpadeRetailer,
           unreadCount: 0,
           latestMessage: { _id: res.data._id, message: res.data.message, bidType: "true", bidAccepted: "new", sender: { type: 'UserRequest', refId: currentSpade._id } },
-          updatedAt: res.data.createAt
+          updatedAt: res.data.createdAt,
         };
         const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];
         dispatch(setCurrentSpadeRetailers(updatedRetailers));

@@ -333,7 +333,7 @@ const RequestDetail = () => {
                         <View className="z-50 w-full flex flex-row px-[9px] absolute justify-between items-center top-[20px]">
 
 
-                            <TouchableOpacity onPress={() => { navigation.navigate('home'); }} style={{ padding: 4 }}>
+                            <TouchableOpacity onPress={() => { navigation.navigate('home'); dispatch(setIsHome(true)); }} style={{ padding: 4 }}>
                                 <View className="px-[10px] py-[15px] ">
                                     <ArrowLeft />
                                 </View>
