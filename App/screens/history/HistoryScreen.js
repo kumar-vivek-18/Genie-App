@@ -9,7 +9,9 @@ import BackArrow from "../../assets/arrow-left.svg"
 import { baseUrl } from '../../utils/logics/constants';
 import axiosInstance from '../../utils/logics/axiosInstance';
 import NetworkError from '../components/NetworkError';
-
+import SpadeIcon from '../../assets/SpadeIcon.svg';
+import Calender from '../../assets/calender.svg';
+import Time from '../../assets/time.svg';
 
 const HistoryScreen = () => {
     const navigation = useNavigation();
@@ -126,10 +128,10 @@ const HistoryScreen = () => {
                                     <View style={styles.container}>
                                         <View style={styles.imageContainer}>
 
-                                            <Image
+                                            {spade.requestImages.length > 0 ? (<Image
                                                 source={{ uri: spade.requestImages[0] }}
                                                 style={styles.image}
-                                            />
+                                            />) : (<SpadeIcon width={95} height={95} />)}
                                         </View>
 
                                         <View className="w-10/12 px-[10px]">
@@ -144,11 +146,11 @@ const HistoryScreen = () => {
 
                                             <View style={styles.infoRow}>
                                                 <View style={styles.infoItem}>
-                                                    <Image source={require('../../assets/time.png')} />
+                                                    <Time />
                                                     <Text style={styles.infoText}>{spade.createdAt}</Text>
                                                 </View>
                                                 <View style={styles.infoItem}>
-                                                    <Image source={require('../../assets/calender.png')} />
+                                                    <Calender />
                                                     <Text style={styles.infoText}>{spade.updatedAt}</Text>
                                                 </View>
                                             </View>

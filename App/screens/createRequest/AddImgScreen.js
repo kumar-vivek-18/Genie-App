@@ -311,21 +311,7 @@ const AddImageScreen = () => {
                 </View>
               )
             ) : (
-              // <View className="w-full z-40 bg-white absolute bottom-0 items-center left-0 right-0 px-[10px] shadow-xl">
-              //   <TouchableOpacity onPress={() => { setAddMore(!addMore); pickImage(); }}>
-              //     <View className="w-full flex flex-row justify-between px-[40px] py-[30px] border-b-[1px] border-b-[#dcdbdb]">
-              //       <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>Upload Image</Text>
-              //       <RightArrow />
-              //     </View>
-              //   </TouchableOpacity>
-              //   {/* <View className="h-[2px] w-full bg-black"></View> */}
-              //   <TouchableOpacity onPress={() => { setAddMore(!addMore); takePicture() }}>
-              //     <View className="w-full flex flex-row justify-between px-[40px] py-[30px]">
-              //       <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>Click Image</Text>
-              //       <RightArrow />
-              //     </View>
-              //   </TouchableOpacity>
-              // </View>
+
               <View style={{ flex: 1 }} className="absolute  left-0 right-0 bottom-0 z-50 h-screen shadow-2xl " >
                 <TouchableOpacity onPress={() => { setAddMore(false) }}>
                   <View className="h-full w-screen " style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}  >

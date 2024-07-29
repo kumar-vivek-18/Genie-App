@@ -81,9 +81,14 @@ const RequestPreviewScreen = () => {
       requestCategory,
       requestImages,
       expectedPrice,
-      spadePrice
+      spadePrice,
+      userLongitude,
+      userLatitude
     );
 
+    if (userLongitude == 0 || userLatitude == 0) {
+      return;
+    }
     const formData = new FormData();
 
     requestImages.forEach((image, index) => {
@@ -158,8 +163,8 @@ const RequestPreviewScreen = () => {
       }
     } catch (error) {
       // dispatch(emtpyRequestImages());
-      dispatch(requestClear());
-      console.error("Error while creating request", error.message);
+      // dispatch(requestClear());
+      console.error("Error while creating request", error);
     } finally {
       setLoading(false);
     }

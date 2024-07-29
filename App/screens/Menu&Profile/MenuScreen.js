@@ -8,7 +8,8 @@ import { useSelector, UseSelector } from 'react-redux';
 import ModalLogout from '../components/ModalLogout';
 import BackArrow from "../../assets/BackArrowImg.svg"
 import ArrowRight from "../../assets/arrow-right.svg"
-import Profile from "../../assets/profile.svg"
+import Profile from "../../assets/profile.svg";
+
 
 
 
@@ -28,7 +29,7 @@ const MenuScreen = () => {
             <View style={{ flex: 1 }} className="relative">
 
 
-                <View className="z-50 absolute top-[24px] left-[20px] ">
+                <View className="z-50 absolute top-[20px] left-[20px] ">
                     <TouchableOpacity onPress={() => { navigation.goBack(); }}
                     >
                         <View className="p-[20px]">
@@ -70,7 +71,7 @@ const MenuScreen = () => {
                             </View>
                             <View className="w-[70%]">
                                 <Text className="text-[16px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-Black" }}>{userDetails.userName}</Text>
-                                <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>+91 {userDetails?.mobileNo.slice(3)}</Text>
+                                <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>+91 {userDetails?.mobileNo?.slice(3)}</Text>
                             </View>
                         </View>
 

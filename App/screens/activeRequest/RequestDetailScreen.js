@@ -32,7 +32,7 @@ import { baseUrl } from '../../utils/logics/constants';
 import { MaterialIcons } from '@expo/vector-icons';
 import axiosInstance from '../../utils/logics/axiosInstance';
 import NetworkError from '../components/NetworkError';
-
+import StoreIcon from '../../assets/StoreIcon.svg';
 
 const RequestDetail = () => {
     const navigation = useNavigation();
@@ -166,17 +166,28 @@ const RequestDetail = () => {
         axiosInstance.get(`${baseUrl}/chat/spade-chats`, config)
             .then((response) => {
                 setRetailersLoading(false);
+
                 if (response.status === 200) {
                     // setRetailers(response.data);
                     const chats = response.data;
+                    let acceptedChat = null;
                     chats.map(chat => {
                         const data = formatDateTime(chat.updatedAt);
                         chat.updatedAt = data.formattedTime;
                         chat.createdAt = data.formattedDate;
-                        // console.log(mess.createdAt);
-                        console.log(chat._id, chat.updatedAt);
+                        if (chat?.requestType === "win" || chat.requestType === "completed") {
+                            acceptedChat = chat;
+                        }
                     })
-                    dispatch(setCurrentSpadeRetailers(chats));
+
+                    if (acceptedChat) {
+                        const extraChats = chats.filter(chat => chat._id !== acceptedChat._id);
+                        const allChats = [acceptedChat, ...extraChats];
+                        console.log('allChats', allChats.length);
+                        dispatch(setCurrentSpadeRetailers(allChats));
+                    }
+                    else
+                        dispatch(setCurrentSpadeRetailers(chats));
 
                     if (!isHome && !currentSpade?.rated && currentSpade?.requestAcceptedChat)
                         navigation.navigate('rating-feedback');
@@ -428,10 +439,10 @@ const RequestDetail = () => {
 
                                             </View>}
                                             {details && <View className="flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#cdcdd6] ">
-                                                {details?.users?.length > 0 && <Image
-                                                    source={{ uri: details?.retailerId?.storeImages ? details?.retailerId?.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
+                                                {details?.retailerId?.storeImages?.length > 0 ? (<Image
+                                                    source={{ uri: details?.retailerId?.storeImages[0] }}
                                                     style={styles.image}
-                                                />}
+                                                />) : (<StoreIcon />)}
                                                 <View className="gap-[5px] w-4/5">
                                                     <View className="flex-row justify-between pt-[10px]">
                                                         <Text className="text-[14px] text-[#2e2c43] capitalize " style={{ fontFamily: "Poppins-Regular" }}>{details?.retailerId?.storeName?.length > 20 ? `${details?.retailerId?.storeName.slice(0, 20)}...` : details?.retailerId?.storeName}</Text>

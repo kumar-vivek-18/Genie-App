@@ -28,6 +28,8 @@ import EditIcon from "../../assets/editIcon.svg";
 import BackArrow from "../../assets/BackArrowImg.svg"
 import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
+import RightArrow from "../../assets/arrow-right.svg";
+import * as ImagePicker from "expo-image-picker";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
@@ -43,6 +45,7 @@ const ProfileScreen = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [scaleAnimation] = useState(new Animated.Value(0));
   const accessToken = useSelector(store => store.user.accessToken);
+  const [addMore, setAddMore] = useState(false);
 
   const handleImagePress = (image) => {
     setSelectedImage(image);
@@ -200,6 +203,27 @@ const ProfileScreen = () => {
     });
   };
 
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [3, 4],
+      base64: true,
+      quality: 0.5,
+    });
+
+    if (!result.canceled) {
+      // await getImageUrl(result.assets[0]);
+      const newImageUri = result?.assets[0]?.uri;
+      const compressedImage = await manipulateAsync(
+        newImageUri,
+        [{ resize: { width: 600, height: 800 } }],
+        { compress: 0.5, format: "jpeg" }
+      );
+      await getImageUrl(compressedImage.uri);
+    }
+  };
+
   return (
 
     <View style={{ flex: 1, backgroundColor: "white" }} className="relative">
@@ -237,7 +261,7 @@ const ProfileScreen = () => {
             </Pressable>
             <TouchableOpacity
               onPress={() => {
-                takePicture();
+                setAddMore(true);
               }}
             >
               <View className="absolute right-[2px] bottom-[7px] w-[36px] h-[36px] bg-[#fb8c00] flex justify-center items-center rounded-full">
@@ -350,11 +374,7 @@ const ProfileScreen = () => {
             {" "}
             +91 {userDetails.mobileNo.slice(3)}
           </Text>
-          {/* <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
-                <TextInput
-                    placeholder='9088-79-0488'
-                    className="w-full px-[30px]"
-                /> */}
+
         </View>
 
         <KeyboardAvoidingView>
@@ -427,6 +447,29 @@ const ProfileScreen = () => {
           <ActivityIndicator size="large" color="#fb8c00" />
         </View>
       )}
+
+      {addMore && <View style={{ flex: 1 }} className="absolute  left-0 right-0 bottom-0 z-50 h-screen shadow-2xl " >
+        <TouchableOpacity onPress={() => { setAddMore(false) }}>
+          <View className="h-full w-screen " style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}  >
+          </View>
+        </TouchableOpacity>
+        <View className="bg-white absolute bottom-0 left-0 right-0 ">
+
+          <TouchableOpacity onPress={() => { pickImage(); setAddMore(false) }}>
+            <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[30px]  border-b-[1px] border-gray-400">
+              <Text style={{ fontFamily: "Poppins-Regular" }}>Upload Image</Text>
+              <RightArrow />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => { takePicture(); setAddMore(false); }}>
+            <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[30px]">
+              <Text style={{ fontFamily: "Poppins-Regular" }}>Click Image</Text>
+              <RightArrow />
+            </View>
+          </TouchableOpacity>
+
+        </View>
+      </View>}
 
     </View>
 

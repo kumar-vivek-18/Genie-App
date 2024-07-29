@@ -9,12 +9,13 @@ import { handleDownload, handleDownloadPress } from '../../utils/logics/Logics';
 import { TouchableOpacity } from 'react-native';
 
 
-const UserMessage = ({ bidDetails }) => {
+const UserMessage = ({ bidDetails, messageCount }) => {
   // console.log("bidDetails", bidDetails);
 
 
 
   const userDetails = useSelector(store => store.user.userDetails);
+  const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
   const [selectedImage, setSelectedImage] = useState(null);
   const [scaleAnimation] = useState(new Animated.Value(0));
   const [downloadProgress, setDownloadProgress] = useState({});
@@ -217,6 +218,8 @@ const UserMessage = ({ bidDetails }) => {
 
 
       </View>}
+      {messageCount === 1 && <View className="flex-row w-full px-[55px] justify-start"><Text style={{ fontFamily: 'Poppins-Bold', textAlign: 'left', color: '#c837ab' }}> Request Accepted</Text></View>}
+
       <View className="flex-row justify-end items-center gap-[5px]  w-full px-[30px]">
         <Text className="text-[12px] text-[#7c7c7c]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt},</Text>
         <Text className="text-[12px] text-[#7c7c7c] " style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.updatedAt.slice(0, 6)}</Text>

@@ -27,7 +27,7 @@ const CloseSpadeModal = ({ successModal, setSuccessModal, successMessage }) => {
             transparent={true}
             visible={successModal}
             className=" flex justify-center items-center h-full ">
-            <View className="flex-1  justify-center items-center  ">
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
                 <View className="bg-white w-[90%] p-[30px] justify-center items-center mt-[10px] py-[60px] gap-[24px] shadow-gray-600 shadow-2xl">
                     <SuccessImg classname="w-[117px] h-[75px]" />
                     <View className="">

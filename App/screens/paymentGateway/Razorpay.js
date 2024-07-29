@@ -1,79 +1,4 @@
-// import { View, Text, TouchableOpacity } from 'react-native'
-// import React from 'react'
-// import RazorpayCheckout from 'react-native-razorpay'
-// import { SafeAreaView } from 'react-native-safe-area-context'
-// import axios from 'axios';
-// import { encode as btoa } from 'base-64';
 
-// const PaymentScreen = () => {
-
-//     const PayNow = async () => {
-//         const username = 'rzp_test_kUaMBIxsfsfLcf0kZO';
-//         const password = 'nz09HHuvHYQ83Q8cfasdLDNboHfc';
-//         const credentials = `${username}:${password}`;
-//         // const encodedCredentials = btoa(credentials);
-//         axios.post('https://api.razorpay.com/v1/orders', {
-//             amount: 20000,
-//             currency: "INR",
-//             receipt: "Receipt no. 1",
-//             notes: {
-//                 "notes_key_1": "Welcome to CulturTap-Genie",
-//                 "notes_key_2": "Eat-Sleep-Code-Repeat."
-//             }
-//         }, {
-//             headers: {
-//                 'Authorization': `Basic ${credentials}`,
-//                 'Content-Type': 'application/json'
-//             }
-//         })
-//             .then(res => {
-
-//                 console.log('res', res.data);
-//                 var options = {
-//                     description: 'Payemnt for Genie-service',
-//                     image: ' https://res.cloudinary.com/kumarvivek/image/upload/v1716890335/qinbdiriqama2cw10bz6.png',
-//                     currency: 'INR',
-//                     key: 'rzp_test_kUaMBIfdsxLcf0kZO',
-//                     amount: '2000',
-//                     name: 'CulturTap-Genie',
-//                     order_id: res.data.id,//Replace this with an order_id created using Orders API.
-//                     prefill: {
-//                         email: 'vivek@gmail.com',
-//                         contact: '7055029251',
-//                         name: 'Vivek Panwar'
-//                     },
-//                     theme: { color: '#fb8c00' }
-//                 }
-//                 RazorpayCheckout.open(options).then((data) => {
-//                     // handle success
-//                     alert(`Success: ${data.razorpay_payment_id}`);
-//                 }).catch((error) => {
-//                     // handle failure
-//                     alert(`Error: ${error.code} | ${error.description}`);
-//                     console.error(error);
-//                 });
-//             })
-//     }
-
-//     return (
-//         <SafeAreaView>
-//             <View className="flex-row w-screen h-screen items-center justify-center">
-//                 <View>
-//                     <Text>PaymentScreen</Text>
-//                     <TouchableOpacity onPress={() => { PayNow() }}>
-//                         <Text className="text-center bg-blue-500 p-5">Pay Now</Text>
-//                     </TouchableOpacity>
-//                 </View>
-//             </View>
-//             {/* <Text>PaymentScreen</Text>
-//             <TouchableOpacity onPress={() => { }}>
-//                 <Text>Pay Now</Text>
-//             </TouchableOpacity> */}
-//         </SafeAreaView>
-//     )
-// }
-
-// export default PaymentScreen;
 
 import React, { useEffect, useState } from "react";
 import {
@@ -208,7 +133,7 @@ const PaymentScreen = () => {
           // handle success
           // Alert.alert(`Success: ${data.razorpay_payment_id}`);
           console.log("Payment Successful");
-
+          navigation.navigate('home');
           updateUserDetails();
           setLoading(false);
         })
@@ -367,60 +292,64 @@ const PaymentScreen = () => {
 
               </View>
             </View>
-            <View className="flex-row gap-[5px] mt-[20px] mx-[32px]">
-              <Text style={{ fontFamily: 'Poppins-Bold' }}>Payments Remaining - </Text>
-              <Text>{userDetails?.unpaidSpades?.length}</Text>
-            </View>
-            <View className="w-screen mt-[10px] mx-[32px] z-50">
-
-
-              <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[16px] text-[#2e2c43]">Cost for spade</Text>
-              <View className="flex-row ">
-                <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[24px] text-[#45801a]">20 </Text>
-                <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[24px] text-[#45801a]">Rs</Text>
+            <View className="relative">
+              <View className="flex-row gap-[5px] mt-[20px] mx-[32px]">
+                <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-[14px]">Payments Remaining - </Text>
+                <Text className="text-[14px]">{userDetails?.unpaidSpades?.length} </Text>
               </View>
+              <View className="w-screen mx-[32px] z-50">
 
 
-              <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[16px]">Coupon Applied: <Text className="text-[#45801a]">{spadeDetails?.appliedCouponCode}</Text></Text>
-              <View className="flex-row ">
-                <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[16px] text-[#E76063]">Discount - </Text>
-                <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[16px] text-[#E76063]"> {10 - spadeDetails?.spadePrice} Rs</Text>
-              </View>
-              <View className="flex-row ">
-                <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[16px] text-[#2E2C43]">Tax - </Text>
-                <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[16px] text-[#2e2c43]">0 Rs</Text>
-              </View>
-              <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[16px]">Total Cost</Text>
-              <View className="flex-row ">
-                <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[24px] text-[#45801a]">{spadeDetails?.spadePrice} </Text>
-                <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[24px] text-[#45801a]">Rs</Text>
+                <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[14px] text-[#2e2c43]">Cost for spade</Text>
+                <View className="flex-row ">
+                  <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[14px] text-[#45801a]">20 </Text>
+                  <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[14px] text-[#45801a]">Rs</Text>
+                </View>
+
+
+                <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[14px]">Coupon Applied: <Text className="text-[#45801a]">{spadeDetails?.appliedCouponCode}</Text></Text>
+                <View className="flex-row ">
+                  <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[14px] text-[#E76063]">Discount - </Text>
+                  <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[14px] text-[#E76063]"> {10 - spadeDetails?.spadePrice} Rs</Text>
+                </View>
+                <View className="flex-row ">
+                  <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[14px] text-[#2E2C43]">Tax - </Text>
+                  <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[14px] text-[#2e2c43]">0 Rs</Text>
+                </View>
+                <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[14px]">Total Cost</Text>
+                <View className="flex-row ">
+                  <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[14px] text-[#45801a]">{spadeDetails?.spadePrice} </Text>
+                  <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[14px] text-[#45801a]">Rs</Text>
+                </View>
               </View>
             </View>
           </View>}
           {fetchLoading && <View className="my-[200px]"><ActivityIndicator size={35} color={'#fb8c00'} /></View>}
           {networkError && <View className="my-[200px]"><NetworkError callFunction={fetchSpadeDetails} setNetworkError={setNetworkError} /></View>}
         </View>
-        {!fetchLoading && !networkError && <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
-          {spadeDetails?.spadePrice >= 0 && <TouchableOpacity
-            onPress={() => {
-              spadeDetails?.spadePrice === 0 ? handleFreeSpade() : PayNow();
-            }}
-          >
-            <View className="w-full h-[63px]  bg-[#fb8c00] justify-center  bottom-0 left-0 right-0">
-              {loading ? (
-                <ActivityIndicator size="small" color="#ffffff" />
-              ) : (
-                <Text
-                  className="text-white  text-center text-[16px]"
-                  style={{ fontFamily: "Poppins-Black" }}
-                >
-                  Pay Now
-                </Text>
-              )}
-            </View>
-          </TouchableOpacity>}
-        </View>}
+
       </ScrollView>{isVisible && <PaymentSuccessFulModal isVisible={isVisible} setIsVisible={setIsVisible} />}
+      {!fetchLoading && !networkError &&
+        <TouchableOpacity
+          onPress={() => {
+            spadeDetails?.spadePrice === 0 ? handleFreeSpade() : PayNow(); console.log('hii');
+          }}
+          style={{ position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: '#fb8c00', paddingVertical: 20 }}
+        >
+          <View >
+            {loading ? (
+              <ActivityIndicator size="small" color="#ffffff" />
+            ) : (
+              <Text
+                className="text-white  text-center text-[16px]"
+                style={{ fontFamily: "Poppins-Black" }}
+              >
+                Pay Now
+              </Text>
+            )}
+          </View>
+        </TouchableOpacity>
+      }
     </View>
   );
 };

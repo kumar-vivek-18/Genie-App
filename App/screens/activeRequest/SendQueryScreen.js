@@ -114,10 +114,10 @@ const SendQueryScreen = () => {
         // console.log("query", res.data);
         if (res.status === 200) {
           setOpenModal(true);
-          setTimeout(() => {
-            navigation.goBack();
-            setOpenModal(false);
-          }, 2000);
+          // setTimeout(() => {
+          //   navigation.goBack();
+          //   setOpenModal(false);
+          // }, 2000);
         }
         if (res.status !== 201) return;
         socket.emit("new message", res.data);

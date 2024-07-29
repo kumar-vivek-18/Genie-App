@@ -148,9 +148,9 @@ const StoreProfileScreen = () => {
                     </View>
                 </View>
 
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                    {currentSpadeRetailer.retailerId.storeImages.length > 1 ? (
-                        <View className="pl-[32px] flex flex-row gap-[11px] mb-[60px]">
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ alignSelf: 'flex-start' }}>
+                    {currentSpadeRetailer.retailerId.storeImages.length > 0 &&
+                        <View className="pl-[32px] flex flex-row gap-[11px] mb-[60px]" >
                             {currentSpadeRetailer.retailerId.storeImages?.map(
                                 (
                                     image,
@@ -167,14 +167,7 @@ const StoreProfileScreen = () => {
                                 )
                             )}
                         </View>
-                    ) : (
-                        <View className="pl-[32px] flex flex-row gap-[11px] mb-[60px]">
-                            <View className="w-[119px] h-[164px] bg-[#F9F9F9] rounded-[16px] shadow-lg border-[1px] border-[#cbcbce]"></View>
-                            <View className="w-[119px] h-[164px] bg-[#f9f9f9] rounded-[16px] shadow-lg border-[1px] border-[#cbcbce]"></View>
-                            <View className="w-[119px] h-[164px] bg-[#f9f9f9] rounded-[16px] shadow-lg border-[1px] border-[#cbcbce]"></View>
-                            <View className="w-[119px] h-[164px] bg-[#f9f9f9] rounded-[16px] shadow-lg border-[1px] border-[#cbcbce]"></View>
-                        </View>
-                    )}
+                    }
                 </ScrollView>
 
                 <View className="px-[30px] flex flex-col gap-[26px] mb-[40px]">
@@ -209,6 +202,16 @@ const StoreProfileScreen = () => {
                             </TouchableOpacity>
                         </View>
                     </View>
+
+                    <View className="flex flex-col gap-[11px]">
+                        <Text className="text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Regular" }}>Store Description</Text>
+                        <KeyboardAvoidingView className="flex items-center">
+                            <View className="flex flex-row items-center justify-between w-[324px] px-[20px] bg-[#F9F9F9] rounded-[16px]">
+                                <Text className="w-[280px] text-[14px] py-[5px]  text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-SemiBold" }}>{currentSpadeRetailer?.retailerId?.storeDescription}</Text>
+                            </View>
+                        </KeyboardAvoidingView>
+                    </View>
+
                     <View className="flex flex-col gap-[11px]">
                         <Text className="text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Regular" }}>Store Name</Text>
                         <KeyboardAvoidingView className="flex items-center">
@@ -355,14 +358,17 @@ const StoreProfileScreen = () => {
                             }
                         </View>
                     </View>
-                    {!currentSpadeRetailer.retailerRated && <TouchableOpacity TouchableOpacity onPress={() => { setFeedbackModal(true); }}>
-                        <View>
-                            <Text className="text-[16px] text-[#fb8c00] text-center border-[1px] border-[#fb8c00] rounded-2xl py-[10px]" style={{ fontFamily: "Poppins-Regular" }}>Rate the Vendor</Text>
-                        </View>
-                    </TouchableOpacity>}
+
 
                 </View>
             </ScrollView>
+            {!currentSpadeRetailer?.retailerRated && <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: 'white', paddingHorizontal: 20, paddingVertical: 10 }}>
+                <TouchableOpacity TouchableOpacity onPress={() => { setFeedbackModal(true); }} >
+                    <View>
+                        <Text className="text-[16px] text-[#fb8c00] text-center border-[1px] border-[#fb8c00] rounded-2xl py-[10px]" style={{ fontFamily: "Poppins-Regular" }}>Rate the Vendor</Text>
+                    </View>
+                </TouchableOpacity>
+            </View>}
             {feedbackModal && <RatingAndFeedbackModal feedbackModal={feedbackModal} setFeedbackModal={setFeedbackModal} />}
             {editModal && <EditCommentModal feedbacks={feedbacks} setFeedbacks={setFeedbacks} commentId={selectedReview?._id} userId={selectedReview?.user?.refId} oldRating={selectedReview?.rating} oldFeedback={selectedReview?.feedback} editModal={editModal} setEditModal={setEditModal} />}
         </SafeAreaView >

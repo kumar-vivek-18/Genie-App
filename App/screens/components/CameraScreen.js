@@ -107,10 +107,10 @@ const CameraScreen = () => {
                     setLoading(false);
                     if (res.status === 200) {
                         setOpenModal(true);
-                        setTimeout(() => {
-                            setOpenModal(false);
-                            navigation.goBack();
-                        }, 2000);
+                        // setTimeout(() => {
+                        //     setOpenModal(false);
+                        //     navigation.goBack();
+                        // }, 2000);
                     }
                     if (res.status !== 201) return;
 

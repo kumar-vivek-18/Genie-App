@@ -42,6 +42,7 @@ import { baseUrl } from '../../utils/logics/constants';
 import RatingStar from "../../assets/Star.svg";
 import axiosInstance from '../../utils/logics/axiosInstance';
 import NetworkError from '../components/NetworkError';
+import StoreIcon from '../../assets/StoreIcon.svg';
 
 const BargainingScreen = () => {
     const navigation = useNavigation();
@@ -757,12 +758,13 @@ const BargainingScreen = () => {
 
                     <View onLayout={handleLayout} className="bg-[#ffe7c8] px-[64px] py-[30px]  pt-[20px] relative">
                         <View className=" flex-row gap-[18px] ">
-                            <TouchableOpacity onPress={() => { navigation.navigate('retailer-profile'); console.log('hello') }} >
+                            <TouchableOpacity onPress={() => { navigation.navigate('retailer-profile'); }} >
                                 <View className=" bg-white rounded-full">
-                                    <Image
-                                        source={{ uri: currentSpadeRetailer?.retailerId?.storeImages[0] ? currentSpadeRetailer?.retailerId?.storeImages[0] : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
+                                    {currentSpadeRetailer?.retailerId?.storeImages.length > 0 ? <Image
+                                        source={{ uri: currentSpadeRetailer?.retailerId?.storeImages[0] }}
                                         style={{ width: 40, height: 40, borderRadius: 20 }}
-                                    />
+                                    /> :
+                                        <StoreIcon />}
                                 </View>
                             </TouchableOpacity>
                             <View>
@@ -783,7 +785,7 @@ const BargainingScreen = () => {
                         </View>
 
                         <View className="flex-row gap-[6px] items-center mt-[16px]">
-                            {currentSpade.requestActive === "completed" && currentSpade.requestAcceptedChat === currentSpadeRetailer._id && <TouchableOpacity
+                            {(currentSpade.requestActive === "completed" || currentSpade.requestActive === "closed") && currentSpade.requestAcceptedChat === currentSpadeRetailer._id && <TouchableOpacity
                                 onPress={() => {
                                     setRetailerModal(true);
                                 }}
@@ -844,7 +846,7 @@ const BargainingScreen = () => {
                                     <View key={index} className="flex-col gap-[5px]  overflow-y-scroll">
 
                                         {message?.bidType === "false" && message?.sender?.type === 'UserRequest' && <View className="flex flex-row justify-end">
-                                            <UserMessage bidDetails={message} />
+                                            <UserMessage bidDetails={message} messageCount={messages?.length} />
                                         </View>}
                                         {(message?.bidType === "false" && message?.sender?.type === 'Retailer') && <View className="flex flex-row justify-start">
                                             <RetailerMessage bidDetails={message} pic={currentSpadeRetailer?.retailerId?.storeImages[0]} />
@@ -864,9 +866,9 @@ const BargainingScreen = () => {
                                         {message?.bidType === "document" && message?.sender?.type === 'Retailer' && <View className="flex flex-row justify-start">
                                             <RetailerDocumentMessage bidDetails={message} />
                                         </View>}
-
                                     </View>
                                 ))
+
                             }
                             {messageLoading && <View className="mt-[150px]"><ActivityIndicator size={30} color={'#fb8c00'} /></View>}
                         </View>
@@ -1100,7 +1102,7 @@ const BargainingScreen = () => {
                     {!currentSpadeRetailer.retailerRated && <TouchableOpacity
                         onPress={() => {
                             setOptions(false);
-                            setFeedbackModal(true);
+                            navigation.navigate('retailer-profile');
                         }}
                     >
                         <Text className="mx-5 py-4 border-1 border-b-[1px] border-[#cdcdd6]" style={{ fontFamily: "Poppins-Regular" }} >

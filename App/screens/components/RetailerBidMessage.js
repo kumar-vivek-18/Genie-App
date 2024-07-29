@@ -6,7 +6,7 @@ import { Entypo } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import { Feather } from '@expo/vector-icons';
 import { handleDownload, handleDownloadPress } from '../../utils/logics/Logics';
-
+import StoreIcon from '../../assets/StoreIcon.svg';
 
 const RetailerBidMessage = ({ bidDetails, pic }) => {
   const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
@@ -49,10 +49,10 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
       <View className='flex-row mx-[25px]'>
         <View className="flex-row">
           <View className="w-[25%]">
-            <Image
-              source={{ uri: pic ? pic : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
+            {pic ? <Image
+              source={{ uri: pic }}
               style={{ width: 40, height: 40, borderRadius: 20 }}
-            />
+            /> : <StoreIcon />}
           </View>
 
           <View className="w-[75%]">

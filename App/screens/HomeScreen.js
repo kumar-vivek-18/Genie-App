@@ -61,6 +61,7 @@ import axiosInstance from "../utils/logics/axiosInstance";
 import NetworkError from "./components/NetworkError";
 import Calender from '../assets/calender.svg';
 import Time from '../assets/time.svg';
+import SpadeIcon from '../assets/SpadeIcon.svg';
 
 const { width } = Dimensions.get("window");
 
@@ -87,6 +88,7 @@ const HomeScreen = () => {
     setCurrentIndex(index);
   };
   const [spadesLoading, setSpadesLoading] = useState(false);
+  const [createSpadeLoading, setCreateSpadeLoading] = useState(false);
   const [networkError, setNetworkError] = useState(false);
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
@@ -137,7 +139,7 @@ const HomeScreen = () => {
         // Dispatch the action with the spades data
         const spadesData = response.data;
         spadesData.map((spade, index) => {
-          const dateTime = formatDateTime(spade.updatedAt);
+          const dateTime = formatDateTime(spade.createdAt);
           spadesData[index].createdAt = dateTime.formattedTime;
           spadesData[index].updatedAt = dateTime.formattedDate;
         });
@@ -243,6 +245,7 @@ const HomeScreen = () => {
 
 
   const fetchUserDetails = async () => {
+    setCreateSpadeLoading(true);
     try {
       if (userDetails.unpaidSpades.length > 0) {
         navigation.navigate('payment-gateway', { spadeId: userDetails.unpaidSpades[0] });
@@ -258,9 +261,11 @@ const HomeScreen = () => {
         },
       }
       await axiosInstance.get(`${baseUrl}/user/user-details`, config)
-        .then((response) => {
+        .then(async (response) => {
           console.log('userdetails for paymest check', response.data);
-          AsyncStorage.setItem("userDetails", JSON.stringify(response.data));
+          setCreateSpadeLoading(false);
+
+          if (response.status !== 200) return;
 
           if (response.data.unpaidSpades.length > 0) {
             navigation.navigate('payment-gateway', { spadeId: response.data.unpaidSpades[0] });
@@ -270,8 +275,14 @@ const HomeScreen = () => {
           else {
             navigation.navigate('requestentry');
           }
+          await AsyncStorage.setItem("userDetails", JSON.stringify(response.data));
         })
     } catch (error) {
+      setCreateSpadeLoading(false);
+      if (!error?.response?.status) {
+        setNetworkError(true);
+        console.log('Network Error occurred: ');
+      }
       console.error(error.message);
     }
   }
@@ -367,10 +378,11 @@ const HomeScreen = () => {
               }}
               className="mx-[16px] mt-[16px]"
             >
-              <View className="h-[60px] w-full">
-                <Text className="text-[#fb8c00] text-[14px] border-[1px] border-[#fb8c00] w-full bg-white text-center py-[19px] rounded-3xl" style={{ fontFamily: "Poppins-Italic" }}>
+              <View className="h-[60px] w-full flex-row border-[1px] border-[#fb8c00] bg-white rounded-3xl items-center justify-center ">
+                <Text className="text-[#fb8c00] text-[14px] text-center py-[19px] " style={{ fontFamily: "Poppins-Italic" }}>
                   Type your spade my master...
                 </Text>
+                {createSpadeLoading && <View style={{ position: 'absolute', right: 20 }}><ActivityIndicator color={'#fb8c00'} /></View>}
               </View>
             </Pressable>
           </View>
@@ -456,10 +468,10 @@ const HomeScreen = () => {
                       spade?.unread && <View style={styles.dot}></View>
                     }
                     <View style={styles.imageContainer}>
-                      <Image
-                        source={{ uri: spade.requestImages.length > 0 ? spade.requestImages[0] : "https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg" }}
+                      {spade.requestImages.length > 0 ? (<Image
+                        source={{ uri: spade.requestImages[0] }}
                         style={styles.image}
-                      />
+                      />) : (<SpadeIcon width={95} height={95} />)}
                     </View>
 
                     <View className="w-10/12 px-[10px]">

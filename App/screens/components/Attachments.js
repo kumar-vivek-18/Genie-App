@@ -90,10 +90,10 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
                     setLoading(false);
                     if (res.status === 200) {
                         setOpenModal(true);
-                        setTimeout(() => {
-                            setOpenModal(false);
-                            navigator.goBack();
-                        }, 2000);
+                        // setTimeout(() => {
+                        //     setOpenModal(false);
+                        //     navigator.goBack();
+                        // }, 2000);
                     }
                     if (res.status !== 201) return;
                     socket.emit("new message", res.data);

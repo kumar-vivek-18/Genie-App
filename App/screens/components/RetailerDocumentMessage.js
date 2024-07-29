@@ -9,6 +9,7 @@ import { handleDownload, handleDownloadPress } from '../../utils/logics/Logics';
 import { TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import DocumentIcon from '../../assets/DocumentIcon.svg';
+import StoreIcon from '../../assets/StoreIcon.svg';
 
 const RetailerDocumentMessage = ({ bidDetails }) => {
     // console.log("bidDetails", bidDetails);
@@ -28,10 +29,10 @@ const RetailerDocumentMessage = ({ bidDetails }) => {
             <View className="flex-row mx-[25px] ">
                 <View className="flex-row  ">
                     <View className="w-[25%]" >
-                        <Image
-                            source={{ uri: currentSpadeRetailer?.retailerId.storeImages[0] }}
+                        {pic ? <Image
+                            source={{ uri: pic }}
                             style={{ width: 40, height: 40, borderRadius: 20 }}
-                        />
+                        /> : <StoreIcon />}
                     </View>
                     <View className="w-[75%]">
                         <View className="flex-row justify-between">

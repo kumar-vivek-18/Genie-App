@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Feather } from '@expo/vector-icons';
 import { handleDownload, handleDownloadPress } from '../../utils/logics/Logics';
 import { TouchableOpacity } from 'react-native';
-
+import StoreIcon from '../../assets/StoreIcon.svg';
 
 const RetailerMessage = ({ bidDetails, pic }) => {
   const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
@@ -51,10 +51,10 @@ const RetailerMessage = ({ bidDetails, pic }) => {
       <View className="flex-row px-[25px]">
         <View className="flex-row justify-start ">
           <View className="w-[25%]">
-            <Image
-              source={{ uri: pic ? pic : 'https://res.cloudinary.com/kumarvivek/image/upload/v1718021385/fddizqqnbuj9xft9pbl6.jpg' }}
+            {pic ? <Image
+              source={{ uri: pic }}
               style={{ width: 40, height: 40, borderRadius: 20 }}
-            />
+            /> : <StoreIcon />}
           </View>
           <View className="w-[75%]">
             <View className="flex-row items-center justify-between">

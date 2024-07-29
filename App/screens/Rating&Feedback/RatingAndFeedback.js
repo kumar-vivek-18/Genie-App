@@ -191,12 +191,12 @@ const RatingAndFeedback = () => {
             </ScrollView>
             <View className="absolute bottom-[0px] left-[0px] right-[0px] gap-[10px]">
 
-                {rating > 0 && <TouchableOpacity onPress={() => { SubmitFeedback() }}>
+                {rating > 0 && spadeRating > 0 && <TouchableOpacity onPress={() => { SubmitFeedback() }}>
                     <View className="w-full h-[68px]  bg-[#fb8c00] justify-center  bottom-0 left-0 right-0">
                         <Text className="text-white  text-center text-[16px]" style={{ fontFamily: "Poppins-Black" }}>Submit</Text>
                     </View>
                 </TouchableOpacity>}
-                {rating == 0 && <TouchableOpacity >
+                {(rating == 0 || spadeRating == 0) && <TouchableOpacity >
                     <View className="w-full h-[68px]  justify-center  bottom-0 left-0 right-0" style={{ backgroundColor: "#e6e6e6" }}>
                         <Text className=" text-center text-[16px]" style={{ fontFamily: "Poppins-Black", color: "#888888" }}>Submit</Text>
                     </View>
