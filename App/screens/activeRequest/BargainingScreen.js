@@ -250,6 +250,7 @@ const BargainingScreen = () => {
     const fetchMessages = useCallback((id) => {
         // console.log("fetching messages", id);
         setMessageLoading(true);
+        connectSocket(currentSpadeChatId?.socketId, currentSpadeChatId?.retailerSocketId);
         const config = {
             headers: { // Use "headers" instead of "header"
                 'Content-Type': 'application/json',
