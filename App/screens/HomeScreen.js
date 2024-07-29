@@ -9,6 +9,7 @@ import {
   Dimensions,
   ActivityIndicator,
   AppState,
+  RefreshControl
 } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useIsFocused, useNavigation, useNavigationState } from "@react-navigation/native";
@@ -92,7 +93,7 @@ const HomeScreen = () => {
   const [networkError, setNetworkError] = useState(false);
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
-
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     const backAction = () => {
@@ -290,15 +291,30 @@ const HomeScreen = () => {
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  const handleRefresh = async () => {
+    setRefreshing(true);
 
+    try {
+      fetchData();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+    finally {
+      setRefreshing(false);
+    }
+
+  }
 
   const { width } = Dimensions.get('window');
   // console.log('userData', userDetails);
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <ScrollView style={{ flex: 1 }} className="relative">
-        {/* <Image source={require('../assets/HomImg.png')} className="w-full object-cover " /> */}
-        {/* <HomeImage /> */}
+      <ScrollView style={{ flex: 1 }} className="relative" refreshControl={<RefreshControl
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
+        colors={["#9Bd35A", "#FB8C00"]}
+      />}>
+
         {!networkError && <View className="absolute top-0 left-0 right-0">
           <HomeScreenBg />
         </View>}
