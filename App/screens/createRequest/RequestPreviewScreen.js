@@ -105,8 +105,8 @@ const RequestPreviewScreen = () => {
     formData.append('expectedPrice', expectedPrice > 0 ? expectedPrice : 0);
     formData.append('spadePrice', userDetails.freeSpades > 0 ? 0 : spadePrice);
     formData.append('appliedCoupon', spadeCouponCode.length > 0 ? spadeCouponCode : "NA");
-    formData.append('longitude', userLongitude);
-    formData.append('latitude', userLatitude);
+    formData.append('longitude', userLongitude !== 0 ? userLongitude : userDetails.longitude);
+    formData.append('latitude', userLatitude !== 0 ? userLatitude : userDetails.latitude);
 
     setLoading(true);
     try {
@@ -189,6 +189,15 @@ const RequestPreviewScreen = () => {
           </Text>
           <Text className="text-[14px] text-[#2e2c43] w-4/5 mt-[5px]" style={{ fontFamily: "Poppins-Regular" }}>
             {requestDetail}
+          </Text>
+        </View>
+
+        <View className="px-[32px] pt-[20px]">
+          <Text className="text-[14px]  text-[#2e2c43]" style={{ fontFamily: "Poppins-Black" }}>
+            Spade Location
+          </Text>
+          <Text className="text-[14px] text-[#2e2c43]  mt-[5px]" style={{ fontFamily: "Poppins-Regular" }}>
+            {userDetails.location}
           </Text>
         </View>
 
