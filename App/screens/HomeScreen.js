@@ -115,7 +115,7 @@ const HomeScreen = () => {
 
   const fetchData = async () => {
     setSpadesLoading(true);
-    connectSocket();
+    // connectSocket();
 
     const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
     dispatch(setUserDetails(userData));
@@ -171,19 +171,20 @@ const HomeScreen = () => {
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //HomeScreen Socket Settings
 
-  const connectSocket = useCallback(async () => {
+  const connectSocket = async () => {
     // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
     const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
     if (userData) {
       const userId = userData._id;
       const senderId = userId;
+
       socket.emit("setup", { userId, senderId });
       //  console.log('Request connected with socket with id', spadeId);
       socket.on('connected', () => setSocketConnected(true));
       console.log('HomeScreen socekt connect with id', userData._id);
     }
 
-  }, []);
+  };
 
   useEffect(() => {
     connectSocket();
@@ -301,8 +302,9 @@ const HomeScreen = () => {
     setRefreshing(true);
 
     try {
-      fetchData();
       connectSocket();
+      fetchData();
+
     } catch (error) {
       console.error("Error fetching data:", error);
     }

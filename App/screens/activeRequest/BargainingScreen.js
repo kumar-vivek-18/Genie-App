@@ -250,7 +250,7 @@ const BargainingScreen = () => {
     const fetchMessages = useCallback((id) => {
         // console.log("fetching messages", id);
         setMessageLoading(true);
-        connectSocket(currentSpadeChatId?.socketId, currentSpadeChatId?.retailerSocketId);
+        // connectSocket(currentSpadeChatId?.socketId, currentSpadeChatId?.retailerSocketId);
         const config = {
             headers: { // Use "headers" instead of "header"
                 'Content-Type': 'application/json',
@@ -530,7 +530,7 @@ const BargainingScreen = () => {
 
     useEffect(() => {
         const handleMessageReceived = (newMessageReceived) => {
-            console.log("socket received", newMessageReceived, currentSpadeRetailer);
+            console.log("socket received", newMessageReceived._id, newMessageReceived.message);
             setMessages((prevMessages) => {
                 const data = formatDateTime(newMessageReceived.updatedAt);
                 newMessageReceived.createdAt = data.formattedTime;
@@ -552,7 +552,7 @@ const BargainingScreen = () => {
                         },
                         updatedAt: newMessageReceived.createdAt
                     };
-                    console.log("update Chat ", updateChat)
+                    // console.log("update Chat ", updateChat)
                     const updatedRetailers = [
                         updateChat,
                         ...currentSpadeRetailers.filter((c) => c._id !== updateChat._id),

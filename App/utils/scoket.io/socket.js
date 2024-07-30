@@ -5,7 +5,8 @@ export const socket = io(`${baseUrl}`, {
     reconnection: true,
     reconnectionDelay: 1000,
     reconnectionAttempts: Infinity,
-    reconnectionDelayMax: 1000
+    reconnectionDelayMax: 1000,
+    transports: ['websocket'],
 });
 // export const socket = io('http://192.168.85.192:5000/');
 // export const socket = io('https://culturtap.com', {

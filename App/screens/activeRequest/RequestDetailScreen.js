@@ -66,22 +66,22 @@ const RequestDetail = () => {
     ////////////////////////////////////////////////////////////////////////Connecting the socket when app comes to foreground from background////////////////////////////////////////////////////////////////////////////////
 
 
-    useEffect(() => {
-        const subcription = AppState.addEventListener('change', nextAppState => {
-            if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
-                const spadeId = currentSpade?._id;
-                if (spadeId)
-                    connectSocket(spadeId);
-                else
-                    navigation.navigate('home');
-                console.log('App has come to the RequestId foreground!');
-            }
-            appState.current = nextAppState;
-            setAppStateVisible(appState.current);
-            console.log('AppState', appState.current);
-        });
-        return () => subcription.remove();
-    }, []);
+    // useEffect(() => {
+    //     const subcription = AppState.addEventListener('change', nextAppState => {
+    //         if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+    //             const spadeId = currentSpade?._id;
+    //             if (spadeId)
+    //                 connectSocket(spadeId);
+    //             else
+    //                 navigation.navigate('home');
+    //             console.log('App has come to the RequestId foreground!');
+    //         }
+    //         appState.current = nextAppState;
+    //         setAppStateVisible(appState.current);
+    //         console.log('AppState', appState.current);
+    //     });
+    //     return () => subcription.remove();
+    // }, []);
 
 
     // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -155,7 +155,7 @@ const RequestDetail = () => {
     const fetchRetailers = () => {
         setRetailersLoading(true);
         const spadeId = currentSpade._id;
-        connectSocket(spadeId);
+        // connectSocket(spadeId);
         const config = {
             headers: { // Use "headers" instead of "header"
                 'Content-Type': 'application/json',

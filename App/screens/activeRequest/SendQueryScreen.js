@@ -126,7 +126,7 @@ const SendQueryScreen = () => {
         res.data.updatedAt = data.formattedDate;
 
         //updating latest message
-        setMessages([...messages, res.data]);
+        setMessages(prevMessage => [...prevMessage, res.data]);
 
         //updating chat latest message
         const updateChat = {

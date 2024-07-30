@@ -14,7 +14,7 @@ export const NewRequestCreated = async (mess) => {
             'Authorization': `Bearer ${accessToken}`
         };
 
-        console.log('Access token: ', accessToken);
+        // console.log('Access token: ', accessToken);
 
         for (const tokenObj of uniqueTokens) {
             const { token, chatId, socketId } = tokenObj;
@@ -24,7 +24,7 @@ export const NewRequestCreated = async (mess) => {
                 const requestInfo = {
                     requestId: chatId,
                     userId: socketId,
-                    senderId:null
+                    senderId: null
                 }
 
                 const notification = {
@@ -305,7 +305,7 @@ export const newMessageSend = async (mess) => {
         const tokens = mess.token;
 
         const accessToken = await getAccessToken();
-        console.log("accessToken", accessToken)
+        // console.log("accessToken", accessToken)
 
         const url = 'https://fcm.googleapis.com/v1/projects/genie-retailer/messages:send'; // Replace YOUR_PROJECT_ID with your actual project ID
 
@@ -589,7 +589,7 @@ export const CloseActiveSpadeNotification = async (mess) => {
             'Authorization': `Bearer ${accessToken}`
         };
 
-        console.log('Access token: ', accessToken);
+        // console.log('Access token: ', accessToken);
 
         for (const token of uniqueTokens) {
 

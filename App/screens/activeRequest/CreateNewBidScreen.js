@@ -120,7 +120,7 @@ const CreateNewBidScreen = () => {
         res.data.createdAt = data.formattedTime;
         res.data.updatedAt = data.formattedDate;
         //updating messages
-        setMessages([...messages, res.data]);
+        setMessages(prevMessage => [...prevMessage, res.data]);
 
         //updating chat latest message
         const updateChat = {

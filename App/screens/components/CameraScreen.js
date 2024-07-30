@@ -120,7 +120,8 @@ const CameraScreen = () => {
                     res.data.createdAt = data.formattedTime;
                     res.data.updatedAt = data.formattedDate;
                     //updating messages
-                    setMessages([...messages, res.data]);
+                    // setMessages([...messages, res.data]);
+                    setMessages(prevMessage => [...prevMessage, res.data]);
                     setLoading(false);
                     //updating chat latest message
                     const updateChat = {

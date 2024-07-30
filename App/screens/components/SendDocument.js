@@ -102,7 +102,8 @@ const SendDocument = () => {
                     res.data.createdAt = data.formattedTime;
                     res.data.updatedAt = data.formattedDate;
                     //updating messages
-                    setMessages([...messages, res.data]);
+                    // setMessages([...messages, res.data]);
+                    setMessages(prevMessage => [...prevMessage, res.data]);
                     console.log('mess after send document', res.data);
                     //updating chat latest message
                     setLoading(false);
