@@ -141,7 +141,7 @@ const TermsandConditons = () => {
               <Text style={styles.dot}></Text>
               <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#2e2c43" }}>
                 {" "}
-                Your first 5 spades are free! After that, each spade will cost 10
+                Your first 5 spades are free! After that, each spade will cost 5 rs
                 rupees.
               </Text>
             </View>
@@ -163,7 +163,7 @@ const TermsandConditons = () => {
               <Text style={styles.dot}></Text>
               <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#2e2c43" }}>
                 {" "}
-                Vendors will list their store for home delivery, You can choose specific shops or service providers based on your delivery requirements.
+                Vendors will list their store for home delivery, You can choose specific vendor based on your delivery requirements.
               </Text>
             </View>
           </View>

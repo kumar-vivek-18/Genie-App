@@ -442,7 +442,7 @@ const RequestDetail = () => {
                                             {((spade?.requestActive === "completed" || spade?.requestActive === "closed") && spade?.requestAcceptedChat !== details._id) && <View style={{ backgroundColor: 'rgba(0,0,0,0.3)', width: FullWindowOverlay, height: 98, zIndex: 200, position: 'absolute', top: 0, left: 0, right: 0 }}>
 
                                             </View>}
-                                            {details && <View className="flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#cdcdd6] ">
+                                            {details && <View className="flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#f1f1f7] ">
                                                 {details?.retailerId?.storeImages?.length > 0 ? (<Image
                                                     source={{ uri: details?.retailerId?.storeImages[0] }}
                                                     style={styles.image}

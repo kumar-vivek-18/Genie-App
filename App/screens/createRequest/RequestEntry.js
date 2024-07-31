@@ -1,4 +1,4 @@
-import { View, Text, Pressable, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, Pressable, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import React, { useCallback, useEffect, useState } from 'react';
 import ArrowLeft from '../../assets/arrow-left.svg';
@@ -63,7 +63,7 @@ const RequestEntry = () => {
 
     return (
         <View style={{ flex: 1, backgroundColor: "white" }}>
-            <View style={{ flex: 1 }}>
+            <ScrollView style={{ flex: 1 }}>
                 <TouchableOpacity onPress={() => { navigation.goBack(); }} style={{ zIndex: 100, position: 'absolute', marginTop: 40 }}>
                     <View className="  px-[32px] py-[15px] ">
                         <BackArrow width={14} height={10} />
@@ -83,7 +83,7 @@ const RequestEntry = () => {
 
                 </View>
 
-                <View className="mx-[32px]  h-[127px] bg-[#f9f9f9] rounded-xl ">
+                <View className="mx-[32px]  h-[127px] bg-[#f9f9f9] rounded-xl " style={{ marginBottom: 100 }}>
                     <TextInput
                         multiline
                         numberOfLines={6}
@@ -102,34 +102,35 @@ const RequestEntry = () => {
 
 
 
-                <TouchableOpacity
-                    disabled={!query}
-                    onPress={() => { dispatch(setRequestDetail(query)); console.log(requestDetail); navigation.navigate('requestcategory'); }}
+
+
+
+            </ScrollView>
+            <TouchableOpacity
+                disabled={!query}
+                onPress={() => { dispatch(setRequestDetail(query)); console.log(requestDetail); navigation.navigate('requestcategory'); }}
+                style={{
+                    position: "absolute",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: 68,
+                    width: "100%",
+                    backgroundColor: !query ? "#e6e6e6" : "#FB8C00",
+                    justifyContent: "center", // Center content vertically
+                    alignItems: "center", // Center content horizontally
+                }}
+            >
+                <Text
                     style={{
-                        position: "absolute",
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        height: 68,
-                        width: "100%",
-                        backgroundColor: !query ? "#e6e6e6" : "#FB8C00",
-                        justifyContent: "center", // Center content vertically
-                        alignItems: "center", // Center content horizontally
+                        fontSize: 18,
+                        fontFamily: "Poppins-Black",
+                        color: !query ? "#888888" : "white",
                     }}
                 >
-                    <Text
-                        style={{
-                            fontSize: 18,
-                            fontFamily: "Poppins-Black",
-                            color: !query ? "#888888" : "white",
-                        }}
-                    >
-                        NEXT
-                    </Text>
-                </TouchableOpacity>
-
-
-            </View>
+                    Next
+                </Text>
+            </TouchableOpacity>
         </View>
     )
 }

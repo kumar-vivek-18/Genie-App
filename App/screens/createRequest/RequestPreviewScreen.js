@@ -86,9 +86,7 @@ const RequestPreviewScreen = () => {
       userLatitude
     );
 
-    if (userLongitude == 0 || userLatitude == 0) {
-      return;
-    }
+
     const formData = new FormData();
 
     requestImages.forEach((image, index) => {

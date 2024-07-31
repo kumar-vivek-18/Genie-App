@@ -895,7 +895,7 @@ const BargainingScreen = () => {
 
                                 <TouchableOpacity onPress={() => { navigation.navigate('send-query', { messages, setMessages }) }} style={{ flex: 1 }}>
                                     <View className="border-[1px] border-[#fb8c00]  px-[20px] h-[63px] justify-center items-center  w-[max-content] rounded-[24px]">
-                                        <Text className="text-[16px] text-[#fb8c00] text-center " style={{ fontFamily: "Poppins-Regular" }}>Send message </Text>
+                                        <Text className="text-[16px] text-[#fb8c00] text-center " style={{ fontFamily: "Poppins-Regular" }}>Send query message </Text>
                                     </View>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={() => { setAttachmentScreen(true) }} style={{ flex: 1 }}>

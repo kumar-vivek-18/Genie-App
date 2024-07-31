@@ -207,7 +207,7 @@ const StoreProfileScreen = () => {
                         <Text className="text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Regular" }}>Store Description</Text>
                         <KeyboardAvoidingView className="flex items-center">
                             <View className="flex flex-row items-center justify-between w-[324px] px-[20px] bg-[#F9F9F9] rounded-[16px]">
-                                <Text className="w-[280px] text-[14px] py-[5px]  text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-SemiBold" }}>{currentSpadeRetailer?.retailerId?.storeDescription}</Text>
+                                <Text className="w-[280px] text-[14px] py-[5px]  text-[#2e2c43] " style={{ fontFamily: "Poppins-SemiBold" }}>{currentSpadeRetailer?.retailerId?.storeDescription}</Text>
                             </View>
                         </KeyboardAvoidingView>
                     </View>

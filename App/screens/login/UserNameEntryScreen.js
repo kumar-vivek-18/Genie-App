@@ -194,7 +194,7 @@ const UserNameEntryScreen = () => {
                             color: (!name) ? "#888888" : "white",
                         }}
                     >
-                        NEXT
+                        Next
                     </Text>)}
             </TouchableOpacity>
 

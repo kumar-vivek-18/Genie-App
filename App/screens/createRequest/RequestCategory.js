@@ -209,7 +209,7 @@ const RequestCategory = () => {
                                 fontFamily: "Poppins-Black"
                             }}
                         >
-                            NEXT
+                            Next
                         </Text>
                     </View>
                 </TouchableOpacity>

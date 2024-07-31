@@ -218,8 +218,8 @@ const PaymentScreen = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <ScrollView contentContainerStyle={{ flex: 1 }}>
-        <View className="flex w-screen mt-[20px]" style={{ flex: 1 }}>
+      <ScrollView >
+        <View className="flex w-screen mt-[20px] pb-[150px]"  >
           <View className="flex flex-row items-center pb-[20px] px-[32px]">
             <Text
               className="text-[16px]  flex-1 text-center"
@@ -292,12 +292,12 @@ const PaymentScreen = () => {
 
               </View>
             </View>
-            <View className="relative">
+            <View className="relative" >
               <View className="flex-row gap-[5px] mt-[20px] mx-[32px]">
                 <Text style={{ fontFamily: 'Poppins-Bold' }} className="text-[14px]">Payments Remaining - </Text>
                 <Text className="text-[14px]">{userDetails?.unpaidSpades?.length} </Text>
               </View>
-              <View className="w-screen mx-[32px] z-50">
+              <View className="w-screen mx-[32px] z-50" >
 
 
                 <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[14px] text-[#2e2c43]">Cost for spade</Text>
@@ -317,7 +317,7 @@ const PaymentScreen = () => {
                   <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[14px] text-[#2e2c43]">0 Rs</Text>
                 </View>
                 <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[14px]">Total Cost</Text>
-                <View className="flex-row ">
+                <View className="flex-row " >
                   <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[14px] text-[#45801a]">{spadeDetails?.spadePrice} </Text>
                   <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[14px] text-[#45801a]">Rs</Text>
                 </View>
@@ -328,7 +328,8 @@ const PaymentScreen = () => {
           {networkError && <View className="my-[200px]"><NetworkError callFunction={fetchSpadeDetails} setNetworkError={setNetworkError} /></View>}
         </View>
 
-      </ScrollView>{isVisible && <PaymentSuccessFulModal isVisible={isVisible} setIsVisible={setIsVisible} />}
+      </ScrollView>
+      {isVisible && <PaymentSuccessFulModal isVisible={isVisible} setIsVisible={setIsVisible} />}
       {!fetchLoading && !networkError &&
         <TouchableOpacity
           onPress={() => {

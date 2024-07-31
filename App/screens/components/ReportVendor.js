@@ -63,7 +63,7 @@ const ReportVendor = () => {
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <View style={{ paddingHorizontal: 30 }}>
 
-            <View className="z-50 absolute top-[10px] left-[20px] ">
+            <View className="z-50 absolute top-[30px] left-[20px] ">
               <TouchableOpacity onPress={() => { navigation.goBack(); }} style={{ padding: 20, borderRadius: 100, zIndex: 50 }}>
                 <BackArrow />
 
@@ -72,7 +72,7 @@ const ReportVendor = () => {
 
 
 
-            <Text className="text-center pt-[20px] text-[16px]" style={{ fontFamily: "Poppins-Bold" }}>Report Vendor</Text>
+            <Text className="text-center pt-[40px] text-[16px]" style={{ fontFamily: "Poppins-Bold" }}>Report Vendor</Text>
 
             <View style={{ marginTop: 40, marginBottom: 40 }}>
               <View style={{ marginBottom: 40 }}>
@@ -128,7 +128,7 @@ const ReportVendor = () => {
               color: !query ? "#888888" : "white",
             }}
           >
-            SUBMIT
+            Submit
           </Text>)}
       </TouchableOpacity>
     </View>
