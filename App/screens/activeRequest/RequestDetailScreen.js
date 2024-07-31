@@ -11,7 +11,7 @@ import axios from 'axios';
 import Tick from '../../assets/Tick.svg';
 import * as Clipboard from 'expo-clipboard';
 import { setBargainingScreens, setCurrentSpade, setCurrentSpadeChatId, setCurrentSpadeRetailer, setIsHome, setUserDetails } from '../../redux/reducers/userDataSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import CloseSpadeModal from '../components/CloseSpadeModal';
 import SuccessModal from '../components/SuccessModal';
 import { setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
@@ -109,8 +109,9 @@ const RequestDetail = () => {
     }, [isRequestDetailScreen]);
 
 
-    const connectSocket = async (id) => {
+    const connectSocket = async () => {
         // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
+        const id = currentSpade._id;
         const userId = id;
         const senderId = id;
         socket.emit("setup", { userId, senderId });
@@ -207,7 +208,8 @@ const RequestDetail = () => {
     useEffect(() => {
         // const socket = io('http://your-server-address:3000');
         const spadeId = currentSpade._id;
-        connectSocket(spadeId);
+        if (spadeId)
+            connectSocket();
 
         handleSpadeNaviagtion();
 
@@ -514,7 +516,7 @@ const RequestDetail = () => {
 
                         </View>
                         {retailersLoading && <View className="mt-[100px]"><ActivityIndicator color="#fb8c00" size={35} /></View>}
-                        {networkError && <View className="mt-[100px]"><NetworkError callFunction={fetchRetailers} setNetworkError={setNetworkError} /></View>}
+                        {networkError && <View className="mt-[100px]"><NetworkError callFunction={fetchRetailers} connectSocket={connectSocket} setNetworkError={setNetworkError} /></View>}
                     </View>
                 </ScrollView>
 

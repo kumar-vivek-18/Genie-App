@@ -90,7 +90,7 @@ const BargainingScreen = () => {
             if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
                 const spadeId = currentSpade?._id;
                 if (currentSpadeChatId?.socketId && currentSpadeChatId?.retailerSocketId)
-                    connectSocket(currentSpadeChatId?.socketId, currentSpadeChatId?.retailerSocketId);
+                    connectSocket();
                 else
                     navigation.navigate('home');
                 console.log('App has come to the Bargaining foreground!');
@@ -210,12 +210,12 @@ const BargainingScreen = () => {
 
 
 
-    const connectSocket = useCallback(async (id, id2) => {
-        const userId = id;
-        const senderId = id2;
+    const connectSocket = useCallback(async () => {
+        const userId = currentSpadeChatId?.socketId;
+        const senderId = currentSpadeChatId?.retailerSocketId;
         socket.emit("setup", { userId, senderId });
 
-        console.log('Chatting screen  socekt connect with id', id);
+        console.log('Chatting screen  socekt connect with id', userId);
 
     }, []);
 
@@ -297,7 +297,8 @@ const BargainingScreen = () => {
 
     useEffect(() => {
         fetchUserDetails();
-        connectSocket(currentSpadeChatId?.socketId, currentSpadeChatId?.retailerSocketId);
+        if (currentSpadeChatId?.socketId && currentSpadeChatId?.retailerSocketId)
+            connectSocket();
 
         if (currentSpadeRetailer && currentSpadeChatId?.chatId === currentSpadeRetailer?._id) {
             fetchMessages(currentSpadeChatId?.chatId);
@@ -843,9 +844,7 @@ const BargainingScreen = () => {
                         onContentSizeChange={() =>
                             scrollViewRef.current.scrollToEnd({ animated: true })
                         }
-
                     >
-                        {/* <View></View> */}
                         <View className="flex gap-[10px] px-[10px] pt-[40px] " style={{ paddingBottom: 350 }}>
 
                             {
@@ -892,17 +891,17 @@ const BargainingScreen = () => {
                         {((spade?.requestActive === "completed" && spade?.requestAcceptedChat === currentSpadeRetailer?._id) || ((currentSpadeRetailer?.requestType === "ongoing") &&
                             ((messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "accepted") ||
                                 (spade?.requestActive === "active" && messages[messages?.length - 1]?.bidType === "location") || (spade?.requestActive === "active" && messages[messages?.length - 1]?.bidType === "document") || (messages[messages?.length - 1]?.bidType === "true" && messages[messages?.length - 1]?.bidAccepted === "rejected") ||
-                                messages[messages?.length - 1]?.bidType === "false"))) && <View className="w-full flex-row justify-between px-[5px] pb-[5px]">
+                                messages[messages?.length - 1]?.bidType === "false"))) && <View className="w-full flex-row justify-center px-[5px] pb-[5px] gap-2">
 
-                                <TouchableOpacity onPress={() => { navigation.navigate('send-query', { messages, setMessages }) }}>
-                                    <View className="border-2 border-[#fb8c00]  px-[20px] h-[63px] justify-center items-center  w-[max-content] rounded-[24px]">
-                                        <Text className="text-[16px] text-[#fb8c00]  " style={{ fontFamily: "Poppins-Regular" }}>Send message </Text>
+                                <TouchableOpacity onPress={() => { navigation.navigate('send-query', { messages, setMessages }) }} style={{ flex: 1 }}>
+                                    <View className="border-[1px] border-[#fb8c00]  px-[20px] h-[63px] justify-center items-center  w-[max-content] rounded-[24px]">
+                                        <Text className="text-[16px] text-[#fb8c00] text-center " style={{ fontFamily: "Poppins-Regular" }}>Send message </Text>
                                     </View>
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={() => { setAttachmentScreen(true) }}>
-                                    <View className="border-2 border-[#fb8c00] flex-row w-[max-content] px-[5px] h-[63px] justify-center items-center rounded-[24px] gap-[5px]">
+                                <TouchableOpacity onPress={() => { setAttachmentScreen(true) }} style={{ flex: 1 }}>
+                                    <View className="border-[1px] border-[#fb8c00] flex-row w-[max-content] px-[5px] h-[63px] justify-center items-center rounded-[24px] gap-[5px]">
                                         <Document />
-                                        <Text className="text-[16px] text-[#fb8c00] " style={{ fontFamily: "Poppins-Regular" }}>Send attachment</Text>
+                                        <Text className="text-[16px] text-[#fb8c00] text-center" style={{ fontFamily: "Poppins-Regular" }}>Send  {"\n"} attachment</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>}
@@ -1139,7 +1138,7 @@ const BargainingScreen = () => {
                     setFeedbackModal={setFeedbackModal}
                 />
             )}
-            {errorModal && <ErrorModal errorModal={errorModal} setErrorModal={setErrorModal} />}
+            {errorModal && <ErrorModal errorModal={errorModal} setErrorModal={setErrorModal} connectSocket={connectSocket} />}
             <Modal
                 transparent
                 visible={!!selectedImage}

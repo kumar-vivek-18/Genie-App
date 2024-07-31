@@ -132,28 +132,29 @@ const UserNameEntryScreen = () => {
     return (
         <View style={{ flex: 1, backgroundColor: "white" }}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <KeyboardAvoidingView
-                    behavior="position"
-                >
 
 
+
+                <View className="">
                     <UsernameScreenBg />
+                </View>
 
-                    <View className="px-[42px] mb-[300px]">
-                        <View className="flex flex-row gap-2 pt-[30px] ">
-                            <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
-                            <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
-                            <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
-                        </View>
-                        <View>
-                            <Text className="text-[14px]  text-[#2e2c43] pt-[15px] mb-[5px]" style={{ fontFamily: "Poppins-SemiBold" }}>Need maintenance services?</Text>
-                            <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Avail services such as plumber, electrician, and many more at the best prices.  </Text>
-                        </View>
-                        <View>
-                            <Text className="text-[16px]  text-[#001b33] pt-[40px]" style={{ fontFamily: "Poppins-Black" }}>Please enter your</Text>
-                            <Text className="text-[13px] mt-[5px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Name</Text>
-                        </View>
+                <View className="px-[42px] mb-[300px]">
 
+                    <View className="flex flex-row gap-2 pt-[30px] ">
+                        <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
+                        <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
+                        <View className="w-[32px] h-[9px] bg-[#fb8c00] rounded-lg"></View>
+                    </View>
+                    <View>
+                        <Text className="text-[14px]  text-[#2e2c43] pt-[15px] mb-[5px]" style={{ fontFamily: "Poppins-SemiBold" }}>Need maintenance services?</Text>
+                        <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Avail services such as plumber, electrician, and many more at the best prices.  </Text>
+                    </View>
+                    <View>
+                        <Text className="text-[16px]  text-[#001b33] pt-[40px]" style={{ fontFamily: "Poppins-Black" }}>Please enter your</Text>
+                        <Text className="text-[13px] mt-[5px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Name</Text>
+                    </View>
+                    <KeyboardAvoidingView behavior="position">
                         <View className=" items-center">
                             <TextInput
                                 onChangeText={handleName}
@@ -162,9 +163,9 @@ const UserNameEntryScreen = () => {
                                 style={{ fontFamily: "Poppins-Regular" }}
                             />
                         </View>
+                    </KeyboardAvoidingView>
+                </View>
 
-                    </View>
-                </KeyboardAvoidingView>
             </ScrollView>
 
 

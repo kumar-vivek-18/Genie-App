@@ -351,9 +351,9 @@ const HomeScreen = () => {
 
 
         {!networkError && <View>
-          <View className="w-full bg-white mt-[20px] flex-row px-[30px] justify-between h-[55px] items-center">
+          <View className="w-full bg-white mt-[20px] flex-row px-[30px] justify-between h-[max-content] items-center">
             <View className="w-4/5">
-              <Text className="text-[14px] pt-[10px] text-[#2e2c43]  " style={{ fontFamily: "Poppins-Black" }}>
+              <Text className="text-[14px] pt-[10px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Black" }}>
                 Location
               </Text>
 
@@ -382,8 +382,8 @@ const HomeScreen = () => {
             </TouchableOpacity>
           </View>
           <TouchableOpacity onPress={() => { navigation.navigate('available-categories'); }}>
-            <View className="flex-row items-center justify-center bg-[#ffe8cd] mt-[15px] py-[6px] mx-[16px] rounded-2xl border-[1px] border-[#fb8c00] gap-[5px]">
-              <Text className="text-center text-[#fb8c00]   " style={{ fontFamily: "Poppins-Regular" }}>Check the available categories in your city</Text>
+            <View className="flex-row items-center justify-center bg-[#ffe8cd] mt-[15px] py-[6px] px-[10px] mx-[16px] rounded-2xl border-[1px] border-[#fb8c00] gap-[5px]">
+              <Text className="text-center text-[#fb8c00]" style={{ fontFamily: "Poppins-Regular" }}>Check the available categories in your city</Text>
               <DropArrow />
             </View>
           </TouchableOpacity>
@@ -535,7 +535,7 @@ const HomeScreen = () => {
 
 
         </View>}
-        {networkError && <View className="mt-[100px] "><NetworkError callFunction={fetchData} setNetworkError={setNetworkError} /></View>}
+        {networkError && <View className="mt-[100px] "><NetworkError callFunction={fetchData} setNetworkError={setNetworkError} connectSocket={connectSocket} /></View>}
       </ScrollView>
     </View>
   );

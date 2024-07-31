@@ -369,7 +369,7 @@ const ProfileScreen = () => {
         <View className="flex-row items-center bg-[#f9f9f9] h-[54px] mx-[36px] rounded-3xl px-[29px]">
           <Text
             className="  text-[14px] font-semibold opacity-60"
-            style={{ fontFamily: "Poppins-Regular" }}
+            style={{ fontFamily: "Poppins-SemiBold" }}
           >
             {" "}
             +91 {userDetails.mobileNo.slice(3)}
@@ -401,7 +401,7 @@ const ProfileScreen = () => {
             )}
             {!editEmail && (
               <Text
-                className={`text-[14px]  ${userDetails.email.length === 0 ? "opacity-40" : "opacity-80"
+                className={`text-[14px] text-[#2e2c43] ${userDetails.email.length === 0 ? "opacity-40" : "opacity-80"
                   }`}
                 style={{ fontFamily: "Poppins-SemiBold" }}
               >
