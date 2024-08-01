@@ -1,5 +1,5 @@
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Pressable, RefreshControl } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Octicons } from '@expo/vector-icons';
@@ -84,8 +84,13 @@ const RequestCategory = () => {
         }
     })
 
-
-    console.log('searchData', searchData);
+    useEffect(() => {
+        if (searchData.length == 0) {
+            // console.log('fetching nearby stores');
+            fetchNearByStores();
+        }
+    }, []);
+    // console.log('searchData', searchData);
     const handleSelectResult = (id) => {
         setSelectedOption(id === selectedOption ? "" : id);
     };
@@ -166,7 +171,7 @@ const RequestCategory = () => {
                         />
                     </View>
 
-                    <View  >
+                    {searchResults.length > 0 && <View  >
                         {searchResults?.map((result) => (
                             <TouchableOpacity
                                 key={result.id}
@@ -182,7 +187,10 @@ const RequestCategory = () => {
                                 </View>
                             </TouchableOpacity>
                         ))}
-                    </View>
+                    </View>}
+                    {searchResults?.length === 0 && <View>
+                        <Text style={{ textAlign: 'center', fontFamily: 'Poppins-Regular', marginTop: 50 }}>No available stores in your area.</Text>
+                    </View>}
                 </ScrollView>
 
 

@@ -139,7 +139,7 @@ const TermsandConditons = () => {
 
             <View style={styles.listItem}>
               <Text style={styles.dot}></Text>
-              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#2e2c43" }}>
+              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 14, color: "#2e2c43" }}>
                 {" "}
                 Your first 5 spades are free! After that, each spade will cost 5 rs
                 rupees.
@@ -147,21 +147,21 @@ const TermsandConditons = () => {
             </View>
             <View style={styles.listItem}>
               <Text style={styles.dot}></Text>
-              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#2e2c43" }}>
+              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 14, color: "#2e2c43" }}>
                 {" "}
                 If the vendors don't accept your request, there won't be any charge.
               </Text>
             </View>
             <View style={styles.listItem}>
               <Text style={styles.dot}></Text>
-              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#2e2c43" }}>
+              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 14, color: "#2e2c43" }}>
                 {" "}
                 If you encounter any issues, please report your concerns to us.
               </Text>
             </View>
             <View style={styles.listItem}>
               <Text style={styles.dot}></Text>
-              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, color: "#2e2c43" }}>
+              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 14, color: "#2e2c43" }}>
                 {" "}
                 Vendors will list their store for home delivery, You can choose specific vendor based on your delivery requirements.
               </Text>

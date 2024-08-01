@@ -350,11 +350,11 @@ const RequestDetail = () => {
 
                         {modal && <View className="absolute top-[30px] right-[50px] z-50 bg-white rounded-md">
                             <TouchableOpacity onPress={() => { navigation.navigate('view-request', { data: spade }); setModal(!modal) }}>
-                                <Text className="mx-5 border-1 border-b-[1px] py-3" style={{ fontFamily: "Poppins-Regular" }}>View Request</Text>
+                                <Text className="mx-5 border-1 border-b-[1px] border-[#cdcdd6] py-3" style={{ fontFamily: "Poppins-Regular" }}>View Request</Text>
                             </TouchableOpacity>
                             {spade.requestActive !== "closed" && <View>
                                 <TouchableOpacity onPress={() => { setConfirmModal(true); setModal(false); }}>
-                                    <Text className="mx-5 py-3 border-1 border-b-[1px]" style={{ fontFamily: "Poppins-Regular" }}>Close Request</Text>
+                                    <Text className="mx-5 py-3 border-1 border-b-[1px] border-[#cdcdd6]" style={{ fontFamily: "Poppins-Regular" }}>Close Request</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={() => { navigation.navigate("help"); setModal(!modal) }}>
                                     <Text className="mx-5 py-3" style={{ fontFamily: "Poppins-Regular" }}>Report Concern</Text>

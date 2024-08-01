@@ -47,7 +47,7 @@ const ExpectedPriceScreen = () => {
                     console.log('res', res.data);
                     if (res.data.message === "Coupon code is valid") {
                         setVerifiedCouponCode(true);
-                        dispatch(setSpadePrice(5));
+                        dispatch(setSpadePrice(0));
                         dispatch(setSpadeCouponCode(couponCode));
                     }
                     else {

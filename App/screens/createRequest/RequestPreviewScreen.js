@@ -210,15 +210,16 @@ const RequestPreviewScreen = () => {
               gap: 4,
               paddingVertical: 15,
             }}
+            style={{ alignSelf: 'flex-start' }}
           >
             {requestImages &&
               requestImages?.map((image, index) => (
-                <View key={index} className="rounded-">
+                <View key={index} className="">
                   <Image
                     source={{ uri: image }}
                     width={174}
                     height={232}
-                    className="rounded-3xl border-[1px] border-slate-600"
+                    className="rounded-3xl border-1 border-b-[1px] border-[#cdcdd6]"
                   />
                 </View>
               ))}

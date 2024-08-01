@@ -133,6 +133,9 @@ const AvailableCategories = () => {
                             </View>
                         ))}
                     </View>}
+                    {!categoriesLoading && searchResults.length === 0 && <View>
+                        <Text style={{ fontFamily: "Poppins-Regular" }} className="text-[14px] text-[#2E2C43] mt-[20px] text-center">No available stores in your area.</Text>
+                    </View>}
                     {networkError && <View ><NetworkError callFunction={fetchNearByStores} setNetworkError={setNetworkError} /></View>}
 
                     {categoriesLoading && <View className="my-[150px]"><ActivityIndicator color={'#fb8c00'} size={35} /></View>}
@@ -174,9 +177,9 @@ const AvailableCategories = () => {
                         </Text>
                     </View>
                 </TouchableOpacity> */}
-            </View>
+            </View >
 
-        </View>
+        </View >
     );
 };
 

@@ -109,12 +109,16 @@ const RatingAndFeedback = () => {
                         {spade?.requestCategory?.indexOf('-') > 0 && <Text className="text-[14px] bg-[#fb8c00] capitalize text-white px-1 py-1 my-[7px]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestCategory.slice(0, spade?.requestCategory.indexOf('-'))}</Text>}
                     </View>
 
-                    <View className="flex-row gap-[10px] items-center ">
-                        <Text className="text-[12px] text-[#2e2c43]" style={{ fontFamily: "Poppins-ExtraBold" }}>Request ID:</Text>
-                        <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{spade._id}</Text>
-                        <Pressable onPress={() => { Clipboard.setString(spade._id) }}>
-                            <Image source={require('../../assets/copy.png')} />
-                        </Pressable>
+                    <View className=" ">
+                        <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-ExtraBold" }}>Request ID:</Text>
+                        <View className="flex-row gap-2">
+
+
+                            <Text className="text-[14px]" style={{ fontFamily: "Poppins-SemiBold" }}>{spade._id}</Text>
+                            <Pressable onPress={() => { Clipboard.setString(spade._id) }}>
+                                <Image source={require('../../assets/copy.png')} />
+                            </Pressable>
+                        </View>
                     </View>
 
                     <Text className="mt-[10px]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>
@@ -126,7 +130,7 @@ const RatingAndFeedback = () => {
                 </View>
 
                 <View className="px-[30px] mt-[19px] ">
-                    <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Bold" }}>Rate your experience with vendor</Text>
+                    <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Rate your experience with vendor</Text>
                     <View className="flex-row gap-[5px] mt-[10px]">
                         {[...Array(5)].map((_, index) => {
                             const star = index + 1;
@@ -148,7 +152,7 @@ const RatingAndFeedback = () => {
                 </View>
 
                 <View className="px-[30px] mt-[19px] ">
-                    <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Bold" }}>Rate your overall experience</Text>
+                    <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Rate your overall experience</Text>
                     <View className="flex-row gap-[5px] mt-[10px]">
                         {[...Array(5)].map((_, index) => {
                             const star = index + 1;
@@ -169,8 +173,8 @@ const RatingAndFeedback = () => {
                     </View>
                 </View>
 
-                <View className="px-[30px] " style={{ paddingBottom: 100 }}>
-                    <Text className="text-[14px] text-[#2e2c43]  mt-[30px] mb-[15px]" style={{ fontFamily: "Poppins-ExtraBold" }}>Feedback for vendor</Text>
+                <View className="px-[30px] " style={{ paddingBottom: 200 }}>
+                    <Text className="text-[14px] text-[#2e2c43]  mt-[30px] mb-[15px]" style={{ fontFamily: "Poppins-Regular" }}>Feedback for vendor</Text>
 
                     <KeyboardAvoidingView className="  h-[127px] bg-[#f9f9f9] rounded-xl ">
                         <TextInput

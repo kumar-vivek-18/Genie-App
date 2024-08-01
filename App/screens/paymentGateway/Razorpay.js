@@ -93,7 +93,7 @@ const PaymentScreen = () => {
       const response = await axios.post(
         "https://api.razorpay.com/v1/orders",
         {
-          amount: 100,
+          amount: 500,
           currency: "INR",
           receipt: userDetails._id,
           notes: {
@@ -302,7 +302,7 @@ const PaymentScreen = () => {
 
                 <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[14px] text-[#2e2c43]">Cost for spade</Text>
                 <View className="flex-row ">
-                  <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[14px] text-[#45801a]">10 </Text>
+                  <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[14px] text-[#45801a]">5 </Text>
                   <Text style={{ fontFamily: "Poppins-Bold" }} className=" text-[14px] text-[#45801a]">Rs</Text>
                 </View>
 
@@ -310,7 +310,7 @@ const PaymentScreen = () => {
                 <Text style={{ fontFamily: "Poppins-ExtraBold" }} className=" text-[14px]">Coupon Applied: <Text className="text-[#45801a]">{spadeDetails?.appliedCouponCode}</Text></Text>
                 <View className="flex-row ">
                   <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[14px] text-[#E76063]">Discount - </Text>
-                  <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[14px] text-[#E76063]"> {10 - spadeDetails?.spadePrice} Rs</Text>
+                  <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[14px] text-[#E76063]"> {5 - spadeDetails?.spadePrice} Rs</Text>
                 </View>
                 <View className="flex-row ">
                   <Text style={{ fontFamily: "Poppins-Regular" }} className=" text-[14px] text-[#2E2C43]">Tax - </Text>
