@@ -271,7 +271,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                     <View className="w-full flex flex-row  justify-center">
                         <View className="flex-1 mt-[5px]">
                             <Pressable onPress={() => { setConfirmModal(false) }} >
-                                <Text className="text-[14.5px] text-[#FB8C00] text-center" style={{ fontFamily: "Poppins-Regular" }}>Close</Text>
+                                <Text className="text-[14.5px] text-[#FB8C00] text-center" style={{ fontFamily: "Poppins-Regular" }}>Cancel</Text>
 
                             </Pressable>
                         </View>
