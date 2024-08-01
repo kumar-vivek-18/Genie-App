@@ -134,15 +134,20 @@ const TermsandConditons = () => {
               className="text-center text-[16px]"
               style={{ fontFamily: "Poppins-Bold", color: "#2e2c43" }}
             >
+              Send your request to the nearby vendors
+            </Text>
+            <Text
+              className="text-center text-[16px]"
+              style={{ fontFamily: "Poppins-Bold", color: "#2e2c43" }}
+            >
               Terms for requests
             </Text>
 
             <View style={styles.listItem}>
               <Text style={styles.dot}></Text>
-              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 14, color: "#2e2c43" }}>
+              <Text style={{ fontFamily: "Poppins-Regular", fontSize: 14, color: "#2e2c43", }}>
                 {" "}
-                Your first 5 spades are free! After that, each spade will cost 5 rs
-                rupees.
+                Your first 5 spades are free! After that, each spade will cost 5 Rupees. These are temporary charges, CulturTap will increase the charges shortly.
               </Text>
             </View>
             <View style={styles.listItem}>

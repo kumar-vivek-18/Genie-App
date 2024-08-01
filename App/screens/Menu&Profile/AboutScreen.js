@@ -51,7 +51,7 @@ const AboutScreen = () => {
                     </View>
                     <View className="gap-[15px] items-center">
                         <Text className="text-center text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Bold" }}>
-                            Do smart  shopping
+                            Do Smart  Shopping
                         </Text>
                         <SmartImg />
 
