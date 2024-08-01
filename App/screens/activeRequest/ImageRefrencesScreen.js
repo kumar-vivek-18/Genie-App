@@ -27,7 +27,7 @@ const ImageRefrencesScreen = () => {
             <View>
                 <Text className="text-[#2e2c43] mx-[50px] text-[14px] text-center mt-[24px] mb-[24px] " style={{ fontFamily: "Poppins-Regular" }}>You provided image references for the seller.</Text>
             </View>
-            <ScrollView horizontal style={{ flexDirection: 'row', paddingLeft: 20, alignSelf: 'flex-start' }}>
+            <ScrollView horizontal contentContainerStyle={{ alignSelf: 'flex-start' }} style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
                 <View className="flex-row gap-4 px-[32px]">
                     {
                         spade.requestImages?.map((image, index) => (
@@ -41,7 +41,9 @@ const ImageRefrencesScreen = () => {
             </ScrollView>
 
 
-        </View>
+
+
+        </View >
     )
 }
 

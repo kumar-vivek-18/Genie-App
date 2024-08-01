@@ -4,7 +4,7 @@ import ModalImg from "../../assets/AcceptOfferIcon.svg";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 
-const RequestAcceptModal = ({ modalVisible, setModalVisible, acceptBid, loading, }) => {
+const RequestAcceptModal = ({ modalVisible, setModalVisible, acceptBid, acceptLoading }) => {
 
   return (
     <Modal
@@ -43,10 +43,10 @@ const RequestAcceptModal = ({ modalVisible, setModalVisible, acceptBid, loading,
                 <Pressable
                   onPress={() => {
                     acceptBid();
-                    setModalVisible(false);
+                    // setModalVisible(false);
                   }}
                 >
-                  {loading ? (
+                  {acceptLoading ? (
                     <ActivityIndicator size="small" color="#FB8C00" />
                   ) : (
                     <Text className="text-[14.5px] text-[#FB8C00]  text-center" style={{ fontFamily: "Poppins-SemiBold" }}>

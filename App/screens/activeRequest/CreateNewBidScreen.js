@@ -317,7 +317,7 @@ const CreateNewBidScreen = () => {
           </View>
         </ScrollView>
         <TouchableOpacity
-          disabled={price === 0 || query.length == 0}
+          disabled={!price || query.length == 0}
           onPress={() => {
             sendBid();
           }}
@@ -328,7 +328,7 @@ const CreateNewBidScreen = () => {
             right: 0,
             height: 63,
             width: "100%",
-            backgroundColor: price === 0 || query.length === 0 ? "#e6e6e6" : "#FB8C00",
+            backgroundColor: !price || query.length === 0 ? "#e6e6e6" : "#FB8C00",
             justifyContent: "center", // Center content vertically
             alignItems: "center", // Center content horizontally
           }}
@@ -339,7 +339,7 @@ const CreateNewBidScreen = () => {
             <Text
               style={{
                 fontSize: 18,
-                color: price === 0 || query.length === 0 ? "#888888" : "white",
+                color: !price || query.length === 0 ? "#888888" : "white",
                 fontFamily: "Poppins-Black"
               }}
             >

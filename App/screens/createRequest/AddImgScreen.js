@@ -232,7 +232,7 @@ const AddImageScreen = () => {
               </View>
             ) : (
               <View>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ alignSelf: "flex-start" }}>
                   <View style={styles.container}>
                     <View style={styles.imageContainer}>
                       {requestImages.map((image, index) => (

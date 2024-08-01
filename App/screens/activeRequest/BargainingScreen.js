@@ -81,7 +81,8 @@ const BargainingScreen = () => {
     // const [bottomHeight, setBottomHeight] = useState();
     const appState = useRef(AppState.currentState);
     const [appStateVisible, setAppStateVisible] = useState(appState.current);
-
+    const [rejectLoading, setRejectLoading] = useState(false);
+    const [acceptLoading, setAcceptLoading] = useState(false);
     ////////////////////////////////////////////////////////////////////////Connecting the socket when app comes to foreground from background////////////////////////////////////////////////////////////////////////////////
 
 
@@ -346,6 +347,7 @@ const BargainingScreen = () => {
 
     const acceptBid = async () => {
         setLoading(true);
+        setAcceptLoading(true);
         console.log(messages[messages?.length - 1]._id, spade?._id);
         try {
             const config = {
@@ -430,10 +432,15 @@ const BargainingScreen = () => {
             setLoading(false);
             console.error("error while accepting bid", error.message);
         }
+        finally {
+            setAcceptLoading(false);
+            setModalVisibile(false);
+        }
     };
 
     const rejectBid = async () => {
         setLoading(true);
+        setRejectLoading(true);
         try {
             const configToken = {
                 headers: { // Use "headers" instead of "header"
@@ -524,6 +531,9 @@ const BargainingScreen = () => {
         } catch (error) {
             setLoading(false);
             console.error("error while rejecting bid", error.message);
+        }
+        finally {
+            setRejectLoading(false);
         }
     };
 
@@ -735,7 +745,7 @@ const BargainingScreen = () => {
         <>
 
             <View style={{ flex: 1, backgroundColor: "white" }} className="relative">
-                <View contentContainerStyle={{ flexGrow: 1 }} className="relative">
+                <Pressable onPress={() => { setOptions(false) }} contentContainerStyle={{ flexGrow: 1 }} className="relative">
                     {attachmentScreen && (
                         <View style={styles.overlay}>
                             <Attachments
@@ -884,7 +894,7 @@ const BargainingScreen = () => {
                     </ScrollView>
 
 
-                </View >
+                </Pressable >
                 {currentSpadeRetailer && spade?.requestActive !== "closed" && <View className={`absolute bottom-0 left-0 right-0 w-screen ${attachmentScreen ? "-z-50" : "z-50"}`}>
                     <View className="absolute bottom-[0px] left-[0px] right-[0px] gap-[10px] bg-white w-screen">
 
@@ -1004,6 +1014,16 @@ const BargainingScreen = () => {
                                                     </Text>
                                                 </View>
                                             )}
+                                            {messages && messages[messages.length - 1]?.warranty === 0 && (
+                                                <View className="flex-row gap-[5px] mb-[10px] items-center justify-center">
+                                                    <Text style={{ fontFamily: "Poppins-Medium" }}>
+                                                        Warranty:{" "}
+                                                    </Text>
+                                                    <Text className=" text-[#79B649]" style={{ fontFamily: "Poppins-SemiBold" }} >
+                                                        Na
+                                                    </Text>
+                                                </View>
+                                            )}
                                             <Text className="text-center text-[14px] px-[32px] py-[10px]" style={{ fontFamily: "Poppins-Regular" }}>(If you don’t like the vendor's offer, select 'no' and send a message for clarification.)</Text>
 
                                         </View>
@@ -1043,12 +1063,13 @@ const BargainingScreen = () => {
                                             }}
                                         >
                                             <View className="w-full">
-                                                <Text
+                                                {!rejectLoading && <Text
                                                     className="text-[14px] text-[#fb8c00] text-center "
                                                     style={{ fontFamily: "Poppins-Black" }}
                                                 >
                                                     No
-                                                </Text>
+                                                </Text>}
+                                                {rejectLoading && <View><ActivityIndicator color={'#fb8c00'} /></View>}
                                             </View>
                                         </TouchableOpacity>
                                     </View>
@@ -1081,7 +1102,8 @@ const BargainingScreen = () => {
                     modalVisible={modalVisible}
                     setModalVisible={setModalVisibile}
                     acceptBid={acceptBid}
-                    loading={loading}
+                    acceptLoading={acceptLoading}
+
                 />
             )}
             {retailerModal && (

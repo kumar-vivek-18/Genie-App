@@ -88,6 +88,7 @@ const RequestDetail = () => {
     useEffect(() => {
         const backAction = () => {
             if (isRequestDetailScreen) {
+                console.log('isHome', isHome);
                 if (isHome)
                     navigation.navigate('home');
                 else {
@@ -335,7 +336,14 @@ const RequestDetail = () => {
                         <View className="z-50 w-full flex flex-row px-[9px] absolute justify-between items-center top-[20px]">
 
 
-                            <TouchableOpacity onPress={() => { navigation.navigate('home'); dispatch(setIsHome(true)); }} style={{ padding: 4 }}>
+                            <TouchableOpacity onPress={() => {
+                                if (isHome)
+                                    navigation.navigate('home');
+                                else {
+                                    navigation.navigate('history');
+                                    dispatch(setIsHome(true));
+                                }
+                            }} style={{ padding: 4 }}>
                                 <View className="px-[10px] py-[15px] ">
                                     <ArrowLeft />
                                 </View>
@@ -407,7 +415,7 @@ const RequestDetail = () => {
                                 </Pressable>
 
                                 <View>{
-                                    (spade?.requestActive === "completed" || spade?.requestActive === "closed") && <View className="flex-row gap-[5px] mt-[15px]">
+                                    (spade?.requestActive === "completed" || spade?.requestActive === "closed") && spade?.requestAcceptedChat && <View className="flex-row gap-[5px] mt-[15px]">
                                         <Tick />
                                         <Text className="text-[##79B649]" style={{ fontFamily: "Poppins-Bold" }}>Offer Accepted</Text>
 

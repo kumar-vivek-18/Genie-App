@@ -218,7 +218,13 @@ const UserMessage = ({ bidDetails, messageCount }) => {
 
 
       </View>}
-      {messageCount === 1 && <View className="flex-row w-full px-[55px] justify-start"><Text style={{ fontFamily: 'Poppins-Bold', textAlign: 'left', color: '#c837ab' }}> Request Accepted</Text></View>}
+      {messageCount === 1 && bidDetails?.bidPrice === 0 && <View className="flex-row gap-[5px]">
+        <Text style={{ fontFamily: "Poppins-SemiBold" }}>Expected Price: </Text>
+        <Text className="text-[##79B649]" style={{ fontFamily: "Poppins-Bold" }}>Na</Text>
+
+
+      </View>}
+      {messageCount === 1 && <View className="flex-row "><Text style={{ fontFamily: 'Poppins-Bold', textAlign: 'left', color: '#c837ab' }}> Request Accepted</Text></View>}
 
       <View className="flex-row justify-end items-center gap-[5px]  w-full px-[30px]">
         <Text className="text-[12px] text-[#7c7c7c]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt},</Text>

@@ -148,7 +148,7 @@ const UserNameEntryScreen = () => {
                     </View>
                     <View>
                         <Text className="text-[14px]  text-[#2e2c43] pt-[15px] mb-[5px]" style={{ fontFamily: "Poppins-SemiBold" }}>Need maintenance services?</Text>
-                        <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Avail services such as plumber, electrician, and many more at the best prices.  </Text>
+                        <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Avail services at the best prices, such as plumber, electrician, and many more.   </Text>
                     </View>
                     <View>
                         <Text className="text-[16px]  text-[#001b33] pt-[40px]" style={{ fontFamily: "Poppins-Black" }}>Please enter your</Text>
