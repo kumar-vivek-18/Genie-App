@@ -258,6 +258,7 @@ const HomeScreen = () => {
     try {
       if (userDetails.unpaidSpades.length > 0) {
         navigation.navigate('payment-gateway', { spadeId: userDetails.unpaidSpades[0] });
+        setCreateSpadeLoading(true);
         return;
       }
       const config = {
