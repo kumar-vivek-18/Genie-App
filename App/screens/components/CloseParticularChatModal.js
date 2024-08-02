@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axiosInstance from '../../utils/logics/axiosInstance.js';
 import { baseUrl } from '../../utils/logics/constants.js';
 import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
+import { socket } from '../../utils/scoket.io/socket';
 
 const CloseParticularChatModal = ({ closeParticularChatModal, setCloseParticularChatModal }) => {
     // console.log('modal opne');
@@ -44,6 +45,9 @@ const CloseParticularChatModal = ({ closeParticularChatModal, setCloseParticular
                 formData, config
             )
                 .then(async (response) => {
+                    if (response.status !== 201) return;
+
+                    socket.emit("new message", response.data);
 
                     await axiosInstance.patch(`${baseUrl}/user/close-particular-chat`, {
                         chatId: currentSpadeRetailer._id

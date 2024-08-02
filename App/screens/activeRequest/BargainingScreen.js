@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, Image, Animated, TouchableOpacity, Modal, Linking, BackHandler, Dimensions, ActivityIndicator, AppState } from 'react-native'
+import { View, Text, ScrollView, Pressable, Image, Animated, TouchableOpacity, Modal, Linking, BackHandler, Dimensions, ActivityIndicator, AppState, StyleSheet } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import ThreeDots from '../../assets/3dots.svg';
@@ -748,7 +748,7 @@ const BargainingScreen = () => {
         <>
 
             <View style={{ flex: 1, backgroundColor: "white" }} className="relative">
-                <Pressable onPress={() => { setOptions(false) }} contentContainerStyle={{ flexGrow: 1 }} className="relative">
+                <View contentContainerStyle={{ flexGrow: 1 }} className="relative">
                     {attachmentScreen && (
                         <View style={styles.overlay}>
                             <Attachments
@@ -897,8 +897,8 @@ const BargainingScreen = () => {
                     </ScrollView>
 
 
-                </Pressable >
-                {currentSpadeRetailer && spade?.requestActive !== "closed" && currentSpadeRetailer && <View className={`absolute bottom-0 left-0 right-0 w-screen ${attachmentScreen ? "-z-50" : "z-50"}`}>
+                </View >
+                {currentSpadeRetailer && spade?.requestActive !== "closed" && currentSpadeRetailer.requestType !== "closed" && currentSpadeRetailer.requestType !== "closedHistory" && <View className={`absolute bottom-0 left-0 right-0 w-screen ${attachmentScreen ? "-z-50" : "z-50"}`}>
                     <View className="absolute bottom-[0px] left-[0px] right-[0px] gap-[10px] bg-white w-screen">
 
                         {((spade?.requestActive === "completed" && spade?.requestAcceptedChat === currentSpadeRetailer?._id) || ((currentSpadeRetailer?.requestType === "ongoing") &&
@@ -1117,59 +1117,65 @@ const BargainingScreen = () => {
             )}
             {closeParticularChatModal && <CloseParticularChatModal closeParticularChatModal={closeParticularChatModal} setCloseParticularChatModal={setCloseParticularChatModal} />}
             {options && (
-                <View className="absolute top-[30px] right-[50px] z-50 bg-white rounded-md 9+99*">
-                    <TouchableOpacity
-                        onPress={() => {
+                <>
+                    <Pressable style={{ flex: 1, zIndex: 10, ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0)', position: 'absolute' }}
+                        onPress={() => { setOptions(false) }}
+                    />
 
-                            navigation.navigate('view-request', { data: spade });
-                            setOptions(false);
-                        }}
-                    >
-                        <Text
-                            className="mx-5 py-4 border-1 border-b-[1px] border-[#cdcdd6]"
-                            style={{ fontFamily: "Poppins-Regular" }}
+                    <View className="absolute top-[30px] right-[50px]  bg-white rounded-md " style={{ zIndex: 100 }}>
+                        <TouchableOpacity
+                            onPress={() => {
+
+                                navigation.navigate('view-request', { data: spade });
+                                setOptions(false);
+                            }}
                         >
-                            View Request
-                        </Text>
-                    </TouchableOpacity>
-                    {currentSpadeRetailer?.requestType === "ongoing" && <TouchableOpacity
-                        onPress={() => {
-                            setCloseParticularChatModal(true);
-                            setOptions(false);
-                        }}
-                    >
-                        <Text
-                            className="mx-5 py-4 border-1 border-b-[1px] border-[#cdcdd6]"
-                            style={{ fontFamily: "Poppins-Regular" }}
+                            <Text
+                                className="mx-5 py-4 border-1 border-b-[1px] border-[#cdcdd6]"
+                                style={{ fontFamily: "Poppins-Regular" }}
+                            >
+                                View Request
+                            </Text>
+                        </TouchableOpacity>
+                        {currentSpadeRetailer?.requestType === "ongoing" && <TouchableOpacity
+                            onPress={() => {
+                                setCloseParticularChatModal(true);
+                                setOptions(false);
+                            }}
                         >
-                            Close Chat
-                        </Text>
-                    </TouchableOpacity>}
-                    {!currentSpadeRetailer.retailerRated && <TouchableOpacity
-                        onPress={() => {
-                            setOptions(false);
-                            navigation.navigate('retailer-profile');
-                        }}
-                    >
-                        <Text className="mx-5 py-4 border-1 border-b-[1px] border-[#cdcdd6]" style={{ fontFamily: "Poppins-Regular" }} >
-                            Rate Vendor
-                        </Text>
-                    </TouchableOpacity>}
-                    <TouchableOpacity
-                        onPress={() => {
-                            const requestId = spade?._id;
-                            navigation.navigate("report-vendor", { requestId });
-                            setOptions(false);
-                        }}
-                    >
-                        <Text
-                            className="mx-5 py-4"
-                            style={{ fontFamily: "Poppins-Regular" }}
+                            <Text
+                                className="mx-5 py-4 border-1 border-b-[1px] border-[#cdcdd6]"
+                                style={{ fontFamily: "Poppins-Regular" }}
+                            >
+                                Close Chat
+                            </Text>
+                        </TouchableOpacity>}
+                        {!currentSpadeRetailer.retailerRated && <TouchableOpacity
+                            onPress={() => {
+                                setOptions(false);
+                                navigation.navigate('retailer-profile');
+                            }}
                         >
-                            Report Vendor
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                            <Text className="mx-5 py-4 border-1 border-b-[1px] border-[#cdcdd6]" style={{ fontFamily: "Poppins-Regular" }} >
+                                Rate Vendor
+                            </Text>
+                        </TouchableOpacity>}
+                        <TouchableOpacity
+                            onPress={() => {
+                                const requestId = spade?._id;
+                                navigation.navigate("report-vendor", { requestId });
+                                setOptions(false);
+                            }}
+                        >
+                            <Text
+                                className="mx-5 py-4"
+                                style={{ fontFamily: "Poppins-Regular" }}
+                            >
+                                Report Vendor
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </>
             )}
             {feedbackModal && (
                 <RatingAndFeedbackModal

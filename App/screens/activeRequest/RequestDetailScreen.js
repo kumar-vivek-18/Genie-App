@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, Image, TouchableOpacity, BackHandler, ActivityIndicator, AppState } from 'react-native'
+import { View, Text, ScrollView, Pressable, Image, TouchableOpacity, BackHandler, ActivityIndicator, AppState, StyleSheet } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation, useNavigationState, useRoute } from '@react-navigation/native';
@@ -328,7 +328,7 @@ const RequestDetail = () => {
 
     return (
         <>
-            {<Pressable style={{ flex: 1, position: 'relative' }} onPress={() => { setModal(false) }}>
+            {<View style={{ flex: 1, position: 'relative' }} >
 
                 <ScrollView style={{ flex: 1 }} className="relative bg-white">
                     <View style={{ flex: 1, position: 'relative' }} className="relative ">
@@ -356,20 +356,7 @@ const RequestDetail = () => {
                             </TouchableOpacity>
                         </View>
 
-                        {modal && <View className="absolute top-[30px] right-[50px] z-50 bg-white rounded-md">
-                            <TouchableOpacity onPress={() => { navigation.navigate('view-request', { data: spade }); setModal(!modal) }}>
-                                <Text className="mx-5 border-1 border-b-[1px] border-[#cdcdd6] py-3" style={{ fontFamily: "Poppins-Regular" }}>View Request</Text>
-                            </TouchableOpacity>
-                            {spade.requestActive !== "closed" && <View>
-                                <TouchableOpacity onPress={() => { setConfirmModal(true); setModal(false); }}>
-                                    <Text className="mx-5 py-3 border-1 border-b-[1px] border-[#cdcdd6]" style={{ fontFamily: "Poppins-Regular" }}>Close Request</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={() => { navigation.navigate("help"); setModal(!modal) }}>
-                                    <Text className="mx-5 py-3" style={{ fontFamily: "Poppins-Regular" }}>Report Concern</Text>
-                                </TouchableOpacity>
-                            </View>}
 
-                        </View>}
 
                         <View className="bg-[#ffe7c8] text-[#2e2c43]  py-[30px] pt-[30px]">
                             <View className="px-[50px]">
@@ -542,7 +529,29 @@ const RequestDetail = () => {
                         <Text className="text-[#fb8c00] text-center text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>Waiting for vendors response..... </Text>
                     </View>
                 </View>}
-            </Pressable>}
+            </View>}
+            {modal &&
+                <>
+                    <Pressable style={{ flex: 1, zIndex: 10, ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0)', position: 'absolute' }}
+                        onPress={() => { setModal(false) }}
+                    />
+
+                    <View className="absolute top-[30px] right-[50px] z-50 bg-white rounded-md">
+                        <TouchableOpacity onPress={() => { navigation.navigate('view-request', { data: spade }); setModal(!modal) }}>
+                            <Text className="mx-5 border-1 border-b-[1px] border-[#cdcdd6] py-3" style={{ fontFamily: "Poppins-Regular" }}>View Request</Text>
+                        </TouchableOpacity>
+                        {spade.requestActive !== "closed" && <View>
+                            <TouchableOpacity onPress={() => { setConfirmModal(true); setModal(false); }}>
+                                <Text className="mx-5 py-3 border-1 border-b-[1px] border-[#cdcdd6]" style={{ fontFamily: "Poppins-Regular" }}>Close Request</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => { navigation.navigate("help"); setModal(!modal) }}>
+                                <Text className="mx-5 py-3" style={{ fontFamily: "Poppins-Regular" }}>Report Concern</Text>
+                            </TouchableOpacity>
+                        </View>}
+
+                    </View>
+                </>
+            }
             {confirmModal && <CloseSpadeModal confirmModal={confirmModal} setConfirmModal={setConfirmModal} setSuccessModal={setSuccessModal} />}
             {successModal && <SuccessModal successModal={successModal} setSuccessModal={setSuccessModal} successMessage={"Request Closed"} />}
         </>

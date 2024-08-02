@@ -172,7 +172,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
             console.log('Ongoing retailers to close spade', ongoingRetailrs.length);
             const allRetailers = [...retailers.data, ...ongoingRetailrs];
 
-            console.log('All retailers to close spade', allRetailers)
+            // console.log('All retailers to close spade', allRetailers)
             await Promise.all(allRetailers.map(async (retailer) => {
                 const formData = new FormData();
                 formData.append('sender', JSON.stringify({

@@ -296,11 +296,11 @@ const ProfileScreen = () => {
 
         <View className="flex-row gap-[10px] justify-center items-center mt-[6px] ">
           {editUser && (
-            <View className="relative flex flex-row justify-center">
+            <View className="relative flex max-w-[200px] w-[max-content] flex-row justify-center">
               <TextInput
                 placeholder={
 
-                  "username..."
+                  userDetails?.userName
                 }
                 onChangeText={(val) => {
                   setUserName(val);
@@ -384,21 +384,8 @@ const ProfileScreen = () => {
           >
             Email ID
           </Text>
-          <View className="mx-[36px] flex flex-row pl-[25px] items-center justify-between h-[54px] rounded-3xl" style={{ backgroundColor: editEmail ? '#ffe7c8' : '#f9f9f9' }}>
-            {editEmail && (
-              <TextInput
-                placeholder={
-                  userDetails.email.length > 0
-                    ? userDetails.email
-                    : "Enter your email address"
-                }
-                onChangeText={(val) => {
-                  setEmail(val);
-                  console.log("email", email);
-                }}
-                value={email}
-              />
-            )}
+          <View className="mx-[36px] flex flex-row pl-[25px] items-center justify-between h-[54px] rounded-3xl" style={{ backgroundColor: editEmail ? '#ffe7c8' : '#f9f9f9', marginBottom: 300 }}>
+
             {!editEmail && (
               <Text
                 className={`text-[14px] text-[#2e2c43] ${userDetails.email.length === 0 ? "opacity-40" : "opacity-80"
@@ -417,27 +404,43 @@ const ProfileScreen = () => {
                 </View>
               </TouchableOpacity>
             )}
-            {editEmail &&
-              (loading ? (
+            {editEmail && (
+              <TextInput
+                placeholder={
+                  userDetails.email.length > 0
+                    ? userDetails.email
+                    : "xyz@gmail.com"
+                }
+                style={{ fontFamily: 'Poppins-Regular' }}
+                className="w-[70%] py-[10px] "
+                onChangeText={(val) => {
+                  setEmail(val);
+                  console.log("email", email);
+                }}
+                value={email}
+              />
+            )}
+            {editEmail && <View className="w-[30%]">
+              {loading &&
                 <View className="px-[20px] bg-[#f9bc6c] py-[10px] rounded-3xl">
                   <ActivityIndicator size="small" color="#ffffff" />
+                </View>}
+
+              {!loading && <TouchableOpacity
+                onPress={() => {
+                  handleEmailUpdate();
+                }}
+              >
+                <View className="px-[20px]  bg-[#fb8c00] py-[10px] rounded-3xl">
+                  <Text
+                    className="text-white"
+                    style={{ fontFamily: "Poppins-SemiBold" }}
+                  >
+                    Save
+                  </Text>
                 </View>
-              ) : (
-                <TouchableOpacity
-                  onPress={() => {
-                    handleEmailUpdate();
-                  }}
-                >
-                  <View className="px-[20px] bg-[#fb8c00] py-[10px] rounded-3xl">
-                    <Text
-                      className="text-white"
-                      style={{ fontFamily: "Poppins-SemiBold" }}
-                    >
-                      Save
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              ))}
+              </TouchableOpacity>}
+            </View>}
           </View>
         </KeyboardAvoidingView>
 

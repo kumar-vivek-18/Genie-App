@@ -32,7 +32,7 @@ const AboutScreen = () => {
 
 
 
-                <Text className="text-center pt-[40px] text-[#2e2c43] text-[16px]  mb-[60px]" style={{ fontFamily: "Poppins-Bold" }}>About Culturtap {"\n"} Genie</Text>
+                <Text className="text-center pt-[40px] text-[#2e2c43] text-[16px]  mb-[60px]" style={{ fontFamily: "Poppins-Bold" }}>About CulturTap {"\n"} Genie</Text>
 
 
 
@@ -66,7 +66,7 @@ const AboutScreen = () => {
                         <Time />
 
                         <Text className="text-center text-[14px] text-[#2e2c43]  " style={{ fontFamily: "Poppins-Regular" }}>
-                            Save your valuable time to search and explore best prices for your shopping items and maintenance services,
+                            Save your valuable time to search and explore best prices for your shopping items and maintenance services.
                         </Text>
                     </View>
                     <View className="gap-[15px] items-center">
