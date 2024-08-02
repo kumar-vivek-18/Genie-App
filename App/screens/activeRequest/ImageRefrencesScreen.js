@@ -13,7 +13,7 @@ const ImageRefrencesScreen = () => {
 
     return (
         <View style={{ flex: 1 }}>
-            <View className=" flex z-40 flex-row items-center justify-center mt-[20px] mb-[24px] mx-[16px] mr-[36px]">
+            <View className=" flex z-40 flex-row items-center justify-center mt-[40px] mb-[24px] mx-[16px] mr-[36px]">
                 <TouchableOpacity style={{ paddingHorizontal: 20, paddingVertical: 10 }} onPress={() => navigation.goBack()} >
                     <ArrowLeft />
                 </TouchableOpacity>

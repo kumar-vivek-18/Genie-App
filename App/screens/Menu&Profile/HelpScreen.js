@@ -60,7 +60,7 @@ const HelpScreen = () => {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}
       >
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-          <View style={{ paddingHorizontal: 30 }}>
+          <View style={{ paddingHorizontal: 30, marginBottom: 150 }}>
 
             <View className="z-50 absolute top-[40px] left-[30px] ">
               <TouchableOpacity onPress={() => { navigation.goBack(); }} style={{ padding: 10, borderRadius: 100 }}>
