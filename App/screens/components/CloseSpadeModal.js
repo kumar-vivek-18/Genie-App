@@ -168,7 +168,9 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
 
             // console.log('retailers to close spade', retailers.data);
 
-            const allRetailers = [...retailers.data, ...currentSpadeRetailers];
+            const ongoingRetailrs = currentSpadeRetailers.filter(curr => curr.requestType !== 'closed' && curr.requestType !== 'closedHistory');
+            console.log('Ongoing retailers to close spade', ongoingRetailrs.length);
+            const allRetailers = [...retailers.data, ...ongoingRetailrs];
 
             console.log('All retailers to close spade', allRetailers)
             await Promise.all(allRetailers.map(async (retailer) => {

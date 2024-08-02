@@ -43,6 +43,7 @@ import RatingStar from "../../assets/Star.svg";
 import axiosInstance from '../../utils/logics/axiosInstance';
 import NetworkError from '../components/NetworkError';
 import StoreIcon from '../../assets/StoreIcon.svg';
+import CloseParticularChatModal from '../components/CloseParticularChatModal';
 
 const BargainingScreen = () => {
     const navigation = useNavigation();
@@ -83,6 +84,8 @@ const BargainingScreen = () => {
     const [appStateVisible, setAppStateVisible] = useState(appState.current);
     const [rejectLoading, setRejectLoading] = useState(false);
     const [acceptLoading, setAcceptLoading] = useState(false);
+    const [closeParticularChatModal, setCloseParticularChatModal] = useState(false);
+
     ////////////////////////////////////////////////////////////////////////Connecting the socket when app comes to foreground from background////////////////////////////////////////////////////////////////////////////////
 
 
@@ -895,7 +898,7 @@ const BargainingScreen = () => {
 
 
                 </Pressable >
-                {currentSpadeRetailer && spade?.requestActive !== "closed" && <View className={`absolute bottom-0 left-0 right-0 w-screen ${attachmentScreen ? "-z-50" : "z-50"}`}>
+                {currentSpadeRetailer && spade?.requestActive !== "closed" && currentSpadeRetailer && <View className={`absolute bottom-0 left-0 right-0 w-screen ${attachmentScreen ? "-z-50" : "z-50"}`}>
                     <View className="absolute bottom-[0px] left-[0px] right-[0px] gap-[10px] bg-white w-screen">
 
                         {((spade?.requestActive === "completed" && spade?.requestAcceptedChat === currentSpadeRetailer?._id) || ((currentSpadeRetailer?.requestType === "ongoing") &&
@@ -1112,6 +1115,7 @@ const BargainingScreen = () => {
                     setRetailerModal={setRetailerModal}
                 />
             )}
+            {closeParticularChatModal && <CloseParticularChatModal closeParticularChatModal={closeParticularChatModal} setCloseParticularChatModal={setCloseParticularChatModal} />}
             {options && (
                 <View className="absolute top-[30px] right-[50px] z-50 bg-white rounded-md 9+99*">
                     <TouchableOpacity
@@ -1128,6 +1132,19 @@ const BargainingScreen = () => {
                             View Request
                         </Text>
                     </TouchableOpacity>
+                    {currentSpadeRetailer?.requestType === "ongoing" && <TouchableOpacity
+                        onPress={() => {
+                            setCloseParticularChatModal(true);
+                            setOptions(false);
+                        }}
+                    >
+                        <Text
+                            className="mx-5 py-4 border-1 border-b-[1px] border-[#cdcdd6]"
+                            style={{ fontFamily: "Poppins-Regular" }}
+                        >
+                            Close Chat
+                        </Text>
+                    </TouchableOpacity>}
                     {!currentSpadeRetailer.retailerRated && <TouchableOpacity
                         onPress={() => {
                             setOptions(false);
