@@ -65,6 +65,7 @@ const CreateNewBidScreen = () => {
 
   const sendBid = async () => {
     setLoading(true);
+    console.log('send offer');
     const configToken = {
       headers: { // Use "headers" instead of "header"
         'Content-Type': 'application/json',
@@ -106,10 +107,6 @@ const CreateNewBidScreen = () => {
         setLoading(false);
         if (res.status === 200) {
           setOpenModal(true);
-          // setTimeout(() => {
-          //   setOpenModal(false);
-          //   navigation.goBack();
-          // }, 2000);
         }
         if (res.status !== 201) return;
         // const mess = [...messages];
@@ -317,7 +314,7 @@ const CreateNewBidScreen = () => {
           </View>
         </ScrollView>
         <TouchableOpacity
-          disabled={!price || query.length == 0}
+          disabled={!price || query.length == 0 || loading}
           onPress={() => {
             sendBid();
           }}
@@ -369,7 +366,7 @@ const CreateNewBidScreen = () => {
 
         </Pressable>
       </Modal>
-      {openModal && <UnableToSendMessage openModal={openModal} setOpenModal={setOpenModal} errorContent="The offer can not be sent because the customer sent you the new offer.Please accept or reject the customer offer before sending the new offer" ErrorIcon={ErrorOffer} />}
+      {openModal && <UnableToSendMessage openModal={openModal} setOpenModal={setOpenModal} errorContent="The offer can not be sent because the vendor sent you the new offer. Please accept or reject the vendor's offer before sending the new offer" ErrorIcon={ErrorOffer} />}
 
     </View>
   );

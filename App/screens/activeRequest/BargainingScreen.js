@@ -1131,8 +1131,8 @@ const BargainingScreen = () => {
                             }}
                         >
                             <Text
-                                className="mx-5 py-4 border-1 border-b-[1px] border-[#cdcdd6]"
-                                style={{ fontFamily: "Poppins-Regular" }}
+                                className="mx-5 py-5 px-5"
+                                style={{ fontFamily: "Poppins-Regular", borderBottomColor: 'rgba(0,0,0,0.05)', borderBottomWidth: 1 }}
                             >
                                 View Request
                             </Text>
@@ -1144,8 +1144,8 @@ const BargainingScreen = () => {
                             }}
                         >
                             <Text
-                                className="mx-5 py-4 border-1 border-b-[1px] border-[#cdcdd6]"
-                                style={{ fontFamily: "Poppins-Regular" }}
+                                className="mx-5 py-5 px-5 "
+                                style={{ fontFamily: "Poppins-Regular", borderBottomColor: 'rgba(0,0,0,0.05)', borderBottomWidth: 1 }}
                             >
                                 Close Chat
                             </Text>
@@ -1156,7 +1156,7 @@ const BargainingScreen = () => {
                                 navigation.navigate('retailer-profile');
                             }}
                         >
-                            <Text className="mx-5 py-4 border-1 border-b-[1px] border-[#cdcdd6]" style={{ fontFamily: "Poppins-Regular" }} >
+                            <Text className="mx-5 py-5 px-5 " style={{ fontFamily: "Poppins-Regular", borderBottomColor: 'rgba(0,0,0,0.05)', borderBottomWidth: 1 }} >
                                 Rate Vendor
                             </Text>
                         </TouchableOpacity>}
@@ -1168,7 +1168,7 @@ const BargainingScreen = () => {
                             }}
                         >
                             <Text
-                                className="mx-5 py-4"
+                                className="mx-5 py-5 px-5"
                                 style={{ fontFamily: "Poppins-Regular" }}
                             >
                                 Report Vendor

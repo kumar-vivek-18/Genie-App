@@ -6,6 +6,7 @@ import BackArrow from "../../assets/BackArrowImg.svg"
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import axiosInstance from '../../utils/logics/axiosInstance';
+import SuccessConcernModal from './SuccessConcernModal';
 
 
 const ReportVendor = () => {
@@ -15,6 +16,7 @@ const ReportVendor = () => {
   const route = useRoute()
   const { requestId } = route.params
   //  navigation.navigate('menu')
+  const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleHelp = async () => {
@@ -37,8 +39,15 @@ const ReportVendor = () => {
       console.log("res", res.data);
       if (res) {
         setLoading(false);
-        navigation.goBack();
-        setQuery("");
+
+
+        setModalVisible(true);
+
+        setTimeout(() => {
+          setQuery("");
+          setModalVisible(false);
+          navigation.goBack();
+        }, 2000);
 
       }
 
@@ -131,6 +140,7 @@ const ReportVendor = () => {
             Submit
           </Text>)}
       </TouchableOpacity>
+      {modalVisible && <SuccessConcernModal modalVisible={modalVisible} setModalVisible={setModalVisible} type="report" />}
     </View>
   );
 }

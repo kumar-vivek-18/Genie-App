@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import BackArrow from "../../assets/BackArrowImg.svg"
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import SuccessConcernModal from '../components/SuccessConcernModal';
 
 
 const HelpScreen = () => {
@@ -15,6 +16,8 @@ const HelpScreen = () => {
 
   //  navigation.navigate('menu')
   const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+
 
   const handleHelp = async () => {
 
@@ -36,8 +39,13 @@ const HelpScreen = () => {
       console.log("res", res.data);
       if (res) {
         setLoading(false);
-        navigation.navigate('home');
+
         setQuery("");
+        setModalVisible(true);
+        setTimeout(() => {
+          setModalVisible(false);
+          navigation.goBack();
+        }, 2000);
 
       }
 
@@ -130,6 +138,7 @@ const HelpScreen = () => {
             Submit
           </Text>)}
       </TouchableOpacity>
+      {modalVisible && <SuccessConcernModal modalVisible={modalVisible} setModalVisible={setModalVisible} type="help" />}
     </View>
   );
 }

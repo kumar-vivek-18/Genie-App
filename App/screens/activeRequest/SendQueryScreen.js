@@ -260,7 +260,7 @@ const SendQueryScreen = () => {
             </View> */}
 
       <TouchableOpacity
-        disabled={!query}
+        disabled={!query || isLoading}
         onPress={() => {
           sendQuery();
         }}
@@ -286,10 +286,10 @@ const SendQueryScreen = () => {
               fontFamily: "Poppins-Black"
             }}
           >
-            Next
+            Send
           </Text>)}
       </TouchableOpacity>
-      {openModal && <UnableToSendMessage openModal={openModal} setOpenModal={setOpenModal} errorContent="The message can not be sent because the customer sent you the new offer.Please accept or reject the customer offer before sending the new message" ErrorIcon={ErrorMessage} />}
+      {openModal && <UnableToSendMessage openModal={openModal} setOpenModal={setOpenModal} errorContent="The message can not be sent because the vendor sent you the new offer. Please accept or reject the vendor's offer before sending the new message" ErrorIcon={ErrorMessage} />}
     </View>
   );
 };

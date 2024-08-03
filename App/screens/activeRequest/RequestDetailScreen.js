@@ -190,9 +190,15 @@ const RequestDetail = () => {
                         console.log('allChats', allChats.length);
                         dispatch(setCurrentSpadeRetailers(allChats));
                     }
-                    else
-                        dispatch(setCurrentSpadeRetailers(chats));
+                    else {
+                        const extraChats = chats.filter(chat => chat.requestType !== "closed" && chat.requestType !== "closedHistory");
+                        const closedChats = chats.filter(chat => chat.requestType === "closed" || chat.requestType === "closedHistory");
+                        const allChats = [...extraChats, ...closedChats];
+                        console.log('allChats', allChats.length, extraChats.length, closedChats.length);
 
+                        dispatch(setCurrentSpadeRetailers(allChats));
+                        // dispatch(setCurrentSpadeRetailers(chats));
+                    }
                     if (!isHome && !currentSpade?.rated && currentSpade?.requestAcceptedChat)
                         navigation.navigate('rating-feedback');
                 }
@@ -538,14 +544,14 @@ const RequestDetail = () => {
 
                     <View className="absolute top-[30px] right-[50px] z-50 bg-white rounded-md">
                         <TouchableOpacity onPress={() => { navigation.navigate('view-request', { data: spade }); setModal(!modal) }}>
-                            <Text className="mx-5 border-1 border-b-[1px] border-[#cdcdd6] py-3" style={{ fontFamily: "Poppins-Regular" }}>View Request</Text>
+                            <Text className="mx-5  py-5 px-5" style={{ fontFamily: "Poppins-Regular", borderBottomColor: 'rgba(0,0,0,0.05)', borderBottomWidth: 1 }}>View Request</Text>
                         </TouchableOpacity>
                         {spade.requestActive !== "closed" && <View>
                             <TouchableOpacity onPress={() => { setConfirmModal(true); setModal(false); }}>
-                                <Text className="mx-5 py-3 border-1 border-b-[1px] border-[#cdcdd6]" style={{ fontFamily: "Poppins-Regular" }}>Close Request</Text>
+                                <Text className="mx-5 py-5  px-5" style={{ fontFamily: "Poppins-Regular", borderBottomColor: 'rgba(0,0,0,0.05)', borderBottomWidth: 1 }}>Close Request</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => { navigation.navigate("help"); setModal(!modal) }}>
-                                <Text className="mx-5 py-3" style={{ fontFamily: "Poppins-Regular" }}>Report Concern</Text>
+                                <Text className="mx-5 py-5 px-5" style={{ fontFamily: "Poppins-Regular" }}>Report Concern</Text>
                             </TouchableOpacity>
                         </View>}
 

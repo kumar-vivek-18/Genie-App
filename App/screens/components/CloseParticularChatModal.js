@@ -58,7 +58,7 @@ const CloseParticularChatModal = ({ closeParticularChatModal, setCloseParticular
 
                             const updatedChat = { ...currentSpadeRetailer, requestType: 'closed' };
                             const updatedChatList = currentSpadeRetaiers.filter(chat => chat._id !== currentSpadeRetailer._id);
-                            const updatedAllChats = [updatedChat, ...updatedChatList];
+                            const updatedAllChats = [...updatedChatList, updatedChat];
                             disptach(setCurrentSpadeRetailer(updatedChat));
                             disptach(setCurrentSpadeRetailers(updatedAllChats));
 

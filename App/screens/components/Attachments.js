@@ -331,7 +331,7 @@ const Attachments = ({ setAttachmentScreen, messages, setMessages, setErrorModal
                 </View>
             </View>
             {openLocationModal && <LocationModal openLocationModal={openLocationModal} setOpenLocationModal={setOpenLocationModal} locationLoading={locationLoading} sendLocation={sendLocation} />}
-            {openModal && <UnableToSendMessage openModal={openModal} setOpenModal={setOpenModal} errorContent="The attachment can not be sent because the customer sent you the new offer.Please accept or reject the customer offer before sending the new attachment" ErrorIcon={ErrorDocument} />}
+            {openModal && <UnableToSendMessage openModal={openModal} setOpenModal={setOpenModal} errorContent="The attachment can not be sent because the vendor sent you the new offer. Please accept or reject the vendor's offer before sending the new attachment" ErrorIcon={ErrorDocument} />}
 
         </View>
     )

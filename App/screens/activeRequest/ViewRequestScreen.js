@@ -31,24 +31,24 @@ const ViewRequestScreen = () => {
 
     return (
         <View style={{ flex: 1, backgroundColor: "white" }}>
-            <View className=" flex z-40 flex-row items-center justify-center mt-[40px] mb-[24px] mx-[16px] mr-[36px]">
-                <TouchableOpacity style={{ paddingHorizontal: 20, paddingVertical: 10 }} onPress={() => navigation.goBack()} >
-                    <ArrowLeft />
-                </TouchableOpacity>
-                <Text className="flex flex-1 justify-center items-center text-center text-[16px]" style={{ fontFamily: "Poppins-SemiBold" }}>View Request</Text>
-                <Pressable onPress={() => { navigation.navigate('requestpreview'); }}>
-                    <Text className="text-[14px]"></Text>
-                </Pressable>
+            <TouchableOpacity style={{ position: 'absolute', top: 25, left: 20, paddingHorizontal: 20, paddingVertical: 20, zIndex: 100 }} onPress={() => navigation.goBack()} >
+                <ArrowLeft />
+            </TouchableOpacity>
+            <View className="mt-[40px]">
+
+
+                <Text className=" text-center text-[16px]" style={{ fontFamily: "Poppins-SemiBold" }}>View Request</Text>
 
             </View>
 
-            <View className="mx-[34px] mt-[10px]">
+
+            <View className="mx-[34px] mt-[40px]">
                 <Text className=" text-[#2e2c43] text-[14px]" style={{ fontFamily: "Poppins-Bold" }}>Spades of master</Text>
                 <Text className=" mt-2" style={{ fontFamily: "Poppins-Light" }}>{spade.requestDescription}</Text>
 
                 <Text className=" text-[#2e2c43] text-[14px] mt-[36px] mb-[15px]" style={{ fontFamily: "Poppins-Bold" }}>Reference image for sellers</Text>
 
-                <ScrollView horizontal={true} contentContainerStyle={{ flexDirection: 'row', gap: 4, paddingHorizontal: 5, }}>
+                <ScrollView horizontal={true} style={{ alignSelf: 'flex-start' }} contentContainerStyle={{ flexDirection: 'row', gap: 4, paddingHorizontal: 5, }}>
                     {
                         spade.requestImages?.map((image, index) => (
                             <View key={index}>
@@ -60,7 +60,7 @@ const ViewRequestScreen = () => {
                     }
                 </ScrollView>
 
-                <Text className="font-bold text-[#2e2c43] text-[14px] mt-[60px]" style={{ fontFamily: "Poppins-Bold" }}>Your expected price</Text>
+                <Text className=" text-[#2e2c43] text-[14px] mt-[60px]" style={{ fontFamily: "Poppins-Bold" }}>Your expected price</Text>
                 <Text className="text-[#558b2f] " style={{ fontFamily: "Poppins-SemiBold" }}>{spade.expectedPrice} Rs</Text>
             </View>
 

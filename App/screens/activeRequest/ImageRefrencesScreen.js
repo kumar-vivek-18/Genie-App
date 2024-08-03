@@ -13,14 +13,13 @@ const ImageRefrencesScreen = () => {
 
     return (
         <View style={{ flex: 1 }}>
-            <View className=" flex z-40 flex-row items-center justify-center mt-[40px] mb-[24px] mx-[16px] mr-[36px]">
-                <TouchableOpacity style={{ paddingHorizontal: 20, paddingVertical: 10 }} onPress={() => navigation.goBack()} >
-                    <ArrowLeft />
-                </TouchableOpacity>
-                <Text className="flex flex-1 justify-center items-center text-center text-[16px]" style={{ fontFamily: "Poppins-Black" }}>Image References</Text>
-                <Pressable onPress={() => { navigation.navigate('requestpreview'); }}>
-                    <Text className="text-[14px]"></Text>
-                </Pressable>
+            <TouchableOpacity style={{ paddingHorizontal: 20, paddingVertical: 20, position: 'absolute', top: 25, left: 20, zIndex: 100 }} onPress={() => navigation.goBack()} >
+                <ArrowLeft />
+            </TouchableOpacity>
+            <View className=" mt-[40px] mb-[24px]">
+
+                <Text className=" text-center text-[16px]" style={{ fontFamily: "Poppins-Black" }}>Image References</Text>
+
 
             </View>
 

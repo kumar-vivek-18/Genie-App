@@ -219,18 +219,19 @@ const PaymentScreen = () => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView >
-        <View className="flex w-screen mt-[20px] pb-[150px]"  >
-          <View className="flex flex-row items-center pb-[20px] px-[32px]">
+        <View className="flex w-screen  pb-[150px]"  >
+          <View className="mt-[40px] mb-[20px]">
             <Text
-              className="text-[16px]  flex-1 text-center"
+              className="text-[16px]   text-center"
               style={{ fontFamily: "Poppins-Bold" }}
             >
               Payment Invoice
             </Text>
-            <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 10 }}>
-              <Close />
-            </TouchableOpacity>
+
           </View>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', right: 25, top: 25, paddingVertical: 20, zIndex: 100 }}>
+            <Close />
+          </TouchableOpacity>
           {!fetchLoading && <View>
             <View className="bg-[#ffe7c8] px-[32px] py-[30px]">
               <Text
@@ -256,7 +257,7 @@ const PaymentScreen = () => {
                   Request ID:
                 </Text>
                 <View className="flex-row items-center gap-[5px] ">
-                  <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular" }}> {spadeDetails?._id}</Text>
+                  <Text className="text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>{spadeDetails?._id}</Text>
                   <Pressable
                     onPress={() => {
                       console.log("hii");
@@ -332,6 +333,7 @@ const PaymentScreen = () => {
       {isVisible && <PaymentSuccessFulModal isVisible={isVisible} setIsVisible={setIsVisible} />}
       {!fetchLoading && !networkError &&
         <TouchableOpacity
+          disabled={loading}
           onPress={() => {
             spadeDetails?.spadePrice === 0 ? handleFreeSpade() : PayNow(); console.log('hii');
           }}

@@ -207,7 +207,7 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
         </ScrollView>
       )}
 
-      <View className="gap-[4px]">
+      <View className="w-full pl-[60px]">
         <View className="flex-row gap-[5px]">
           <Text style={{ fontFamily: "Poppins-Medium" }}>Offered Price: </Text>
           <Text className=" text-[#79B649]" style={{ fontFamily: "Poppins-SemiBold" }}>

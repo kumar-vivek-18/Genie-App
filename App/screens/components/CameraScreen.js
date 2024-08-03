@@ -32,6 +32,7 @@ import {
 import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
 import ErrorDocument from '../../assets/ErrorDocument.svg';
+import UnableToSendMessage from "./UnableToSendMessageModal";
 
 const CameraScreen = () => {
     const navigation = useNavigation();
@@ -107,6 +108,7 @@ const CameraScreen = () => {
                     setLoading(false);
                     if (res.status === 200) {
                         setOpenModal(true);
+                        // console.log('hekasfksfkasfkasfknasekfaskaefnaskenfkn')
                         // setTimeout(() => {
                         //     setOpenModal(false);
                         //     navigation.goBack();
@@ -226,22 +228,24 @@ const CameraScreen = () => {
                         >
                             {details?.retailerId.storeName.length > 30 ? `${details?.retailerId.storeName.slice(0, 30)}...` : details?.retailerId.storeName}
                         </Text>
-                        <TouchableOpacity
+                        {loading && <TouchableOpacity>
+                            <View className="bg-[#fb8c00] p-[20px] rounded-full">
+                                <ActivityIndicator size="small" color="#ffffff" />
+                            </View>
+
+                        </TouchableOpacity>}
+                        {!loading && <TouchableOpacity
                             onPress={() => {
                                 sendAttachment();
                             }}
                         >
-                            {loading ? (
-                                <View className="bg-[#fb8c00] p-[20px] rounded-full">
-                                    <ActivityIndicator size="small" color="#ffffff" />
-                                </View>
-                            ) : (
-                                <Send />
-                            )}
-                        </TouchableOpacity>
+                            <Send />
+                        </TouchableOpacity>}
                     </View>
                 </View>
             )}
+            {openModal && <UnableToSendMessage openModal={openModal} setOpenModal={setOpenModal} errorContent="The attachment can not be sent because the vendor sent you the new offer. Please accept or reject the vendor's offer before sending the new attachment" ErrorIcon={ErrorDocument} />}
+
         </View>
     );
 };
