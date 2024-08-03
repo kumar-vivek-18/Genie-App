@@ -295,6 +295,9 @@ const HomeScreen = () => {
       }
       console.error(error.message);
     }
+    finally {
+      setCreateSpadeLoading(false);
+    }
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -549,15 +552,17 @@ const styles = {
     alignItems: "center",
     marginHorizontal: 9,
     marginBottom: 10,
-    backgroundColor: "white",
+    backgroundColor: "#fff",
+    shadowColor: '#bdbdbd',
     gap: 15,
-    // height: 130,
     paddingVertical: 15,
     borderRadius: 15,
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.65,
-    elevation: 6,
+    shadowOffset: { width: 8, height: 6 },
+    shadowOpacity: 0.9,
+    shadowRadius: 24,
+    elevation: 20,
+    borderWidth: 0.5,
+    borderColor: 'rgba(0,0,0,0.05)'
   },
   imageContainer: {
     paddingHorizontal: 10,

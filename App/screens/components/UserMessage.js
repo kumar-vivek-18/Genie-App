@@ -52,7 +52,7 @@ const UserMessage = ({ bidDetails, messageCount }) => {
   };
 
   return (
-    <View className="flex gap-[19px]  border-[1px] border-gray-200 rounded-3xl w-[297px] h-[max-content] py-[20px] items-center bg-[#ebebeb]">
+    <View className="flex gap-[10px]  border-[1px] border-gray-200 rounded-3xl w-[297px] h-[max-content] py-[20px] items-center bg-[#ebebeb]">
       <View className="flex-row mx-[25px] ">
         <View className="flex-row ">
           <View className="w-[25%]" >
@@ -67,8 +67,8 @@ const UserMessage = ({ bidDetails, messageCount }) => {
               {/* <Text className="text-[12px]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text> */}
             </View>
 
-            <View className="flex-row justify-between">
-              <Text className="text-[14px] text-[#2e2c43] w-[max-content]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.message}</Text>
+            <View className="flex-row justify-between ">
+              <Text className="text-[14px] text-[#2e2c43] w-[max-content] " style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.message}</Text>
               {/* <Text className="text-[12px] w-[max-content]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt}</Text> */}
             </View>
           </View>
@@ -213,10 +213,10 @@ const UserMessage = ({ bidDetails, messageCount }) => {
         </ScrollView>
       )}
 
-      <View className="pl-[60px] w-full">
+      {messageCount === 1 && <View className="pl-[60px] w-full">
         {bidDetails?.bidPrice > 0 && <View className="flex-row gap-[5px]">
           <Text style={{ fontFamily: "Poppins-SemiBold" }}>Expected Price: </Text>
-          <Text className="text-[##79B649]" style={{ fontFamily: "Poppins-Bold" }}>Rs. {bidDetails.bidPrice}</Text>
+          <Text className="text-[#79B649]" style={{ fontFamily: "Poppins-Bold" }}>Rs. {bidDetails.bidPrice}</Text>
 
 
         </View>}
@@ -227,8 +227,8 @@ const UserMessage = ({ bidDetails, messageCount }) => {
 
         </View>}
         {messageCount === 1 && <View className="flex-row "><Text style={{ fontFamily: 'Poppins-Bold', textAlign: 'left', color: '#c837ab' }}>Request Accepted</Text></View>}
-      </View>
-      <View className="flex-row justify-end items-center gap-[5px]  w-full px-[30px]">
+      </View>}
+      <View className="flex-row justify-end items-center gap-[5px] w-full px-[30px] ">
         <Text className="text-[12px] text-[#7c7c7c]" style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.createdAt},</Text>
         <Text className="text-[12px] text-[#7c7c7c] " style={{ fontFamily: "Poppins-Regular" }}>{bidDetails.updatedAt.slice(0, 6)}</Text>
       </View>

@@ -47,7 +47,7 @@ const RetailerMessage = ({ bidDetails, pic }) => {
     return `rgb(0, ${greenValue}, 0)`;
   };
   return (
-    <View className="flex gap-[19px] bg-[#fafafa]   rounded-3xl w-[297px] h-[max-content] py-[10px] items-center">
+    <View className="flex gap-[10px] bg-[#fafafa]   rounded-3xl w-[297px] h-[max-content] py-[10px] items-center">
       <View className="flex-row px-[25px]">
         <View className="flex-row justify-start ">
           <View className="w-[25%]">
