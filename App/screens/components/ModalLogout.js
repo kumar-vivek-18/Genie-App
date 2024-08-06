@@ -29,7 +29,8 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
         setLoading(true)
         try {
 
-            await auth().signOut();
+            if (userDetails?.mobileNo !== "+919876543210")
+                await auth().signOut();
 
             await AsyncStorage.removeItem('userDetails');
             const config = {

@@ -410,7 +410,7 @@ const HomeScreen = () => {
             >
               <View className="h-[60px] w-full flex-row border-[1px] border-[#fb8c00] bg-white rounded-3xl items-center justify-center ">
                 <Text className="text-[#fb8c00] text-[14px] text-center py-[19px] " style={{ fontFamily: "Poppins-Italic" }}>
-                  Type your spade my master...
+                  Type your spades my master...
                 </Text>
                 {createSpadeLoading && <View style={{ position: 'absolute', right: 20 }}><ActivityIndicator color={'#fb8c00'} /></View>}
               </View>

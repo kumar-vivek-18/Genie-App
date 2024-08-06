@@ -77,7 +77,7 @@ const RequestEntry = () => {
                 </Text>
 
                 <View className="px-[32px] mb-[20px]">
-                    <Text className="text-[16px]  text-[#2e2c43] text-center mb-[18px] " style={{ fontFamily: "Poppins-Black" }}>Type your spade</Text>
+                    <Text className="text-[16px]  text-[#2e2c43] text-center mb-[18px] " style={{ fontFamily: "Poppins-Black" }}>Type your spades</Text>
 
                     <Text className="text-[14px] mx-[14px] mt-[15px] text-center text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>like: My phone charger get damaged / I want a 55 inch screen tv / I need a plumber to repair my water supply. </Text>
 

@@ -59,7 +59,7 @@ const TermsandConditons = () => {
               className="text-[14px]  text-center mb-[20px]"
               style={{ fontFamily: "Poppins-Bold", color: "#2e2c43" }}
             >
-              Raise your spade very clear
+              Raise your spades very clear
             </Text>
             <Text
               className="text-[14px] text-center mb-[20px]"
@@ -82,7 +82,7 @@ const TermsandConditons = () => {
               className="text-center text-[16px]"
               style={{ fontFamily: "Poppins-Bold", color: "#2E2C43" }}
             >
-              Type your Spade
+              Type your Spades
             </Text>
 
             <Text
@@ -147,7 +147,7 @@ const TermsandConditons = () => {
               <Text style={styles.dot}></Text>
               <Text style={{ fontFamily: "Poppins-Regular", fontSize: 14, color: "#2e2c43", }}>
                 {" "}
-                Your first 5 spades are free! After that, each spade will cost 5 Rupees. These are temporary charges, CulturTap will increase the charges shortly.
+                Your first 5 spades are free! After that, each spades will cost 5 Rupees. These are temporary charges, CulturTap will increase the charges shortly.
               </Text>
             </View>
             <View style={styles.listItem}>

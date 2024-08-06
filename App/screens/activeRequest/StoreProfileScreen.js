@@ -4,10 +4,10 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    TextInput,
     View,
     Image,
-    Button
+    Animated,
+    Modal
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -58,6 +58,9 @@ const StoreProfileScreen = () => {
     const accessToken = useSelector(store => store.user.accessToken);
     const userDetails = useSelector(store => store.user.userDetails);
     const [selectedReview, setSelectedReview] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [scaleAnimation] = useState(new Animated.Value(0));
+
     //   const copyToClipboard = async () => {
     //     // await Clipboard.setStringAsync(inputValue);
     //     setCopied(true);
@@ -105,6 +108,9 @@ const StoreProfileScreen = () => {
         }
     })
 
+
+
+
     useEffect(() => {
         fetchRetailerFeedbacks();
         if (currentSpadeRetailer.customerId.longitude !== 0 && currentSpadeRetailer.customerId.latitude !== 0 && currentSpadeRetailer.retailerId.longitude !== 0 && currentSpadeRetailer.retailerId.lattitude !== 0) {
@@ -112,6 +118,24 @@ const StoreProfileScreen = () => {
             setDistance(value);
         }
     }, []);
+
+
+    const handleClose = () => {
+        Animated.timing(scaleAnimation, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+        }).start(() => setSelectedImage(null));
+
+    };
+    const handleImagePress = (image) => {
+        setSelectedImage(image);
+        Animated.timing(scaleAnimation, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+        }).start();
+    };
 
     return (
         <SafeAreaView>
@@ -151,20 +175,17 @@ const StoreProfileScreen = () => {
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ alignSelf: 'flex-start' }}>
                     {currentSpadeRetailer.retailerId.storeImages.length > 0 &&
                         <View className="pl-[32px] flex flex-row gap-[11px] mb-[60px]" >
-                            {currentSpadeRetailer.retailerId.storeImages?.map(
-                                (
-                                    image,
-                                    index // Start from index 1 to exclude the first image
-                                ) => (
-                                    <View key={index} className="rounded-[16px]">
-                                        <Image
-                                            source={{ uri: image }}
-                                            width={119}
-                                            height={164}
-                                            className="rounded-[16px] border-[1px] border-[#cbcbce] object-contain"
-                                        />
-                                    </View>
-                                )
+                            {currentSpadeRetailer.retailerId.storeImages?.map((image, index) => (
+
+                                <Pressable onPress={() => { handleImagePress(image) }} key={index} className="rounded-[16px]">
+                                    <Image
+                                        source={{ uri: image }}
+                                        width={119}
+                                        height={164}
+                                        className="rounded-[16px] border-[1px] border-[#cbcbce] object-contain"
+                                    />
+                                </Pressable>
+                            )
                             )}
                         </View>
                     }
@@ -362,6 +383,28 @@ const StoreProfileScreen = () => {
 
                 </View>
             </ScrollView>
+
+            <Modal
+                transparent
+                visible={!!selectedImage}
+                onRequestClose={handleClose}
+
+
+            >
+                <Pressable style={styles.modalContainer} onPress={handleClose}>
+                    <Animated.Image
+                        source={{ uri: selectedImage }}
+                        style={[
+                            styles.modalImage,
+                            {
+                                transform: [{ scale: scaleAnimation }],
+                            },
+                        ]}
+                    />
+
+
+                </Pressable>
+            </Modal>
             {!currentSpadeRetailer?.retailerRated && <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: 'white', paddingHorizontal: 20, paddingVertical: 10 }}>
                 <TouchableOpacity TouchableOpacity onPress={() => { setFeedbackModal(true); }} >
                     <View>
@@ -378,6 +421,17 @@ const StoreProfileScreen = () => {
 export default StoreProfileScreen;
 
 const styles = StyleSheet.create({
+    modalContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.7)",
+    },
+    modalImage: {
+        width: 300,
+        height: 400,
+        borderRadius: 10,
+    },
     revcontainer: {
         flex: 1,
         paddingTop: 20,
