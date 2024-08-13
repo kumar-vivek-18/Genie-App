@@ -63,6 +63,7 @@ const RequestDetail = () => {
     const appState = useRef(AppState.currentState);
     const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
+
     ////////////////////////////////////////////////////////////////////////Connecting the socket when app comes to foreground from background////////////////////////////////////////////////////////////////////////////////
 
 
@@ -244,17 +245,14 @@ const RequestDetail = () => {
                 const data = formatDateTime(updatedUser.updatedAt);
                 updatedUser.createdAt = data.formattedDate;
                 updatedUser.updatedAt = data.formattedTime;
-
+                // console.log('updated user', updatedUser.latestMessage);
                 if (updatedUser.latestMessage.bidType === "true" && updatedUser.latestMessage.bidAccepted === "accepted") {
                     const tmp = { ...currentSpade, requestActive: "completed", requestAcceptedChat: updatedUser._id };
                     dispatch(setCurrentSpade(tmp));
-                    let allSpades = [...spades];
-                    allSpades.map((curr, index) => {
-                        if (curr._id === tmp._id) {
-                            allSpades[index] = tmp;
-                        }
-                    })
-                    dispatch(setSpades(allSpades));
+                    const allSpades = spades.filter(spade => spade._id !== tmp._id);
+                    const updatedSpades = [tmp, ...allSpades];
+                    // console.log('allSpades', updatedSpades);
+                    dispatch(setSpades(updatedSpades));
                 }
 
 
@@ -266,7 +264,7 @@ const RequestDetail = () => {
                 const idx = spadesData.findIndex(spade => spade._id === updatedUser.requestId._id);
 
                 console.log("Spdes updated ", idx);
-                if (idx !== -1) {
+                if (idx !== -1 && updatedUser.latestMessage.bidAccepted !== "accepted") {
 
                     let data = spadesData.filter(spade => spade._id === updatedUser.requestId._id);
                     // let spadeToUpdate = { ...spadesData[idx] };

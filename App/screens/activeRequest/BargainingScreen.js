@@ -584,14 +584,12 @@ const BargainingScreen = () => {
                                 requestAcceptedChat: newMessageReceived.chat._id,
                             };
                             dispatch(setCurrentSpade(tmp));
-                            let allSpades = spades.filter(spade => spade._id !== tmp._id);
-                            // allSpades.map((curr, index) => {
-                            //     if (curr._id === tmp._id) {
-                            //         allSpades[index] = tmp;
-                            //     }
-                            // });
-                            allSpades = [tmp, ...allSpades];
-                            dispatch(setSpades(allSpades));
+                            const allSpades = spades.filter(spade => spade._id !== tmp._id);
+
+                            const updatedSpades = [tmp, ...allSpades];
+                            // console.log('all spades', allSpades);
+                            dispatch(setSpades(updatedSpades));
+
                         }
 
                         return prevMessages.map((message) =>

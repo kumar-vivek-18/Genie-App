@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Image, Pressable, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, SafeAreaView, Image, Pressable, StyleSheet, TouchableOpacity, Linking } from 'react-native'
 import React, { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -108,6 +108,12 @@ const MenuScreen = () => {
                             <View className="mt-2">
                                 <ArrowRight />
                             </View>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { Linking.openURL("https://culturtap.com/genie/genie-privacy-policy") }}>
+                        <View className="flex flex-row justify-between items-center">
+                            <Text className="text-[15px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Privacy Policy</Text>
+                            <ArrowRight />
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={deleteUserData}>
