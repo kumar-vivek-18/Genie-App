@@ -249,7 +249,7 @@ const MobileNumberEntryScreen = () => {
         return;
       }
     } catch (error) {
-      alert('Invalid Otp');
+      alert('Error while verifing otp');
       setLoading(false);
       console.error("Error checking mobile number:", error);
     } finally {
