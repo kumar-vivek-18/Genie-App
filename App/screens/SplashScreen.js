@@ -19,19 +19,6 @@ const SplashScreen = () => {
   const dispatch = useDispatch();
   const userDetails = useSelector(store => store.user.userDetails);
 
-  // const fetchLocation = useCallback(async () => {
-
-
-  //   const coordinates = await getPreciseGeoCoordinates();
-  //   console.log('update coordinates', coordinates);
-
-  // })
-  // useEffect(() => {
-
-  //   handleRefreshLocation();
-  // }, []);
-
-
 
   const opacity = useRef(new Animated.Value(0)).current;
 

@@ -35,7 +35,7 @@ import {
 } from "../../redux/reducers/userDataSlice";
 import { FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import auth from "@react-native-firebase/auth";
+import auth, { firebase } from "@react-native-firebase/auth";
 import axios from "axios";
 import MobileNumberScreenBg from "../../assets/MobileEntryPageBg.svg";
 import MobileIcon from "../../assets/mobileIcon.svg";
@@ -143,7 +143,7 @@ const MobileNumberEntryScreen = () => {
           dispatch(setMobileNumber(phoneNumber));
         }
         else {
-          const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+          const confirmation = await auth().signInWithPhoneNumber(phoneNumber, true);
           setConfirm(confirmation);
           console.log(confirmation);
           dispatch(setMobileNumber(phoneNumber));
@@ -163,6 +163,8 @@ const MobileNumberEntryScreen = () => {
 
 
 
+
+
   const checkMobileNumber = async () => {
     setIsLoading(true);
     try {
@@ -178,8 +180,9 @@ const MobileNumberEntryScreen = () => {
       }
 
 
+      console.log('response of user login', res);
 
-      if ((phoneNumber === "+919876543210" && otp === "876584") || res.status === 200 || res?.user?.phoneNumber?.length > 0) {
+      if ((phoneNumber === "+919876543210" && otp === "876584") || res?.user?.phoneNumber?.length === 13) {
         // const phoneNumber = countryCode + mobileNumber;
         console.log("phone", phoneNumber);
         const response = await axios.get(`${baseUrl}/user/`, {
@@ -187,15 +190,15 @@ const MobileNumberEntryScreen = () => {
             mobileNo: phoneNumber,
           },
         });
-        // console.log("res", response);
-        // setMobileScreen(true);
+
+        console.log('user detail response', response.data, response?.data?.user?.mobileNo);
+
         if (response?.data?.user?.mobileNo) {
-          // If mobile number is registered, navigate to home screen
-          // console.log('userDetails from mobileScreen', response.data);
+
           dispatch(setUserDetails(response.data.user));
           await AsyncStorage.setItem(
             "userDetails",
-            JSON.stringify(response.data.user)
+            JSON.stringify(response?.data?.user)
           );
 
           await AsyncStorage.setItem("refreshToken", JSON.stringify(response.data.refreshToken));
@@ -203,28 +206,28 @@ const MobileNumberEntryScreen = () => {
           dispatch(setAccessToken(response.data.accessToken));
           dispatch(setRefreshToken(response.data.refreshToken));
 
-          handleRefreshLocation(response.data.user._id, response.data.accessToken);
+          // handleRefreshLocation(response.data.user._id, response.data.accessToken);
 
           // setMobileNumberLocal("");
           navigation.navigate("home");
           const config = {
             headers: { // Use "headers" instead of "header"
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${response.data.accessToken}`,
+              'Authorization': `Bearer ${response?.data?.accessToken}`,
             }
           };
           await axios
             .patch(`${baseUrl}/user/edit-profile`, {
-              _id: response.data.user._id,
+              _id: response?.data?.user?._id,
               updateData: { uniqueToken: token },
             }, config)
             .then(async (res) => {
-              console.log("UserToken updated Successfully", res.data);
+              console.log("UserToken updated Successfully", res?.data);
               await AsyncStorage.setItem(
                 "userDetails",
-                JSON.stringify(res.data)
+                JSON.stringify(res?.data)
               );
-              dispatch(setUserDetails(res.data));
+              dispatch(setUserDetails(res?.data));
               setMobileNumberLocal("");
               setOtp("");
               setToken("")
@@ -234,7 +237,7 @@ const MobileNumberEntryScreen = () => {
               console.error("Error updating token: " + err.message);
             });
         }
-        else if (response.data.status === 404) {
+        else if (response?.data?.status === 404) {
           navigation.navigate("registerUsername");
           setMobileNumberLocal("");
           setOtp("");
@@ -249,13 +252,104 @@ const MobileNumberEntryScreen = () => {
         return;
       }
     } catch (error) {
-      alert('Error while verifing otp');
+      alert(error);
       setLoading(false);
       console.error("Error checking mobile number:", error);
     } finally {
       setIsLoading(false);
     }
   };
+
+
+  const verifyFn = async (phoneNo) => {
+    // await auth().signOut();
+    dispatch(setMobileNumber(phoneNo));
+    const phoneNumber = phoneNo;
+    console.log("phone", phoneNumber);
+
+    const response = await axios.get(`${baseUrl}/user/`, {
+      params: {
+        mobileNo: phoneNumber,
+      },
+    });
+
+    console.log('user detail response auto login', response.data, response?.data?.user?.mobileNo);
+
+    if (response?.data?.user?.mobileNo) {
+
+      dispatch(setUserDetails(response.data.user));
+      await AsyncStorage.setItem(
+        "userDetails",
+        JSON.stringify(response?.data?.user)
+      );
+
+      await AsyncStorage.setItem("refreshToken", JSON.stringify(response.data.refreshToken));
+      await AsyncStorage.setItem("accessToken", JSON.stringify(response.data.accessToken));
+      dispatch(setAccessToken(response.data.accessToken));
+      dispatch(setRefreshToken(response.data.refreshToken));
+
+      // handleRefreshLocation(response.data.user._id, response.data.accessToken);
+
+      // setMobileNumberLocal("");
+      navigation.navigate("home");
+      const config = {
+        headers: { // Use "headers" instead of "header"
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${response?.data?.accessToken}`,
+        }
+      };
+      await axios
+        .patch(`${baseUrl}/user/edit-profile`, {
+          _id: response?.data?.user?._id,
+          updateData: { uniqueToken: token },
+        }, config)
+        .then(async (res) => {
+          console.log("UserToken updated Successfully", res?.data);
+          await AsyncStorage.setItem(
+            "userDetails",
+            JSON.stringify(res?.data)
+          );
+          dispatch(setUserDetails(res?.data));
+          setMobileNumberLocal("");
+          setOtp("");
+          setToken("")
+          setMobileScreen(true);
+        })
+        .catch((err) => {
+          console.error("Error updating token: " + err.message);
+        });
+    }
+    else if (response?.data?.status === 404) {
+      navigation.navigate("registerUsername");
+      setMobileNumberLocal("");
+      setOtp("");
+      setToken("")
+      setMobileScreen(true);
+    }
+  }
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+
+      console.log('user auto login', user, user?.phoneNumber);
+      if (user) {
+        if (user?.phoneNumber)
+          verifyFn(user.phoneNumber);
+      }
+      // else {
+
+      // }
+    });
+  }, []);
+
+
+
+
+
+
+
+
+
 
   const { width } = Dimensions.get("window");
   // console.log('width', width);

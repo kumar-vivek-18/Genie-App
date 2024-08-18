@@ -186,8 +186,21 @@ const HomeScreen = () => {
 
   };
 
+  const updateLocationHomeScreen = async () => {
+    try {
+      const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
+      const token = JSON.parse(await AsyncStorage.getItem("accessToken"));
+      if (userData) {
+        console.log('refreshing location home screen');
+        handleRefreshLocation(userData._id, token);
+      }
+    } catch (error) {
+      console.error("Error while updating location");
+    }
+  }
   useEffect(() => {
     connectSocket();
+    updateLocationHomeScreen();
 
     return () => {
       socket.disconnect();

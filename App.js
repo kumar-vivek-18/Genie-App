@@ -13,7 +13,8 @@ import { setUniqueToken } from './App/redux/reducers/userDataSlice';
 import { useFonts } from 'expo-font';
 import * as Notifications from 'expo-notifications';
 import * as MediaLibrary from 'expo-media-library';
-
+import { Camera } from "expo-camera";
+import * as Location from "expo-location";
 
 
 
@@ -45,9 +46,11 @@ export default function App() {
 
   useEffect(() => {
     (async () => {
-      // const media = await MediaLibrary.requestPermissionsAsync();
+      const media = await MediaLibrary.requestPermissionsAsync();
       const notification = await Notifications.requestPermissionsAsync();
-      // console.log("status notification", media,notification);
+      const camera = await Camera.requestCameraPermissionsAsync();
+      const location = await Location.requestForegroundPermissionsAsync();
+      console.log("status notification", media, notification, camera, location);
 
     })();
   }, []);

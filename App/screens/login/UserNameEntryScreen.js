@@ -102,7 +102,7 @@ const UserNameEntryScreen = () => {
                             "userDetails",
                             JSON.stringify(res.data)
                         );
-                        handleRefreshLocation(res.data._id);
+                        // handleRefreshLocation(res.data._id);
                         dispatch(setUserDetails(res.data));
                     })
                     .catch(err => {
