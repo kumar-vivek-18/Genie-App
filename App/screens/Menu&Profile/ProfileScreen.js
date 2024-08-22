@@ -66,7 +66,6 @@ const ProfileScreen = () => {
 
 
 
-  // console.log("userDetails", userDetails);
   const dispatch = useDispatch();
   const config = {
     headers: {

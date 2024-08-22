@@ -20,7 +20,7 @@ const ModalLogout = ({ modalVisible, setModalVisible }) => {
     // const [modalVisible, setModalVisible] = useState(true);
     const dispatch = useDispatch();
     const userDetails = useSelector(store => store.user.userDetails);
-    console.log("userDetails", userDetails);
+    // console.log("userDetails", userDetails);
     const [loading, setLoading] = useState(false);
     const accessToken = useSelector(store => store.user.accessToken);
 

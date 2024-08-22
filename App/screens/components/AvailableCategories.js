@@ -34,7 +34,7 @@ const AvailableCategories = () => {
     const [networkError, setNetworkError] = useState(false);
     const [categoriesLoading, setCategoriesLoading] = useState(false);
 
-    console.log(accessToken);
+    // console.log(accessToken);
     const fetchNearByStores = useCallback(async () => {
         setCategoriesLoading(true);
         try {
