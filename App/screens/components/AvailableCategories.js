@@ -102,18 +102,18 @@ const AvailableCategories = () => {
         <View style={styles.container} >
 
             <View className="flex-1 w-full bg-white flex-col  gap-[40px] ">
-                <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', paddingHorizontal: 30, paddingVertical: 50, zIndex: 100 }}>
-                    <BackArrow width={14} height={10} />
 
-                </TouchableOpacity>
-                <ScrollView className="flex-1 mb-[63px]  " showsVerticalScrollIndicator={false} >
+                <ScrollView className="flex-1" showsVerticalScrollIndicator={false} >
+                    <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', paddingHorizontal: 30, paddingVertical: 50, zIndex: 100 }}>
+                        <BackArrow width={14} height={10} />
 
+                    </TouchableOpacity>
                     <View className="px-[32px] flex z-40 flex-row items-center mt-[40px] mb-[10px]">
 
                         <Text className="flex flex-1 justify-center items-center text-center text-[16px] text-[#2e2c43]" style={{ fontFamily: "Poppins-ExtraBold" }}>Available Categories</Text>
 
                     </View>
-                    <View className="  flex flex-row mt-[20px] h-[60px] border-[1px] mx-[32px] items-center border-[#000000] border-opacity-25 rounded-[24px] mb-[50px] bg-white" style={{ borderWidth: 1, borderColor: 'rgba(0, 0, 0, 0.15)' }}>
+                    <View className="  flex flex-row mt-[20px] h-[60px] border-[1px] mx-[32px] items-center border-[#000000] border-opacity-25 rounded-[24px] bg-white" style={{ borderWidth: 1, borderColor: 'rgba(0, 0, 0, 0.15)' }}>
                         <Octicons name="search" size={19} style={{ paddingLeft: 20, position: 'absolute', left: 0 }} />
                         <TextInput
                             placeholder="Search here...."

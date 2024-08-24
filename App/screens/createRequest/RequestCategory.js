@@ -159,7 +159,7 @@ const RequestCategory = () => {
                     <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] " style={{ fontFamily: "Poppins-Medium" }}>
                         Step 2/4
                     </Text>
-                    <View className="flex flex-row h-[60px] border-[1px] items-center border-[#000000] border-opacity-25 rounded-[24px] mb-[50px] bg-white" style={{ borderWidth: 1, borderColor: 'rgba(0, 0, 0, 0.15)' }}>
+                    <View className="flex flex-row h-[60px] border-[1px] items-center border-[#000000] border-opacity-25 rounded-[24px] mb-[40px] bg-white" style={{ borderWidth: 1, borderColor: 'rgba(0, 0, 0, 0.15)' }}>
                         <Octicons name="search" size={19} style={{ paddingLeft: 20, position: 'absolute', left: 0 }} />
                         <TextInput
                             placeholder="Search here...."
@@ -171,7 +171,7 @@ const RequestCategory = () => {
                         />
                     </View>
 
-                    {searchResults.length > 0 && <View  >
+                    {searchResults.length > 0 && <View className="mb-[80px]"  >
                         {searchResults?.map((result) => (
                             <TouchableOpacity
                                 key={result.id}
