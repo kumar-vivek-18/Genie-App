@@ -29,7 +29,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-       "buildNumber": "11"
+      "buildNumber": "11"
     },
     "android": {
       "versionCode": 11,

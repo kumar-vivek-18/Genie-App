@@ -63,6 +63,7 @@ import NetworkError from "./components/NetworkError";
 import Calender from '../assets/calender.svg';
 import Time from '../assets/time.svg';
 import SpadeIcon from '../assets/SpadeIcon.svg';
+import { Octicons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get("window");
 
@@ -554,6 +555,14 @@ const HomeScreen = () => {
         </View>}
         {networkError && <View className="mt-[100px] "><NetworkError callFunction={fetchData} setNetworkError={setNetworkError} connectSocket={connectSocket} /></View>}
       </ScrollView>
+
+      <TouchableOpacity onPress={() => { navigation.navigate('store-search'); }} style={{ position: 'absolute', bottom: 30, right: 10 }}>
+        <View className="flex-row items-center justify-center bg-[#ffffff] mt-[15px] py-[8px] px-[12px] mx-[16px] rounded-full border-[1px] border-[#fb8c00] gap-[5px]">
+          <Text className="text-center text-[#fb8c00]" style={{ fontFamily: "Poppins-Regular" }}>Search Store</Text>
+          <Octicons name="search" size={19} style={{ color: '#fb8c00' }} />
+        </View>
+      </TouchableOpacity>
+
     </View>
   );
 };
