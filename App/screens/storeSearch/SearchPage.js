@@ -8,7 +8,8 @@ import {
     Platform,
     ActivityIndicator,
     StyleSheet,
-    Image
+    Image,
+    Linking
 } from "react-native";
 import {
     SafeAreaView,
@@ -19,7 +20,7 @@ import BackArrow from "../../assets/arrow-left.svg";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { setStoreCategories } from "../../redux/reducers/userDataSlice";
+import { setStoreCategories, setStoreData } from "../../redux/reducers/userDataSlice";
 import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
 import { haversineDistance } from "../../utils/logics/Logics";
@@ -91,8 +92,8 @@ const SearchCategoryScreen = () => {
                     // Log the categories array to verify
                     console.log(categories);
                     dispatch(setStoreCategories(categories));
-                    setSearchData(categories);
-                    setSearchResults(categories);
+                    // setSearchData(categories);
+                    // setSearchResults(categories);
                 })
         } catch (error) {
             setCategoriesLoading(false);
@@ -155,7 +156,7 @@ const SearchCategoryScreen = () => {
                             className="flex flex-1 justify-center items-center text-center text-[#2E2C43] text-[16px]"
                             style={{ fontFamily: "Poppins-Bold" }}
                         >
-                            Search Store
+                            Search Stores
                         </Text>
                     </View>
 
@@ -219,8 +220,7 @@ const SearchCategoryScreen = () => {
                                 distance = haversineDistance(userLatitude, userLongitude, details?.lattitude, details?.longitude);
                                 // console.log('dis', distance);
                             }
-                            return <TouchableOpacity key={index} onPress={() => {
-                            }}
+                            return <TouchableOpacity key={index} onPress={() => { dispatch(setStoreData(details)); navigation.navigate('store-page'); }}
                                 style={{
                                     position: 'relative',
                                     flexDirection: "row",
@@ -272,7 +272,7 @@ const SearchCategoryScreen = () => {
                                             <Text className="text-[14px] text-[#2e2c43] capitalize " style={{ fontFamily: "Poppins-Regular" }}>{details?.location?.length > 20 ? `${details?.location.slice(0, 20)}...` : details?.location}</Text>
 
                                         </View>
-                                        <TouchableOpacity style={{ flexDirection: "row", gap: 4, alignItems: "center" }}>
+                                        <TouchableOpacity style={{ flexDirection: "row", gap: 4, alignItems: "center" }} onPress={() => { Linking.openURL(`https://www.google.com/maps/dir/?api=1&origin=${userLatitude},${userLongitude}&destination=${details.lattitude},${details.longitude}`).catch(err => console.error("An error occurred", err)); }}>
                                             <Text className="text-[14px] text-[#fb8c00] capitalize " style={{ fontFamily: "Poppins-Medium" }}>Go to store</Text>
                                             <ArrowRight />
                                         </TouchableOpacity>

@@ -34,6 +34,7 @@ import ReportVendor from '../screens/components/ReportVendor.js';
 import SendDocument from '../screens/components/SendDocument';
 import NetworkError from '../screens/components/NetworkError';
 import SearchPage from '../screens/storeSearch/SearchPage';
+import StoreProfilePage from '../screens/storeSearch/StoreProfilePage';
 const Stack = createNativeStackNavigator();
 const GlobalNavigation = () => {
     const [userId, setUserId] = useState("")
@@ -95,6 +96,7 @@ const GlobalNavigation = () => {
             <Stack.Screen name="available-categories" component={AvailableCategories} />
             <Stack.Screen name={`send-document`} component={SendDocument} />
             <Stack.Screen name="store-search" component={SearchPage} />
+            <Stack.Screen name="store-page" component={StoreProfilePage} />
             {memoizedScreens}
         </Stack.Navigator>
 

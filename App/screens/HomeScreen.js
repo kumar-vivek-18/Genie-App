@@ -399,12 +399,14 @@ const HomeScreen = () => {
               </View>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={() => { navigation.navigate('available-categories'); }}>
-            <View className="flex-row items-center justify-center bg-[#ffe8cd] mt-[15px] py-[6px] px-[10px] mx-[16px] rounded-2xl border-[1px] border-[#fb8c00] gap-[5px]">
-              <Text className="text-center text-[#fb8c00]" style={{ fontFamily: "Poppins-Regular" }}>Check the available categories in your city</Text>
-              <DropArrow />
+          <TouchableOpacity onPress={() => { navigation.navigate('store-search'); }}>
+            <View className="flex-row items-center justify-center bg-[#ffe8cd] mt-[15px] py-[10px] px-[10px] mx-[16px] rounded-2xl border-[1px] border-[#fb8c00] gap-[5px]">
+              <Text className="text-center flex-1 text-[#fb8c00]" style={{ fontFamily: "Poppins-Regular" }}>Search stores</Text>
+              <Octicons name="search" size={19} style={{ color: '#fb8c00' }} />
             </View>
           </TouchableOpacity>
+
+
 
 
           <View className=" relative mt-[20px]  w-full flex-row justify-center">
@@ -556,12 +558,7 @@ const HomeScreen = () => {
         {networkError && <View className="mt-[100px] "><NetworkError callFunction={fetchData} setNetworkError={setNetworkError} connectSocket={connectSocket} /></View>}
       </ScrollView>
 
-      <TouchableOpacity onPress={() => { navigation.navigate('store-search'); }} style={{ position: 'absolute', bottom: 30, right: 10 }}>
-        <View className="flex-row items-center justify-center bg-[#ffffff] mt-[15px] py-[8px] px-[12px] mx-[16px] rounded-full border-[1px] border-[#fb8c00] gap-[5px]">
-          <Text className="text-center text-[#fb8c00]" style={{ fontFamily: "Poppins-Regular" }}>Search Store</Text>
-          <Octicons name="search" size={19} style={{ color: '#fb8c00' }} />
-        </View>
-      </TouchableOpacity>
+
 
     </View>
   );
