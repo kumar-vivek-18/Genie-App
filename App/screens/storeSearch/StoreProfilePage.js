@@ -412,7 +412,7 @@ const StoreProfilePage = () => {
                     </View>
                 </TouchableOpacity>
             </View>}
-            {feedbackModal && <RatingAndFeedbackModal feedbackModal={feedbackModal} setFeedbackModal={setFeedbackModal} />}
+            {feedbackModal && <RatingAndFeedbackModal feedbackModal={feedbackModal} setFeedbackModal={setFeedbackModal} retailerId={storeData._id} storeName={storeData.storeName} />}
             {editModal && <EditCommentModal feedbacks={feedbacks} setFeedbacks={setFeedbacks} commentId={selectedReview?._id} userId={selectedReview?.user?.refId} oldRating={selectedReview?.rating} oldFeedback={selectedReview?.feedback} editModal={editModal} setEditModal={setEditModal} />}
         </SafeAreaView >
     );

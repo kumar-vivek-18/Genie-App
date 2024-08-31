@@ -7,14 +7,14 @@ import Cross from '../../assets/cross.svg';
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 import Tick from '../../assets/Tick.svg';
-import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
+// import { setCurrentSpadeRetailer, setCurrentSpadeRetailers } from '../../redux/reducers/userDataSlice';
 import { baseUrl } from '../../utils/logics/constants';
 import axiosInstance from '../../utils/logics/axiosInstance';
 
-const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal }) => {
-    const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
+const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal, retailerId, storeName }) => {
+    // const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
     const userDetails = useSelector(store => store.user.userDetails);
-    const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
+    // const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
     const accessToken = useSelector(store => store.user.accessToken);
     const [rating, setRating] = useState(0);
     const [feedback, setFeedback] = useState("");
@@ -36,26 +36,26 @@ const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal }) => {
                     'Authorization': `Bearer ${accessToken}`,
                 }
             };
-            await axiosInstance.post(`${baseUrl}/rating/rating-feedback`, {
+            await axiosInstance.post(`${baseUrl}/rating/rate-vendor`, {
                 sender: { type: "User", refId: userDetails._id },
-                user: { type: "Retailer", refId: currentSpadeRetailer.users[0].refId },
+                user: { type: "Retailer", refId: retailerId },
                 senderName: userDetails.userName,
                 rating: rating,
                 feedback: feedback,
-                chatId: currentSpadeRetailer._id
+                // chatId: currentSpadeRetailer._id
             }, config)
                 .then(res => {
                     console.log("Feedback posted successfully");
 
-                    let retailers = currentSpadeRetailers.map((retailer) => {
-                        if (retailer._id === currentSpadeRetailer._id) {
-                            return { ...retailer, unreadCount: 0 };
-                        }
-                        return retailer; // Ensure that the original retailer is returned if no match is found
-                    });
-                    dispatch(setCurrentSpadeRetailers(retailers));
-                    let updatedRetailer = { ...currentSpadeRetailer, retailerRated: true };
-                    dispatch(setCurrentSpadeRetailer(updatedRetailer));
+                    // let retailers = currentSpadeRetailers.map((retailer) => {
+                    //     if (retailer._id === currentSpadeRetailer._id) {
+                    //         return { ...retailer, unreadCount: 0 };
+                    //     }
+                    //     return retailer; // Ensure that the original retailer is returned if no match is found
+                    // });
+                    // dispatch(setCurrentSpadeRetailers(retailers));
+                    // let updatedRetailer = { ...currentSpadeRetailer, retailerRated: true };
+                    // dispatch(setCurrentSpadeRetailer(updatedRetailer));
                     setSubmitted(true);
                     setTimeout(() => {
                         setFeedbackModal(false);
@@ -98,7 +98,7 @@ const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal }) => {
                             <ShopLogo />
                         </View>
 
-                        <Text className="text-[16px]">{currentSpadeRetailer?.retailerId?.storeName}</Text>
+                        <Text className="text-[16px] text-center capitalize" style={{ fontFamily: 'Poppins-Regular' }}>{storeName}</Text>
 
                         <View className=" mt-[19px] ">
                             <Text className="text-[14px]" style={{ fontFamily: "Poppins-Bold" }}>Rate your experience with vendor</Text>

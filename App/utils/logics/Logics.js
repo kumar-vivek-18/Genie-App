@@ -152,7 +152,7 @@ export const getPreciseGeoCoordinates = async () => {
 
 export const haversineDistance = (lat1, lon1, lat2, lon2) => {
   if (!lat1 || !lat2 || !lon1 || !lon2) return;
-  console.log('deg', lat1, lon1, lat2, lon2);
+  // console.log('deg', lat1, lon1, lat2, lon2);
   const toRadians = (degree) => degree * (Math.PI / 180);
 
   const R = 6371; // Radius of the Earth in kilometers

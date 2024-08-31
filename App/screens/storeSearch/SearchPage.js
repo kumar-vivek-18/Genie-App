@@ -9,7 +9,9 @@ import {
     ActivityIndicator,
     StyleSheet,
     Image,
-    Linking
+    Linking,
+    FlatList,
+
 } from "react-native";
 import {
     SafeAreaView,
@@ -33,6 +35,17 @@ import ArrowRight from '../../assets/arrow-right.svg';
 // import NetworkError from "../../components/NetworkError";
 
 
+// return (
+//     <FlatList
+//         data={data}
+//         keyExtractor={(item, index) => index.toString()}
+//         renderItem={renderStoreItem}
+//         onEndReached={() => fetchData(page)}
+//         onEndReachedThreshold={0.5}
+//         ListFooterComponent={renderFooter}
+//     />
+// );
+// };
 
 const SearchCategoryScreen = () => {
     const navigation = useNavigation();
@@ -52,24 +65,122 @@ const SearchCategoryScreen = () => {
     const storeCategories = useSelector(store => store.user.storeCategories);
     const [searchedStores, setSearchedStores] = useState([]);
     const [storeVisible, setStoreVisible] = useState(false);
+    // const [page, setPage] = useState(1);
+    let page = 1;
+    let morePages = 1;
+
+    const [hasMorePages, setHasMorePages] = useState(true);
+    const renderFooter = () => {
+        if (!loading) return null;
+        return <ActivityIndicator size="small" color="#fb8c00" />;
+    };
+    const renderStoreItem = ({ item: details, index }) => {
+
+        // console.log(index);
+        let distance = null;
+        if (userLongitude !== 0 && userLatitude !== 0 && details?.longitude !== 0 && details?.lattitude !== 0) {
+            distance = haversineDistance(userLatitude, userLongitude, details?.lattitude, details?.longitude);
+        }
+
+        return (
+            <TouchableOpacity
+                key={index}
+                onPress={() => {
+                    dispatch(setStoreData(details));
+                    navigation.navigate('store-page');
+                }}
+                style={{
+                    position: 'relative',
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginBottom: 10,
+                    backgroundColor: "#fff",
+                    shadowColor: '#bdbdbd',
+                    marginHorizontal: 10,
+                    gap: 15,
+                    padding: 15,
+                    borderRadius: 15,
+                    shadowOffset: { width: 8, height: 6 },
+                    shadowOpacity: 0.9,
+                    shadowRadius: 24,
+                    elevation: 20,
+                    borderWidth: 0.5,
+                    borderColor: 'rgba(0,0,0,0.05)',
+                    maxWidth: 350
+                }}
+            >
+                {details &&
+                    <View className="flex-row  gap-[20px]  items-center ">
+                        {details?.storeImages?.length > 0 ? (
+                            <Image
+                                source={{ uri: details?.storeImages[0] }}
+                                style={{ width: 80, height: 80, borderRadius: 50 }}
+                            />
+                        ) : (
+                            <StoreIcon width={80} height={80} />
+                        )}
+                        <View className="gap-[5px] w-4/5">
+                            <View className="flex-row justify-between">
+                                <Text className="text-[14px] text-[#2e2c43] capitalize " style={{ fontFamily: "Poppins-Regular" }}>
+                                    {details?.storeName?.length > 20 ? `${details?.storeName.slice(0, 20)}...` : details?.storeName}
+                                </Text>
+                            </View>
+                            <View className="flex-row items-center gap-[15px] ">
+                                {details?.totalReview > 0 && (
+                                    <View className="flex-row items-center gap-[5px]">
+                                        <Star />
+                                        <Text><Text>{parseFloat(details?.totalRating / details?.totalReview).toFixed(1)}</Text>/5</Text>
+                                    </View>
+                                )}
+                                {details?.homeDelivery && <View><HomeIcon /></View>}
+                                {distance && (
+                                    <View>
+                                        <Text className="bg-[#ffe7c8] text-text  px-[5px]  rounded-md" style={{ fontFamily: "Poppins-Regular" }}>
+                                            <Text>{parseFloat(distance).toFixed(1)}</Text> km
+                                        </Text>
+                                    </View>
+                                )}
+                            </View>
+                            <View className="flex-row justify-between">
+                                <Text className="text-[14px] text-[#2e2c43] capitalize " style={{ fontFamily: "Poppins-Regular" }}>
+                                    {details?.location?.length > 20 ? `${details?.location.slice(0, 20)}...` : details?.location}
+                                </Text>
+                            </View>
+                            <TouchableOpacity
+                                style={{ flexDirection: "row", gap: 4, alignItems: "center" }}
+                                onPress={() => {
+                                    dispatch(setStoreData(details));
+                                    navigation.navigate('store-page');
+                                }}>
+                                <Text className="text-[14px] text-[#fb8c00] capitalize " style={{ fontFamily: "Poppins-Medium" }}>View store</Text>
+                                <ArrowRight />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                }
+            </TouchableOpacity>
+        );
+    };
 
     const handleSelectResult = (result) => {
         setSelectedOption(result === selectedOption ? "" : result);
     };
 
+    // useEffect(() => {
+    //     // if(isFocused) {
+    //     if (storeCategories && storeCategories.length === 0)
+    //         fetchNearByStores();
+    // }, [])
+
     useEffect(() => {
-        // if(isFocused) {
-        if (storeCategories && storeCategories.length == 0)
-            fetchNearByStores();
-    }, [])
+        if (!storeCategories || storeCategories.length === 0) fetchNearByStores();
+    }, [fetchNearByStores, storeCategories]);
+
 
     const fetchNearByStores = useCallback(async () => {
-        setCategoriesLoading(true);
         try {
-            console.log('User coors', userLongitude, userLatitude, userDetails.longitude, userDetails.latitude);
             const longitude = userLongitude !== 0 ? userLongitude : userDetails.longitude;
             const latitude = userLatitude !== 0 ? userLatitude : userDetails.latitude;
-            console.log(longitude, latitude);
 
             const config = {
                 headers: {
@@ -77,64 +188,80 @@ const SearchCategoryScreen = () => {
                     'Authorization': `Bearer ${accessToken}`,
                 },
                 params: {
-                    longitude: longitude,
-                    latitude: latitude,
+                    longitude,
+                    latitude
                 }
             };
-            console.log(config)
-            await axiosInstance.get(`${baseUrl}/retailer/stores-near-me`, config)
-                .then(res => {
-                    setCategoriesLoading(false);
-                    const categories = res.data.map((category, index) => {
-                        return { id: index + 1, name: category };
-                    });
 
-                    // Log the categories array to verify
-                    console.log(categories);
-                    dispatch(setStoreCategories(categories));
-                    // setSearchData(categories);
-                    // setSearchResults(categories);
-                })
+            const res = await axiosInstance.get(`${baseUrl}/retailer/stores-near-me`, config);
+            const categories = res.data.map((category, index) => ({
+                id: index + 1,
+                name: category
+            }));
+            dispatch(setStoreCategories(categories));
         } catch (error) {
-            setCategoriesLoading(false);
-            if (!error?.response?.status)
-                setNetworkError(true);
-            console.error("error while fetching nearby stores", error);
+            console.error("Error fetching nearby stores:", error);
         }
-    })
+    }, [userLongitude, userLatitude, userDetails, accessToken, dispatch]);
+
+
 
     const handleTextChange = (text) => {
         setSearchQuery(text);
+        page = 1;
+        setSearchedStores([]);
+        setHasMorePages(true);
     };
 
-    const searchStores = async (query) => {
+
+
+    const searchStores = useCallback(async (query) => {
+        console.log("serch", query, page, loading, hasMorePages)
+        if (page === 1) setSearchedStores([]);
+        if (loading || !morePages) return;
+        setLoading(true);
+        console.log("searchQuery", query)
         query = query.trim();
-        console.log(`${query}hi`)
-        setLoading(true)
+
+
         try {
-            console.log('reqqqq', userLatitude, userLongitude, query);
-            await axiosInstance.get(`${baseUrl}/retailer/nearby-stores`, {
+            console.log('reqqqq', userLatitude, userLongitude, query, "hii", page, hasMorePages);
+            const res = await axiosInstance.get(`${baseUrl}/retailer/nearby-stores`, {
                 params: {
                     lat: userLatitude || userDetails.latitude,
                     lon: userLongitude || userDetails.longitude,
-                    page: 1,
-                    query: query,
+                    page,
+                    query,
                 }
-            })
-                .then(res => {
-                    if (res.status === 200) {
-                        console.log('searched stores', res.data.length);
-                        setSearchedStores(res.data);
-                        setLoading(false)
+            });
 
-                    }
-                })
+            if (res.status === 200) {
+                if (res.data.length > 0) {
+                    console.log('stores length', res.data.length);
+                    setSearchedStores(prevStores => [...prevStores, ...res.data]);
+
+                    if (res.data.length < 10) { setHasMorePages(false); morePages = 0; }
+                    else { page++; console.log('page no', page) }
+                } else {
+                    setHasMorePages(false);
+                    morePages = 0;
+                }
+                setLoading(false);
+            }
         } catch (error) {
-            setLoading(false)
-            console.error("error while fetching nearby stores", error);
+            setLoading(false);
+            console.error("Error fetching nearby stores:", error);
+        } finally {
+            setLoading(false);
         }
-    }
+    }, [loading, hasMorePages, page, userLatitude, userLongitude, userDetails]);
 
+
+    const onEndReachedHandler = useCallback(() => {
+        if (!loading && hasMorePages) {
+            searchStores(searchQuery);
+        }
+    }, [loading, hasMorePages, searchQuery]);
 
 
 
@@ -168,16 +295,12 @@ const SearchCategoryScreen = () => {
                             placeholderTextColor="#DBCDBB"
                             value={searchQuery}
                             onChangeText={handleTextChange}
-                            onFocus={() => setStoreVisible(false)}
-                            onSubmitEditing={() => { setStoreVisible(true); searchStores(searchQuery) }}
+                            onFocus={() => { page = 1; setHasMorePages(true); morePages = 1; setStoreVisible(false) }}
+                            onSubmitEditing={() => { page = 1; setHasMorePages(true); morePages = 1; setStoreVisible(true); searchStores(searchQuery) }}
                             className="flex text-center text-[14px] text-[#2E2C43] justify-center items-center flex-1 pl-[20px] pr-[70px]" // Adjusted padding to center the text
                             style={{ fontFamily: "Poppins-Italic", textAlign: 'center' }} // Added textAlign for centering text
                         />
-
-
-
-
-                        <TouchableOpacity onPress={() => { setStoreVisible(true); searchStores(searchQuery) }} style={{ paddingRight: 20, paddingLeft: 10, position: 'absolute', right: 0 }}>
+                        <TouchableOpacity onPress={() => { setHasMorePages(true); page = 1; morePages = 1; setStoreVisible(true); console.log("new", searchQuery); searchStores(searchQuery) }} style={{ paddingRight: 20, paddingLeft: 10, position: 'absolute', right: 0, zIndex: 100 }}>
                             <Octicons name="search" size={22} />
                         </TouchableOpacity>
 
@@ -187,7 +310,7 @@ const SearchCategoryScreen = () => {
                             {!isLoading && storeCategories && storeCategories?.map((result) => (
                                 <TouchableOpacity
                                     key={result.id}
-                                    onPress={() => { setStoreVisible(true); setSearchQuery(result.name); searchStores(result.name) }}
+                                    onPress={() => { page = 1; setHasMorePages(true); morePages = 1; setStoreVisible(true); setSearchQuery(result.name); searchStores(result.name) }}
                                 >
                                     <View className="flex flex-row items-center py-[5px] gap-[20px]">
                                         <Octicons name="search" size={19} style={{ color: '#7c7c7c' }} />
@@ -202,103 +325,45 @@ const SearchCategoryScreen = () => {
                         </View>
                     }
                     {
-                        storeVisible && !loading &&
+                        storeVisible &&
                         <View className="px-[32px] flex mb-[10px]">
                             <Text className="text-[14px] text-[#2e2c43] capitalize " style={{ fontFamily: "Poppins-SemiBold" }}>Search Results:</Text>
-                            <View className="flex flex-row w-[90%] bg-[#fb8c00] py-[10px]  px-[10px] gap-[30px] rounded-lg">
+                            {searchQuery && <View className="flex flex-row w-[90%] bg-[#fb8c00] py-[10px]  px-[10px] gap-[30px] rounded-lg">
                                 {searchQuery.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular", color: "white" }} className="capitalize"><Text style={{ fontFamily: 'Poppins-Bold', color: "white" }}>{searchQuery?.slice(0, searchQuery.indexOf('-'))}</Text>{searchQuery.indexOf('-') >= 0 ? searchQuery.slice(searchQuery.indexOf('-')) : ""}</Text>}
                                 {searchQuery.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold", color: "white" }} className="capitalize">{searchQuery}</Text>}
-                            </View>
+                            </View>}
                         </View>
                     }
                     {
-                        storeVisible && !loading &&
+                        storeVisible &&
 
-                        searchedStores && searchedStores?.length > 0 && searchedStores?.map((details, index) => {
-                            let distance = null;
-                            if (userLongitude !== 0 && userLatitude !== 0 && details?.longitude !== 0 && details?.lattitude !== 0) {
-                                distance = haversineDistance(userLatitude, userLongitude, details?.lattitude, details?.longitude);
-                                // console.log('dis', distance);
-                            }
-                            return <TouchableOpacity key={index} onPress={() => { dispatch(setStoreData(details)); navigation.navigate('store-page'); }}
-                                style={{
-                                    position: 'relative',
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                    marginBottom: 10,
-                                    backgroundColor: "#fff",
-                                    shadowColor: '#bdbdbd',
-                                    marginHorizontal: 10,
-                                    gap: 15,
-                                    padding: 15,
-                                    borderRadius: 15,
-                                    shadowOffset: { width: 8, height: 6 },
-                                    shadowOpacity: 0.9,
-                                    shadowRadius: 24,
-                                    elevation: 20,
-                                    borderWidth: 0.5,
-                                    borderColor: 'rgba(0,0,0,0.05)',
-                                    maxWidth: 350
-                                }}
-                            >
-
-                                {details && <View className="flex-row  gap-[20px]  items-center ">
-                                    {details?.storeImages?.length > 0 ? (<Image
-                                        source={{ uri: details?.storeImages[0] }}
-                                        style={{ width: 80, height: 80, borderRadius: 50 }}
-
-                                    />) : (<StoreIcon width={80} height={80} />)}
-                                    <View className="gap-[5px] w-4/5">
-                                        <View className="flex-row justify-between">
-                                            <Text className="text-[14px] text-[#2e2c43] capitalize " style={{ fontFamily: "Poppins-Regular" }}>{details?.storeName?.length > 20 ? `${details?.storeName.slice(0, 20)}...` : details?.storeName}</Text>
-                                        </View>
-                                        <View className="flex-row items-center gap-[15px] ">
-                                            {details?.totalReview > 0 && (
-                                                <View className="flex-row items-center gap-[5px]">
-                                                    <Star />
-                                                    <Text><Text>{parseFloat(details?.totalRating / details?.totalReview).toFixed(1)}</Text>/5</Text>
-                                                </View>
-                                            )}
-                                            {details?.homeDelivery && <View>
-                                                <HomeIcon />
-                                            </View>}
-                                            {
-                                                distance && <View>
-                                                    <Text className="bg-[#ffe7c8] text-text  px-[5px]  rounded-md" style={{ fontFamily: "Poppins-Regular" }}><Text>{parseFloat(distance).toFixed(1)}</Text> km</Text>
-                                                </View>
-                                            }
-                                        </View>
-                                        <View className="flex-row justify-between">
-                                            <Text className="text-[14px] text-[#2e2c43] capitalize " style={{ fontFamily: "Poppins-Regular" }}>{details?.location?.length > 20 ? `${details?.location.slice(0, 20)}...` : details?.location}</Text>
-
-                                        </View>
-                                        <TouchableOpacity style={{ flexDirection: "row", gap: 4, alignItems: "center" }} onPress={() => { Linking.openURL(`https://www.google.com/maps/dir/?api=1&origin=${userLatitude},${userLongitude}&destination=${details.lattitude},${details.longitude}`).catch(err => console.error("An error occurred", err)); }}>
-                                            <Text className="text-[14px] text-[#fb8c00] capitalize " style={{ fontFamily: "Poppins-Medium" }}>Go to store</Text>
-                                            <ArrowRight />
-                                        </TouchableOpacity>
+                        <FlatList
+                            data={searchedStores}
+                            renderItem={renderStoreItem}
+                            keyExtractor={(item, index) => `${index}-${item.id}`}
+                            ListFooterComponent={renderFooter}
+                            showsVerticalScrollIndicator={false}
+                        />
 
 
-
-
-                                    </View>
-                                </View>}
-                            </TouchableOpacity>
-                        })
                     }
+                    {hasMorePages && !loading && storeVisible && <View style={{ flexDirection: 'row', justifyContent: 'center', marginVertical: 30 }}>
+                        <TouchableOpacity onPress={() => { onEndReachedHandler() }} ><View style={{ borderWidth: 1, width: 150, borderColor: '#fb8c00', borderRadius: 16, flexDirection: 'row', justifyContent: 'center' }}><Text className="text-[#fb8c00] px-3 py-2  w-max  ">View More</Text></View></TouchableOpacity>
+                    </View>}
                     {
                         storeVisible && !loading && searchedStores && searchedStores.length === 0 &&
                         <Text className="text-[14px] text-[#2e2c43] capitalize text-center mt-[30px]" style={{ fontFamily: "Poppins-Regular" }}>No store found !</Text>
 
                     }
-                    {
+                    {/* {
                         storeVisible && loading &&
                         <View className="py-[150px]"><ActivityIndicator size={30} color={'#fb8c00'} /></View>
-                    }
+                    } */}
 
                 </ScrollView>
                 {/* {networkError && <View style={{ justifyContent: "center", alignItems: "center", zIndex: 120 }}><NetworkError callFunction={SearchCategories} setNetworkError={setNetworkError} /></View>} */}
 
-            </View>
+            </View >
 
             {isLoading && (
                 <View style={styles.loadingContainer}>
@@ -306,7 +371,7 @@ const SearchCategoryScreen = () => {
                 </View>
             )}
 
-        </View>
+        </View >
     );
 };
 
