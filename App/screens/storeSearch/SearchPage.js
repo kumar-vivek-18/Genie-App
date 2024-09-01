@@ -32,20 +32,7 @@ import StoreIcon from '../../assets/StoreIcon.svg';
 import ArrowRight from '../../assets/arrow-right.svg';
 
 
-// import NetworkError from "../../components/NetworkError";
 
-
-// return (
-//     <FlatList
-//         data={data}
-//         keyExtractor={(item, index) => index.toString()}
-//         renderItem={renderStoreItem}
-//         onEndReached={() => fetchData(page)}
-//         onEndReachedThreshold={0.5}
-//         ListFooterComponent={renderFooter}
-//     />
-// );
-// };
 
 const SearchCategoryScreen = () => {
     const navigation = useNavigation();
@@ -65,8 +52,8 @@ const SearchCategoryScreen = () => {
     const storeCategories = useSelector(store => store.user.storeCategories);
     const [searchedStores, setSearchedStores] = useState([]);
     const [storeVisible, setStoreVisible] = useState(false);
-    // const [page, setPage] = useState(1);
-    let page = 1;
+    const [page, setPage] = useState(1);
+
     let morePages = 1;
 
     const [hasMorePages, setHasMorePages] = useState(true);
@@ -202,49 +189,48 @@ const SearchCategoryScreen = () => {
         } catch (error) {
             console.error("Error fetching nearby stores:", error);
         }
-    }, [userLongitude, userLatitude, userDetails, accessToken, dispatch]);
+    }, []);
 
 
 
     const handleTextChange = (text) => {
         setSearchQuery(text);
-        page = 1;
+        setPage(1);
         setSearchedStores([]);
         setHasMorePages(true);
     };
 
 
 
-    const searchStores = useCallback(async (query) => {
-        console.log("serch", query, page, loading, hasMorePages)
-        if (page === 1) setSearchedStores([]);
-        if (loading || !morePages) return;
+    const searchStores = async (query, pageNumber, hasPages) => {
+        if (pageNumber === 1) setSearchedStores([]);
+        if (loading || !hasPages) return;
+
         setLoading(true);
         console.log("searchQuery", query)
         query = query.trim();
 
 
         try {
-            console.log('reqqqq', userLatitude, userLongitude, query, "hii", page, hasMorePages);
+            console.log('reqqqq', userLatitude, userLongitude, query, "hii", pageNumber, hasPages);
             const res = await axiosInstance.get(`${baseUrl}/retailer/nearby-stores`, {
                 params: {
                     lat: userLatitude || userDetails.latitude,
                     lon: userLongitude || userDetails.longitude,
-                    page,
+                    page: pageNumber,
                     query,
                 }
             });
 
             if (res.status === 200) {
                 if (res.data.length > 0) {
-                    console.log('stores length', res.data.length);
+                    console.log('stores length', pageNumber, res.data.length);
                     setSearchedStores(prevStores => [...prevStores, ...res.data]);
 
-                    if (res.data.length < 10) { setHasMorePages(false); morePages = 0; }
-                    else { page++; console.log('page no', page) }
+                    if (res.data.length < 10) { setHasMorePages(false); }
+                    else { setPage(pageNumber + 1); }
                 } else {
                     setHasMorePages(false);
-                    morePages = 0;
                 }
                 setLoading(false);
             }
@@ -253,15 +239,12 @@ const SearchCategoryScreen = () => {
             console.error("Error fetching nearby stores:", error);
         } finally {
             setLoading(false);
+            // console.log('paaagg', page);
         }
-    }, [loading, hasMorePages, page, userLatitude, userLongitude, userDetails]);
+    }
 
 
-    const onEndReachedHandler = useCallback(() => {
-        if (!loading && hasMorePages) {
-            searchStores(searchQuery);
-        }
-    }, [loading, hasMorePages, searchQuery]);
+
 
 
 
@@ -295,12 +278,12 @@ const SearchCategoryScreen = () => {
                             placeholderTextColor="#DBCDBB"
                             value={searchQuery}
                             onChangeText={handleTextChange}
-                            onFocus={() => { page = 1; setHasMorePages(true); morePages = 1; setStoreVisible(false) }}
-                            onSubmitEditing={() => { page = 1; setHasMorePages(true); morePages = 1; setStoreVisible(true); searchStores(searchQuery) }}
+                            onFocus={() => { setPage(1); setHasMorePages(true); setStoreVisible(false) }}
+                            onSubmitEditing={() => { setPage(1); setHasMorePages(true); setStoreVisible(true); searchStores(searchQuery, 1, true) }}
                             className="flex text-center text-[14px] text-[#2E2C43] justify-center items-center flex-1 pl-[20px] pr-[70px]" // Adjusted padding to center the text
                             style={{ fontFamily: "Poppins-Italic", textAlign: 'center' }} // Added textAlign for centering text
                         />
-                        <TouchableOpacity onPress={() => { setHasMorePages(true); page = 1; morePages = 1; setStoreVisible(true); console.log("new", searchQuery); searchStores(searchQuery) }} style={{ paddingRight: 20, paddingLeft: 10, position: 'absolute', right: 0, zIndex: 100 }}>
+                        <TouchableOpacity onPress={() => { setHasMorePages(true); setPage(1); setStoreVisible(true); searchStores(searchQuery, 1, true) }} style={{ paddingRight: 20, paddingLeft: 10, position: 'absolute', right: 0, zIndex: 100 }}>
                             <Octicons name="search" size={22} />
                         </TouchableOpacity>
 
@@ -310,7 +293,7 @@ const SearchCategoryScreen = () => {
                             {!isLoading && storeCategories && storeCategories?.map((result) => (
                                 <TouchableOpacity
                                     key={result.id}
-                                    onPress={() => { page = 1; setHasMorePages(true); morePages = 1; setStoreVisible(true); setSearchQuery(result.name); searchStores(result.name) }}
+                                    onPress={() => { setPage(1); setHasMorePages(true); setStoreVisible(true); setSearchQuery(result.name); searchStores(result.name, 1, true) }}
                                 >
                                     <View className="flex flex-row items-center py-[5px] gap-[20px]">
                                         <Octicons name="search" size={19} style={{ color: '#7c7c7c' }} />
@@ -348,7 +331,7 @@ const SearchCategoryScreen = () => {
 
                     }
                     {hasMorePages && !loading && storeVisible && <View style={{ flexDirection: 'row', justifyContent: 'center', marginVertical: 30 }}>
-                        <TouchableOpacity onPress={() => { onEndReachedHandler() }} ><View style={{ borderWidth: 1, width: 150, borderColor: '#fb8c00', borderRadius: 16, flexDirection: 'row', justifyContent: 'center' }}><Text className="text-[#fb8c00] px-3 py-2  w-max  ">View More</Text></View></TouchableOpacity>
+                        <TouchableOpacity onPress={() => { console.log('pageee', page); searchStores(searchQuery, page, hasMorePages); }} ><View style={{ borderWidth: 1, width: 150, borderColor: '#fb8c00', borderRadius: 16, flexDirection: 'row', justifyContent: 'center' }}><Text className="text-[#fb8c00] px-3 py-2  w-max  ">View More</Text></View></TouchableOpacity>
                     </View>}
                     {
                         storeVisible && !loading && searchedStores && searchedStores.length === 0 &&
@@ -361,7 +344,6 @@ const SearchCategoryScreen = () => {
                     } */}
 
                 </ScrollView>
-                {/* {networkError && <View style={{ justifyContent: "center", alignItems: "center", zIndex: 120 }}><NetworkError callFunction={SearchCategories} setNetworkError={setNetworkError} /></View>} */}
 
             </View >
 
