@@ -57,6 +57,7 @@ const StoreProfilePage = () => {
     const [selectedReview, setSelectedReview] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [scaleAnimation] = useState(new Animated.Value(0));
+    const [ratingAllowed, setRatingAllowed] = useState(false);
 
     //   const copyToClipboard = async () => {
     //     // await Clipboard.setStringAsync(inputValue);
@@ -98,18 +99,59 @@ const StoreProfilePage = () => {
             await axiosInstance.get(`${baseUrl}/rating/get-retailer-feedbacks`, config)
                 .then((res) => {
                     console.log('Feedbacks fetched successfully', res.data);
-                    setFeedbacks(res.data);
+                    if (feedbacks.length > 0) {
+
+                        const allFeedbacks = res.data.filter(f => feedbacks[0]._id !== f._id);
+
+                        setFeedbacks([res.data, ...allFeedbacks]);
+                    }
+                    else {
+                        setFeedbacks(res.data);
+                    }
+
+
+
                 })
         } catch (error) {
-            console.error('Error while fetching retailer feedbacks');
+            console.error('Error while fetching retailer feedbacks', error);
         }
     })
+
+    const usersRatingForSeller = async () => {
+        try {
+            await axiosInstance.get(`${baseUrl}/rating/particular-feedback`, {
+                params: {
+                    senderId: userDetails._id,
+                    retailerId: storeData._id
+                }
+            })
+                .then(res => {
+                    console.log("Users rating for seller: ", res.data);
+                    if (res.status === 200) {
+                        const allFeedbacks = feedbacks.filter(f => f._id !== res.data._id);
+                        setFeedbacks([res.data, ...allFeedbacks]);
+                        setRatingAllowed(false);
+                    }
+                    else if (res.status === 404) {
+                        setRatingAllowed(true);
+                    }
+
+                })
+
+        } catch (error) {
+            if (error.response.status === 404) setRatingAllowed(true);
+            console.error("Error while fetching feedback", error);
+        }
+    }
 
 
 
 
     useEffect(() => {
+
+        usersRatingForSeller();
         fetchRetailerFeedbacks();
+
         if (userLongitude !== 0 && userLongitude !== 0 && storeData.longitude !== 0 && storeData.lattitude !== 0) {
             let value = haversineDistance(userLatitude, userLongitude, storeData.lattitude, storeData.longitude);
             setDistance(value);
@@ -405,7 +447,7 @@ const StoreProfilePage = () => {
 
                 </Pressable>
             </Modal>
-            {<View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: 'white', paddingHorizontal: 20, paddingVertical: 10 }}>
+            {ratingAllowed && <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: 'white', paddingHorizontal: 20, paddingVertical: 10 }}>
                 <TouchableOpacity TouchableOpacity onPress={() => { setFeedbackModal(true); }} >
                     <View>
                         <Text className="text-[16px] text-[#fb8c00] text-center border-[1px] border-[#fb8c00] rounded-2xl py-[10px]" style={{ fontFamily: "Poppins-Regular" }}>Rate the Vendor</Text>

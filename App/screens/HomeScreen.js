@@ -9,7 +9,8 @@ import {
   Dimensions,
   ActivityIndicator,
   AppState,
-  RefreshControl
+  RefreshControl,
+  Animated
 } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useIsFocused, useNavigation, useNavigationState } from "@react-navigation/native";
@@ -64,6 +65,8 @@ import Calender from '../assets/calender.svg';
 import Time from '../assets/time.svg';
 import SpadeIcon from '../assets/SpadeIcon.svg';
 import { Octicons } from '@expo/vector-icons';
+import TextTicker from 'react-native-text-ticker';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const { width } = Dimensions.get("window");
 
@@ -95,6 +98,26 @@ const HomeScreen = () => {
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const [refreshing, setRefreshing] = useState(false);
+
+  const scrollX = useRef(new Animated.Value(0)).current;
+
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(scrollX, {
+          toValue: 1.2 * width,
+          duration: 7000, // Adjust the duration for speed
+          useNativeDriver: true,
+        }),
+        Animated.timing(scrollX, {
+          toValue: 0, // Reset to start
+          duration: 0,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }, [scrollX]);
 
   useEffect(() => {
     const backAction = () => {
@@ -399,6 +422,17 @@ const HomeScreen = () => {
               </View>
             </TouchableOpacity>
           </View>
+          <View style={{
+            height: 50, overflow: 'hidden', backgroundColor: '#ffffff', flexDirection: "row", textAlign: "center", justifyContent: 'center',
+          }}>
+            <Animated.View style={[styles.scrollMarqContainer, { transform: [{ translateX: scrollX }] }]}>
+              <View className="flex flex-row items-center justify-center gap-2">
+                <Icon name="info-circle" size={20} color="#000" style={styles.icon} />
+                <Text style={styles.text}>Free Orders Remaining: 150</Text>
+              </View>
+
+            </Animated.View>
+          </View>
           <TouchableOpacity onPress={() => { navigation.navigate('store-search'); }}>
             <View className="flex-row items-center justify-center bg-[#ffe8cd] mt-[15px] py-[10px] px-[10px] mx-[16px] rounded-2xl border-[1px] border-[#fb8c00] gap-[5px]">
               <Text className="text-center flex-1 text-[#fb8c00]" style={{ fontFamily: "Poppins-Regular" }}>Search stores</Text>
@@ -679,7 +713,13 @@ const styles = {
     height: 20,
     width: 20,
     borderRadius: 20,
-  }
+  },
+  scrollMarqContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: width * 2,
+
+  },
 };
 
 export default HomeScreen;

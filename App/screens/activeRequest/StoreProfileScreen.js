@@ -60,6 +60,7 @@ const StoreProfileScreen = () => {
     const [selectedReview, setSelectedReview] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [scaleAnimation] = useState(new Animated.Value(0));
+    const [ratingAllowed, setRatingAllowed] = useState(false);
 
     //   const copyToClipboard = async () => {
     //     // await Clipboard.setStringAsync(inputValue);
@@ -101,17 +102,55 @@ const StoreProfileScreen = () => {
             await axiosInstance.get(`${baseUrl}/rating/get-retailer-feedbacks`, config)
                 .then((res) => {
                     console.log('Feedbacks fetched successfully', res.data);
-                    setFeedbacks(res.data);
+                    if (res?.status !== 200) return;
+
+                    if (feedbacks.length > 0) {
+
+                        const allFeedbacks = res.data.filter(f => feedbacks[0]._id !== f._id);
+
+                        setFeedbacks([res.data, ...allFeedbacks]);
+                    }
+                    else {
+                        setFeedbacks(res.data);
+                    }
                 })
         } catch (error) {
             console.error('Error while fetching retailer feedbacks');
         }
     })
 
+    const usersRatingForSeller = async () => {
+        try {
+            await axiosInstance.get(`${baseUrl}/rating/particular-feedback`, {
+                params: {
+                    senderId: userDetails._id,
+                    retailerId: currentSpadeRetailer.retailerId._id
+                }
+            })
+                .then(res => {
+                    console.log("Users rating for seller: ", res.data);
+                    if (res?.status === 200) {
+                        const allFeedbacks = feedbacks.filter(f => f._id !== res.data._id);
+                        setFeedbacks([res.data, ...allFeedbacks]);
+                        setRatingAllowed(false);
+                    }
+                    else if (res?.status === 404) {
+                        setRatingAllowed(true);
+                    }
+
+                })
+
+        } catch (error) {
+            if (error?.response?.status === 404) setRatingAllowed(true);
+            console.error("Error while fetching feedback", error);
+        }
+    }
+
 
 
 
     useEffect(() => {
+        usersRatingForSeller();
         fetchRetailerFeedbacks();
         if (currentSpadeRetailer.customerId.longitude !== 0 && currentSpadeRetailer.customerId.latitude !== 0 && currentSpadeRetailer.retailerId.longitude !== 0 && currentSpadeRetailer.retailerId.lattitude !== 0) {
             let value = haversineDistance(currentSpadeRetailer.customerId.latitude, currentSpadeRetailer.customerId.longitude, currentSpadeRetailer.retailerId.lattitude, currentSpadeRetailer.retailerId.longitude);
@@ -331,7 +370,7 @@ const StoreProfileScreen = () => {
                     <View>
                         <Text className="capitalize text-[#2e2c43] text-[16px] " style={{ fontFamily: 'Poppins-Bold' }}>Store Reviews</Text>
 
-                        <View style={styles.revcontainer}>
+                        <View style={styles.revcontainer} className="mb-[80px]">
                             <ScrollView>
                                 {feedbacks
                                     .slice(0, showAllReviews ? feedbacks.length : 3)
@@ -377,6 +416,9 @@ const StoreProfileScreen = () => {
                                 </Pressable>
                             )
                             }
+                            {feedbacks && feedbacks.length === 0 && <View>
+                                <Text className="text-[16px] text-[#7c7c7c] mt-[20px] text-center" style={{ fontFamily: 'Poppins-Regular' }}>No reviews yet.</Text>
+                            </View>}
                         </View>
                     </View>
 
@@ -405,7 +447,7 @@ const StoreProfileScreen = () => {
 
                 </Pressable>
             </Modal>
-            {!currentSpadeRetailer?.retailerRated && <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: 'white', paddingHorizontal: 20, paddingVertical: 10 }}>
+            {ratingAllowed && <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: 'white', paddingHorizontal: 20, paddingVertical: 10 }}>
                 <TouchableOpacity TouchableOpacity onPress={() => { setFeedbackModal(true); }} >
                     <View>
                         <Text className="text-[16px] text-[#fb8c00] text-center border-[1px] border-[#fb8c00] rounded-2xl py-[10px]" style={{ fontFamily: "Poppins-Regular" }}>Rate the Vendor</Text>

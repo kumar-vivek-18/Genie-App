@@ -139,7 +139,7 @@ const SearchCategoryScreen = () => {
                                     dispatch(setStoreData(details));
                                     navigation.navigate('store-page');
                                 }}>
-                                <Text className="text-[14px] text-[#fb8c00] capitalize " style={{ fontFamily: "Poppins-Medium" }}>View store</Text>
+                                <Text className="text-[14px] text-[#fb8c00] capitalize " style={{ fontFamily: "Poppins-Medium" }}>Visit store</Text>
                                 <ArrowRight />
                             </TouchableOpacity>
                         </View>

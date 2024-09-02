@@ -46,11 +46,11 @@ export default function App() {
 
   useEffect(() => {
     (async () => {
-      const media = await MediaLibrary.requestPermissionsAsync();
+      // const media = await MediaLibrary.requestPermissionsAsync();
       const notification = await Notifications.requestPermissionsAsync();
-      const camera = await Camera.requestCameraPermissionsAsync();
+      // const camera = await Camera.requestCameraPermissionsAsync();
       const location = await Location.requestForegroundPermissionsAsync();
-      console.log("status notification", media, notification, camera, location);
+      // console.log("status notification", media, notification, camera, location);
 
     })();
   }, []);
