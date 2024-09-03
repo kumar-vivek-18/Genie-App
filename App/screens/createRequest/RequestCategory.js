@@ -148,7 +148,7 @@ const RequestCategory = () => {
                         <BackArrow width={14} height={10} />
 
                     </Pressable>
-                    <Text className="flex flex-1 justify-center items-center text-[#2e2c43] text-center text-[16px]" style={{ fontFamily: "Poppins-ExtraBold" }}>Select Spade Category</Text>
+                    <Text className="flex flex-1 justify-center items-center text-[#2e2c43] text-center text-[16px]" style={{ fontFamily: "Poppins-ExtraBold" }}>Select Category</Text>
 
                 </View>
                 <View className="flex-1 w-full bg-white flex-col  gap-[40px] px-[32px] ">

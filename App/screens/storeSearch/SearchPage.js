@@ -298,7 +298,7 @@ const SearchCategoryScreen = () => {
                     </View>
 
 
-                    <View className="flex flex-row h-[60px] mx-[32px]  border-[1px] items-center border-[#000000] border-opacity-25 rounded-[24px] mb-[50px] bg-white">
+                    <View className="mx-[32px] flex flex-row h-[60px] border-[1px] items-center border-[#000000] border-opacity-25 rounded-[24px] mb-[40px] bg-white" style={{ borderWidth: 1, borderColor: 'rgba(0, 0, 0, 0.15)' }}>
 
                         <TextInput
                             placeholder="Search store name..."
@@ -322,12 +322,12 @@ const SearchCategoryScreen = () => {
                                     key={result.id}
                                     onPress={() => { setPage(1); setHasMorePages(true); setStoreVisible(true); setSearchQuery(result.name); searchStores(result.name, 1, true) }}
                                 >
-                                    <View className="flex flex-row items-center py-[5px] gap-[20px]">
-                                        <Octicons name="search" size={19} style={{ color: '#7c7c7c' }} />
+                                    <View className="flex flex-row items-center my-[3px] gap-[20px]">
+                                        {result?.name !== "Z-Internal test culturtap ( not for commercial use )" && <Octicons name="search" size={19} style={{ color: '#7c7c7c' }} />}
 
                                         <View key={result.id} className="flex flex-row w-[90%]  py-[10px] gap-[30px] items-center">
-                                            {result?.name.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize"><Text style={{ fontFamily: 'Poppins-Bold' }}>{result?.name.slice(0, result.name.indexOf('-'))}</Text>{result.name.indexOf('-') >= 0 ? result.name.slice(result.name.indexOf('-')) : ""}</Text>}
-                                            {result?.name.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold" }} className="capitalize">{result?.name}</Text>}
+                                            {result?.name !== "Z-Internal test culturtap ( not for commercial use )" && result?.name.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize"><Text style={{ fontFamily: 'Poppins-Bold' }}>{result?.name.slice(0, result.name.indexOf('-'))}</Text>{result.name.indexOf('-') >= 0 ? result.name.slice(result.name.indexOf('-')) : ""}</Text>}
+                                            {result?.name !== "Z-Internal test culturtap ( not for commercial use )" && result?.name.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold" }} className="capitalize">{result?.name}</Text>}
                                         </View>
                                     </View>
                                 </TouchableOpacity>

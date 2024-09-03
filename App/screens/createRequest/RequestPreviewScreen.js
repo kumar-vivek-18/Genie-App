@@ -262,7 +262,7 @@ const RequestPreviewScreen = () => {
               <ActivityIndicator size="small" color="#ffffff" />
             ) : (
               <Text className="text-white text-[18px] " style={{ fontFamily: "Poppins-Black" }}>
-                Confirm Request
+                Place Order
               </Text>
             )}
           </View>

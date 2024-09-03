@@ -2,7 +2,7 @@
   "expo": {
     "name": "CulturTap Genie",
     "slug": "genie-user",
-    "version": "1.11.0",
+    "version": "1.12.0",
     "orientation": "portrait",
     "icon": "./App/assets/icon.png",
     "userInterfaceStyle": "light",
@@ -11,8 +11,8 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "updates":{
-      "fallbackToCacheTimeout":0
+    "updates": {
+      "fallbackToCacheTimeout": 0
     },
     "plugins": [
       [
@@ -29,10 +29,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "11"
+      "buildNumber": "12"
     },
     "android": {
-      "versionCode": 11,
+      "versionCode": 12,
       "permissions": [
         "CAMERA",
         "WRITE_EXTERNAL_STORAGE",

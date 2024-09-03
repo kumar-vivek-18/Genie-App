@@ -106,13 +106,13 @@ const HomeScreen = () => {
     Animated.loop(
       Animated.sequence([
         Animated.timing(scrollX, {
-          toValue: 1.2 * width,
-          duration: 7000, // Adjust the duration for speed
+          toValue: .5 * width,
+          duration: 0, // Adjust the duration for speed
           useNativeDriver: true,
         }),
         Animated.timing(scrollX, {
-          toValue: 0, // Reset to start
-          duration: 0,
+          toValue: -width, // Reset to start
+          duration: 20000,
           useNativeDriver: true,
         }),
       ])
@@ -422,13 +422,13 @@ const HomeScreen = () => {
               </View>
             </TouchableOpacity>
           </View>
-          {userDetails.freeSpades > 0 && <View style={{
-            height: 50, overflow: 'hidden', backgroundColor: '#ffffff', flexDirection: "row", textAlign: "center", justifyContent: 'center', borderTopColor: '#e8e4e4', borderTopWidth: 2
+          {<View style={{
+            height: 50, overflow: 'hidden', backgroundColor: '#ffffff', flexDirection: "row", textAlign: "center", justifyContent: 'center', borderTopColor: '#f3f2f2', borderTopWidth: 1
           }}>
             <Animated.View style={[styles.scrollMarqContainer, { transform: [{ translateX: scrollX }] }]}>
               <View className="flex flex-row items-center justify-center gap-2">
                 <Offer />
-                <Text style={styles.text}>Free Orders Remaining: <Text className="text-[#55cd00]">{userDetails.freeSpades}</Text> </Text>
+                <Text style={{ fontFamily: "Poppins-BlackItalic", color: "#3f3d56" }} >Free Orders Remaining: <Text className="text-[#55cd00]">{userDetails.freeSpades}</Text> <Text className="text-[#3f3d56]" style={{ fontFamily: "Poppins-BlackItalic" }}>             SAVE TIME, START BARGAINING!</Text> </Text>
               </View>
 
             </Animated.View>
@@ -444,11 +444,13 @@ const HomeScreen = () => {
 
 
           <View className=" relative mt-[20px]  w-full flex-row justify-center">
-            <GenieLogo />
+            {/* <GenieLogo /> */}
+            <Image source={require('../assets/Genie-Icon.png')} />
           </View>
 
           <View className="mt-[10px]">
-            <Text className="text-center px-[20px] text-[14px] text-[#001b33] " style={{ fontFamily: "Poppins-Light" }}>Ask Genie for any shopping item or maintenance service you need. Start real time bargaining to avail the best prices now.</Text>
+            <Text className="text-center px-[20px] text-[14px] text-[#001b33] " style={{ fontFamily: "Poppins-Light" }}>Ask Genie for any shopping product or repairing service you need.
+              Start your shopping now.</Text>
 
 
             <Pressable
@@ -717,7 +719,7 @@ const styles = {
   scrollMarqContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: width * 2,
+    width: width * 1.5,
 
   },
 };
