@@ -66,7 +66,7 @@ import Time from '../assets/time.svg';
 import SpadeIcon from '../assets/SpadeIcon.svg';
 import { Octicons } from '@expo/vector-icons';
 import TextTicker from 'react-native-text-ticker';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Offer from '../assets/offer.svg';
 
 const { width } = Dimensions.get("window");
 
@@ -422,17 +422,17 @@ const HomeScreen = () => {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{
-            height: 50, overflow: 'hidden', backgroundColor: '#ffffff', flexDirection: "row", textAlign: "center", justifyContent: 'center',
+          {userDetails.freeSpades > 0 && <View style={{
+            height: 50, overflow: 'hidden', backgroundColor: '#ffffff', flexDirection: "row", textAlign: "center", justifyContent: 'center', borderTopColor: '#e8e4e4', borderTopWidth: 2
           }}>
             <Animated.View style={[styles.scrollMarqContainer, { transform: [{ translateX: scrollX }] }]}>
               <View className="flex flex-row items-center justify-center gap-2">
-                <Icon name="info-circle" size={20} color="#000" style={styles.icon} />
-                <Text style={styles.text}>Free Orders Remaining: 150</Text>
+                <Offer />
+                <Text style={styles.text}>Free Orders Remaining: <Text className="text-[#55cd00]">{userDetails.freeSpades}</Text> </Text>
               </View>
 
             </Animated.View>
-          </View>
+          </View>}
           <TouchableOpacity onPress={() => { navigation.navigate('store-search'); }}>
             <View className="flex-row items-center justify-center bg-[#ffe8cd] mt-[15px] py-[10px] px-[10px] mx-[16px] rounded-2xl border-[1px] border-[#fb8c00] gap-[5px]">
               <Text className="text-center flex-1 text-[#fb8c00]" style={{ fontFamily: "Poppins-Regular" }}>Search stores</Text>

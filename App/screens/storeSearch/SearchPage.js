@@ -33,7 +33,6 @@ import ArrowRight from '../../assets/arrow-right.svg';
 
 
 
-
 const SearchCategoryScreen = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
@@ -53,14 +52,16 @@ const SearchCategoryScreen = () => {
     const [searchedStores, setSearchedStores] = useState([]);
     const [storeVisible, setStoreVisible] = useState(false);
     const [page, setPage] = useState(1);
+    const [filterNearby, setFilterNearby] = useState(true);
+    const [dataCopy, setDataCopy] = useState([]);
 
-    let morePages = 1;
 
     const [hasMorePages, setHasMorePages] = useState(true);
     const renderFooter = () => {
         if (!loading) return null;
         return <ActivityIndicator size="small" color="#fb8c00" />;
     };
+
     const renderStoreItem = ({ item: details, index }) => {
 
         // console.log(index);
@@ -226,7 +227,7 @@ const SearchCategoryScreen = () => {
                 if (res.data.length > 0) {
                     console.log('stores length', pageNumber, res.data.length);
                     setSearchedStores(prevStores => [...prevStores, ...res.data]);
-
+                    setDataCopy(prevStores => [...prevStores, ...res.data]);
                     if (res.data.length < 10) { setHasMorePages(false); }
                     else { setPage(pageNumber + 1); }
                 } else {
@@ -241,6 +242,32 @@ const SearchCategoryScreen = () => {
             setLoading(false);
             // console.log('paaagg', page);
         }
+    }
+
+    const updateFilter = async (flag) => {
+
+        if (flag) {
+            const data = [...searchedStores];
+            // console.log('daa', data);
+            data.sort((a, b) => {
+                // Ensure both a.totalReview and b.totalReview exist
+                if (a.totalReview && b.totalReview) {
+                    return (b.totalRating / b.totalReview) - (a.totalRating / a.totalReview);
+                } else if (a.totalReview) {
+                    return -1; // a comes first if b has no reviews
+                } else if (b.totalReview) {
+                    return 1; // b comes first if a has no reviews
+                } else {
+                    return 0; // if neither has reviews, they are equal in this context
+                }
+            });
+
+            // console.log('data', data);
+            setSearchedStores(data);
+
+
+        }
+        else setSearchedStores(dataCopy);
     }
 
 
@@ -310,6 +337,46 @@ const SearchCategoryScreen = () => {
                     {
                         storeVisible &&
                         <View className="px-[32px] flex mb-[10px]">
+                            <View className="border-[1px] border-[#fb8c00] rounded-xl mb-[20px] flex-row justify-between">
+                                <View className="w-[50%] ">
+                                    <TouchableOpacity
+                                        className="rounded-xl text-[14px] py-[10px] w-[50%] text-center"
+                                        style={{ backgroundColor: filterNearby ? '#fb8c00' : '#ffffff', paddingVertical: 10, textAlign: 'center', borderRadius: 10 }}
+                                        onPress={() => { setFilterNearby(true); updateFilter(0) }}
+                                    >
+                                        <Text
+                                            className="text-[#fb8c00] "
+                                            style={{
+                                                fontFamily: 'Poppins-Regular',
+                                                color: filterNearby ? '#ffffff' : '#fb8c00',
+                                                textAlign: 'center',
+                                            }}
+                                        >
+                                            Nearby
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View className="w-[50%]">
+                                    <TouchableOpacity
+                                        className="rounded-xl text-[14px] py-[10px] w-[50%] text-center"
+                                        style={{ backgroundColor: filterNearby ? '#ffffff' : '#fb8c00', paddingVertical: 10, textAlign: 'center', borderRadius: 10 }}
+                                        onPress={() => { setFilterNearby(false); updateFilter(1) }}
+                                    >
+                                        <Text
+                                            className="text-[#fb8c00]"
+                                            style={{
+                                                fontFamily: 'Poppins-Regular',
+                                                color: filterNearby ? '#fb8c00' : '#ffffff',
+                                                textAlign: 'center',
+                                            }}
+                                        >
+                                            Most Rated
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+
+
                             <Text className="text-[14px] text-[#2e2c43] capitalize " style={{ fontFamily: "Poppins-SemiBold" }}>Search Results:</Text>
                             {searchQuery && <View className="flex flex-row w-[90%] bg-[#fb8c00] py-[10px]  px-[10px] gap-[30px] rounded-lg">
                                 {searchQuery.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular", color: "white" }} className="capitalize"><Text style={{ fontFamily: 'Poppins-Bold', color: "white" }}>{searchQuery?.slice(0, searchQuery.indexOf('-'))}</Text>{searchQuery.indexOf('-') >= 0 ? searchQuery.slice(searchQuery.indexOf('-')) : ""}</Text>}

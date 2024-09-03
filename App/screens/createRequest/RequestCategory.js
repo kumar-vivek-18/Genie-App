@@ -1,6 +1,6 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Pressable, RefreshControl } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Pressable, RefreshControl, Modal } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Octicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { emtpyRequestImages, setNearByStoresCategory, setRequestCategory } from '../../redux/reducers/userRequestsSlice';
 import axiosInstance from '../../utils/logics/axiosInstance';
 import { baseUrl } from '../../utils/logics/constants';
+import Danger from '../../assets/danger.svg';
 
 
 // const searchData = [
@@ -50,6 +51,7 @@ const RequestCategory = () => {
     const userLatitude = useSelector(store => store.user.userLatitude);
     const accessToken = useSelector(store => store.user.accessToken);
     const [refreshing, setRefreshing] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const fetchNearByStores = useCallback(async () => {
         try {
@@ -139,91 +141,122 @@ const RequestCategory = () => {
     }
 
     return (
-        <View style={styles.container} >
-            <View className=" flex z-40 flex-row items-center  mb-[10px] mr-[60px]">
-                <Pressable onPress={() => navigation.goBack()} className="px-[30px] py-[15px]">
-                    <BackArrow width={14} height={10} />
+        <>
+            <View style={styles.container} >
+                <View className=" flex z-40 flex-row items-center  mb-[10px] mr-[60px]">
+                    <Pressable onPress={() => navigation.goBack()} className="px-[30px] py-[15px]">
+                        <BackArrow width={14} height={10} />
 
-                </Pressable>
-                <Text className="flex flex-1 justify-center items-center text-[#2e2c43] text-center text-[16px]" style={{ fontFamily: "Poppins-ExtraBold" }}>Select Spade Category</Text>
+                    </Pressable>
+                    <Text className="flex flex-1 justify-center items-center text-[#2e2c43] text-center text-[16px]" style={{ fontFamily: "Poppins-ExtraBold" }}>Select Spade Category</Text>
 
-            </View>
-            <View className="flex-1 w-full bg-white flex-col  gap-[40px] px-[32px] ">
-                <ScrollView className="px-0 mb-[3px] " showsVerticalScrollIndicator={false} refreshControl={<RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={handleRefresh}
-                    colors={["#9Bd35A", "#FB8C00"]}
-                />}>
-
-
-                    <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] " style={{ fontFamily: "Poppins-Medium" }}>
-                        Step 2/4
-                    </Text>
-                    <View className="flex flex-row h-[60px] border-[1px] items-center border-[#000000] border-opacity-25 rounded-[24px] mb-[40px] bg-white" style={{ borderWidth: 1, borderColor: 'rgba(0, 0, 0, 0.15)' }}>
-                        <Octicons name="search" size={19} style={{ paddingLeft: 20, position: 'absolute', left: 0 }} />
-                        <TextInput
-                            placeholder="Search here...."
-                            placeholderTextColor="#DBCDBB"
-                            value={searchQuery}
-                            onChangeText={handleTextChange}
-                            className="flex text-center text-[14px] text-[#2E2C43] justify-center items-center flex-1 px-[40px]" // Adjusted padding to center the text
-                            style={{ fontFamily: "Poppins-Italic", textAlign: 'center' }} // Added textAlign for centering text
-                        />
-                    </View>
-
-                    {searchResults.length > 0 && <View className="mb-[80px]"  >
-                        {searchResults?.map((result) => (
-                            <TouchableOpacity
-                                key={result.id}
-                                onPress={() => handleSelectResult(result.id)}
-                            >
-                                <View className="flex flex-row  my-[10px] gap-[20px] items-center">
-                                    <View className={`w-[16px] h-[16px] border-[1px] border-[#fd8c00] items-center ${result.id === selectedOption ? 'bg-[#fd8c00]' : ''}`}>
-                                        {result.id === selectedOption && <Octicons name="check" size={12} color="white" />}
-                                    </View>
-                                    {result?.name.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize text-[#2e2c43] w-[87%]"><Text style={{ fontFamily: 'Poppins-Bold' }}>{result?.name.slice(0, result.name.indexOf('-'))}</Text>{result.name.indexOf('-') >= 0 ? result.name.slice(result.name.indexOf('-')) : ""}</Text>}
-                                    {result?.name.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold" }} className="capitalize text-[#2e2e43] w-[87%]">{result?.name}</Text>}
-                                    {/* <Text className="w-[85%]">My name is Vivek Panwar. I am from Bijnor and I also like coding</Text> */}
-                                </View>
-                            </TouchableOpacity>
-                        ))}
-                    </View>}
-                    {searchResults?.length === 0 && <View>
-                        <Text style={{ textAlign: 'center', fontFamily: 'Poppins-Regular', marginTop: 50 }}>No available stores in your area.</Text>
-                    </View>}
-                </ScrollView>
+                </View>
+                <View className="flex-1 w-full bg-white flex-col  gap-[40px] px-[32px] ">
+                    <ScrollView className="px-0 mb-[3px] " showsVerticalScrollIndicator={false} refreshControl={<RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={handleRefresh}
+                        colors={["#9Bd35A", "#FB8C00"]}
+                    />}>
 
 
-
-                <TouchableOpacity
-                    style={{
-                        position: "absolute",
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        backgroundColor: !selectedOption ? "#e6e6e6" : "#FB8C00",
-                        height: 63,
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}
-                    disabled={!selectedOption}
-                    onPress={handleSubmit}
-                >
-                    <View style={styles.nextButtonInner}>
-                        <Text
-                            style={{
-                                color: !selectedOption ? "#888888" : "white",
-                                fontSize: 18,
-                                fontFamily: "Poppins-Black"
-                            }}
-                        >
-                            Next
+                        <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] " style={{ fontFamily: "Poppins-Medium" }}>
+                            Step 2/4
                         </Text>
+                        <View className="flex flex-row h-[60px] border-[1px] items-center border-[#000000] border-opacity-25 rounded-[24px] mb-[40px] bg-white" style={{ borderWidth: 1, borderColor: 'rgba(0, 0, 0, 0.15)' }}>
+                            <Octicons name="search" size={19} style={{ paddingLeft: 20, position: 'absolute', left: 0 }} />
+                            <TextInput
+                                placeholder="Search here...."
+                                placeholderTextColor="#DBCDBB"
+                                value={searchQuery}
+                                onChangeText={handleTextChange}
+                                className="flex text-center text-[14px] text-[#2E2C43] justify-center items-center flex-1 px-[40px]" // Adjusted padding to center the text
+                                style={{ fontFamily: "Poppins-Italic", textAlign: 'center' }} // Added textAlign for centering text
+                            />
+                        </View>
+
+                        {searchResults.length > 0 && <View className="mb-[80px]"  >
+                            {searchResults?.map((result) => (
+                                <TouchableOpacity
+                                    key={result.id}
+                                    onPress={() => handleSelectResult(result.id)}
+                                >
+                                    <View className="flex flex-row  my-[10px] gap-[20px] items-center">
+                                        {result?.name !== "Z-Internal test culturtap ( not for commercial use )" && <View className={`w-[16px] h-[16px] border-[1px] border-[#fd8c00] items-center ${result.id === selectedOption ? 'bg-[#fb8c00]' : ''}`}>
+                                            {result.id === selectedOption && <Octicons name="check" size={12} color="white" />}
+                                        </View>}
+                                        {result?.name !== "Z-Internal test culturtap ( not for commercial use )" && result?.name.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize text-[#2e2c43] w-[87%]"><Text style={{ fontFamily: 'Poppins-Bold' }}>{result?.name.slice(0, result.name.indexOf('-'))}</Text>{result.name.indexOf('-') >= 0 ? result.name.slice(result.name.indexOf('-')) : ""}</Text>}
+                                        {result?.name !== "Z-Internal test culturtap ( not for commercial use )" && result?.name.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold" }} className="capitalize text-[#2e2e43] w-[87%]">{result?.name}</Text>}
+                                        {result?.name === "Z-Internal test culturtap ( not for commercial use )" && <View className="flex-row items-center gap-[20px]  w-[70%]">
+                                            <View className={`w-[16px] h-[16px] border-[1px] border-[#e04122] items-center `} style={{ backgroundColor: result.id === selectedOption ? '#e04122' : '#ffffff' }}>
+                                                {result.id === selectedOption && <Octicons name="check" size={12} color="white" />}
+                                            </View>
+                                            <Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize text-[#e04122] "><Text style={{ fontFamily: 'Poppins-Bold' }}>{result?.name.slice(0, result.name.indexOf('-'))}</Text>{result.name.indexOf('-') >= 0 ? result.name.slice(result.name.indexOf('-')) : ""}</Text>
+                                            <TouchableOpacity onPress={() => setModalVisible(true)} ><Danger /></TouchableOpacity>
+                                        </View>}
+
+                                    </View>
+                                </TouchableOpacity>
+
+                            ))}
+                            {/* <TouchableOpacity
+                            key={result.id}
+                            onPress={() => handleSelectResult(result.id)}
+                        >
+                            <View className="flex flex-row  my-[10px] gap-[20px] items-center">
+                                <View className={`w-[16px] h-[16px] border-[1px] border-[#fd8c00] items-center ${result.id === selectedOption ? 'bg-[#fd8c00]' : ''}`}>
+                                    {result.id === selectedOption && <Octicons name="check" size={12} color="white" />}
+                                </View>
+                                {<Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize text-[#2e2c43] w-[87%]"><Text style={{ fontFamily: 'Poppins-Bold' }}>Z-</Text>{result.name.indexOf('-') >= 0 ? result.name.slice(result.name.indexOf('-')) : ""}</Text>}
+                            </View>
+                        </TouchableOpacity> */}
+                        </View>}
+                        {searchResults?.length === 0 && <View>
+                            <Text style={{ textAlign: 'center', fontFamily: 'Poppins-Regular', marginTop: 50 }}>No available stores in your area.</Text>
+                        </View>}
+                    </ScrollView>
+
+
+
+                    <TouchableOpacity
+                        style={{
+                            position: "absolute",
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            backgroundColor: !selectedOption ? "#e6e6e6" : "#FB8C00",
+                            height: 63,
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                        disabled={!selectedOption}
+                        onPress={handleSubmit}
+                    >
+                        <View style={styles.nextButtonInner}>
+                            <Text
+                                style={{
+                                    color: !selectedOption ? "#888888" : "white",
+                                    fontSize: 18,
+                                    fontFamily: "Poppins-Black"
+                                }}
+                            >
+                                Next
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </View>
+            {modalVisible && <Modal visible={modalVisible} transparent={true}>
+                <TouchableOpacity onPress={() => { setModalVisible(false) }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                    <View style={{ backgroundColor: 'white', marginHorizontal: 30, alignItems: 'center', borderRadius: 10 }} >
+                        <Danger width={120} height={120} marginTop={30} />
+                        <Text style={{ textAlign: 'center', marginHorizontal: 30, marginVertical: 30, fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>This is an internal test category to make this app seamless for you & other customers.</Text>
+                        <Text style={{ fontFamily: 'Poppins-Regular', color: '#e04122' }}>*This category is not for shopping </Text>
+
+                        <TouchableOpacity onPress={() => { setModalVisible(false) }}><Text style={{ fontFamily: 'Poppins-Black', fontSize: 18, color: '#fb8c00', marginVertical: 30 }}>Yes, I understand</Text></TouchableOpacity>
                     </View>
                 </TouchableOpacity>
-            </View>
-
-        </View>
+            </Modal>}
+        </>
     );
 };
 
