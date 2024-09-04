@@ -446,7 +446,7 @@ const HomeScreen = () => {
             <Animated.View style={[styles.scrollMarqContainer, { transform: [{ translateX: scrollX }] }]}>
               <View className="flex flex-row items-center justify-center gap-2">
                 <Offer />
-                <Text style={{ fontFamily: "Poppins-BlackItalic", color: "#3f3d56" }} >Free Orders Remaining: <Text className="text-[#55cd00]">{userDetails.freeSpades}</Text> <Text className="text-[#3f3d56]" style={{ fontFamily: "Poppins-BlackItalic" }}>             SAVE TIME, START BARGAINING!</Text> </Text>
+                <Text style={{ fontFamily: "Poppins-BlackItalic", color: "#3f3d56" }} >Free Orders Remaining: <Text className="text-[#55cd00]">{userDetails.freeSpades}</Text> <Text className="text-[#3f3d56]" style={{ fontFamily: "Poppins-BlackItalic" }}>             SAVE MORE, START BARGAINING!</Text> </Text>
               </View>
 
             </Animated.View>
@@ -555,13 +555,12 @@ const HomeScreen = () => {
               >
                 Your ongoing requests
               </Text>
-              {console.log("versionss", currentVersion, DeviceInfo.getVersion())}
               {currentVersion && currentVersion !== DeviceInfo.getVersion().toString() &&
                 <View style={styles.container}>
 
-                  <View className="flex-row px-[20px] py-[20px] gap-[30px] w-[90%] ">
+                  <View className="flex-row px-[20px] py-[20px] gap-[30px]  ">
                     <MobileIcon />
-                    <View className="">
+                    <View className=" w-[75%]">
                       <Text className="text-[#2e2c43] text-[16px]" style={{ fontFamily: 'Poppins-Regular' }}>New update available! Enjoy the new release features.</Text>
                       <TouchableOpacity onPress={() => { Linking.openURL("https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie") }} style={{ flexDirection: 'row', gap: 40, alignItems: 'center', paddingTop: 10 }}>
                         <Text className="text-[16px] text-[#fb8c00]" style={{ fontFamily: 'Poppins-Black' }}>Update Now</Text>
