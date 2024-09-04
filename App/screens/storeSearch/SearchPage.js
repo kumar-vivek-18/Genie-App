@@ -282,13 +282,14 @@ const SearchCategoryScreen = () => {
                     className="flex-1 "
                     showsVerticalScrollIndicator={false}
                 >
-                    <View className="flex z-40 flex-row items-center mt-[30px] mb-[10px] mx-[32px]">
-                        <TouchableOpacity
-                            onPress={() => navigation.goBack()}
-                            style={styles.backButton}
-                        >
-                            <BackArrow width={16} height={12} />
-                        </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigation.goBack()}
+                        style={{ position: "absolute", top: 20, left: 20, paddingVertical: 25, paddingHorizontal: 10, zIndex: 100 }}
+                    >
+                        <BackArrow width={16} height={12} />
+                    </TouchableOpacity>
+                    <View className="flex z-40 flex-row items-center mt-[40px] mb-[20px] mx-[32px]">
+
                         <Text
                             className="flex flex-1 justify-center items-center text-center text-[#2E2C43] text-[16px]"
                             style={{ fontFamily: "Poppins-Bold" }}
@@ -377,10 +378,10 @@ const SearchCategoryScreen = () => {
                             </View>
 
 
-                            <Text className="text-[14px] text-[#2e2c43] capitalize " style={{ fontFamily: "Poppins-SemiBold" }}>Search Results:</Text>
-                            {searchQuery && <View className="flex flex-row w-[90%] bg-[#fb8c00] py-[10px]  px-[10px] gap-[30px] rounded-lg">
-                                {searchQuery.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular", color: "white" }} className="capitalize"><Text style={{ fontFamily: 'Poppins-Bold', color: "white" }}>{searchQuery?.slice(0, searchQuery.indexOf('-'))}</Text>{searchQuery.indexOf('-') >= 0 ? searchQuery.slice(searchQuery.indexOf('-')) : ""}</Text>}
-                                {searchQuery.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold", color: "white" }} className="capitalize">{searchQuery}</Text>}
+                            <Text className="text-[14px] text-[#2e2c43] capitalize" style={{ fontFamily: "Poppins-SemiBold" }}>Search Results for:</Text>
+                            {searchQuery && <View className="flex flex-row w-[90%]  py-[10px]  gap-[30px] rounded-lg">
+                                {searchQuery.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular", color: "#fb8c00" }} className="capitalize"><Text style={{ fontFamily: 'Poppins-Bold', color: "#fb8c00" }}>{searchQuery?.slice(0, searchQuery.indexOf('-'))}</Text>{searchQuery.indexOf('-') >= 0 ? searchQuery.slice(searchQuery.indexOf('-')) : ""}</Text>}
+                                {searchQuery.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold", color: "#fb8c00" }} className="capitalize">{searchQuery}</Text>}
                             </View>}
                         </View>
                     }

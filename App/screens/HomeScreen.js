@@ -67,6 +67,8 @@ import SpadeIcon from '../assets/SpadeIcon.svg';
 import { Octicons } from '@expo/vector-icons';
 import TextTicker from 'react-native-text-ticker';
 import Offer from '../assets/offer.svg';
+import DeviceInfo from 'react-native-device-info';
+
 
 const { width } = Dimensions.get("window");
 
@@ -101,6 +103,8 @@ const HomeScreen = () => {
 
   const scrollX = useRef(new Animated.Value(0)).current;
 
+  const appVersion = DeviceInfo.getVersion();
+  console.log('App Version:', appVersion);
 
   useEffect(() => {
     Animated.loop(
@@ -443,7 +447,7 @@ const HomeScreen = () => {
 
 
 
-          <View className=" relative mt-[20px]  w-full flex-row justify-center">
+          <View className=" relative mt-[20px]  h-[140px] flex-row justify-center scale-50 items-center">
             {/* <GenieLogo /> */}
             <Image source={require('../assets/Genie-Icon.png')} />
           </View>

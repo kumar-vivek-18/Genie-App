@@ -92,8 +92,8 @@ const HelpScreen = () => {
                 onChangeText={(val) => setQuery(val)}
                 value={query}
                 placeholder="Type here..."
-                placeholderTextColor="#000000"
-                style={{ backgroundColor: '#D9D9D9', padding: 20, height: 300, flex: 1, textAlignVertical: 'top', fontFamily: "Poppins-Regular" }}
+                placeholderTextColor="#fb8c00"
+                style={{ backgroundColor: '#ffe8cd', padding: 20, height: 300, flex: 1, textAlignVertical: 'top', fontFamily: "Poppins-Regular", borderRadius: 10 }}
               />
 
             </View>
