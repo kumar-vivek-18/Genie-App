@@ -10,7 +10,8 @@ import {
   ActivityIndicator,
   AppState,
   RefreshControl,
-  Animated
+  Animated,
+  Linking
 } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useIsFocused, useNavigation, useNavigationState } from "@react-navigation/native";
@@ -68,8 +69,8 @@ import { Octicons } from '@expo/vector-icons';
 import TextTicker from 'react-native-text-ticker';
 import Offer from '../assets/offer.svg';
 import DeviceInfo from 'react-native-device-info';
-
-
+import MobileIcon from '../assets/mobileIcon.svg';
+import RightArrow from '../assets/arrow-right.svg';
 const { width } = Dimensions.get("window");
 
 const images = [Home1, Home2, Home3, Home4, Home5, Home6, Home7];
@@ -100,11 +101,23 @@ const HomeScreen = () => {
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const [refreshing, setRefreshing] = useState(false);
+  const [currentVersion, setCurrentVersion] = useState(null);
+
 
   const scrollX = useRef(new Animated.Value(0)).current;
 
-  const appVersion = DeviceInfo.getVersion();
-  console.log('App Version:', appVersion);
+  const getAppVersion = async () => {
+    try {
+      await axiosInstance.get(`${baseUrl}/user/current-app-version`)
+        .then(res => {
+          if (res.status === 200) {
+            setCurrentVersion(res.data);
+          }
+        })
+    } catch (error) {
+      console.error("Error getting app version ");
+    }
+  }
 
   useEffect(() => {
     Animated.loop(
@@ -191,6 +204,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     fetchData();
+    getAppVersion();
   }, []);
 
 
@@ -541,6 +555,23 @@ const HomeScreen = () => {
               >
                 Your ongoing requests
               </Text>
+              {console.log("versionss", currentVersion, DeviceInfo.getVersion())}
+              {currentVersion && currentVersion !== DeviceInfo.getVersion().toString() &&
+                <View style={styles.container}>
+
+                  <View className="flex-row px-[20px] py-[20px] gap-[30px] w-[90%] ">
+                    <MobileIcon />
+                    <View className="">
+                      <Text className="text-[#2e2c43] text-[16px]" style={{ fontFamily: 'Poppins-Regular' }}>New update available! Enjoy the new release features.</Text>
+                      <TouchableOpacity onPress={() => { Linking.openURL("https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie") }} style={{ flexDirection: 'row', gap: 40, alignItems: 'center', paddingTop: 10 }}>
+                        <Text className="text-[16px] text-[#fb8c00]" style={{ fontFamily: 'Poppins-Black' }}>Update Now</Text>
+                        <RightArrow />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+
+                </View>
+              }
               {spades.map((spade, index) => (
                 <Pressable
                   key={index}
@@ -588,6 +619,7 @@ const HomeScreen = () => {
                   </View>
                 </Pressable>
               ))}
+
             </View>
           )}
 
