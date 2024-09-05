@@ -7,6 +7,7 @@ import {
   Dimensions,
   StyleSheet,
   TouchableOpacity,
+  Linking
 } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -19,7 +20,7 @@ import InputBox from "../../assets/InputBox.svg";
 import Sample1 from "../../assets/SampleItem1.svg";
 import Sample2 from "../../assets/SampleItem2.svg";
 import BackArrow from "../../assets/BackArrowImg.svg"
-
+import ArrowRight from "../../assets/arrow-right.svg"
 
 import { SafeAreaView } from "react-native-safe-area-context";
 const TermsandConditons = () => {
@@ -59,20 +60,19 @@ const TermsandConditons = () => {
               className="text-[14px]  text-center mb-[20px]"
               style={{ fontFamily: "Poppins-Bold", color: "#2e2c43" }}
             >
-              Raise your spades very clear
+              Type your spades, very clear
             </Text>
             <Text
               className="text-[14px] text-center mb-[20px]"
               style={{ fontFamily: "Poppins-Regular", color: "#2e2c43" }}
             >
-              Be sure to provide clear and accurate information about the shopping items
-              or maintenance services you are seeking.
+              Be sure to provide clear and accurate information about the products or services you are seeking.
             </Text>
             <Text
               className="text-[16px] text-center mt-[10px]"
               style={{ fontFamily: "Poppins-Bold", color: "#2e2c43" }}
             >
-              Type your message clearly first
+              Type your message clearly
             </Text>
           </View>
 
@@ -82,7 +82,7 @@ const TermsandConditons = () => {
               className="text-center text-[16px]"
               style={{ fontFamily: "Poppins-Bold", color: "#2E2C43" }}
             >
-              Type your Spades
+              Type your Spades, My Master
             </Text>
 
             <Text
@@ -98,8 +98,7 @@ const TermsandConditons = () => {
               className="text-center text-[16px] "
               style={{ fontFamily: "Poppins-Bold", color: "#2e2c43" }}
             >
-              Provide the exact image reference to the vendors for a better
-              understanding of your need.
+              Provide the image reference to the vendors so they can understand your needs better.
             </Text>
             <Sample1 width={width} />
 
@@ -117,8 +116,7 @@ const TermsandConditons = () => {
               className="text-center text-[14px] "
               style={{ fontFamily: "Poppins-Regular", color: "#2e2c43" }}
             >
-              Try to complete your research on the prices of shopping items
-              before submitting your request
+              Try to complete your research on the prices of shopping products before submitting your request
             </Text>
             <View className="h-[54px] w-[300px] bg-[#FFC882] bg-opacity-40 flex justify-center items-center rounded-[16px]">
               <Text
@@ -134,16 +132,21 @@ const TermsandConditons = () => {
               className="text-center text-[16px]"
               style={{ fontFamily: "Poppins-Bold", color: "#2e2c43" }}
             >
-              Send your request to the nearby vendors
+              Send your orders to the available vendors in your city.
             </Text>
-            <Text
-              className="text-center text-[16px]"
-              style={{ fontFamily: "Poppins-Bold", color: "#2e2c43" }}
-            >
-              Terms for requests
-            </Text>
+            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }} onPress={() => { Linking.openURL('https://culturtap.com/genie/genie-privacy-policy') }}>
+              <View style={{ flexDirection: "row", borderBottomColor: "#fb8c00", borderBottomWidth: 1, alignItems: 'center', justifyContent: 'space-evenly', maxWidth: 180, gap: 20 }}>
+                <Text
+                  className="text-center text-[16px] "
+                  style={{ fontFamily: "Poppins-Bold", color: "#fb8c00", }}
+                >
+                  Terms for requests
+                </Text>
+                <ArrowRight />
+              </View>
+            </TouchableOpacity>
 
-            <View style={styles.listItem}>
+            {/* <View style={styles.listItem}>
               <Text style={styles.dot}></Text>
               <Text style={{ fontFamily: "Poppins-Regular", fontSize: 14, color: "#2e2c43", }}>
                 {" "}
@@ -170,7 +173,7 @@ const TermsandConditons = () => {
                 {" "}
                 Vendors will list their store for home delivery, You can choose specific vendor based on your delivery requirements.
               </Text>
-            </View>
+            </View> */}
           </View>
         </View>
       </ScrollView>

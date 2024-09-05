@@ -70,6 +70,8 @@ const SearchCategoryScreen = () => {
             distance = haversineDistance(userLatitude, userLongitude, details?.lattitude, details?.longitude);
         }
 
+        if (details?.storeCategory === "Z-Internal test culturtap ( not for commercial use )") return (<></>);
+
         return (
             <TouchableOpacity
                 key={index}

@@ -48,6 +48,7 @@ import {
 
   getLocationName,
 } from "../utils/logics/Logics";
+import Home0 from "../assets/Home0.svg";
 import Home1 from "../assets/Home1.svg";
 import Home2 from "../assets/Home2.svg";
 import Home3 from "../assets/Home3.svg";
@@ -71,9 +72,11 @@ import Offer from '../assets/offer.svg';
 import DeviceInfo from 'react-native-device-info';
 import MobileIcon from '../assets/mobileIcon.svg';
 import RightArrow from '../assets/arrow-right.svg';
+// import YouTubeIframe from 'react-native-youtube-iframe';
+
 const { width } = Dimensions.get("window");
 
-const images = [Home1, Home2, Home3, Home4, Home5, Home6, Home7];
+const images = [Home0, Home1, Home2, Home3, Home4, Home5, Home6, Home7];
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -102,7 +105,18 @@ const HomeScreen = () => {
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const [refreshing, setRefreshing] = useState(false);
   const [currentVersion, setCurrentVersion] = useState(null);
+  const [playing, setPlaying] = useState(false);
 
+  const onStateChange = useCallback((state) => {
+    if (state === 'ended') {
+      setPlaying(false);
+      alert('Video has finished playing!');
+    }
+  }, []);
+
+  const togglePlaying = useCallback(() => {
+    setPlaying((prev) => !prev);
+  }, []);
 
   const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -467,8 +481,8 @@ const HomeScreen = () => {
           </View>
 
           <View className="mt-[10px]">
-            <Text className="text-center px-[20px] text-[14px] text-[#001b33] " style={{ fontFamily: "Poppins-Light" }}>Ask Genie for any shopping product or repairing service you need.
-              Start your shopping now.</Text>
+            <Text className="text-center px-[30px] text-[14px] text-[#001b33]  " style={{ fontFamily: "Poppins-Light" }}>Ask Genie for any shopping product or maintenance service you need. </Text>
+            <Text className="text-center px-[20px] text-[14px] text-[#001b33] " style={{ fontFamily: "Poppins-Light" }}> Start your shopping now.</Text>
 
 
             <Pressable
@@ -480,7 +494,7 @@ const HomeScreen = () => {
             >
               <View className="h-[60px] w-full flex-row border-[1px] border-[#fb8c00] bg-white rounded-3xl items-center justify-center ">
                 <Text className="text-[#fb8c00] text-[14px] text-center py-[19px] " style={{ fontFamily: "Poppins-Italic" }}>
-                  Type your spades my master...
+                  Type your spades, my master...
                 </Text>
                 {createSpadeLoading && <View style={{ position: 'absolute', right: 20 }}><ActivityIndicator color={'#fb8c00'} /></View>}
               </View>
@@ -489,24 +503,31 @@ const HomeScreen = () => {
 
           {/* How it works when user have no ongoing requests */}
 
-          {spades.length === 0 && !networkError && !spadesLoading && (
+          {(currentVersion && currentVersion !== DeviceInfo.getVersion().toString() && spades.length === 0) && !networkError && !spadesLoading && (
             <View className="">
               <Text className=" text-text text-[16px] text-center mt-[50px]" style={{ fontFamily: "Poppins-Bold" }}>
                 How it works?
               </Text>
               <View className=" flex flex-col gap-[38px] mt-[24px]">
                 <HomeMain width={width} />
+                {/* <TouchableOpacity onPress={togglePlaying} activeOpacity={0.8}>
+                  <YouTubeIframe
+                    height={300}
+                    videoId={'dQw4w9WgXcQ'} // Replace with your YouTube video ID
+                    play={playing}
+                    onChangeState={onStateChange}
+                  />
+                </TouchableOpacity> */}
                 <Text className="text-[#3f3d56] text-[14px] text-center px-[32px]" style={{ fontFamily: "Poppins-Bold" }}>
-                  Bargaining is the consumer's right Because money doesn't grow on trees.
+                  Bargaining is the consumer's right Because money doesn't grow on trees.
                 </Text>
               </View>
               <View className="px-[38px] flex flex-col gap-[38px] mt-[40px]">
                 <Text className="text-[#3f3d56] text-[14px] text-center" style={{ fontFamily: "Poppins-Regular" }}>
-                  Now bargaining is possible from your couch. Do you want anything new or to repair the old one?
+                  Now bargaining is possible from your couch. Do you want anything new or to service the old one?
                 </Text>
                 <Text className="text-[#3f3d56] text-[14px] text-center" style={{ fontFamily: "Poppins-Regular" }}>
-                  Connect with nearby vendors and bargain for the best prices for your shopping items. You can also avail any types of maintenance services here,  like plumber, electrician, carpenter & lot more.
-                </Text>
+                  Connect with nearby vendors and bargain for the lowest prices for your shopping products. You can also avail any types of maintenance services here,  like plumber, electrician, carpenter & lot more.                  </Text>
               </View>
               <View style={styles.scrollcontainer}>
                 <ScrollView
@@ -547,7 +568,7 @@ const HomeScreen = () => {
 
 
 
-          {spades.length > 0 && !networkError && !spadesLoading && (
+          {(currentVersion && currentVersion !== DeviceInfo.getVersion().toString() || spades.length > 0) && !networkError && !spadesLoading && (
             <View>
               <Text
                 className={`text-center  text-text my-[33px]`}
@@ -555,6 +576,7 @@ const HomeScreen = () => {
               >
                 Your ongoing requests
               </Text>
+
               {currentVersion && currentVersion !== DeviceInfo.getVersion().toString() &&
                 <View style={styles.container}>
 
