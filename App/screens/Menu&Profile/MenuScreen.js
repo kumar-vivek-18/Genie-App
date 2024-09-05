@@ -98,7 +98,7 @@ const MenuScreen = () => {
                             <ArrowRight />
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { Linking.openURL("https://play.google.com/store/apps/details?id=com.culturtapgenieretailer.GenieApp") }}>
+                    <TouchableOpacity onPress={() => { Linking.openURL("https://culturtap.com/genie/earn") }}>
                         <View className="flex flex-row justify-between ">
                             <View>
                                 <Text className="text-[15px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Looking to start a new small</Text>
