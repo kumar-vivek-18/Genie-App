@@ -72,7 +72,7 @@ import Offer from '../assets/offer.svg';
 import DeviceInfo from 'react-native-device-info';
 import MobileIcon from '../assets/mobileIcon.svg';
 import RightArrow from '../assets/arrow-right.svg';
-// import YouTubeIframe from 'react-native-youtube-iframe';
+import YouTubeIframe from 'react-native-youtube-iframe';
 
 const { width } = Dimensions.get("window");
 
@@ -110,7 +110,7 @@ const HomeScreen = () => {
   const onStateChange = useCallback((state) => {
     if (state === 'ended') {
       setPlaying(false);
-      alert('Video has finished playing!');
+      // alert('Video has finished playing!');
     }
   }, []);
 
@@ -503,21 +503,21 @@ const HomeScreen = () => {
 
           {/* How it works when user have no ongoing requests */}
 
-          {(currentVersion && currentVersion !== DeviceInfo.getVersion().toString() && spades.length === 0) && !networkError && !spadesLoading && (
+          {(currentVersion && currentVersion === DeviceInfo.getVersion().toString() && spades.length === 0) && !networkError && !spadesLoading && (
             <View className="">
               <Text className=" text-text text-[16px] text-center mt-[50px]" style={{ fontFamily: "Poppins-Bold" }}>
                 How it works?
               </Text>
-              <View className=" flex flex-col gap-[38px] mt-[24px]">
+              <View className=" flex flex-col  mt-[24px]">
                 <HomeMain width={width} />
-                {/* <TouchableOpacity onPress={togglePlaying} activeOpacity={0.8}>
+                <TouchableOpacity onPress={togglePlaying} activeOpacity={0.8} style={{ marginTop: 38 }} >
                   <YouTubeIframe
-                    height={300}
-                    videoId={'dQw4w9WgXcQ'} // Replace with your YouTube video ID
+                    height={250}
+                    videoId={'f3WwRCuu7F8'}
                     play={playing}
                     onChangeState={onStateChange}
                   />
-                </TouchableOpacity> */}
+                </TouchableOpacity>
                 <Text className="text-[#3f3d56] text-[14px] text-center px-[32px]" style={{ fontFamily: "Poppins-Bold" }}>
                   Bargaining is the consumer's right Because money doesn't grow on trees.
                 </Text>
@@ -527,7 +527,7 @@ const HomeScreen = () => {
                   Now bargaining is possible from your couch. Do you want anything new or to service the old one?
                 </Text>
                 <Text className="text-[#3f3d56] text-[14px] text-center" style={{ fontFamily: "Poppins-Regular" }}>
-                  Connect with nearby vendors and bargain for the lowest prices for your shopping products. You can also avail any types of maintenance services here,  like plumber, electrician, carpenter & lot more.                  </Text>
+                  Connect with nearby vendors and bargain for the lowest prices for your shopping products.You can also avail any types of maintenance services here, like plumber, electrician,carpenter & lot more.</Text>
               </View>
               <View style={styles.scrollcontainer}>
                 <ScrollView
