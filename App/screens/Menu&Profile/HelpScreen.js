@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image, Pressable, ScrollView, KeyboardAvoidingView, Platform, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, Image, Pressable, ScrollView, KeyboardAvoidingView, Platform, TouchableOpacity, ActivityIndicator, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BackArrow from "../../assets/BackArrowImg.svg"
@@ -101,7 +101,7 @@ const HelpScreen = () => {
             <View className="mb-[40px]">
               <Text style={{ fontSize: 16, textAlign: 'center', marginBottom: 10, fontFamily: "Poppins-Bold" }}>Or</Text>
               <Text style={{ fontSize: 16, textAlign: 'center', marginBottom: 10, fontFamily: "Poppins-Regular" }}>Submit your concern with us at</Text>
-              <Pressable onPress={() => console.log("hii email")}>
+              <Pressable onPress={() => { Linking.openURL('mailto:info@culturtap.com') }}>
                 <Text style={{ color: '#FB8C00', fontSize: 16, textAlign: 'center', fontFamily: "Poppins-Bold" }}>Info@culturtap.com</Text>
               </Pressable>
             </View>

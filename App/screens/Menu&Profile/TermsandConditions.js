@@ -134,7 +134,7 @@ const TermsandConditons = () => {
             >
               Send your orders to the available vendors in your city.
             </Text>
-            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }} onPress={() => { Linking.openURL('https://culturtap.com/genie/genie-privacy-policy') }}>
+            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }} onPress={() => { Linking.openURL('https://culturtap.com/genie/termsandconditions') }}>
               <View style={{ flexDirection: "row", borderBottomColor: "#fb8c00", borderBottomWidth: 1, alignItems: 'center', justifyContent: 'space-evenly', maxWidth: 180, gap: 20 }}>
                 <Text
                   className="text-center text-[16px] "

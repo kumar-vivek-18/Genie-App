@@ -45,8 +45,8 @@ const AboutScreen = () => {
                             Bargaining is the consumer's right, money doesn't grow on trees.
                         </Text>
                         <Text className="text-center text-[14px]text-[#2e2c43]  " style={{ fontFamily: "Poppins-Regular" }}>
-
-                            Now bargaining is possible from your couch. Do you want anything new or to service the old one? Connect with nearby vendors and bargain for the lowest prices for your shopping products. You can also avail any types of maintenance services here,  like plumber, electrician, carpenter & lot more.                          </Text>
+                            Now bargaining is possible from your couch. Do you want anything new or to service the old one? Connect with nearby vendors and bargain for the lowest prices for your shopping products. You can also avail any types of maintenance services here,  like plumber, electrician, carpenter & lot more.
+                        </Text>
                     </View>
                     <View className="gap-[15px] items-center">
                         <Text className="text-center text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Bold" }}>
@@ -55,7 +55,8 @@ const AboutScreen = () => {
                         <SmartImg />
 
                         <Text className="text-center text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Regular" }}>
-                            First, check if the products and services you need are available in your city. You no longer need to wander for shopping products and services in the market.                        </Text>
+                            First, check if the products and services you need are available in your city. You no longer need to wander for shopping products and services in the market.
+                        </Text>
                     </View>
                     <View className="gap-[15px] items-center">
                         <Text className="text-center text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Bold" }}>
@@ -64,7 +65,8 @@ const AboutScreen = () => {
                         <Time />
 
                         <Text className="text-center text-[14px] text-[#2e2c43]  " style={{ fontFamily: "Poppins-Regular" }}>
-                            Save your valuable time to search and explore Lowest Prices for your shopping products and services.                        </Text>
+                            Save your valuable time to search and explore Lowest Prices for your shopping products and services.
+                        </Text>
                     </View>
                     <View className="gap-[15px] items-center">
                         <Text className="text-center text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Bold" }}>
@@ -73,7 +75,8 @@ const AboutScreen = () => {
                         <Wealth />
 
                         <Text className="text-center text-[14px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Regular" }}>
-                            Why rush around town searching for the Lowest prices when you can have them come to you? By gathering offers from multiple stores, you'll save on fuel costs, time and get products at the lowest prices available.                        </Text>
+                            Why rush around town searching for the Lowest prices when you can have them come to you? By gathering offers from multiple stores, you'll save on fuel costs, time and get products at the lowest prices available.
+                        </Text>
                     </View>
 
 
