@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Image, Pressable, StyleSheet, TouchableOpacity, Linking } from 'react-native'
+import { View, Text, SafeAreaView, Image, Pressable, StyleSheet, ScrollView, TouchableOpacity, Linking } from 'react-native'
 import React, { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -26,7 +26,7 @@ const MenuScreen = () => {
     // console.log('user', userDetails);
     return (
         <View style={{ flex: 1, backgroundColor: "white" }}>
-            <View style={{ flex: 1 }} className="relative">
+            <ScrollView style={{ flex: 1 }} className="relative">
 
 
                 <View className="z-50 absolute top-[20px] left-[20px] ">
@@ -78,7 +78,7 @@ const MenuScreen = () => {
                     </View>
                 </TouchableOpacity>
 
-                <View className=" mt-[65px] gap-[30px]" style={{ marginLeft: 60, marginRight: 40 }}>
+                <View className=" mt-[65px] gap-[30px] " style={{ marginLeft: 60, marginRight: 40, paddingBottom: 150 }}>
 
                     <TouchableOpacity onPress={() => { navigation.navigate("about") }}>
                         <View className="flex flex-row justify-between items-center">
@@ -86,7 +86,13 @@ const MenuScreen = () => {
                             <ArrowRight />
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { navigation.navigate("termsandconditions") }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate("how-it-works") }}>
+                        <View className="flex flex-row justify-between items-center">
+                            <Text className="text-[15px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>How it works?</Text>
+                            <ArrowRight />
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { Linking.openURL('https://culturtap.com/genie/termsandconditions') }}>
                         <View className="flex flex-row justify-between items-center">
                             <Text className="text-[15px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Terms and Conditions</Text>
                             <ArrowRight />
@@ -135,7 +141,7 @@ const MenuScreen = () => {
                 {modalVisible && (
                     <View style={styles.overlay} />
                 )}
-            </View>
+            </ScrollView>
 
 
         </View>

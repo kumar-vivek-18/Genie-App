@@ -17,7 +17,7 @@ import AddImgScreen from '../screens/createRequest/AddImgScreen';
 import RequestPreviewScreen from '../screens/createRequest/RequestPreviewScreen';
 import ExpectedPriceScreen from '../screens/createRequest/ExpectedPriceScreen';
 import AboutScreen from '../screens/Menu&Profile/AboutScreen';
-import TermsandConditons from '../screens/Menu&Profile/TermsandConditions';
+import HowItWorks from '../screens/Menu&Profile/HowItWorks';
 import HelpScreen from '../screens/Menu&Profile/HelpScreen';
 import ImageRefrencesScreen from '../screens/activeRequest/ImageRefrencesScreen';
 import ViewRequestScreen from '../screens/activeRequest/ViewRequestScreen';
@@ -82,10 +82,9 @@ const GlobalNavigation = () => {
             <Stack.Screen name="addexpectedprice" component={ExpectedPriceScreen} />
             <Stack.Screen name="requestpreview" component={RequestPreviewScreen} />
             <Stack.Screen name="about" component={AboutScreen} />
-            <Stack.Screen name="termsandconditions" component={TermsandConditons} />
+            <Stack.Screen name="how-it-works" component={HowItWorks} />
             <Stack.Screen name="help" component={HelpScreen} />
             <Stack.Screen name="report-vendor" component={ReportVendor} />
-
             <Stack.Screen name="image-refrences" component={ImageRefrencesScreen} />
             <Stack.Screen name="view-request" component={ViewRequestScreen} />
             <Stack.Screen name="send-bid" component={CreateNewBidScreen} />

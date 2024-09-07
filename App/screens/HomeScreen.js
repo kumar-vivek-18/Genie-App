@@ -48,14 +48,14 @@ import {
 
   getLocationName,
 } from "../utils/logics/Logics";
-import Home0 from "../assets/Home0.svg";
-import Home1 from "../assets/Home1.svg";
-import Home2 from "../assets/Home2.svg";
-import Home3 from "../assets/Home3.svg";
-import Home4 from "../assets/Home4.svg";
-import Home5 from "../assets/Home5.svg";
-import Home6 from "../assets/Home6.svg";
-import Home7 from "../assets/Home7.svg";
+import Home0 from "../assets/Home0.png";
+import Home1 from "../assets/Home1.png";
+import Home2 from "../assets/Home2.png";
+import Home3 from "../assets/Home3.png";
+import Home4 from "../assets/Home4.png";
+import Home5 from "../assets/Home5.png";
+import Home6 from "../assets/Home6.png";
+import Home7 from "../assets/Home7.png";
 import DropArrow from '../assets/drop-arrow.svg';
 import ProfileIcon from '../assets/ProfileIcon.svg';
 import HistoryIcon from '../assets/historyIcon.svg';
@@ -125,6 +125,7 @@ const HomeScreen = () => {
       await axiosInstance.get(`${baseUrl}/user/current-app-version`)
         .then(res => {
           if (res.status === 200) {
+            console.log(DeviceInfo.getVersion(), res.data);
             setCurrentVersion(res.data);
           }
         })
@@ -510,14 +511,14 @@ const HomeScreen = () => {
               </Text>
               <View className=" flex flex-col  mt-[24px]">
                 <HomeMain width={width} />
-                <TouchableOpacity onPress={togglePlaying} activeOpacity={0.8} style={{ marginTop: 38 }} >
-                  <YouTubeIframe
-                    height={250}
-                    videoId={'f3WwRCuu7F8'}
-                    play={playing}
-                    onChangeState={onStateChange}
-                  />
-                </TouchableOpacity>
+                {/* <TouchableOpacity onPress={togglePlaying} activeOpacity={0.8} style={{ marginTop: 38 }} > */}
+                <YouTubeIframe
+                  height={250}
+                  videoId={'f3WwRCuu7F8'}
+                  play={playing}
+                  onChangeState={onStateChange}
+                />
+                {/* </TouchableOpacity> */}
                 <Text className="text-[#3f3d56] text-[14px] text-center px-[32px]" style={{ fontFamily: "Poppins-Bold" }}>
                   Bargaining is the consumer's right Because money doesn't grow on trees.
                 </Text>
@@ -538,10 +539,14 @@ const HomeScreen = () => {
                   // scrollEventThrottle={16}
                   ref={scrollViewRef}
                 >
-                  {images.map((SvgComponent, index) => (
-                    <View key={index} className="flex-row rounded-2xl my-[10px] shadow-2xl " >
+                  {images.map((uri, index) => (
+                    <View key={index} className="flex-row rounded-2xl my-[10px] shadow-2xl " style={{ width: 285, height: 343, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} >
 
-                      <SvgComponent width={width - 70} height={350} />
+                      {/* <SvgComponent width={width - 70} height={350} /> */}
+                      <View className="scale-50">
+                        <Image source={uri} />
+                      </View>
+
                     </View>
 
                   ))}

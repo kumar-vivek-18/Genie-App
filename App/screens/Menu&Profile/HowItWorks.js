@@ -7,7 +7,6 @@ import {
   Dimensions,
   StyleSheet,
   TouchableOpacity,
-  Linking
 } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -21,15 +20,29 @@ import Sample1 from "../../assets/SampleItem1.svg";
 import Sample2 from "../../assets/SampleItem2.svg";
 import BackArrow from "../../assets/BackArrowImg.svg"
 import ArrowRight from "../../assets/arrow-right.svg"
-
 import { SafeAreaView } from "react-native-safe-area-context";
+import YouTubeIframe from 'react-native-youtube-iframe';
+import { useState, useCallback } from "react";
+
 const TermsandConditons = () => {
   const navigation = useNavigation();
   const { width } = Dimensions.get("window");
+  const [playing, setPlaying] = useState(false);
+
+  const onStateChange = useCallback((state) => {
+    if (state === 'ended') {
+      setPlaying(false);
+      // alert('Video has finished playing!');
+    }
+  }, []);
+
+  const togglePlaying = useCallback(() => {
+    setPlaying((prev) => !prev);
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <ScrollView style={{ flex: 1 }} className="relative">
+      <ScrollView style={{ flex: 1, }} className="relative">
         <View className="z-50 absolute mt-[40px] left-[20px]">
           <TouchableOpacity
             onPress={() => {
@@ -45,10 +58,10 @@ const TermsandConditons = () => {
           className="text-center pt-[40px] text-[16px] mb-[40px] text-[#2e2c43] "
           style={{ fontFamily: "Poppins-Bold" }}
         >
-          Terms and Conditions
+          How it works?
         </Text>
 
-        <View className="flex flex-col justify-center items-center gap-[50px] px-[30px] mb-[100px]">
+        <View className="flex flex-col justify-center items-center gap-[50px] px-[30px] mb-[50px]">
           <View className="gap-[0px] ">
             <Text
               className="text-[16px]  text-center"
@@ -134,7 +147,9 @@ const TermsandConditons = () => {
             >
               Send your orders to the available vendors in your city.
             </Text>
-            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }} onPress={() => { Linking.openURL('https://culturtap.com/genie/termsandconditions') }}>
+
+
+            {/* <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }} onPress={() => { Linking.openURL('https://culturtap.com/genie/termsandconditions') }}>
               <View style={{ flexDirection: "row", borderBottomColor: "#fb8c00", borderBottomWidth: 1, alignItems: 'center', justifyContent: 'space-evenly', maxWidth: 180, gap: 20 }}>
                 <Text
                   className="text-center text-[16px] "
@@ -144,7 +159,7 @@ const TermsandConditons = () => {
                 </Text>
                 <ArrowRight />
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             {/* <View style={styles.listItem}>
               <Text style={styles.dot}></Text>
@@ -176,6 +191,12 @@ const TermsandConditons = () => {
             </View> */}
           </View>
         </View>
+        <YouTubeIframe
+          height={250}
+          videoId={'f3WwRCuu7F8'}
+          play={playing}
+          onChangeState={onStateChange}
+        />
       </ScrollView>
     </View>
   );
