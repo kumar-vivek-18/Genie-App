@@ -73,11 +73,31 @@ import DeviceInfo from 'react-native-device-info';
 import MobileIcon from '../assets/mobileIcon.svg';
 import RightArrow from '../assets/arrow-right.svg';
 import YouTubeIframe from 'react-native-youtube-iframe';
+import Category1 from '../assets/category1.svg';
+import Category2 from '../assets/category2.svg';
+import Category3 from '../assets/category3.svg';
+import Category4 from '../assets/category4.svg';
+import Category5 from '../assets/category5.svg';
+import Category6 from '../assets/category6.svg';
+import Category7 from '../assets/category7.svg';
+import Service1 from '../assets/service1.svg';
+import Service2 from '../assets/service2.svg';
+import Service3 from '../assets/service3.svg';
+import { setRequestCategory } from "../redux/reducers/userRequestsSlice";
 
 const { width } = Dimensions.get("window");
 
 const images = [Home0, Home1, Home2, Home3, Home4, Home5, Home6, Home7];
-
+const categoriess = [{ cat: Category1, name: "Consumer Electronics & Accessories - Home appliances and equipment etc" },
+{ cat: Category2, name: "Fashion/Clothings - Top, bottom, dresses" },
+{ cat: Category3, name: "Fashion Accessories - Jewellery, Gold & Diamond" },
+{ cat: Category4, name: "Fashion accessories - Shoes, Bag" },
+{ cat: Category5, name: "Fashion accessories - Sharee, suits, kurti & dress materials etc" },
+{ cat: Category6, name: "Kids Games,Toys & Accessories" },
+{ cat: Category7, name: "Luxury Watches" }];
+const servicess = [{ cat: Service1, name: "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc" }, { cat: Service2, name: "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc" }, {
+  cat: Service3, name: "Clock Repair & Services"
+}];
 const HomeScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -398,11 +418,11 @@ const HomeScreen = () => {
         colors={["#9Bd35A", "#FB8C00"]}
       />}>
 
-        {!networkError && <View className="absolute top-0 left-0 right-0">
+        {!networkError && <View style={{ position: 'absolute', flex: 1, top: 0, left: 0, bottom: 0 }}>
           <HomeScreenBg />
         </View>}
 
-        <View className="w-full  flex flex-row px-[29px] justify-between items-center pt-[20px]">
+        <View className="w-full flex-row px-[29px] justify-between items-center pt-[20px]">
           <Pressable onPress={() => navigation.navigate("menu")}>
             <View className="bg-[#fb8c00] w-[42px] h-[42px] rounded-full flex justify-center items-center mx-auto">
               {/* <Image
@@ -466,24 +486,27 @@ const HomeScreen = () => {
 
             </Animated.View>
           </View>}
-          <TouchableOpacity onPress={() => { navigation.navigate('store-search'); }}>
+
+
+
+          {/* <TouchableOpacity onPress={() => { navigation.navigate('store-search'); }}>
             <View className="flex-row items-center justify-center bg-[#ffe8cd] mt-[15px] py-[10px] px-[10px] mx-[16px] rounded-2xl border-[1px] border-[#fb8c00] gap-[5px]">
               <Text className="text-center flex-1 text-[#fb8c00]" style={{ fontFamily: "Poppins-Regular" }}>Search stores</Text>
               <Octicons name="search" size={19} style={{ color: '#fb8c00' }} />
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
 
 
 
-          <View className=" relative mt-[20px]  h-[140px] flex-row justify-center scale-50 items-center">
-            {/* <GenieLogo /> */}
+          {/* <View className=" relative mt-[20px]  h-[140px] flex-row justify-center scale-50 items-center">
+            
             <Image source={require('../assets/Genie-Icon.png')} />
-          </View>
+          </View> */}
 
           <View className="mt-[10px]">
-            <Text className="text-center px-[30px] text-[14px] text-[#001b33]  " style={{ fontFamily: "Poppins-Light" }}>Ask Genie for any shopping product or maintenance service you need. </Text>
-            <Text className="text-center px-[20px] text-[14px] text-[#001b33] " style={{ fontFamily: "Poppins-Light" }}> Start your shopping now.</Text>
+            <Text className="text-center px-[30px] text-[14px] text-[#fb8c00]  " style={{ fontFamily: "Poppins-Light" }}>Ask Genie for any shopping product or maintenance service you need. </Text>
+            <Text className="text-center px-[20px] text-[14px] text-[#fb8c00] " style={{ fontFamily: "Poppins-Bold" }}> Start your shopping now.</Text>
 
 
             <Pressable
@@ -494,6 +517,7 @@ const HomeScreen = () => {
               className="mx-[16px] mt-[16px]"
             >
               <View className="h-[60px] w-full flex-row border-[1px] border-[#fb8c00] bg-white rounded-3xl items-center justify-center ">
+                <GenieLogo style={{ position: 'absolute', left: 20 }} />
                 <Text className="text-[#fb8c00] text-[14px] text-center py-[19px] " style={{ fontFamily: "Poppins-Italic" }}>
                   Type your spades, my master...
                 </Text>
@@ -502,23 +526,49 @@ const HomeScreen = () => {
             </Pressable>
           </View>
 
+          <View>
+            <Text className="text-[16px] text-center my-[40px] text-[#fb8c00]" style={{ fontFamily: "Poppins-ExtraBold" }}>
+              Shop By Categories
+            </Text>
+
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+              {categoriess.map((Category, index) => (
+                <TouchableOpacity key={index} style={{ paddingTop: 10, paddingLeft: 5 }} onPress={() => { dispatch(setRequestCategory(Category.name)); navigation.navigate('define-request'); }}>
+                  <Category.cat />
+                </TouchableOpacity>
+              ))}
+            </View>
+
+            <Text className="text-[16px] text-center  text-[#fb8c00] my-[40px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
+              Service By Categories
+            </Text>
+
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+              {servicess.map((Service, index) => (
+                <TouchableOpacity key={index} style={{ paddingTop: 10, paddingLeft: 5 }} onPress={() => { dispatch(setRequestCategory(Service.name)); navigation.navigate('define-request'); }}>
+                  <Service.cat />
+                </TouchableOpacity>
+              ))}
+            </View>
+
+          </View>
+
+
           {/* How it works when user have no ongoing requests */}
 
-          {(currentVersion && currentVersion === DeviceInfo.getVersion().toString() && spades.length === 0) && !networkError && !spadesLoading && (
+          {/* {(currentVersion && currentVersion === DeviceInfo.getVersion().toString() && spades.length === 0) && !networkError && !spadesLoading && (
             <View className="">
               <Text className=" text-text text-[16px] text-center mt-[50px]" style={{ fontFamily: "Poppins-Bold" }}>
                 How it works?
               </Text>
               <View className=" flex flex-col  mt-[24px]">
                 <HomeMain width={width} />
-                {/* <TouchableOpacity onPress={togglePlaying} activeOpacity={0.8} style={{ marginTop: 38 }} > */}
                 <YouTubeIframe
                   height={250}
                   videoId={'f3WwRCuu7F8'}
                   play={playing}
                   onChangeState={onStateChange}
                 />
-                {/* </TouchableOpacity> */}
                 <Text className="text-[#3f3d56] text-[14px] text-center px-[32px]" style={{ fontFamily: "Poppins-Bold" }}>
                   Bargaining is the consumer's right Because money doesn't grow on trees.
                 </Text>
@@ -542,7 +592,6 @@ const HomeScreen = () => {
                   {images.map((uri, index) => (
                     <View key={index} className="flex-row rounded-2xl my-[10px] shadow-2xl " style={{ width: 285, height: 343, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} >
 
-                      {/* <SvgComponent width={width - 70} height={350} /> */}
                       <View className="scale-50">
                         <Image source={uri} />
                       </View>
@@ -569,11 +618,12 @@ const HomeScreen = () => {
                 </View>
               </View>
             </View>
-          )}
+          )} */}
 
 
+          {/* Ongoing requests  */}
 
-          {(currentVersion && currentVersion !== DeviceInfo.getVersion().toString() || spades.length > 0) && !networkError && !spadesLoading && (
+          {/* {(currentVersion && currentVersion !== DeviceInfo.getVersion().toString() || spades.length > 0) && !networkError && !spadesLoading && (
             <View>
               <Text
                 className={`text-center  text-text my-[33px]`}
@@ -631,12 +681,10 @@ const HomeScreen = () => {
 
                       <View style={styles.infoRow}>
                         <View style={styles.infoItem}>
-                          {/* <Image source={require("../assets/time.png")} /> */}
                           <Time />
                           <Text style={styles.infoText}>{spade?.createdAt}</Text>
                         </View>
                         <View style={styles.infoItem}>
-                          {/* <Image source={require("../assets/calender.png")} /> */}
                           <Calender />
                           <Text style={styles.infoText}>{spade?.updatedAt}</Text>
                         </View>
@@ -647,13 +695,13 @@ const HomeScreen = () => {
               ))}
 
             </View>
-          )}
+          )} */}
 
-          {spadesLoading && <View className="py-[150px]"><ActivityIndicator size={30} color={'#fb8c00'} /></View>}
+          {/* {spadesLoading && <View className="py-[150px]"><ActivityIndicator size={30} color={'#fb8c00'} /></View>} */}
 
 
         </View>}
-        {networkError && <View className="mt-[100px] "><NetworkError callFunction={fetchData} setNetworkError={setNetworkError} connectSocket={connectSocket} /></View>}
+        {/* {networkError && <View className="mt-[100px] "><NetworkError callFunction={fetchData} setNetworkError={setNetworkError} connectSocket={connectSocket} /></View>} */}
       </ScrollView>
 
 

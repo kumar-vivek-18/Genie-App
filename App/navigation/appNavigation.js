@@ -35,6 +35,7 @@ import SendDocument from '../screens/components/SendDocument';
 import NetworkError from '../screens/components/NetworkError';
 import SearchPage from '../screens/storeSearch/SearchPage';
 import StoreProfilePage from '../screens/storeSearch/StoreProfilePage';
+import DefineRequest from '../screens/createRequest/DefineRequest';
 const Stack = createNativeStackNavigator();
 const GlobalNavigation = () => {
     const [userId, setUserId] = useState("")
@@ -77,6 +78,7 @@ const GlobalNavigation = () => {
             <Stack.Screen name="activerequest" component={RequestDetail} />
             <Stack.Screen name={`bargain${userId}`} component={BargainingScreen} />
             <Stack.Screen name="requestentry" component={RequestEntry} />
+            <Stack.Screen name="define-request" component={DefineRequest} />
             <Stack.Screen name="requestcategory" component={RequestCategory} />
             <Stack.Screen name="addimg" component={AddImgScreen} />
             <Stack.Screen name="addexpectedprice" component={ExpectedPriceScreen} />
