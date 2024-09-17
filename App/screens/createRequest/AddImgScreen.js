@@ -36,6 +36,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { launchCamera } from "react-native-image-picker";
 import BackArrow from "../../assets/BackArrowImg.svg";
 import RightArrow from "../../assets/rightblack.svg";
+import AddImageContent from '../../assets/addImageContent.svg';
 
 
 const AddImageScreen = () => {
@@ -193,7 +194,7 @@ const AddImageScreen = () => {
     <>
       {!cameraScreen && (
         <View edges={["top", "bottom"]} style={{ flex: 1, backgroundColor: "white" }}>
-          <View style={{ flex: 1 }}>
+          <ScrollView style={{ flex: 1 }}>
             <View className=" flex  mt-[40px] flex-row  items-center  px-[32px]">
               <Pressable onPress={() => navigation.goBack()} className="px-[8px] py-[20px] ">
                 <BackArrow width={14} height={10} />
@@ -225,10 +226,14 @@ const AddImageScreen = () => {
                 <TouchableOpacity onPress={() => pickImage()}>
                   <View className="mx-[28px] mt-[30px] h-[63px] flex-row items-center justify-center border-2 border-[#fb8c00] rounded-3xl">
                     <Text className="text-[16px]  text-[#fb8c00] text-center" style={{ fontFamily: "Poppins-Black" }}>
-                      Browse Image
+                      Upload Image
                     </Text>
                   </View>
                 </TouchableOpacity>
+                <View style={{ alignItems: 'center', marginVertical: 50 }}>
+                  <AddImageContent />
+                </View>
+
               </View>
             ) : (
               <View>
@@ -333,9 +338,10 @@ const AddImageScreen = () => {
                   </TouchableOpacity>
 
                 </View>
+
               </View>
             )}
-          </View>
+          </ScrollView>
           <ModalCancel
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
@@ -343,6 +349,7 @@ const AddImageScreen = () => {
           />
           {modalVisible && <View style={styles.overlay} />}
           {/* {addMore && <View style={styles.overlay} />} */}
+
         </View>
       )}
 

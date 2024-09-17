@@ -123,7 +123,7 @@ const DefineRequest = () => {
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
                         {suggestions[requestCategory].map((categ, index) => (
                             <TouchableOpacity onPress={() => { setQuery(categ) }} key={index} style={{ borderWidth: 1, borderRadius: 16, borderColor: '#fb8c00', backgroundColor: '#ffe5c4' }}>
-                                <Text style={{ fontFamily: "Poppins-Regular", fontSize: 16, paddingHorizontal: 5, paddingVertical: 5 }}>{categ}</Text>
+                                <Text style={{ fontFamily: "Poppins-Regular", fontSize: 14, paddingHorizontal: 5, paddingVertical: 5 }}>{categ}</Text>
                             </TouchableOpacity>
                         ))}
                     </View>
