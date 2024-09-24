@@ -83,6 +83,10 @@ import Category7 from '../assets/category7.svg';
 import Service1 from '../assets/service1.svg';
 import Service2 from '../assets/service2.svg';
 import Service3 from '../assets/service3.svg';
+import Tab11 from '../assets/tab11.svg';
+import Tab2 from '../assets/tab2.svg';
+import Tab3 from '../assets/tab3.svg';
+import Tab4 from '../assets/tab4.svg';
 import { setRequestCategory } from "../redux/reducers/userRequestsSlice";
 
 const { width } = Dimensions.get("window");
@@ -543,7 +547,7 @@ const HomeScreen = () => {
               Service By Categories
             </Text>
 
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', marginBottom: 100 }}>
               {servicess.map((Service, index) => (
                 <TouchableOpacity key={index} style={{ paddingTop: 10, paddingLeft: 5 }} onPress={() => { dispatch(setRequestCategory(Service.name)); navigation.navigate('define-request'); }}>
                   <Service.cat />
@@ -705,7 +709,27 @@ const HomeScreen = () => {
       </ScrollView>
 
 
+      <View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignContent: 'baseline', backgroundColor: 'white', paddingVertical: 10, shadowColor: '#FB8C00', elevation: 30, shadowOffset: { width: 10, height: 18 }, shadowOpacity: 0.9, shadowRadius: 20 }}>
+          <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Tab11 />
+            <Text style={{ fontFamily: 'Poppins-Regular', color: '#fb8c00' }}>Home</Text>
+          </View>
 
+          <TouchableOpacity onPress={() => { navigation.navigate('orders') }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Tab2 />
+            <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Orders</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => { navigation.navigate('store-search') }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Tab3 />
+            <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Stores</Text>
+          </TouchableOpacity>
+          <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Tab4 />
+            <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Refer</Text>
+          </View>
+        </View>
+      </View>
     </View>
   );
 };

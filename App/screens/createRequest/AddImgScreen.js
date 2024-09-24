@@ -276,16 +276,6 @@ const AddImageScreen = () => {
                             },
                           ]}
                         />
-                        {/* <Pressable
-                          style={styles.closeButton}
-                          onPress={handleClose}
-                        >
-                          <Entypo
-                            name="circle-with-cross"
-                            size={40}
-                            color="white"
-                          />
-                        </Pressable> */}
                       </Pressable>
                     </Modal>
                   </View>
@@ -301,46 +291,7 @@ const AddImageScreen = () => {
               </View>
             )}
 
-            {!addMore ? (
-              requestImages.length > 0 && (
-                <View className="absolute bottom-0 left-0 right-0">
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate("addexpectedprice", { imagesLocal: imagesLocal })
-                    }
-                  >
-                    <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
-                      <Text className="text-white text-[18px]" style={{ fontFamily: "Poppins-Black" }}>Continue</Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              )
-            ) : (
 
-              <View style={{ flex: 1 }} className="absolute  left-0 right-0 bottom-0 z-50 h-screen shadow-2xl " >
-                <TouchableOpacity onPress={() => { setAddMore(false) }}>
-                  <View className="h-full w-screen " style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}  >
-                  </View>
-                </TouchableOpacity>
-                <View className="bg-white absolute bottom-0 left-0 right-0 ">
-
-                  <TouchableOpacity onPress={() => { pickImage(); setAddMore(false) }}>
-                    <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[30px]  border-b-[1px] border-gray-400">
-                      <Text style={{ fontFamily: "Poppins-Regular" }}>Upload Image</Text>
-                      <RightArrow />
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => { takePicture(); setAddMore(false); }}>
-                    <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[30px]">
-                      <Text style={{ fontFamily: "Poppins-Regular" }}>Click Image</Text>
-                      <RightArrow />
-                    </View>
-                  </TouchableOpacity>
-
-                </View>
-
-              </View>
-            )}
           </ScrollView>
           <ModalCancel
             modalVisible={modalVisible}
@@ -349,7 +300,46 @@ const AddImageScreen = () => {
           />
           {modalVisible && <View style={styles.overlay} />}
           {/* {addMore && <View style={styles.overlay} />} */}
+          {!addMore ? (
+            requestImages.length > 0 && (
+              <View className="absolute bottom-0 left-0 right-0">
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("addexpectedprice", { imagesLocal: imagesLocal })
+                  }
+                >
+                  <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
+                    <Text className="text-white text-[18px]" style={{ fontFamily: "Poppins-Black" }}>Continue</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )
+          ) : (
 
+            <View style={{ flex: 1 }} className="absolute  left-0 right-0 bottom-0 z-50 h-screen shadow-2xl " >
+              <TouchableOpacity onPress={() => { setAddMore(false) }}>
+                <View className="h-full w-screen " style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}  >
+                </View>
+              </TouchableOpacity>
+              <View className="bg-white absolute bottom-0 left-0 right-0 ">
+
+                <TouchableOpacity onPress={() => { pickImage(); setAddMore(false) }}>
+                  <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[30px]  border-b-[1px] border-gray-400">
+                    <Text style={{ fontFamily: "Poppins-Regular" }}>Upload Image</Text>
+                    <RightArrow />
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => { takePicture(); setAddMore(false); }}>
+                  <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[30px]">
+                    <Text style={{ fontFamily: "Poppins-Regular" }}>Click Image</Text>
+                    <RightArrow />
+                  </View>
+                </TouchableOpacity>
+
+              </View>
+
+            </View>
+          )}
         </View>
       )}
 

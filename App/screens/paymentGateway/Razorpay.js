@@ -335,7 +335,8 @@ const PaymentScreen = () => {
         <TouchableOpacity
           disabled={loading}
           onPress={() => {
-            spadeDetails?.spadePrice === 0 ? handleFreeSpade() : PayNow(); console.log('hii');
+            // spadeDetails?.spadePrice === 0 ? handleFreeSpade() : PayNow(); console.log('hii');
+            PayNow();
           }}
           style={{ position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: '#fb8c00', paddingVertical: 20 }}
         >

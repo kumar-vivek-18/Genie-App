@@ -30,6 +30,10 @@ import Star from '../../assets/Star.svg';
 import HomeIcon from '../../assets/homeIcon.svg';
 import StoreIcon from '../../assets/StoreIcon.svg';
 import ArrowRight from '../../assets/arrow-right.svg';
+import Tab1 from '../../assets/tab1.svg';
+import Tab2 from '../../assets/tab2.svg';
+import Tab33 from '../../assets/tab33.svg';
+import Tab4 from '../../assets/tab4.svg';
 
 
 
@@ -422,6 +426,27 @@ const SearchCategoryScreen = () => {
                     <ActivityIndicator size="large" color="#fb8c00" />
                 </View>
             )}
+            <View>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignContent: 'baseline', backgroundColor: 'white', paddingVertical: 10, shadowColor: '#FB8C00', elevation: 30, shadowOffset: { width: 10, height: 18 }, shadowOpacity: 0.9, shadowRadius: 20 }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('home'); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Tab1 />
+                        <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Home</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => { navigation.navigate('orders') }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Tab2 />
+                        <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Orders</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { navigation.navigate('store-search') }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Tab33 />
+                        <Text style={{ fontFamily: 'Poppins-Regular', color: '#fb8c00' }}>Stores</Text>
+                    </TouchableOpacity>
+                    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Tab4 />
+                        <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Refer</Text>
+                    </View>
+                </View>
+            </View>
 
         </View >
     );
