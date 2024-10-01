@@ -93,7 +93,7 @@ const DefineRequest = () => {
                     <Genie width={35} height={52} />
                 </View>
                 <Text className="text-[14.5px]  text-[#FB8C00] text-center mb-[10px] " style={{ fontFamily: "Poppins-Medium" }}>
-                    Step 1/4
+                    Step 2/4
                 </Text>
 
                 <View className="px-[32px] mb-[20px]">
@@ -137,7 +137,7 @@ const DefineRequest = () => {
             </ScrollView>
             <TouchableOpacity
                 disabled={!query}
-                onPress={() => { dispatch(setRequestDetail(query)); navigation.navigate('addimg'); }}
+                onPress={() => { dispatch(setRequestDetail(query)); navigation.navigate('addexpectedprice'); }}
                 style={{
                     position: "absolute",
                     bottom: 0,

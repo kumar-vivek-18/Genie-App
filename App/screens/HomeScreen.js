@@ -87,7 +87,8 @@ import Tab11 from '../assets/tab11.svg';
 import Tab2 from '../assets/tab2.svg';
 import Tab3 from '../assets/tab3.svg';
 import Tab4 from '../assets/tab4.svg';
-import { setRequestCategory } from "../redux/reducers/userRequestsSlice";
+import { emtpyRequestImages, setRequestCategory, setSuggestedImages } from "../redux/reducers/userRequestsSlice";
+import { useFocusEffect } from '@react-navigation/native';
 
 const { width } = Dimensions.get("window");
 
@@ -246,8 +247,15 @@ const HomeScreen = () => {
     getAppVersion();
   }, []);
 
+  /////////////////////////////////////////
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(setSuggestedImages([]));
+      dispatch(emtpyRequestImages());
 
 
+    }, [navigation])
+  );
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //HomeScreen Socket Settings
@@ -531,13 +539,34 @@ const HomeScreen = () => {
           </View>
 
           <View>
+            {currentVersion && currentVersion !== DeviceInfo.getVersion().toString() &&
+              <View style={{ backgroundColor: 'white', marginHorizontal: 10, borderRadius: 16, marginTop: 20 }}>
+
+                <View className="flex-row px-[20px] py-[20px] gap-[30px] justify-center itmes-center ">
+                  <View className="justify-center">
+                    <MobileIcon />
+                  </View>
+
+                  <View className="w-[75%]">
+                    <Text className="text-[#2e2c43] text-[16px]" style={{ fontFamily: 'Poppins-Regular' }}>New update available! Enjoy the new release features.</Text>
+                    <TouchableOpacity onPress={() => { Linking.openURL("https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie") }} style={{ flexDirection: 'row', gap: 40, alignItems: 'center', paddingTop: 10 }}>
+                      <Text className="text-[16px] text-[#fb8c00]" style={{ fontFamily: 'Poppins-Black' }}>Update Now</Text>
+                      <RightArrow />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            }
+          </View>
+
+          <View>
             <Text className="text-[16px] text-center my-[40px] text-[#fb8c00]" style={{ fontFamily: "Poppins-ExtraBold" }}>
               Shop By Categories
             </Text>
 
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
               {categoriess.map((Category, index) => (
-                <TouchableOpacity key={index} style={{ paddingTop: 10, paddingLeft: 5 }} onPress={() => { dispatch(setRequestCategory(Category.name)); navigation.navigate('define-request'); }}>
+                <TouchableOpacity key={index} style={{ paddingTop: 10, paddingLeft: 5 }} onPress={() => { dispatch(setRequestCategory(Category.name)); navigation.navigate('image-suggestion'); }}>
                   <Category.cat />
                 </TouchableOpacity>
               ))}
@@ -549,13 +578,14 @@ const HomeScreen = () => {
 
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', marginBottom: 100 }}>
               {servicess.map((Service, index) => (
-                <TouchableOpacity key={index} style={{ paddingTop: 10, paddingLeft: 5 }} onPress={() => { dispatch(setRequestCategory(Service.name)); navigation.navigate('define-request'); }}>
+                <TouchableOpacity key={index} style={{ paddingTop: 10, paddingLeft: 5 }} onPress={() => { dispatch(setRequestCategory(Service.name)); navigation.navigate('image-suggestion'); }}>
                   <Service.cat />
                 </TouchableOpacity>
               ))}
             </View>
 
           </View>
+
 
 
           {/* How it works when user have no ongoing requests */}

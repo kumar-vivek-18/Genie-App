@@ -37,6 +37,7 @@ import SearchPage from '../screens/storeSearch/SearchPage';
 import StoreProfilePage from '../screens/storeSearch/StoreProfilePage';
 import DefineRequest from '../screens/createRequest/DefineRequest';
 import ActiveRequests from '../screens/activeRequest/ActiveRequests.js';
+import ImageSuggestion from '../screens/createRequest/ImagesSuggestions';
 
 const Stack = createNativeStackNavigator();
 const GlobalNavigation = () => {
@@ -82,6 +83,7 @@ const GlobalNavigation = () => {
             <Stack.Screen name={`bargain${userId}`} component={BargainingScreen} />
             <Stack.Screen name="requestentry" component={RequestEntry} />
             <Stack.Screen name="define-request" component={DefineRequest} />
+            <Stack.Screen name="image-suggestion" component={ImageSuggestion} />
             <Stack.Screen name="requestcategory" component={RequestCategory} />
             <Stack.Screen name="addimg" component={AddImgScreen} />
             <Stack.Screen name="addexpectedprice" component={ExpectedPriceScreen} />

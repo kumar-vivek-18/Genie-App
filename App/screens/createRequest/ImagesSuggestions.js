@@ -1,0 +1,502 @@
+import React, { useState, useEffect } from "react";
+import {
+    View,
+    Image,
+    Text,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    ActivityIndicator,
+    Modal,
+    Animated,
+    TouchableOpacity,
+} from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import { Camera } from "expo-camera";
+import {
+    SafeAreaView,
+    useSafeAreaInsets,
+} from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
+import ClickImage from "../../assets/ClickImg.svg";
+import UploadImg from "../../assets/UploadImg.svg";
+import AddMoreImage from "../../assets/AddImg.svg";
+import DelImg from "../../assets/delImg.svg"
+import {
+    FontAwesome,
+    Entypo,
+    Ionicons,
+    MaterialIcons,
+} from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { setEstimatedPrice, setRequestImages, setSuggestedImages } from "../../redux/reducers/userRequestsSlice.js";
+
+import ModalCancel from "../../screens/components/ModalCancel.js";
+import { manipulateAsync } from "expo-image-manipulator";
+import { AntDesign } from "@expo/vector-icons";
+import { launchCamera } from "react-native-image-picker";
+import BackArrow from "../../assets/BackArrowImg.svg";
+import RightArrow from "../../assets/rightblack.svg";
+import AddImageContent from '../../assets/addImageContent.svg';
+import axiosInstance from "../../utils/logics/axiosInstance";
+import { baseUrl } from "../../utils/logics/constants";
+
+
+const ImageSuggestion = () => {
+    const [imagesLocal, setImagesLocal] = useState([]);
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
+    const insets = useSafeAreaInsets();
+    const [cameraScreen, setCameraScreen] = useState(false);
+    const [addMore, setAddMore] = useState(false);
+    const [imgIndex, setImgIndex] = useState();
+    const [modalVisible, setModalVisible] = useState(false);
+    const [type, setType] = useState(Camera.Constants.Type.back);
+    const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.off);
+    const [zoom, setZoom] = useState(0);
+    const [whiteBalance, setWhiteBalance] = useState(
+        Camera.Constants.WhiteBalance.auto
+    );
+    const [autoFocus, setAutoFocus] = useState(Camera.Constants.AutoFocus.on);
+    const [hasCameraPermission, setHasCameraPermission] = useState(null);
+    const [camera, setCamera] = useState(null);
+
+    const [loading, setLoading] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [scaleAnimation] = useState(new Animated.Value(0));
+    const requestImages = useSelector(store => store.userRequest.requestImages);
+    const [suggestionImages, setSuggestionImages] = useState([]);
+    const userLongitude = useSelector(store => store.user.userLongitude);
+    const userLatitude = useSelector(store => store.user.userLatitude);
+    const requestCategory = useSelector(store => store.userRequest.requestCategory);
+    const [page, setPage] = useState(1);
+    const suggestedImages = useSelector(store => store.userRequest.suggestedImages);
+    const [isSuggestion, setIsSuggestion] = useState(false);
+    const [delImgType, setDelImgType] = useState("clicked");
+    const [descModal, setDescModal] = useState(false);
+    const [selectedImgEstimatedPrice, setSelectedImgEstimatedPrice] = useState(0);
+
+    const handleImagePress = (image) => {
+        setSelectedImage(image);
+        Animated.timing(scaleAnimation, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const handleClose = () => {
+        Animated.timing(scaleAnimation, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+        }).start(() => setSelectedImage(null));
+    };
+
+    useEffect(() => {
+        (async () => {
+            const { status } = await Camera.requestCameraPermissionsAsync();
+            setHasCameraPermission(status === "granted");
+        })();
+    }, [cameraScreen]);
+
+
+    const takePicture = async () => {
+        const options = {
+            mediaType: 'photo',
+            saveToPhotos: true,
+        };
+
+        launchCamera(options, async (response) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ');
+            } else {
+                try {
+                    const newImageUri = response.assets[0].uri;
+                    const compressedImage = await manipulateAsync(
+                        newImageUri,
+                        [{ resize: { width: 600, height: 800 } }],
+                        { compress: 0.5, format: "jpeg", base64: true }
+                    );
+                    dispatch(setRequestImages(compressedImage.uri));
+                } catch (error) {
+                    console.error('Error processing image: ', error);
+                }
+            }
+        });
+    };
+
+    const getSuggestedImages = async () => {
+        try {
+
+            await axiosInstance.get(`${baseUrl}/retailer/category-images`, {
+                params: {
+                    category: requestCategory,
+                    lat: userLatitude,
+                    lon: userLongitude,
+                    page: page
+                }
+            })
+                .then((response) => {
+                    if (response.status === 200) {
+                        setSuggestionImages(response.data);
+                        // console.log('images retrieved', response.data);
+                    }
+                })
+        } catch (error) {
+            console.error('Error processing image: ', error);
+        }
+    }
+
+    useEffect(() => {
+        getSuggestedImages();
+    }, []);
+
+
+
+
+    const deleteImage = (index) => {
+        setImgIndex(index);
+        setModalVisible(true);
+    };
+
+
+    const pickImage = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [3, 4],
+            base64: true,
+            quality: 0.5,
+        });
+
+        if (!result.canceled) {
+            // await getImageUrl(result.assets[0]);
+            const newImageUri = result?.assets[0]?.uri;
+            const compressedImage = await manipulateAsync(
+                newImageUri,
+                [{ resize: { width: 600, height: 800 } }],
+                { compress: 0.5, format: "jpeg" }
+            );
+            dispatch(setRequestImages(compressedImage.uri));
+        }
+    };
+
+    if (hasCameraPermission === null) {
+        return <View />;
+    }
+    if (hasCameraPermission === false) {
+        return <Text>No access to camera</Text>;
+    }
+
+    return (
+        <>
+            <View edges={["top", "bottom"]} style={{ flex: 1, backgroundColor: "white" }}>
+                <ScrollView style={{ flex: 1 }}>
+                    <View className=" flex  mt-[40px] flex-row  items-center  px-[32px]">
+                        <Pressable onPress={() => navigation.goBack()} className="px-[8px] py-[20px] ">
+                            <BackArrow width={14} height={10} />
+                        </Pressable>
+                        <Text className="text-[16px] flex flex-1 justify-center text-[#2e2c43] items-center text-center" style={{ fontFamily: "Poppins-ExtraBold" }}>
+                            Select Product
+                        </Text>
+                        {imagesLocal.length === 0 && <Pressable onPress={() => navigation.navigate("define-request")} className="">
+                            <Text className="text-[16px] text-[#FB8C00]" style={{ fontFamily: "Poppins-Medium" }}>Skip</Text>
+                        </Pressable>}
+                    </View>
+                    <View className="mt-[10px] mb-[27px] px-[32px]">
+                        <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] " style={{ fontFamily: "Poppins-Medium" }}>
+                            Step 1/4
+                        </Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
+                            <Text className="text-[14px] text-center text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>
+                                Search any product in the market.
+                            </Text>
+                            <TouchableOpacity onPress={() => { setDescModal(!descModal) }} style={{ width: 25, height: 25, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderColor: 'red', borderWidth: 2, borderRadius: 16 }}>
+                                <Text style={{ color: 'red', fontSize: 16, fontFamily: 'Poppins-SemiBold' }}>?</Text>
+                            </TouchableOpacity>
+                        </View>
+
+
+
+                    </View>
+
+
+
+                    {(requestImages.length === 0 && suggestedImages.length == 0) &&
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                            <TouchableOpacity onPress={() => takePicture()}>
+                                <ClickImage />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => pickImage()}>
+                                <UploadImg />
+                            </TouchableOpacity>
+                        </View>
+                    }
+                    {(requestImages.length > 0 || suggestedImages.length > 0) && <View>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ alignSelf: "flex-start" }}>
+                            <View style={styles.container}>
+                                <View style={styles.imageContainer}>
+                                    {requestImages.map((image, index) => (
+                                        <Pressable
+                                            key={index}
+                                            onPress={() => { handleImagePress(image); setIsSuggestion(false); setSelectedImgEstimatedPrice(0); }}
+                                        >
+                                            <View style={styles.imageWrapper}>
+                                                <Image
+                                                    source={{ uri: image }}
+                                                    style={styles.image}
+                                                />
+                                                <Pressable
+                                                    onPress={() => { deleteImage(index); setDelImgType("clicked") }}
+                                                    style={styles.deleteIcon}
+                                                >
+                                                    <DelImg />
+                                                </Pressable>
+                                            </View>
+                                        </Pressable>
+                                    ))}
+                                    {suggestedImages.map((image, index) => (
+                                        <Pressable
+                                            key={index}
+                                            onPress={() => { handleImagePress(image); setIsSuggestion(false); setSelectedImgEstimatedPrice(0); }}
+                                        >
+                                            <View style={styles.imageWrapper}>
+                                                <Image
+                                                    source={{ uri: image }}
+                                                    style={styles.image}
+                                                />
+                                                <Pressable
+                                                    onPress={() => { deleteImage(index); setDelImgType("suggested") }}
+                                                    style={styles.deleteIcon}
+                                                >
+                                                    <DelImg />
+                                                </Pressable>
+                                            </View>
+                                        </Pressable>
+                                    ))}
+                                </View>
+
+                            </View>
+                        </ScrollView>
+                        {suggestedImages.length === 0 && <TouchableOpacity
+                            onPress={() => setAddMore(!addMore)}
+                            style={{ alignSelf: "flex-start" }}
+                        >
+                            <View style={{ marginLeft: 36, marginTop: 45 }}>
+                                <AddMoreImage />
+                            </View>
+                        </TouchableOpacity>}
+                    </View>}
+
+                    {suggestedImages.length == 0 && requestImages.length == 0 && <View style={{ paddingHorizontal: 20, marginTop: 30, marginBottom: 80 }}>
+                        <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 16, paddingHorizontal: 12, paddingBottom: 20 }}>Available stock in the market</Text>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, justifyContent: 'space-between' }}>
+
+
+                            {suggestionImages && suggestionImages.map((suggestionImage, index) => {
+                                return (
+                                    <Pressable
+                                        key={index}
+                                        onPress={() => { handleImagePress(suggestionImage.uri); setIsSuggestion(true); setSelectedImgEstimatedPrice(suggestionImage.price) }}
+                                    >
+                                        <Image
+                                            source={{ uri: suggestionImage.uri }}
+                                            width={154}
+                                            height={200}
+                                            style={{ borderRadius: 16 }}
+                                        />
+                                        <View style={{ position: 'absolute', bottom: 0, width: 154, height: 45, backgroundColor: 'rgba(0,0,0,0.5)', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderRadius: 16 }}>
+                                            <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>Estimated Price</Text>
+                                            <Text style={{ fontFamily: 'Poppins-Regular', color: '#70b241', }}>Rs {suggestionImage.price}</Text>
+                                        </View>
+
+                                    </Pressable>
+                                )
+                            })}
+                        </View>
+                    </View>}
+
+
+                </ScrollView>
+                <ModalCancel
+                    modalVisible={modalVisible}
+                    setModalVisible={setModalVisible}
+                    index={imgIndex}
+                    delImgType={delImgType}
+                />
+                {modalVisible && <View style={styles.overlay} />}
+                {/* {addMore && <View style={styles.overlay} />} */}
+                {!addMore && (requestImages.length > 0 || suggestedImages.length > 0) &&
+                    <View className="absolute bottom-0 left-0 right-0">
+                        <TouchableOpacity
+                            onPress={() => {
+                                navigation.navigate("define-request", { imagesLocal: imagesLocal });
+                                if (suggestedImages.length === 0) dispatch(setEstimatedPrice(0));
+                            }
+                            }
+                        >
+                            <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
+                                <Text className="text-white text-[18px]" style={{ fontFamily: "Poppins-Black" }}>Continue</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>}
+
+                {addMore && <View style={{ flex: 1 }} className="absolute  left-0 right-0 bottom-0 z-50 h-screen shadow-2xl " >
+                    <TouchableOpacity onPress={() => { setAddMore(false) }}>
+                        <View className="h-full w-screen " style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}  >
+                        </View>
+                    </TouchableOpacity>
+                    <View className="bg-white absolute bottom-0 left-0 right-0 ">
+
+                        <TouchableOpacity onPress={() => { pickImage(); setAddMore(false) }}>
+                            <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[30px]  border-b-[1px] border-gray-400">
+                                <Text style={{ fontFamily: "Poppins-Regular" }}>Upload Image</Text>
+                                <RightArrow />
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => { takePicture(); setAddMore(false); }}>
+                            <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[30px]">
+                                <Text style={{ fontFamily: "Poppins-Regular" }}>Click Image</Text>
+                                <RightArrow />
+                            </View>
+                        </TouchableOpacity>
+
+                    </View>
+
+                </View>}
+                <Modal
+                    visible={descModal}
+                    transparent={true}
+                >
+                    <TouchableOpacity onPress={() => { setDescModal(false) }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                        <AddImageContent />
+                    </TouchableOpacity>
+
+                </Modal>
+                <Modal
+                    transparent
+                    visible={!!selectedImage}
+                    onRequestClose={handleClose}
+
+                >
+                    <Pressable onPress={() => { handleClose(); }} style={styles.modalContainer} >
+                        <Pressable onPress={() => { handleClose(); }}>
+                            <Animated.Image
+                                source={{ uri: selectedImage }}
+                                style={[
+                                    styles.modalImage,
+                                    {
+                                        transform: [{ scale: scaleAnimation }],
+                                    },
+                                ]}
+                            />
+                            {selectedImgEstimatedPrice > 0 && <View style={{ position: 'absolute', bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', width: 300, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingVertical: 5, borderRadius: 10 }}>
+                                <Text style={{ color: 'white', fontSize: 14 }}>Estimated Price</Text>
+                                <Text style={{ color: '#70b241', fontSize: 18 }}>Rs {selectedImgEstimatedPrice}</Text>
+                            </View>}
+                        </Pressable>
+                        {isSuggestion && <Pressable onPress={() => {
+                            dispatch(setSuggestedImages([...suggestedImages, selectedImage])); handleClose();
+                            if (selectedImgEstimatedPrice > 0) {
+                                dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
+                            }
+                        }}>
+                            <Text style={{ fontFamily: 'Poppins-Semibold', backgroundColor: 'white', color: '#fb8c00', borderWidth: 2, borderRadius: 16, borderColor: '#fb8c00', paddingHorizontal: 70, paddingVertical: 10, marginTop: 10 }}>Add Product To Buy</Text>
+                        </Pressable>}
+                    </Pressable>
+                </Modal>
+
+            </View>
+
+
+            {loading && (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color="#fb8c00" />
+                </View>
+            )}
+        </>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    imageContainer: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        marginHorizontal: 30,
+        gap: 5,
+        marginTop: 10,
+    },
+    imageWrapper: {
+        margin: 5,
+        borderRadius: 15,
+        overflow: "hidden",
+        borderWidth: 1,
+        borderColor: "gray",
+    },
+    image: {
+        width: 168,
+        height: 232,
+        borderRadius: 10,
+    },
+    // deleteIc: {
+    //   position: 'absolute',
+    //   top: 5,
+    //   right: 5,
+    // },
+    modalContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.7)",
+    },
+    modalImage: {
+        width: 300,
+        height: 400,
+        borderRadius: 10,
+    },
+    closeButton: {
+        position: "absolute",
+        top: 20,
+        right: 20,
+    },
+    deleteIcon: {
+        position: "absolute",
+        top: 5,
+        right: 5,
+        backgroundColor: "white",
+        borderRadius: 50,
+        padding: 2,
+    },
+    overlay: {
+        flex: 1,
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent greyish background
+    },
+    bottomBar: {
+        flex: 1,
+        justifyContent: "flex-end",
+        alignItems: "center",
+        paddingBottom: 20,
+    },
+    captureButton: {
+        alignSelf: "center",
+        backgroundColor: "#FB8C00",
+        padding: 10,
+        borderRadius: 100,
+    },
+    loadingContainer: {
+        ...StyleSheet.absoluteFill,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+});
+
+export default ImageSuggestion;

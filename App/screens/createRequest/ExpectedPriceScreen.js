@@ -28,6 +28,7 @@ const ExpectedPriceScreen = () => {
     const [verifiedCouponCode, setVerifiedCouponCode] = useState(false);
     const [couponFailed, setCouponFailed] = useState(false);
     const accessToken = useSelector(store => store.user.accessToken);
+    const estimatedPrice = useSelector(store => store.userRequest.estimatedPrice);
 
     console.log('expected price at exp', expectedPrice);
     const VerifyCoupon = async () => {
@@ -79,6 +80,10 @@ const ExpectedPriceScreen = () => {
                 <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[10px] ">
                     Step 4/4
                 </Text>
+                {estimatedPrice > 0 && <View>
+                    <Text style={{ fontFamily: 'Poppins-SemiBold', fontSize: 14, color: '#2e2c43' }}>Estimated Price</Text>
+                    <Text style={{ fontFamily: 'Poppins-SemiBold', fontSize: 16, color: '#558b2f' }}>Rs {estimatedPrice}</Text>
+                </View>}
                 <Text className="text-[14px] text-[#2e2c43] mx-[6px] mt-[20px]" style={{ fontFamily: "Poppins-SemiBold" }}>Your Expected Price</Text>
                 <TextInput
                     placeholder='Ex:1,200 Rs'
@@ -102,7 +107,7 @@ const ExpectedPriceScreen = () => {
 
                 />
                 <Text className="text-[14px] text-[#2e2c43] mt-[20px]" style={{ fontFamily: "Poppins-Regular" }}>Please inform vendors about the price that you believe is appropriate for this request. If you haven't researched pricing, you can skip this step.</Text>
-                {userDetails.freeSpades === 0 && <View>
+                {/* {userDetails.freeSpades === 0 && <View>
                     <Text className="text-[14px]  text-[#2e2c43] mx-[6px] mt-[40px]" style={{ fontFamily: "Poppins-SemiBold" }}>Apply Coupon </Text>
                     <TextInput
                         placeholder='Type here...'
@@ -133,7 +138,7 @@ const ExpectedPriceScreen = () => {
                         <Text className="text-[14px]  text-[#E76063] " style={{ fontFamily: "Poppins-SemiBold" }}>Invalid Coupon Code </Text>
                     </View>}
                     <Text className="text-[14px] text-[#2e2c43] mt-[20px] pb-[100px]" style={{ fontFamily: "Poppins-Regular" }}>If you have a coupon code available, you can enter the code here to redeem the offer.</Text>
-                </View>}
+                </View>} */}
 
             </View>
             <View className="absolute bottom-0 left-0 right-0">

@@ -3,28 +3,34 @@ import { Alert, Modal, StyleSheet, Text, Pressable, View, TouchableOpacity } fro
 import ModalImg from "../../assets/Cancel.svg"
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { setRequestImages, emtpyRequestImages } from '../../redux/reducers/userRequestsSlice';
+import { setRequestImages, emtpyRequestImages, setSuggestedImages } from '../../redux/reducers/userRequestsSlice';
 
-const ModalCancel = ({ modalVisible, setModalVisible, index }) => {
+const ModalCancel = ({ modalVisible, setModalVisible, index, delImgType }) => {
   // const [modalVisible, setModalVisible] = useState(true);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const requestImages = useSelector(store => store.userRequest.requestImages);
-
+  const suggestedImages = useSelector(store => store.userRequest.suggestedImages);
   const handleModal = () => {
     try {
       // Remove the item with key 'userData' from local storage
-      const updatedImages = [...requestImages];
+      if (delImgType === "clicked") {
+        const updatedImages = [...requestImages];
 
-      // updatedImages = updatedImages.filter()
-      dispatch(emtpyRequestImages());
-      updatedImages.splice(index, 1);
-      updatedImages.map(image => {
-        dispatch(setRequestImages(image));
-      });
+        dispatch(emtpyRequestImages());
+        updatedImages.splice(index, 1);
+        updatedImages.map(image => {
+          dispatch(setRequestImages(image));
+        });
+      }
+      else {
+        const updatedImages = [...suggestedImages];
 
-      // setImagesLocal(updatedImages);
-      // dispatch(setRequestImages(updatedImages));
+        updatedImages.splice(index, 1);
+        dispatch(setSuggestedImages(updatedImages));
+
+      }
+
 
       setModalVisible(false);
     } catch (error) {

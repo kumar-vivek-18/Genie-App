@@ -41,6 +41,7 @@ const RequestPreviewScreen = () => {
     (store) => store.userRequest.requestCategory
   );
   const requestImages = useSelector((store) => store.userRequest.requestImages);
+  const suggestedImages = useSelector(store => store.userRequest.suggestedImages);
   const expectedPrice = useSelector((store) => store.userRequest.expectedPrice);
   const spadePrice = useSelector((store) => store.userRequest.spadePrice);
   const spadeCouponCode = useSelector(store => store.userRequest.spadeCouponCode);
@@ -80,6 +81,7 @@ const RequestPreviewScreen = () => {
       requestDetail,
       requestCategory,
       requestImages,
+      suggestedImages,
       expectedPrice,
       spadePrice,
       userLongitude,
@@ -105,6 +107,7 @@ const RequestPreviewScreen = () => {
     formData.append('appliedCoupon', spadeCouponCode.length > 0 ? spadeCouponCode : "NA");
     formData.append('longitude', userLongitude !== 0 ? userLongitude : userDetails.longitude);
     formData.append('latitude', userLatitude !== 0 ? userLatitude : userDetails.latitude);
+    formData.append('suggestedImages', suggestedImages);
 
     setLoading(true);
     try {
@@ -116,7 +119,6 @@ const RequestPreviewScreen = () => {
       };
       const response = await axiosInstance.post(
         `${baseUrl}/user/createrequest`, formData, config
-
       );
 
       console.log("created request data", response.data);
@@ -223,6 +225,17 @@ const RequestPreviewScreen = () => {
                   />
                 </View>
               ))}
+            {suggestedImages &&
+              suggestedImages?.map((image, index) => (
+                <View key={index} className="">
+                  <Image
+                    source={{ uri: image }}
+                    width={174}
+                    height={232}
+                    className="rounded-3xl border-1 border-b-[1px] border-[#cdcdd6]"
+                  />
+                </View>
+              ))}
           </ScrollView>
         </View>
         <View className="mx-[32px] mt-[30px] mb-[100px]">
@@ -232,12 +245,12 @@ const RequestPreviewScreen = () => {
           <Text className="text-[24px] text-[#558b2f] mb-[10px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
             {expectedPrice === 0 ? "NaN" : `${expectedPrice} Rs`}
           </Text>
-          <Text className=" text-[14px] text-[#2e2c43] mb-[6px] " style={{ fontFamily: "Poppins-Bold" }}>
+          {/* <Text className=" text-[14px] text-[#2e2c43] mb-[6px] " style={{ fontFamily: "Poppins-Bold" }}>
             Applied Coupon
           </Text>
           <Text className="text-[18px]  text-[#558b2f] pb-[10px] border-b-[1px] border-[#dcdbdb]" style={{ fontFamily: "Poppins-ExtraBold" }}>
             {spadeCouponCode.length > 0 ? spadeCouponCode : "NA"}
-          </Text>
+          </Text> */}
 
           <Text className=" text-[14px] text-[#2e2c43] mb-[6px] mt-[20px] " style={{ fontFamily: "Poppins-Bold" }}>
             Cost for this request

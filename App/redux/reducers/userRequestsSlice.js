@@ -4,12 +4,13 @@ const initialState = {
     requestDetail: "",
     requestCategory: null,
     requestImages: [],
+    suggestedImages: [],
     expectedPrice: 0,
     spadePrice: 5,
     createdRequest: [],
     spadeCouponCode: "",
     nearByStoresCategory: [],
-
+    estimatedPrice: 0,
 };
 
 const userRequestDataSlice = createSlice({
@@ -47,9 +48,14 @@ const userRequestDataSlice = createSlice({
         setNearByStoresCategory: (state, action) => {
             state.nearByStoresCategory = action.payload;
         },
-
+        setSuggestedImages: (state, action) => {
+            state.suggestedImages = action.payload;
+        },
+        setEstimatedPrice: (state, action) => {
+            state.estimatedPrice = action.payload;
+        }
     },
 });
 
-export const { setRequestDetail, setRequestCategory, setRequestImages, setExpectedPrice, setCreatedRequest, emtpyRequestImages, setSpadePrice, setSpadeCouponCode, requestClear, setNearByStoresCategory } = userRequestDataSlice.actions;
+export const { setRequestDetail, setRequestCategory, setRequestImages, setExpectedPrice, setCreatedRequest, emtpyRequestImages, setSpadePrice, setSpadeCouponCode, requestClear, setNearByStoresCategory, setSuggestedImages, setEstimatedPrice } = userRequestDataSlice.actions;
 export default userRequestDataSlice.reducer;
