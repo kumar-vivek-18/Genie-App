@@ -8,6 +8,7 @@ import { useNavigation, useNavigationState } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import NetworkError from "../components/NetworkError";
 import Calender from '../../assets/calender.svg';
+import ArrowLeft from '../../assets/arrow-left.svg';
 import Time from '../../assets/time.svg';
 import SpadeIcon from '../../assets/SpadeIcon.svg';
 import { Octicons } from '@expo/vector-icons';
@@ -63,134 +64,139 @@ const ActiveRequests = () => {
     return (
         <View style={{ flex: 1 }}>
             <ScrollView style={{ flex: 1 }}>
-                {/* <Text>Your Orders</Text> */}
+                <TouchableOpacity onPress={() => { navigation.goBack() }} style={{ position: 'absolute', top: 20, left: 15, padding: 25 }}>
+                    <ArrowLeft />
+                </TouchableOpacity>
+                <View style={{ marginTop: 40, alignItems: 'center' }}>
+                    <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 16, color: '#2e2c43' }}>Your ongoing spades</Text>
+                    {spades.length === 0 && <View>
+                        <Text style={{ marginTop: 20, }}>No active spades</Text>
+                    </View>}
+                </View>
 
-                {(spades.length > 0) && !networkError && !spadesLoading && (
-                    <View>
-                        <Text
-                            className={`text-center  text-text my-[33px]`}
-                            style={{ fontFamily: "Poppins-Bold" }}
-                        >
-                            Your ongoing requests
-                        </Text>
 
-
-                        {spades.map((spade, index) => (
-                            <Pressable
-                                key={index}
-                                onPress={() => {
-                                    dispatch(setCurrentSpade(spade));
-                                    navigation.navigate("activerequest");
-                                }}
-                            >
-                                <View style={styles.container}>
-                                    {
-                                        spade?.unread && <View style={styles.dot}></View>
-                                    }
-                                    <View style={styles.imageContainer}>
-                                        {spade.requestImages.length > 0 ? (<Image
-                                            source={{ uri: spade.requestImages[0] }}
-                                            style={styles.image}
-                                        />) : (<SpadeIcon width={95} height={95} />)}
-                                    </View>
-
-                                    <View className="w-10/12 px-[10px]">
-                                        <View className="flex flex-wrap w-[70%] pb-1 ">
-                                            <Text className="text-[14px] w-full flex flex-wrap " style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>
+                {
+                    (spades.length > 0) && !networkError && !spadesLoading && (
+                        <View style={{ marginTop: 20 }}>
+                            {spades.map((spade, index) => (
+                                <Pressable
+                                    key={index}
+                                    onPress={() => {
+                                        dispatch(setCurrentSpade(spade));
+                                        navigation.navigate("activerequest");
+                                    }}
+                                >
+                                    <View style={styles.container}>
+                                        {
+                                            spade?.unread && <View style={styles.dot}></View>
+                                        }
+                                        <View style={styles.imageContainer}>
+                                            {spade.requestImages.length > 0 ? (<Image
+                                                source={{ uri: spade.requestImages[0] }}
+                                                style={styles.image}
+                                            />) : (<SpadeIcon width={95} height={95} />)}
                                         </View>
 
-                                        <View style={styles.priceRow}>
-                                            <Text style={styles.priceText}>Expected Price:</Text>
-                                            <Text style={styles.priceValue}>
-                                                {spade?.expectedPrice > 0 ? `${spade?.expectedPrice} Rs` : 'Na'}
-                                            </Text>
-                                        </View>
-
-                                        <View style={styles.infoRow}>
-                                            <View style={styles.infoItem}>
-                                                <Time />
-                                                <Text style={styles.infoText}>{spade?.createdAt}</Text>
+                                        <View className="w-10/12 px-[10px]">
+                                            <View className="flex flex-wrap w-[70%] pb-1 ">
+                                                <Text className="text-[14px] w-full flex flex-wrap " style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>
                                             </View>
-                                            <View style={styles.infoItem}>
-                                                <Calender />
-                                                <Text style={styles.infoText}>{spade?.updatedAt}</Text>
+
+                                            <View style={styles.priceRow}>
+                                                <Text style={styles.priceText}>Expected Price:</Text>
+                                                <Text style={styles.priceValue}>
+                                                    {spade?.expectedPrice > 0 ? `${spade?.expectedPrice} Rs` : 'Na'}
+                                                </Text>
+                                            </View>
+
+                                            <View style={styles.infoRow}>
+                                                <View style={styles.infoItem}>
+                                                    <Time />
+                                                    <Text style={styles.infoText}>{spade?.createdAt}</Text>
+                                                </View>
+                                                <View style={styles.infoItem}>
+                                                    <Calender />
+                                                    <Text style={styles.infoText}>{spade?.updatedAt}</Text>
+                                                </View>
                                             </View>
                                         </View>
                                     </View>
+                                </Pressable>
+                            ))}
+
+
+
+                        </View>
+                    )
+                }
+                {
+                    spades.length === 0 && !networkError && !spadesLoading && (
+
+                        <View className="">
+                            {console.log('hii hii')}
+                            <Text className=" text-text text-[16px] text-center mt-[50px]" style={{ fontFamily: "Poppins-Bold" }}>
+                                How it works?
+                            </Text>
+                            <View className=" flex flex-col  mt-[24px]">
+                                <HomeMain width={width} />
+                                <YoutubeIframe
+                                    height={250}
+                                    videoId={'f3WwRCuu7F8'}
+                                    play={playing}
+                                    onChangeState={onStateChange}
+                                />
+                                <Text className="text-[#3f3d56] text-[14px] text-center px-[32px]" style={{ fontFamily: "Poppins-Bold" }}>
+                                    Bargaining is the consumer's right Because money doesn't grow on trees.
+                                </Text>
+                            </View>
+                            <View className="px-[38px] flex flex-col gap-[38px] mt-[40px]">
+                                <Text className="text-[#3f3d56] text-[14px] text-center" style={{ fontFamily: "Poppins-Regular" }}>
+                                    Now bargaining is possible from your couch. Do you want anything new or to service the old one?
+                                </Text>
+                                <Text className="text-[#3f3d56] text-[14px] text-center" style={{ fontFamily: "Poppins-Regular" }}>
+                                    Connect with nearby vendors and bargain for the lowest prices for your shopping products.You can also avail any types of maintenance services here, like plumber, electrician,carpenter & lot more.</Text>
+                            </View>
+                            <View style={styles.scrollcontainer}>
+                                <ScrollView
+                                    horizontal
+                                    // pagingEnabled
+                                    showsHorizontalScrollIndicator={false}
+                                    onScroll={handleScroll}
+                                    // scrollEventThrottle={16}
+                                    ref={scrollViewRef}
+                                >
+                                    {images.map((uri, index) => (
+                                        <View key={index} className="flex-row rounded-2xl my-[10px] shadow-2xl " style={{ width: 285, height: 343, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} >
+
+                                            <View className="scale-50">
+                                                <Image source={uri} />
+                                            </View>
+
+                                        </View>
+
+                                    ))}
+                                </ScrollView>
+
+                                <View style={styles.indicatorContainer}>
+                                    {images.map((_, index) => (
+                                        <View
+                                            key={index}
+                                            style={[
+                                                styles.indicator,
+                                                {
+                                                    backgroundColor:
+                                                        index <= currentIndex ? "orange" : "grey",
+                                                },
+
+                                            ]}
+                                        />
+                                    ))}
                                 </View>
-                            </Pressable>
-                        ))}
-
-
-
-                    </View>
-                )}
-                {spades.length === 0 && !networkError && !spadesLoading && (
-
-                    <View className="">
-                        {console.log('hii hii')}
-                        <Text className=" text-text text-[16px] text-center mt-[50px]" style={{ fontFamily: "Poppins-Bold" }}>
-                            How it works?
-                        </Text>
-                        <View className=" flex flex-col  mt-[24px]">
-                            <HomeMain width={width} />
-                            <YoutubeIframe
-                                height={250}
-                                videoId={'f3WwRCuu7F8'}
-                                play={playing}
-                                onChangeState={onStateChange}
-                            />
-                            <Text className="text-[#3f3d56] text-[14px] text-center px-[32px]" style={{ fontFamily: "Poppins-Bold" }}>
-                                Bargaining is the consumer's right Because money doesn't grow on trees.
-                            </Text>
-                        </View>
-                        <View className="px-[38px] flex flex-col gap-[38px] mt-[40px]">
-                            <Text className="text-[#3f3d56] text-[14px] text-center" style={{ fontFamily: "Poppins-Regular" }}>
-                                Now bargaining is possible from your couch. Do you want anything new or to service the old one?
-                            </Text>
-                            <Text className="text-[#3f3d56] text-[14px] text-center" style={{ fontFamily: "Poppins-Regular" }}>
-                                Connect with nearby vendors and bargain for the lowest prices for your shopping products.You can also avail any types of maintenance services here, like plumber, electrician,carpenter & lot more.</Text>
-                        </View>
-                        <View style={styles.scrollcontainer}>
-                            <ScrollView
-                                horizontal
-                                // pagingEnabled
-                                showsHorizontalScrollIndicator={false}
-                                onScroll={handleScroll}
-                                // scrollEventThrottle={16}
-                                ref={scrollViewRef}
-                            >
-                                {images.map((uri, index) => (
-                                    <View key={index} className="flex-row rounded-2xl my-[10px] shadow-2xl " style={{ width: 285, height: 343, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} >
-
-                                        <View className="scale-50">
-                                            <Image source={uri} />
-                                        </View>
-
-                                    </View>
-
-                                ))}
-                            </ScrollView>
-
-                            <View style={styles.indicatorContainer}>
-                                {images.map((_, index) => (
-                                    <View
-                                        key={index}
-                                        style={[
-                                            styles.indicator,
-                                            {
-                                                backgroundColor:
-                                                    index <= currentIndex ? "orange" : "grey",
-                                            },
-
-                                        ]}
-                                    />
-                                ))}
                             </View>
                         </View>
-                    </View>
-                )}
-            </ScrollView>
+                    )
+                }
+            </ScrollView >
 
 
             <View>
@@ -202,6 +208,7 @@ const ActiveRequests = () => {
 
                     <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Tab22 />
+                        {spades.length > 0 && <View style={{ position: 'absolute', backgroundColor: '#e76063', borderRadius: 16, right: 5, top: 0, width: 15, height: 15, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: 'white', fontSize: 10 }}>{spades.length}</Text></View>}
                         <Text style={{ fontFamily: 'Poppins-Regular', color: '#fb8c00' }}>Orders</Text>
                     </View>
                     <TouchableOpacity onPress={() => { navigation.navigate('store-search'); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -215,7 +222,7 @@ const ActiveRequests = () => {
                 </View>
             </View>
 
-        </View>
+        </View >
     )
 }
 

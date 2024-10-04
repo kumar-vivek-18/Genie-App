@@ -916,6 +916,20 @@ const BargainingScreen = () => {
                                     </View>
                                 </TouchableOpacity>
                             </View>}
+                        {(currentSpade.requestActive === "completed" || currentSpade.requestActive === "closed") && currentSpade.requestAcceptedChat === currentSpadeRetailer._id && <TouchableOpacity
+                            onPress={() => {
+                                setRetailerModal(true);
+                            }}
+                        >
+                            <View style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: '#fb8c00', paddingVertical: 10 }}>
+                                {/* <Contact /> */}
+                                <Text
+                                    style={{ fontFamily: "Poppins-Regular", color: "white" }}
+                                >
+                                    Call Vendor
+                                </Text>
+                            </View>
+                        </TouchableOpacity>}
 
                         {bidCounts > 0 &&
                             ((messages[messages?.length - 1]?.bidType === "true" &&

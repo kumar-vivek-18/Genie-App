@@ -563,25 +563,30 @@ const HomeScreen = () => {
             <Text className="text-[16px] text-center my-[40px] text-[#fb8c00]" style={{ fontFamily: "Poppins-ExtraBold" }}>
               Shop By Categories
             </Text>
+            <View style={{ width: "100%", backgroundColor: 'white', justifyContent: 'center', alignItems: "center" }}>
 
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
-              {categoriess.map((Category, index) => (
-                <TouchableOpacity key={index} style={{ paddingTop: 10, paddingLeft: 5 }} onPress={() => { dispatch(setRequestCategory(Category.name)); navigation.navigate('image-suggestion'); }}>
-                  <Category.cat />
-                </TouchableOpacity>
-              ))}
+              <View style={{ width: "100%", paddingHorizontal: 10, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+
+                {categoriess.map((Category, index) => (
+                  <TouchableOpacity key={index} style={{ paddingTop: 10 }} onPress={() => { dispatch(setRequestCategory(Category.name)); navigation.navigate('image-suggestion'); }}>
+                    <Category.cat width={.465 * width} />
+                  </TouchableOpacity>
+                ))}
+              </View>
             </View>
+
 
             <Text className="text-[16px] text-center  text-[#fb8c00] my-[40px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
               Service By Categories
             </Text>
-
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', marginBottom: 100 }}>
-              {servicess.map((Service, index) => (
-                <TouchableOpacity key={index} style={{ paddingTop: 10, paddingLeft: 5 }} onPress={() => { dispatch(setRequestCategory(Service.name)); navigation.navigate('image-suggestion'); }}>
-                  <Service.cat />
-                </TouchableOpacity>
-              ))}
+            <View style={{ width: "100%", backgroundColor: 'white', justifyContent: 'center', alignItems: "center" }}>
+              <View style={{ width: "100%", paddingHorizontal: 10, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginBottom: 100, }}>
+                {servicess.map((Service, index) => (
+                  <TouchableOpacity key={index} style={{ paddingTop: 10, }} onPress={() => { dispatch(setRequestCategory(Service.name)); navigation.navigate('image-suggestion'); }}>
+                    <Service.cat width={.465 * width} />
+                  </TouchableOpacity>
+                ))}
+              </View>
             </View>
 
           </View>
@@ -748,6 +753,7 @@ const HomeScreen = () => {
 
           <TouchableOpacity onPress={() => { navigation.navigate('orders') }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
             <Tab2 />
+            {spades.length > 0 && <View style={{ position: 'absolute', backgroundColor: '#e76063', borderRadius: 16, right: 5, top: 0, width: 15, height: 15, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: 'white', fontSize: 10 }}>{spades.length}</Text></View>}
             <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Orders</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => { navigation.navigate('store-search') }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>

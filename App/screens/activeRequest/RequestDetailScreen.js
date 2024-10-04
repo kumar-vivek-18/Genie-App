@@ -66,7 +66,6 @@ const RequestDetail = () => {
 
     ////////////////////////////////////////////////////////////////////////Connecting the socket when app comes to foreground from background////////////////////////////////////////////////////////////////////////////////
 
-
     // useEffect(() => {
     //     const subcription = AppState.addEventListener('change', nextAppState => {
     //         if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
@@ -126,7 +125,7 @@ const RequestDetail = () => {
         if (currentSpade.unread === true) {
             try {
                 const config = {
-                    headers: { // Use "headers" instead of "header"
+                    headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,
                     }
@@ -137,8 +136,6 @@ const RequestDetail = () => {
                     .then((res) => {
                         console.log('Mark as read successfully at request Detail screen');
                         let spadesData = [...spades];
-
-                        // Find and update the specific spade
                         const updatedSpadesData = spadesData.map(spade => {
                             if (spade._id === currentSpade._id) {
                                 return { ...spade, unread: false }; // Update unread property

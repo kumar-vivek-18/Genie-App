@@ -22,6 +22,12 @@ const DefineRequest = () => {
     const userLongitude = useSelector(store => store.user.userLongitude);
     const userLatitude = useSelector(store => store.user.userLatitude);
     const accessToken = useSelector(store => store.user.accessToken);
+    const suggestedImages = useSelector(store => store.userRequest.suggestedImages);
+
+    useEffect(() => {
+        if (suggestedImages.length > 0) setQuery("Looking for this product");
+
+    }, []);
     // console.log('hii')
     // const fetchNearByStores = useCallback(async () => {
     //     try {

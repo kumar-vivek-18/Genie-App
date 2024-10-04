@@ -45,7 +45,7 @@ const SearchCategoryScreen = () => {
     const [selectedOption, setSelectedOption] = useState("");
     const [isLoading, setIsLoading] = useState(false)
     const [loading, setLoading] = useState(false)
-
+    const spades = useSelector(store => store.user.spades);
     const userLongitude = useSelector(store => store.user.userLongitude);
     const userLatitude = useSelector(store => store.user.userLatitude);
     const accessToken = useSelector(store => store.user.accessToken);
@@ -435,6 +435,7 @@ const SearchCategoryScreen = () => {
 
                     <TouchableOpacity onPress={() => { navigation.navigate('orders') }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Tab2 />
+                        {spades.length > 0 && <View style={{ position: 'absolute', backgroundColor: '#e76063', borderRadius: 16, right: 5, top: 0, width: 15, height: 15, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: 'white', fontSize: 10 }}>{spades.length}</Text></View>}
                         <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Orders</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => { navigation.navigate('store-search') }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>

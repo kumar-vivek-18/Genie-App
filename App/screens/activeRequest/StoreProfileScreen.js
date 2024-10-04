@@ -88,6 +88,8 @@ const StoreProfileScreen = () => {
 
     //     const mainImage=useSelector(state => state.storeData.images.mainImage);
 
+    // console.log("currentSpadeRetailer", currentSpadeRetailer);
+
     const fetchRetailerFeedbacks = useCallback(async () => {
         try {
             const config = {
