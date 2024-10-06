@@ -430,8 +430,8 @@ const HomeScreen = () => {
         colors={["#9Bd35A", "#FB8C00"]}
       />}>
 
-        {!networkError && <View style={{ position: 'absolute', flex: 1, top: 0, left: 0, bottom: 0 }}>
-          <HomeScreenBg />
+        {!networkError && <View style={{ position: 'absolute', flex: 1, top: -30, left: 0, bottom: 0 }}>
+          <HomeScreenBg width={width} />
         </View>}
 
         <View className="w-full flex-row px-[29px] justify-between items-center pt-[20px]">
