@@ -11,7 +11,7 @@ import Tick from '../../assets/Tick.svg';
 import { baseUrl } from '../../utils/logics/constants';
 import axiosInstance from '../../utils/logics/axiosInstance';
 
-const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal, retailerId, storeName }) => {
+const RatingAndFeedbackModal = ({ setRatingAllowed, feedbacks, setFeedbacks, feedbackModal, setFeedbackModal, retailerId, storeName }) => {
     // const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
     const userDetails = useSelector(store => store.user.userDetails);
     // const currentSpadeRetailers = useSelector(store => store.user.currentSpadeRetailers);
@@ -31,11 +31,12 @@ const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal, retailerId, s
             if (rating === 0) return;
             // console.log(spade.customer, retailer.users[0].refId, rating, feedback);
             const config = {
-                headers: { // Use "headers" instead of "header"
+                headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`,
                 }
             };
+            console.log(userDetails._id, retailerId, userDetails.userName, feedback)
             await axiosInstance.post(`${baseUrl}/rating/rate-vendor`, {
                 sender: { type: "User", refId: userDetails._id },
                 user: { type: "Retailer", refId: retailerId },
@@ -46,16 +47,10 @@ const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal, retailerId, s
             }, config)
                 .then(res => {
                     console.log("Feedback posted successfully");
-
-                    // let retailers = currentSpadeRetailers.map((retailer) => {
-                    //     if (retailer._id === currentSpadeRetailer._id) {
-                    //         return { ...retailer, unreadCount: 0 };
-                    //     }
-                    //     return retailer; // Ensure that the original retailer is returned if no match is found
-                    // });
-                    // dispatch(setCurrentSpadeRetailers(retailers));
-                    // let updatedRetailer = { ...currentSpadeRetailer, retailerRated: true };
-                    // dispatch(setCurrentSpadeRetailer(updatedRetailer));
+                    if (res.status === 201) {
+                        setFeedbacks([...res.data, ...feedbacks]);
+                        setRatingAllowed(false);
+                    }
                     setSubmitted(true);
                     setTimeout(() => {
                         setFeedbackModal(false);
@@ -66,10 +61,10 @@ const RatingAndFeedbackModal = ({ feedbackModal, setFeedbackModal, retailerId, s
 
                 })
                 .catch(err => {
-                    console.error(err);
+                    console.error("hii", err);
                 })
         } catch (error) {
-            console.error(error);
+            console.error("error while submitting rating", error);
         }
     }
     return (

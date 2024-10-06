@@ -185,7 +185,7 @@ const RequestPreviewScreen = () => {
         </View>
         <View className="px-[32px]">
           <Text className="text-[14px]  text-[#2e2c43]" style={{ fontFamily: "Poppins-Black" }}>
-            Spade of master
+            Spades of master
           </Text>
           <Text className="text-[14px] text-[#2e2c43] w-4/5 mt-[5px]" style={{ fontFamily: "Poppins-Regular" }}>
             {requestDetail}
@@ -194,7 +194,7 @@ const RequestPreviewScreen = () => {
 
         <View className="px-[32px] pt-[20px]">
           <Text className="text-[14px]  text-[#2e2c43]" style={{ fontFamily: "Poppins-Black" }}>
-            Spade Location
+            Spades Location
           </Text>
           <Text className="text-[14px] text-[#2e2c43]  mt-[5px]" style={{ fontFamily: "Poppins-Regular" }}>
             {userDetails.location}

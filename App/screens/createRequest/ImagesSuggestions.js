@@ -210,14 +210,14 @@ const ImageSuggestion = () => {
                         <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] " style={{ fontFamily: "Poppins-Medium" }}>
                             Step 1/4
                         </Text>
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
+                        {suggestedImages.length == 0 && <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
                             <Text className="text-[14px] text-center text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>
                                 Search any product in the market.
                             </Text>
                             <TouchableOpacity onPress={() => { setDescModal(!descModal) }} style={{ width: 25, height: 25, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderColor: 'red', borderWidth: 2, borderRadius: 16 }}>
                                 <Text style={{ color: 'red', fontSize: 16, fontFamily: 'Poppins-SemiBold' }}>?</Text>
                             </TouchableOpacity>
-                        </View>
+                        </View>}
 
 
 
@@ -404,7 +404,7 @@ const ImageSuggestion = () => {
                                 dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
                             }
                         }}>
-                            <Text style={{ fontFamily: 'Poppins-Semibold', backgroundColor: 'white', color: '#fb8c00', borderWidth: 2, borderRadius: 16, borderColor: '#fb8c00', paddingHorizontal: 70, paddingVertical: 10, marginTop: 10 }}>Add Product To Buy</Text>
+                            <Text style={{ fontFamily: 'Poppins-Semibold', backgroundColor: 'white', color: '#fb8c00', borderWidth: 2, borderRadius: 16, borderColor: '#fb8c00', paddingHorizontal: 40, paddingVertical: 10, marginTop: 10 }}>Add Product To Start Bargaining</Text>
                         </Pressable>}
                     </Pressable>
                 </Modal>

@@ -62,6 +62,9 @@ const StoreProfileScreen = () => {
     const [scaleAnimation] = useState(new Animated.Value(0));
     const [ratingAllowed, setRatingAllowed] = useState(false);
 
+
+
+
     //   const copyToClipboard = async () => {
     //     // await Clipboard.setStringAsync(inputValue);
     //     setCopied(true);
@@ -212,25 +215,52 @@ const StoreProfileScreen = () => {
 
                     </View>
                 </View>
+                <View>
+                    <Text style={{ paddingHorizontal: 35, fontFamily: 'Poppins-SemiBold', paddingBottom: 20, color: '#2e2c43' }}>Store Images</Text>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ alignSelf: 'flex-start' }}>
+                        {currentSpadeRetailer.retailerId.storeImages.length > 0 &&
+                            <View className="pl-[32px] flex flex-row gap-[11px] mb-[60px]" >
+                                {currentSpadeRetailer.retailerId.storeImages?.map((image, index) => (
 
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ alignSelf: 'flex-start' }}>
-                    {currentSpadeRetailer.retailerId.storeImages.length > 0 &&
-                        <View className="pl-[32px] flex flex-row gap-[11px] mb-[60px]" >
-                            {currentSpadeRetailer.retailerId.storeImages?.map((image, index) => (
+                                    <Pressable onPress={() => { handleImagePress(image) }} key={index} className="rounded-[16px]">
+                                        <Image
+                                            source={{ uri: image }}
+                                            width={119}
+                                            height={164}
+                                            className="rounded-[16px] border-[1px] border-[#cbcbce] object-contain"
+                                        />
+                                    </Pressable>
+                                )
+                                )}
+                            </View>
+                        }
+                    </ScrollView>
+                </View>
+                <View>
+                    <Text style={{ paddingHorizontal: 35, fontFamily: 'Poppins-SemiBold', paddingBottom: 20, color: '#2e2c43' }}>Available stock</Text>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ alignSelf: 'flex-start' }}>
+                        {currentSpadeRetailer.retailerId.productImages.length > 0 &&
+                            <View className="pl-[32px] flex flex-row gap-[11px] mb-[60px]" >
+                                {currentSpadeRetailer.retailerId.productImages?.map((image, index) => (
 
-                                <Pressable onPress={() => { handleImagePress(image) }} key={index} className="rounded-[16px]">
-                                    <Image
-                                        source={{ uri: image }}
-                                        width={119}
-                                        height={164}
-                                        className="rounded-[16px] border-[1px] border-[#cbcbce] object-contain"
-                                    />
-                                </Pressable>
-                            )
-                            )}
-                        </View>
-                    }
-                </ScrollView>
+                                    <Pressable onPress={() => { handleImagePress(image.uri) }} key={index} className="rounded-[16px]">
+                                        <Image
+                                            source={{ uri: image.uri }}
+                                            width={119}
+                                            height={164}
+                                            className="rounded-[16px] border-[1px] border-[#cbcbce] object-contain"
+                                        />
+                                        <View style={{ position: 'absolute', bottom: 0, width: 119, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: 'center', borderBottomStartRadius: 16, borderBottomEndRadius: 16 }}>
+                                            <Text style={{ color: 'white', fontFamily: 'Poppins-Regular', fontSize: 8 }}>Estimated Price</Text>
+                                            <Text style={{ color: '#70b241', fontFamily: 'Poppins-SemiBold', fontSize: 14 }}>Rs {image.price}</Text>
+                                        </View>
+                                    </Pressable>
+                                )
+                                )}
+                            </View>
+                        }
+                    </ScrollView>
+                </View>
 
                 <View className="px-[30px] flex flex-col gap-[26px] mb-[40px]">
                     <View className="flex flex-col gap-[11px]">
@@ -456,7 +486,7 @@ const StoreProfileScreen = () => {
                     </View>
                 </TouchableOpacity>
             </View>}
-            {feedbackModal && <RatingAndFeedbackModal feedbackModal={feedbackModal} setFeedbackModal={setFeedbackModal} />}
+            {feedbackModal && <RatingAndFeedbackModal setRatingAllowed={setRatingAllowed} feedbacks={feedbacks} setFeedbacks={setFeedbacks} feedbackModal={feedbackModal} setFeedbackModal={setFeedbackModal} retailerId={currentSpadeRetailer.retailerId._id} storeName={currentSpadeRetailer.retailerId.storeName} />}
             {editModal && <EditCommentModal feedbacks={feedbacks} setFeedbacks={setFeedbacks} commentId={selectedReview?._id} userId={selectedReview?.user?.refId} oldRating={selectedReview?.rating} oldFeedback={selectedReview?.feedback} editModal={editModal} setEditModal={setEditModal} />}
         </SafeAreaView >
     );

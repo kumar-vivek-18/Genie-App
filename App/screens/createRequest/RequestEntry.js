@@ -22,6 +22,8 @@ const RequestEntry = () => {
     const userLongitude = useSelector(store => store.user.userLongitude);
     const userLatitude = useSelector(store => store.user.userLatitude);
     const accessToken = useSelector(store => store.user.accessToken);
+
+    const suggestions = ["Smart Tv 55 inch, Ultra HD", "1600 Watts Induction Cooktop with Automatic Voltage Regulator", "Boiler suits", "Jeans: Denim jackets", "A-Line Kurta with Pant and Dupatta Suit Set", "Floor Length Suits", "Banarsi Sari", "Android Digital Watch"]
     // console.log('hii')
     const fetchNearByStores = useCallback(async () => {
         try {
@@ -77,13 +79,10 @@ const RequestEntry = () => {
                 </Text>
 
                 <View className="px-[32px] mb-[20px]">
-                    <Text className="text-[16px]  text-[#2e2c43] text-center mb-[18px] " style={{ fontFamily: "Poppins-Black" }}>Type your spades</Text>
-
-                    <Text className="text-[14px] mx-[14px] mt-[15px] text-center text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>like: My phone charger get damaged / I want a 55 inch screen tv / I need a plumber to repair my water supply. </Text>
-
+                    <Text className="text-[16px]  text-[#2e2c43] text-center mb-[18px] " style={{ fontFamily: "Poppins-Black" }}>Define your request</Text>
                 </View>
 
-                <View className="mx-[32px]  h-[127px] bg-[#f9f9f9] rounded-xl " style={{ marginBottom: 100 }}>
+                <View className="mx-[32px]  h-[127px] bg-[#ffe5c4] rounded-xl " style={{ marginBottom: 20, borderWidth: 0.5, borderRadius: 16, borderColor: '#fb8c00' }}>
                     <TextInput
                         multiline
                         numberOfLines={6}
@@ -98,6 +97,16 @@ const RequestEntry = () => {
                     />
                 </View>
 
+                <View style={{ paddingHorizontal: 30, marginBottom: 100 }}>
+                    <Text style={{ fontFamily: 'Poppins-SemiBold', paddingLeft: 10, fontSize: 16 }}>Suggestions</Text>
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
+                        {suggestions.map((categ, index) => (
+                            <TouchableOpacity onPress={() => { setQuery(categ) }} key={index} style={{ borderWidth: 1, borderRadius: 16, borderColor: '#fb8c00', backgroundColor: '#ffe5c4' }}>
+                                <Text style={{ fontFamily: "Poppins-Regular", fontSize: 14, paddingHorizontal: 5, paddingVertical: 5 }}>{categ}</Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                </View>
 
 
 

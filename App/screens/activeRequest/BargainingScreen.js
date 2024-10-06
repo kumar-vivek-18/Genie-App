@@ -690,10 +690,7 @@ const BargainingScreen = () => {
             storeLocation
         );
 
-        // if (userLongitude === 0 || userLatitude === 0 || !storeLocation) {
-        //     Alert.alert('Error', 'Current location or friend location is not available.');
-        //     return;
-        // }
+
         if (userLongitude !== 0 && userLatitude !== 0) {
             const url = `https://www.google.com/maps/dir/?api=1&origin=${userLatitude},${userLongitude}&destination=${storeLocation.latitude},${storeLocation.longitude}&travelmode=driving`;
 
@@ -735,11 +732,7 @@ const BargainingScreen = () => {
         setViewHeight(height);
     };
 
-    // const handleBottomComponentHeight = (event) => {
-    //     const { height } = event.nativeEvent.layout;
-    //     console.log(height);
-    //     setBottomHeight(height);
-    // }
+
 
 
     return (
@@ -759,7 +752,6 @@ const BargainingScreen = () => {
                         </View>
                     )}
 
-                    {/* <View className=" bg-black w-full flex flex-row absolute justify-between items-center  top-[15px]"> */}
                     <TouchableOpacity
                         onPress={() => {
                             navigation.navigate('activerequest');
@@ -773,7 +765,6 @@ const BargainingScreen = () => {
                         <ThreeDots />
                     </TouchableOpacity>
 
-                    {/* </View> */}
 
 
                     <View onLayout={handleLayout} className="bg-[#ffe7c8] px-[64px] py-[30px]  pt-[20px] relative">
@@ -890,8 +881,6 @@ const BargainingScreen = () => {
                             }
                             {messageLoading && <View className="mt-[150px]"><ActivityIndicator size={30} color={'#fb8c00'} /></View>}
                         </View>
-
-
                     </ScrollView>
 
 
@@ -921,10 +910,10 @@ const BargainingScreen = () => {
                                 setRetailerModal(true);
                             }}
                         >
-                            <View style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: '#fb8c00', paddingVertical: 10 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#fb8c00', height: 68 }}>
                                 {/* <Contact /> */}
                                 <Text
-                                    style={{ fontFamily: "Poppins-Regular", color: "white" }}
+                                    style={{ fontFamily: "Poppins-Bold", color: "white", fontSize: 16 }}
                                 >
                                     Call Vendor
                                 </Text>

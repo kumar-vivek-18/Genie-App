@@ -103,7 +103,7 @@ const DefineRequest = () => {
                 </Text>
 
                 <View className="px-[32px] mb-[20px]">
-                    <Text className="text-[16px]  text-[#2e2c43] text-center  " style={{ fontFamily: "Poppins-Black" }}>Type your spades</Text>
+                    <Text className="text-[16px]  text-[#2e2c43] text-center  " style={{ fontFamily: "Poppins-Black" }}>Define your request</Text>
 
 
                 </View>

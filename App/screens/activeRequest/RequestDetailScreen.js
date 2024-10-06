@@ -186,6 +186,7 @@ const RequestDetail = () => {
                         const extraChats = chats.filter(chat => chat._id !== acceptedChat._id);
                         const allChats = [acceptedChat, ...extraChats];
                         console.log('allChats', allChats.length);
+
                         dispatch(setCurrentSpadeRetailers(allChats));
                     }
                     else {

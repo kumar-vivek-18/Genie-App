@@ -210,9 +210,11 @@ const AddImageScreen = () => {
               <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] " style={{ fontFamily: "Poppins-Medium" }}>
                 Step 3/4
               </Text>
-              <Text className="text-[14px] text-center text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>
-                Provide image references for vendors to better understand your needs.
-              </Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
+                <Text className="text-[14px] text-center text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>
+                  Search any product in the market.
+                </Text>
+              </View>
 
             </View>
 
