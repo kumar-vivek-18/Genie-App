@@ -83,7 +83,10 @@ const DefineRequest = () => {
         ],
         "Kids Games,Toys & Accessories": ["Monopoly", "Chess", "Jenga", "Game of States", "Audi Tt Rs Plus Electric Motor Car", "Vintage Electric Motor Car"],
         "Luxury Watches": ["Digital Watch", "Apple Watch", "Android Digital Watch", "Tissot T classic man’s watch"],
-
+        "Hardware - Plumbing, Paint,& Electricity": ["5 KG paint bucket", "Need Plumber", "Kitchen Sinks", "Sink Couplings", "Need Painter"],
+        "Sports Nutrition - Whey Pro etc": ["Nutrabay Pure Creatine Monohydrate", "Nutrabay Gold 100% Whey Protein Concentrate", "Wellversed (wellcore) - Micronised Creatine"],
+        "Automotive Parts/Services - 2 wheeler Fuel based": ["Bike Battery", "Engine Repair", "Tyre Replacement", "Bike Service"],
+        "Automotive Parts/Services - 4 wheeler Fuel based": ["Car Battery", "Engine Repair", "Tyre Replacement", "Car Service"],
     }
     console.log("hii", suggestions[requestCategory]);
 

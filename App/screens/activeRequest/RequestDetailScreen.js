@@ -90,7 +90,7 @@ const RequestDetail = () => {
             if (isRequestDetailScreen) {
                 console.log('isHome', isHome);
                 if (isHome)
-                    navigation.navigate('home');
+                    navigation.navigate('orders');
                 else {
                     navigation.navigate('history');
                     dispatch(setIsHome(true));
@@ -340,7 +340,7 @@ const RequestDetail = () => {
 
                             <TouchableOpacity onPress={() => {
                                 if (isHome)
-                                    navigation.navigate('home');
+                                    navigation.navigate('orders');
                                 else {
                                     navigation.navigate('history');
                                     dispatch(setIsHome(true));

@@ -229,31 +229,31 @@ const StoreProfilePage = () => {
                         </View>
                     }
                 </ScrollView>
-                <View>
+                {storeData?.productImages && storeData.productImages.length > 0 && <View>
                     <View ><Text style={{ paddingLeft: 32, paddingBottom: 10, fontFamily: 'Poppins-Bold', color: '#2e2c43', fontSize: 16 }}>Available stock</Text></View>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ alignSelf: 'flex-start' }}>
-                        {storeData.productImages.length > 0 &&
-                            <View className="pl-[32px] flex flex-row gap-[11px] mb-[60px]" >
-                                {storeData.productImages?.map((image, index) => (
 
-                                    <Pressable onPress={() => { handleImagePress(image.uri) }} key={index} className="rounded-[16px]">
-                                        <Image
-                                            source={{ uri: image.uri }}
-                                            width={129}
-                                            height={172}
-                                            className="rounded-[16px] border-[1px] border-[#cbcbce] object-contain"
-                                        />
-                                        <View style={{ position: 'absolute', bottom: 0, width: 129, height: 45, backgroundColor: 'rgba(0,0,0,0.5)', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderBottomEndRadius: 16, borderBottomStartRadius: 16 }}>
-                                            <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>Estimated Price</Text>
-                                            <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#70b241', }}>Rs {image.price}</Text>
-                                        </View>
-                                    </Pressable>
-                                )
-                                )}
-                            </View>
-                        }
+                        <View className="pl-[32px] flex flex-row gap-[11px] mb-[60px]" >
+                            {storeData.productImages?.map((image, index) => (
+
+                                <Pressable onPress={() => { handleImagePress(image.uri) }} key={index} className="rounded-[16px]">
+                                    <Image
+                                        source={{ uri: image.uri }}
+                                        width={129}
+                                        height={172}
+                                        className="rounded-[16px] border-[1px] border-[#cbcbce] object-contain"
+                                    />
+                                    <View style={{ position: 'absolute', bottom: 0, width: 129, height: 45, backgroundColor: 'rgba(0,0,0,0.5)', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderBottomEndRadius: 16, borderBottomStartRadius: 16 }}>
+                                        <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>Estimated Price</Text>
+                                        <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#70b241', }}>Rs {image.price}</Text>
+                                    </View>
+                                </Pressable>
+                            )
+                            )}
+                        </View>
+
                     </ScrollView>
-                </View>
+                </View>}
 
 
                 <View className="px-[30px] flex flex-col gap-[26px] mb-[40px]">

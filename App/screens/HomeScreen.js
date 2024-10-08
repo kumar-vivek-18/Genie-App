@@ -80,15 +80,20 @@ import Category4 from '../assets/category4.svg';
 import Category5 from '../assets/category5.svg';
 import Category6 from '../assets/category6.svg';
 import Category7 from '../assets/category7.svg';
+import Category8 from '../assets/category8.svg';
+import Category9 from '../assets/category9.svg';
 import Service1 from '../assets/service1.svg';
 import Service2 from '../assets/service2.svg';
 import Service3 from '../assets/service3.svg';
+import Service4 from '../assets/service4.svg';
+import Service5 from '../assets/service5.svg';
 import Tab11 from '../assets/tab11.svg';
 import Tab2 from '../assets/tab2.svg';
 import Tab3 from '../assets/tab3.svg';
 import Tab4 from '../assets/tab4.svg';
 import { emtpyRequestImages, setRequestCategory, setSuggestedImages } from "../redux/reducers/userRequestsSlice";
 import { useFocusEffect } from '@react-navigation/native';
+
 
 const { width } = Dimensions.get("window");
 
@@ -99,10 +104,16 @@ const categoriess = [{ cat: Category1, name: "Consumer Electronics & Accessories
 { cat: Category4, name: "Fashion accessories - Shoes, Bag" },
 { cat: Category5, name: "Fashion accessories - Sharee, suits, kurti & dress materials etc" },
 { cat: Category6, name: "Kids Games,Toys & Accessories" },
-{ cat: Category7, name: "Luxury Watches" }];
-const servicess = [{ cat: Service1, name: "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc" }, { cat: Service2, name: "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc" }, {
-  cat: Service3, name: "Clock Repair & Services"
-}];
+{ cat: Category7, name: "Luxury Watches" },
+{ cat: Category8, name: "Hardware - Plumbing, Paint,& Electricity" },
+{ cat: Category9, name: "Sports Nutrition - Whey Pro etc" },
+];
+const servicess = [{ cat: Service1, name: "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc" },
+{ cat: Service2, name: "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc" },
+{ cat: Service3, name: "Clock Repair & Services" },
+{ cat: Service4, name: "Automotive Parts/Services - 2 wheeler Fuel based" },
+{ cat: Service5, name: "Automotive Parts/Services - 4 wheeler Fuel based" },
+];
 const HomeScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -421,7 +432,23 @@ const HomeScreen = () => {
   }
 
   const { width } = Dimensions.get('window');
-  // console.log('userData', userDetails);
+
+  //Referral Sharing ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // const onShare = async () => {
+  //   try {
+  //     const result = await Share.open({
+  //       message: "",
+  //       title: 'Share via',
+  //     });
+  //     if (result.success) {
+  //       console.log('Shared successfully!');
+  //     }
+  //   } catch (error) {
+  //     console.log('Error while sharing:', error);
+  //   }
+  // };
+
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView style={{ flex: 1 }} className="relative" refreshControl={<RefreshControl
