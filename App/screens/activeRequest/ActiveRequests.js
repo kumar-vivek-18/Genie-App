@@ -23,6 +23,7 @@ import Home4 from "../../assets/Home4.png";
 import Home5 from "../../assets/Home5.png";
 import Home6 from "../../assets/Home6.png";
 import Home7 from "../../assets/Home7.png";
+import Share from 'react-native-share';
 
 const ActiveRequests = () => {
 
@@ -61,14 +62,28 @@ const ActiveRequests = () => {
 
     // console.log(spades);
 
+    const onShare = async () => {
+        try {
+            const result = await Share.open({
+                message: "Install the CulturTap Genie App and start bargaining! Download the app now: https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie",
+                title: 'Share via',
+            });
+            if (result.success) {
+                console.log('Shared successfully!');
+            }
+        } catch (error) {
+            console.log('Error while sharing:', error);
+        }
+    };
+
     return (
         <View style={{ flex: 1 }}>
-            <ScrollView style={{ flex: 1 }}>
+            <ScrollView style={{ flex: 1, backgroundColor: 'white' }}>
                 <TouchableOpacity onPress={() => { navigation.goBack() }} style={{ position: 'absolute', top: 20, left: 15, padding: 25 }}>
                     <ArrowLeft />
                 </TouchableOpacity>
                 <View style={{ marginTop: 40, alignItems: 'center' }}>
-                    <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 16, color: '#2e2c43' }}>Your ongoing spades</Text>
+                    <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 16, color: '#2e2c43' }}>Your ongoing orders</Text>
                     {spades.length === 0 && <View>
                         <Text style={{ marginTop: 20, }}>No active spades</Text>
                     </View>}
@@ -77,7 +92,7 @@ const ActiveRequests = () => {
 
                 {
                     (spades.length > 0) && !networkError && !spadesLoading && (
-                        <View style={{ marginTop: 20 }}>
+                        <View style={{ marginTop: 40 }}>
                             {spades.map((spade, index) => (
                                 <Pressable
                                     key={index}
@@ -215,9 +230,9 @@ const ActiveRequests = () => {
                         <Tab3 />
                         <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Stores</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <TouchableOpacity onPress={() => { onShare(); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Tab4 />
-                        <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Refer</Text>
+                        <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Refer Us</Text>
                     </TouchableOpacity>
                 </View>
             </View>

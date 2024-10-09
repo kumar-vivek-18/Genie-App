@@ -34,7 +34,7 @@ import Tab1 from '../../assets/tab1.svg';
 import Tab2 from '../../assets/tab2.svg';
 import Tab33 from '../../assets/tab33.svg';
 import Tab4 from '../../assets/tab4.svg';
-
+import Share from 'react-native-share';
 
 
 const SearchCategoryScreen = () => {
@@ -276,6 +276,19 @@ const SearchCategoryScreen = () => {
         else setSearchedStores(dataCopy);
     }
 
+    const onShare = async () => {
+        try {
+            const result = await Share.open({
+                message: "Install the CulturTap Genie App and start bargaining! Download the app now: https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie",
+                title: 'Share via',
+            });
+            if (result.success) {
+                console.log('Shared successfully!');
+            }
+        } catch (error) {
+            console.log('Error while sharing:', error);
+        }
+    };
 
 
 
@@ -442,10 +455,12 @@ const SearchCategoryScreen = () => {
                         <Tab33 />
                         <Text style={{ fontFamily: 'Poppins-Regular', color: '#fb8c00' }}>Stores</Text>
                     </TouchableOpacity>
-                    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Tab4 />
-                        <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Refer</Text>
-                    </View>
+                    <TouchableOpacity onPress={() => { onShare(); }}>
+                        <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <Tab4 />
+                            <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Refer Us</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </View>
 

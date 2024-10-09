@@ -212,7 +212,7 @@ const AddImageScreen = () => {
               </Text>
               <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
                 <Text className="text-[14px] text-center text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>
-                  Search any product in the market.
+                  Search any product in the market / share the image of defect.
                 </Text>
               </View>
 

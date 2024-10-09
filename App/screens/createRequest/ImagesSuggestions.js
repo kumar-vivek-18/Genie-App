@@ -38,6 +38,7 @@ import { launchCamera } from "react-native-image-picker";
 import BackArrow from "../../assets/BackArrowImg.svg";
 import RightArrow from "../../assets/rightblack.svg";
 import AddImageContent from '../../assets/addImageContent.svg';
+import AddImageContentService from '../../assets/addImageContentService.svg';
 import axiosInstance from "../../utils/logics/axiosInstance";
 import { baseUrl } from "../../utils/logics/constants";
 
@@ -75,6 +76,11 @@ const ImageSuggestion = () => {
     const [delImgType, setDelImgType] = useState("clicked");
     const [descModal, setDescModal] = useState(false);
     const [selectedImgEstimatedPrice, setSelectedImgEstimatedPrice] = useState(0);
+    const [isService, setIsService] = useState(false);
+
+    useEffect(() => {
+        if (requestCategory.includes('Service')) setIsService(true);
+    }, []);
 
     const handleImagePress = (image) => {
         setSelectedImage(image);
@@ -200,7 +206,7 @@ const ImageSuggestion = () => {
                             <BackArrow width={14} height={10} />
                         </Pressable>
                         <Text className="text-[16px] flex flex-1 justify-center text-[#2e2c43] items-center text-center" style={{ fontFamily: "Poppins-ExtraBold" }}>
-                            Select Product
+                            {isService ? "Add Service" : "Select Product"}
                         </Text>
                         {imagesLocal.length === 0 && <Pressable onPress={() => navigation.navigate("define-request")} className="">
                             <Text className="text-[16px] text-[#FB8C00]" style={{ fontFamily: "Poppins-Medium" }}>Skip</Text>
@@ -212,7 +218,7 @@ const ImageSuggestion = () => {
                         </Text>
                         {suggestedImages.length == 0 && <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
                             <Text className="text-[14px] text-center text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>
-                                Search any product in the market.
+                                {isService ? "Share the image of defect" : "Search any product in the market."}
                             </Text>
                             <TouchableOpacity onPress={() => { setDescModal(!descModal) }} style={{ width: 25, height: 25, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderColor: 'red', borderWidth: 2, borderRadius: 16 }}>
                                 <Text style={{ color: 'red', fontSize: 16, fontFamily: 'Poppins-SemiBold' }}>?</Text>
@@ -372,7 +378,7 @@ const ImageSuggestion = () => {
                     transparent={true}
                 >
                     <TouchableOpacity onPress={() => { setDescModal(false) }} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-                        <AddImageContent />
+                        {isService ? <AddImageContentService /> : <AddImageContent />}
                     </TouchableOpacity>
 
                 </Modal>

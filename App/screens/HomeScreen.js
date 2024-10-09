@@ -91,9 +91,9 @@ import Tab11 from '../assets/tab11.svg';
 import Tab2 from '../assets/tab2.svg';
 import Tab3 from '../assets/tab3.svg';
 import Tab4 from '../assets/tab4.svg';
-import { emtpyRequestImages, setRequestCategory, setSuggestedImages } from "../redux/reducers/userRequestsSlice";
+import { emtpyRequestImages, setEstimatedPrice, setExpectedPrice, setRequestCategory, setSuggestedImages } from "../redux/reducers/userRequestsSlice";
 import { useFocusEffect } from '@react-navigation/native';
-
+import Share from 'react-native-share';
 
 const { width } = Dimensions.get("window");
 
@@ -262,6 +262,8 @@ const HomeScreen = () => {
   useFocusEffect(
     useCallback(() => {
       dispatch(setSuggestedImages([]));
+      dispatch(setExpectedPrice(0));
+      dispatch(setEstimatedPrice(0));
       dispatch(emtpyRequestImages());
 
 
@@ -435,19 +437,19 @@ const HomeScreen = () => {
 
   //Referral Sharing ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  // const onShare = async () => {
-  //   try {
-  //     const result = await Share.open({
-  //       message: "",
-  //       title: 'Share via',
-  //     });
-  //     if (result.success) {
-  //       console.log('Shared successfully!');
-  //     }
-  //   } catch (error) {
-  //     console.log('Error while sharing:', error);
-  //   }
-  // };
+  const onShare = async () => {
+    try {
+      const result = await Share.open({
+        message: "Install the CulturTap Genie App and start bargaining! Download the app now: https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie",
+        title: 'Share via',
+      });
+      if (result.success) {
+        console.log('Shared successfully!');
+      }
+    } catch (error) {
+      console.log('Error while sharing:', error);
+    }
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -767,7 +769,7 @@ const HomeScreen = () => {
 
 
         </View>}
-        {/* {networkError && <View className="mt-[100px] "><NetworkError callFunction={fetchData} setNetworkError={setNetworkError} connectSocket={connectSocket} /></View>} */}
+        {networkError && <View className="mt-[100px] "><NetworkError callFunction={fetchData} setNetworkError={setNetworkError} connectSocket={connectSocket} /></View>}
       </ScrollView>
 
 
@@ -787,10 +789,13 @@ const HomeScreen = () => {
             <Tab3 />
             <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Stores</Text>
           </TouchableOpacity>
-          <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Tab4 />
-            <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Refer</Text>
-          </View>
+          <TouchableOpacity onPress={() => { onShare(); }}>
+            <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Tab4 />
+              <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Refer Us</Text>
+            </View>
+          </TouchableOpacity>
+
         </View>
       </View>
     </View>
