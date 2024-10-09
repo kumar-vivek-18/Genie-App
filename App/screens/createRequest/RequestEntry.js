@@ -79,7 +79,7 @@ const RequestEntry = () => {
                 </Text>
 
                 <View className="px-[32px] mb-[20px]">
-                    <Text className="text-[16px]  text-[#2e2c43] text-center mb-[18px] " style={{ fontFamily: "Poppins-Black" }}>Describe your needs</Text>
+                    <Text className="text-[16px]  text-[#2e2c43] text-center mb-[18px] " style={{ fontFamily: "Poppins-Black" }}>Describe your need</Text>
                 </View>
 
                 <View className="mx-[32px]  h-[127px] bg-[#ffe5c4] rounded-xl " style={{ marginBottom: 20, borderWidth: 0.5, borderRadius: 16, borderColor: '#fb8c00' }}>

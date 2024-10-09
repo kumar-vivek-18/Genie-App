@@ -87,6 +87,7 @@ import Service2 from '../assets/service2.svg';
 import Service3 from '../assets/service3.svg';
 import Service4 from '../assets/service4.svg';
 import Service5 from '../assets/service5.svg';
+import Service6 from '../assets/service6.svg';
 import Tab11 from '../assets/tab11.svg';
 import Tab2 from '../assets/tab2.svg';
 import Tab3 from '../assets/tab3.svg';
@@ -113,6 +114,7 @@ const servicess = [{ cat: Service1, name: "Services & Repair, Consumer Electroni
 { cat: Service3, name: "Clock Repair & Services" },
 { cat: Service4, name: "Automotive Parts/Services - 2 wheeler Fuel based" },
 { cat: Service5, name: "Automotive Parts/Services - 4 wheeler Fuel based" },
+{ cat: Service6, name: "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc" }
 ];
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -522,7 +524,7 @@ const HomeScreen = () => {
             <Animated.View style={[styles.scrollMarqContainer, { transform: [{ translateX: scrollX }] }]}>
               <View className="flex flex-row items-center justify-center gap-2">
                 <Offer />
-                <Text style={{ fontFamily: "Poppins-BlackItalic", color: "#3f3d56" }} >Free Orders Remaining: <Text className="text-[#55cd00]">{userDetails.freeSpades}</Text> <Text className="text-[#3f3d56]" style={{ fontFamily: "Poppins-BlackItalic" }}>             SAVE MORE, START BARGAINING!</Text> </Text>
+                <Text style={{ fontFamily: "Poppins-BlackItalic", color: "#3f3d56" }} >Service Free Orders Remaining: <Text className="text-[#55cd00]">{userDetails.freeSpades}</Text> <Text className="text-[#3f3d56]" style={{ fontFamily: "Poppins-BlackItalic" }}>             SAVE MORE, START BARGAINING!</Text> </Text>
               </View>
 
             </Animated.View>
