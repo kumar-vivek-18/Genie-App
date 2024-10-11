@@ -76,6 +76,7 @@ const ImageSuggestion = () => {
     const [delImgType, setDelImgType] = useState("clicked");
     const [descModal, setDescModal] = useState(false);
     const [selectedImgEstimatedPrice, setSelectedImgEstimatedPrice] = useState(0);
+    const [selectedImageDesc, setSelectedImageDesc] = useState("");
     const [isService, setIsService] = useState(false);
 
     useEffect(() => {
@@ -315,6 +316,7 @@ const ImageSuggestion = () => {
                                             style={{ borderRadius: 16 }}
                                         />
                                         <View style={{ position: 'absolute', bottom: 0, width: 154, height: 45, backgroundColor: 'rgba(0,0,0,0.5)', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderBottomEndRadius: 16, borderBottomStartRadius: 16 }}>
+                                            {suggestionImage?.description && suggestedImages.description.length > 0 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>{suggestionImage.description.substring(0.20)}...</Text>}
                                             <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>Estimated Price</Text>
                                             <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#70b241', }}>Rs {suggestionImage.price}</Text>
                                         </View>
@@ -389,29 +391,39 @@ const ImageSuggestion = () => {
 
                 >
                     <Pressable onPress={() => { handleClose(); }} style={styles.modalContainer} >
-                        <Pressable onPress={() => { handleClose(); }}>
-                            <Animated.Image
-                                source={{ uri: selectedImage }}
-                                style={[
-                                    styles.modalImage,
-                                    {
-                                        transform: [{ scale: scaleAnimation }],
-                                    },
-                                ]}
-                            />
-                            {selectedImgEstimatedPrice > 0 && <View style={{ position: 'absolute', bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', width: 300, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingVertical: 5, borderBottomEndRadius: 10, borderBottomStartRadius: 10 }}>
-                                <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Poppins-Regular' }}>Estimated Price</Text>
-                                <Text style={{ color: '#70b241', fontSize: 18, fontFamily: 'Poppins-SemiBold' }}>Rs {selectedImgEstimatedPrice}</Text>
-                            </View>}
-                        </Pressable>
-                        {isSuggestion && <Pressable onPress={() => {
-                            dispatch(setSuggestedImages([...suggestedImages, selectedImage])); handleClose();
-                            if (selectedImgEstimatedPrice > 0) {
-                                dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
-                            }
-                        }}>
-                            <Text style={{ fontFamily: 'Poppins-Semibold', backgroundColor: 'white', color: '#fb8c00', borderWidth: 2, borderRadius: 16, borderColor: '#fb8c00', paddingHorizontal: 40, paddingVertical: 10, marginTop: 10 }}>Add Product To Start Bargaining</Text>
-                        </Pressable>}
+                        <Animated.View
+                            style={[
+                                {
+                                    transform: [{ scale: scaleAnimation }],
+                                },
+                            ]}
+                        >
+                            <Pressable onPress={() => { handleClose(); }}>
+
+                                <Image
+                                    source={{ uri: selectedImage }}
+                                    style={[
+                                        styles.modalImage,
+                                        // {
+                                        //     transform: [{ scale: scaleAnimation }],
+                                        // },
+                                    ]}
+                                />
+                                {(selectedImgEstimatedPrice > 0 || selectedImageDesc.length > 0) && <View style={{ position: 'absolute', bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', width: 300, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingVertical: 5, borderBottomEndRadius: 10, borderBottomStartRadius: 10 }}>
+                                    {selectedImageDesc.length > 0 && <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Poppins-Regular' }}>{selectedImageDesc.substring(0, 40)}...</Text>}
+                                    <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Poppins-Regular' }}>Estimated Price</Text>
+                                    {selectedImgEstimatedPrice > 0 && <Text style={{ color: '#70b241', fontSize: 18, fontFamily: 'Poppins-SemiBold' }}>Rs {selectedImgEstimatedPrice}</Text>}
+                                </View>}
+                            </Pressable>
+                            {isSuggestion && <Pressable onPress={() => {
+                                dispatch(setSuggestedImages([...suggestedImages, selectedImage])); handleClose();
+                                if (selectedImgEstimatedPrice > 0) {
+                                    dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
+                                }
+                            }}>
+                                <Text style={{ fontFamily: 'Poppins-Semibold', backgroundColor: 'white', color: '#fb8c00', borderWidth: 2, borderRadius: 16, borderColor: '#fb8c00', paddingHorizontal: 40, paddingVertical: 10, marginTop: 10 }}>Add Product To Start Bargaining</Text>
+                            </Pressable>}
+                        </Animated.View>
                     </Pressable>
                 </Modal>
 

@@ -59,6 +59,8 @@ const StoreProfilePage = () => {
     const [scaleAnimation] = useState(new Animated.Value(0));
     const [ratingAllowed, setRatingAllowed] = useState(false);
 
+    const [imagePrice, setImagePrice] = useState(0);
+    const [imageDesc, setImageDesc] = useState("");
     //   const copyToClipboard = async () => {
     //     // await Clipboard.setStringAsync(inputValue);
     //     setCopied(true);
@@ -216,7 +218,7 @@ const StoreProfilePage = () => {
                         <View className="pl-[32px] flex flex-row gap-[11px] mb-[60px]" >
                             {storeData.storeImages?.map((image, index) => (
 
-                                <Pressable onPress={() => { handleImagePress(image) }} key={index} className="rounded-[16px]">
+                                <Pressable onPress={() => { handleImagePress(image); setImageDesc(""); setImagePrice(0); }} key={index} className="rounded-[16px]">
                                     <Image
                                         source={{ uri: image }}
                                         width={129}
@@ -236,7 +238,7 @@ const StoreProfilePage = () => {
                         <View className="pl-[32px] flex flex-row gap-[11px] mb-[60px]" >
                             {storeData.productImages?.map((image, index) => (
 
-                                <Pressable onPress={() => { handleImagePress(image.uri) }} key={index} className="rounded-[16px]">
+                                <Pressable onPress={() => { handleImagePress(image.uri); if (image?.description) setImageDesc(image.description); setImagePrice(image.price); }} key={index} className="rounded-[16px]">
                                     <Image
                                         source={{ uri: image.uri }}
                                         width={129}
@@ -244,6 +246,7 @@ const StoreProfilePage = () => {
                                         className="rounded-[16px] border-[1px] border-[#cbcbce] object-contain"
                                     />
                                     <View style={{ position: 'absolute', bottom: 0, width: 129, height: 45, backgroundColor: 'rgba(0,0,0,0.5)', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderBottomEndRadius: 16, borderBottomStartRadius: 16 }}>
+                                        {image?.description && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>{image.description.substring(0, 20)}...</Text>}
                                         <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>Estimated Price</Text>
                                         <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#70b241', }}>Rs {image.price}</Text>
                                     </View>
@@ -460,15 +463,24 @@ const StoreProfilePage = () => {
 
             >
                 <Pressable style={styles.modalContainer} onPress={handleClose}>
-                    <Animated.Image
-                        source={{ uri: selectedImage }}
-                        style={[
-                            styles.modalImage,
-                            {
-                                transform: [{ scale: scaleAnimation }],
-                            },
-                        ]}
-                    />
+                    <Animated.View style={[
+                        styles.modalImg,
+                        {
+                            transform: [{ scale: scaleAnimation }],
+                        },
+                    ]}>
+                        <Image
+                            source={{ uri: selectedImage }}
+                            style={styles.modalImage}
+
+
+                        />
+                        {(imageDesc?.length > 0 || imagePrice > 0) && <View style={{ position: "absolute", bottom: 0, width: 300, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: 'center', borderBottomStartRadius: 16, borderBottomEndRadius: 16 }}>
+                            {imageDesc.length > 0 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }}>{imageDesc.substring(0, 40)}...</Text>}
+                            <Text style={{ color: 'white', fontFamily: 'Poppins-Regular', fontSize: 8 }}>Estimated Price</Text>
+                            <Text style={{ color: '#70b241', fontFamily: 'Poppins-SemiBold', fontSize: 14 }}>Rs {imagePrice}</Text>
+                        </View>}
+                    </Animated.View>
 
 
                 </Pressable>
@@ -498,7 +510,14 @@ const styles = StyleSheet.create({
     modalImage: {
         width: 300,
         height: 400,
-        borderRadius: 10,
+        borderRadius: 16,
+    },
+    modalImg: {
+        width: 300,
+        height: 400,
+        borderRadius: 16,
+        position: 'relative'
+
     },
     revcontainer: {
         flex: 1,

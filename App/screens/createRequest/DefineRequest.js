@@ -102,10 +102,6 @@ const DefineRequest = () => {
 
                 </View>}
 
-
-
-
-
             </ScrollView>
             <TouchableOpacity
                 disabled={!query}

@@ -62,6 +62,9 @@ const StoreProfileScreen = () => {
     const [scaleAnimation] = useState(new Animated.Value(0));
     const [ratingAllowed, setRatingAllowed] = useState(false);
 
+    const [imagePrice, setImagePrice] = useState(0);
+    const [imageDesc, setImageDesc] = useState("");
+
 
 
 
@@ -222,7 +225,7 @@ const StoreProfileScreen = () => {
                             <View className="pl-[32px] flex flex-row gap-[11px] mb-[60px]" >
                                 {currentSpadeRetailer.retailerId.storeImages?.map((image, index) => (
 
-                                    <Pressable onPress={() => { handleImagePress(image) }} key={index} className="rounded-[16px]">
+                                    <Pressable onPress={() => { handleImagePress(image); setImageDesc(""); setImagePrice(0); }} key={index} className="rounded-[16px]">
                                         <Image
                                             source={{ uri: image }}
                                             width={119}
@@ -242,7 +245,7 @@ const StoreProfileScreen = () => {
                         <View className="pl-[32px] flex flex-row gap-[11px] mb-[60px]" >
                             {currentSpadeRetailer.retailerId.productImages?.map((image, index) => (
 
-                                <Pressable onPress={() => { handleImagePress(image.uri) }} key={index} className="rounded-[16px]">
+                                <Pressable onPress={() => { handleImagePress(image.uri); if (image?.description) setImageDesc(image.description); setImagePrice(image.price); }} key={index} className="rounded-[16px]">
                                     <Image
                                         source={{ uri: image.uri }}
                                         width={119}
@@ -250,8 +253,9 @@ const StoreProfileScreen = () => {
                                         className="rounded-[16px] border-[1px] border-[#cbcbce] object-contain"
                                     />
                                     <View style={{ position: 'absolute', bottom: 0, width: 119, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: 'center', borderBottomStartRadius: 16, borderBottomEndRadius: 16 }}>
+                                        {image?.description && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }}>{image.description.substring(0, 20)}...</Text>}
                                         <Text style={{ color: 'white', fontFamily: 'Poppins-Regular', fontSize: 8 }}>Estimated Price</Text>
-                                        <Text style={{ color: '#70b241', fontFamily: 'Poppins-SemiBold', fontSize: 14 }}>Rs {image.price}</Text>
+                                        <Text style={{ color: '#70b241', fontFamily: 'Poppins-SemiBold', fontSize: 12 }}>Rs {image.price}</Text>
                                     </View>
                                 </Pressable>
                             )
@@ -464,15 +468,24 @@ const StoreProfileScreen = () => {
 
             >
                 <Pressable style={styles.modalContainer} onPress={handleClose}>
-                    <Animated.Image
-                        source={{ uri: selectedImage }}
-                        style={[
-                            styles.modalImage,
-                            {
-                                transform: [{ scale: scaleAnimation }],
-                            },
-                        ]}
-                    />
+                    <Animated.View style={[
+                        styles.modalImg,
+                        {
+                            transform: [{ scale: scaleAnimation }],
+                        },
+                    ]}>
+                        <Image
+                            source={{ uri: selectedImage }}
+                            style={styles.modalImage}
+
+
+                        />
+                        {(imageDesc?.length > 0 || imagePrice > 0) && <View style={{ position: "absolute", bottom: 0, width: 300, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: 'center', borderBottomStartRadius: 16, borderBottomEndRadius: 16 }}>
+                            {imageDesc.length > 0 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }}>{imageDesc.substring(0, 40)}...</Text>}
+                            <Text style={{ color: 'white', fontFamily: 'Poppins-Regular', fontSize: 8 }}>Estimated Price</Text>
+                            <Text style={{ color: '#70b241', fontFamily: 'Poppins-SemiBold', fontSize: 14 }}>Rs {imagePrice}</Text>
+                        </View>}
+                    </Animated.View>
 
 
                 </Pressable>
@@ -495,6 +508,7 @@ export default StoreProfileScreen;
 const styles = StyleSheet.create({
     modalContainer: {
         flex: 1,
+        position: 'relative',
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "rgba(0, 0, 0, 0.7)",
@@ -502,7 +516,14 @@ const styles = StyleSheet.create({
     modalImage: {
         width: 300,
         height: 400,
-        borderRadius: 10,
+        borderRadius: 16,
+    },
+    modalImg: {
+        width: 300,
+        height: 400,
+        borderRadius: 16,
+        position: 'relative'
+
     },
     revcontainer: {
         flex: 1,

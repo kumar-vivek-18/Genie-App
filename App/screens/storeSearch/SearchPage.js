@@ -423,7 +423,6 @@ const SearchCategoryScreen = () => {
                     {
                         storeVisible && !loading && searchedStores && searchedStores.length === 0 &&
                         <Text className="text-[14px] text-[#2e2c43] capitalize text-center mt-[30px]" style={{ fontFamily: "Poppins-Regular" }}>No store found !</Text>
-
                     }
                     {/* {
                         storeVisible && loading &&
@@ -439,6 +438,7 @@ const SearchCategoryScreen = () => {
                     <ActivityIndicator size="large" color="#fb8c00" />
                 </View>
             )}
+
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignContent: 'baseline', backgroundColor: 'white', paddingVertical: 10, shadowColor: '#FB8C00', elevation: 30, shadowOffset: { width: 10, height: 18 }, shadowOpacity: 0.9, shadowRadius: 20 }}>
                     <TouchableOpacity onPress={() => { navigation.navigate('home'); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
