@@ -11,7 +11,7 @@ import {
     Image,
     Linking,
     FlatList,
-
+    BackHandler
 } from "react-native";
 import {
     SafeAreaView,
@@ -61,6 +61,34 @@ const SearchCategoryScreen = () => {
 
 
     const [hasMorePages, setHasMorePages] = useState(true);
+
+
+
+    useEffect(() => {
+        const backAction = () => {
+            if (storeVisible) {
+                setStoreVisible(false);
+                return true; // Prevent default back action
+            }
+            else {
+                navigation.goBack();
+                return true;
+            }
+
+            return false;
+        };
+
+        // Add event listener for hardware back button
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+
+        // Clean up event listener
+        return () => backHandler.remove();
+    }, [storeVisible]);
+
+
     const renderFooter = () => {
         if (!loading) return null;
         return <ActivityIndicator size="small" color="#fb8c00" />;
@@ -302,7 +330,7 @@ const SearchCategoryScreen = () => {
                     showsVerticalScrollIndicator={false}
                 >
                     <TouchableOpacity
-                        onPress={() => navigation.goBack()}
+                        onPress={() => { if (storeVisible) { setStoreVisible(false); } else navigation.goBack() }}
                         style={{ position: "absolute", top: 20, left: 20, paddingVertical: 25, paddingHorizontal: 10, zIndex: 100 }}
                     >
                         <BackArrow width={16} height={12} />
@@ -414,8 +442,6 @@ const SearchCategoryScreen = () => {
                             ListFooterComponent={renderFooter}
                             showsVerticalScrollIndicator={false}
                         />
-
-
                     }
                     {hasMorePages && !loading && storeVisible && <View style={{ flexDirection: 'row', justifyContent: 'center', marginVertical: 30 }}>
                         <TouchableOpacity onPress={() => { console.log('pageee', page); searchStores(searchQuery, page, hasMorePages); }} ><View style={{ borderWidth: 1, width: 150, borderColor: '#fb8c00', borderRadius: 16, flexDirection: 'row', justifyContent: 'center' }}><Text className="text-[#fb8c00] px-3 py-2  w-max  ">View More</Text></View></TouchableOpacity>

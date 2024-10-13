@@ -209,15 +209,15 @@ const ImageSuggestion = () => {
                         <Text className="text-[16px] flex flex-1 justify-center text-[#2e2c43] items-center text-center" style={{ fontFamily: "Poppins-ExtraBold" }}>
                             {isService ? "Add Service" : "Select Product"}
                         </Text>
-                        {imagesLocal.length === 0 && <Pressable onPress={() => navigation.navigate("define-request")} className="">
+                        <Pressable onPress={() => navigation.navigate("define-request")} className="">
                             <Text className="text-[16px] text-[#FB8C00]" style={{ fontFamily: "Poppins-Medium" }}>Skip</Text>
-                        </Pressable>}
+                        </Pressable>
                     </View>
                     <View className="mt-[10px] mb-[27px] px-[32px]">
                         <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] " style={{ fontFamily: "Poppins-Medium" }}>
                             Step 1/4
                         </Text>
-                        {suggestedImages.length == 0 && <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
+                        {suggestedImages?.length == 0 && requestImages?.length == 0 && <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
                             <Text className="text-[14px] text-center text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>
                                 {isService ? "Share the image of defect" : "Search any product in the market."}
                             </Text>
@@ -226,13 +226,17 @@ const ImageSuggestion = () => {
                             </TouchableOpacity>
                         </View>}
 
+                        {(suggestedImages?.length > 0 || requestImages?.length > 0) && <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 15, color: '#2e2c43' }}>Add Product</Text>
+                        </View>}
+
 
 
                     </View>
 
 
 
-                    {(requestImages.length === 0 && suggestedImages.length == 0) &&
+                    {(requestImages?.length === 0 && suggestedImages?.length == 0) &&
                         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
                             <TouchableOpacity onPress={() => takePicture()}>
                                 <ClickImage />
@@ -242,7 +246,7 @@ const ImageSuggestion = () => {
                             </TouchableOpacity>
                         </View>
                     }
-                    {(requestImages.length > 0 || suggestedImages.length > 0) && <View>
+                    {(requestImages?.length > 0 || suggestedImages?.length > 0) && <View>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ alignSelf: "flex-start" }}>
                             <View style={styles.container}>
                                 <View style={styles.imageContainer}>
@@ -288,7 +292,7 @@ const ImageSuggestion = () => {
 
                             </View>
                         </ScrollView>
-                        {suggestedImages.length === 0 && <TouchableOpacity
+                        {suggestedImages?.length === 0 && <TouchableOpacity
                             onPress={() => setAddMore(!addMore)}
                             style={{ alignSelf: "flex-start" }}
                         >
@@ -298,7 +302,7 @@ const ImageSuggestion = () => {
                         </TouchableOpacity>}
                     </View>}
 
-                    {suggestedImages.length == 0 && requestImages.length == 0 && <View style={{ paddingHorizontal: 20, marginTop: 30, marginBottom: 80 }}>
+                    {suggestedImages?.length == 0 && requestImages?.length == 0 && <View style={{ paddingHorizontal: 20, marginTop: 30, marginBottom: 80 }}>
                         <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 16, paddingHorizontal: 12, paddingBottom: 20 }}>Available stock in the market</Text>
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, justifyContent: 'space-between' }}>
 
@@ -316,7 +320,7 @@ const ImageSuggestion = () => {
                                             style={{ borderRadius: 16 }}
                                         />
                                         <View style={{ position: 'absolute', bottom: 0, width: 154, height: 45, backgroundColor: 'rgba(0,0,0,0.5)', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderBottomEndRadius: 16, borderBottomStartRadius: 16 }}>
-                                            {suggestionImage?.description && suggestedImages.description.length > 0 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>{suggestionImage.description.substring(0.20)}...</Text>}
+                                            {suggestionImage?.description && suggestionImage?.description.length > 0 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>{suggestionImage.description.substring(0, 35)}...</Text>}
                                             <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>Estimated Price</Text>
                                             <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#70b241', }}>Rs {suggestionImage.price}</Text>
                                         </View>
@@ -409,8 +413,8 @@ const ImageSuggestion = () => {
                                         // },
                                     ]}
                                 />
-                                {(selectedImgEstimatedPrice > 0 || selectedImageDesc.length > 0) && <View style={{ position: 'absolute', bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', width: 300, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingVertical: 5, borderBottomEndRadius: 10, borderBottomStartRadius: 10 }}>
-                                    {selectedImageDesc.length > 0 && <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Poppins-Regular' }}>{selectedImageDesc.substring(0, 40)}...</Text>}
+                                {(selectedImgEstimatedPrice > 0 || selectedImageDesc?.length > 0) && <View style={{ position: 'absolute', bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', width: 300, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingVertical: 5, borderBottomEndRadius: 10, borderBottomStartRadius: 10 }}>
+                                    {selectedImageDesc?.length > 0 && <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Poppins-Regular' }}>{selectedImageDesc.substring(0, 40)}...</Text>}
                                     <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Poppins-Regular' }}>Estimated Price</Text>
                                     {selectedImgEstimatedPrice > 0 && <Text style={{ color: '#70b241', fontSize: 18, fontFamily: 'Poppins-SemiBold' }}>Rs {selectedImgEstimatedPrice}</Text>}
                                 </View>}
@@ -421,7 +425,7 @@ const ImageSuggestion = () => {
                                     dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
                                 }
                             }}>
-                                <Text style={{ fontFamily: 'Poppins-Semibold', backgroundColor: 'white', color: '#fb8c00', borderWidth: 2, borderRadius: 16, borderColor: '#fb8c00', paddingHorizontal: 40, paddingVertical: 10, marginTop: 10 }}>Add Product To Start Bargaining</Text>
+                                <Text style={{ fontFamily: 'Poppins-SemiBold', backgroundColor: 'white', color: '#fb8c00', fontSize: 16, borderWidth: 2, borderRadius: 16, borderColor: '#fb8c00', paddingHorizontal: 40, paddingVertical: 15, marginTop: 10 }}>Add Product To Start Bargaining</Text>
                             </Pressable>}
                         </Animated.View>
                     </Pressable>
