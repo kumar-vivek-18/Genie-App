@@ -246,7 +246,10 @@ const StoreProfilePage = () => {
                                         className="rounded-[16px] border-[1px] border-[#cbcbce] object-contain"
                                     />
                                     <View style={{ position: 'absolute', bottom: 0, width: 129, height: 45, backgroundColor: 'rgba(0,0,0,0.5)', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderBottomEndRadius: 16, borderBottomStartRadius: 16 }}>
-                                        {image?.description && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>{image.description.substring(0, 20)}...</Text>}
+                                        {image?.description && <View>
+                                            {image?.description.length > 20 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>{image.description.substring(0, 20)}...</Text>}
+                                            {image?.description.length <= 20 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>{image.description}</Text>}
+                                        </View>}
                                         <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>Estimated Price</Text>
                                         <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#70b241', }}>Rs {image.price}</Text>
                                     </View>
@@ -476,7 +479,8 @@ const StoreProfilePage = () => {
 
                         />
                         {(imageDesc?.length > 0 || imagePrice > 0) && <View style={{ position: "absolute", bottom: 0, width: 300, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: 'center', borderBottomStartRadius: 16, borderBottomEndRadius: 16 }}>
-                            {imageDesc.length > 0 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }}>{imageDesc.substring(0, 40)}...</Text>}
+                            {imageDesc.length > 0 && imageDesc.length > 40 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }}>{imageDesc.substring(0, 40)}...</Text>}
+                            {imageDesc.length > 0 && imageDesc.length <= 40 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }}>{imageDesc}</Text>}
                             <Text style={{ color: 'white', fontFamily: 'Poppins-Regular', fontSize: 8 }}>Estimated Price</Text>
                             <Text style={{ color: '#70b241', fontFamily: 'Poppins-SemiBold', fontSize: 14 }}>Rs {imagePrice}</Text>
                         </View>}

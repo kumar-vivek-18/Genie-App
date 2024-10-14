@@ -102,7 +102,7 @@ const images = [Home0, Home1, Home2, Home3, Home4, Home5, Home6, Home7];
 const categoriess = [{ cat: Category1, name: "Consumer Electronics & Accessories - Home appliances and equipment etc" },
 { cat: Category2, name: "Fashion/Clothings - Top, bottom, dresses" },
 { cat: Category3, name: "Fashion Accessories - Jewellery, Gold & Diamond" },
-{ cat: Category4, name: "Fashion accessories - Shoes, Bag" },
+{ cat: Category4, name: "Fashion Accessories - Shoes, bags etc" },
 { cat: Category5, name: "Fashion accessories - Sharee, suits, kurti & dress materials etc" },
 { cat: Category6, name: "Kids Games,Toys & Accessories" },
 { cat: Category7, name: "Luxury Watches" },

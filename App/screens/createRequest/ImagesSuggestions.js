@@ -61,7 +61,6 @@ const ImageSuggestion = () => {
     const [autoFocus, setAutoFocus] = useState(Camera.Constants.AutoFocus.on);
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
     const [camera, setCamera] = useState(null);
-
     const [loading, setLoading] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const [scaleAnimation] = useState(new Animated.Value(0));
@@ -78,6 +77,7 @@ const ImageSuggestion = () => {
     const [selectedImgEstimatedPrice, setSelectedImgEstimatedPrice] = useState(0);
     const [selectedImageDesc, setSelectedImageDesc] = useState("");
     const [isService, setIsService] = useState(false);
+    const [showImageLength, setShowImageLength] = useState(20);
 
     useEffect(() => {
         if (requestCategory.includes('Service')) setIsService(true);
@@ -307,28 +307,35 @@ const ImageSuggestion = () => {
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, justifyContent: 'space-between' }}>
 
 
-                            {suggestionImages && suggestionImages.map((suggestionImage, index) => {
+                            {suggestionImages && suggestionImages.slice(0, Math.min(showImageLength, suggestionImages.length)).map((suggestionImage, index) => {
                                 return (
                                     <Pressable
                                         key={index}
-                                        onPress={() => { handleImagePress(suggestionImage.uri); setIsSuggestion(true); setSelectedImgEstimatedPrice(suggestionImage.price) }}
+                                        onPress={() => { handleImagePress(suggestionImage.uri); setIsSuggestion(true); setSelectedImgEstimatedPrice(suggestionImage.price); setSelectedImageDesc(suggestionImage.description) }}
                                     >
                                         <Image
                                             source={{ uri: suggestionImage.uri }}
                                             width={154}
                                             height={200}
                                             style={{ borderRadius: 16 }}
+                                            loading='lazy'
                                         />
-                                        <View style={{ position: 'absolute', bottom: 0, width: 154, height: 45, backgroundColor: 'rgba(0,0,0,0.5)', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderBottomEndRadius: 16, borderBottomStartRadius: 16 }}>
-                                            {suggestionImage?.description && suggestionImage?.description.length > 0 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>{suggestionImage.description.substring(0, 35)}...</Text>}
+                                        <View style={{ position: 'absolute', bottom: 0, width: 154, height: 50, backgroundColor: 'rgba(0,0,0,0.5)', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderBottomEndRadius: 16, borderBottomStartRadius: 16 }}>
+                                            {suggestionImage?.description && suggestionImage?.description.length > 0 && <View >
+                                                {suggestionImage?.description.length > 25 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 10, color: 'white' }}>{suggestionImage.description.substring(0, 25)}...</Text>}
+                                                {suggestionImage?.description.length <= 25 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 10, color: 'white' }}>{suggestionImage.description}</Text>}
+                                            </View>}
                                             <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>Estimated Price</Text>
-                                            <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#70b241', }}>Rs {suggestionImage.price}</Text>
+                                            <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#70b241' }}>Rs {suggestionImage.price}</Text>
                                         </View>
 
                                     </Pressable>
                                 )
                             })}
                         </View>
+                        {showImageLength < suggestionImages.length && suggestionImages.length > 0 && <TouchableOpacity onPress={() => { setShowImageLength(prev => prev + 20) }} style={{ justifyContent: 'center', alignItems: 'center', borderColor: '#fb8c00', borderWidth: 1, marginTop: 20, marginHorizontal: 80, borderRadius: 16 }}>
+                            <Text style={{ fontFamily: 'Poppins-Regular', color: '#fb8c00' }}> View More {Math.min(showImageLength, suggestionImages.length)}/{suggestionImages.length}</Text>
+                        </TouchableOpacity>}
                     </View>}
 
 
@@ -399,6 +406,8 @@ const ImageSuggestion = () => {
                             style={[
                                 {
                                     transform: [{ scale: scaleAnimation }],
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
                                 },
                             ]}
                         >
@@ -414,7 +423,8 @@ const ImageSuggestion = () => {
                                     ]}
                                 />
                                 {(selectedImgEstimatedPrice > 0 || selectedImageDesc?.length > 0) && <View style={{ position: 'absolute', bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', width: 300, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingVertical: 5, borderBottomEndRadius: 10, borderBottomStartRadius: 10 }}>
-                                    {selectedImageDesc?.length > 0 && <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Poppins-Regular' }}>{selectedImageDesc.substring(0, 40)}...</Text>}
+                                    {selectedImageDesc?.length > 0 && selectedImageDesc.length > 40 && <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Poppins-Regular' }}>{selectedImageDesc.substring(0, 40)}...</Text>}
+                                    {selectedImageDesc?.length > 0 && selectedImageDesc.length <= 40 && <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Poppins-Regular' }}>{selectedImageDesc}</Text>}
                                     <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Poppins-Regular' }}>Estimated Price</Text>
                                     {selectedImgEstimatedPrice > 0 && <Text style={{ color: '#70b241', fontSize: 18, fontFamily: 'Poppins-SemiBold' }}>Rs {selectedImgEstimatedPrice}</Text>}
                                 </View>}

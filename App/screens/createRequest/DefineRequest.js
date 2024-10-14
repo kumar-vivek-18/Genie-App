@@ -38,8 +38,8 @@ const DefineRequest = () => {
         ],
         "Fashion/Clothings - Top, bottom, dresses": ["Boiler suits", "Jeans: Denim jackets", "Trench coats", "Wrap dress", "Plain white shirt"],
         "Fashion Accessories - Jewellery, Gold & Diamond": ["vintage jewelry", "wedding jewelry", "Gold earrings", "Diamond Rings", "mett finish jewellery set"],
-        "Fashion accessories - Shoes, Bag": [
-            "Liberty boys Gola-schv School Uniform Shoe", "EXTRA SOFT Men's Classic Casual Clogs/ Sandals with Adjustable Back Strap", "Black Nike Shoes", "Red Puma Shoes"
+        "Fashion Accessories - Shoes, bags etc": [
+            "School Uniform Shoe", "EXTRA SOFT Men's Classic Casual Clogs/ Sandals with Adjustable Back Strap", "Black Nike Shoes", "Red Puma Shoes"
         ],
         "Fashion accessories - Sharee, suits, kurti & dress materials etc": [
             "A-Line Kurta with Pant and Dupatta Suit Set", "Floor Length Suits", "Banarsi Sari", "Elegant Draped Styles"

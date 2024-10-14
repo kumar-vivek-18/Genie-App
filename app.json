@@ -2,7 +2,7 @@
   "expo": {
     "name": "CulturTap Genie",
     "slug": "genie-user",
-    "version": "1.21.0",
+    "version": "1.23.0",
     "orientation": "portrait",
     "icon": "./App/assets/icon.png",
     "userInterfaceStyle": "light",
@@ -29,10 +29,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "21"
+      "buildNumber": "23"
     },
     "android": {
-      "versionCode": 22,
+      "versionCode": 23,
       "permissions": [
         "CAMERA",
         "WRITE_EXTERNAL_STORAGE",
