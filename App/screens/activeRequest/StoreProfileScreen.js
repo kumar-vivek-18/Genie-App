@@ -7,7 +7,8 @@ import {
     View,
     Image,
     Animated,
-    Modal
+    Modal,
+    ActivityIndicator
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -32,6 +33,7 @@ import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
 import { setUserDetails } from "../../redux/reducers/userDataSlice";
 import EditCommentModal from "../components/EditCommentModal";
+import { current } from "@reduxjs/toolkit";
 // import {Clipboard} from '@react-native-clipboard/clipboard'
 
 
@@ -64,8 +66,10 @@ const StoreProfileScreen = () => {
 
     const [imagePrice, setImagePrice] = useState(0);
     const [imageDesc, setImageDesc] = useState("");
-
-
+    const [listedProducts, setListedProducts] = useState([]);
+    const [loadMore, setLoadMore] = useState(true);
+    const [page, setPage] = useState(1);
+    const [productLoading, setProductLoading] = useState(false);
 
 
     //   const copyToClipboard = async () => {
@@ -154,12 +158,38 @@ const StoreProfileScreen = () => {
         }
     }
 
+    const vendorsListedProduct = async () => {
+        setProductLoading(true);
+        try {
+            await axiosInstance.get(`${baseUrl}/product/product-by-vendorId`, {
+                params: {
+                    vendorId: currentSpadeRetailer.retailerId._id,
+                    page: page
+                }
+            })
+                .then((res) => {
+
+                    if (res.status === 200) {
+                        setListedProducts(prev => [...prev, ...res.data]);
+                        if (res.data.length == 10) setPage(curr => curr + 1);
+                        else setLoadMore(false);
+
+                    }
+                    setProductLoading(false);
+                })
+        } catch (error) {
+            setProductLoading(false);
+            if (error.response.status === 404) setLoadMore(false);
+            console.error("Error occured while fetching listedProducts", error);
+        }
+    }
 
 
 
     useEffect(() => {
         usersRatingForSeller();
         fetchRetailerFeedbacks();
+        vendorsListedProduct();
         if (currentSpadeRetailer.customerId.longitude !== 0 && currentSpadeRetailer.customerId.latitude !== 0 && currentSpadeRetailer.retailerId.longitude !== 0 && currentSpadeRetailer.retailerId.lattitude !== 0) {
             let value = haversineDistance(currentSpadeRetailer.customerId.latitude, currentSpadeRetailer.customerId.longitude, currentSpadeRetailer.retailerId.lattitude, currentSpadeRetailer.retailerId.longitude);
             setDistance(value);
@@ -239,28 +269,36 @@ const StoreProfileScreen = () => {
                         }
                     </ScrollView>
                 </View>
-                {currentSpadeRetailer?.retailerId?.productImages && currentSpadeRetailer.retailerId.productImages.length > 0 && <View>
-                    <Text style={{ paddingHorizontal: 35, fontFamily: 'Poppins-SemiBold', paddingBottom: 20, color: '#2e2c43' }}>Available stock</Text>
+                {listedProducts && listedProducts.length > 0 && <View>
+                    <View ><Text style={{ paddingLeft: 32, paddingBottom: 10, fontFamily: 'Poppins-Bold', color: '#2e2c43', fontSize: 16 }}>Available stock</Text></View>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ alignSelf: 'flex-start' }}>
-                        <View className="pl-[32px] flex flex-row gap-[11px] mb-[60px]" >
-                            {currentSpadeRetailer.retailerId.productImages?.map((image, index) => (
 
-                                <Pressable onPress={() => { handleImagePress(image.uri); if (image?.description) setImageDesc(image.description); setImagePrice(image.price); }} key={index} className="rounded-[16px]">
+                        <View className="px-[32px] flex flex-row gap-[11px] mb-[60px] justify-center items-center" >
+                            {listedProducts?.map((image, index) => (
+
+                                <Pressable onPress={() => { handleImagePress(image.productImage); if (image?.productDescription) setImageDesc(image.productDescription); setImagePrice(image.productPrice); }} key={index} className="rounded-[16px]">
                                     <Image
-                                        source={{ uri: image.uri }}
-                                        width={119}
-                                        height={164}
+                                        source={{ uri: image.productImage }}
+                                        width={129}
+                                        height={172}
                                         className="rounded-[16px] border-[1px] border-[#cbcbce] object-contain"
                                     />
-                                    <View style={{ position: 'absolute', bottom: 0, width: 119, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: 'center', borderBottomStartRadius: 16, borderBottomEndRadius: 16 }}>
-                                        {image?.description && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }}>{image.description.substring(0, 20)}...</Text>}
-                                        <Text style={{ color: 'white', fontFamily: 'Poppins-Regular', fontSize: 8 }}>Estimated Price</Text>
-                                        <Text style={{ color: '#70b241', fontFamily: 'Poppins-SemiBold', fontSize: 12 }}>Rs {image.price}</Text>
+                                    <View style={{ position: 'absolute', bottom: 0, width: 129, height: 45, backgroundColor: 'rgba(0,0,0,0.5)', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderBottomEndRadius: 16, borderBottomStartRadius: 16 }}>
+                                        {image?.productDescription && <View>
+                                            {image?.productDescription.length > 20 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>{image.productDescription.substring(0, 20)}...</Text>}
+                                            {image?.productDescription.length <= 20 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>{image.productDescription}</Text>}
+                                        </View>}
+                                        <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>Estimated Price</Text>
+                                        <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#70b241', }}>Rs {image.productPrice}</Text>
                                     </View>
                                 </Pressable>
                             )
                             )}
+                            {loadMore && !productLoading && <TouchableOpacity onPress={() => { vendorsListedProduct() }} style={{ borderColor: '#fb8c00', borderRadius: 16, borderWidth: 1 }}><Text style={{ color: '#fb8c00', fontFamily: 'Poppins-Regular', padding: 3, paddingHorizontal: 6 }}>View More</Text></TouchableOpacity>}
+                            {productLoading && <View><ActivityIndicator color={"#fb8c00"} size="small" /></View>}
                         </View>
+
+
                     </ScrollView>
                 </View>}
 

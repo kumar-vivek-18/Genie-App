@@ -247,7 +247,7 @@ const SearchCategoryScreen = () => {
 
 
         try {
-            console.log('reqqqq', userLatitude, userLongitude, query, "hii", pageNumber, hasPages);
+            // console.log('reqqqq', userLatitude, userLongitude, query, "hii", pageNumber, hasPages);
             const res = await axiosInstance.get(`${baseUrl}/retailer/nearby-stores`, {
                 params: {
                     lat: userLatitude || userDetails.latitude,

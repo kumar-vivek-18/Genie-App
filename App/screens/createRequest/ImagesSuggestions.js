@@ -78,6 +78,9 @@ const ImageSuggestion = () => {
     const [selectedImageDesc, setSelectedImageDesc] = useState("");
     const [isService, setIsService] = useState(false);
     const [showImageLength, setShowImageLength] = useState(20);
+    const [loadMore, setLoadMore] = useState(true);
+    const [loadingProducts, setLoadingProducts] = useState(false);
+
 
     useEffect(() => {
         if (requestCategory.includes('Service')) setIsService(true);
@@ -135,30 +138,38 @@ const ImageSuggestion = () => {
         });
     };
 
-    const getSuggestedImages = async () => {
+    const categoryListedProduct = async () => {
         try {
-
-            await axiosInstance.get(`${baseUrl}/retailer/category-images`, {
+            // console.log('category', requestCategory);
+            if (!loadMore) return;
+            setLoadingProducts(true);
+            await axiosInstance.get(`${baseUrl}/product/product-by-category`, {
                 params: {
-                    category: requestCategory,
-                    lat: userLatitude,
-                    lon: userLongitude,
+                    productCategory: requestCategory,
                     page: page
                 }
             })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setSuggestionImages(response.data);
-                        // console.log('images retrieved', response.data);
+                .then((res) => {
+                    if (res.status === 200) {
+                        setSuggestionImages(prev => [...prev, ...res.data]);
+                        setPage(curr => curr + 1);
+                        setLoadingProducts(false);
+                        console.log("productImages", res.data[0]);
+                        if (res.data.length < 10) setLoadMore(false);
                     }
+
                 })
+            setLoadingProducts(false);
+
         } catch (error) {
-            console.error('Error processing image: ', error);
+            setLoadingProducts(false);
+            if (error.response.status === 404) setLoadMore(false);
+            console.error("Error occured while fetching listedProducts", error);
         }
     }
 
     useEffect(() => {
-        getSuggestedImages();
+        categoryListedProduct();
     }, []);
 
 
@@ -306,36 +317,41 @@ const ImageSuggestion = () => {
                         <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 16, paddingHorizontal: 12, paddingBottom: 20 }}>Available stock in the market</Text>
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, justifyContent: 'space-between' }}>
 
+                            {suggestionImages && suggestionImages.map((suggestionImage, index) => {
 
-                            {suggestionImages && suggestionImages.slice(0, Math.min(showImageLength, suggestionImages.length)).map((suggestionImage, index) => {
                                 return (
                                     <Pressable
                                         key={index}
-                                        onPress={() => { handleImagePress(suggestionImage.uri); setIsSuggestion(true); setSelectedImgEstimatedPrice(suggestionImage.price); setSelectedImageDesc(suggestionImage.description) }}
+                                        onPress={() => { handleImagePress(suggestionImage.productImage); setIsSuggestion(true); setSelectedImgEstimatedPrice(suggestionImage.productPrice); setSelectedImageDesc(suggestionImage.productDescription) }}
                                     >
                                         <Image
-                                            source={{ uri: suggestionImage.uri }}
+                                            source={{ uri: suggestionImage.productImage }}
                                             width={154}
                                             height={200}
                                             style={{ borderRadius: 16 }}
                                             loading='lazy'
                                         />
                                         <View style={{ position: 'absolute', bottom: 0, width: 154, height: 50, backgroundColor: 'rgba(0,0,0,0.5)', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderBottomEndRadius: 16, borderBottomStartRadius: 16 }}>
-                                            {suggestionImage?.description && suggestionImage?.description.length > 0 && <View >
-                                                {suggestionImage?.description.length > 25 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 10, color: 'white' }}>{suggestionImage.description.substring(0, 25)}...</Text>}
-                                                {suggestionImage?.description.length <= 25 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 10, color: 'white' }}>{suggestionImage.description}</Text>}
+                                            {suggestionImage?.productDescription && suggestionImage?.productDescription.length > 0 && <View >
+                                                {suggestionImage?.productDescription.length > 25 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 10, color: 'white' }}>{suggestionImage.productDescription.substring(0, 25)}...</Text>}
+                                                {suggestionImage?.productDescription.length <= 25 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 10, color: 'white' }}>{suggestionImage.productDescription}</Text>}
                                             </View>}
                                             <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>Estimated Price</Text>
-                                            <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#70b241' }}>Rs {suggestionImage.price}</Text>
+                                            <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#70b241' }}>Rs {suggestionImage.productPrice}</Text>
                                         </View>
 
                                     </Pressable>
                                 )
                             })}
                         </View>
-                        {showImageLength < suggestionImages.length && suggestionImages.length > 0 && <TouchableOpacity onPress={() => { setShowImageLength(prev => prev + 20) }} style={{ justifyContent: 'center', alignItems: 'center', borderColor: '#fb8c00', borderWidth: 1, marginTop: 20, marginHorizontal: 80, borderRadius: 16 }}>
-                            <Text style={{ fontFamily: 'Poppins-Regular', color: '#fb8c00' }}> View More {Math.min(showImageLength, suggestionImages.length)}/{suggestionImages.length}</Text>
+                        {loadMore && !loadingProducts && <TouchableOpacity onPress={() => { categoryListedProduct(); }} style={{ justifyContent: 'center', alignItems: 'center', borderColor: '#fb8c00', borderWidth: 1, marginTop: 20, marginHorizontal: 80, borderRadius: 16 }}>
+                            <Text style={{ fontFamily: 'Poppins-Regular', color: '#fb8c00' }}> View More</Text>
                         </TouchableOpacity>}
+                        {loadingProducts && (
+                            <View style={{ marginTop: 20 }}>
+                                <ActivityIndicator size="large" color="#fb8c00" />
+                            </View>
+                        )}
                     </View>}
 
 
