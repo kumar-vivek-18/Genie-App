@@ -41,7 +41,7 @@ const DefineRequest = () => {
         "Fashion Accessories - Shoes, bags etc": [
             "School Uniform Shoe", "EXTRA SOFT Men's Classic Casual Clogs/ Sandals with Adjustable Back Strap", "Black Nike Shoes", "Red Puma Shoes"
         ],
-        "Fashion accessories - Sharee, suits, kurti & dress materials etc": [
+        "Fashion Accessories - Sharee, suits, kurti & dress materials etc": [
             "A-Line Kurta with Pant and Dupatta Suit Set", "Floor Length Suits", "Banarsi Sari", "Elegant Draped Styles"
         ],
         "Kids Games,Toys & Accessories": ["Monopoly", "Chess", "Jenga", "Game of States", "Audi Tt Rs Plus Electric Motor Car", "Vintage Electric Motor Car"],

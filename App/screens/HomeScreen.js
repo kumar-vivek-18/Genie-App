@@ -103,7 +103,7 @@ const categoriess = [{ cat: Category1, name: "Consumer Electronics & Accessories
 { cat: Category2, name: "Fashion/Clothings - Top, bottom, dresses" },
 { cat: Category3, name: "Fashion Accessories - Jewellery, Gold & Diamond" },
 { cat: Category4, name: "Fashion Accessories - Shoes, bags etc" },
-{ cat: Category5, name: "Fashion accessories - Sharee, suits, kurti & dress materials etc" },
+{ cat: Category5, name: "Fashion Accessories - Sharee, suits, kurti & dress materials etc" },
 { cat: Category6, name: "Kids Games,Toys & Accessories" },
 { cat: Category7, name: "Luxury Watches" },
 { cat: Category8, name: "Hardware - Plumbing, Paint,& Electricity" },
