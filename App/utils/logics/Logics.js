@@ -22,17 +22,23 @@ export const formatDateTime = (dateTimeString) => {
 };
 
 export const getLocationName = async (lat, lon) => {
-  const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
+  console.log('hiii getting location name');
+  // const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
+  const url = `https://api.opencagedata.com/geocode/v1/json?q=${lat},${lon}&key=271e21eb56e44664994e8bba011c1395`
 
   try {
     const response = await fetch(url);
+    const data = await response.json();
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
+    // const data = await response.json();
+    // console.log('response of location api', data.results[0].formatted);
     if (!data.error) {
-      return data.display_name;
+      // return data.display_name;
+      return data.results[0].formatted;
     } else {
       return null;
     }

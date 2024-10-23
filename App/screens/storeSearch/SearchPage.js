@@ -32,9 +32,10 @@ import StoreIcon from '../../assets/StoreIcon.svg';
 import ArrowRight from '../../assets/arrow-right.svg';
 import Tab1 from '../../assets/tab1.svg';
 import Tab2 from '../../assets/tab2.svg';
-import Tab33 from '../../assets/tab33.svg';
+import Tab3 from '../../assets/tab3.svg';
 import Tab4 from '../../assets/tab4.svg';
 import Share from 'react-native-share';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const SearchCategoryScreen = () => {
@@ -58,7 +59,7 @@ const SearchCategoryScreen = () => {
     const [page, setPage] = useState(1);
     const [filterNearby, setFilterNearby] = useState(true);
     const [dataCopy, setDataCopy] = useState([]);
-
+    const [createSpadeLoading, setCreateSpadeLoading] = useState(false);
 
     const [hasMorePages, setHasMorePages] = useState(true);
 
@@ -318,6 +319,52 @@ const SearchCategoryScreen = () => {
         }
     };
 
+    const fetchUserDetailsToCreateSpade = async () => {
+        setCreateSpadeLoading(true);
+        try {
+            if (userDetails.unpaidSpades.length > 0) {
+                navigation.navigate('payment-gateway', { spadeId: userDetails.unpaidSpades[0] });
+                setCreateSpadeLoading(true);
+                return;
+            }
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                params: {
+                    userId: userDetails._id,
+                },
+            }
+            await axiosInstance.get(`${baseUrl}/user/user-details`, config)
+                .then(async (response) => {
+                    setCreateSpadeLoading(false);
+
+                    if (response.status !== 200) return;
+
+                    if (response.data.unpaidSpades.length > 0) {
+                        navigation.navigate('payment-gateway', { spadeId: response.data.unpaidSpades[0] });
+                        // fetchSpadeDetails(userDetails.unpaidSpades[0]);
+
+                    }
+                    else {
+                        navigation.navigate('requestentry');
+                    }
+                    await AsyncStorage.setItem("userDetails", JSON.stringify(response.data));
+                })
+        } catch (error) {
+            setCreateSpadeLoading(false);
+            if (!error?.response?.status) {
+                setNetworkError(true);
+                console.log('Network Error occurred: ');
+            }
+            console.error(error.message);
+        }
+        finally {
+            setCreateSpadeLoading(false);
+        }
+    }
+
 
 
 
@@ -477,9 +524,9 @@ const SearchCategoryScreen = () => {
                         {spades.length > 0 && <View style={{ position: 'absolute', backgroundColor: '#e76063', borderRadius: 16, right: 5, top: 0, width: 15, height: 15, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: 'white', fontSize: 10 }}>{spades.length}</Text></View>}
                         <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Orders</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { navigation.navigate('store-search') }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Tab33 />
-                        <Text style={{ fontFamily: 'Poppins-Regular', color: '#fb8c00' }}>Stores</Text>
+                    <TouchableOpacity onPress={() => { fetchUserDetailsToCreateSpade(); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+                        {!createSpadeLoading ? <Tab3 /> : <ActivityIndicator color="#fb8c00" />}
+                        <Text style={{ fontFamily: 'Poppins-Regular', color: '#fb8c00' }}>Ask Genie</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => { onShare(); }}>
                         <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -493,6 +540,7 @@ const SearchCategoryScreen = () => {
         </View >
     );
 };
+
 
 const styles = {
     container: {

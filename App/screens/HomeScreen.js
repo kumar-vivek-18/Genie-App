@@ -92,6 +92,7 @@ import Tab11 from '../assets/tab11.svg';
 import Tab2 from '../assets/tab2.svg';
 import Tab3 from '../assets/tab3.svg';
 import Tab4 from '../assets/tab4.svg';
+import Search from '../assets/search.svg';
 import { emtpyRequestImages, setEstimatedPrice, setExpectedPrice, setRequestCategory, setSuggestedImages } from "../redux/reducers/userRequestsSlice";
 import { useFocusEffect } from '@react-navigation/native';
 import Share from 'react-native-share';
@@ -370,7 +371,7 @@ const HomeScreen = () => {
 
 
 
-  const fetchUserDetails = async () => {
+  const fetchUserDetailsToCreateSpade = async () => {
     setCreateSpadeLoading(true);
     try {
       if (userDetails.unpaidSpades.length > 0) {
@@ -389,7 +390,6 @@ const HomeScreen = () => {
       }
       await axiosInstance.get(`${baseUrl}/user/user-details`, config)
         .then(async (response) => {
-          console.log('userdetails for paymest check', response.data);
           setCreateSpadeLoading(false);
 
           if (response.status !== 200) return;
@@ -555,16 +555,15 @@ const HomeScreen = () => {
             <Pressable
               onPress={() => {
 
-                fetchUserDetails();
+                navigation.navigate('store-search');
               }}
               className="mx-[16px] mt-[16px]"
             >
               <View className="h-[60px] w-full flex-row border-[1px] border-[#fb8c00] bg-white rounded-3xl items-center justify-center ">
-                <GenieLogo style={{ position: 'absolute', left: 20 }} />
+                <Search style={{ position: 'absolute', left: 20 }} />
                 <Text className="text-[#fb8c00] text-[14px] text-center py-[19px] " style={{ fontFamily: "Poppins-Italic" }}>
-                  Type your spades, my master...
+                  Nearby store search...
                 </Text>
-                {createSpadeLoading && <View style={{ position: 'absolute', right: 20 }}><ActivityIndicator color={'#fb8c00'} /></View>}
               </View>
             </Pressable>
           </View>
@@ -787,9 +786,9 @@ const HomeScreen = () => {
             {spades.length > 0 && <View style={{ position: 'absolute', backgroundColor: '#e76063', borderRadius: 16, right: 5, top: 0, width: 15, height: 15, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: 'white', fontSize: 10 }}>{spades.length}</Text></View>}
             <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Orders</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { navigation.navigate('store-search') }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Tab3 />
-            <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Stores</Text>
+          <TouchableOpacity onPress={() => { fetchUserDetailsToCreateSpade(); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+            {!createSpadeLoading ? <Tab3 /> : <ActivityIndicator color="#fb8c00" />}
+            <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Ask Genie</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => { onShare(); }}>
             <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>

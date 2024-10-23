@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Dimensions, Pressable, TouchableOpacity, Animated, Image } from 'react-native'
+import { View, Text, ScrollView, Dimensions, Pressable, TouchableOpacity, Animated, Image, ActivityIndicator } from 'react-native'
 import React, { useState, useCallback, useRef } from 'react';
 import Tab1 from '../../assets/tab1.svg';
 import Tab22 from '../../assets/tab22.svg';
@@ -24,6 +24,9 @@ import Home5 from "../../assets/Home5.png";
 import Home6 from "../../assets/Home6.png";
 import Home7 from "../../assets/Home7.png";
 import Share from 'react-native-share';
+import { baseUrl } from '../../utils/logics/constants';
+import axiosInstance from '../../utils/logics/axiosInstance';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ActiveRequests = () => {
 
@@ -39,6 +42,8 @@ const ActiveRequests = () => {
     const [playing, setPlaying] = useState(false);
     const scrollViewRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [createSpadeLoading, setCreateSpadeLoading] = useState(false);
+    const accessToken = useSelector(store => store.user.accessToken);
 
     const onStateChange = useCallback((state) => {
         if (state === 'ended') {
@@ -75,6 +80,52 @@ const ActiveRequests = () => {
             console.log('Error while sharing:', error);
         }
     };
+
+    const fetchUserDetailsToCreateSpade = async () => {
+        setCreateSpadeLoading(true);
+        try {
+            if (userDetails.unpaidSpades.length > 0) {
+                navigation.navigate('payment-gateway', { spadeId: userDetails.unpaidSpades[0] });
+                setCreateSpadeLoading(true);
+                return;
+            }
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                params: {
+                    userId: userDetails._id,
+                },
+            }
+            await axiosInstance.get(`${baseUrl}/user/user-details`, config)
+                .then(async (response) => {
+                    setCreateSpadeLoading(false);
+
+                    if (response.status !== 200) return;
+
+                    if (response.data.unpaidSpades.length > 0) {
+                        navigation.navigate('payment-gateway', { spadeId: response.data.unpaidSpades[0] });
+                        // fetchSpadeDetails(userDetails.unpaidSpades[0]);
+
+                    }
+                    else {
+                        navigation.navigate('requestentry');
+                    }
+                    await AsyncStorage.setItem("userDetails", JSON.stringify(response.data));
+                })
+        } catch (error) {
+            setCreateSpadeLoading(false);
+            if (!error?.response?.status) {
+                setNetworkError(true);
+                console.log('Network Error occurred: ');
+            }
+            console.error(error.message);
+        }
+        finally {
+            setCreateSpadeLoading(false);
+        }
+    }
 
     return (
         <View style={{ flex: 1 }}>
@@ -226,9 +277,9 @@ const ActiveRequests = () => {
                         {spades.length > 0 && <View style={{ position: 'absolute', backgroundColor: '#e76063', borderRadius: 16, right: 5, top: 0, width: 15, height: 15, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: 'white', fontSize: 10 }}>{spades.length}</Text></View>}
                         <Text style={{ fontFamily: 'Poppins-Regular', color: '#fb8c00' }}>Orders</Text>
                     </View>
-                    <TouchableOpacity onPress={() => { navigation.navigate('store-search'); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Tab3 />
-                        <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Stores</Text>
+                    <TouchableOpacity onPress={() => { fetchUserDetailsToCreateSpade(); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+                        {!createSpadeLoading ? <Tab3 /> : <ActivityIndicator color="#fb8c00" />}
+                        <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Ask Genie</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => { onShare(); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Tab4 />

@@ -50,7 +50,7 @@ const RequestEntry = () => {
                     });
 
                     // Log the categories array to verify
-                    console.log(categories);
+                    // console.log(categories);
                     dispatch(setNearByStoresCategory(categories));
                 })
         } catch (error) {
