@@ -10,6 +10,7 @@ import {
     Modal,
     Animated,
     TouchableOpacity,
+    Linking
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
@@ -30,7 +31,7 @@ import {
 } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setEstimatedPrice, setRequestImages, setSuggestedImages } from "../../redux/reducers/userRequestsSlice.js";
-
+import { Feather } from '@expo/vector-icons';
 import ModalCancel from "../../screens/components/ModalCancel.js";
 import { manipulateAsync } from "expo-image-manipulator";
 import { AntDesign } from "@expo/vector-icons";
@@ -201,6 +202,13 @@ const ImageSuggestion = () => {
             dispatch(setRequestImages(compressedImage.uri));
         }
     };
+
+    const handleDownloadDocument = async () => {
+        // const url = `https://www.google.com/search?q=${encodeURIComponent(bidDetails.bidImages[0])}`
+        // const url = `${bidDetails.bidImages[0]}`;
+        Linking.openURL(selectedImage)
+            .catch((err) => console.error('An error occurred', err));
+    }
 
     if (hasCameraPermission === null) {
         return <View />;
@@ -428,7 +436,19 @@ const ImageSuggestion = () => {
                             ]}
                         >
                             <Pressable onPress={() => { handleClose(); }}>
-
+                                <TouchableOpacity
+                                    style={{
+                                        backgroundColor: "#ffe7c8",
+                                        position: 'absolute',
+                                        top: 20, right: 20,
+                                        zIndex: 100,
+                                        padding: 5,
+                                        borderRadius: 100,
+                                    }}
+                                    onPress={() => { handleDownloadDocument() }}
+                                >
+                                    <Feather name="download" size={16} color="#fb8c00" />
+                                </TouchableOpacity>
                                 <Image
                                     source={{ uri: selectedImage }}
                                     style={[

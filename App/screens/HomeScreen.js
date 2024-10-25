@@ -524,7 +524,7 @@ const HomeScreen = () => {
             <Animated.View style={[styles.scrollMarqContainer, { transform: [{ translateX: scrollX }] }]}>
               <View className="flex flex-row items-center justify-center gap-2">
                 <Offer />
-                <Text style={{ fontFamily: "Poppins-BlackItalic", color: "#3f3d56" }} >Service Free Orders Remaining: <Text className="text-[#55cd00]">{userDetails.freeSpades}</Text> <Text className="text-[#3f3d56]" style={{ fontFamily: "Poppins-BlackItalic" }}>             SAVE MORE, START BARGAINING!</Text> </Text>
+                <Text style={{ fontFamily: "Poppins-BlackItalic", color: "#3f3d56" }}>Service Free Orders Remaining: <Text className="text-[#55cd00]">{userDetails.freeSpades}</Text> <Text className="text-[#3f3d56]" style={{ fontFamily: "Poppins-BlackItalic" }}>             SAVE MORE, START BARGAINING!</Text> </Text>
               </View>
 
             </Animated.View>
@@ -548,8 +548,6 @@ const HomeScreen = () => {
           </View> */}
 
           <View className="mt-[10px]">
-            <Text className="text-center px-[30px] text-[14px] text-[#fb8c00]  " style={{ fontFamily: "Poppins-Light" }}>Ask Genie for any shopping product or maintenance service you need. </Text>
-            <Text className="text-center px-[20px] text-[14px] text-[#fb8c00] " style={{ fontFamily: "Poppins-Bold" }}> Start your shopping now.</Text>
 
 
             <Pressable
@@ -776,21 +774,21 @@ const HomeScreen = () => {
 
       <View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignContent: 'baseline', backgroundColor: 'white', paddingVertical: 10, shadowColor: '#FB8C00', elevation: 30, shadowOffset: { width: 10, height: 18 }, shadowOpacity: 0.9, shadowRadius: 20 }}>
-          <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
             <Tab11 />
             <Text style={{ fontFamily: 'Poppins-Regular', color: '#fb8c00' }}>Home</Text>
           </View>
 
-          <TouchableOpacity onPress={() => { navigation.navigate('orders') }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+          <TouchableOpacity onPress={() => { navigation.navigate('orders') }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
             <Tab2 />
             {spades.length > 0 && <View style={{ position: 'absolute', backgroundColor: '#e76063', borderRadius: 16, right: 5, top: 0, width: 15, height: 15, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: 'white', fontSize: 10 }}>{spades.length}</Text></View>}
             <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Orders</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { fetchUserDetailsToCreateSpade(); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+          <TouchableOpacity onPress={() => { fetchUserDetailsToCreateSpade(); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
             {!createSpadeLoading ? <Tab3 /> : <ActivityIndicator color="#fb8c00" />}
             <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Ask Genie</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { onShare(); }}>
+          <TouchableOpacity onPress={() => { onShare(); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
             <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
               <Tab4 />
               <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Refer Us</Text>

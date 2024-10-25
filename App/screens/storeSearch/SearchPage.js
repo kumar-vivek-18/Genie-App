@@ -60,8 +60,29 @@ const SearchCategoryScreen = () => {
     const [filterNearby, setFilterNearby] = useState(true);
     const [dataCopy, setDataCopy] = useState([]);
     const [createSpadeLoading, setCreateSpadeLoading] = useState(false);
-
     const [hasMorePages, setHasMorePages] = useState(true);
+
+
+
+    const Icons = {
+        "Automotive Parts/Services - 2 wheeler Fuel based": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883210/service-2wheel_kjsbsg.jpg",
+        "Automotive Parts/Services - 4 wheeler Fuel based": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883228/service-4wheel_viwees.jpg",
+        "Clock Repair & Services": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883205/service-watches_nacg4f.jpg",
+        "Consumer Electronics & Accessories - Home appliances and equipment etc": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883163/customer-electronics_oaibxe.jpg",
+        "Fashion Accessories - Jewellery, Gold & Diamond": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883174/jwellery_y1vwcc.jpg",
+        "Fashion Accessories - Sharee, suits, kurti & dress materials etc": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883152/saree-suits_q2vsah.jpg",
+        "Fashion Accessories - Shoes, bags etc": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883181/shoes_lh0oh6.jpg",
+        "Fashion/Clothings - Top, bottom, dresses": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883159/top-bottom_jbxrnn.jpg",
+        "Hardware - Plumbing, Paint,& Electricity": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883214/service-plumbing_hmfik4.jpg",
+        "Home & Function Decoration": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883214/service-plumbing_hmfik4.jpg",
+        "Kids Games,Toys & Clothings": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883140/Kids_cv41at.jpg",
+        "Luxury Watches": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883126/watches_ffln2l.jpg",
+        "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883194/service-electronics_ukjenr.jpg",
+        "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883199/service-laptop_ac62ss.jpg",
+        "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883236/service-jcb_ongzrm.jpg",
+        "Sports Nutrition - Whey Pro etc": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883186/protein_k4disv.jpg",
+        // "Z - Internal test culturtap(not for commercial use )": { "id": 17, "name": "Z - Internal test culturtap(not for commercial use )" }
+    }
 
 
 
@@ -221,6 +242,7 @@ const SearchCategoryScreen = () => {
                 id: index + 1,
                 name: category
             }));
+            // console.log("categories", categories);
             dispatch(setStoreCategories(categories));
         } catch (error) {
             console.error("Error fetching nearby stores:", error);
@@ -412,21 +434,33 @@ const SearchCategoryScreen = () => {
                     </View>
                     {!storeVisible &&
                         <View className="px-[32px]">
-                            {!isLoading && storeCategories && storeCategories?.map((result) => (
-                                <TouchableOpacity
-                                    key={result.id}
-                                    onPress={() => { setPage(1); setHasMorePages(true); setStoreVisible(true); setSearchQuery(result.name); searchStores(result.name, 1, true) }}
-                                >
-                                    <View className="flex flex-row items-center my-[3px] gap-[20px]">
-                                        {result?.name !== "Z-Internal test culturtap ( not for commercial use )" && <Octicons name="search" size={19} style={{ color: '#7c7c7c' }} />}
+                            {!isLoading && storeCategories && storeCategories?.map((result) => {
+                                const categoryName = result.name;
+                                const CategoryIcon = Icons.categoryName;
 
-                                        <View key={result.id} className="flex flex-row w-[90%]  py-[10px] gap-[30px] items-center">
-                                            {result?.name !== "Z-Internal test culturtap ( not for commercial use )" && result?.name.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize"><Text style={{ fontFamily: 'Poppins-Bold' }}>{result?.name.slice(0, result.name.indexOf('-'))}</Text>{result.name.indexOf('-') >= 0 ? result.name.slice(result.name.indexOf('-')) : ""}</Text>}
-                                            {result?.name !== "Z-Internal test culturtap ( not for commercial use )" && result?.name.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold" }} className="capitalize">{result?.name}</Text>}
+                                return (
+
+                                    <TouchableOpacity
+                                        key={result.id}
+                                        onPress={() => { setPage(1); setHasMorePages(true); setStoreVisible(true); setSearchQuery(result.name); searchStores(result.name, 1, true) }}
+                                    >
+                                        <View className="flex flex-row items-center my-[3px] gap-[10px] pr-[10px]">
+                                            {!Icons[result.name] && result?.name !== "Z-Internal test culturtap ( not for commercial use )" && <Octicons name="search" size={19} style={{ color: '#7c7c7c' }} />}
+                                            {result?.name !== "Z-Internal test culturtap ( not for commercial use )" && Icons[result.name] && (
+                                                <View style={{ backgroundColor: 'black' }}>
+
+                                                    {<Image source={{ uri: Icons[result.name] }} style={{ width: 44, height: 50 }} />}
+                                                </View>
+                                            )}
+
+                                            <View key={result.id} className="flex flex-row w-[90%]  py-[10px] gap-[30px] items-center">
+                                                {result?.name !== "Z-Internal test culturtap ( not for commercial use )" && result?.name.indexOf('-') > 0 && <Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize"><Text style={{ fontFamily: 'Poppins-Bold' }}>{result?.name.slice(0, result.name.indexOf('-'))}</Text>{result.name.indexOf('-') >= 0 ? result.name.slice(result.name.indexOf('-')) : ""}</Text>}
+                                                {result?.name !== "Z-Internal test culturtap ( not for commercial use )" && result?.name.indexOf('-') == -1 && <Text style={{ fontFamily: "Poppins-Bold" }} className="capitalize">{result?.name}</Text>}
+                                            </View>
                                         </View>
-                                    </View>
-                                </TouchableOpacity>
-                            ))}
+                                    </TouchableOpacity>
+                                )
+                            })}
                         </View>
                     }
                     {
@@ -514,22 +548,22 @@ const SearchCategoryScreen = () => {
 
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignContent: 'baseline', backgroundColor: 'white', paddingVertical: 10, shadowColor: '#FB8C00', elevation: 30, shadowOffset: { width: 10, height: 18 }, shadowOpacity: 0.9, shadowRadius: 20 }}>
-                    <TouchableOpacity onPress={() => { navigation.navigate('home'); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('home'); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
                         <Tab1 />
                         <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Home</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => { navigation.navigate('orders') }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('orders') }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
                         <Tab2 />
                         {spades.length > 0 && <View style={{ position: 'absolute', backgroundColor: '#e76063', borderRadius: 16, right: 5, top: 0, width: 15, height: 15, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: 'white', fontSize: 10 }}>{spades.length}</Text></View>}
                         <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Orders</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { fetchUserDetailsToCreateSpade(); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <TouchableOpacity onPress={() => { fetchUserDetailsToCreateSpade(); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
                         {!createSpadeLoading ? <Tab3 /> : <ActivityIndicator color="#fb8c00" />}
                         <Text style={{ fontFamily: 'Poppins-Regular', color: '#fb8c00' }}>Ask Genie</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { onShare(); }}>
-                        <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <TouchableOpacity onPress={() => { onShare(); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
+                        <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
                             <Tab4 />
                             <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Refer Us</Text>
                         </View>
