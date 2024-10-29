@@ -74,7 +74,7 @@ const SearchCategoryScreen = () => {
         "Fashion Accessories - Shoes, bags etc": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883181/shoes_lh0oh6.jpg",
         "Fashion/Clothings - Top, bottom, dresses": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883159/top-bottom_jbxrnn.jpg",
         "Hardware - Plumbing, Paint,& Electricity": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883214/service-plumbing_hmfik4.jpg",
-        "Home & Function Decoration": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883214/service-plumbing_hmfik4.jpg",
+        "Home & Function Decoration": "https://res.cloudinary.com/kumarvivek/image/upload/v1730174790/decoration_f69hnj.jpg",
         "Kids Games,Toys & Clothings": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883140/Kids_cv41at.jpg",
         "Luxury Watches": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883126/watches_ffln2l.jpg",
         "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883194/service-electronics_ukjenr.jpg",
@@ -223,21 +223,21 @@ const SearchCategoryScreen = () => {
 
     const fetchNearByStores = useCallback(async () => {
         try {
-            const longitude = userLongitude !== 0 ? userLongitude : userDetails.longitude;
-            const latitude = userLatitude !== 0 ? userLatitude : userDetails.latitude;
+            const longitude = userLongitude !== 0 ? userLongitude : userDetails?.longitude;
+            const latitude = userLatitude !== 0 ? userLatitude : userDetails?.latitude;
 
             const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`,
-                },
+                // headers: {
+                //     'Content-Type': 'application/json',
+                //     'Authorization': `Bearer ${accessToken}`,
+                // },
                 params: {
                     longitude,
                     latitude
                 }
             };
-
-            const res = await axiosInstance.get(`${baseUrl}/retailer/stores-near-me`, config);
+            console.log('stores config', config);
+            const res = await axios.get(`${baseUrl}/retailer/stores-near-me`, config);
             const categories = res.data.map((category, index) => ({
                 id: index + 1,
                 name: category
@@ -265,16 +265,16 @@ const SearchCategoryScreen = () => {
         if (loading || !hasPages) return;
 
         setLoading(true);
-        console.log("searchQuery", query)
+        console.log("searchQuery", query, userLatitude, userLongitude)
         query = query.trim();
 
 
         try {
             // console.log('reqqqq', userLatitude, userLongitude, query, "hii", pageNumber, hasPages);
-            const res = await axiosInstance.get(`${baseUrl}/retailer/nearby-stores`, {
+            const res = await axios.get(`${baseUrl}/retailer/nearby-stores`, {
                 params: {
-                    lat: userLatitude || userDetails.latitude,
-                    lon: userLongitude || userDetails.longitude,
+                    lat: userLatitude || userDetails?.latitude,
+                    lon: userLongitude || userDetails?.longitude,
                     page: pageNumber,
                     query,
                 }
@@ -342,6 +342,10 @@ const SearchCategoryScreen = () => {
     };
 
     const fetchUserDetailsToCreateSpade = async () => {
+        if (!(userDetails?._id)) {
+            navigation.navigate('mobileNumber');
+            return;
+        }
         setCreateSpadeLoading(true);
         try {
             if (userDetails.unpaidSpades.length > 0) {

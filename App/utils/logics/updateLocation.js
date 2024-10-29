@@ -8,7 +8,7 @@ import { getGeoCoordinates, getLocationName } from "./Logics";
 
 
 export const handleRefreshLocation = async (id, accessToken) => {
-
+    // console.log('hello there trying to fetch location coordinates');
     try {
         await getGeoCoordinates()
             .then(async (res) => {
@@ -23,13 +23,16 @@ export const handleRefreshLocation = async (id, accessToken) => {
                     res.coords.longitude
                 );
 
-                // console.log('location name', location);
+                console.log('location name', location);
 
                 let updatedUserData = {
                     latitude: res.coords.latitude,
                     longitude: res.coords.longitude,
                     location: location,
                 };
+
+
+                if (!id || !accessToken) return;
                 // console.log('updatedUserData', updatedUserData);
                 const config = {
                     headers: { // Use "headers" instead of "header"
@@ -37,6 +40,9 @@ export const handleRefreshLocation = async (id, accessToken) => {
                         'Authorization': `Bearer ${accessToken}`,
                     }
                 };
+
+
+
                 await axiosInstance
                     .patch(`${baseUrl}/user/edit-profile`, {
                         _id: id,
@@ -50,7 +56,7 @@ export const handleRefreshLocation = async (id, accessToken) => {
                             },
                             location: updatedUserData.location,
                         },
-                    }, config)
+                    })
                     .then(async (res) => {
                         store.dispatch(setUserDetails(res.data))
                         await AsyncStorage.setItem(

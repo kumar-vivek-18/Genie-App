@@ -96,15 +96,15 @@ const StoreProfilePage = () => {
     const fetchRetailerFeedbacks = useCallback(async () => {
         try {
             const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`,
-                },
+                // headers: {
+                //     'Content-Type': 'application/json',
+                //     'Authorization': `Bearer ${accessToken}`,
+                // },
                 params: {
                     id: storeData._id,
                 }
             }
-            await axiosInstance.get(`${baseUrl}/rating/get-retailer-feedbacks`, config)
+            await axios.get(`${baseUrl}/rating/get-retailer-feedbacks`, config)
                 .then((res) => {
                     console.log('Feedbacks fetched successfully', res.data);
                     if (feedbacks.length > 0) {
@@ -126,6 +126,7 @@ const StoreProfilePage = () => {
     })
 
     const usersRatingForSeller = async () => {
+        if (!(userDetails?._id)) return;
         try {
             await axiosInstance.get(`${baseUrl}/rating/particular-feedback`, {
                 params: {
@@ -155,7 +156,7 @@ const StoreProfilePage = () => {
     const vendorsListedProduct = async () => {
         setProductLoading(true);
         try {
-            await axiosInstance.get(`${baseUrl}/product/product-by-vendorId`, {
+            await axios.get(`${baseUrl}/product/product-by-vendorId`, {
                 params: {
                     vendorId: storeData._id,
                     page: page

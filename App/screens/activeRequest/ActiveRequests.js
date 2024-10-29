@@ -82,6 +82,10 @@ const ActiveRequests = () => {
     };
 
     const fetchUserDetailsToCreateSpade = async () => {
+        if (!(userDetails?._id)) {
+            navigation.navigate('mobileNumber');
+            return;
+        }
         setCreateSpadeLoading(true);
         try {
             if (userDetails.unpaidSpades.length > 0) {

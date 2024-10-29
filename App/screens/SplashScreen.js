@@ -43,21 +43,23 @@ const SplashScreen = () => {
         const refreshToken = JSON.parse(await AsyncStorage.getItem('refreshToken'));
         dispatch(setAccessToken(accessToken));
         dispatch(setRefreshToken(refreshToken));
+        handleRefreshLocation(userData?._id, accessToken);
+        navigation.navigate('home');
 
         // console.log('userData', userData);
-        setTimeout(() => {
-          if (userData !== null) {
-            // await AsyncStorage.removeItem('userData');
-            // console.log('hii going to home');
-            console.log("Location updated from splash screen");
-            handleRefreshLocation(userData._id, accessToken);
-            navigation.navigate("home");
-            dispatch(setUserDetails(userData));
-          } else {
-            console.log('going to signup');
-            navigation.navigate('mobileNumber');
-          }
-        }, 3000); // Delay for 3 seconds
+        // setTimeout(() => {
+        //   if (userData !== null) {
+        //     // await AsyncStorage.removeItem('userData');
+        //     // console.log('hii going to home');
+        //     console.log("Location updated from splash screen");
+        //     handleRefreshLocation(userData._id, accessToken);
+        //     navigation.navigate("home");
+        //     dispatch(setUserDetails(userData));
+        //   } else {
+        //     console.log('going to signup');
+        //     navigation.navigate('mobileNumber');
+        //   }
+        // }, 3000); // Delay for 3 seconds
       } catch (error) {
         console.error("Error checking stored user:", error);
       }

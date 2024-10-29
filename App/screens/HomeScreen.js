@@ -213,6 +213,7 @@ const HomeScreen = () => {
     // connectSocket();
 
     const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
+    if (!(userData?._id)) return;
     dispatch(setUserDetails(userData));
     try {
       // console.log('userHomeScreem', userDetails._id);
@@ -279,6 +280,7 @@ const HomeScreen = () => {
   const connectSocket = async () => {
     // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
     const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
+    if (!(userData?._id)) return;
     if (userData) {
       const userId = userData._id;
       const senderId = userId;
@@ -294,6 +296,7 @@ const HomeScreen = () => {
   const updateLocationHomeScreen = async () => {
     try {
       const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
+      if (!(userData?._id)) return;
       const token = JSON.parse(await AsyncStorage.getItem("accessToken"));
       if (userData) {
         console.log('refreshing location home screen');
@@ -372,6 +375,11 @@ const HomeScreen = () => {
 
 
   const fetchUserDetailsToCreateSpade = async () => {
+
+    if (!(userDetails?._id)) {
+      navigation.navigate('mobileNumber');
+      return;
+    }
     setCreateSpadeLoading(true);
     try {
       if (userDetails.unpaidSpades.length > 0) {
@@ -421,7 +429,7 @@ const HomeScreen = () => {
 
   const handleRefresh = async () => {
     setRefreshing(true);
-
+    if (!(userDetails?._id)) return;
     try {
       connectSocket();
       fetchData();
@@ -453,6 +461,8 @@ const HomeScreen = () => {
     }
   };
 
+
+  // console.log('userDetails home', userDetails._id);
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView style={{ flex: 1 }} className="relative" refreshControl={<RefreshControl
@@ -466,19 +476,25 @@ const HomeScreen = () => {
         </View>}
 
         <View className="w-full flex-row px-[29px] justify-between items-center pt-[20px]">
-          <Pressable onPress={() => navigation.navigate("menu")}>
+          <Pressable onPress={() => {
+            if (!(userDetails?._id))
+              navigation.navigate('mobileNumber');
+            else
+              navigation.navigate("menu");
+          }}>
             <View className="bg-[#fb8c00] w-[42px] h-[42px] rounded-full flex justify-center items-center mx-auto">
-              {/* <Image
-                source={require("../assets/ProfileIcon.png")}
-                className="w-[26px] h-[26px]"
-              /> */}
               <ProfileIcon />
             </View>
           </Pressable>
-
           <GenieCulturTapLogo />
 
-          <Pressable onPress={() => { navigation.navigate("history"); dispatch(setIsHome(false)) }}>
+          <Pressable onPress={() => {
+            if (!(userDetails?._id))
+              navigation.navigate('mobileNumber')
+            else {
+              navigation.navigate("history"); dispatch(setIsHome(false))
+            }
+          }}>
             <View className="bg-[#fb8c00] w-[42px] h-[42px] rounded-full flex justify-center items-center mx-auto">
 
               <HistoryIcon />

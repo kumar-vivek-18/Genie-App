@@ -23,12 +23,6 @@ import ClickImage from "../../assets/ClickImg.svg";
 import UploadImg from "../../assets/UploadImg.svg";
 import AddMoreImage from "../../assets/AddImg.svg";
 import DelImg from "../../assets/delImg.svg"
-import {
-    FontAwesome,
-    Entypo,
-    Ionicons,
-    MaterialIcons,
-} from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setEstimatedPrice, setRequestImages, setSuggestedImages } from "../../redux/reducers/userRequestsSlice.js";
 import { Feather } from '@expo/vector-icons';
@@ -42,6 +36,7 @@ import AddImageContent from '../../assets/addImageContent.svg';
 import AddImageContentService from '../../assets/addImageContentService.svg';
 import axiosInstance from "../../utils/logics/axiosInstance";
 import { baseUrl } from "../../utils/logics/constants";
+import axios from "axios";
 
 
 const ImageSuggestion = () => {
@@ -81,6 +76,7 @@ const ImageSuggestion = () => {
     const [showImageLength, setShowImageLength] = useState(20);
     const [loadMore, setLoadMore] = useState(true);
     const [loadingProducts, setLoadingProducts] = useState(false);
+    const userDetails = useSelector(store => store.user.userDetails);
 
 
     useEffect(() => {
@@ -144,7 +140,7 @@ const ImageSuggestion = () => {
             // console.log('category', requestCategory);
             if (!loadMore) return;
             setLoadingProducts(true);
-            await axiosInstance.get(`${baseUrl}/product/product-by-category`, {
+            await axios.get(`${baseUrl}/product/product-by-category`, {
                 params: {
                     productCategory: requestCategory,
                     page: page
@@ -245,9 +241,15 @@ const ImageSuggestion = () => {
                             </TouchableOpacity>
                         </View>}
 
-                        {(suggestedImages?.length > 0 || requestImages?.length > 0) && <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 15, color: '#2e2c43' }}>Add Product</Text>
+                        {suggestedImages?.length > 0 || requestImages?.length > 0 && <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
+                            <Text className="text-[14px] text-center text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>
+                                {isService ? "Add more image of defect/damage" : "Add more product images."}
+                            </Text>
                         </View>}
+
+                        {/* {(suggestedImages?.length > 0 || requestImages?.length > 0) && <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 15, color: '#2e2c43' }}>Add Product</Text>
+                        </View>} */}
 
 
 
@@ -376,8 +378,14 @@ const ImageSuggestion = () => {
                     <View className="absolute bottom-0 left-0 right-0">
                         <TouchableOpacity
                             onPress={() => {
-                                navigation.navigate("define-request", { imagesLocal: imagesLocal });
-                                if (suggestedImages.length === 0) dispatch(setEstimatedPrice(0));
+                                if (!(userDetails?._id)) {
+                                    navigation.navigate('mobileNumber');
+                                }
+                                else {
+                                    navigation.navigate("define-request", { imagesLocal: imagesLocal });
+                                    if (suggestedImages.length === 0) dispatch(setEstimatedPrice(0));
+                                }
+
                             }
                             }
                         >
