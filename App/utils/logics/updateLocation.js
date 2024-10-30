@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { setUserDetails } from "../../redux/reducers/userDataSlice";
+import { setCurrentLocation, setUserDetails } from "../../redux/reducers/userDataSlice";
 import store from "../../redux/store";
 import axiosInstance from "./axiosInstance";
 import { baseUrl } from "./constants";
@@ -24,6 +24,8 @@ export const handleRefreshLocation = async (id, accessToken) => {
                 );
 
                 console.log('location name', location);
+
+                store.dispatch(setCurrentLocation(location));
 
                 let updatedUserData = {
                     latitude: res.coords.latitude,

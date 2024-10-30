@@ -65,7 +65,7 @@ const DefineRequest = () => {
                     <Genie width={35} height={52} />
                 </View>
                 <Text className="text-[14.5px]  text-[#FB8C00] text-center mb-[10px] " style={{ fontFamily: "Poppins-Medium" }}>
-                    Step 2/4
+                    Step 3/4
                 </Text>
 
                 <View className="px-[32px] mb-[20px]">

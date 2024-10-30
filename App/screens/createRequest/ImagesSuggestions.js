@@ -37,6 +37,7 @@ import AddImageContentService from '../../assets/addImageContentService.svg';
 import axiosInstance from "../../utils/logics/axiosInstance";
 import { baseUrl } from "../../utils/logics/constants";
 import axios from "axios";
+import SignUpModal from "../components/SignUpModal";
 
 
 const ImageSuggestion = () => {
@@ -77,6 +78,7 @@ const ImageSuggestion = () => {
     const [loadMore, setLoadMore] = useState(true);
     const [loadingProducts, setLoadingProducts] = useState(false);
     const userDetails = useSelector(store => store.user.userDetails);
+    const [signUpModal, setSignUpModal] = useState(false);
 
 
     useEffect(() => {
@@ -230,7 +232,7 @@ const ImageSuggestion = () => {
                     </View>
                     <View className="mt-[10px] mb-[27px] px-[32px]">
                         <Text className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] " style={{ fontFamily: "Poppins-Medium" }}>
-                            Step 1/4
+                            Step 2/4
                         </Text>
                         {suggestedImages?.length == 0 && requestImages?.length == 0 && <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
                             <Text className="text-[14px] text-center text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>
@@ -379,7 +381,7 @@ const ImageSuggestion = () => {
                         <TouchableOpacity
                             onPress={() => {
                                 if (!(userDetails?._id)) {
-                                    navigation.navigate('mobileNumber');
+                                    setSignUpModal(true);
                                 }
                                 else {
                                     navigation.navigate("define-request", { imagesLocal: imagesLocal });
@@ -479,7 +481,7 @@ const ImageSuggestion = () => {
                                     dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
                                 }
                             }}>
-                                <Text style={{ fontFamily: 'Poppins-SemiBold', backgroundColor: 'white', color: '#fb8c00', fontSize: 16, borderWidth: 2, borderRadius: 16, borderColor: '#fb8c00', paddingHorizontal: 40, paddingVertical: 15, marginTop: 10 }}>Add Product To Start Bargaining</Text>
+                                <Text style={{ fontFamily: 'Poppins-SemiBold', backgroundColor: 'white', color: '#fb8c00', fontSize: 16, borderWidth: 2, borderRadius: 16, borderColor: '#fb8c00', paddingHorizontal: 30, paddingVertical: 5, marginTop: 10, textAlign: 'center' }}>Looking for the product in this refrence image.</Text>
                             </Pressable>}
                         </Animated.View>
                     </Pressable>
@@ -493,6 +495,7 @@ const ImageSuggestion = () => {
                     <ActivityIndicator size="large" color="#fb8c00" />
                 </View>
             )}
+            {signUpModal && <SignUpModal signUpModal={signUpModal} setSignUpModal={setSignUpModal} />}
         </>
     );
 };

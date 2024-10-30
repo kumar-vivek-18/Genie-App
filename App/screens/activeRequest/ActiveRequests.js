@@ -27,6 +27,7 @@ import Share from 'react-native-share';
 import { baseUrl } from '../../utils/logics/constants';
 import axiosInstance from '../../utils/logics/axiosInstance';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SignUpModal from '../components/SignUpModal';
 
 const ActiveRequests = () => {
 
@@ -44,6 +45,7 @@ const ActiveRequests = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [createSpadeLoading, setCreateSpadeLoading] = useState(false);
     const accessToken = useSelector(store => store.user.accessToken);
+    const [signUpModal, setSignUpModal] = useState(false);
 
     const onStateChange = useCallback((state) => {
         if (state === 'ended') {
@@ -83,7 +85,8 @@ const ActiveRequests = () => {
 
     const fetchUserDetailsToCreateSpade = async () => {
         if (!(userDetails?._id)) {
-            navigation.navigate('mobileNumber');
+            // navigation.navigate('mobileNumber');
+            setSignUpModal(true);
             return;
         }
         setCreateSpadeLoading(true);
@@ -291,7 +294,7 @@ const ActiveRequests = () => {
                     </TouchableOpacity>
                 </View>
             </View>
-
+            {signUpModal && <SignUpModal signUpModal={signUpModal} setSignUpModal={setSignUpModal} />}
         </View >
     )
 }

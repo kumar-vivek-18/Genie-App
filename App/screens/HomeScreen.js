@@ -96,6 +96,7 @@ import Search from '../assets/search.svg';
 import { emtpyRequestImages, setEstimatedPrice, setExpectedPrice, setRequestCategory, setSuggestedImages } from "../redux/reducers/userRequestsSlice";
 import { useFocusEffect } from '@react-navigation/native';
 import Share from 'react-native-share';
+import SignUpModal from "./components/SignUpModal";
 
 const { width } = Dimensions.get("window");
 
@@ -124,6 +125,7 @@ const HomeScreen = () => {
   const spades = useSelector((state) => state.user.spades);
   const currentSpade = useSelector(store => store.user.currentSpade);
   const navigationState = useNavigationState((state) => state);
+  const currentLocation = useSelector(store => store.user.currentLocation);
   const isHomeScreen =
     navigationState.routes[navigationState.index].name === "home";
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -145,6 +147,7 @@ const HomeScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [currentVersion, setCurrentVersion] = useState(null);
   const [playing, setPlaying] = useState(false);
+  const [signUpModal, setSignUpModal] = useState(false);
 
   const onStateChange = useCallback((state) => {
     if (state === 'ended') {
@@ -377,7 +380,7 @@ const HomeScreen = () => {
   const fetchUserDetailsToCreateSpade = async () => {
 
     if (!(userDetails?._id)) {
-      navigation.navigate('mobileNumber');
+      setSignUpModal(true);
       return;
     }
     setCreateSpadeLoading(true);
@@ -478,7 +481,7 @@ const HomeScreen = () => {
         <View className="w-full flex-row px-[29px] justify-between items-center pt-[20px]">
           <Pressable onPress={() => {
             if (!(userDetails?._id))
-              navigation.navigate('mobileNumber');
+              setSignUpModal(true);
             else
               navigation.navigate("menu");
           }}>
@@ -490,7 +493,7 @@ const HomeScreen = () => {
 
           <Pressable onPress={() => {
             if (!(userDetails?._id))
-              navigation.navigate('mobileNumber')
+              setSignUpModal(true);
             else {
               navigation.navigate("history"); dispatch(setIsHome(false))
             }
@@ -511,9 +514,8 @@ const HomeScreen = () => {
               </Text>
 
               <Text className="text-[#7c7c7c] text-[14px] " style={{ fontFamily: "Poppins-Regular" }}>
-                {userDetails?.location
-                  ? `${userDetails.location.substring(0, 30)}....`
-                  : "Refresh to fetch location..."}
+                {userDetails?._id && userDetails?.location ? `${userDetails.location.substring(0, 30)}....` : "Refresh to fetch location..."}
+                {!userDetails?._id && currentLocation.length > 0 ? `${userDetails.location.substring(0, 30)}....` : "Refresh to fetch location..."}
               </Text>
             </View>
             <TouchableOpacity
@@ -576,7 +578,7 @@ const HomeScreen = () => {
               <View className="h-[60px] w-full flex-row border-[1px] border-[#fb8c00] bg-white rounded-3xl items-center justify-center ">
                 <Search style={{ position: 'absolute', left: 20 }} />
                 <Text className="text-[#fb8c00] text-[14px] text-center py-[19px] " style={{ fontFamily: "Poppins-Italic" }}>
-                  Nearby store search...
+                  Search store...
                 </Text>
               </View>
             </Pressable>
@@ -813,6 +815,7 @@ const HomeScreen = () => {
 
         </View>
       </View>
+      {signUpModal && <SignUpModal signUpModal={signUpModal} setSignUpModal={setSignUpModal} />}
     </View>
   );
 };

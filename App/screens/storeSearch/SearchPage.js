@@ -36,6 +36,7 @@ import Tab3 from '../../assets/tab3.svg';
 import Tab4 from '../../assets/tab4.svg';
 import Share from 'react-native-share';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import SignUpModal from "../components/SignUpModal";
 
 
 const SearchCategoryScreen = () => {
@@ -61,7 +62,7 @@ const SearchCategoryScreen = () => {
     const [dataCopy, setDataCopy] = useState([]);
     const [createSpadeLoading, setCreateSpadeLoading] = useState(false);
     const [hasMorePages, setHasMorePages] = useState(true);
-
+    const [signUpModal, setSignUpModal] = useState(false);
 
 
     const Icons = {
@@ -343,7 +344,8 @@ const SearchCategoryScreen = () => {
 
     const fetchUserDetailsToCreateSpade = async () => {
         if (!(userDetails?._id)) {
-            navigation.navigate('mobileNumber');
+            // navigation.navigate('mobileNumber');
+            setSignUpModal(true);
             return;
         }
         setCreateSpadeLoading(true);
@@ -574,7 +576,7 @@ const SearchCategoryScreen = () => {
                     </TouchableOpacity>
                 </View>
             </View>
-
+            {signUpModal && <SignUpModal signUpModal={signUpModal} setSignUpModal={setSignUpModal} />}
         </View >
     );
 };
