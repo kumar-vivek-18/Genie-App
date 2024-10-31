@@ -486,8 +486,7 @@ const ImageSuggestion = () => {
                                     dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
                                 }
                             }}>
-                                <Text style={{ fontFamily: 'Poppins-SemiBold', backgroundColor: 'white', color: '#fb8c00', fontSize: 16, borderWidth: 2, borderRadius: 16, borderColor: '#fb8c00', paddingHorizontal: 30, paddingVertical: 5, marginTop: 10, textAlign: 'center' }}>Looking for the product in this refrence image.</Text>
-                            </Pressable>}
+                                <Text style={{ fontFamily: 'Poppins-SemiBold', backgroundColor: 'white', color: '#fb8c00', fontSize: 16, borderWidth: 2, borderRadius: 16, borderColor: '#fb8c00', paddingHorizontal: 40, paddingVertical: 15, marginTop: 10 }}>Add Product To Start Bargaining</Text>                            </Pressable>}
                         </Animated.View>
                     </Pressable>
                 </Modal>

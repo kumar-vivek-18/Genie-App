@@ -26,7 +26,7 @@ const DefineRequest = () => {
 
 
     useEffect(() => {
-        if (suggestedImages.length > 0) setQuery("Looking for this product");
+        if (suggestedImages.length > 0) setQuery("Looking for the product in this refrence image.");
 
     }, []);
 
