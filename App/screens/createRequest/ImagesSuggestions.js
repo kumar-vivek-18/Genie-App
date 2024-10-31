@@ -226,7 +226,12 @@ const ImageSuggestion = () => {
                         <Text className="text-[16px] flex flex-1 justify-center text-[#2e2c43] items-center text-center" style={{ fontFamily: "Poppins-ExtraBold" }}>
                             {isService ? "Add Service" : "Select Product"}
                         </Text>
-                        <Pressable onPress={() => navigation.navigate("define-request")} className="">
+                        <Pressable onPress={() => {
+                            if (!(userDetails?._id))
+                                setSignUpModal(true);
+                            else
+                                navigation.navigate("define-request")
+                        }} className="">
                             <Text className="text-[16px] text-[#FB8C00]" style={{ fontFamily: "Poppins-Medium" }}>Skip</Text>
                         </Pressable>
                     </View>

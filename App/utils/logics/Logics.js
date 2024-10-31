@@ -22,7 +22,6 @@ export const formatDateTime = (dateTimeString) => {
 };
 
 export const getLocationName = async (lat, lon) => {
-  console.log('hiii getting location name');
   // const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
   const url = `https://api.opencagedata.com/geocode/v1/json?q=${lat},${lon}&key=271e21eb56e44664994e8bba011c1395`
 
@@ -70,7 +69,7 @@ export const getGeoCoordinates = async () => {
     // Get current location
     const location = await Location.getCurrentPositionAsync(locationOptions);
 
-    // console.log(location);
+    // console.log("location coords", location.coords);
     if (location) {
       store.dispatch(setUserLatitude(location.coords.latitude));
       store.dispatch(setUserLongitude(location.coords.longitude));

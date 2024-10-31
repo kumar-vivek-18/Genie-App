@@ -164,7 +164,7 @@ const HomeScreen = () => {
 
   const getAppVersion = async () => {
     try {
-      await axiosInstance.get(`${baseUrl}/user/current-app-version`)
+      await axios.get(`${baseUrl}/user/current-app-version`)
         .then(res => {
           if (res.status === 200) {
             console.log(DeviceInfo.getVersion(), res.data);
@@ -172,7 +172,7 @@ const HomeScreen = () => {
           }
         })
     } catch (error) {
-      console.error("Error getting app version ");
+      console.error("Error getting app version ", error.message);
     }
   }
 
@@ -360,7 +360,7 @@ const HomeScreen = () => {
         // console.log('data', data);
         spadesData = [...data, ...data2]
 
-        console.log("Spdes updated Successfully", data.length, data2.length);
+        // console.log("Spdes updated Successfully", data.length, data2.length);
         dispatch(setSpades(spadesData));
       }
     };
@@ -385,7 +385,7 @@ const HomeScreen = () => {
     }
     setCreateSpadeLoading(true);
     try {
-      if (userDetails.unpaidSpades.length > 0) {
+      if (userDetails?.unpaidSpades.length > 0) {
         navigation.navigate('payment-gateway', { spadeId: userDetails.unpaidSpades[0] });
         setCreateSpadeLoading(true);
         return;
@@ -405,7 +405,7 @@ const HomeScreen = () => {
 
           if (response.status !== 200) return;
 
-          if (response.data.unpaidSpades.length > 0) {
+          if (response?.data.unpaidSpades.length > 0) {
             navigation.navigate('payment-gateway', { spadeId: response.data.unpaidSpades[0] });
             // fetchSpadeDetails(userDetails.unpaidSpades[0]);
 
@@ -513,9 +513,16 @@ const HomeScreen = () => {
                 Location
               </Text>
 
-              <Text className="text-[#7c7c7c] text-[14px] " style={{ fontFamily: "Poppins-Regular" }}>
-                {userDetails?._id && userDetails?.location ? `${userDetails.location.substring(0, 30)}....` : "Refresh to fetch location..."}
-                {!userDetails?._id && currentLocation.length > 0 ? `${userDetails.location.substring(0, 30)}....` : "Refresh to fetch location..."}
+              <Text className="text-[#7c7c7c] text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>
+                {(() => {
+                  if (!!(userDetails?._id) && userDetails?.location) {
+                    return `${userDetails.location.substring(0, 30)}....`;
+                  }
+                  if (!(userDetails?._id) && currentLocation?.length > 0) {
+                    return `${currentLocation.substring(0, 30)}....`;
+                  }
+                  return "Refresh to fetch location...";
+                })()}
               </Text>
             </View>
             <TouchableOpacity
