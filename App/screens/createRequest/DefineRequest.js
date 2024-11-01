@@ -50,6 +50,9 @@ const DefineRequest = () => {
         "Sports Nutrition - Whey Pro etc": ["Nutrabay Pure Creatine Monohydrate", "Nutrabay Gold 100% Whey Protein Concentrate", "Wellversed (wellcore) - Micronised Creatine"],
         "Automotive Parts/Services - 2 wheeler Fuel based": ["Bike Battery", "Engine Repair", "Tyre Replacement", "Bike Service"],
         "Automotive Parts/Services - 4 wheeler Fuel based": ["Car Battery", "Engine Repair", "Tyre Replacement", "Car Service"],
+        "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc": ["Refrigerator Repair", "Washing Machine Repair Services", "Geyser Repair Services", "AC repair", "Cooler Repair"],
+        "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc": ["Laptop Keyboard repair", "Laptop RAM Customization", "Laptop battery service", "Mobile Screen repair"],
+        "Clock Repair & Services": ["Replace watch battery - Armani", "Fog on my watch", "Watch screen damage", "Watch glass repair"],
     }
     // console.log("hii", suggestions[requestCategory]);
 

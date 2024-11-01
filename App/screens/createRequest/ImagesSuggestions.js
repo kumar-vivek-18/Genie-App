@@ -331,7 +331,7 @@ const ImageSuggestion = () => {
                     </View>}
 
                     {suggestedImages?.length == 0 && requestImages?.length == 0 && <View style={{ paddingHorizontal: 20, marginTop: 30, marginBottom: 80 }}>
-                        <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 16, paddingHorizontal: 12, paddingBottom: 20 }}>Available stock in the market</Text>
+                        {suggestionImages?.length > 0 && <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 16, paddingHorizontal: 12, paddingBottom: 20 }}>Available stock in the market</Text>}
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, justifyContent: 'space-between' }}>
 
                             {suggestionImages && suggestionImages.map((suggestionImage, index) => {
@@ -486,7 +486,8 @@ const ImageSuggestion = () => {
                                     dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
                                 }
                             }}>
-                                <Text style={{ fontFamily: 'Poppins-SemiBold', backgroundColor: 'white', color: '#fb8c00', fontSize: 16, borderWidth: 2, borderRadius: 16, borderColor: '#fb8c00', paddingHorizontal: 40, paddingVertical: 15, marginTop: 10 }}>Add Product To Start Bargaining</Text>                            </Pressable>}
+                                <Text style={{ fontFamily: 'Poppins-SemiBold', backgroundColor: 'white', color: '#fb8c00', fontSize: 16, borderWidth: 2, borderRadius: 16, borderColor: '#fb8c00', paddingHorizontal: 40, paddingVertical: 15, marginTop: 10 }}>Add Product To Start Bargaining</Text>
+                            </Pressable>}
                         </Animated.View>
                     </Pressable>
                 </Modal>

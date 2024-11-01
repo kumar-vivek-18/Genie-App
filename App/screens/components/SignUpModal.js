@@ -24,7 +24,7 @@ const SignUpModal = ({ signUpModal, setSignUpModal }) => {
                         <TouchableOpacity onPress={() => { setSignUpModal(false) }}>
                             <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 16, color: '#fb8c00' }}>Not now</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => { navigation.navigate('mobileNumber'); }}>
+                        <TouchableOpacity onPress={() => { setSignUpModal(false); navigation.navigate('mobileNumber'); }}>
                             <Text style={{ fontFamily: 'Poppins-Black', fontSize: 16, color: '#fb8c00' }}>Sign Up</Text>
                         </TouchableOpacity>
                     </View>
