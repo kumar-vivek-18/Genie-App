@@ -76,12 +76,15 @@ const SearchCategoryScreen = () => {
         "Fashion/Clothings - Top, bottom, dresses": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883159/top-bottom_jbxrnn.jpg",
         "Hardware - Plumbing, Paint,& Electricity": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883214/service-plumbing_hmfik4.jpg",
         "Home & Function Decoration": "https://res.cloudinary.com/kumarvivek/image/upload/v1730174790/decoration_f69hnj.jpg",
-        "Kids Games,Toys & Clothings": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883140/Kids_cv41at.jpg",
+        "Gifts, Kids Games,Toys & Clothings": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883140/Kids_cv41at.jpg",
         "Luxury Watches": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883126/watches_ffln2l.jpg",
         "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883194/service-electronics_ukjenr.jpg",
         "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883199/service-laptop_ac62ss.jpg",
         "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883236/service-jcb_ongzrm.jpg",
         "Sports Nutrition - Whey Pro etc": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883186/protein_k4disv.jpg",
+        "Electrical Services & Repair - Electrician": "",
+        "Hardware - Cement, Hand tools, Powertools etc": "",
+        "Kitchen Utensils & Kitchenware": "",
         // "Z - Internal test culturtap(not for commercial use )": { "id": 17, "name": "Z - Internal test culturtap(not for commercial use )" }
     }
 

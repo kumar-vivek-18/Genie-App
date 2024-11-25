@@ -82,12 +82,15 @@ import Category6 from '../assets/category6.svg';
 import Category7 from '../assets/category7.svg';
 import Category8 from '../assets/category8.svg';
 import Category9 from '../assets/category9.svg';
+import Category10 from '../assets/category10.svg';
+import Category11 from '../assets/category11.svg';
 import Service1 from '../assets/service1.svg';
 import Service2 from '../assets/service2.svg';
 import Service3 from '../assets/service3.svg';
 import Service4 from '../assets/service4.svg';
 import Service5 from '../assets/service5.svg';
 import Service6 from '../assets/service6.svg';
+import Service7 from '../assets/service7.svg';
 import Tab11 from '../assets/tab11.svg';
 import Tab2 from '../assets/tab2.svg';
 import Tab3 from '../assets/tab3.svg';
@@ -110,13 +113,16 @@ const categoriess = [{ cat: Category1, name: "Consumer Electronics & Accessories
 { cat: Category7, name: "Luxury Watches" },
 { cat: Category8, name: "Hardware - Plumbing, Paint,& Electricity" },
 { cat: Category9, name: "Sports Nutrition - Whey Pro etc" },
+{ cat: Category10, name: "Hardware - Cement, Hand tools, Powertools etc" },
+{ cat: Category11, name: "Kitchen Utensils & Kitchenware" }
 ];
 const servicess = [{ cat: Service1, name: "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc" },
 { cat: Service2, name: "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc" },
 { cat: Service3, name: "Clock Repair & Services" },
 { cat: Service4, name: "Automotive Parts/Services - 2 wheeler Fuel based" },
 { cat: Service5, name: "Automotive Parts/Services - 4 wheeler Fuel based" },
-{ cat: Service6, name: "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc" }
+{ cat: Service6, name: "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc" },
+{ cat: Service7, name: "Electrical Services & Repair - Electrician" }
 ];
 const HomeScreen = () => {
   const navigation = useNavigation();
