@@ -53,9 +53,9 @@ const DefineRequest = () => {
         "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc": ["Refrigerator Repair", "Washing Machine Repair Services", "Geyser Repair Services", "AC repair", "Cooler Repair"],
         "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc": ["Laptop Keyboard repair", "Laptop RAM Customization", "Laptop battery service", "Mobile Screen repair"],
         "Clock Repair & Services": ["Replace watch battery - Armani", "Fog on my watch", "Watch screen damage", "Watch glass repair"],
-        "Hardware - Cement, Hand tools, Powertools etc": ["Cement Packets", "Spade", "Hammers", "Screw drivers"],
-        "Kitchen Utensils & Kitchenware": ["Pressure cooker", "Pry Fan", "Kitchenware tools set", "knives/plates"],
-        "Electrical Services & Repair - Electrician": ["Fix room wiring", "Repair fans/cooler", "Repair split AC"],
+        "Hardware - Cement, Hand tools, Powertools etc": ["Drill Machine ", "Electric Saw for wood ", "Heavy Load Hammer", "Screw drivers"],
+        "Kitchen Utensils & Kitchenware": ["Stainless Steel Knife Set", "Cutting Board", "Frying Pan", "Measuring Cups and Spoons"],
+        "Electrical Services & Repair - Electrician": ["Repair my electricity board", "Wiring Repair", "Repair split AC"],
     }
     // console.log("hii", suggestions[requestCategory]);
 

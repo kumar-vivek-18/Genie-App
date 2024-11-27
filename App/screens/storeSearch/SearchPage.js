@@ -82,9 +82,9 @@ const SearchCategoryScreen = () => {
         "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883199/service-laptop_ac62ss.jpg",
         "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883236/service-jcb_ongzrm.jpg",
         "Sports Nutrition - Whey Pro etc": "https://res.cloudinary.com/kumarvivek/image/upload/v1729883186/protein_k4disv.jpg",
-        "Electrical Services & Repair - Electrician": "",
-        "Hardware - Cement, Hand tools, Powertools etc": "",
-        "Kitchen Utensils & Kitchenware": "",
+        "Electrical Services & Repair - Electrician": "https://res.cloudinary.com/dnx7vjl12/image/upload/v1732595784/hardware_lmguht.jpg",
+        "Hardware - Cement, Hand tools, Powertools etc": "https://res.cloudinary.com/dnx7vjl12/image/upload/v1732595784/electrician_u0xghd.jpg",
+        "Kitchen Utensils & Kitchenware": "https://res.cloudinary.com/dnx7vjl12/image/upload/v1732595784/kitchen_qo2uso.jpg",
         // "Z - Internal test culturtap(not for commercial use )": { "id": 17, "name": "Z - Internal test culturtap(not for commercial use )" }
     }
 
