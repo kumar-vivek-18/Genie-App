@@ -273,7 +273,7 @@ const ActiveRequests = () => {
 
 
             <View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignContent: 'baseline', backgroundColor: 'white', paddingVertical: 10, shadowColor: '#FB8C00', elevation: 30, shadowOffset: { width: 10, height: 18 }, shadowOpacity: 0.9, shadowRadius: 20 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignContent: 'baseline', backgroundColor: '#FFE7C8', paddingVertical: 10, shadowColor: '#FB8C00', elevation: 30, shadowOffset: { width: 10, height: 18 }, shadowOpacity: 0.9, shadowRadius: 20 }}>
                     <TouchableOpacity onPress={() => { navigation.navigate('home'); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Tab1 />
                         <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Home</Text>

@@ -11,10 +11,14 @@ import {
   AppState,
   RefreshControl,
   Animated,
-  Linking
+  Linking,
 } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useIsFocused, useNavigation, useNavigationState } from "@react-navigation/native";
+import {
+  useIsFocused,
+  useNavigation,
+  useNavigationState,
+} from "@react-navigation/native";
 import {
   SafeAreaView,
   useSafeAreaInsets,
@@ -43,9 +47,7 @@ import HomeScreenBg from "../assets/homeScreenBg.svg";
 import HomeMain from "../assets/HomeMain.svg";
 import {
   formatDateTime,
-
   getGeoCoordinates,
-
   getLocationName,
 } from "../utils/logics/Logics";
 import Home0 from "../assets/Home0.png";
@@ -56,82 +58,102 @@ import Home4 from "../assets/Home4.png";
 import Home5 from "../assets/Home5.png";
 import Home6 from "../assets/Home6.png";
 import Home7 from "../assets/Home7.png";
-import DropArrow from '../assets/drop-arrow.svg';
-import ProfileIcon from '../assets/ProfileIcon.svg';
-import HistoryIcon from '../assets/historyIcon.svg';
+import DropArrow from "../assets/drop-arrow.svg";
+import ProfileIcon from "../assets/ProfileIcon.svg";
+import HistoryIcon from "../assets/historyIcon.svg";
 import { baseUrl } from "../utils/logics/constants";
 import { handleRefreshLocation } from "../utils/logics/updateLocation";
 import axiosInstance from "../utils/logics/axiosInstance";
 import NetworkError from "./components/NetworkError";
-import Calender from '../assets/calender.svg';
-import Time from '../assets/time.svg';
-import SpadeIcon from '../assets/SpadeIcon.svg';
-import { Octicons } from '@expo/vector-icons';
-import TextTicker from 'react-native-text-ticker';
-import Offer from '../assets/offer.svg';
-import DeviceInfo from 'react-native-device-info';
-import MobileIcon from '../assets/mobileIcon.svg';
-import RightArrow from '../assets/arrow-right.svg';
-import YouTubeIframe from 'react-native-youtube-iframe';
-import Category1 from '../assets/category1.svg';
-import Category2 from '../assets/category2.svg';
-import Category3 from '../assets/category3.svg';
-import Category4 from '../assets/category4.svg';
-import Category5 from '../assets/category5.svg';
-import Category6 from '../assets/category6.svg';
-import Category7 from '../assets/category7.svg';
-import Category8 from '../assets/category8.svg';
-import Category9 from '../assets/category9.svg';
-import Category10 from '../assets/category10.svg';
-import Category11 from '../assets/category11.svg';
-import Service1 from '../assets/service1.svg';
-import Service2 from '../assets/service2.svg';
-import Service3 from '../assets/service3.svg';
-import Service4 from '../assets/service4.svg';
-import Service5 from '../assets/service5.svg';
-import Service6 from '../assets/service6.svg';
-import Service7 from '../assets/service7.svg';
-import Tab11 from '../assets/tab11.svg';
-import Tab2 from '../assets/tab2.svg';
-import Tab3 from '../assets/tab3.svg';
-import Tab4 from '../assets/tab4.svg';
-import Search from '../assets/search.svg';
-import { emtpyRequestImages, setEstimatedPrice, setExpectedPrice, setRequestCategory, setSuggestedImages } from "../redux/reducers/userRequestsSlice";
-import { useFocusEffect } from '@react-navigation/native';
-import Share from 'react-native-share';
+import Calender from "../assets/calender.svg";
+import Time from "../assets/time.svg";
+import SpadeIcon from "../assets/SpadeIcon.svg";
+import { Octicons } from "@expo/vector-icons";
+import TextTicker from "react-native-text-ticker";
+import Offer from "../assets/offer.svg";
+import DeviceInfo from "react-native-device-info";
+import MobileIcon from "../assets/mobileIcon.svg";
+import RightArrow from "../assets/arrow-right.svg";
+import YouTubeIframe from "react-native-youtube-iframe";
+import Category1 from "../assets/category1.png";
+import Category2 from "../assets/category2.png";
+import Category3 from "../assets/category3.png";
+import Category4 from "../assets/category4.png";
+import Category5 from "../assets/category5.png";
+import Category6 from "../assets/category6.png";
+import Category7 from "../assets/category7.png";
+import Category8 from "../assets/category8.png";
+import Category9 from "../assets/category9.png";
+import Category10 from "../assets/category10.png";
+import Category11 from "../assets/category11.png";
+import Service1 from "../assets/service1.png";
+import Service2 from "../assets/service2.png";
+import Service3 from "../assets/service3.png";
+import Service4 from "../assets/service4.png";
+import Service5 from "../assets/service5.png";
+import Service6 from "../assets/service6.png";
+import Service7 from "../assets/service7.png";
+import Tab11 from "../assets/tab11.svg";
+import Tab2 from "../assets/tab2.svg";
+import Tab3 from "../assets/tab3.svg";
+import Tab4 from "../assets/tab4.svg";
+import Search from "../assets/search.svg";
+import {
+  emtpyRequestImages,
+  setEstimatedPrice,
+  setExpectedPrice,
+  setRequestCategory,
+  setSuggestedImages,
+} from "../redux/reducers/userRequestsSlice";
+import { useFocusEffect } from "@react-navigation/native";
+import Share from "react-native-share";
 import SignUpModal from "./components/SignUpModal";
 
 const { width } = Dimensions.get("window");
 
 const images = [Home0, Home1, Home2, Home3, Home4, Home5, Home6, Home7];
-const categoriess = [{ cat: Category1, name: "Consumer Electronics & Accessories - Home appliances and equipment etc" },
-{ cat: Category2, name: "Fashion/Clothings - Top, bottom, dresses" },
-{ cat: Category3, name: "Fashion Accessories - Jewellery, Gold & Diamond" },
-{ cat: Category4, name: "Fashion Accessories - Shoes, bags etc" },
-{ cat: Category5, name: "Fashion Accessories - Sharee, suits, kurti & dress materials etc" },
-{ cat: Category6, name: "Kids Games,Toys & Accessories" },
-{ cat: Category7, name: "Luxury Watches" },
-{ cat: Category8, name: "Hardware - Plumbing, Paint,& Electricity" },
-{ cat: Category9, name: "Sports Nutrition - Whey Pro etc" },
-{ cat: Category10, name: "Hardware - Cement, Hand tools, Powertools etc" },
-{ cat: Category11, name: "Kitchen Utensils & Kitchenware" }
+const categoriess = [
+  {
+    cat: Category1,
+    name: "Consumer Electronics & Accessories - Home appliances and equipment etc",
+  },
+  { cat: Category2, name: "Fashion/Clothings - Top, bottom, dresses" },
+  { cat: Category3, name: "Fashion Accessories - Jewellery, Gold & Diamond" },
+  { cat: Category4, name: "Fashion Accessories - Shoes, bags etc" },
+  { cat: Category5, name: "Fashion Accessories - Sharee, suits, kurti & dress materials etc" },
+  { cat: Category6, name: "Gifts, Kids Games,Toys & Clothings" },
+  { cat: Category7, name: "Luxury Watches" },
+  { cat: Category8, name: "Hardware - Plumbing, Paint,& Electricity" },
+  { cat: Category9, name: "Sports Nutrition - Whey Pro etc" },
+  { cat: Category10, name: "Hardware - Cement, Hand tools, Powertools etc" },
+  { cat: Category11, name: "Kitchen Utensils & Kitchenware" }
 ];
-const servicess = [{ cat: Service1, name: "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc" },
-{ cat: Service2, name: "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc" },
-{ cat: Service3, name: "Clock Repair & Services" },
-{ cat: Service4, name: "Automotive Parts/Services - 2 wheeler Fuel based" },
-{ cat: Service5, name: "Automotive Parts/Services - 4 wheeler Fuel based" },
-{ cat: Service6, name: "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc" },
-{ cat: Service7, name: "Electrical Services & Repair - Electrician" }
+const servicess = [
+  {
+    cat: Service1,
+    name: "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc",
+  },
+  {
+    cat: Service2,
+    name: "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc",
+  },
+  { cat: Service3, name: "Clock Repair & Services" },
+  { cat: Service4, name: "Automotive Parts/Services - 2 wheeler Fuel based" },
+  { cat: Service5, name: "Automotive Parts/Services - 4 wheeler Fuel based" },
+  {
+    cat: Service6,
+    name: "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc",
+  },
+  { cat: Service7, name: "Electrical Services & Repair - Electrician" },
 ];
 const HomeScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const userDetails = useSelector((state) => state.user.userDetails);
   const spades = useSelector((state) => state.user.spades);
-  const currentSpade = useSelector(store => store.user.currentSpade);
+  const currentSpade = useSelector((store) => store.user.currentSpade);
   const navigationState = useNavigationState((state) => state);
-  const currentLocation = useSelector(store => store.user.currentLocation);
+  const currentLocation = useSelector((store) => store.user.currentLocation);
   const isHomeScreen =
     navigationState.routes[navigationState.index].name === "home";
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -139,7 +161,7 @@ const HomeScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const isFocused = useIsFocused();
   const [socketConnected, setSocketConnected] = useState(false);
-  const accessToken = useSelector(store => store.user.accessToken);
+  const accessToken = useSelector((store) => store.user.accessToken);
   const handleScroll = (event) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x;
     const index = Math.floor(contentOffsetX / (width - 90));
@@ -156,7 +178,7 @@ const HomeScreen = () => {
   const [signUpModal, setSignUpModal] = useState(false);
 
   const onStateChange = useCallback((state) => {
-    if (state === 'ended') {
+    if (state === "ended") {
       setPlaying(false);
       // alert('Video has finished playing!');
     }
@@ -170,23 +192,22 @@ const HomeScreen = () => {
 
   const getAppVersion = async () => {
     try {
-      await axios.get(`${baseUrl}/user/current-app-version`)
-        .then(res => {
-          if (res.status === 200) {
-            console.log(DeviceInfo.getVersion(), res.data);
-            setCurrentVersion(res.data);
-          }
-        })
+      await axios.get(`${baseUrl}/user/current-app-version`).then((res) => {
+        if (res.status === 200) {
+          console.log(DeviceInfo.getVersion(), res.data);
+          setCurrentVersion(res.data);
+        }
+      });
     } catch (error) {
       console.error("Error getting app version ", error.message);
     }
-  }
+  };
 
   useEffect(() => {
     Animated.loop(
       Animated.sequence([
         Animated.timing(scrollX, {
-          toValue: .5 * width,
+          toValue: 0.5 * width,
           duration: 0, // Adjust the duration for speed
           useNativeDriver: true,
         }),
@@ -222,21 +243,24 @@ const HomeScreen = () => {
     // connectSocket();
 
     const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
-    if (!(userData?._id)) return;
+    if (!userData?._id) return;
     dispatch(setUserDetails(userData));
     try {
       // console.log('userHomeScreem', userDetails._id);
       const config = {
-        headers: { // Use "headers" instead of "header"
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
+        headers: {
+          // Use "headers" instead of "header"
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
         params: {
           id: userData?._id,
         },
       };
       const response = await axiosInstance.get(
-        `${baseUrl}/user/getspades`, config);
+        `${baseUrl}/user/getspades`,
+        config
+      );
 
       // console.log('HomeScreen', response.data);
 
@@ -260,7 +284,7 @@ const HomeScreen = () => {
       setSpadesLoading(false);
       if (!error?.response?.status) {
         setNetworkError(true);
-        console.log('Network Error occurred: ');
+        console.log("Network Error occurred: ");
       }
       console.error("Error while finding spades", error);
     }
@@ -278,8 +302,6 @@ const HomeScreen = () => {
       dispatch(setExpectedPrice(0));
       dispatch(setEstimatedPrice(0));
       dispatch(emtpyRequestImages());
-
-
     }, [navigation])
   );
 
@@ -289,54 +311,55 @@ const HomeScreen = () => {
   const connectSocket = async () => {
     // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
     const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
-    if (!(userData?._id)) return;
+    if (!userData?._id) return;
     if (userData) {
       const userId = userData._id;
       const senderId = userId;
 
       socket.emit("setup", { userId, senderId });
       //  console.log('Request connected with socket with id', spadeId);
-      socket.on('connected', () => setSocketConnected(true));
-      console.log('HomeScreen socekt connect with id', userData._id);
+      socket.on("connected", () => setSocketConnected(true));
+      console.log("HomeScreen socekt connect with id", userData._id);
     }
-
   };
 
   const updateLocationHomeScreen = async () => {
     try {
       const userData = JSON.parse(await AsyncStorage.getItem("userDetails"));
-      if (!(userData?._id)) return;
+      if (!userData?._id) return;
       const token = JSON.parse(await AsyncStorage.getItem("accessToken"));
       if (userData) {
-        console.log('refreshing location home screen');
+        console.log("refreshing location home screen");
         handleRefreshLocation(userData._id, token);
       }
     } catch (error) {
       console.error("Error while updating location");
     }
-  }
+  };
   useEffect(() => {
     connectSocket();
     updateLocationHomeScreen();
 
     return () => {
       socket.disconnect();
-      console.log('Socket Disconnected Successfully');
+      console.log("Socket Disconnected Successfully");
     };
   }, []);
 
   ////////////////////////////////////////////////////////////////////////Connecting the socket when app comes to foreground from background////////////////////////////////////////////////////////////////////////////////
 
-
   useEffect(() => {
-    const subcription = AppState.addEventListener('change', nextAppState => {
-      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+    const subcription = AppState.addEventListener("change", (nextAppState) => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === "active"
+      ) {
         connectSocket();
-        console.log('App has come to the foreground!');
+        console.log("App has come to the foreground!");
       }
       appState.current = nextAppState;
       setAppStateVisible(appState.current);
-      console.log('AppState', appState.current);
+      console.log("AppState", appState.current);
     });
     return () => subcription.remove();
   }, []);
@@ -345,26 +368,32 @@ const HomeScreen = () => {
 
   useEffect(() => {
     const handleMessageReceived = (updatedSpade) => {
-      console.log('Update message received at Home socket', updatedSpade._id);
+      console.log("Update message received at Home socket", updatedSpade._id);
       let spadesData = [...spades];
-      const idx = spadesData.findIndex(spade => spade._id === updatedSpade._id);
+      const idx = spadesData.findIndex(
+        (spade) => spade._id === updatedSpade._id
+      );
 
       console.log("Spdes updated ", idx);
       if (idx !== -1) {
-
-        let data = spadesData.filter(spade => spade._id === updatedSpade._id);
+        let data = spadesData.filter((spade) => spade._id === updatedSpade._id);
         // let spadeToUpdate = { ...spadesData[idx] };
-        let data2 = spadesData.filter(spade => spade._id !== updatedSpade._id);
-
+        let data2 = spadesData.filter(
+          (spade) => spade._id !== updatedSpade._id
+        );
 
         if (updatedSpade.bidAccepted === "accepted") {
-          data[0] = { ...data[0], unread: true, requestAcceptedChat: updatedSpade.chatId, requestActive: "completed" };
-        }
-        else {
+          data[0] = {
+            ...data[0],
+            unread: true,
+            requestAcceptedChat: updatedSpade.chatId,
+            requestActive: "completed",
+          };
+        } else {
           data[0] = { ...data[0], unread: true };
         }
         // console.log('data', data);
-        spadesData = [...data, ...data2]
+        spadesData = [...data, ...data2];
 
         // console.log("Spdes updated Successfully", data.length, data2.length);
         dispatch(setSpades(spadesData));
@@ -381,280 +410,439 @@ const HomeScreen = () => {
 
   ////////////////////////////////////////////////////////////////////Fetch user details for getting payment status ////////////////////////////////////////////////////////////////////////////////////
 
-
-
   const fetchUserDetailsToCreateSpade = async () => {
-
-    if (!(userDetails?._id)) {
+    if (!userDetails?._id) {
       setSignUpModal(true);
       return;
     }
     setCreateSpadeLoading(true);
     try {
       if (userDetails?.unpaidSpades.length > 0) {
-        navigation.navigate('payment-gateway', { spadeId: userDetails.unpaidSpades[0] });
+        navigation.navigate("payment-gateway", {
+          spadeId: userDetails.unpaidSpades[0],
+        });
         setCreateSpadeLoading(true);
         return;
       }
       const config = {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
         params: {
           userId: userDetails._id,
         },
-      }
-      await axiosInstance.get(`${baseUrl}/user/user-details`, config)
+      };
+      await axiosInstance
+        .get(`${baseUrl}/user/user-details`, config)
         .then(async (response) => {
           setCreateSpadeLoading(false);
 
           if (response.status !== 200) return;
 
           if (response?.data.unpaidSpades.length > 0) {
-            navigation.navigate('payment-gateway', { spadeId: response.data.unpaidSpades[0] });
+            navigation.navigate("payment-gateway", {
+              spadeId: response.data.unpaidSpades[0],
+            });
             // fetchSpadeDetails(userDetails.unpaidSpades[0]);
-
+          } else {
+            navigation.navigate("requestentry");
           }
-          else {
-            navigation.navigate('requestentry');
-          }
-          await AsyncStorage.setItem("userDetails", JSON.stringify(response.data));
-        })
+          await AsyncStorage.setItem(
+            "userDetails",
+            JSON.stringify(response.data)
+          );
+        });
     } catch (error) {
       setCreateSpadeLoading(false);
       if (!error?.response?.status) {
         setNetworkError(true);
-        console.log('Network Error occurred: ');
+        console.log("Network Error occurred: ");
       }
       console.error(error.message);
-    }
-    finally {
+    } finally {
       setCreateSpadeLoading(false);
     }
-  }
+  };
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   const handleRefresh = async () => {
     setRefreshing(true);
-    if (!(userDetails?._id)) return;
+    if (!userDetails?._id) return;
     try {
       connectSocket();
       fetchData();
-
     } catch (error) {
       console.error("Error fetching data:", error);
-    }
-    finally {
+    } finally {
       setRefreshing(false);
     }
+  };
 
-  }
-
-  const { width } = Dimensions.get('window');
+  const { width } = Dimensions.get("window");
 
   //Referral Sharing ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   const onShare = async () => {
     try {
       const result = await Share.open({
-        message: "Install the CulturTap Genie App and start bargaining! Download the app now: https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie",
-        title: 'Share via',
+        message:
+          "Install the CulturTap Genie App and start bargaining! Download the app now: https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie",
+        title: "Share via",
       });
       if (result.success) {
-        console.log('Shared successfully!');
+        console.log("Shared successfully!");
       }
     } catch (error) {
-      console.log('Error while sharing:', error);
+      console.log("Error while sharing:", error);
     }
   };
-
 
   // console.log('userDetails home', userDetails._id);
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <ScrollView style={{ flex: 1 }} className="relative" refreshControl={<RefreshControl
-        refreshing={refreshing}
-        onRefresh={handleRefresh}
-        colors={["#9Bd35A", "#FB8C00"]}
-      />}>
-
-        {!networkError && <View style={{ position: 'absolute', flex: 1, top: -30, left: 0, bottom: 0 }}>
-          <HomeScreenBg width={width} />
-        </View>}
+      <ScrollView
+        style={{ flex: 1 }}
+        className="relative"
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            colors={["#9Bd35A", "#FB8C00"]}
+          />
+        }
+      >
+        {!networkError && (
+          <View
+            style={{
+              position: "absolute",
+              flex: 1,
+              top: -30,
+              left: 0,
+              bottom: 0,
+            }}
+          >
+            <HomeScreenBg width={width} />
+          </View>
+        )}
 
         <View className="w-full flex-row px-[29px] justify-between items-center pt-[20px]">
-          <Pressable onPress={() => {
-            if (!(userDetails?._id))
-              setSignUpModal(true);
-            else
-              navigation.navigate("menu");
-          }}>
+          <Pressable
+            onPress={() => {
+              if (!userDetails?._id) setSignUpModal(true);
+              else navigation.navigate("menu");
+            }}
+          >
             <View className="bg-[#fb8c00] w-[42px] h-[42px] rounded-full flex justify-center items-center mx-auto">
               <ProfileIcon />
             </View>
           </Pressable>
           <GenieCulturTapLogo />
 
-          <Pressable onPress={() => {
-            if (!(userDetails?._id))
-              setSignUpModal(true);
-            else {
-              navigation.navigate("history"); dispatch(setIsHome(false))
-            }
-          }}>
+          <Pressable
+            onPress={() => {
+              if (!userDetails?._id) setSignUpModal(true);
+              else {
+                navigation.navigate("history");
+                dispatch(setIsHome(false));
+              }
+            }}
+          >
             <View className="bg-[#fb8c00] w-[42px] h-[42px] rounded-full flex justify-center items-center mx-auto">
-
               <HistoryIcon />
             </View>
           </Pressable>
         </View>
 
+        {!networkError && (
+          <View>
+            <View className="w-full bg-white mt-[20px] flex-row px-[30px] justify-between h-[max-content] items-center">
+              <View className="w-4/5">
+                <Text
+                  className="text-[14px] pt-[10px] text-[#2e2c43] "
+                  style={{ fontFamily: "Poppins-Black" }}
+                >
+                  Location
+                </Text>
 
-        {!networkError && <View>
-          <View className="w-full bg-white mt-[20px] flex-row px-[30px] justify-between h-[max-content] items-center">
-            <View className="w-4/5">
-              <Text className="text-[14px] pt-[10px] text-[#2e2c43] " style={{ fontFamily: "Poppins-Black" }}>
-                Location
-              </Text>
-
-              <Text className="text-[#7c7c7c] text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>
-                {(() => {
-                  if (!!(userDetails?._id) && userDetails?.location) {
-                    return `${userDetails.location.substring(0, 30)}....`;
-                  }
-                  if (!(userDetails?._id) && currentLocation?.length > 0) {
-                    return `${currentLocation.substring(0, 30)}....`;
-                  }
-                  return "Refresh to fetch location...";
-                })()}
-              </Text>
+                <Text
+                  className="text-[#7c7c7c] text-[14px]"
+                  style={{ fontFamily: "Poppins-Regular" }}
+                >
+                  {(() => {
+                    if (!!userDetails?._id && userDetails?.location) {
+                      return `${userDetails.location.substring(0, 30)}....`;
+                    }
+                    if (!userDetails?._id && currentLocation?.length > 0) {
+                      return `${currentLocation.substring(0, 30)}....`;
+                    }
+                    return "Refresh to fetch location...";
+                  })()}
+                </Text>
+              </View>
+              <TouchableOpacity
+                onPress={async () => {
+                  setIsLoading(true);
+                  await handleRefreshLocation(userDetails._id, accessToken);
+                  setIsLoading(false);
+                }}
+              >
+                <View>
+                  {isLoading ? (
+                    <ActivityIndicator size="small" color="#fb8c00" />
+                  ) : (
+                    <Text
+                      className="text-[14px]  text-[#fb8c00]"
+                      style={{ fontFamily: "Poppins-Regular" }}
+                    >
+                      Refresh
+                    </Text>
+                  )}
+                </View>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              onPress={async () => {
-                setIsLoading(true);
-                await handleRefreshLocation(userDetails._id, accessToken);
-                setIsLoading(false);
-              }}
-            >
-              <View>
-                {isLoading ? (
-                  <ActivityIndicator size="small" color="#fb8c00" />
-                ) : (
-                  <Text className="text-[14px]  text-[#fb8c00]" style={{ fontFamily: "Poppins-Regular" }}>
-                    Refresh
-                  </Text>
-                )}
+            {
+              <View
+                style={{
+                  height: 50,
+                  overflow: "hidden",
+                  backgroundColor: "#ffffff",
+                  flexDirection: "row",
+                  textAlign: "center",
+                  justifyContent: "center",
+                  borderTopColor: "#f3f2f2",
+                  borderTopWidth: 1,
+                }}
+              >
+                <Animated.View
+                  style={[
+                    styles.scrollMarqContainer,
+                    { transform: [{ translateX: scrollX }] },
+                  ]}
+                >
+                  <View className="flex flex-row items-center justify-center gap-2">
+                    <Offer />
+                    <Text
+                      style={{
+                        fontFamily: "Poppins-BlackItalic",
+                        color: "#3f3d56",
+                      }}
+                    >
+                      Service Free Orders Remaining:{" "}
+                      <Text className="text-[#55cd00]">
+                        {userDetails.freeSpades}
+                      </Text>{" "}
+                      <Text
+                        className="text-[#3f3d56]"
+                        style={{ fontFamily: "Poppins-BlackItalic" }}
+                      >
+                        {" "}
+                        SAVE MORE, START BARGAINING!
+                      </Text>{" "}
+                    </Text>
+                  </View>
+                </Animated.View>
               </View>
-            </TouchableOpacity>
-          </View>
-          {<View style={{
-            height: 50, overflow: 'hidden', backgroundColor: '#ffffff', flexDirection: "row", textAlign: "center", justifyContent: 'center', borderTopColor: '#f3f2f2', borderTopWidth: 1
-          }}>
-            <Animated.View style={[styles.scrollMarqContainer, { transform: [{ translateX: scrollX }] }]}>
-              <View className="flex flex-row items-center justify-center gap-2">
-                <Offer />
-                <Text style={{ fontFamily: "Poppins-BlackItalic", color: "#3f3d56" }}>Service Free Orders Remaining: <Text className="text-[#55cd00]">{userDetails.freeSpades}</Text> <Text className="text-[#3f3d56]" style={{ fontFamily: "Poppins-BlackItalic" }}>             SAVE MORE, START BARGAINING!</Text> </Text>
-              </View>
+            }
 
-            </Animated.View>
-          </View>}
-
-
-
-          {/* <TouchableOpacity onPress={() => { navigation.navigate('store-search'); }}>
+            {/* <TouchableOpacity onPress={() => { navigation.navigate('store-search'); }}>
             <View className="flex-row items-center justify-center bg-[#ffe8cd] mt-[15px] py-[10px] px-[10px] mx-[16px] rounded-2xl border-[1px] border-[#fb8c00] gap-[5px]">
               <Text className="text-center flex-1 text-[#fb8c00]" style={{ fontFamily: "Poppins-Regular" }}>Search stores</Text>
               <Octicons name="search" size={19} style={{ color: '#fb8c00' }} />
             </View>
           </TouchableOpacity> */}
 
-
-
-
-          {/* <View className=" relative mt-[20px]  h-[140px] flex-row justify-center scale-50 items-center">
+            {/* <View className=" relative mt-[20px]  h-[140px] flex-row justify-center scale-50 items-center">
             
             <Image source={require('../assets/Genie-Icon.png')} />
           </View> */}
 
-          <View className="mt-[10px]">
-
-
-            <Pressable
-              onPress={() => {
-
-                navigation.navigate('store-search');
-              }}
-              className="mx-[16px] mt-[16px]"
-            >
-              <View className="h-[60px] w-full flex-row border-[1px] border-[#fb8c00] bg-white rounded-3xl items-center justify-center ">
-                <Search style={{ position: 'absolute', left: 20 }} />
-                <Text className="text-[#fb8c00] text-[14px] text-center py-[19px] " style={{ fontFamily: "Poppins-Italic" }}>
-                  Search store...
-                </Text>
-              </View>
-            </Pressable>
-          </View>
-
-          <View>
-            {currentVersion && currentVersion !== DeviceInfo.getVersion().toString() &&
-              <View style={{ backgroundColor: 'white', marginHorizontal: 10, borderRadius: 16, marginTop: 20 }}>
-
-                <View className="flex-row px-[20px] py-[20px] gap-[30px] justify-center itmes-center ">
-                  <View className="justify-center">
-                    <MobileIcon />
-                  </View>
-
-                  <View className="w-[75%]">
-                    <Text className="text-[#2e2c43] text-[16px]" style={{ fontFamily: 'Poppins-Regular' }}>New update available! Enjoy the new release features.</Text>
-                    <TouchableOpacity onPress={() => { Linking.openURL("https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie") }} style={{ flexDirection: 'row', gap: 40, alignItems: 'center', paddingTop: 10 }}>
-                      <Text className="text-[16px] text-[#fb8c00]" style={{ fontFamily: 'Poppins-Black' }}>Update Now</Text>
-                      <RightArrow />
-                    </TouchableOpacity>
-                  </View>
+            <View className="mt-[10px]">
+              <Pressable
+                onPress={() => {
+                  navigation.navigate("store-search");
+                }}
+                className="mx-[16px] mt-[16px]"
+              >
+                <View className="h-[60px] w-full flex-row border-[1px] border-[#fb8c00] bg-white rounded-3xl items-center justify-center ">
+                  <Search style={{ position: "absolute", left: 20 }} />
+                  <Text
+                    className="text-[#fb8c00] text-[14px] text-center py-[19px] "
+                    style={{ fontFamily: "Poppins-Italic" }}
+                  >
+                    Search store...
+                  </Text>
                 </View>
-              </View>
-            }
-          </View>
+              </Pressable>
+            </View>
 
-          <View>
-            <Text className="text-[16px] text-center my-[40px] text-[#fb8c00]" style={{ fontFamily: "Poppins-ExtraBold" }}>
-              Shop By Categories
-            </Text>
-            <View style={{ width: "100%", backgroundColor: 'white', justifyContent: 'center', alignItems: "center" }}>
+            <View>
+              {currentVersion &&
+                currentVersion !== DeviceInfo.getVersion().toString() && (
+                  <View
+                    style={{
+                      backgroundColor: "white",
+                      marginHorizontal: 10,
+                      borderRadius: 16,
+                      marginTop: 20,
+                    }}
+                  >
+                    <View className="flex-row px-[20px] py-[20px] gap-[30px] justify-center itmes-center ">
+                      <View className="justify-center">
+                        <MobileIcon />
+                      </View>
 
-              <View style={{ width: "100%", paddingHorizontal: 10, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                      <View className="w-[75%]">
+                        <Text
+                          className="text-[#2e2c43] text-[16px]"
+                          style={{ fontFamily: "Poppins-Regular" }}
+                        >
+                          New update available! Enjoy the new release features.
+                        </Text>
+                        <TouchableOpacity
+                          onPress={() => {
+                            Linking.openURL(
+                              "https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie"
+                            );
+                          }}
+                          style={{
+                            flexDirection: "row",
+                            gap: 40,
+                            alignItems: "center",
+                            paddingTop: 10,
+                          }}
+                        >
+                          <Text
+                            className="text-[16px] text-[#fb8c00]"
+                            style={{ fontFamily: "Poppins-Black" }}
+                          >
+                            Update Now
+                          </Text>
+                          <RightArrow />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                )}
+            </View>
 
-                {categoriess.map((Category, index) => (
+            <View>
+              <Text
+                className="text-[16px] text-center my-[40px] text-[#fb8c00]"
+                style={{ fontFamily: "Poppins-ExtraBold" }}
+              >
+                Shop By Categories
+              </Text>
+              <View
+                style={{
+                  width: "100%",
+                  backgroundColor: "white",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <View
+                  style={{
+                    width: "100%",
+                    paddingHorizontal: 10,
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  {/* {categoriess.map((Category, index) => (
                   <TouchableOpacity key={index} style={{ paddingTop: 10 }} onPress={() => { dispatch(setRequestCategory(Category.name)); navigation.navigate('image-suggestion'); }}>
                     <Category.cat width={.465 * width} />
                   </TouchableOpacity>
-                ))}
+                ))} */}
+                  {categoriess.map((Category, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      style={{ paddingTop: 10 }}
+                      onPress={() => {
+                        dispatch(setRequestCategory(Category.name));
+                        navigation.navigate("image-suggestion");
+                      }}
+                    >
+                      <Image
+                        source={Category.cat}
+                        style={{
+                          width: 0.465 * width,
+                          height:201,
+                          // aspectRatio: 1,
+                        }}
+                        resizeMode="contain"
+                      />
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+
+              <Text
+                className="text-[16px] text-center  text-[#fb8c00] my-[40px]"
+                style={{ fontFamily: "Poppins-ExtraBold" }}
+              >
+                Service By Categories
+              </Text>
+              <View
+                style={{
+                  width: "100%",
+                  backgroundColor: "white",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <View
+                  style={{
+                    width: "100%",
+                    paddingHorizontal: 10,
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    justifyContent: "space-between",
+                    marginBottom: 100,
+                  }}
+                >
+                  {/* {servicess.map((Service, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      style={{ paddingTop: 10 }}
+                      onPress={() => {
+                        dispatch(setRequestCategory(Service.name));
+                        navigation.navigate("image-suggestion");
+                      }}
+                    >
+                      <Service.cat width={0.465 * width} />
+                    </TouchableOpacity>
+                  ))} */}
+
+{servicess.map((Service, index) => (
+                    <TouchableOpacity
+                    key={index}
+                    style={{ paddingTop: 10 }}
+                    onPress={() => {
+                      dispatch(setRequestCategory(Service.name));
+                      navigation.navigate("image-suggestion");
+                    }}
+                    >
+                      <Image
+                        source={Service.cat}
+                        style={{
+                          width: 0.465 * width,
+                          height:201,
+                          // aspectRatio: 1,
+                        }}
+                        resizeMode="contain"
+                      />
+                    </TouchableOpacity>
+                  ))}
+                </View>
               </View>
             </View>
 
+            {/* How it works when user have no ongoing requests */}
 
-            <Text className="text-[16px] text-center  text-[#fb8c00] my-[40px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
-              Service By Categories
-            </Text>
-            <View style={{ width: "100%", backgroundColor: 'white', justifyContent: 'center', alignItems: "center" }}>
-              <View style={{ width: "100%", paddingHorizontal: 10, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginBottom: 100, }}>
-                {servicess.map((Service, index) => (
-                  <TouchableOpacity key={index} style={{ paddingTop: 10, }} onPress={() => { dispatch(setRequestCategory(Service.name)); navigation.navigate('image-suggestion'); }}>
-                    <Service.cat width={.465 * width} />
-                  </TouchableOpacity>
-                ))}
-              </View>
-            </View>
-
-          </View>
-
-
-
-          {/* How it works when user have no ongoing requests */}
-
-          {/* {(currentVersion && currentVersion === DeviceInfo.getVersion().toString() && spades.length === 0) && !networkError && !spadesLoading && (
+            {/* {(currentVersion && currentVersion === DeviceInfo.getVersion().toString() && spades.length === 0) && !networkError && !spadesLoading && (
             <View className="">
               <Text className=" text-text text-[16px] text-center mt-[50px]" style={{ fontFamily: "Poppins-Bold" }}>
                 How it works?
@@ -718,10 +906,9 @@ const HomeScreen = () => {
             </View>
           )} */}
 
+            {/* Ongoing requests  */}
 
-          {/* Ongoing requests  */}
-
-          {/* {(currentVersion && currentVersion !== DeviceInfo.getVersion().toString() || spades.length > 0) && !networkError && !spadesLoading && (
+            {/* {(currentVersion && currentVersion !== DeviceInfo.getVersion().toString() || spades.length > 0) && !networkError && !spadesLoading && (
             <View>
               <Text
                 className={`text-center  text-text my-[33px]`}
@@ -795,53 +982,145 @@ const HomeScreen = () => {
             </View>
           )} */}
 
-          {/* {spadesLoading && <View className="py-[150px]"><ActivityIndicator size={30} color={'#fb8c00'} /></View>} */}
-
-
-        </View>}
-        {networkError && <View className="mt-[100px] "><NetworkError callFunction={fetchData} setNetworkError={setNetworkError} connectSocket={connectSocket} /></View>}
+            {/* {spadesLoading && <View className="py-[150px]"><ActivityIndicator size={30} color={'#fb8c00'} /></View>} */}
+          </View>
+        )}
+        {networkError && (
+          <View className="mt-[100px] ">
+            <NetworkError
+              callFunction={fetchData}
+              setNetworkError={setNetworkError}
+              connectSocket={connectSocket}
+            />
+          </View>
+        )}
       </ScrollView>
 
-
       <View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignContent: 'baseline', backgroundColor: 'white', paddingVertical: 10, shadowColor: '#FB8C00', elevation: 30, shadowOffset: { width: 10, height: 18 }, shadowOpacity: 0.9, shadowRadius: 20 }}>
-          <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            alignContent: "baseline",
+            backgroundColor: "#FFE7C8",
+            paddingVertical: 10,
+            shadowColor: "#FB8C00",
+            elevation: 30,
+            shadowOffset: { width: 10, height: 18 },
+            shadowOpacity: 0.9,
+            shadowRadius: 20,
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "flex-end",
+            }}
+          >
             <Tab11 />
-            <Text style={{ fontFamily: 'Poppins-Regular', color: '#fb8c00' }}>Home</Text>
+            <Text style={{ fontFamily: "Poppins-Regular", color: "#fb8c00" }}>
+              Home
+            </Text>
           </View>
 
-          <TouchableOpacity onPress={() => { navigation.navigate('orders') }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("orders");
+            }}
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "flex-end",
+            }}
+          >
             <Tab2 />
-            {spades.length > 0 && <View style={{ position: 'absolute', backgroundColor: '#e76063', borderRadius: 16, right: 5, top: 0, width: 15, height: 15, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: 'white', fontSize: 10 }}>{spades.length}</Text></View>}
-            <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Orders</Text>
+            {spades.length > 0 && (
+              <View
+                style={{
+                  position: "absolute",
+                  backgroundColor: "#e76063",
+                  borderRadius: 16,
+                  right: 5,
+                  top: 0,
+                  width: 15,
+                  height: 15,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ color: "white", fontSize: 10 }}>
+                  {spades.length}
+                </Text>
+              </View>
+            )}
+            <Text style={{ fontFamily: "Poppins-Regular", color: "#2e2c43" }}>
+              Orders
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { fetchUserDetailsToCreateSpade(); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
-            {!createSpadeLoading ? <Tab3 /> : <ActivityIndicator color="#fb8c00" />}
-            <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Ask Genie</Text>
+          <TouchableOpacity
+            onPress={() => {
+              fetchUserDetailsToCreateSpade();
+            }}
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "flex-end",
+            }}
+          >
+            {!createSpadeLoading ? (
+              <Tab3 />
+            ) : (
+              <ActivityIndicator color="#fb8c00" />
+            )}
+            <Text style={{ fontFamily: "Poppins-Regular", color: "#2e2c43" }}>
+              Ask Genie
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { onShare(); }} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
-            <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
+          <TouchableOpacity
+            onPress={() => {
+              onShare();
+            }}
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "flex-end",
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
               <Tab4 />
-              <Text style={{ fontFamily: 'Poppins-Regular', color: '#2e2c43' }}>Refer Us</Text>
+              <Text style={{ fontFamily: "Poppins-Regular", color: "#2e2c43" }}>
+                Refer Us
+              </Text>
             </View>
           </TouchableOpacity>
-
         </View>
       </View>
-      {signUpModal && <SignUpModal signUpModal={signUpModal} setSignUpModal={setSignUpModal} />}
+      {signUpModal && (
+        <SignUpModal
+          signUpModal={signUpModal}
+          setSignUpModal={setSignUpModal}
+        />
+      )}
     </View>
   );
 };
 
 const styles = {
   container: {
-    position: 'relative',
+    position: "relative",
     flexDirection: "row",
     alignItems: "center",
     marginHorizontal: 9,
     marginBottom: 10,
     backgroundColor: "#fff",
-    shadowColor: '#bdbdbd',
+    shadowColor: "#bdbdbd",
     gap: 15,
     paddingVertical: 15,
     borderRadius: 15,
@@ -850,7 +1129,7 @@ const styles = {
     shadowRadius: 24,
     elevation: 20,
     borderWidth: 0.5,
-    borderColor: 'rgba(0,0,0,0.05)'
+    borderColor: "rgba(0,0,0,0.05)",
   },
   imageContainer: {
     paddingHorizontal: 10,
@@ -863,7 +1142,7 @@ const styles = {
   description: {
     fontSize: 14,
     fontFamily: "Poppins-Regular",
-    width: '83.33%',
+    width: "83.33%",
     // 10/12 in tailwind is 83.33%
   },
   priceRow: {
@@ -903,8 +1182,6 @@ const styles = {
     marginHorizontal: 0,
     marginVertical: 40,
     gap: 0,
-
-
   },
   scrollimageContainer: {
     // width: width,
@@ -912,7 +1189,7 @@ const styles = {
     // marginHorizontal: 20,
 
     justifyContent: "center",
-    backgroundColor: 'fff',
+    backgroundColor: "fff",
     shadowColor: "#000",
     shadowOffset: { width: 3, height: 3 },
     shadowOpacity: 0.3,
@@ -923,10 +1200,6 @@ const styles = {
     // border: 2,
     // borderColor: "#FB8C00",
     // borderWidth: 2,
-
-
-
-
   },
   indicatorContainer: {
     flexDirection: "row",
@@ -941,19 +1214,18 @@ const styles = {
     backgroundColor: "#FB8C00",
   },
   dot: {
-    position: 'absolute',
+    position: "absolute",
     top: -5,
     right: 30,
-    backgroundColor: '#e76063',
+    backgroundColor: "#e76063",
     height: 20,
     width: 20,
     borderRadius: 20,
   },
   scrollMarqContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     width: width * 1.5,
-
   },
 };
 
