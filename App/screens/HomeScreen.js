@@ -97,7 +97,10 @@ import Tab11 from "../assets/tab11.svg";
 import Tab2 from "../assets/tab2.svg";
 import Tab3 from "../assets/tab3.svg";
 import Tab4 from "../assets/tab4.svg";
-import Search from "../assets/search.svg";
+// import Search from "../assets/search.svg";
+import Search from "../assets/search-black.svg";
+
+
 import {
   emtpyRequestImages,
   setEstimatedPrice,
@@ -120,13 +123,16 @@ const categoriess = [
   { cat: Category2, name: "Fashion/Clothings - Top, bottom, dresses" },
   { cat: Category3, name: "Fashion Accessories - Jewellery, Gold & Diamond" },
   { cat: Category4, name: "Fashion Accessories - Shoes, bags etc" },
-  { cat: Category5, name: "Fashion Accessories - Sharee, suits, kurti & dress materials etc" },
+  {
+    cat: Category5,
+    name: "Fashion Accessories - Sharee, suits, kurti & dress materials etc",
+  },
   { cat: Category6, name: "Gifts, Kids Games,Toys & Clothings" },
   { cat: Category7, name: "Luxury Watches" },
   { cat: Category8, name: "Hardware - Plumbing, Paint,& Electricity" },
   { cat: Category9, name: "Sports Nutrition - Whey Pro etc" },
   { cat: Category10, name: "Hardware - Cement, Hand tools, Powertools etc" },
-  { cat: Category11, name: "Kitchen Utensils & Kitchenware" }
+  { cat: Category11, name: "Kitchen Utensils & Kitchenware" },
 ];
 const servicess = [
   {
@@ -594,7 +600,7 @@ const HomeScreen = () => {
                   ) : (
                     <Text
                       className="text-[14px]  text-[#fb8c00]"
-                      style={{ fontFamily: "Poppins-Regular" }}
+                      style={{ fontFamily: "Poppins-Bold" }}
                     >
                       Refresh
                     </Text>
@@ -611,7 +617,7 @@ const HomeScreen = () => {
                   flexDirection: "row",
                   textAlign: "center",
                   justifyContent: "center",
-                  borderTopColor: "#f3f2f2",
+                  borderTopColor: "#FFC882",
                   borderTopWidth: 1,
                 }}
               >
@@ -658,23 +664,41 @@ const HomeScreen = () => {
             <Image source={require('../assets/Genie-Icon.png')} />
           </View> */}
 
-            <View className="mt-[10px]">
-              <Pressable
+            <View className="mt-[20px]">
+            <View className="flex-col items-center justify-center ">
+              <Text className="text-center flex-1 text-[#fb8c00] text-[16px]" style={{ fontFamily: "Poppins-Regular" }}>Ask Genie for any shopping 
+              item or maintenance service you need. </Text>
+              <Text className="text-center flex-1 text-[#fb8c00] text-[16px]" style={{ fontFamily: "Poppins-Black" }}>Start your shopping now.  </Text>
+              
+            </View>
+              <TouchableOpacity
+                // onPress={() => {
+                //   navigation.navigate("store-search");
+                // }}
                 onPress={() => {
-                  navigation.navigate("store-search");
+                  fetchUserDetailsToCreateSpade();
                 }}
-                className="mx-[16px] mt-[16px]"
+                // disabled={createSpadeLoading }
+                // className="mx-[16px] mt-[16px]"
+                style={{ margin: 16 }}
               >
                 <View className="h-[60px] w-full flex-row border-[1px] border-[#fb8c00] bg-white rounded-3xl items-center justify-center ">
-                  <Search style={{ position: "absolute", left: 20 }} />
+                  {!createSpadeLoading ? (
+                    <Tab3 style={{ position: "absolute", left: 20 }} />
+                  ) : (
+                    <ActivityIndicator
+                      color="#fb8c00"
+                      style={{ position: "absolute", left: 20 }}
+                    />
+                  )}
                   <Text
                     className="text-[#fb8c00] text-[14px] text-center py-[19px] "
                     style={{ fontFamily: "Poppins-Italic" }}
                   >
-                    Search store...
+                    Type your, spades my master.....
                   </Text>
                 </View>
-              </Pressable>
+              </TouchableOpacity>
             </View>
 
             <View>
@@ -769,7 +793,7 @@ const HomeScreen = () => {
                         source={Category.cat}
                         style={{
                           width: 0.465 * width,
-                          height:201,
+                          height: 201,
                           // aspectRatio: 1,
                         }}
                         resizeMode="contain"
@@ -816,20 +840,20 @@ const HomeScreen = () => {
                     </TouchableOpacity>
                   ))} */}
 
-{servicess.map((Service, index) => (
+                  {servicess.map((Service, index) => (
                     <TouchableOpacity
-                    key={index}
-                    style={{ paddingTop: 10 }}
-                    onPress={() => {
-                      dispatch(setRequestCategory(Service.name));
-                      navigation.navigate("image-suggestion");
-                    }}
+                      key={index}
+                      style={{ paddingTop: 10 }}
+                      onPress={() => {
+                        dispatch(setRequestCategory(Service.name));
+                        navigation.navigate("image-suggestion");
+                      }}
                     >
                       <Image
                         source={Service.cat}
                         style={{
                           width: 0.465 * width,
-                          height:201,
+                          height: 201,
                           // aspectRatio: 1,
                         }}
                         resizeMode="contain"
@@ -1059,22 +1083,19 @@ const HomeScreen = () => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => {
-              fetchUserDetailsToCreateSpade();
-            }}
+           onPress={() => {
+                  navigation.navigate("store-search");
+                }}
             style={{
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "flex-end",
             }}
           >
-            {!createSpadeLoading ? (
-              <Tab3 />
-            ) : (
-              <ActivityIndicator color="#fb8c00" />
-            )}
+            
+              <Search />
             <Text style={{ fontFamily: "Poppins-Regular", color: "#2e2c43" }}>
-              Ask Genie
+              Stores
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
