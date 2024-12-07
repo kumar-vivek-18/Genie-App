@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import axiosInstance from '../../utils/logics/axiosInstance';
 import SuccessConcernModal from './SuccessConcernModal';
+import { baseUrl } from '../../utils/logics/constants';
 
 
 const ReportVendor = () => {
@@ -26,7 +27,7 @@ const ReportVendor = () => {
       const mobileNo = user?.mobileNo?.slice(3, 13);
 
       const res = await axiosInstance.post(
-        `https://culturtap-genie-backend.onrender.com/contact`,
+        `${baseUrl}/help/contact`,
         {
           name: user?.userName,
           countryCode: "+91",

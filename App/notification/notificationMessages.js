@@ -303,6 +303,7 @@ export const newMessageSend = async (mess) => {
         // ];
 
         const tokens = mess.token;
+        // console.log("notify tokens",tokens)
 
         const accessToken = await getAccessToken();
         // console.log("accessToken", accessToken)
@@ -359,7 +360,7 @@ export const newMessageSend = async (mess) => {
                     throw new Error('Failed to send notification');
                 } else {
                     const successResponse = JSON.parse(textResponse);
-                    // console.log('Notification sent successfully:', successResponse, message);
+                    console.log('Notification sent successfully:', successResponse, message);
                     console.log("Notification sent successfully", token)
                 }
             }

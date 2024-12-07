@@ -581,7 +581,8 @@ const ImageSuggestion = () => {
                                 <ActivityIndicator size="large" color="#fb8c00" />
                             </View>
                         )} */}
-
+              <Text className="text-center  mb-[10px] text-[14px]" style={{ fontFamily: "Poppins-SemiBold" }}>Available stock in the market</Text>
+             
               <FlatList
                 data={suggestionImages}
                 renderItem={renderProductItem}
@@ -675,7 +676,7 @@ const ImageSuggestion = () => {
                 }}
               >
                 <View className="items-center flex-row justify-between pl-[15px] pr-[30px] mx-[20px] py-[30px]  border-b-[1px] border-gray-400">
-                  <Text style={{ fontFamily: "Poppins-Regular" }}>
+                  <Text style={{fontFamily: "Poppins-Regular" }}>
                     Upload Image
                   </Text>
                   <RightArrow />
