@@ -563,8 +563,8 @@ const HomeScreen = () => {
 
         {!networkError && (
           <View>
-            <View className="w-full bg-white mt-[20px] flex-row px-[30px] justify-between h-[max-content] items-center">
-              <View className="w-4/5">
+            <View className="w-full bg-white mt-[20px] flex-row px-[30px] gap-2 justify-between h-[max-content] items-center">
+              <View className="w-[75%]">
                 <Text
                   className="text-[14px] pt-[10px] text-[#2e2c43] "
                   style={{ fontFamily: "Poppins-Black" }}
@@ -593,6 +593,7 @@ const HomeScreen = () => {
                   await handleRefreshLocation(userDetails._id, accessToken);
                   setIsLoading(false);
                 }}
+                style={{width:"25%"}}
               >
                 <View>
                   {isLoading ? (
@@ -664,11 +665,11 @@ const HomeScreen = () => {
             <Image source={require('../assets/Genie-Icon.png')} />
           </View> */}
 
-            <View className="mt-[20px]">
-            <View className="flex-col items-center justify-center ">
-              <Text className="text-center flex-1 text-[#fb8c00] text-[16px]" style={{ fontFamily: "Poppins-Regular" }}>Ask Genie for any shopping 
+            <View className="mt-[20px] ">
+            <View className="flex-col items-center justify-center px-[10px]">
+              <Text className="text-center  text-[#fb8c00] text-[14px]" style={{ fontFamily: "Poppins-Regular" }}>Ask Genie for any shopping 
               item or maintenance service you need. </Text>
-              <Text className="text-center flex-1 text-[#fb8c00] text-[16px]" style={{ fontFamily: "Poppins-Black" }}>Start your shopping now.  </Text>
+              <Text className="text-center  text-[#fb8c00] text-[14px]" style={{ fontFamily: "Poppins-Black" }}>Start your shopping now.  </Text>
               
             </View>
               <TouchableOpacity
@@ -682,7 +683,7 @@ const HomeScreen = () => {
                 // className="mx-[16px] mt-[16px]"
                 style={{ margin: 16 }}
               >
-                <View className="h-[60px] w-full flex-row border-[1px] border-[#fb8c00] bg-white rounded-3xl items-center justify-center ">
+                <View style={{width:"100%"}} className="h-[60px]  flex-row border-[1px] border-[#fb8c00] bg-white rounded-3xl items-center justify-center ">
                   {!createSpadeLoading ? (
                     <Tab3 style={{ position: "absolute", left: 20 }} />
                   ) : (
@@ -692,10 +693,10 @@ const HomeScreen = () => {
                     />
                   )}
                   <Text
-                    className="text-[#fb8c00] text-[14px] text-center py-[19px] "
+                    className="text-[#fb8c00]  text-[12px] text-center py-[19px] "
                     style={{ fontFamily: "Poppins-Italic" }}
                   >
-                    Type your, spades my master.....
+                    Type your, spades my master....
                   </Text>
                 </View>
               </TouchableOpacity>

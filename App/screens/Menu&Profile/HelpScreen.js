@@ -6,6 +6,7 @@ import BackArrow from "../../assets/BackArrowImg.svg"
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import SuccessConcernModal from '../components/SuccessConcernModal';
+import { baseUrl } from '../../utils/logics/constants';
 
 
 const HelpScreen = () => {
@@ -26,7 +27,7 @@ const HelpScreen = () => {
       const mobileNo = user?.mobileNo?.slice(3, 13);
 
       const res = await axios.post(
-        `https://culturtap-genie-backend.onrender.com/contact`,
+        `${baseUrl}/help/contact`,
         {
           name: user?.userName,
           countryCode: "+91",
