@@ -683,7 +683,7 @@ const HomeScreen = () => {
                 // className="mx-[16px] mt-[16px]"
                 style={{ margin: 16 }}
               >
-                <View style={{width:"100%"}} className="h-[60px]  flex-row border-[1px] border-[#fb8c00] bg-white rounded-3xl items-center justify-center ">
+                <View  className="h-[60px]  flex-row border-[1px] border-[#fb8c00] bg-white rounded-3xl items-center justify-center ">
                   {!createSpadeLoading ? (
                     <Tab3 style={{ position: "absolute", left: 20 }} />
                   ) : (
@@ -693,7 +693,7 @@ const HomeScreen = () => {
                     />
                   )}
                   <Text
-                    className="text-[#fb8c00]  text-[12px] text-center py-[19px] "
+                    className="text-[#fb8c00]  text-[12px] text-center"
                     style={{ fontFamily: "Poppins-Italic" }}
                   >
                     Type your, spades my master....
