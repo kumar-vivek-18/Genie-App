@@ -50,7 +50,7 @@ import SignUpModal from "../components/SignUpModal";
 const ImageSuggestion = () => {
   const [imagesLocal, setImagesLocal] = useState([]);
   const navigation = useNavigation();
-  const route=useRoute();
+  const route = useRoute();
   const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
   const [cameraScreen, setCameraScreen] = useState(false);
@@ -93,7 +93,7 @@ const ImageSuggestion = () => {
   const [signUpModal, setSignUpModal] = useState(false);
   const navigationState = useNavigationState((state) => state);
 
-  const isImgSuggestion =navigationState.routes[navigationState.index].name === "image-suggestion";
+  const isImgSuggestion = navigationState.routes[navigationState.index].name === "image-suggestion";
   useEffect(() => {
     if (requestCategory.includes("Service")) setIsService(true);
   }, []);
@@ -225,7 +225,7 @@ const ImageSuggestion = () => {
   };
 
   useEffect(() => {
-    
+
     categoryListedProduct();
   }, []);
 
@@ -238,22 +238,22 @@ const ImageSuggestion = () => {
   //       dispatch(setEstimatedPrice(0));
   //       return false; // Prevent the default back action
   //     };
-  
+
   //     const backHandler = BackHandler.addEventListener(
   //       "hardwareBackPress",
   //       backAction
   //     );
-  
+
   //     return () => backHandler.remove(); // Clean up the event listener
   //   }
   // }, [isImgSuggestion]);
-  
- 
+
+
 
   const renderProductItem = ({ item }) => (
     <Pressable
       onPress={() => {
-        
+
         handleImagePress(item.productImage);
         setIsSuggestion(true);
         setSelectedImgEstimatedPrice(item.productPrice);
@@ -348,20 +348,20 @@ const ImageSuggestion = () => {
   };
 
 
-//       if (requestImages || suggestedImages) {
-//         return true;
-//       } else {
-//         return false;
-//       }
-//     };
+  //       if (requestImages || suggestedImages) {
+  //         return true;
+  //       } else {
+  //         return false;
+  //       }
+  //     };
 
-//     const backHandler = BackHandler.addEventListener(
-//       "hardwareBackPress",
-//       backAction
-//     );
+  //     const backHandler = BackHandler.addEventListener(
+  //       "hardwareBackPress",
+  //       backAction
+  //     );
 
-//     return () => backHandler.remove(); // Clean up the event listener
-//   }, []);
+  //     return () => backHandler.remove(); // Clean up the event listener
+  //   }, []);
 
   const handleDownloadDocument = async () => {
     // const url = `https://www.google.com/search?q=${encodeURIComponent(bidDetails.bidImages[0])}`
@@ -379,25 +379,25 @@ const ImageSuggestion = () => {
   // }
 
 
-  
+
 
   return (
     <>
       <View
-      
+
         style={{ flex: 1, backgroundColor: "white" }}
       >
-        <View style={{ flex: 1}}>
+        <View style={{ flex: 1 }}>
           <View className=" flex  mt-[40px] flex-row  items-center  px-[32px]">
-          <TouchableOpacity
-              onPress={() =>{
-              navigation.goBack()
-              dispatch(setSuggestedImages([]));
-              dispatch(setRequestImages([]));
-              dispatch(setExpectedPrice(0));
-              dispatch(setEstimatedPrice(0));
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack()
+                dispatch(setSuggestedImages([]));
+                dispatch(setRequestImages([]));
+                dispatch(setExpectedPrice(0));
+                dispatch(setEstimatedPrice(0));
               }}
-              style={{paddingHorizontal:8, paddingVertical:20}}
+              style={{ paddingHorizontal: 8, paddingVertical: 20 }}
             >
               <BackArrow width={14} height={10} />
             </TouchableOpacity>
@@ -429,50 +429,50 @@ const ImageSuggestion = () => {
             >
               Step 2/4
             </Text> */}
-           
-              <View
+
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 10,
+              }}
+            >
+              <Text
+                className="text-[14px] text-center text-[#2e2c43]"
+                style={{ fontFamily: "Poppins-Regular" }}
+              >
+                {isService
+                  ? "Share the image of defect"
+                  : "Search any product in the market."}
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setDescModal(!descModal);
+                }}
                 style={{
+                  width: 25,
+                  height: 25,
                   flexDirection: "row",
                   justifyContent: "center",
                   alignItems: "center",
-                  gap: 10,
+                  borderColor: "red",
+                  borderWidth: 2,
+                  borderRadius: 16,
                 }}
               >
                 <Text
-                  className="text-[14px] text-center text-[#2e2c43]"
-                  style={{ fontFamily: "Poppins-Regular" }}
-                >
-                  {isService
-                    ? "Share the image of defect"
-                    : "Search any product in the market."}
-                </Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    setDescModal(!descModal);
-                  }}
                   style={{
-                    width: 25,
-                    height: 25,
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderColor: "red",
-                    borderWidth: 2,
-                    borderRadius: 16,
+                    color: "red",
+                    fontSize: 16,
+                    fontFamily: "Poppins-SemiBold",
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "red",
-                      fontSize: 16,
-                      fontFamily: "Poppins-SemiBold",
-                    }}
-                  >
-                    ?
-                  </Text>
-                </TouchableOpacity>
-              </View>
-        
+                  ?
+                </Text>
+              </TouchableOpacity>
+            </View>
+
 
             {/* {suggestedImages?.length > 0 ||
               (requestImages?.length > 0 && (
@@ -500,24 +500,24 @@ const ImageSuggestion = () => {
                         </View>} */}
           </View>
 
-         
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-evenly" }}
-            >
-              <TouchableOpacity onPress={() =>{
-                 if (!userDetails?._id) setSignUpModal(true);
-                 else takePicture();
-                   } }>
-                <ClickImage />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() =>{
-                if (!userDetails?._id) setSignUpModal(true);
-                else pickImage();
-                 } }>
-                <UploadImg />
-              </TouchableOpacity>
-            </View>
-          
+
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-evenly" }}
+          >
+            <TouchableOpacity onPress={() => {
+              if (!userDetails?._id) setSignUpModal(true);
+              else takePicture();
+            }}>
+              <ClickImage />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {
+              if (!userDetails?._id) setSignUpModal(true);
+              else pickImage();
+            }}>
+              <UploadImg />
+            </TouchableOpacity>
+          </View>
+
           {/* {(requestImages?.length > 0 || suggestedImages?.length > 0) && (
             <View>
               <ScrollView
@@ -589,16 +589,16 @@ const ImageSuggestion = () => {
             </View>
           )} */}
 
-        
-            <View
-              style={{
-                flex: 1,
-                paddingHorizontal: 20,
-                marginTop: 30,
-                // marginBottom: 80,
-              }}
-            >
-              {/* {suggestionImages?.length > 0 && <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 16, paddingHorizontal: 12, paddingBottom: 20 }}>Available stock in the market</Text>}
+
+          <View
+            style={{
+              flex: 1,
+              paddingHorizontal: 20,
+              marginTop: 30,
+              // marginBottom: 80,
+            }}
+          >
+            {/* {suggestionImages?.length > 0 && <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 16, paddingHorizontal: 12, paddingBottom: 20 }}>Available stock in the market</Text>}
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, justifyContent: 'space-between' }}>
 
                             {suggestionImages && suggestionImages.map((suggestionImage, index) => {
@@ -636,41 +636,41 @@ const ImageSuggestion = () => {
                                 <ActivityIndicator size="large" color="#fb8c00" />
                             </View>
                         )} */}
-              <Text className="text-center  mb-[10px] text-[14px]" style={{ fontFamily: "Poppins-SemiBold" }}>Available stock in the market</Text>
-             
-              <FlatList
-                data={suggestionImages}
-                renderItem={renderProductItem}
-                keyExtractor={(item, index) => `${item.id}-${index}`}
-                numColumns={2}
-                showsVerticalScrollIndicator={false}
-                columnWrapperStyle={{
-                  justifyContent: "space-between",
-                  gap: 10,
-                }}
-                nestedScrollEnabled={true}
-                onEndReached={() => {
-                  if (loadMore && !loadingProducts) {
-                    // console.log("Fetching next page...");
-                    categoryListedProduct();
-                  }
-                }}
-                onEndReachedThreshold={.5}
-                ListFooterComponent={
-                  loadingProducts ? (
-                    <ActivityIndicator
-                      size="large"
-                      color="#fb8c00"
-                      style={{ marginVertical: 20 }}
-                    />
-                  ) : null
+            <Text className="text-center  mb-[10px] text-[14px]" style={{ fontFamily: "Poppins-SemiBold" }}>Available stock in the market</Text>
+
+            <FlatList
+              data={suggestionImages}
+              renderItem={renderProductItem}
+              keyExtractor={(item, index) => `${item.id}-${index}`}
+              numColumns={2}
+              showsVerticalScrollIndicator={false}
+              columnWrapperStyle={{
+                justifyContent: "space-between",
+                gap: 10,
+              }}
+              nestedScrollEnabled={true}
+              onEndReached={() => {
+                if (loadMore && !loadingProducts) {
+                  // console.log("Fetching next page...");
+                  categoryListedProduct();
                 }
-                contentContainerStyle={{
-                  paddingBottom: 50,
-                }}
-              />
-            </View>
-         
+              }}
+              onEndReachedThreshold={.5}
+              ListFooterComponent={
+                loadingProducts ? (
+                  <ActivityIndicator
+                    size="large"
+                    color="#fb8c00"
+                    style={{ marginVertical: 20 }}
+                  />
+                ) : null
+              }
+              contentContainerStyle={{
+                paddingBottom: 50,
+              }}
+            />
+          </View>
+
         </View>
         <ModalCancel
           modalVisible={modalVisible}
@@ -708,7 +708,7 @@ const ImageSuggestion = () => {
             </View>
           )} */}
 
-        
+
         <Modal visible={descModal} transparent={true}>
           <TouchableOpacity
             onPress={() => {
@@ -776,89 +776,89 @@ const ImageSuggestion = () => {
                 />
                 {(selectedImgEstimatedPrice > 0 ||
                   selectedImageDesc?.length > 0) && (
-                  <View
-                    style={{
-                      position: "absolute",
-                      bottom: 0,
-                      backgroundColor: "rgba(0,0,0,0.5)",
-                      width: 300,
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      paddingVertical: 5,
-                      borderBottomEndRadius: 10,
-                      borderBottomStartRadius: 10,
-                    }}
-                  >
-                    {selectedImageDesc?.length > 0 &&
-                      selectedImageDesc.length > 40 && (
-                        <Text
-                          style={{
-                            color: "white",
-                            fontSize: 14,
-                            fontFamily: "Poppins-Regular",
-                          }}
-                        >
-                          {selectedImageDesc.substring(0, 40)}...
-                        </Text>
-                      )}
-                    {selectedImageDesc?.length > 0 &&
-                      selectedImageDesc.length <= 40 && (
-                        <Text
-                          style={{
-                            color: "white",
-                            fontSize: 14,
-                            fontFamily: "Poppins-Regular",
-                          }}
-                        >
-                          {selectedImageDesc}
-                        </Text>
-                      )}
-                    <Text
+                    <View
                       style={{
-                        color: "white",
-                        fontSize: 14,
-                        fontFamily: "Poppins-Regular",
+                        position: "absolute",
+                        bottom: 0,
+                        backgroundColor: "rgba(0,0,0,0.5)",
+                        width: 300,
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        paddingVertical: 5,
+                        borderBottomEndRadius: 10,
+                        borderBottomStartRadius: 10,
                       }}
                     >
-                      Estimated Price
-                    </Text>
-                    {selectedImgEstimatedPrice > 0 && (
+                      {selectedImageDesc?.length > 0 &&
+                        selectedImageDesc.length > 40 && (
+                          <Text
+                            style={{
+                              color: "white",
+                              fontSize: 14,
+                              fontFamily: "Poppins-Regular",
+                            }}
+                          >
+                            {selectedImageDesc.substring(0, 40)}...
+                          </Text>
+                        )}
+                      {selectedImageDesc?.length > 0 &&
+                        selectedImageDesc.length <= 40 && (
+                          <Text
+                            style={{
+                              color: "white",
+                              fontSize: 14,
+                              fontFamily: "Poppins-Regular",
+                            }}
+                          >
+                            {selectedImageDesc}
+                          </Text>
+                        )}
                       <Text
                         style={{
-                          color: "#70b241",
-                          fontSize: 18,
-                          fontFamily: "Poppins-SemiBold",
+                          color: "white",
+                          fontSize: 14,
+                          fontFamily: "Poppins-Regular",
                         }}
                       >
-                        Rs {selectedImgEstimatedPrice}
+                        Estimated Price
                       </Text>
-                    )}
-                  </View>
-                )}
+                      {selectedImgEstimatedPrice > 0 && (
+                        <Text
+                          style={{
+                            color: "#70b241",
+                            fontSize: 18,
+                            fontFamily: "Poppins-SemiBold",
+                          }}
+                        >
+                          Rs {selectedImgEstimatedPrice}
+                        </Text>
+                      )}
+                    </View>
+                  )}
               </Pressable>
               {isSuggestion && (
                 <Pressable
                   onPress={() => {
                     handleCloseSuggestion();
                     if (!userDetails?._id) setSignUpModal(true);
-                    else{
-                      
+                    else {
+
                       dispatch(
                         setSuggestedImages([selectedImage])
                       );
                       dispatch(setRequestImages([]));
 
-                      
+
                       if (selectedImgEstimatedPrice > 0) {
                         dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
                       }
-                        setTimeout(()=>{
-                          navigation.navigate("define-request");
-                        },200);
-                   
-                      
-                      
+                      setTimeout(() => {
+                        navigation.navigate("define-request");
+                      }, 200);
+
+
+
                     }
                   }}
                 >
@@ -876,7 +876,7 @@ const ImageSuggestion = () => {
                       marginTop: 10,
                     }}
                   >
-                    Add Product To View & Bargaining
+                    Add Product to View & Bargaining
                   </Text>
                 </Pressable>
               )}
