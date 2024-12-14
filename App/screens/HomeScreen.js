@@ -119,19 +119,22 @@ const { width } = Dimensions.get("window");
 
 const images = [Home0, Home1, Home2, Home3, Home4, Home5, Home6, Home7];
 const categoriess = [
-  {
-    cat: Category1,
-    name: "Consumer Electronics & Accessories - Home appliances and equipment etc",
-  },
   { cat: Category2, name: "Fashion/Clothings - Top, bottom, dresses" },
-  { cat: Category3, name: "Fashion Accessories - Jewellery, Gold & Diamond" },
   { cat: Category4, name: "Fashion Accessories - Shoes, bags etc" },
   {
     cat: Category5,
     name: "Fashion Accessories - Sharee, suits, kurti & dress materials etc",
   },
-  { cat: Category6, name: "Gifts, Kids Games,Toys & Clothings" },
-  { cat: Category7, name: "Luxury Watches" },
+  { cat: Category6, name: "Gifts, Kids Games,Toys & Accessories" },
+  {
+    cat: Category1,
+    name: "Consumer Electronics & Accessories - Home appliances and equipment etc",
+  },
+  
+  { cat: Category3, name: "Fashion Accessories - Jewellery, Gold & Diamond" },
+  
+
+  { cat: Category7, name: "Luxury Watches & Service" },
   { cat: Category8, name: "Hardware - Plumbing, Paint,& Electricity" },
   { cat: Category9, name: "Sports Nutrition - Whey Pro etc" },
   { cat: Category10, name: "Hardware - Cement, Hand tools, Powertools etc" },

@@ -57,8 +57,8 @@ const categoriess = {
   "Fashion Accessories - Jewellery, Gold & Diamond": Category3,
   "Fashion Accessories - Shoes, bags etc": Category4,
   "Fashion Accessories - Sharee, suits, kurti & dress materials etc": Category5,
-  "Gifts, Kids Games,Toys & Clothings": Category6,
-  "Luxury Watches": Category7,
+  "Gifts, Kids Games,Toys & Accessories": Category6,
+  "Luxury Watches & Service": Category7,
   "Hardware - Plumbing, Paint,& Electricity": Category8,
   "Sports Nutrition - Whey Pro etc": Category9,
   "Hardware - Cement, Hand tools, Powertools etc": Category10,
@@ -67,7 +67,6 @@ const categoriess = {
     Service1,
   "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc":
     Service2,
-  "Clock Repair & Services": Service3,
   "Automotive Parts/Services - 2 wheeler Fuel based": Service4,
   "Automotive Parts/Services - 4 wheeler Fuel based": Service5,
   "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc":

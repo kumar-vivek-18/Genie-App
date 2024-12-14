@@ -112,7 +112,7 @@ const AddImageScreen = () => {
       "Banarsi Sari",
       "Elegant Draped Styles",
     ],
-    "Kids Games,Toys & Accessories": [
+    "Gifts, Kids Games,Toys & Accessories": [
       "Monopoly",
       "Chess",
       "Jenga",
@@ -120,9 +120,11 @@ const AddImageScreen = () => {
       "Audi Tt Rs Plus Electric Motor Car",
       "Vintage Electric Motor Car",
     ],
-    "Luxury Watches": [
+    "Luxury Watches & Service": [
       "Digital Watch",
       "Apple Watch",
+      "Replace watch battery - Armani",
+      "Watch screen damage",
       "Android Digital Watch",
       "Tissot T classic man’s watch",
     ],

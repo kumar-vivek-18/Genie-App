@@ -72,8 +72,6 @@ const SearchCategoryScreen = () => {
       "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422440/2-wheeler_xliwnk.jpg",
     "Automotive Parts/Services - 4 wheeler Fuel based":
       "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422440/4-wheeler_fp0sy6.jpg",
-    "Clock Repair & Services":
-      "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422441/clock_b4ftd5.jpg",
     "Consumer Electronics & Accessories - Home appliances and equipment etc":
       "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422453/consumer_electronics_rplbgv.jpg",
     "Fashion Accessories - Jewellery, Gold & Diamond":
@@ -88,16 +86,16 @@ const SearchCategoryScreen = () => {
       "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422447/hardware_paint_xyfrp8.jpg",
     "Home & Function Decoration":
       "https://res.cloudinary.com/kumarvivek/image/upload/v1730174790/decoration_f69hnj.jpg",
-    "Gifts, Kids Games,Toys & Clothings":
+    "Gifts, Kids Games,Toys & Accessories":
       "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422449/gifts_eia9dk.jpg",
-    "Luxury Watches":
-      "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422448/luxury_a20pfl.jpg",
+    "Luxury Watches & Service":
+      "https://res.cloudinary.com/dkay5q6la/image/upload/v1734176789/clock_p0zchz.jpg",
     "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc":
       "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422444/electronics_s67wgn.jpg",
     "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc":
       "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422443/mobile_hjahoi.jpg",
     "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc":
-      "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422440/heavy_ihqf48.jpg",
+      "https://res.cloudinary.com/dkay5q6la/image/upload/v1734176789/heavy_ybnzlk.jpg",
     "Sports Nutrition - Whey Pro etc":
       "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422447/sports_ee5x0s.jpg",
     "Electrical Services & Repair - Electrician":
