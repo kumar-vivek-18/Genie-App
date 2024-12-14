@@ -732,9 +732,9 @@ const [locationRefresh, setLocationRefresh] = useState(false)
                 }}
                 // disabled={createSpadeLoading }
                 // className="mx-[16px] mt-[16px]"
-                style={{ margin: 16 }}
+                style={{marginTop:20,marginBottom:10,width:width,flexDirection:"row",justifyContent:"center",alignContent:"center" }}
               >
-                <View className="h-[60px]  flex-row border-[1px] border-[#fb8c00] bg-white rounded-3xl items-center justify-center ">
+                <View style={{width:.95*width,height:60,flexDirection:"row",justifyContent:"center",alignItems:"center",backgroundColor:"white",borderColor:"#fb8c00",borderWidth:1,borderRadius:20}} >
                   {!createSpadeLoading ? (
                     <Tab3 style={{ position: "absolute", left: 20 }} />
                   ) : (
@@ -744,8 +744,8 @@ const [locationRefresh, setLocationRefresh] = useState(false)
                     />
                   )}
                   <View
-                    style={{ paddingHorizontal: 20, width: "70%" }}
-                    className=" flex flex-row justify-between items-center"
+                    style={{ paddingHorizontal: 20, width: "80%" }}
+                    className=" flex flex-row justify-center gap-[20px] items-center"
                   >
                     <View className="bg-[#55CD00] w-[10px] h-[10px] rounded-full"></View>
 
@@ -818,7 +818,7 @@ const [locationRefresh, setLocationRefresh] = useState(false)
                 )}
             </View>
 
-            <View>
+            <View style={{position:"relative",backgroundColor:"transparent"}}>
               <Text
                 className="text-[16px] text-center my-[40px] text-[#fb8c00]"
                 style={{ fontFamily: "Poppins-ExtraBold" }}
@@ -828,7 +828,7 @@ const [locationRefresh, setLocationRefresh] = useState(false)
               <View
                 style={{
                   width: "100%",
-                  backgroundColor: "white",
+                  // backgroundColor: "white",
                   justifyContent: "center",
                   alignItems: "center",
                 }}
@@ -842,11 +842,7 @@ const [locationRefresh, setLocationRefresh] = useState(false)
                     justifyContent: "space-between",
                   }}
                 >
-                  {/* {categoriess.map((Category, index) => (
-                  <TouchableOpacity key={index} style={{ paddingTop: 10 }} onPress={() => { dispatch(setRequestCategory(Category.name)); navigation.navigate('image-suggestion'); }}>
-                    <Category.cat width={.465 * width} />
-                  </TouchableOpacity>
-                ))} */}
+                 
                   {categoriess.map((Category, index) => (
                     <TouchableOpacity
                       key={index}
@@ -879,7 +875,7 @@ const [locationRefresh, setLocationRefresh] = useState(false)
               <View
                 style={{
                   width: "100%",
-                  backgroundColor: "white",
+                  // backgroundColor: "white",
                   justifyContent: "center",
                   alignItems: "center",
                 }}
@@ -894,18 +890,7 @@ const [locationRefresh, setLocationRefresh] = useState(false)
                     marginBottom: 100,
                   }}
                 >
-                  {/* {servicess.map((Service, index) => (
-                    <TouchableOpacity
-                      key={index}
-                      style={{ paddingTop: 10 }}
-                      onPress={() => {
-                        dispatch(setRequestCategory(Service.name));
-                        navigation.navigate("image-suggestion");
-                      }}
-                    >
-                      <Service.cat width={0.465 * width} />
-                    </TouchableOpacity>
-                  ))} */}
+                  
 
                   {servicess.map((Service, index) => (
                     <TouchableOpacity
@@ -1093,7 +1078,7 @@ const [locationRefresh, setLocationRefresh] = useState(false)
             flexDirection: "row",
             justifyContent: "space-evenly",
             alignContent: "baseline",
-            backgroundColor: "#FFE7C8",
+            backgroundColor: "#fff",
             paddingVertical: 10,
             shadowColor: "#FB8C00",
             elevation: 30,

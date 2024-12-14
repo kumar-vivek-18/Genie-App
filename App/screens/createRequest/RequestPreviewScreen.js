@@ -296,7 +296,7 @@ const RequestPreviewScreen = () => {
               <ActivityIndicator size="small" color="#ffffff" />
             ) : (
               <Text className="text-white text-[18px] " style={{ fontFamily: "Poppins-Black" }}>
-                Send Request
+                Send Bargaining Request
               </Text>
             )}
           </View>

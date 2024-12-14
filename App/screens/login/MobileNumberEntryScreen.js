@@ -104,7 +104,8 @@ const MobileNumberEntryScreen = () => {
         return true; // Prevent default back action
       }
       else if (isLoginScreen) {
-        BackHandler.exitApp();
+        // BackHandler.exitApp();
+        navigation.goBack();
         return true;
       }
 

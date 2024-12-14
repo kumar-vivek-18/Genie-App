@@ -238,7 +238,7 @@ import {
         "Banarsi Sari",
         "Elegant Draped Styles",
       ],
-      "Kids Games,Toys & Accessories": [
+      "Gifts, Kids Games,Toys & Clothings": [
         "Monopoly",
         "Chess",
         "Jenga",
@@ -510,9 +510,10 @@ import {
                     <Text
                       style={{
                         fontFamily: "Poppins-Regular",
-                        fontSize: 12,
+                        fontSize: 14,
                         paddingHorizontal: 8,
-                        paddingVertical: 5,
+                        paddingVertical: 2,
+                        color:"#fb8c00"
                       }}
                     >
                       {categ}

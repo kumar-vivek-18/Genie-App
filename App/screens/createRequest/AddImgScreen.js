@@ -418,10 +418,10 @@ const AddImageScreen = () => {
                         <Text
                           style={{
                             fontFamily: "Poppins-Regular",
-                            fontSize: 12,
+                            fontSize: 14,
                             color: "#FB8C00",
                             paddingHorizontal: 8,
-                            paddingVertical: 5,
+                            paddingVertical: 2,
                           }}
                         >
                           {categ}

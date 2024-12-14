@@ -41,9 +41,7 @@ export default function App() {
 
   // const dispatch = useDispatch();
 
-  // if(!fontsLoaded){
-  //   return <AppLoading/>;
-  // }
+  
 
   useEffect(() => {
     (async () => {
@@ -62,6 +60,10 @@ export default function App() {
     notificationListeners();
 
   }, []);
+
+  if(!fontsLoaded){
+    return null;
+  }
 
   return (
     <Provider store={store}>

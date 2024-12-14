@@ -332,7 +332,7 @@ const ActiveRequests = () => {
             flexDirection: "row",
             justifyContent: "space-evenly",
             alignContent: "baseline",
-            backgroundColor: "#FFE7C8",
+            backgroundColor: "#fff",
             paddingVertical: 10,
             shadowColor: "#FB8C00",
             elevation: 30,
