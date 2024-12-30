@@ -13,6 +13,7 @@ import {
   Linking,
   FlatList,
   BackHandler,
+  TextInput,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
@@ -20,7 +21,11 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { useNavigation, useNavigationState, useRoute } from "@react-navigation/native";
+import {
+  useNavigation,
+  useNavigationState,
+  useRoute,
+} from "@react-navigation/native";
 import ClickImage from "../../assets/ClickImg.svg";
 import UploadImg from "../../assets/UploadImg.svg";
 import AddMoreImage from "../../assets/AddImg.svg";
@@ -30,10 +35,11 @@ import {
   emtpyRequestImages,
   setEstimatedPrice,
   setExpectedPrice,
+  setRequestDetail,
   setRequestImages,
   setSuggestedImages,
 } from "../../redux/reducers/userRequestsSlice.js";
-import { Feather } from "@expo/vector-icons";
+import { Feather, Octicons } from "@expo/vector-icons";
 import ModalCancel from "../../screens/components/ModalCancel.js";
 import { manipulateAsync } from "expo-image-manipulator";
 import { AntDesign } from "@expo/vector-icons";
@@ -46,11 +52,14 @@ import axiosInstance from "../../utils/logics/axiosInstance";
 import { baseUrl } from "../../utils/logics/constants";
 import axios from "axios";
 import SignUpModal from "../components/SignUpModal";
+import BuyText from "../../assets/Buylowesttext.svg";
+import WhiteArrow from "../../assets/white-right.svg"
 
 const ImageSuggestion = () => {
   const [imagesLocal, setImagesLocal] = useState([]);
   const navigation = useNavigation();
   const route = useRoute();
+  const { category } = route.params;
   const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
   const [cameraScreen, setCameraScreen] = useState(false);
@@ -92,8 +101,9 @@ const ImageSuggestion = () => {
   const userDetails = useSelector((store) => store.user.userDetails);
   const [signUpModal, setSignUpModal] = useState(false);
   const navigationState = useNavigationState((state) => state);
-
-  const isImgSuggestion = navigationState.routes[navigationState.index].name === "image-suggestion";
+  // console.log(category)
+  const isImgSuggestion =
+    navigationState.routes[navigationState.index].name === "image-suggestion";
   useEffect(() => {
     if (requestCategory.includes("Service")) setIsService(true);
   }, []);
@@ -153,10 +163,9 @@ const ImageSuggestion = () => {
           dispatch(setSuggestedImages([]));
 
           navigation.navigate("define-request");
-          setLoading(false)
-
+          setLoading(false);
         } catch (error) {
-          setLoading(false)
+          setLoading(false);
           console.error("Error processing image: ", error);
         }
       }
@@ -225,7 +234,6 @@ const ImageSuggestion = () => {
   };
 
   useEffect(() => {
-
     categoryListedProduct();
   }, []);
 
@@ -248,12 +256,9 @@ const ImageSuggestion = () => {
   //   }
   // }, [isImgSuggestion]);
 
-
-
   const renderProductItem = ({ item }) => (
     <Pressable
       onPress={() => {
-
         handleImagePress(item.productImage);
         setIsSuggestion(true);
         setSelectedImgEstimatedPrice(item.productPrice);
@@ -343,10 +348,8 @@ const ImageSuggestion = () => {
       dispatch(setRequestImages([compressedImage.uri]));
       dispatch(setSuggestedImages([]));
       navigation.navigate("define-request");
-
     }
   };
-
 
   //       if (requestImages || suggestedImages) {
   //         return true;
@@ -378,265 +381,81 @@ const ImageSuggestion = () => {
   //   return <Text>No access to camera</Text>;
   // }
 
-
-
-
   return (
     <>
-      <View
-
-        style={{ flex: 1, backgroundColor: "white" }}
-      >
+      <View style={{ flex: 1, backgroundColor: "white" }}>
         <View style={{ flex: 1 }}>
-          <View className=" flex  mt-[40px] flex-row  items-center  px-[32px]">
+          <View className="relative flex  mt-[40px] flex-row  items-center  px-[32px]">
             <TouchableOpacity
               onPress={() => {
-                navigation.goBack()
+                navigation.goBack();
                 dispatch(setSuggestedImages([]));
                 dispatch(setRequestImages([]));
                 dispatch(setExpectedPrice(0));
                 dispatch(setEstimatedPrice(0));
               }}
-              style={{ paddingHorizontal: 8, paddingVertical: 20 }}
+              style={{
+                paddingHorizontal: 29,
+                paddingVertical: 20,
+                position: "absolute",
+                zIndex:100
+              }}
             >
               <BackArrow width={14} height={10} />
             </TouchableOpacity>
             <Text
-              className="text-[16px] flex flex-1 justify-center text-[#2e2c43] items-center text-center"
-              style={{ fontFamily: "Poppins-ExtraBold" }}
-            >
-              {isService ? "Add Service" : "Select Product"}
-            </Text>
-            <Pressable
-              onPress={() => {
-                if (!userDetails?._id) setSignUpModal(true);
-                else navigation.navigate("define-request");
-              }}
-              className=""
-            >
-              <Text
-                className="text-[16px] text-[#FB8C00]"
-                style={{ fontFamily: "Poppins-Medium" }}
-              >
-                Skip
-              </Text>
-            </Pressable>
-          </View>
-          <View className="mt-[10px] mb-[27px] px-[32px]">
-            {/* <Text
-              className="text-[14.5px] text-[#FB8C00] text-center mb-[15px] "
-              style={{ fontFamily: "Poppins-Medium" }}
-            >
-              Step 2/4
-            </Text> */}
-
-            <View
+              className="text-[16px] flex flex-1 justify-center  items-center text-center"
               style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 10,
+                fontFamily: "Poppins-ExtraBold",
+                fontSize: 30,
+                color: "#fb8c00",
               }}
             >
-              <Text
-                className="text-[14px] text-center text-[#2e2c43]"
-                style={{ fontFamily: "Poppins-Regular" }}
-              >
-                {isService
-                  ? "Share the image of defect"
-                  : "Search any product in the market."}
-              </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  setDescModal(!descModal);
-                }}
-                style={{
-                  width: 25,
-                  height: 25,
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderColor: "red",
-                  borderWidth: 2,
-                  borderRadius: 16,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "red",
-                    fontSize: 16,
-                    fontFamily: "Poppins-SemiBold",
-                  }}
-                >
-                  ?
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-
-            {/* {suggestedImages?.length > 0 ||
-              (requestImages?.length > 0 && (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: 10,
-                  }}
-                >
-                  <Text
-                    className="text-[14px] text-center text-[#2e2c43]"
-                    style={{ fontFamily: "Poppins-Regular" }}
-                  >
-                    {isService
-                      ? "Add more image of defect/damage"
-                      : "Add more product images."}
-                  </Text>
-                </View>
-              ))} */}
-
-            {/* {(suggestedImages?.length > 0 || requestImages?.length > 0) && <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 15, color: '#2e2c43' }}>Add Product</Text>
-                        </View>} */}
+              {category?.title}
+            </Text>
           </View>
-
+          
 
           <View
-            style={{ flexDirection: "row", justifyContent: "space-evenly" }}
+            className="mx-[32px] flex flex-row h-[60px] border-[1px] items-center border-[#fb8c00]  rounded-[24px] mb-[40px] bg-white"
+            style={{ marginTop:10,borderWidth: 1, borderColor: "#fb8c00" ,paddingHorizontal:40}}
           >
-            <TouchableOpacity onPress={() => {
-              if (!userDetails?._id) setSignUpModal(true);
-              else takePicture();
-            }}>
-              <ClickImage />
+            <TouchableOpacity
+              onPress={() => {}}
+              style={{
+                left: 0,
+                paddingLeft: 20,
+                position: "absolute",
+                paddingRight: 20,
+                zIndex: 100,
+              }}
+            >
+              <Octicons name="search" size={16} color={"#fb8c00"} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {
-              if (!userDetails?._id) setSignUpModal(true);
-              else pickImage();
-            }}>
-              <UploadImg />
-            </TouchableOpacity>
+            <TextInput
+              placeholder="Search any product"
+              placeholderTextColor="#fb8c00"
+              onFocus={() => {}}
+              onSubmitEditing={() => {}}
+              className="flex text-center text-[14px] text-[#fb8c00] justify-center items-center flex-1 " // Adjusted padding to center the text
+              style={{ fontFamily: "Poppins-Italic", textAlign: "center" }}
+            />
           </View>
-
-          {/* {(requestImages?.length > 0 || suggestedImages?.length > 0) && (
-            <View>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                style={{ alignSelf: "flex-start" }}
-              >
-                <View style={styles.container}>
-                  <View style={styles.imageContainer}>
-                    {requestImages.map((image, index) => (
-                      <Pressable
-                        key={index}
-                        onPress={() => {
-                          handleImagePress(image);
-                          setIsSuggestion(false);
-                          setSelectedImgEstimatedPrice(0);
-                        }}
-                      >
-                        <View style={styles.imageWrapper}>
-                          <Image source={{ uri: image }} style={styles.image} />
-                          <Pressable
-                            onPress={() => {
-                              deleteImage(index);
-                              setDelImgType("clicked");
-                            }}
-                            style={styles.deleteIcon}
-                          >
-                            <DelImg />
-                          </Pressable>
-                        </View>
-                      </Pressable>
-                    ))}
-                    {suggestedImages.map((image, index) => (
-                      <Pressable
-                        key={index}
-                        onPress={() => {
-                          handleImagePress(image);
-                          setIsSuggestion(false);
-                          setSelectedImgEstimatedPrice(0);
-                        }}
-                      >
-                        <View style={styles.imageWrapper}>
-                          <Image source={{ uri: image }} style={styles.image} />
-                          <Pressable
-                            onPress={() => {
-                              deleteImage(index);
-                              setDelImgType("suggested");
-                            }}
-                            style={styles.deleteIcon}
-                          >
-                            <DelImg />
-                          </Pressable>
-                        </View>
-                      </Pressable>
-                    ))}
-                  </View>
-                </View>
-              </ScrollView>
-              {suggestedImages?.length === 0 && (
-                <TouchableOpacity
-                  onPress={() => setAddMore(!addMore)}
-                  style={{ alignSelf: "flex-start" }}
-                >
-                  <View style={{ marginLeft: 36, marginTop: 45 }}>
-                    <AddMoreImage />
-                  </View>
-                </TouchableOpacity>
-              )}
-            </View>
-          )} */}
-
 
           <View
             style={{
               flex: 1,
               paddingHorizontal: 20,
-              marginTop: 30,
+             
               // marginBottom: 80,
             }}
           >
-            {/* {suggestionImages?.length > 0 && <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 16, paddingHorizontal: 12, paddingBottom: 20 }}>Available stock in the market</Text>}
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, justifyContent: 'space-between' }}>
-
-                            {suggestionImages && suggestionImages.map((suggestionImage, index) => {
-
-                                return (
-                                    <Pressable
-                                        key={index}
-                                        onPress={() => { handleImagePress(suggestionImage.productImage); setIsSuggestion(true); setSelectedImgEstimatedPrice(suggestionImage.productPrice); setSelectedImageDesc(suggestionImage.productDescription) }}
-                                    >
-                                        <Image
-                                            source={{ uri: suggestionImage.productImage }}
-                                            width={154}
-                                            height={200}
-                                            style={{ borderRadius: 16 }}
-                                            loading='lazy'
-                                        />
-                                        <View style={{ position: 'absolute', bottom: 0, width: 154, height: 50, backgroundColor: 'rgba(0,0,0,0.5)', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', borderBottomEndRadius: 16, borderBottomStartRadius: 16 }}>
-                                            {suggestionImage?.productDescription && suggestionImage?.productDescription.length > 0 && <View >
-                                                {suggestionImage?.productDescription.length > 25 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 10, color: 'white' }}>{suggestionImage.productDescription.substring(0, 25)}...</Text>}
-                                                {suggestionImage?.productDescription.length <= 25 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 10, color: 'white' }}>{suggestionImage.productDescription}</Text>}
-                                            </View>}
-                                            <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 8, color: 'white' }}>Estimated Price</Text>
-                                            <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#70b241' }}>Rs {suggestionImage.productPrice}</Text>
-                                        </View>
-
-                                    </Pressable>
-                                )
-                            })}
-                        </View>
-                        {loadMore && !loadingProducts && <TouchableOpacity onPress={() => { categoryListedProduct(); }} style={{ justifyContent: 'center', alignItems: 'center', borderColor: '#fb8c00', borderWidth: 1, marginTop: 20, marginHorizontal: 80, borderRadius: 16 }}>
-                            <Text style={{ fontFamily: 'Poppins-Regular', color: '#fb8c00' }}> View More</Text>
-                        </TouchableOpacity>}
-                        {loadingProducts && (
-                            <View style={{ marginTop: 20 }}>
-                                <ActivityIndicator size="large" color="#fb8c00" />
-                            </View>
-                        )} */}
-            <Text className="text-center  mb-[10px] text-[14px]" style={{ fontFamily: "Poppins-SemiBold" }}>Available stock in the market</Text>
+            <Text
+              className="text-center  mb-[10px] text-[14px]"
+              style={{ fontFamily: "Poppins-SemiBold" }}
+            >
+              Available stock near you
+            </Text>
 
             <FlatList
               data={suggestionImages}
@@ -655,7 +474,7 @@ const ImageSuggestion = () => {
                   categoryListedProduct();
                 }
               }}
-              onEndReachedThreshold={.5}
+              onEndReachedThreshold={0.5}
               ListFooterComponent={
                 loadingProducts ? (
                   <ActivityIndicator
@@ -670,7 +489,6 @@ const ImageSuggestion = () => {
               }}
             />
           </View>
-
         </View>
         <ModalCancel
           modalVisible={modalVisible}
@@ -708,7 +526,6 @@ const ImageSuggestion = () => {
             </View>
           )} */}
 
-
         <Modal visible={descModal} transparent={true}>
           <TouchableOpacity
             onPress={() => {
@@ -733,7 +550,12 @@ const ImageSuggestion = () => {
             onPress={() => {
               handleClose();
             }}
-            style={styles.modalContainer}
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+            }}
           >
             <Animated.View
               style={[
@@ -741,6 +563,10 @@ const ImageSuggestion = () => {
                   transform: [{ scale: scaleAnimation }],
                   justifyContent: "center",
                   alignItems: "center",
+                  backgroundColor: "#fff",
+                  borderRadius: 20,
+                  padding:12,
+                  paddingTop:15
                 },
               ]}
             >
@@ -748,15 +574,16 @@ const ImageSuggestion = () => {
                 onPress={() => {
                   handleClose();
                 }}
+                style={{justifyContent:"center",alignItems:"center",gap:10}}
               >
                 <TouchableOpacity
                   style={{
-                    backgroundColor: "#ffe7c8",
+                    backgroundColor: "#fff",
                     position: "absolute",
                     top: 20,
                     right: 20,
                     zIndex: 100,
-                    padding: 5,
+                    padding: 10,
                     borderRadius: 100,
                   }}
                   onPress={() => {
@@ -767,119 +594,123 @@ const ImageSuggestion = () => {
                 </TouchableOpacity>
                 <Image
                   source={{ uri: selectedImage }}
-                  style={[
-                    styles.modalImage,
-                    // {
-                    //     transform: [{ scale: scaleAnimation }],
-                    // },
-                  ]}
+                  style={{
+                    width: 280,
+                    height: 350,
+                    borderTopLeftRadius: 20,
+                    borderTopRightRadius: 20,
+                    
+                  }}
                 />
                 {(selectedImgEstimatedPrice > 0 ||
                   selectedImageDesc?.length > 0) && (
-                    <View
-                      style={{
-                        position: "absolute",
-                        bottom: 0,
-                        backgroundColor: "rgba(0,0,0,0.5)",
-                        width: 300,
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        paddingVertical: 5,
-                        borderBottomEndRadius: 10,
-                        borderBottomStartRadius: 10,
-                      }}
-                    >
-                      {selectedImageDesc?.length > 0 &&
-                        selectedImageDesc.length > 40 && (
-                          <Text
-                            style={{
-                              color: "white",
-                              fontSize: 14,
-                              fontFamily: "Poppins-Regular",
-                            }}
-                          >
-                            {selectedImageDesc.substring(0, 40)}...
-                          </Text>
-                        )}
-                      {selectedImageDesc?.length > 0 &&
-                        selectedImageDesc.length <= 40 && (
-                          <Text
-                            style={{
-                              color: "white",
-                              fontSize: 14,
-                              fontFamily: "Poppins-Regular",
-                            }}
-                          >
-                            {selectedImageDesc}
-                          </Text>
-                        )}
-                      <Text
-                        style={{
-                          color: "white",
-                          fontSize: 14,
-                          fontFamily: "Poppins-Regular",
-                        }}
-                      >
-                        Estimated Price
-                      </Text>
-                      {selectedImgEstimatedPrice > 0 && (
+                  <View
+                    style={{
+                      position: "absolute",
+                      top:260,
+                      backgroundColor: "rgba(0,0,0,0.5)",
+                      width: 280,
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      paddingVertical:5,
+                      
+                    }}
+                  >
+                    {selectedImageDesc?.length > 0 &&
+                      selectedImageDesc.length > 40 && (
                         <Text
                           style={{
-                            color: "#70b241",
-                            fontSize: 18,
-                            fontFamily: "Poppins-SemiBold",
+                            color: "white",
+                            fontSize: 14,
+                            fontFamily: "Poppins-Regular",
                           }}
                         >
-                          Rs {selectedImgEstimatedPrice}
+                          {selectedImageDesc.substring(0, 40)}...
                         </Text>
                       )}
-                    </View>
-                  )}
-              </Pressable>
-              {isSuggestion && (
-                <Pressable
+                    {selectedImageDesc?.length > 0 &&
+                      selectedImageDesc.length <= 40 && (
+                        <Text
+                          style={{
+                            color: "white",
+                            fontSize: 14,
+                            fontFamily: "Poppins-Regular",
+                          }}
+                        >
+                          {selectedImageDesc}
+                        </Text>
+                      )}
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 14,
+                        fontFamily: "Poppins-Regular",
+                      }}
+                    >
+                      Estimated Price
+                    </Text>
+                    {selectedImgEstimatedPrice > 0 && (
+                      <Text
+                        style={{
+                          color: "#70b241",
+                          fontSize: 18,
+                          fontFamily: "Poppins-SemiBold",
+                        }}
+                      >
+                        Rs {selectedImgEstimatedPrice}
+                      </Text>
+                    )}
+                  </View>
+                )}
+
+                <BuyText width={200}/>
+                <Text style={{ width:280,fontSize: 14,textAlign:"center", fontFamily: "Poppins-Regular",paddingHorizontal:5 }}>
+                  Live unboxing & multi-vendor bargaining
+                </Text>
+
+                <TouchableOpacity
                   onPress={() => {
                     handleCloseSuggestion();
                     if (!userDetails?._id) setSignUpModal(true);
                     else {
-
-                      dispatch(
-                        setSuggestedImages([selectedImage])
-                      );
+                      dispatch(setSuggestedImages([selectedImage]));
                       dispatch(setRequestImages([]));
-
 
                       if (selectedImgEstimatedPrice > 0) {
                         dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
                       }
                       setTimeout(() => {
+                        dispatch(setRequestDetail("Looking for the product in this reference image."));
                         navigation.navigate("define-request");
                       }, 200);
-
-
-
                     }
+                  }}
+                  style={{
+                    backgroundColor: "#fb8c00",
+                    borderRadius:24,
+                    paddingHorizontal: 20,
+                    paddingVertical: 15,
+                    marginTop: 10,
+                    width:280,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection:"row",
+                    gap:20
                   }}
                 >
                   <Text
                     style={{
-                      fontFamily: "Poppins-SemiBold",
-                      backgroundColor: "white",
-                      color: "#fb8c00",
+                      fontFamily: "Poppins-Bold",
+                      color: "#fff",
                       fontSize: 16,
-                      borderWidth: 2,
-                      borderRadius: 16,
-                      borderColor: "#fb8c00",
-                      paddingHorizontal: 20,
-                      paddingVertical: 15,
-                      marginTop: 10,
                     }}
                   >
-                    Add Product to View & Bargaining
+                    Start Bargaining
                   </Text>
-                </Pressable>
-              )}
+                  <WhiteArrow/>
+                </TouchableOpacity>
+              </Pressable>
             </Animated.View>
           </Pressable>
         </Modal>
@@ -935,11 +766,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.7)",
   },
-  modalImage: {
-    width: 300,
-    height: 400,
-    borderRadius: 10,
-  },
+  modalImage: {},
   closeButton: {
     position: "absolute",
     top: 20,

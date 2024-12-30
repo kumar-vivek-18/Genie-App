@@ -57,7 +57,7 @@ export const getGeoCoordinates = async () => {
       return null;
     }
 
-    console.log('statuse', status);
+    // console.log('statuse', status);
 
     // Set location options for higher accuracy and reasonable timeout
     const locationOptions = {
@@ -76,7 +76,7 @@ export const getGeoCoordinates = async () => {
     }
 
 
-    console.log("location from logics", location.coords.latitude, location.coords.longitude);
+    // console.log("location from logics", location.coords.latitude, location.coords.longitude);
 
     return location;
   } catch (error) {
@@ -96,7 +96,7 @@ export const getPreciseGeoCoordinates = async () => {
         return coordinates;
       }
     } catch (error) {
-      console.error(`Attempt ${i + 1} failed:`, error);
+      // console.error(`Attempt ${i + 1} failed:`, error);
       if (i === retries - 1) {
         throw error;
       }

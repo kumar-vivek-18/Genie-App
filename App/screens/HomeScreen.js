@@ -12,6 +12,7 @@ import {
   RefreshControl,
   Animated,
   Linking,
+  FlatList,
 } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -100,6 +101,34 @@ import Tab3 from "../assets/tab3.svg";
 import Tab4 from "../assets/tab4.svg";
 // import Search from "../assets/search.svg";
 import Search from "../assets/search-black.svg";
+import AllCategory from "../assets/AllCategory.png";
+import NewCategory1 from "../assets/NewCategory1.png";
+import NewCategory2 from "../assets/NewCategory2.png";
+import NewCategory3 from "../assets/NewCategory3.png";
+import NewCategory4 from "../assets/NewCategory4.png";
+import NewCategory5 from "../assets/NewCategory5.png";
+import NewCategory6 from "../assets/NewCategory6.png";
+import NewCategory7 from "../assets/NewCategory7.png";
+import NewCategory8 from "../assets/NewCategory8.png";
+import NewCategory9 from "../assets/NewCategory9.png";
+import NewServices1 from "../assets/NewServices1.png";
+import NewServices2 from "../assets/NewServices2.png";
+import NewServices3 from "../assets/NewServices3.png";
+import NewServices4 from "../assets/NewServices4.png";
+import NewServices5 from "../assets/NewServices5.png";
+import NewServices6 from "../assets/NewServices6.png";
+import NewServices7 from "../assets/NewServices7.png";
+import Maintenance from "../assets/Maintenace.svg";
+import NewIcon1 from "../assets/NewIcon1.png";
+import NewIcon2 from "../assets/NewIcon2.png";
+import NewIcon3 from "../assets/Newicon3.png";
+import NewIcon4 from "../assets/NewIcon4.png";
+import NewIcon5 from "../assets/NewIcon5.png";
+import NewIcon6 from "../assets/Newicon6.png";
+import NewIcon7 from "../assets/NewIcon7.png";
+import NewIcon9 from "../assets/NewIcon9.png";
+import NewIcon10 from "../assets/NewIcon10.png";
+import NewIcon from "../assets/NewIcon.png";
 
 import {
   emtpyRequestImages,
@@ -114,50 +143,173 @@ import { useFocusEffect } from "@react-navigation/native";
 import Share from "react-native-share";
 import SignUpModal from "./components/SignUpModal";
 import LocationRefreshModal from "./components/LocationRefreshModal.js";
+import MainBanner from "../assets/MainBanner.svg";
+import ExploreText from "../assets/ExploreText.svg";
+import Banner2 from "../assets/Banner2.svg";
+import CategoryCard from "./components/CategoryCard.js";
+import ServicesCard from "./components/ServicesCard.js";
 
 const { width } = Dimensions.get("window");
 
 const images = [Home0, Home1, Home2, Home3, Home4, Home5, Home6, Home7];
-const categoriess = [
-  { cat: Category2, name: "Fashion/Clothings - Top, bottom, dresses" },
-  { cat: Category4, name: "Fashion Accessories - Shoes, bags etc" },
+const categories = [
   {
-    cat: Category5,
+    id: 1,
+    cat: AllCategory,
+    name: "All Category",
+  },
+  {
+    id: 2,
+    cat: NewCategory1,
+    name: "Fashion/Clothings - Top, bottom, dresses",
+    title: "Fashion",
+    subTitle: "Top, Bottom, Dresses",
+    icon: NewIcon1,
+  },
+  {
+    id: 3,
+    cat: NewCategory2,
     name: "Fashion Accessories - Sharee, suits, kurti & dress materials etc",
+    title: "Sari, Suit",
+    subTitle: "Ready made, Material",
+    icon: NewIcon2,
   },
-  { cat: Category6, name: "Gifts, Kids Games,Toys & Accessories" },
   {
-    cat: Category1,
+    id: 4,
+    cat: NewCategory3,
+    name: "Fashion Accessories - Shoes, bags etc",
+    title: "Shoes, Bag",
+    subTitle: "Casual, Formal, School Traditional",
+    icon: NewIcon3,
+  },
+  {
+    id: 5,
+    cat: NewCategory4,
     name: "Consumer Electronics & Accessories - Home appliances and equipment etc",
+    title: "Electronics",
+    subTitle: "Mobile, laptop, Accessories ",
+    icon: NewIcon4,
   },
-  
-  { cat: Category3, name: "Fashion Accessories - Jewellery, Gold & Diamond" },
-  
 
-  { cat: Category7, name: "Luxury Watches & Service" },
-  { cat: Category8, name: "Hardware - Plumbing, Paint,& Electricity" },
-  { cat: Category9, name: "Sports Nutrition - Whey Pro etc" },
-  { cat: Category10, name: "Hardware - Cement, Hand tools, Powertools etc" },
-  { cat: Category11, name: "Kitchen Utensils & Kitchenware" },
-];
-const servicess = [
   {
-    cat: Service1,
+    id: 6,
+    cat: NewCategory5,
+    name: "Gifts, Kids Games,Toys & Accessories",
+    title: "Gift, Kids",
+    subTitle: "Board, Games, Electric, Toys",
+    icon: NewIcon5,
+  },
+  {
+    id: 7,
+    cat: Category3,
+    name: "Fashion Accessories - Jewellery, Gold & Diamond",
+    title: "Jewel",
+    subTitle: "Silver, Imitation",
+    icon: NewIcon,
+  },
+
+  {
+    id: 8,
+    cat: NewCategory6,
+    name: "Luxury Watches & Service",
+    title: "Watches",
+    subTitle: "Luxury, Digital, Ring, Wall",
+    icon: NewIcon6,
+  },
+
+  {
+    id: 9,
+    cat: NewCategory8,
+    name: "Sports Nutrition - Whey Pro etc",
+    title: "Sports",
+    subTitle: "Whey Pro, Fiber, Shake, Pasta",
+    icon: NewCategory8,
+  },
+
+  {
+    id: 10,
+    cat: NewCategory9,
+    name: "Kitchen Utensils & Kitchenware",
+    title: "Utensils",
+    subTitle: "Kitchen & kitchenware",
+    icon: NewIcon9,
+  },
+
+  {
+    id: 11,
+    cat: NewServices1,
     name: "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc",
+    title: "Appliances",
+    subTitle: "Home, Kitchen, Bath",
+    icon: NewIcon10,
   },
   {
-    cat: Service2,
+    id: 12,
+    cat: NewCategory7,
+    name: "Hardware - Plumbing, Paint,& Electricity",
+    title: "Plumbing",
+    subTitle: "Pipes, Drainage, Sink",
+    icon: NewIcon7,
+  },
+  {
+    id: 13,
+    cat: Category10,
+    name: "Hardware - Cement, Hand tools, Powertools etc",
+    title: "Hardware",
+    subTitle: "Paint, Plumbing, Bath",
+    icon: Category10,
+  },
+  {
+    id: 14,
+    cat: NewServices2,
     name: "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc",
+    title: "Electronics",
+    subTitle: "Mobile, Laptop, Digital device, Repair",
+    icon: NewServices2,
   },
-  // { cat: Service3, name: "Clock Repair & Services" },
-  { cat: Service4, name: "Automotive Parts/Services - 2 wheeler Fuel based" },
-  { cat: Service5, name: "Automotive Parts/Services - 4 wheeler Fuel based" },
   {
-    cat: Service6,
-    name: "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc",
+    id: 15,
+    cat: NewServices3,
+    name: "Luxury Watches & Service",
+    title: "Watches",
+    subTitle: "Luxury, Digital, Ring, Wall",
+    icon: NewServices3,
   },
-  { cat: Service7, name: "Electrical Services & Repair - Electrician" },
+  {
+    id: 16,
+    cat: NewServices4,
+    name: "Electrical Services & Repair - Electrician",
+    title: "Electrician",
+    subTitle: "Home, Wiring,Lights equipments",
+    icon: NewServices4,
+  },
+
+  {
+    id: 17,
+    cat: NewServices5,
+    name: "Automotive Parts/Services - 4 wheeler Fuel based",
+    title: "Car",
+    subTitle: "Parts, Service",
+    icon: NewServices5,
+  },
+  {
+    id: 18,
+    cat: NewServices6,
+    name: "Automotive Parts/Services - 2 wheeler Fuel based",
+    title: "Bike",
+    subTitle: "Parts, Service",
+    icon: NewServices6,
+  },
+  {
+    id: 19,
+    cat: NewServices7,
+    name: "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc",
+    title: "Heavy",
+    subTitle: "Construction, JCB, Truck",
+    icon: NewServices7,
+  },
 ];
+
 const HomeScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -190,7 +342,7 @@ const HomeScreen = () => {
   const [signUpModal, setSignUpModal] = useState(false);
   const userLongitude = useSelector((store) => store.user.userLongitude);
   const userLatitude = useSelector((store) => store.user.userLatitude);
-const [locationRefresh, setLocationRefresh] = useState(false)
+  const [locationRefresh, setLocationRefresh] = useState(false);
   const onStateChange = useCallback((state) => {
     if (state === "ended") {
       setPlaying(false);
@@ -451,7 +603,7 @@ const [locationRefresh, setLocationRefresh] = useState(false)
           });
 
           // Log the categories array to verify
-          console.log(categories);
+          // console.log(categories);
           dispatch(setNearByStoresCategory(categories));
         });
     } catch (error) {
@@ -496,8 +648,8 @@ const [locationRefresh, setLocationRefresh] = useState(false)
             // fetchSpadeDetails(userDetails.unpaidSpades[0]);
           } else {
             // navigation.navigate("requestentry");
-            await fetchNearByStores();
-            navigation.navigate("requestcategory");
+            navigation.navigate("addimg");
+            fetchNearByStores();
           }
           await AsyncStorage.setItem(
             "userDetails",
@@ -550,7 +702,23 @@ const [locationRefresh, setLocationRefresh] = useState(false)
     }
   };
 
-  // console.log('userDetails home', userDetails._id);
+  const [visibleCategories, setVisibleCategories] = useState([]);
+
+  const viewabilityConfig = {
+    itemVisiblePercentThreshold: 50,
+  };
+
+  const onViewableItemsChanged = useRef(({ viewableItems }) => {
+    console.log(
+      "Viewable Items:",
+      viewableItems.map((i) => i.item?.id)
+    );
+    const visibleIds = viewableItems.map((item) => item.item.id);
+    setVisibleCategories((prev) =>
+      Array.from(new Set([...prev, ...visibleIds]))
+    );
+  }).current;
+
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView
@@ -574,11 +742,11 @@ const [locationRefresh, setLocationRefresh] = useState(false)
               bottom: 0,
             }}
           >
-            <HomeScreenBg width={width} />
+            {/* <HomeScreenBg width={width} /> */}
           </View>
         )}
 
-        <View className="w-full flex-row px-[29px] justify-between items-center pt-[20px]">
+        <View className="w-full bg-[#FFDAAC] flex-row px-[29px] justify-between items-center py-[20px]">
           <Pressable
             onPress={() => {
               if (!userDetails?._id) setSignUpModal(true);
@@ -608,14 +776,26 @@ const [locationRefresh, setLocationRefresh] = useState(false)
 
         {!networkError && (
           <View>
-            <View className="w-full bg-white mt-[20px] flex-row px-[30px] gap-2 justify-between h-[max-content] items-center">
+            <View className="w-full bg-white mt-[10px] flex-row px-[30px] gap-2 justify-between h-[max-content] items-center">
               <View className="w-[75%]">
-                <Text
-                  className="text-[14px] pt-[10px] text-[#2e2c43] "
-                  style={{ fontFamily: "Poppins-Black" }}
+                <View
+                  style={{ flexDirection: "row", gap: 4, alignItems: "center" }}
                 >
-                  Location
-                </Text>
+                  <View
+                    style={{
+                      backgroundColor: "#55CD00",
+                      width: 6,
+                      height: 6,
+                      borderRadius: 20,
+                    }}
+                  ></View>
+                  <Text
+                    className="text-[14px] text-[#55CD00] "
+                    style={{ fontFamily: "Poppins-Black" }}
+                  >
+                    Live Location
+                  </Text>
+                </View>
 
                 <Text
                   className="text-[#7c7c7c] text-[14px]"
@@ -698,88 +878,54 @@ const [locationRefresh, setLocationRefresh] = useState(false)
               </View>
             }
 
-            {/* <TouchableOpacity onPress={() => { navigation.navigate('store-search'); }}>
-            <View className="flex-row items-center justify-center bg-[#ffe8cd] mt-[15px] py-[10px] px-[10px] mx-[16px] rounded-2xl border-[1px] border-[#fb8c00] gap-[5px]">
-              <Text className="text-center flex-1 text-[#fb8c00]" style={{ fontFamily: "Poppins-Regular" }}>Search stores</Text>
-              <Octicons name="search" size={19} style={{ color: '#fb8c00' }} />
-            </View>
-          </TouchableOpacity> */}
-
-            {/* <View className=" relative mt-[20px]  h-[140px] flex-row justify-center scale-50 items-center">
-            
-            <Image source={require('../assets/Genie-Icon.png')} />
-          </View> */}
-
-            <View className="mt-[20px] ">
-              <View className="flex-col items-center justify-center px-[10px]">
-                <Text
-                  className="text-center  text-[#fb8c00] text-[14px]"
-                  style={{ fontFamily: "Poppins-Regular" }}
-                >
-                  Ask Genie for any shopping item or maintenance service you
-                  need.{" "}
-                </Text>
-                <Text
-                  className="text-center mt-[4px]  text-[#fb8c00] text-[14px]"
-                  style={{ fontFamily: "Poppins-Black" }}
-                >
-                  Start your live shopping now.{" "}
-                </Text>
-              </View>
-              <TouchableOpacity
-                // onPress={() => {
-                //   navigation.navigate("store-search");
-                // }}
-                onPress={() => {
-                  fetchUserDetailsToCreateSpade();
-                }}
-                // disabled={createSpadeLoading }
-                // className="mx-[16px] mt-[16px]"
-                style={{marginTop:20,marginBottom:10,width:width,flexDirection:"row",justifyContent:"center",alignContent:"center" }}
-              >
-                <View style={{width:.95*width,height:60,flexDirection:"row",justifyContent:"center",alignItems:"center",backgroundColor:"white",borderColor:"#fb8c00",borderWidth:1,borderRadius:20}} >
-                  {!createSpadeLoading ? (
-                    <Tab3 style={{ position: "absolute", left: 20 }} />
-                  ) : (
-                    <ActivityIndicator
-                      color="#fb8c00"
-                      style={{ position: "absolute", left: 20 }}
-                    />
-                  )}
-                  <View
-                    style={{ paddingHorizontal: 20, width: "80%" }}
-                    className=" flex flex-row justify-center gap-[20px] items-center"
-                  >
-                    <View className="bg-[#55CD00] w-[10px] h-[10px] rounded-full"></View>
-
-                    <Text
-                      style={{
-                        fontFamily: "Poppins-Italic",
-                        fontSize: 14,
-                        color: "#fb8c00",
-                        paddingRight: 10,
-                        textAlign: "center",
+            <View
+              style={{
+                backgroundColor: "#ffdaac",
+                paddingTop: 20,
+                paddingBottom: 10,
+              }}
+            >
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View style={{ flexDirection: "row", paddingLeft: 20 }}>
+                  {categories.map((category) => (
+                    <TouchableOpacity
+                      key={category.id}
+                      style={{ marginRight: 10 }}
+                      onPress={() => {
+                        if (category.id === 1) {
+                          navigation.navigate("newhome");
+                        } else {
+                          dispatch(setRequestCategory(category.name));
+                          navigation.navigate("image-suggestion", {
+                            category: category,
+                          });
+                        }
                       }}
                     >
-                      Start Live Shopping
-                    </Text>
-                    <View>
-                      <SmallArrow />
-                    </View>
-                  </View>
+                      <Image
+                        source={category.cat}
+                        style={{
+                          width: 100,
+                          height: 120,
+                          // aspectRatio: 1,
+                        }}
+                        resizeMode="contain"
+                      />
+                    </TouchableOpacity>
+                  ))}
                 </View>
-              </TouchableOpacity>
+              </ScrollView>
             </View>
 
-            <View>
+            <View style={{ backgroundColor: "#ffdaac", paddingBottom: 10 }}>
               {currentVersion &&
                 currentVersion !== DeviceInfo.getVersion().toString() && (
                   <View
                     style={{
-                      backgroundColor: "white",
+                      backgroundColor: "#ffffff",
                       marginHorizontal: 10,
                       borderRadius: 16,
-                      marginTop: 20,
+                      marginTop: 10,
                     }}
                   >
                     <View className="flex-row px-[20px] py-[20px] gap-[30px] justify-center itmes-center ">
@@ -821,245 +967,88 @@ const [locationRefresh, setLocationRefresh] = useState(false)
                 )}
             </View>
 
-            <View style={{position:"relative",backgroundColor:"transparent"}}>
-              <Text
-                className="text-[16px] text-center my-[40px] text-[#fb8c00]"
-                style={{ fontFamily: "Poppins-ExtraBold" }}
-              >
-                Shop By Categories
-              </Text>
-              <View
-                style={{
-                  width: "100%",
-                  // backgroundColor: "white",
-                  justifyContent: "center",
-                  alignItems: "center",
+            <View
+              style={{
+                backgroundColor: "#fff",
+                paddingBottom: 10,
+                paddingHorizontal: 2,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => {
+                  fetchUserDetailsToCreateSpade();
                 }}
               >
-                <View
-                  style={{
-                    width: "100%",
-                    paddingHorizontal: 10,
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    justifyContent: "space-between",
-                  }}
-                >
-                 
-                  {categoriess.map((Category, index) => (
-                    <TouchableOpacity
-                      key={index}
-                      style={{ paddingTop: 10 }}
-                      onPress={() => {
-                        dispatch(setRequestCategory(Category.name));
-                        navigation.navigate("image-suggestion");
-                      }}
-                    >
-                      <Image
-                        source={Category.cat}
-                        style={{
-                          width: 0.465 * width,
-                          height: 201,
-                          // aspectRatio: 1,
-                        }}
-                        resizeMode="contain"
-                      />
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              </View>
-
-              <Text
-                className="text-[16px] text-center  text-[#fb8c00] my-[40px]"
-                style={{ fontFamily: "Poppins-ExtraBold" }}
-              >
-                Service By Categories
-              </Text>
-              <View
-                style={{
-                  width: "100%",
-                  // backgroundColor: "white",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <View
-                  style={{
-                    width: "100%",
-                    paddingHorizontal: 10,
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    justifyContent: "space-between",
-                    marginBottom: 100,
-                  }}
-                >
-                  
-
-                  {servicess.map((Service, index) => (
-                    <TouchableOpacity
-                      key={index}
-                      style={{ paddingTop: 10 }}
-                      onPress={() => {
-                        dispatch(setRequestCategory(Service.name));
-                        navigation.navigate("image-suggestion");
-                      }}
-                    >
-                      <Image
-                        source={Service.cat}
-                        style={{
-                          width: 0.465 * width,
-                          height: 201,
-                          // aspectRatio: 1,
-                        }}
-                        resizeMode="contain"
-                      />
-                    </TouchableOpacity>
-                  ))}
-                </View>
+                <MainBanner width={width - 10} />
+              </TouchableOpacity>
+              <View>
+                <ExploreText width={width - 20} />
+                <Banner2 width={width - 20} />
               </View>
             </View>
 
-            {/* How it works when user have no ongoing requests */}
-
-            {/* {(currentVersion && currentVersion === DeviceInfo.getVersion().toString() && spades.length === 0) && !networkError && !spadesLoading && (
-            <View className="">
-              <Text className=" text-text text-[16px] text-center mt-[50px]" style={{ fontFamily: "Poppins-Bold" }}>
-                How it works?
-              </Text>
-              <View className=" flex flex-col  mt-[24px]">
-                <HomeMain width={width} />
-                <YouTubeIframe
-                  height={250}
-                  videoId={'f3WwRCuu7F8'}
-                  play={playing}
-                  onChangeState={onStateChange}
-                />
-                <Text className="text-[#3f3d56] text-[14px] text-center px-[32px]" style={{ fontFamily: "Poppins-Bold" }}>
-                  Bargaining is the consumer's right Because money doesn't grow on trees.
-                </Text>
-              </View>
-              <View className="px-[38px] flex flex-col gap-[38px] mt-[40px]">
-                <Text className="text-[#3f3d56] text-[14px] text-center" style={{ fontFamily: "Poppins-Regular" }}>
-                  Now bargaining is possible from your couch. Do you want anything new or to service the old one?
-                </Text>
-                <Text className="text-[#3f3d56] text-[14px] text-center" style={{ fontFamily: "Poppins-Regular" }}>
-                  Connect with nearby vendors and bargain for the lowest prices for your shopping products.You can also avail any types of maintenance services here, like plumber, electrician,carpenter & lot more.</Text>
-              </View>
-              <View style={styles.scrollcontainer}>
-                <ScrollView
-                  horizontal
-                  // pagingEnabled
-                  showsHorizontalScrollIndicator={false}
-                  onScroll={handleScroll}
-                  // scrollEventThrottle={16}
-                  ref={scrollViewRef}
-                >
-                  {images.map((uri, index) => (
-                    <View key={index} className="flex-row rounded-2xl my-[10px] shadow-2xl " style={{ width: 285, height: 343, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} >
-
-                      <View className="scale-50">
-                        <Image source={uri} />
-                      </View>
-
-                    </View>
-
-                  ))}
-                </ScrollView>
-
-                <View style={styles.indicatorContainer}>
-                  {images.map((_, index) => (
-                    <View
-                      key={index}
-                      style={[
-                        styles.indicator,
-                        {
-                          backgroundColor:
-                            index <= currentIndex ? "orange" : "grey",
-                        },
-
-                      ]}
-                    />
-                  ))}
-                </View>
-              </View>
+            <View
+              style={{
+                width: width,
+                position: "relative",
+                backgroundColor: "#fff",
+                justifyContent: "center",
+                gap: 30,
+                marginTop: 20,
+              }}
+            >
+              {/* <FlatList
+                data={categories.slice(1, 11)}
+                renderItem={({ item }) => <CategoryCard category={item} />}
+                keyExtractor={(item) => item.id.toString()}
+              /> */}
+              <FlatList
+                nestedScrollEnabled={true}
+                data={categories.slice(1, 11)}
+                renderItem={({ item }) => (
+                  <CategoryCard
+                    category={item}
+                    isVisible={visibleCategories.includes(item.id)}
+                  />
+                )}
+                keyExtractor={(item) => item.id.toString()}
+                onViewableItemsChanged={onViewableItemsChanged}
+                viewabilityConfig={viewabilityConfig}
+              />
             </View>
-          )} */}
+            <View
+              style={{
+                backgroundColor: "#fff",
+                paddingVertical: 20,
 
-            {/* Ongoing requests  */}
-
-            {/* {(currentVersion && currentVersion !== DeviceInfo.getVersion().toString() || spades.length > 0) && !networkError && !spadesLoading && (
-            <View>
-              <Text
-                className={`text-center  text-text my-[33px]`}
-                style={{ fontFamily: "Poppins-Bold" }}
-              >
-                Your ongoing requests
-              </Text>
-
-              {currentVersion && currentVersion !== DeviceInfo.getVersion().toString() &&
-                <View style={styles.container}>
-
-                  <View className="flex-row px-[20px] py-[20px] gap-[30px]  ">
-                    <MobileIcon />
-                    <View className=" w-[75%]">
-                      <Text className="text-[#2e2c43] text-[16px]" style={{ fontFamily: 'Poppins-Regular' }}>New update available! Enjoy the new release features.</Text>
-                      <TouchableOpacity onPress={() => { Linking.openURL("https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie") }} style={{ flexDirection: 'row', gap: 40, alignItems: 'center', paddingTop: 10 }}>
-                        <Text className="text-[16px] text-[#fb8c00]" style={{ fontFamily: 'Poppins-Black' }}>Update Now</Text>
-                        <RightArrow />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-
-                </View>
-              }
-              {spades.map((spade, index) => (
-                <Pressable
-                  key={index}
-                  onPress={() => {
-                    dispatch(setCurrentSpade(spade));
-                    navigation.navigate("activerequest");
-                  }}
-                >
-                  <View style={styles.container}>
-                    {
-                      spade?.unread && <View style={styles.dot}></View>
-                    }
-                    <View style={styles.imageContainer}>
-                      {spade.requestImages.length > 0 ? (<Image
-                        source={{ uri: spade.requestImages[0] }}
-                        style={styles.image}
-                      />) : (<SpadeIcon width={95} height={95} />)}
-                    </View>
-
-                    <View className="w-10/12 px-[10px]">
-                      <View className="flex flex-wrap w-[70%] pb-1 ">
-                        <Text className="text-[14px] w-full flex flex-wrap " style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>
-                      </View>
-
-                      <View style={styles.priceRow}>
-                        <Text style={styles.priceText}>Expected Price:</Text>
-                        <Text style={styles.priceValue}>
-                          {spade?.expectedPrice > 0 ? `${spade?.expectedPrice} Rs` : 'Na'}
-                        </Text>
-                      </View>
-
-                      <View style={styles.infoRow}>
-                        <View style={styles.infoItem}>
-                          <Time />
-                          <Text style={styles.infoText}>{spade?.createdAt}</Text>
-                        </View>
-                        <View style={styles.infoItem}>
-                          <Calender />
-                          <Text style={styles.infoText}>{spade?.updatedAt}</Text>
-                        </View>
-                      </View>
-                    </View>
-                  </View>
-                </Pressable>
-              ))}
-
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Maintenance width={width - 10} height={320} />
             </View>
-          )} */}
+
+            <View
+              style={{
+                width: width,
+                position: "relative",
+                backgroundColor: "#fff",
+                justifyContent: "center",
+                gap: 30,
+                marginTop: 20,
+              }}
+            >
+              <FlatList
+                data={categories.slice(11)}
+                nestedScrollEnabled={true}
+                renderItem={({ item }) => <ServicesCard category={item} isVisible={visibleCategories.includes(item.id)} />}
+                keyExtractor={(item) => item.id.toString()}
+                onViewableItemsChanged={onViewableItemsChanged}
+                viewabilityConfig={viewabilityConfig}
+              />
+            </View>
 
             {/* {spadesLoading && <View className="py-[150px]"><ActivityIndicator size={30} color={'#fb8c00'} /></View>} */}
           </View>
@@ -1139,11 +1128,10 @@ const [locationRefresh, setLocationRefresh] = useState(false)
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              if(!userLongitude || !userLatitude){
-                 setLocationRefresh(true);
-              }
-              else{
-              navigation.navigate("store-search");
+              if (!userLongitude || !userLatitude) {
+                setLocationRefresh(true);
+              } else {
+                navigation.navigate("store-search");
               }
             }}
             style={{
@@ -1182,10 +1170,12 @@ const [locationRefresh, setLocationRefresh] = useState(false)
           </TouchableOpacity>
         </View>
       </View>
-      {
-        locationRefresh &&
-        <LocationRefreshModal locationRefresh={locationRefresh} setLocationRefresh={setLocationRefresh}/>
-      }
+      {locationRefresh && (
+        <LocationRefreshModal
+          locationRefresh={locationRefresh}
+          setLocationRefresh={setLocationRefresh}
+        />
+      )}
       {signUpModal && (
         <SignUpModal
           signUpModal={signUpModal}

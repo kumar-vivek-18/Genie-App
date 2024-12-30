@@ -24,7 +24,7 @@ import ClickImage from "../../assets/ClickImg.svg";
 import AddMoreImage from "../../assets/AddImg.svg";
 import DelImg from "../../assets/delImg.svg";
 import PriceInfo from "../../assets/priceModalInfo.svg";
-import ReferenceImg from "../../assets/ReferenceImgModal.svg";
+import ReferenceImg from "../../assets/ServiceReference.svg";
 import Tailless from "../../assets/taillessright-arrow.svg";
 import {
   FontAwesome,
@@ -55,7 +55,7 @@ import GreyArrow from "../../assets/grey-right.svg";
 
 
 const { width, height } = Dimensions.get("window");
-const AddImageScreen = () => {
+const ServiceRequest = () => {
   const [imagesLocal, setImagesLocal] = useState([]);
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -442,7 +442,7 @@ const AddImageScreen = () => {
                 </View>
               )}
 
-              <View style={{ marginVertical: 20 }}>
+              {/* <View style={{ marginVertical: 20 }}>
                 <View className="relative mb-[20px]">
                   <Text
                     style={{
@@ -493,7 +493,7 @@ const AddImageScreen = () => {
                   </View>
                   <Tailless />
                 </TouchableOpacity>
-              </View>
+              </View> */}
 
               <View className="relative mb-[20px]">
                 <Text
@@ -610,7 +610,7 @@ const AddImageScreen = () => {
                 </ScrollView>
               </View>
 
-              <View style={{ marginVertical: 20 }}>
+              {/* <View style={{ marginVertical: 20 }}>
                 <View className="relative mb-[20px]">
                   <Text
                     style={{
@@ -684,7 +684,7 @@ const AddImageScreen = () => {
                     }}
                   />
                 </View>
-              </View>
+              </View> */}
               <View
                 style={{
                   backgroundColor: "#fff",
@@ -692,6 +692,7 @@ const AddImageScreen = () => {
                   paddingHorizontal: 2,
                   justifyContent: "center",
                   alignItems: "center",
+                  marginTop:20
                 }}
               >
                 <Banner2 width={width - 20} />
@@ -716,7 +717,7 @@ const AddImageScreen = () => {
               } else {
                 dispatch(setExpectedPrice(0));
               }
-              navigation.navigate("requestpreview");
+              navigation.navigate("servicerequestpreview");
             }}
             style={{
               position: "absolute",
@@ -740,7 +741,7 @@ const AddImageScreen = () => {
                 color: !query || !requestCategory ? "#888888" : "white",
               }}
             >
-              Request Preview
+              Preview and  send request
             </Text>
             {
               !query || !requestCategory ? ( <GreyArrow width={20} height={20}/>):(<WhiteArrow width={20} height={20} />)
@@ -868,4 +869,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddImageScreen;
+export default ServiceRequest;

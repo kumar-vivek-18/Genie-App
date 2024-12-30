@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -30,7 +31,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { socket } from "../../utils/scoket.io/socket";
 import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
+import Banner2 from "../../assets/Banner2.svg";
+import WhiteArrow from "../../assets/white-right.svg";
 
+const {width,height}=Dimensions.get("window")
 const RequestPreviewScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
@@ -41,18 +45,22 @@ const RequestPreviewScreen = () => {
     (store) => store.userRequest.requestCategory
   );
   const requestImages = useSelector((store) => store.userRequest.requestImages);
-  const suggestedImages = useSelector(store => store.userRequest.suggestedImages);
+  const suggestedImages = useSelector(
+    (store) => store.userRequest.suggestedImages
+  );
   const expectedPrice = useSelector((store) => store.userRequest.expectedPrice);
   const spadePrice = useSelector((store) => store.userRequest.spadePrice);
-  const spadeCouponCode = useSelector(store => store.userRequest.spadeCouponCode);
+  const spadeCouponCode = useSelector(
+    (store) => store.userRequest.spadeCouponCode
+  );
   const spades = useSelector((store) => store.user.spades);
-  const userLongitude = useSelector(store => store.user.userLongitude);
-  const userLatitude = useSelector(store => store.user.userLatitude);
+  const userLongitude = useSelector((store) => store.user.userLongitude);
+  const userLatitude = useSelector((store) => store.user.userLatitude);
   const dispatch = useDispatch();
   // console.log('userData', userDetails);
   const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const accessToken = useSelector(store => store.user.accessToken);
+  const accessToken = useSelector((store) => store.user.accessToken);
 
   // console.log('expected Price', expectedPrice > 0 ? "HII" : expectedPrice);
   // console.log("spadePride", spadePrice);
@@ -69,7 +77,6 @@ const RequestPreviewScreen = () => {
   // else {
   //   setExpectedPrice(0);
   // }
-
 
   // }, [])
   console.log(
@@ -99,45 +106,58 @@ const RequestPreviewScreen = () => {
       userLatitude
     );
 
-
     const formData = new FormData();
 
     requestImages?.forEach((image, index) => {
-      formData.append('requestImages', {
+      formData.append("requestImages", {
         uri: image,
-        type: 'image/jpeg', // Adjust this based on the image type
+        type: "image/jpeg", // Adjust this based on the image type
         name: `photo-${Date.now()}-${index}.jpg`, // Adjust this based on the image name
       });
     });
 
-    formData.append('customerID', userDetails._id);
-    formData.append('request', requestDetail);
-    formData.append('requestCategory', requestCategory);
-    formData.append('expectedPrice', expectedPrice > 0 ? expectedPrice : 0);
-    formData.append('spadePrice', userDetails.freeSpades > 0 ? 0 : spadePrice);
-    formData.append('appliedCoupon', spadeCouponCode.length > 0 ? spadeCouponCode : "NA");
-    formData.append('longitude', userLongitude !== 0 ? userLongitude : userDetails.longitude);
-    formData.append('latitude', userLatitude !== 0 ? userLatitude : userDetails.latitude);
-    formData.append('suggestedImages', suggestedImages);
+    formData.append("customerID", userDetails._id);
+    formData.append("request", requestDetail);
+    formData.append("requestCategory", requestCategory);
+    formData.append("expectedPrice", expectedPrice > 0 ? expectedPrice : 0);
+    formData.append("spadePrice", userDetails.freeSpades > 0 ? 0 : spadePrice);
+    formData.append(
+      "appliedCoupon",
+      spadeCouponCode.length > 0 ? spadeCouponCode : "NA"
+    );
+    formData.append(
+      "longitude",
+      userLongitude !== 0 ? userLongitude : userDetails.longitude
+    );
+    formData.append(
+      "latitude",
+      userLatitude !== 0 ? userLatitude : userDetails.latitude
+    );
+    formData.append("suggestedImages", suggestedImages);
 
     setLoading(true);
     try {
       const config = {
-        headers: { // Use "headers" instead of "header"
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${accessToken}`,
-        }
+        headers: {
+          // Use "headers" instead of "header"
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${accessToken}`,
+        },
       };
       const response = await axiosInstance.post(
-        `${baseUrl}/user/createrequest`, formData, config
+        `${baseUrl}/user/createrequest`,
+        formData,
+        config
       );
 
       console.log("created request data", response.data);
 
       if (response.status === 201) {
-
         dispatch(setUserDetails(response.data.userDetails));
-        await AsyncStorage.setItem('userDetails', JSON.stringify(response.data.userDetails));
+        await AsyncStorage.setItem(
+          "userDetails",
+          JSON.stringify(response.data.userDetails)
+        );
 
         let res = response.data.userRequest;
         const dateTime = formatDateTime(res.updatedAt);
@@ -152,22 +172,23 @@ const RequestPreviewScreen = () => {
         }, 3000);
         // dispatch(setCreatedRequest(res));
 
-        socket.emit('new request', response.data.userRequest._id);
+        socket.emit("new request", response.data.userRequest._id);
         //make redux to its inital state
 
         const notification = {
           uniqueTokens: response.data.uniqueTokens,
           title: userDetails?.userName,
           body: requestDetail,
-          image: response.data?.userRequest?.requestImages?.length > 0 ? response.data?.userRequest?.requestImages[0] : "",
-
+          image:
+            response.data?.userRequest?.requestImages?.length > 0
+              ? response.data?.userRequest?.requestImages[0]
+              : "",
         };
 
         await NewRequestCreated(notification);
 
         // dispatch(emtpyRequestImages());
         dispatch(requestClear());
-
       } else {
         // dispatch(emtpyRequestImages());
         // dispatch(requestClear());
@@ -185,20 +206,36 @@ const RequestPreviewScreen = () => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView style={{ flex: 1 }}>
-        <Pressable onPress={() => navigation.goBack()} style={{ position: 'absolute', paddingHorizontal: 36, paddingVertical: 50, zIndex: 100 }}>
+        <Pressable
+          onPress={() => navigation.goBack()}
+          style={{
+            position: "absolute",
+            paddingHorizontal: 36,
+            paddingVertical: 50,
+            zIndex: 100,
+          }}
+        >
           <BackArrow />
         </Pressable>
         <View className=" flex flex-row items-center mt-[40px] mb-[24px] px-[24px]">
-
-          <Text className="flex flex-1 justify-center text-[#2e2c43] items-center text-center text-[16px]  " style={{ fontFamily: "Poppins-Bold" }}>
+          <Text
+            className="flex flex-1 justify-center text-[#2e2c43] items-center text-center text-[16px]  "
+            style={{ fontFamily: "Poppins-Bold" }}
+          >
             Request Preview
           </Text>
         </View>
         <View className="px-[32px]">
-          <Text className="text-[14px]  text-[#2e2c43]" style={{ fontFamily: "Poppins-Black" }}>
+          <Text
+            className="text-[14px]  text-[#2e2c43]"
+            style={{ fontFamily: "Poppins-Black" }}
+          >
             Spades of my master
           </Text>
-          <Text className="text-[14px] text-[#2e2c43] w-4/5 mt-[5px]" style={{ fontFamily: "Poppins-Regular" }}>
+          <Text
+            className="text-[14px] text-[#2e2c43] w-4/5 mt-[5px]"
+            style={{ fontFamily: "Poppins-Regular" }}
+          >
             {requestDetail}
           </Text>
         </View>
@@ -212,16 +249,25 @@ const RequestPreviewScreen = () => {
           </Text>
         </View> */}
         <View className="px-[32px] pt-[20px]">
-          <Text className="text-[14px]  text-[#2e2c43]" style={{ fontFamily: "Poppins-Black" }}>
+          <Text
+            className="text-[14px]  text-[#2e2c43]"
+            style={{ fontFamily: "Poppins-Black" }}
+          >
             Category
           </Text>
-          <Text className="text-[14px] text-[#2e2c43]  mt-[5px]" style={{ fontFamily: "Poppins-Regular" }}>
+          <Text
+            className="text-[14px] text-[#2e2c43]  mt-[5px]"
+            style={{ fontFamily: "Poppins-Regular" }}
+          >
             {requestCategory}
           </Text>
         </View>
 
         <View className=" mt-[20px]">
-          <Text className="text-[14px] px-[32px]  text-[#2e2c43]" style={{ fontFamily: "Poppins-Black" }}>
+          <Text
+            className="text-[14px] px-[32px]  text-[#2e2c43]"
+            style={{ fontFamily: "Poppins-Black" }}
+          >
             Reference images for vendors
           </Text>
           <ScrollView
@@ -231,9 +277,9 @@ const RequestPreviewScreen = () => {
               flexDirection: "row",
               gap: 10,
               paddingVertical: 15,
-              paddingHorizontal:32
+              paddingHorizontal: 32,
             }}
-            style={{ alignSelf: 'flex-start' }}
+            style={{ alignSelf: "flex-start" }}
           >
             {requestImages &&
               requestImages?.map((image, index) => (
@@ -259,11 +305,29 @@ const RequestPreviewScreen = () => {
               ))}
           </ScrollView>
         </View>
+
+        <View
+          style={{
+            backgroundColor: "#fff",
+            paddingBottom: 10,
+            paddingHorizontal: 2,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Banner2 width={width - 20} />
+        </View>
         <View className="mx-[32px] mt-[30px] mb-[100px]">
-          <Text className=" text-[14px]  text-[#2e2c43]   mb-[6px] " style={{ fontFamily: "Poppins-Bold" }}>
+          <Text
+            className=" text-[14px]  text-[#2e2c43]   mb-[6px] "
+            style={{ fontFamily: "Poppins-Bold" }}
+          >
             Your expected price
           </Text>
-          <Text className="text-[24px] text-[#558b2f] mb-[20px] border-b-[1px] border-[#e7e7e7] border-opacity-5" style={{ fontFamily: "Poppins-ExtraBold" }}>
+          <Text
+            className="text-[24px] text-[#558b2f] mb-[20px] border-b-[1px] border-[#e7e7e7] border-opacity-5"
+            style={{ fontFamily: "Poppins-ExtraBold" }}
+          >
             {expectedPrice === 0 ? "NaN" : `${expectedPrice} Rs`}
           </Text>
           {/* <Text className=" text-[14px] text-[#2e2c43] mb-[6px] " style={{ fontFamily: "Poppins-Bold" }}>
@@ -273,17 +337,22 @@ const RequestPreviewScreen = () => {
             {spadeCouponCode.length > 0 ? spadeCouponCode : "NA"}
           </Text> */}
 
-          <Text className=" text-[14px] text-[#2e2c43] mb-[6px] mt-[0px] " style={{ fontFamily: "Poppins-Bold" }}>
+          <Text
+            className=" text-[14px] text-[#2e2c43] mb-[6px] mt-[0px] "
+            style={{ fontFamily: "Poppins-Bold" }}
+          >
             Cost for this request
           </Text>
-          <Text className="text-[18px]  text-[#558b2f] pb-[20px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
+          <Text
+            className="text-[18px]  text-[#558b2f] pb-[20px]"
+            style={{ fontFamily: "Poppins-ExtraBold" }}
+          >
             {userDetails.freeSpades > 0 ? 0 : spadePrice} Rs
           </Text>
         </View>
         {isVisible && (
           <SuccessPopup isVisible={isVisible} setIsVisible={setIsVisible} />
         )}
-
       </ScrollView>
       <View className=" absolute bottom-0 left-0 right-0">
         <TouchableOpacity
@@ -295,9 +364,15 @@ const RequestPreviewScreen = () => {
             {loading ? (
               <ActivityIndicator size="small" color="#ffffff" />
             ) : (
-              <Text className="text-white text-[18px] " style={{ fontFamily: "Poppins-Black" }}>
-                Send Bargaining Request
+              <View style={{flexDirection:"row",gap:10,justifyContent:"center",alignItems:"center"}}>
+              <Text
+                className="text-white text-[18px] "
+                style={{ fontFamily: "Poppins-BlackItalic" }}
+              >
+                Get best price deals
               </Text>
+              <WhiteArrow width={20} height={20}/>
+              </View>
             )}
           </View>
         </TouchableOpacity>
