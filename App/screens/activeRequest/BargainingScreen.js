@@ -84,6 +84,7 @@ import axiosInstance from "../../utils/logics/axiosInstance";
 import NetworkError from "../components/NetworkError";
 import StoreIcon from "../../assets/StoreIcon.svg";
 import CloseParticularChatModal from "../components/CloseParticularChatModal";
+import FastImage from "react-native-fast-image";
 
 const BargainingScreen = () => {
   const navigation = useNavigation();
@@ -828,7 +829,7 @@ const BargainingScreen = () => {
       }}
     >
       <View className="rounded-3xl">
-        <Image
+        <FastImage
           source={{ uri: item }}
           width={174}
           height={232}
@@ -895,7 +896,7 @@ const BargainingScreen = () => {
               >
                 <View className=" bg-white rounded-full">
                   {currentSpadeRetailer?.retailerId?.storeImages.length > 0 ? (
-                    <Image
+                    <FastImage
                       source={{
                         uri: currentSpadeRetailer?.retailerId?.storeImages[0],
                       }}

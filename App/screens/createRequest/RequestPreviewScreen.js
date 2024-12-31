@@ -33,6 +33,7 @@ import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
 import Banner2 from "../../assets/Banner2.svg";
 import WhiteArrow from "../../assets/white-right.svg";
+import FastImage from "react-native-fast-image";
 
 const {width,height}=Dimensions.get("window")
 const RequestPreviewScreen = () => {
@@ -289,7 +290,10 @@ const RequestPreviewScreen = () => {
                     width={174}
                     height={232}
                     className="rounded-3xl border-1 border-b-[1px] border-[#cdcdd6]"
+                    
+
                   />
+
                 </View>
               ))}
             {suggestedImages &&

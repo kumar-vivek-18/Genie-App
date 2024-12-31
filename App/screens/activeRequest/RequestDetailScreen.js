@@ -33,6 +33,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import axiosInstance from '../../utils/logics/axiosInstance';
 import NetworkError from '../components/NetworkError';
 import StoreIcon from '../../assets/StoreIcon.svg';
+import FastImage from 'react-native-fast-image';
 
 const RequestDetail = () => {
     const navigation = useNavigation();
@@ -441,7 +442,7 @@ const RequestDetail = () => {
 
                                             </View>}
                                             {details && <View className="flex-row px-[34px] gap-[20px] h-[96px] w-screen items-center border-b-[1px] border-[#f1f1f7] ">
-                                                {details?.retailerId?.storeImages?.length > 0 ? (<Image
+                                                {details?.retailerId?.storeImages?.length > 0 ? (<FastImage
                                                     source={{ uri: details?.retailerId?.storeImages[0] }}
                                                     style={styles.image}
                                                 />) : (<StoreIcon />)}

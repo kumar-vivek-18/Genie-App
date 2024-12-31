@@ -10,7 +10,7 @@ import { setRequestCategory } from "../../redux/reducers/userRequestsSlice";
 import { baseUrl } from "../../utils/logics/constants";
 import axios from "axios";
 import { setCategoryImages } from "../../redux/reducers/categorySlice";
-// import FastImage from "react-native-fast-image";
+import FastImage from "react-native-fast-image";
 
 const { width, height } = Dimensions.get("window");
 
@@ -62,7 +62,7 @@ useEffect(() => {
     setModalVisible(true);
 
  
-    Animated.timing(scaleValue, {
+    Animated.spring(scaleValue, {
           toValue: 1,
           duration: 300,
           useNativeDriver: true,
@@ -70,9 +70,9 @@ useEffect(() => {
   };
 
   const closeImageModal = () => {
-     Animated.timing(scaleValue, {
+     Animated.spring(scaleValue, {
           toValue: 0,
-          duration: 100,
+          duration: 300,
           useNativeDriver: true,
         }).start(() => setSelectedImage(null));
    
@@ -120,13 +120,14 @@ useEffect(() => {
           </Text>
         </View>
         <View style={{ flex: 1 }}>
-          <Image
+          <FastImage
             source={category.icon}
             style={{
               width: 100,
               height: 100,
             }}
-            resizeMode="contain"
+            resizeMode={FastImage.resizeMode.contain}
+
           />
         </View>
       </View>
@@ -192,7 +193,7 @@ useEffect(() => {
           >
             {images.slice(0, 4).map((item) => (
               <TouchableOpacity key={item._id} onPress={() => openImageModal(item?.productImage)}>
-                {/* <FastImage
+                <FastImage
                   source={{ uri: item?.productImage }}
                   style={{
                     width: width * 0.38, // Adjust width to fit items within rows
@@ -202,7 +203,7 @@ useEffect(() => {
                   }}
                   resizeMode={FastImage.resizeMode.cover}
                
-                /> */}
+                />
               </TouchableOpacity>
             ))}
           </View>
@@ -268,13 +269,15 @@ useEffect(() => {
                     onPress={() => openImageModal(item?.productImage)}
                     style={{ marginRight: 10 }}
                   >
-                    <Image
+                    <FastImage
                       source={{ uri: item?.productImage }}
                       style={{
                         width: 140,
                         height: 170,
                         borderRadius: 10,
                       }}
+                      resizeMode={FastImage.resizeMode.cover}
+               
                       //   resizeMode="cover"
                     //   onError={() =>
                     //     setImages((prev) =>
@@ -380,23 +383,27 @@ useEffect(() => {
           animationType="fade"
         >
           <Pressable onPress={()=>closeImageModal()} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.7)' }}>
-            <View style={{ width: .9 * width, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', padding: 20, borderRadius: 10 }}>
+            <Animated.View style={{ width: .9 * width, justifyContent: 'center', alignItems: 'center', 
+                    transform: [{ scale: scaleValue }],
+                    backgroundColor: '#fff', padding: 20, borderRadius: 10 ,
+                }}>
               {selectedImage && (
-                <Animated.Image
+                <FastImage
                   source={{ uri: selectedImage }}
                   style={{
                     width: width - 60,
                     height: width - 60,
                     borderRadius: 10,
                     marginBottom: 15,
-                    transform: [{ scale: scaleValue }],
                   }}
+                  resizeMode={FastImage.resizeMode.cover}
+               
                 />
               )}
 
 
               
-            </View>
+            </Animated.View>
           </Pressable>
         </Modal>
       )}

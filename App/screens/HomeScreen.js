@@ -14,7 +14,7 @@ import {
   Linking,
   FlatList,
 } from "react-native";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import {
   useIsFocused,
   useNavigation,
@@ -148,6 +148,9 @@ import ExploreText from "../assets/ExploreText.svg";
 import Banner2 from "../assets/Banner2.svg";
 import CategoryCard from "./components/CategoryCard.js";
 import ServicesCard from "./components/ServicesCard.js";
+import FastImage from "react-native-fast-image";
+
+
 
 const { width } = Dimensions.get("window");
 
@@ -709,10 +712,10 @@ const HomeScreen = () => {
   };
 
   const onViewableItemsChanged = useRef(({ viewableItems }) => {
-    console.log(
-      "Viewable Items:",
-      viewableItems.map((i) => i.item?.id)
-    );
+    // console.log(
+    //   "Viewable Items:",
+    //   viewableItems.map((i) => i.item?.id)
+    // );
     const visibleIds = viewableItems.map((item) => item.item.id);
     setVisibleCategories((prev) =>
       Array.from(new Set([...prev, ...visibleIds]))
@@ -902,14 +905,15 @@ const HomeScreen = () => {
                         }
                       }}
                     >
-                      <Image
+                      <FastImage
                         source={category.cat}
                         style={{
                           width: 100,
                           height: 120,
                           // aspectRatio: 1,
                         }}
-                        resizeMode="contain"
+                        resizeMode={FastImage.resizeMode.contain}
+
                       />
                     </TouchableOpacity>
                   ))}
@@ -1008,10 +1012,12 @@ const HomeScreen = () => {
                 nestedScrollEnabled={true}
                 data={categories.slice(1, 11)}
                 renderItem={({ item }) => (
+                 
                   <CategoryCard
                     category={item}
                     isVisible={visibleCategories.includes(item.id)}
                   />
+                
                 )}
                 keyExtractor={(item) => item.id.toString()}
                 onViewableItemsChanged={onViewableItemsChanged}
@@ -1043,7 +1049,10 @@ const HomeScreen = () => {
               <FlatList
                 data={categories.slice(11)}
                 nestedScrollEnabled={true}
-                renderItem={({ item }) => <ServicesCard category={item} isVisible={visibleCategories.includes(item.id)} />}
+                renderItem={({ item }) => 
+                  
+                <ServicesCard category={item} isVisible={visibleCategories.includes(item.id)} />
+             }
                 keyExtractor={(item) => item.id.toString()}
                 onViewableItemsChanged={onViewableItemsChanged}
                 viewabilityConfig={viewabilityConfig}

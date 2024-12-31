@@ -54,6 +54,7 @@ import axios from "axios";
 import SignUpModal from "../components/SignUpModal";
 import BuyText from "../../assets/Buylowesttext.svg";
 import WhiteArrow from "../../assets/white-right.svg"
+import FastImage from "react-native-fast-image";
 
 const ImageSuggestion = () => {
   const [imagesLocal, setImagesLocal] = useState([]);
@@ -592,7 +593,7 @@ const ImageSuggestion = () => {
                 >
                   <Feather name="download" size={16} color="#fb8c00" />
                 </TouchableOpacity>
-                <Image
+                <FastImage
                   source={{ uri: selectedImage }}
                   style={{
                     width: 280,
@@ -601,6 +602,8 @@ const ImageSuggestion = () => {
                     borderTopRightRadius: 20,
                     
                   }}
+            resizeMode={FastImage.resizeMode.cover}
+
                 />
                 {(selectedImgEstimatedPrice > 0 ||
                   selectedImageDesc?.length > 0) && (

@@ -9,6 +9,7 @@ import ModalLogout from '../components/ModalLogout';
 import BackArrow from "../../assets/BackArrowImg.svg"
 import ArrowRight from "../../assets/arrow-right.svg"
 import Profile from "../../assets/profile.svg";
+import FastImage from 'react-native-fast-image';
 
 
 

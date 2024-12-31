@@ -10,6 +10,7 @@ import { setRequestCategory } from "../../redux/reducers/userRequestsSlice";
 import { Pressable } from "react-native";
 import WhiteArrow from "../../assets/white-right.svg"
 import { setCategoryImages } from "../../redux/reducers/categorySlice";
+import FastImage from "react-native-fast-image";
 
 const { width, height } = Dimensions.get("window");
 
@@ -61,7 +62,7 @@ const ServicesCard = ({ category, isVisible }) => {
       setModalVisible(true);
   
    
-      Animated.timing(scaleValue, {
+      Animated.spring(scaleValue, {
             toValue: 1,
             duration: 300,
             useNativeDriver: true,
@@ -69,9 +70,9 @@ const ServicesCard = ({ category, isVisible }) => {
     };
   
     const closeImageModal = () => {
-       Animated.timing(scaleValue, {
+       Animated.spring(scaleValue, {
             toValue: 0,
-            duration: 100,
+            duration: 300,
             useNativeDriver: true,
           }).start(() => setSelectedImage(null));
      
@@ -103,13 +104,14 @@ const ServicesCard = ({ category, isVisible }) => {
         }}
       >
         <View style={{ flex: 2 }}>
-          <Image
+        <FastImage
             source={category.icon}
             style={{
               width: 100,
               height: 100,
             }}
-            resizeMode="contain"
+            resizeMode={FastImage.resizeMode.contain}
+
           />
         </View>
         <View style={{ flex: 3 }}>
@@ -227,13 +229,14 @@ const ServicesCard = ({ category, isVisible }) => {
                                   onPress={() => openImageModal(item?.productImage)}
                                   style={{ marginRight: 10 }}
                                 >
-                                  <Image
+                                  <FastImage
                                     source={{ uri: item?.productImage }}
                                     style={{
                                       width: 140,
                                       height: 170,
                                       borderRadius: 10,
                                     }}
+                                    resizeMode={FastImage.resizeMode.cover}
                                     //   resizeMode="cover"
                                     // onError={() =>
                                     //   setImages((prev) =>
@@ -268,7 +271,7 @@ const ServicesCard = ({ category, isVisible }) => {
 
                   onPress={()=>{
                     dispatch(setRequestCategory(category.name));
-                    navigation.navigate("image-suggestion");
+                    navigation.navigate("image-suggestion",{category: category});
                   }}
                 >
                   <Text
@@ -339,23 +342,24 @@ const ServicesCard = ({ category, isVisible }) => {
                 animationType="fade"
               >
                 <Pressable onPress={()=>closeImageModal()} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.7)' }}>
-                  <View style={{ width: .9 * width, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', padding: 20, borderRadius: 10 }}>
+                  <Animated.View style={{ width: .9 * width, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', padding: 20, borderRadius: 10,transform: [{ scale: scaleValue }], }}>
                     {selectedImage && (
-                      <Animated.Image
+                      <FastImage
                         source={{ uri: selectedImage }}
                         style={{
                           width: width - 60,
                           height: width - 60,
                           borderRadius: 10,
                           marginBottom: 15,
-                          transform: [{ scale: scaleValue }],
+                        
                         }}
+                        resizeMode={FastImage.resizeMode.cover}
                       />
                     )}
       
       
                     
-                  </View>
+                  </Animated.View>
                 </Pressable>
               </Modal>
             )}

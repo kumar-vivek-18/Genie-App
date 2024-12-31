@@ -114,6 +114,7 @@ import {
   import Share from "react-native-share";
   import SignUpModal from "./components/SignUpModal";
   import LocationRefreshModal from "./components/LocationRefreshModal.js";
+import FastImage from "react-native-fast-image";
   
   const { width } = Dimensions.get("window");
   
@@ -1028,14 +1029,15 @@ import {
                         navigation.navigate("image-suggestion",{category: category});
                         }}
                       >
-                        <Image
+                        <FastImage
                           source={category.cat}
                           style={{
                             width: 0.465 * width,
                             height: 201,
                             // aspectRatio: 1,
                           }}
-                          resizeMode="contain"
+                          resizeMode={FastImage.resizeMode.contain}
+
                         />
                       </TouchableOpacity>
                     ))}
@@ -1077,14 +1079,15 @@ import {
                                          navigation.navigate("servicerequest");
                         }}
                       >
-                        <Image
+                        <FastImage
                           source={category.cat}
                           style={{
                             width: 0.465 * width,
                             height: 201,
                             // aspectRatio: 1,
                           }}
-                          resizeMode="contain"
+                          resizeMode={FastImage.resizeMode.contain}
+
                         />
                       </TouchableOpacity>
                     ))}

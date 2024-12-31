@@ -49,6 +49,7 @@ import Service6 from "../../assets/service6.png";
 import Service7 from "../../assets/service7.png";
 import Internaltest from "../../assets/internal-test.png"
 import CategoryInfo from "../../assets/categoryInfo.svg"
+import FastImage from "react-native-fast-image";
 
 const categoriess = {
   "Consumer Electronics & Accessories - Home appliances and equipment etc":
@@ -325,7 +326,7 @@ const RequestCategory = () => {
                         
                           <View style={{ backgroundColor: "white" ,position:"relative"}}>
                             {
-                              categoriess[result.name] && <Image
+                              categoriess[result.name] && <FastImage
                                 source={categoriess[result.name]}
                                 alt={result?.name}
                                 style={{
@@ -334,7 +335,8 @@ const RequestCategory = () => {
 
                                   // aspectRatio: 1,
                                 }}
-                                resizeMode="contain"
+                                resizeMode={FastImage.resizeMode.contain}
+
                               />
                             }
                             {
@@ -366,7 +368,7 @@ const RequestCategory = () => {
                        
                           <View style={{ backgroundColor: "white",position:"relative" }}>
                             {
-                              <Image
+                              <FastImage
                                 source={Internaltest}
                                 alt="img"
                                 style={{
@@ -374,7 +376,8 @@ const RequestCategory = () => {
                                   height: 201,
                                   // aspectRatio: 1,
                                 }}
-                                resizeMode="contain"
+                                resizeMode={FastImage.resizeMode.contain}
+
                               />
                             }
                           </View>

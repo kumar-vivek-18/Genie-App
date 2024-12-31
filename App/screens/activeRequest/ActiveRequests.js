@@ -40,6 +40,7 @@ import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SignUpModal from "../components/SignUpModal";
+import FastImage from "react-native-fast-image";
 
 const ActiveRequests = () => {
   const images = [Home0, Home1, Home2, Home3, Home4, Home5, Home6, Home7];
@@ -192,7 +193,7 @@ const ActiveRequests = () => {
                   {spade?.unread && <View style={styles.dot}></View>}
                   <View style={styles.imageContainer}>
                     {spade.requestImages.length > 0 ? (
-                      <Image
+                      <FastImage
                         source={{ uri: spade.requestImages[0] }}
                         style={styles.image}
                       />

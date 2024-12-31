@@ -52,6 +52,7 @@ import { formatDateTime } from "../../utils/logics/Logics";
 import { NewRequestCreated } from "../../notification/notificationMessages";
 import SuccessPopup from "../components/SuccessPopup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import FastImage from "react-native-fast-image";
 
 
 const {width,height} = Dimensions.get("window")
@@ -113,6 +114,7 @@ const DefineRequest = () => {
       const requestDetail = useSelector((store) => store.userRequest.requestDetail);
       const spadePrice = useSelector((store) => store.userRequest.spadePrice);
      const [isVisible, setIsVisible] = useState(false);
+      const spades = useSelector((store) => store.user.spades);
     
   // useEffect(() => {
   //   if (suggestedImages.length > 0)
@@ -519,7 +521,7 @@ const DefineRequest = () => {
                     style={{ borderRadius: 16, marginRight: 10 }}
                   >
                     <View style={styles.imageWrapper}>
-                      <Image source={{ uri: img }} style={styles.image} />
+                      <FastImage source={{ uri: img }} style={styles.image} />
                       {/* <Pressable
                             onPress={() => {
                               deleteImage(index);
@@ -571,7 +573,7 @@ const DefineRequest = () => {
                         style={{ borderRadius: 16, marginRight: 10 }}
                       >
                         <View style={styles?.imageWrapper}>
-                          <Image source={{ uri: img }} style={styles.image} />
+                          <FastImage source={{ uri: img }} style={styles.image} />
                           <Pressable
                             onPress={() => {
                               deleteImage(index);
@@ -876,7 +878,7 @@ const DefineRequest = () => {
                 handleClose();
               }}
             >
-              <Image
+              <FastImage
                 source={{ uri: selectedImage }}
                 style={[
                   styles.modalImage,
