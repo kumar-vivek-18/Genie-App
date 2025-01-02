@@ -53,6 +53,7 @@ import { NewRequestCreated } from "../../notification/notificationMessages";
 import SuccessPopup from "../components/SuccessPopup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import FastImage from "react-native-fast-image";
+import SuccessPopupNew from "../components/SuccessPopupNew";
 
 
 const {width,height} = Dimensions.get("window")
@@ -792,7 +793,7 @@ const DefineRequest = () => {
         </View>
 
         {isVisible && (
-          <SuccessPopup isVisible={isVisible} setIsVisible={setIsVisible} />
+          <SuccessPopupNew isVisible={isVisible} setIsVisible={setIsVisible} />
         )}
 
         <Modal visible={expectedPriceModal} transparent={true}>

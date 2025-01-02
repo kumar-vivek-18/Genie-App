@@ -237,7 +237,7 @@ const ActiveRequests = () => {
             ))}
           </View>
         )}
-        {spades.length === 0 && !networkError && !spadesLoading && (
+        {/* {spades.length === 0 && !networkError && !spadesLoading && (
           <View className="">
             {console.log("hii hii")}
             <Text
@@ -324,7 +324,7 @@ const ActiveRequests = () => {
               </View>
             </View>
           </View>
-        )}
+        )} */}
       </ScrollView>
 
       <View>
