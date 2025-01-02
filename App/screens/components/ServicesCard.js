@@ -1,4 +1,4 @@
-import { Animated, Dimensions, FlatList, Image, Modal, Text, TouchableOpacity, View } from "react-native";
+import { Animated, Dimensions, FlatList, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { ScrollView } from "react-native";
 import RightArrow from "../../assets/arrow-right.svg";
@@ -14,7 +14,7 @@ import FastImage from "react-native-fast-image";
 
 const { width, height } = Dimensions.get("window");
 
-const ServicesCard = ({ category, isVisible }) => {
+const ServicesCard = ({ category, setSignUpModal }) => {
 //   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigation =useNavigation();
@@ -22,6 +22,7 @@ const ServicesCard = ({ category, isVisible }) => {
   const [selectedImage, setSelectedImage] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const scaleValue = useRef(new Animated.Value(0)).current; 
+  const userDetails = useSelector((state) => state.user.userDetails);
 
 
     const images = useSelector(
@@ -88,6 +89,7 @@ const ServicesCard = ({ category, isVisible }) => {
         backgroundColor: "#FFf",
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
+        marginTop:40
       }}
     >
       <View
@@ -140,8 +142,11 @@ const ServicesCard = ({ category, isVisible }) => {
               alignItems: "center",
             }}
 
-            onPress={()=>{dispatch(setRequestCategory(category.name));
+            onPress={()=>{
+              if (!userDetails?._id) setSignUpModal(true);
+              else{ dispatch(setRequestCategory(category.name));
                 navigation.navigate("servicerequest")}}
+              }
           >
             <Text
               style={{
@@ -199,10 +204,10 @@ const ServicesCard = ({ category, isVisible }) => {
         </View>
       </View>
 
-      <View style={{ backgroundColor: "#fff", paddingVertical: 20 }}>
+      <View style={{ backgroundColor: "#fff",  }}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {!loading && images && (
-            <View style={{ flexDirection: "row", paddingLeft: 20 }}>
+            <View style={{ flexDirection: "row", paddingLeft: 20 ,paddingVertical: 20}}>
               {/* {images?.map((image) => (
                 <TouchableOpacity
                   key={image._id}
@@ -290,6 +295,7 @@ const ServicesCard = ({ category, isVisible }) => {
               }
             </View>
           )}
+          
           {loading && (
             <View
               style={{
@@ -333,8 +339,24 @@ const ServicesCard = ({ category, isVisible }) => {
             </View>
           )}
         </ScrollView>
+        {!loading && !images && (
+                    
+                    <View
+                      style={{
+                        paddingBottom:20, 
+                        paddingHorizontal: 20,
+                        gap: 5,
+                        justifyContent: "center",
+                        alignItems:"center"
+                       
+                      }}
+                    >
+                      <Text style={{fontFamily:"Poppins-Regular",fontSize:14,textAlign:"center"}}>No Images Available</Text>
+                    </View>
+                  )}
       </View>
-       {modalVisible && selectedImage && (
+    
+       {/* {modalVisible && selectedImage && (
               <Modal
                 visible={modalVisible}
                 transparent={true}
@@ -362,9 +384,66 @@ const ServicesCard = ({ category, isVisible }) => {
                   </Animated.View>
                 </Pressable>
               </Modal>
-            )}
+            )} */}
+
+{modalVisible && selectedImage && (
+        <Modal
+          visible={modalVisible}
+          transparent={true}
+          onRequestClose={closeImageModal}
+        >
+          <Pressable
+            onPress={() => closeImageModal()}
+            style={styles.modalContainer}
+          >
+            <Animated.View
+              style={[
+                {
+                  transform: [{ scale: scaleValue }],
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              ]}
+            >
+              <Pressable onPress={() => closeImageModal()}>
+                <FastImage
+                  source={{ uri: selectedImage }}
+                  style={[
+                    styles.modalImage,
+                    // {
+                    //     transform: [{ scale: scaleAnimation }],
+                    // },
+                  ]}
+                  resizeMode={FastImage.resizeMode.cover}
+                />
+              </Pressable>
+            </Animated.View>
+          </Pressable>
+        </Modal>
+      )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+  },
+  modalImage: {
+    width: 300,
+    height: 400,
+    borderRadius: 10,
+  },
+
+  loadingContainer: {
+    ...StyleSheet.absoluteFill,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+});
 
 export default React.memo(ServicesCard);

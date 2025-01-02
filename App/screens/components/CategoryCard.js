@@ -1,5 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Animated, Dimensions, FlatList, Modal, Pressable, TouchableOpacity } from "react-native";
+import {
+  Animated,
+  Dimensions,
+  FlatList,
+  Modal,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { Image } from "react-native";
 import { Text, View } from "react-native";
 import RightArrow from "../../assets/arrow-right.svg";
@@ -15,18 +23,18 @@ import FastImage from "react-native-fast-image";
 const { width, height } = Dimensions.get("window");
 
 const CategoryCard = ({ category, isVisible }) => {
-//   const [images, setImages] = useState([]);
+  //   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [selectedImage, setSelectedImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const scaleValue = useRef(new Animated.Value(0)).current; 
+  const scaleValue = useRef(new Animated.Value(0)).current;
 
   const images = useSelector(
     (state) => state.categories.categoryImages[category.name]
   );
-useEffect(() => {
+  useEffect(() => {
     let isMounted = true;
     const fetchImages = async () => {
       setLoading(true);
@@ -37,14 +45,13 @@ useEffect(() => {
           { params: { productCategory: category?.name, page } }
         );
         if (isMounted) {
-        //   setImages(response.data || []);
-        const images = response.data || [];
+          //   setImages(response.data || []);
+          const images = response.data || [];
           dispatch(setCategoryImages({ categoryName: category.name, images }));
         }
       } catch (error) {
         // console.error('Error fetching images:', error);
         // setImages([])
-
       } finally {
         if (isMounted) {
           setLoading(false);
@@ -57,29 +64,26 @@ useEffect(() => {
 
   const openImageModal = (imageUrl) => {
     // console.log(imageUrl)
-  
+
     setSelectedImage(imageUrl);
     setModalVisible(true);
 
- 
-    Animated.spring(scaleValue, {
-          toValue: 1,
-          duration: 300,
-          useNativeDriver: true,
-        }).start();
+    Animated.timing(scaleValue, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
   };
 
   const closeImageModal = () => {
-     Animated.spring(scaleValue, {
-          toValue: 0,
-          duration: 300,
-          useNativeDriver: true,
-        }).start(() => setSelectedImage(null));
-   
-    
+    Animated.timing(scaleValue, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => setSelectedImage(null));
   };
 
-//   if (!isVisible) return null;
+  //   if (!isVisible) return null;
 
   return (
     <View
@@ -90,6 +94,7 @@ useEffect(() => {
         backgroundColor: "#FFDAAC",
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
+        marginTop: 20,
       }}
     >
       <View
@@ -127,7 +132,6 @@ useEffect(() => {
               height: 100,
             }}
             resizeMode={FastImage.resizeMode.contain}
-
           />
         </View>
       </View>
@@ -163,7 +167,7 @@ useEffect(() => {
             style={{ flex: 1, alignSelf: "flex-end" }}
             onPress={() => {
               dispatch(setRequestCategory(category.name));
-              navigation.navigate("image-suggestion",{category: category});
+              navigation.navigate("image-suggestion", { category: category });
             }}
           >
             <Text
@@ -178,8 +182,7 @@ useEffect(() => {
             </Text>
           </TouchableOpacity>
         </View>
-        {!loading && images && images?.length>0 && (
-          
+        {!loading && images && images?.length > 0 && (
           <View
             style={{
               backgroundColor: "#fff",
@@ -192,20 +195,43 @@ useEffect(() => {
             }}
           >
             {images.slice(0, 4).map((item) => (
-              <TouchableOpacity key={item._id} onPress={() => openImageModal(item?.productImage)}>
+              <TouchableOpacity
+                key={item._id}
+                onPress={() => openImageModal(item?.productImage)}
+              >
                 <FastImage
                   source={{ uri: item?.productImage }}
                   style={{
                     width: width * 0.38, // Adjust width to fit items within rows
                     height: 160,
                     borderRadius: 10,
-                    
                   }}
                   resizeMode={FastImage.resizeMode.cover}
-               
                 />
               </TouchableOpacity>
             ))}
+          </View>
+        )}
+
+        {!loading && !images && (
+          <View
+            style={{
+              flexDirection: "row",
+              flexWrap: "wrap",
+              gap: 5,
+              justifyContent: "center",
+              padding: 5,
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "Poppins-Regular",
+                fontSize: 14,
+                textAlign: "center",
+              }}
+            >
+              No Product Images Available
+            </Text>
           </View>
         )}
 
@@ -277,21 +303,21 @@ useEffect(() => {
                         borderRadius: 10,
                       }}
                       resizeMode={FastImage.resizeMode.cover}
-               
+
                       //   resizeMode="cover"
-                    //   onError={() =>
-                    //     setImages((prev) =>
-                    //       prev.map((img) =>
-                    //         img._id === item._id
-                    //           ? {
-                    //               ...img,
-                    //               productImage:
-                    //                 "https://via.placeholder.com/150",
-                    //             } // Fallback URL
-                    //           : img
-                    //       )
-                    //     )
-                    //   }
+                      //   onError={() =>
+                      //     setImages((prev) =>
+                      //       prev.map((img) =>
+                      //         img._id === item._id
+                      //           ? {
+                      //               ...img,
+                      //               productImage:
+                      //                 "https://via.placeholder.com/150",
+                      //             } // Fallback URL
+                      //           : img
+                      //       )
+                      //     )
+                      //   }
                     />
                   </TouchableOpacity>
                 )}
@@ -311,8 +337,9 @@ useEffect(() => {
                   }}
                   onPress={() => {
                     dispatch(setRequestCategory(category.name));
-                    navigation.navigate("image-suggestion",{category: category});
-                    
+                    navigation.navigate("image-suggestion", {
+                      category: category,
+                    });
                   }}
                 >
                   <Text
@@ -380,6 +407,42 @@ useEffect(() => {
           visible={modalVisible}
           transparent={true}
           onRequestClose={closeImageModal}
+        >
+          <Pressable
+            onPress={() => closeImageModal()}
+            style={styles.modalContainer}
+          >
+            <Animated.View
+              style={[
+                {
+                  transform: [{ scale: scaleValue }],
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              ]}
+            >
+              <Pressable onPress={() => closeImageModal()}>
+                <FastImage
+                  source={{ uri: selectedImage }}
+                  style={[
+                    styles.modalImage,
+                    // {
+                    //     transform: [{ scale: scaleAnimation }],
+                    // },
+                  ]}
+                  resizeMode={FastImage.resizeMode.cover}
+                />
+              </Pressable>
+            </Animated.View>
+          </Pressable>
+        </Modal>
+      )}
+
+      {/* {modalVisible && selectedImage && (
+        <Modal
+          visible={modalVisible}
+          transparent={true}
+          onRequestClose={closeImageModal}
           animationType="fade"
         >
           <Pressable onPress={()=>closeImageModal()} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.7)' }}>
@@ -406,9 +469,30 @@ useEffect(() => {
             </Animated.View>
           </Pressable>
         </Modal>
-      )}
+      )} */}
     </View>
   );
 };
 
-export default React.memo(CategoryCard);;
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+  },
+  modalImage: {
+    width: 300,
+    height: 400,
+    borderRadius: 10,
+  },
+
+  loadingContainer: {
+    ...StyleSheet.absoluteFill,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+});
+
+export default React.memo(CategoryCard);

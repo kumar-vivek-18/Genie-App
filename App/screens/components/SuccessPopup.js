@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import SuccessImg from '../../assets/SuccessImg.svg'
+import SuccessImg from '../../assets/SuccessPopup.svg'
 const SuccessPopup = ({ isVisible, setIsVisible }) => {
 
 
@@ -15,8 +15,8 @@ const SuccessPopup = ({ isVisible, setIsVisible }) => {
             >
                 <View style={styles.overlay}>
                     <View style={styles.popup}>
-                        <SuccessImg />
-                        <Text style={styles.popupText} >Spade Created Successfully!</Text>
+                        <SuccessImg/>
+                        
                     </View>
                 </View>
             </Modal>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     },
     popup: {
         backgroundColor: 'white',
-        padding: 30,
+        padding: 20,
         borderRadius: 15,
         alignItems: 'center',
         justifyContent: 'center',
@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 }, // For iOS shadow
         shadowOpacity: 0.8, // For iOS shadow
         shadowRadius: 2, // For iOS shadow
-        width: '80%',
-        height: 300,
+        width: '85%',
+        height: 400,
     },
     popupText: {
         color: '#2e2c43',

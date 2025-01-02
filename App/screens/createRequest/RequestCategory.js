@@ -51,28 +51,104 @@ import Internaltest from "../../assets/internal-test.png"
 import CategoryInfo from "../../assets/categoryInfo.svg"
 import FastImage from "react-native-fast-image";
 
+
+import NewIcon1 from "../../assets/NewIcon1.png";
+import NewIcon2 from "../../assets/NewIcon2.png";
+import NewIcon3 from "../../assets/Newicon3.png";
+import NewIcon4 from "../../assets/NewIcon4.png";
+import NewIcon5 from "../../assets/NewIcon5.png";
+import NewIcon6 from "../../assets/Newicon6.png";
+import NewIcon7 from "../../assets/NewIcon7.png";
+import NewIcon8 from "../../assets/NewIcon8.png";
+import NewIcon9 from "../../assets/NewIcon9.png";
+import NewIcon10 from "../../assets/NewIcon10.png";
+import NewIcon from "../../assets/NewIcon.png";
+import NewServicesIcon2 from "../../assets/NewServicesIcon2.png";
+import NewServicesIcon3 from "../../assets/NewServicesIcon3.png";
+import NewServicesIcon4 from "../../assets/NewServicesIcon4.png";
+import NewServicesIcon5 from "../../assets/NewServicesIcon5.png";
+import NewServicesIcon6 from "../../assets/NewServicesIcon6.png";
+import NewServicesIcon7 from "../../assets/NewServicesIcon7.png";
+import NewServicesIcon8 from "../../assets/NewServicesIcon8.png";
+import NewServicesIcon9 from "../../assets/NewServicesIcon9.png";
+
+
+
+
 const categoriess = {
   "Consumer Electronics & Accessories - Home appliances and equipment etc":
-    Category1,
-  "Fashion/Clothings - Top, bottom, dresses": Category2,
-  "Fashion Accessories - Jewellery, Gold & Diamond": Category3,
-  "Fashion Accessories - Shoes, bags etc": Category4,
-  "Fashion Accessories - Sharee, suits, kurti & dress materials etc": Category5,
-  "Gifts, Kids Games,Toys & Accessories": Category6,
-  "Luxury Watches & Service": Category7,
-  "Hardware - Plumbing, Paint,& Electricity": Category8,
-  "Sports Nutrition - Whey Pro etc": Category9,
-  "Hardware - Cement, Hand tools, Powertools etc": Category10,
-  "Kitchen Utensils & Kitchenware": Category11,
+  {
+    icon:NewIcon10,
+    title:"Appliances"
+
+  }
+    ,
+  "Fashion/Clothings - Top, bottom, dresses": {
+    icon:NewIcon1,
+    title:"Fashion"
+  },
+  "Fashion Accessories - Jewellery, Gold & Diamond": {
+    icon:NewIcon,
+    title:"Jewel"
+  },
+  "Fashion Accessories - Shoes, bags etc": {
+    icon: NewIcon3,
+    title:"Shoes, Bag"
+  },
+  "Fashion Accessories - Sharee, suits, kurti & dress materials etc": {
+    icon:NewIcon2,
+    title:"Sari, Suit"
+  },
+  "Gifts, Kids Games,Toys & Accessories": {
+    icon:NewIcon5,
+    title:"Gifts,Kids"
+  },
+  "Luxury Watches & Service": {
+    icon:NewIcon6,
+    title:"Watches"
+  },
+  "Hardware - Plumbing, Paint,& Electricity": {
+    icon:NewIcon7,
+    title:"Plumbing"
+  },
+  "Sports Nutrition - Whey Pro etc": {
+    icon:NewIcon8,
+    title:"Nutrition"
+  },
+  "Hardware - Cement, Hand tools, Powertools etc":{
+    icon:NewServicesIcon8 ,
+    title:"Hardware"
+  } ,
+  "Kitchen Utensils & Kitchenware": {
+    icon:NewIcon9,
+    title:"Utensils"
+  },
   "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc":
-    Service1,
+    {
+      icon:NewServicesIcon9,
+      title:"Appliances"
+    },
   "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc":
-    Service2,
-  "Automotive Parts/Services - 2 wheeler Fuel based": Service4,
-  "Automotive Parts/Services - 4 wheeler Fuel based": Service5,
+   {icon:NewServicesIcon2,
+    title:"Electronics"
+  },
+  "Automotive Parts/Services - 2 wheeler Fuel based":{
+    icon:NewServicesIcon6,
+    title:"Bike"
+  },
+  "Automotive Parts/Services - 4 wheeler Fuel based": {
+    icon:NewServicesIcon5,
+    title:"Car"
+  },
   "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc":
-    Service6,
-  "Electrical Services & Repair - Electrician": Service7,
+    {icon:NewServicesIcon7,
+    title: "Heavy",
+     
+    },
+  "Electrical Services & Repair - Electrician": {
+    icon:NewServicesIcon4,
+    title:"Electrician"
+  }
 };
 
 const Icons = {
@@ -185,8 +261,9 @@ const RequestCategory = () => {
     // }
   }, []);
   // console.log('searchData', searchData);
-  const handleSelectResult = (id) => {
-    setSelectedOption(id === selectedOption ? "" : id);
+  const handleSelectResult = (name) => {
+    console.log('handleSelectResult', name)
+    setSelectedOption(name);
   };
 
   const search = (text) => {
@@ -204,7 +281,8 @@ const RequestCategory = () => {
   const handleSubmit = () => {
     try {
       if (selectedOption !== null) {
-        dispatch(setRequestCategory(searchData[selectedOption - 1].name));
+        console.log(selectedOption)
+        dispatch(setRequestCategory(selectedOption));
         // console.log(selectedOption);
         // console.log(searchData[selectedOption - 1].name);
         // console.log(requestCategory);
@@ -308,7 +386,7 @@ const RequestCategory = () => {
                 {searchResults?.map((result) => (
                   <TouchableOpacity
                     key={result.id}
-                    onPress={() => handleSelectResult(result.id)}
+                    onPress={() => handleSelectResult(result.name)}
                   >
                     <View className="flex flex-row  gap-[15px] items-center">
                       {/* {!Icons[result.name] &&
@@ -324,41 +402,73 @@ const RequestCategory = () => {
                       {result?.name !==
                         "Z-Internal test culturtap ( not for commercial use )" &&
                         
-                          <View style={{ backgroundColor: "white" ,position:"relative"}}>
+                          <View 
+                          style={{
+                            width: 0.44 * width,
+                            height: 185,
+                            // aspectRatio: 1,
+                            marginTop:8,
+                            borderColor:selectedOption===result?.name?"#fb8c00":"#000",
+                            backgroundColor:selectedOption===result?.name?"#FFF4E5":"#fff",
+
+                            borderWidth:.5,
+                            borderRadius:16,
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            alignItems: "center",
+                           
+                          }}
+                          resizeMode="contain">
                             {
-                              categoriess[result.name] && <FastImage
-                                source={categoriess[result.name]}
+                              categoriess[result.name] && 
+                              <View style={{
+                                flexDirection: "column",
+                                gap:5,
+                                justifyContent: "center",
+                                alignItems: "center",
+                               
+                                paddingHorizontal:10,
+                                paddingVertical:5,
+
+                              }}>
+                              <FastImage
+                                source={categoriess[result.name].icon}
                                 alt={result?.name}
                                 style={{
-                                  width: 0.44 * width,
-                                  height: 201,
+                                  width: 0.30 * width,
+                                  height: 130,
 
                                   // aspectRatio: 1,
                                 }}
                                 resizeMode={FastImage.resizeMode.contain}
 
                               />
+                              <Text style={{
+                                fontFamily: "Poppins-Regular",
+                                 color: selectedOption===result?.name?"#fb8c00": "#2E2C43", 
+                                
+                                 fontSize: 16, 
+                                 textAlign: "center", 
+                                
+                              }}>
+                              {categoriess[result.name].title}
+                              </Text>
+                              </View>
+                              
                             }
                             {
                                 !categoriess[result.name] && 
                                 <View
                                 
                                 style={{
-                                  width: 0.44 * width,
-                                  height: 185,
-                                  // aspectRatio: 1,
-                                  marginTop:8,
-                                  borderColor:"#fb8c00",
-                                  borderWidth:.5,
-                                  borderRadius:16,
-                                  flexDirection: "row",
-                                  justifyContent: "center",
-                                  alignItems: "center",
+                                  
                                  
                                 }}
                                 resizeMode="contain"
                               >
-                                <Text style={{fontFamily:"Poppins-Regular", color:"#fb8c00"}}>{result.name}</Text>
+                                <Text style={{fontFamily:"Poppins-Regular",
+                                         color: selectedOption===result?.name?"#fb8c00": "#2E2C43",
+                                   }}>{result.name}</Text>
                                 </View>
                             }
                           </View>
@@ -385,10 +495,10 @@ const RequestCategory = () => {
                       {(
                         <View
                           className={` absolute top-8 right-5 w-[25px] h-[25px] flex  justify-center border-[1px] rounded-full border-[#fd8c00] items-center ${
-                            result.id === selectedOption ? "bg-[#fb8c00]" : ""
+                            result.name === selectedOption ? "bg-[#fb8c00]" : "bg-[#FFF4E5]"
                           }`}
                         >
-                          {result.id === selectedOption && (
+                          {result.name === selectedOption && (
                             <Octicons name="check" size={15} color="white" />
                           )}
                         </View>

@@ -53,7 +53,7 @@ import { baseUrl } from "../../utils/logics/constants";
 import axios from "axios";
 import SignUpModal from "../components/SignUpModal";
 import BuyText from "../../assets/Buylowesttext.svg";
-import WhiteArrow from "../../assets/white-right.svg"
+import WhiteArrow from "../../assets/white-right.svg";
 import FastImage from "react-native-fast-image";
 
 const ImageSuggestion = () => {
@@ -62,20 +62,12 @@ const ImageSuggestion = () => {
   const route = useRoute();
   const { category } = route.params;
   const dispatch = useDispatch();
-  const insets = useSafeAreaInsets();
+
   const [cameraScreen, setCameraScreen] = useState(false);
-  const [addMore, setAddMore] = useState(false);
+
   const [imgIndex, setImgIndex] = useState();
   const [modalVisible, setModalVisible] = useState(false);
-  const [type, setType] = useState(Camera.Constants.Type.back);
-  const [flashMode, setFlashMode] = useState(Camera.Constants.FlashMode.off);
-  const [zoom, setZoom] = useState(0);
-  const [whiteBalance, setWhiteBalance] = useState(
-    Camera.Constants.WhiteBalance.auto
-  );
-  const [autoFocus, setAutoFocus] = useState(Camera.Constants.AutoFocus.on);
-  const [hasCameraPermission, setHasCameraPermission] = useState(null);
-  const [camera, setCamera] = useState(null);
+
   const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [scaleAnimation] = useState(new Animated.Value(0));
@@ -90,7 +82,9 @@ const ImageSuggestion = () => {
   const suggestedImages = useSelector(
     (store) => store.userRequest.suggestedImages
   );
-  const [isSuggestion, setIsSuggestion] = useState(false);
+  const [query, setQuery] = useState("");
+  const [prevQuery, setPrevQuery] = useState("");
+
   const [delImgType, setDelImgType] = useState("clicked");
   const [descModal, setDescModal] = useState(false);
   const [selectedImgEstimatedPrice, setSelectedImgEstimatedPrice] = useState(0);
@@ -99,6 +93,7 @@ const ImageSuggestion = () => {
   const [showImageLength, setShowImageLength] = useState(20);
   const [loadMore, setLoadMore] = useState(true);
   const [loadingProducts, setLoadingProducts] = useState(false);
+  const [loadingQuerySearch, setLoadingQuerySearch] = useState(false);
   const userDetails = useSelector((store) => store.user.userDetails);
   const [signUpModal, setSignUpModal] = useState(false);
   const navigationState = useNavigationState((state) => state);
@@ -133,44 +128,9 @@ const ImageSuggestion = () => {
     }).start(() => setSelectedImage(null));
   };
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasCameraPermission(status === "granted");
-    })();
-  }, [cameraScreen]);
-
-  const takePicture = async () => {
-    setLoading(true);
-    const options = {
-      mediaType: "photo",
-      saveToPhotos: true,
-    };
-
-    launchCamera(options, async (response) => {
-      if (response.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (response.error) {
-        console.log("ImagePicker Error: ");
-      } else {
-        try {
-          const newImageUri = response.assets[0].uri;
-          const compressedImage = await manipulateAsync(
-            newImageUri,
-            [{ resize: { width: 600, height: 800 } }],
-            { compress: 0.5, format: "jpeg", base64: true }
-          );
-          dispatch(setRequestImages([compressedImage.uri]));
-          dispatch(setSuggestedImages([]));
-
-          navigation.navigate("define-request");
-          setLoading(false);
-        } catch (error) {
-          setLoading(false);
-          console.error("Error processing image: ", error);
-        }
-      }
-    });
+  const handleTextChange = (val) => {
+    setPrevQuery(query);
+    setQuery(val);
   };
 
   // const categoryListedProduct = async () => {
@@ -204,15 +164,12 @@ const ImageSuggestion = () => {
   // }
   const categoryListedProduct = async () => {
     if (!loadMore) return;
-
+    console.log("Loading category", query, requestCategory);
+    setLoadingProducts(true);
     try {
-      setLoadingProducts(true);
-      const response = await axios.get(
-        `${baseUrl}/product/product-by-category`,
-        {
-          params: { productCategory: requestCategory, page },
-        }
-      );
+      const response = await axios.get(`${baseUrl}/product/product-by-query`, {
+        params: { productCategory: requestCategory, page: page, query: query },
+      });
 
       if (response.status === 200) {
         const fetchedImages = response.data;
@@ -231,6 +188,38 @@ const ImageSuggestion = () => {
       console.error("Error while fetching products:", error);
     } finally {
       setLoadingProducts(false);
+    }
+  };
+
+  const querySearch = async () => {
+    setPage(1);
+    setLoadMore(true);
+    console.log("Loading category", query, requestCategory);
+    setLoadingQuerySearch(true);
+    try {
+      const response = await axios.get(`${baseUrl}/product/product-by-query`, {
+        params: { productCategory: requestCategory, page: 1, query: query },
+      });
+
+      if (response.status === 200) {
+        const fetchedImages = response.data;
+
+        setSuggestionImages((prev) => [...fetchedImages]);
+        setPage((curr) => curr + 1);
+
+        if (fetchedImages.length < 10) {
+          setLoadMore(false); // Stop further loading if less than 10 products
+        }
+      }
+    } catch (error) {
+      if (error.response?.status === 404) {
+        setLoadMore(false);
+        setSuggestionImages([]);
+      }
+
+      console.error("Error while fetching products:", error);
+    } finally {
+      setLoadingQuerySearch(false);
     }
   };
 
@@ -261,7 +250,7 @@ const ImageSuggestion = () => {
     <Pressable
       onPress={() => {
         handleImagePress(item.productImage);
-        setIsSuggestion(true);
+      
         setSelectedImgEstimatedPrice(item.productPrice);
         setSelectedImageDesc(item.productDescription);
       }}
@@ -324,34 +313,6 @@ const ImageSuggestion = () => {
     </Pressable>
   );
 
-  const deleteImage = (index) => {
-    setImgIndex(index);
-    setModalVisible(true);
-  };
-
-  const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [3, 4],
-      base64: true,
-      quality: 0.5,
-    });
-
-    if (!result.canceled) {
-      // await getImageUrl(result.assets[0]);
-      const newImageUri = result?.assets[0]?.uri;
-      const compressedImage = await manipulateAsync(
-        newImageUri,
-        [{ resize: { width: 600, height: 800 } }],
-        { compress: 0.5, format: "jpeg" }
-      );
-      dispatch(setRequestImages([compressedImage.uri]));
-      dispatch(setSuggestedImages([]));
-      navigation.navigate("define-request");
-    }
-  };
-
   //       if (requestImages || suggestedImages) {
   //         return true;
   //       } else {
@@ -399,7 +360,7 @@ const ImageSuggestion = () => {
                 paddingHorizontal: 29,
                 paddingVertical: 20,
                 position: "absolute",
-                zIndex:100
+                zIndex: 100,
               }}
             >
               <BackArrow width={14} height={10} />
@@ -415,31 +376,39 @@ const ImageSuggestion = () => {
               {category?.title}
             </Text>
           </View>
-          
 
           <View
-            className="mx-[32px] flex flex-row h-[60px] border-[1px] items-center border-[#fb8c00]  rounded-[24px] mb-[40px] bg-white"
-            style={{ marginTop:10,borderWidth: 1, borderColor: "#fb8c00" ,paddingHorizontal:40}}
+            className="mx-[32px] flex flex-row h-[60px] border-[1px] items-center border-[#fb8c00] rounded-[24px] mb-[40px] bg-white"
+            style={{
+              marginTop: 10,
+              borderWidth: 1,
+              borderColor: "#fb8c00",
+              paddingHorizontal: 40,
+            }}
           >
             <TouchableOpacity
-              onPress={() => {}}
+              onPress={() => querySearch()}
               style={{
-                left: 0,
-                paddingLeft: 20,
                 position: "absolute",
-                paddingRight: 20,
+                left: 20,
                 zIndex: 100,
               }}
             >
               <Octicons name="search" size={16} color={"#fb8c00"} />
             </TouchableOpacity>
             <TextInput
-              placeholder="Search any product"
+              placeholder="Search any product..."
               placeholderTextColor="#fb8c00"
-              onFocus={() => {}}
-              onSubmitEditing={() => {}}
-              className="flex text-center text-[14px] text-[#fb8c00] justify-center items-center flex-1 " // Adjusted padding to center the text
-              style={{ fontFamily: "Poppins-Italic", textAlign: "center" }}
+              onChangeText={handleTextChange}
+              onSubmitEditing={() => querySearch()}
+              style={{
+                flex: 1,
+                textAlign: "center",
+                fontFamily: "Poppins-Italic",
+                color: "#fb8c00",
+                fontSize: 14,
+                paddingHorizontal: 10, // Adjust padding for better placement
+              }}
             />
           </View>
 
@@ -447,7 +416,7 @@ const ImageSuggestion = () => {
             style={{
               flex: 1,
               paddingHorizontal: 20,
-             
+
               // marginBottom: 80,
             }}
           >
@@ -457,38 +426,52 @@ const ImageSuggestion = () => {
             >
               Available stock near you
             </Text>
+            {!loadingQuerySearch && !loadingProducts && suggestionImages?.length===0 && <View style={{justifyContent:"center"}}>
+                                     <Text style={{fontFamily:"Poppins-Regular",fontSize:14,textAlign:"center"}}>No Images Available</Text>
+            </View>
+}
 
-            <FlatList
-              data={suggestionImages}
-              renderItem={renderProductItem}
-              keyExtractor={(item, index) => `${item.id}-${index}`}
-              numColumns={2}
-              showsVerticalScrollIndicator={false}
-              columnWrapperStyle={{
-                justifyContent: "space-between",
-                gap: 10,
-              }}
-              nestedScrollEnabled={true}
-              onEndReached={() => {
-                if (loadMore && !loadingProducts) {
-                  // console.log("Fetching next page...");
-                  categoryListedProduct();
+            {loadingQuerySearch ? (
+              <ActivityIndicator
+                size="large"
+                color="#fb8c00"
+                style={{ marginVertical: 20 }}
+              />
+            ) : (
+              <FlatList
+                data={suggestionImages}
+                renderItem={renderProductItem}
+                keyExtractor={(item, index) => `${item.id}-${index}`}
+                numColumns={2}
+                showsVerticalScrollIndicator={false}
+                columnWrapperStyle={{
+                  justifyContent: "space-between",
+                  gap: 10,
+                }}
+                nestedScrollEnabled={true}
+                onEndReached={() => {
+                  if (loadMore && !loadingProducts) {
+                    // console.log("Fetching next page...");
+                    categoryListedProduct();
+                  }
+                }}
+                onEndReachedThreshold={0.5}
+                ListFooterComponent={
+                  loadingProducts ? (
+                    <ActivityIndicator
+                      size="large"
+                      color="#fb8c00"
+                      style={{ marginVertical: 20 }}
+                    />
+                  ) : null
                 }
-              }}
-              onEndReachedThreshold={0.5}
-              ListFooterComponent={
-                loadingProducts ? (
-                  <ActivityIndicator
-                    size="large"
-                    color="#fb8c00"
-                    style={{ marginVertical: 20 }}
-                  />
-                ) : null
-              }
-              contentContainerStyle={{
-                paddingBottom: 50,
-              }}
-            />
+                contentContainerStyle={{
+                  paddingBottom: 50,
+                }}
+              />
+            )}
+
+           
           </View>
         </View>
         <ModalCancel
@@ -566,8 +549,8 @@ const ImageSuggestion = () => {
                   alignItems: "center",
                   backgroundColor: "#fff",
                   borderRadius: 20,
-                  padding:12,
-                  paddingTop:15
+                  padding: 12,
+                  paddingTop: 15,
                 },
               ]}
             >
@@ -575,7 +558,11 @@ const ImageSuggestion = () => {
                 onPress={() => {
                   handleClose();
                 }}
-                style={{justifyContent:"center",alignItems:"center",gap:10}}
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 10,
+                }}
               >
                 <TouchableOpacity
                   style={{
@@ -600,24 +587,21 @@ const ImageSuggestion = () => {
                     height: 350,
                     borderTopLeftRadius: 20,
                     borderTopRightRadius: 20,
-                    
                   }}
-            resizeMode={FastImage.resizeMode.cover}
-
+                  resizeMode={FastImage.resizeMode.cover}
                 />
                 {(selectedImgEstimatedPrice > 0 ||
                   selectedImageDesc?.length > 0) && (
                   <View
                     style={{
                       position: "absolute",
-                      top:260,
+                      top: 260,
                       backgroundColor: "rgba(0,0,0,0.5)",
                       width: 280,
                       flexDirection: "column",
                       justifyContent: "center",
                       alignItems: "center",
-                      paddingVertical:5,
-                      
+                      paddingVertical: 5,
                     }}
                   >
                     {selectedImageDesc?.length > 0 &&
@@ -667,8 +651,16 @@ const ImageSuggestion = () => {
                   </View>
                 )}
 
-                <BuyText width={200}/>
-                <Text style={{ width:280,fontSize: 14,textAlign:"center", fontFamily: "Poppins-Regular",paddingHorizontal:5 }}>
+                <BuyText width={200} />
+                <Text
+                  style={{
+                    width: 280,
+                    fontSize: 14,
+                    textAlign: "center",
+                    fontFamily: "Poppins-Regular",
+                    paddingHorizontal: 5,
+                  }}
+                >
                   Live unboxing & multi-vendor bargaining
                 </Text>
 
@@ -684,22 +676,26 @@ const ImageSuggestion = () => {
                         dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
                       }
                       setTimeout(() => {
-                        dispatch(setRequestDetail("Looking for the product in this reference image."));
+                        dispatch(
+                          setRequestDetail(
+                            "Looking for the product in this reference image."
+                          )
+                        );
                         navigation.navigate("define-request");
                       }, 200);
                     }
                   }}
                   style={{
                     backgroundColor: "#fb8c00",
-                    borderRadius:24,
+                    borderRadius: 24,
                     paddingHorizontal: 20,
                     paddingVertical: 15,
                     marginTop: 10,
-                    width:280,
+                    width: 280,
                     justifyContent: "center",
                     alignItems: "center",
-                    flexDirection:"row",
-                    gap:20
+                    flexDirection: "row",
+                    gap: 20,
                   }}
                 >
                   <Text
@@ -711,7 +707,7 @@ const ImageSuggestion = () => {
                   >
                     Start Bargaining
                   </Text>
-                  <WhiteArrow/>
+                  <WhiteArrow />
                 </TouchableOpacity>
               </Pressable>
             </Animated.View>

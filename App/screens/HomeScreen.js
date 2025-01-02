@@ -51,14 +51,7 @@ import {
   getGeoCoordinates,
   getLocationName,
 } from "../utils/logics/Logics";
-import Home0 from "../assets/Home0.png";
-import Home1 from "../assets/Home1.png";
-import Home2 from "../assets/Home2.png";
-import Home3 from "../assets/Home3.png";
-import Home4 from "../assets/Home4.png";
-import Home5 from "../assets/Home5.png";
-import Home6 from "../assets/Home6.png";
-import Home7 from "../assets/Home7.png";
+
 import DropArrow from "../assets/drop-arrow.svg";
 import ProfileIcon from "../assets/ProfileIcon.svg";
 import HistoryIcon from "../assets/historyIcon.svg";
@@ -66,35 +59,15 @@ import { baseUrl } from "../utils/logics/constants";
 import { handleRefreshLocation } from "../utils/logics/updateLocation";
 import axiosInstance from "../utils/logics/axiosInstance";
 import NetworkError from "./components/NetworkError";
-import Calender from "../assets/calender.svg";
-import Time from "../assets/time.svg";
-import SpadeIcon from "../assets/SpadeIcon.svg";
-import { Octicons } from "@expo/vector-icons";
-import TextTicker from "react-native-text-ticker";
 import Offer from "../assets/offer.svg";
 import DeviceInfo from "react-native-device-info";
 import MobileIcon from "../assets/mobileIcon.svg";
 import RightArrow from "../assets/arrow-right.svg";
 import SmallArrow from "../assets/small-arrow.svg";
-import YouTubeIframe from "react-native-youtube-iframe";
-import Category1 from "../assets/category1.png";
-import Category2 from "../assets/category2.png";
+
 import Category3 from "../assets/category3.png";
-import Category4 from "../assets/category4.png";
-import Category5 from "../assets/category5.png";
-import Category6 from "../assets/category6.png";
-import Category7 from "../assets/category7.png";
-import Category8 from "../assets/category8.png";
-import Category9 from "../assets/category9.png";
 import Category10 from "../assets/category10.png";
-import Category11 from "../assets/category11.png";
-import Service1 from "../assets/service1.png";
-import Service2 from "../assets/service2.png";
-import Service3 from "../assets/service3.png";
-import Service4 from "../assets/service4.png";
-import Service5 from "../assets/service5.png";
-import Service6 from "../assets/service6.png";
-import Service7 from "../assets/service7.png";
+
 import Tab11 from "../assets/tab11.svg";
 import Tab2 from "../assets/tab2.svg";
 import Tab3 from "../assets/tab3.svg";
@@ -102,6 +75,8 @@ import Tab4 from "../assets/tab4.svg";
 // import Search from "../assets/search.svg";
 import Search from "../assets/search-black.svg";
 import AllCategory from "../assets/AllCategory.png";
+import NewCategory from "../assets/NewCategory.png";
+
 import NewCategory1 from "../assets/NewCategory1.png";
 import NewCategory2 from "../assets/NewCategory2.png";
 import NewCategory3 from "../assets/NewCategory3.png";
@@ -118,6 +93,8 @@ import NewServices4 from "../assets/NewServices4.png";
 import NewServices5 from "../assets/NewServices5.png";
 import NewServices6 from "../assets/NewServices6.png";
 import NewServices7 from "../assets/NewServices7.png";
+import NewServices8 from "../assets/NewServices8.png";
+
 import Maintenance from "../assets/Maintenace.svg";
 import NewIcon1 from "../assets/NewIcon1.png";
 import NewIcon2 from "../assets/NewIcon2.png";
@@ -126,9 +103,18 @@ import NewIcon4 from "../assets/NewIcon4.png";
 import NewIcon5 from "../assets/NewIcon5.png";
 import NewIcon6 from "../assets/Newicon6.png";
 import NewIcon7 from "../assets/NewIcon7.png";
+import NewIcon8 from "../assets/NewIcon8.png";
 import NewIcon9 from "../assets/NewIcon9.png";
 import NewIcon10 from "../assets/NewIcon10.png";
 import NewIcon from "../assets/NewIcon.png";
+import NewServicesIcon2 from "../assets/NewServicesIcon2.png";
+import NewServicesIcon3 from "../assets/NewServicesIcon3.png";
+import NewServicesIcon4 from "../assets/NewServicesIcon4.png";
+import NewServicesIcon5 from "../assets/NewServicesIcon5.png";
+import NewServicesIcon6 from "../assets/NewServicesIcon6.png";
+import NewServicesIcon7 from "../assets/NewServicesIcon7.png";
+import NewServicesIcon8 from "../assets/NewServicesIcon8.png";
+
 
 import {
   emtpyRequestImages,
@@ -154,7 +140,7 @@ import FastImage from "react-native-fast-image";
 
 const { width } = Dimensions.get("window");
 
-const images = [Home0, Home1, Home2, Home3, Home4, Home5, Home6, Home7];
+
 const categories = [
   {
     id: 1,
@@ -204,7 +190,7 @@ const categories = [
   },
   {
     id: 7,
-    cat: Category3,
+    cat: NewCategory,
     name: "Fashion Accessories - Jewellery, Gold & Diamond",
     title: "Jewel",
     subTitle: "Silver, Imitation",
@@ -226,7 +212,7 @@ const categories = [
     name: "Sports Nutrition - Whey Pro etc",
     title: "Sports",
     subTitle: "Whey Pro, Fiber, Shake, Pasta",
-    icon: NewCategory8,
+    icon: NewIcon8,
   },
 
   {
@@ -256,11 +242,11 @@ const categories = [
   },
   {
     id: 13,
-    cat: Category10,
+    cat: NewServices8,
     name: "Hardware - Cement, Hand tools, Powertools etc",
     title: "Hardware",
     subTitle: "Paint, Plumbing, Bath",
-    icon: Category10,
+    icon: NewServicesIcon8,
   },
   {
     id: 14,
@@ -268,7 +254,7 @@ const categories = [
     name: "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc",
     title: "Electronics",
     subTitle: "Mobile, Laptop, Digital device, Repair",
-    icon: NewServices2,
+    icon: NewServicesIcon2,
   },
   {
     id: 15,
@@ -276,7 +262,7 @@ const categories = [
     name: "Luxury Watches & Service",
     title: "Watches",
     subTitle: "Luxury, Digital, Ring, Wall",
-    icon: NewServices3,
+    icon: NewServicesIcon3,
   },
   {
     id: 16,
@@ -284,7 +270,7 @@ const categories = [
     name: "Electrical Services & Repair - Electrician",
     title: "Electrician",
     subTitle: "Home, Wiring,Lights equipments",
-    icon: NewServices4,
+    icon: NewServicesIcon4,
   },
 
   {
@@ -293,7 +279,7 @@ const categories = [
     name: "Automotive Parts/Services - 4 wheeler Fuel based",
     title: "Car",
     subTitle: "Parts, Service",
-    icon: NewServices5,
+    icon: NewServicesIcon5,
   },
   {
     id: 18,
@@ -301,7 +287,7 @@ const categories = [
     name: "Automotive Parts/Services - 2 wheeler Fuel based",
     title: "Bike",
     subTitle: "Parts, Service",
-    icon: NewServices6,
+    icon: NewServicesIcon6,
   },
   {
     id: 19,
@@ -309,7 +295,7 @@ const categories = [
     name: "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc",
     title: "Heavy",
     subTitle: "Construction, JCB, Truck",
-    icon: NewServices7,
+    icon: NewServicesIcon7,
   },
 ];
 
@@ -352,6 +338,10 @@ const HomeScreen = () => {
       // alert('Video has finished playing!');
     }
   }, []);
+
+   const searchData = useSelector(
+      (store) => store.userRequest.nearByStoresCategory
+    );
 
   const togglePlaying = useCallback(() => {
     setPlaying((prev) => !prev);
@@ -508,6 +498,7 @@ const HomeScreen = () => {
   useEffect(() => {
     connectSocket();
     updateLocationHomeScreen();
+    if(searchData?.length==0)fetchNearByStores();
 
     return () => {
       socket.disconnect();
@@ -606,7 +597,7 @@ const HomeScreen = () => {
           });
 
           // Log the categories array to verify
-          // console.log(categories);
+          console.log(categories);
           dispatch(setNearByStoresCategory(categories));
         });
     } catch (error) {
@@ -712,16 +703,14 @@ const HomeScreen = () => {
   };
 
   const onViewableItemsChanged = useRef(({ viewableItems }) => {
-    // console.log(
-    //   "Viewable Items:",
-    //   viewableItems.map((i) => i.item?.id)
-    // );
+  
     const visibleIds = viewableItems.map((item) => item.item.id);
     setVisibleCategories((prev) =>
       Array.from(new Set([...prev, ...visibleIds]))
     );
   }).current;
 
+  // console.log("Visible categories",searchData)
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView
@@ -1051,7 +1040,7 @@ const HomeScreen = () => {
                 nestedScrollEnabled={true}
                 renderItem={({ item }) => 
                   
-                <ServicesCard category={item} isVisible={visibleCategories.includes(item.id)} />
+                <ServicesCard category={item} setSignUpModal={setSignUpModal} />
              }
                 keyExtractor={(item) => item.id.toString()}
                 onViewableItemsChanged={onViewableItemsChanged}
