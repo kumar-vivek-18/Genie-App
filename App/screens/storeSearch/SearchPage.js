@@ -554,7 +554,13 @@ const SearchCategoryScreen = () => {
       useNativeDriver: true,
     }).start(() => setSelectedImage(null));
   };
-
+ const handleCloseSuggestion = () => {
+    Animated.timing(scaleAnimation, {
+      toValue: 0,
+      duration: 100,
+      useNativeDriver: true,
+    }).start(() => setSelectedImage(null));
+  };
   const renderProductItem = ({ item }) => (
     <Pressable
       onPress={() => {

@@ -3,6 +3,7 @@ import {
   Animated,
   Dimensions,
   FlatList,
+  Linking,
   Modal,
   Pressable,
   StyleSheet,
@@ -14,15 +15,23 @@ import RightArrow from "../../assets/arrow-right.svg";
 import { ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { setRequestCategory } from "../../redux/reducers/userRequestsSlice";
+import {
+  setEstimatedPrice,
+  setRequestCategory,
+  setRequestDetail,
+  setRequestImages,
+  setSuggestedImages,
+} from "../../redux/reducers/userRequestsSlice";
 import { baseUrl } from "../../utils/logics/constants";
 import axios from "axios";
 import { setCategoryImages } from "../../redux/reducers/categorySlice";
 import FastImage from "react-native-fast-image";
-
+import { Feather } from "@expo/vector-icons";
+import BuyText from "../../assets/Buylowesttext.svg";
+import WhiteArrow from "../../assets/white-right.svg";
 const { width, height } = Dimensions.get("window");
 
-const CategoryCard = ({ category, isVisible }) => {
+const CategoryCard = ({ category, setSignUpModal }) => {
   //   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
@@ -30,7 +39,10 @@ const CategoryCard = ({ category, isVisible }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const scaleValue = useRef(new Animated.Value(0)).current;
+  const userDetails = useSelector((state) => state.user.userDetails);
 
+  const [selectedImgEstimatedPrice, setSelectedImgEstimatedPrice] = useState(0);
+  const [selectedImageDesc, setSelectedImageDesc] = useState("");
   const images = useSelector(
     (state) => state.categories.categoryImages[category.name]
   );
@@ -62,12 +74,29 @@ const CategoryCard = ({ category, isVisible }) => {
     return () => (isMounted = false); // Cleanup
   }, [category.id]);
 
-  const openImageModal = (imageUrl) => {
-    // console.log(imageUrl)
+  // const openImageModal = (imageUrl) => {
+  //   // console.log(imageUrl)
 
-    setSelectedImage(imageUrl);
-    setModalVisible(true);
+  //   setSelectedImage(imageUrl);
+  //   setModalVisible(true);
 
+  //   Animated.timing(scaleValue, {
+  //     toValue: 1,
+  //     duration: 300,
+  //     useNativeDriver: true,
+  //   }).start();
+  // };
+
+  // const closeImageModal = () => {
+  //   Animated.timing(scaleValue, {
+  //     toValue: 0,
+  //     duration: 300,
+  //     useNativeDriver: true,
+  //   }).start(() => setSelectedImage(null));
+  // };
+
+  const handleImagePress = (image) => {
+    setSelectedImage(image);
     Animated.timing(scaleValue, {
       toValue: 1,
       duration: 300,
@@ -75,12 +104,28 @@ const CategoryCard = ({ category, isVisible }) => {
     }).start();
   };
 
-  const closeImageModal = () => {
+  const handleClose = () => {
     Animated.timing(scaleValue, {
       toValue: 0,
       duration: 300,
       useNativeDriver: true,
     }).start(() => setSelectedImage(null));
+  };
+
+  const handleCloseSuggestion = () => {
+    Animated.timing(scaleValue, {
+      toValue: 0,
+      duration: 100,
+      useNativeDriver: true,
+    }).start(() => setSelectedImage(null));
+  };
+
+  const handleDownloadDocument = async () => {
+    // const url = `https://www.google.com/search?q=${encodeURIComponent(bidDetails.bidImages[0])}`
+    // const url = `${bidDetails.bidImages[0]}`;
+    Linking.openURL(selectedImage).catch((err) =>
+      console.error("An error occurred", err)
+    );
   };
 
   //   if (!isVisible) return null;
@@ -197,7 +242,11 @@ const CategoryCard = ({ category, isVisible }) => {
             {images.slice(0, 4).map((item) => (
               <TouchableOpacity
                 key={item._id}
-                onPress={() => openImageModal(item?.productImage)}
+                onPress={() => {
+                  handleImagePress(item.productImage);
+                  setSelectedImgEstimatedPrice(item.productPrice);
+                  setSelectedImageDesc(item.productDescription);
+                }}
               >
                 <FastImage
                   source={{ uri: item?.productImage }}
@@ -287,12 +336,17 @@ const CategoryCard = ({ category, isVisible }) => {
           {!loading && images && (
             <View style={{ flexDirection: "row", paddingLeft: 20 }}>
               <FlatList
-                data={images}
+                data={images.slice(4)}
                 keyExtractor={(item) => item._id.toString()}
                 renderItem={({ item }) => (
                   <TouchableOpacity
                     key={item._id}
-                    onPress={() => openImageModal(item?.productImage)}
+                    onPress={() => {
+                      handleImagePress(item.productImage);
+
+                      setSelectedImgEstimatedPrice(item.productPrice);
+                      setSelectedImageDesc(item.productDescription);
+                    }}
                     style={{ marginRight: 10 }}
                   >
                     <FastImage
@@ -402,7 +456,7 @@ const CategoryCard = ({ category, isVisible }) => {
           )}
         </ScrollView>
       </View>
-      {modalVisible && selectedImage && (
+      {/* {modalVisible && selectedImage && (
         <Modal
           visible={modalVisible}
           transparent={true}
@@ -436,40 +490,192 @@ const CategoryCard = ({ category, isVisible }) => {
             </Animated.View>
           </Pressable>
         </Modal>
-      )}
+      )} */}
 
-      {/* {modalVisible && selectedImage && (
-        <Modal
-          visible={modalVisible}
-          transparent={true}
-          onRequestClose={closeImageModal}
-          animationType="fade"
+      <Modal transparent visible={!!selectedImage} onRequestClose={handleClose}>
+        <Pressable
+          onPress={() => {
+            handleClose();
+          }}
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          }}
         >
-          <Pressable onPress={()=>closeImageModal()} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.7)' }}>
-            <Animated.View style={{ width: .9 * width, justifyContent: 'center', alignItems: 'center', 
-                    transform: [{ scale: scaleValue }],
-                    backgroundColor: '#fff', padding: 20, borderRadius: 10 ,
-                }}>
-              {selectedImage && (
-                <FastImage
-                  source={{ uri: selectedImage }}
+          <Animated.View
+            style={[
+              {
+                transform: [{ scale: scaleValue }],
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#fff",
+                borderRadius: 20,
+                padding: 12,
+                paddingTop: 15,
+              },
+            ]}
+          >
+            <Pressable
+              onPress={() => {
+                handleClose();
+              }}
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 10,
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#fff",
+                  position: "absolute",
+                  top: 20,
+                  right: 20,
+                  zIndex: 100,
+                  padding: 10,
+                  borderRadius: 100,
+                }}
+                onPress={() => {
+                  handleDownloadDocument();
+                }}
+              >
+                <Feather name="download" size={16} color="#fb8c00" />
+              </TouchableOpacity>
+              <FastImage
+                source={{ uri: selectedImage }}
+                style={{
+                  width: 280,
+                  height: 350,
+                  borderTopLeftRadius: 20,
+                  borderTopRightRadius: 20,
+                }}
+                resizeMode={FastImage.resizeMode.cover}
+              />
+              {(selectedImgEstimatedPrice > 0 ||
+                selectedImageDesc?.length > 0) && (
+                <View
                   style={{
-                    width: width - 60,
-                    height: width - 60,
-                    borderRadius: 10,
-                    marginBottom: 15,
+                    position: "absolute",
+                    top: 260,
+                    backgroundColor: "rgba(0,0,0,0.5)",
+                    width: 280,
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingVertical: 5,
                   }}
-                  resizeMode={FastImage.resizeMode.cover}
-               
-                />
+                >
+                  {selectedImageDesc?.length > 0 &&
+                    selectedImageDesc.length > 40 && (
+                      <Text
+                        style={{
+                          color: "white",
+                          fontSize: 14,
+                          fontFamily: "Poppins-Regular",
+                        }}
+                      >
+                        {selectedImageDesc.substring(0, 40)}...
+                      </Text>
+                    )}
+                  {selectedImageDesc?.length > 0 &&
+                    selectedImageDesc.length <= 40 && (
+                      <Text
+                        style={{
+                          color: "white",
+                          fontSize: 14,
+                          fontFamily: "Poppins-Regular",
+                        }}
+                      >
+                        {selectedImageDesc}
+                      </Text>
+                    )}
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: 14,
+                      fontFamily: "Poppins-Regular",
+                    }}
+                  >
+                    Estimated Price
+                  </Text>
+                  {selectedImgEstimatedPrice > 0 && (
+                    <Text
+                      style={{
+                        color: "#70b241",
+                        fontSize: 18,
+                        fontFamily: "Poppins-SemiBold",
+                      }}
+                    >
+                      Rs {selectedImgEstimatedPrice}
+                    </Text>
+                  )}
+                </View>
               )}
 
+              <BuyText width={200} />
+              <Text
+                style={{
+                  width: 280,
+                  fontSize: 14,
+                  textAlign: "center",
+                  fontFamily: "Poppins-Regular",
+                  paddingHorizontal: 5,
+                }}
+              >
+                Live unboxing & multi-vendor bargaining
+              </Text>
 
-              
-            </Animated.View>
-          </Pressable>
-        </Modal>
-      )} */}
+              <TouchableOpacity
+                onPress={() => {
+                  handleCloseSuggestion();
+                  if (!userDetails?._id) setSignUpModal(true);
+                  else {
+                    dispatch(setSuggestedImages([selectedImage]));
+                    dispatch(setRequestImages([]));
+
+                    if (selectedImgEstimatedPrice > 0) {
+                      dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
+                    }
+                    setTimeout(() => {
+                      dispatch(
+                        setRequestDetail(
+                          "Looking for the product in this reference image."
+                        )
+                      );
+                      navigation.navigate("define-request");
+                    }, 200);
+                  }
+                }}
+                style={{
+                  backgroundColor: "#fb8c00",
+                  borderRadius: 24,
+                  paddingHorizontal: 20,
+                  paddingVertical: 15,
+                  marginTop: 10,
+                  width: 280,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  gap: 20,
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "Poppins-Bold",
+                    color: "#fff",
+                    fontSize: 16,
+                  }}
+                >
+                  Start Bargaining
+                </Text>
+                <WhiteArrow />
+              </TouchableOpacity>
+            </Pressable>
+          </Animated.View>
+        </Pressable>
+      </Modal>
     </View>
   );
 };

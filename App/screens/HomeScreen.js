@@ -1005,7 +1005,7 @@ const HomeScreen = () => {
                  
                   <CategoryCard
                     category={item}
-                    isVisible={visibleCategories.includes(item.id)}
+                    setSignUpModal={setSignUpModal}
                   />
                 
                 )}
