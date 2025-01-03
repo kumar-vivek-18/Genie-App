@@ -94,7 +94,7 @@ const ImageSuggestion = () => {
   const [loadMore, setLoadMore] = useState(true);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [loadingQuerySearch, setLoadingQuerySearch] = useState(false);
-  const userDetails = useSelector((store) => store.user.userDetails);
+  const userDetails = useSelector((store) => store.user.userDetails); 
   const [signUpModal, setSignUpModal] = useState(false);
   const navigationState = useNavigationState((state) => state);
   // console.log(category)
@@ -256,14 +256,14 @@ const ImageSuggestion = () => {
       }}
       style={{ marginBottom: 10 }}
     >
-      <Image
+      <FastImage
         source={{ uri: item.productImage }}
         style={{
           width: 154,
           height: 200,
           borderRadius: 16,
         }}
-        resizeMode="cover"
+        resizeMode={FastImage.resizeMode.cover}
       />
       <View
         style={{

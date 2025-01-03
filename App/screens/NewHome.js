@@ -1137,6 +1137,27 @@ import FastImage from "react-native-fast-image";
                 Home
               </Text>
             </View>
+
+             <TouchableOpacity
+                        onPress={() => {
+                          if (!userLongitude || !userLatitude) {
+                            setLocationRefresh(true);
+                          } else {
+                            navigation.navigate("store-search");
+                          }
+                        }}
+                        style={{
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "flex-end",
+                        }}
+                      >
+                                      <Octicons name="search" size={22} color={"#000"} />
+            
+                        <Text style={{ fontFamily: "Poppins-Regular", color: "#000" }}>
+                          Search
+                        </Text>
+                      </TouchableOpacity>
   
             <TouchableOpacity
               onPress={() => {
@@ -1172,7 +1193,7 @@ import FastImage from "react-native-fast-image";
                 Orders
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
                 if(!userLongitude || !userLatitude){
                    setLocationRefresh(true);
@@ -1191,7 +1212,7 @@ import FastImage from "react-native-fast-image";
               <Text style={{ fontFamily: "Poppins-Regular", color: "#2e2c43" }}>
                 Stores
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               onPress={() => {
                 onShare();

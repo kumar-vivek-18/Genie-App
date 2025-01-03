@@ -12,12 +12,15 @@ import {
   Linking,
   FlatList,
   BackHandler,
+  Pressable,
+  Animated,
+  Modal,
 } from "react-native";
 import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { Octicons } from "@expo/vector-icons";
+import { Feather, Octicons } from "@expo/vector-icons";
 import BackArrow from "../../assets/arrow-left.svg";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,6 +44,11 @@ import Tab4 from "../../assets/tab4.svg";
 import Share from "react-native-share";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SignUpModal from "../components/SignUpModal";
+import { setRequestDetail } from "../../redux/reducers/userRequestsSlice";
+
+import BuyText from "../../assets/Buylowesttext.svg";
+import WhiteArrow from "../../assets/white-right.svg";
+import FastImage from "react-native-fast-image";
 
 const SearchCategoryScreen = () => {
   const navigation = useNavigation();
@@ -66,6 +74,20 @@ const SearchCategoryScreen = () => {
   const [createSpadeLoading, setCreateSpadeLoading] = useState(false);
   const [hasMorePages, setHasMorePages] = useState(true);
   const [signUpModal, setSignUpModal] = useState(false);
+  const [tab, setTab] = useState("Product");
+  const [descModal, setDescModal] = useState(false);
+  const [selectedImgEstimatedPrice, setSelectedImgEstimatedPrice] = useState(0);
+  const [selectedImageDesc, setSelectedImageDesc] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [scaleAnimation] = useState(new Animated.Value(0));
+  const [loadMore, setLoadMore] = useState(true);
+  const [loadingProducts, setLoadingProducts] = useState(false);
+  const [loadingQuerySearch, setLoadingQuerySearch] = useState(false);
+  const [productImages, setProductImages] = useState([]);
+  const [productPage, setProductPage] = useState(1);
+  const requestCategory = useSelector(
+    (store) => store.userRequest.requestCategory
+  );
 
   const Icons = {
     "Automotive Parts/Services - 2 wheeler Fuel based":
@@ -455,10 +477,167 @@ const SearchCategoryScreen = () => {
     }
   };
 
+  const categoryListedProduct = async () => {
+    if (!loadMore) return;
+    console.log("Loading category", searchQuery, requestCategory);
+    setLoadingProducts(true);
+    try {
+      const response = await axios.get(`${baseUrl}/product/search-product`, {
+        params: { page: productPage, query: searchQuery },
+      });
+
+      if (response.status === 200) {
+        const fetchedImages = response.data;
+
+        setProductImages((prev) => [...prev, ...fetchedImages]);
+        setProductPage((curr) => curr + 1);
+
+        if (fetchedImages.length < 10) {
+          setLoadMore(false); // Stop further loading if less than 10 products
+        }
+      }
+    } catch (error) {
+      if (error.response?.status === 404) {
+        setLoadMore(false);
+      }
+      console.error("Error while fetching products:", error);
+    } finally {
+      setLoadingProducts(false);
+    }
+  };
+
+  const querySearch = async () => {
+    setProductPage(1);
+    setLoadMore(true);
+    console.log("Loading category", searchQuery);
+    setLoadingQuerySearch(true);
+    try {
+      const response = await axios.get(`${baseUrl}/product/search-product`, {
+        params: { page: 1, query: searchQuery },
+      });
+
+      if (response.status === 200) {
+        const fetchedImages = response.data;
+        console.log(fetchedImages);
+        setProductImages((prev) => [...fetchedImages]);
+        setProductPage((curr) => curr + 1);
+
+        if (fetchedImages.length < 10) {
+          setLoadMore(false); // Stop further loading if less than 10 products
+        }
+      }
+    } catch (error) {
+      if (error.response?.status === 404) {
+        setLoadMore(false);
+        setProductImages([]);
+      }
+
+      console.error("Error while fetching products:", error);
+    } finally {
+      setLoadingQuerySearch(false);
+    }
+  };
+
+  const handleImagePress = (image) => {
+    setSelectedImage(image);
+    Animated.timing(scaleAnimation, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handleClose = () => {
+    Animated.timing(scaleAnimation, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => setSelectedImage(null));
+  };
+
+  const renderProductItem = ({ item }) => (
+    <Pressable
+      onPress={() => {
+        handleImagePress(item.productImage);
+
+        setSelectedImgEstimatedPrice(item.productPrice);
+        setSelectedImageDesc(item.productDescription);
+      }}
+      style={{ marginBottom: 10 }}
+    >
+      <Image
+        source={{ uri: item.productImage }}
+        style={{
+          width: 154,
+          height: 200,
+          borderRadius: 16,
+        }}
+        resizeMode="cover"
+      />
+      <View
+        style={{
+          position: "absolute",
+          bottom: 0,
+          width: 154,
+          height: 50,
+          backgroundColor: "rgba(0,0,0,0.5)",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          borderBottomEndRadius: 16,
+          borderBottomStartRadius: 16,
+        }}
+      >
+        {item?.productDescription && (
+          <Text
+            style={{
+              fontFamily: "Poppins-Regular",
+              fontSize: 10,
+              color: "white",
+            }}
+          >
+            {item.productDescription.length > 25
+              ? `${item.productDescription.substring(0, 25)}...`
+              : item.productDescription}
+          </Text>
+        )}
+        <Text
+          style={{
+            fontFamily: "Poppins-Regular",
+            fontSize: 8,
+            color: "white",
+          }}
+        >
+          Estimated Price
+        </Text>
+        <Text
+          style={{
+            fontFamily: "Poppins-SemiBold",
+            color: "#70b241",
+          }}
+        >
+          Rs {item.productPrice}
+        </Text>
+      </View>
+    </Pressable>
+  );
+
+  const handleDownloadDocument = async () => {
+    // const url = `https://www.google.com/search?q=${encodeURIComponent(bidDetails.bidImages[0])}`
+    // const url = `${bidDetails.bidImages[0]}`;
+    Linking.openURL(selectedImage).catch((err) =>
+      console.error("An error occurred", err)
+    );
+  };
+
+  useEffect(() => {
+    categoryListedProduct();
+  }, [tab]);
+
   return (
     <View style={styles.container} edges={["top", "bottom"]}>
       <View className=" flex-1 w-full bg-white flex-col gap-[40px] ">
-        <ScrollView className="flex-1 " showsVerticalScrollIndicator={false}>
+        <View>
           <TouchableOpacity
             onPress={() => {
               if (storeVisible) {
@@ -481,39 +660,49 @@ const SearchCategoryScreen = () => {
               className="flex flex-1 justify-center items-center text-center text-[#2E2C43] text-[16px]"
               style={{ fontFamily: "Poppins-Bold" }}
             >
-              Search Stores
+              Search
             </Text>
           </View>
 
           <View
-            className="mx-[32px] flex flex-row h-[60px] border-[1px] items-center border-[#000000] border-opacity-25 rounded-[24px] mb-[40px] bg-white"
-            style={{ borderWidth: 1, borderColor: "rgba(0, 0, 0, 0.15)" }}
+            className="mx-[32px] flex flex-row h-[60px] border-[1px] items-center border-[#fb8c000] border-opacity-25 rounded-[24px] mb-[20px] bg-white"
+            style={{ borderWidth: 1, borderColor: "#fb8c00" }}
           >
             <TextInput
-              placeholder="Search store name..."
-              placeholderTextColor="#DBCDBB"
+              placeholder="Search products, stores here"
+              placeholderTextColor="#fb8c00"
               value={searchQuery}
               onChangeText={handleTextChange}
               onFocus={() => {
-                setPage(1);
-                setHasMorePages(true);
-                setStoreVisible(false);
+                if (tab === "Store") {
+                  setPage(1);
+                  setHasMorePages(true);
+                  setStoreVisible(false);
+                }
               }}
               onSubmitEditing={() => {
-                setPage(1);
-                setHasMorePages(true);
-                setStoreVisible(true);
-                searchStores(searchQuery, 1, true);
+                if (tab === "Store") {
+                  setPage(1);
+                  setHasMorePages(true);
+                  setStoreVisible(true);
+                  searchStores(searchQuery, 1, true);
+                } else {
+                  querySearch();
+                }
               }}
               className="flex text-center text-[14px] text-[#2E2C43] justify-center items-center flex-1 pl-[20px] pr-[70px]" // Adjusted padding to center the text
               style={{ fontFamily: "Poppins-Italic", textAlign: "center" }} // Added textAlign for centering text
             />
             <TouchableOpacity
               onPress={() => {
-                setHasMorePages(true);
-                setPage(1);
-                setStoreVisible(true);
-                searchStores(searchQuery, 1, true);
+                if (tab === "Store") {
+                  setHasMorePages(true);
+                  setPage(1);
+                  setStoreVisible(true);
+                  searchStores(searchQuery, 1, true);
+                } else {
+                  querySearch();
+                }
               }}
               style={{
                 paddingRight: 20,
@@ -523,242 +712,364 @@ const SearchCategoryScreen = () => {
                 zIndex: 100,
               }}
             >
-              <Octicons name="search" size={22} />
+              <Octicons name="search" size={18} color={"#fb8c00"} />
             </TouchableOpacity>
           </View>
-          {!storeVisible && (
-            <View className="px-[32px]">
-              {!isLoading &&
-                storeCategories &&
-                storeCategories?.map((result) => {
-                  const categoryName = result.name;
-                  const CategoryIcon = Icons.categoryName;
-
-                  return (
-                    <TouchableOpacity
-                      key={result.id}
-                      onPress={() => {
-                        setPage(1);
-                        setHasMorePages(true);
-                        setStoreVisible(true);
-                        setSearchQuery(result.name);
-                        searchStores(result.name, 1, true);
-                      }}
-                    >
-                      <View className="flex flex-row items-center my-[3px] gap-[10px] pr-[10px]">
-                        {!Icons[result.name] &&
-                          result?.name !==
-                            "Z-Internal test culturtap ( not for commercial use )" && (
-                            <Octicons
-                              name="search"
-                              size={19}
-                              style={{ color: "#7c7c7c" }}
-                            />
-                          )}
-                        {result?.name !==
-                          "Z-Internal test culturtap ( not for commercial use )" &&
-                          Icons[result.name] && (
-                            <View style={{ backgroundColor: "white" }}>
-                              {
-                                <Image
-                                  source={{ uri: Icons[result.name] }}
-                                  alt="img"
-                                  style={{ width: 51, height: 59.5 }}
-                                />
-                              }
-                            </View>
-                          )}
-
-                        <View
-                          key={result.id}
-                          className="flex flex-row w-[90%]  py-[10px] gap-[30px] items-center"
-                        >
-                          {result?.name !==
-                            "Z-Internal test culturtap ( not for commercial use )" &&
-                            result?.name.indexOf("-") > 0 && (
-                              <Text
-                                style={{ fontFamily: "Poppins-Regular" }}
-                                className="capitalize"
-                              >
-                                <Text style={{ fontFamily: "Poppins-Bold" }}>
-                                  {result?.name.slice(
-                                    0,
-                                    result.name.indexOf("-")
-                                  )}
-                                </Text>
-                                {result.name.indexOf("-") >= 0
-                                  ? result.name.slice(result.name.indexOf("-"))
-                                  : ""}
-                              </Text>
-                            )}
-                          {result?.name !==
-                            "Z-Internal test culturtap ( not for commercial use )" &&
-                            result?.name.indexOf("-") == -1 && (
-                              <Text
-                                style={{ fontFamily: "Poppins-Bold" }}
-                                className="capitalize"
-                              >
-                                {result?.name}
-                              </Text>
-                            )}
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  );
-                })}
-            </View>
-          )}
-          {storeVisible && (
-            <View className="px-[32px] flex mb-[10px]">
-              <View className="border-[1px] border-[#fb8c00] rounded-xl mb-[20px] flex-row justify-between">
-                <View className="w-[50%] ">
-                  <TouchableOpacity
-                    className="rounded-xl text-[14px] py-[10px] w-[50%] text-center"
-                    style={{
-                      backgroundColor: filterNearby ? "#fb8c00" : "#ffffff",
-                      paddingVertical: 10,
-                      textAlign: "center",
-                      borderRadius: 10,
-                    }}
-                    onPress={() => {
-                      setFilterNearby(true);
-                      updateFilter(0);
-                    }}
-                  >
-                    <Text
-                      className="text-[#fb8c00] "
-                      style={{
-                        fontFamily: "Poppins-Regular",
-                        color: filterNearby ? "#ffffff" : "#fb8c00",
-                        textAlign: "center",
-                      }}
-                    >
-                      Nearby
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                <View className="w-[50%]">
-                  <TouchableOpacity
-                    className="rounded-xl text-[14px] py-[10px] w-[50%] text-center"
-                    style={{
-                      backgroundColor: filterNearby ? "#ffffff" : "#fb8c00",
-                      paddingVertical: 10,
-                      textAlign: "center",
-                      borderRadius: 10,
-                    }}
-                    onPress={() => {
-                      setFilterNearby(false);
-                      updateFilter(1);
-                    }}
-                  >
-                    <Text
-                      className="text-[#fb8c00]"
-                      style={{
-                        fontFamily: "Poppins-Regular",
-                        color: filterNearby ? "#fb8c00" : "#ffffff",
-                        textAlign: "center",
-                      }}
-                    >
-                      Most Rated
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-
+          <View
+            style={{
+              flexDirection: "row",
+              paddingHorizontal: 32,
+              justifyContent: "space-evenly",
+              alignItems: "center",
+              marginBottom: 16,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                setTab("Product");
+                setSearchQuery("");
+              }}
+            >
               <Text
-                className="text-[14px] text-[#2e2c43] capitalize"
-                style={{ fontFamily: "Poppins-SemiBold" }}
+                style={{
+                  width: 100,
+                  textAlign: "center",
+                  fontFamily: "Poppins-Regular",
+                  color: tab === "Product" ? "#fff" : "#2e2c43",
+                  fontSize: 14,
+                  backgroundColor: tab === "Product" ? "#fb8c00" : "#FFDAAC",
+                  paddingHorizontal: 16,
+                  paddingVertical: 6,
+                  borderRadius: 16,
+                }}
               >
-                Search Results for:
+                Product
               </Text>
-              {searchQuery && (
-                <View className="flex flex-row w-[90%]  py-[10px]  gap-[30px] rounded-lg">
-                  {searchQuery.indexOf("-") > 0 && (
-                    <Text
-                      style={{
-                        fontFamily: "Poppins-Regular",
-                        color: "#fb8c00",
-                      }}
-                      className="capitalize"
-                    >
-                      <Text
-                        style={{ fontFamily: "Poppins-Bold", color: "#fb8c00" }}
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setTab("Store");
+                setSearchQuery("");
+              }}
+            >
+              <Text
+                style={{
+                  width: 100,
+                  textAlign: "center",
+                  fontFamily: "Poppins-Regular",
+                  color: tab === "Store" ? "#fff" : "#2e2c43",
+                  fontSize: 14,
+                  backgroundColor: tab === "Store" ? "#fb8c00" : "#FFDAAC",
+                  paddingHorizontal: 16,
+                  paddingVertical: 6,
+                  borderRadius: 16,
+                }}
+              >
+                Store
+              </Text>
+            </TouchableOpacity>
+          </View>
+          {tab === "Store" && (
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {!storeVisible && (
+                <View className="px-[32px] " style={{ paddingBottom: 240 }}>
+                  {!isLoading &&
+                    storeCategories &&
+                    storeCategories?.map((result) => {
+                      const categoryName = result.name;
+                      const CategoryIcon = Icons.categoryName;
+
+                      return (
+                        <TouchableOpacity
+                          key={result.id}
+                          onPress={() => {
+                            setPage(1);
+                            setHasMorePages(true);
+                            setStoreVisible(true);
+                            setSearchQuery(result.name);
+                            searchStores(result.name, 1, true);
+                          }}
+                        >
+                          <View className="flex flex-row items-center my-[3px] gap-[10px] pr-[10px]">
+                            {!Icons[result.name] &&
+                              result?.name !==
+                                "Z-Internal test culturtap ( not for commercial use )" && (
+                                <Octicons
+                                  name="search"
+                                  size={19}
+                                  style={{ color: "#7c7c7c" }}
+                                />
+                              )}
+                            {result?.name !==
+                              "Z-Internal test culturtap ( not for commercial use )" &&
+                              Icons[result.name] && (
+                                <View style={{ backgroundColor: "white" }}>
+                                  {
+                                    <Image
+                                      source={{ uri: Icons[result.name] }}
+                                      alt="img"
+                                      style={{ width: 51, height: 59.5 }}
+                                    />
+                                  }
+                                </View>
+                              )}
+
+                            <View
+                              key={result.id}
+                              className="flex flex-row w-[90%]  py-[10px] gap-[30px] items-center"
+                            >
+                              {result?.name !==
+                                "Z-Internal test culturtap ( not for commercial use )" &&
+                                result?.name.indexOf("-") > 0 && (
+                                  <Text
+                                    style={{ fontFamily: "Poppins-Regular" }}
+                                    className="capitalize"
+                                  >
+                                    <Text
+                                      style={{ fontFamily: "Poppins-Bold" }}
+                                    >
+                                      {result?.name.slice(
+                                        0,
+                                        result.name.indexOf("-")
+                                      )}
+                                    </Text>
+                                    {result.name.indexOf("-") >= 0
+                                      ? result.name.slice(
+                                          result.name.indexOf("-")
+                                        )
+                                      : ""}
+                                  </Text>
+                                )}
+                              {result?.name !==
+                                "Z-Internal test culturtap ( not for commercial use )" &&
+                                result?.name.indexOf("-") == -1 && (
+                                  <Text
+                                    style={{ fontFamily: "Poppins-Bold" }}
+                                    className="capitalize"
+                                  >
+                                    {result?.name}
+                                  </Text>
+                                )}
+                            </View>
+                          </View>
+                        </TouchableOpacity>
+                      );
+                    })}
+                </View>
+              )}
+              {storeVisible && (
+                <View className="px-[32px] flex mb-[10px]">
+                  <View className="border-[1px] border-[#fb8c00] rounded-xl mb-[20px] flex-row justify-between">
+                    <View className="w-[50%] ">
+                      <TouchableOpacity
+                        className="rounded-xl text-[14px] py-[10px] w-[50%] text-center"
+                        style={{
+                          backgroundColor: filterNearby ? "#fb8c00" : "#ffffff",
+                          paddingVertical: 10,
+                          textAlign: "center",
+                          borderRadius: 10,
+                        }}
+                        onPress={() => {
+                          setFilterNearby(true);
+                          updateFilter(0);
+                        }}
                       >
-                        {searchQuery?.slice(0, searchQuery.indexOf("-"))}
-                      </Text>
-                      {searchQuery.indexOf("-") >= 0
-                        ? searchQuery.slice(searchQuery.indexOf("-"))
-                        : ""}
-                    </Text>
-                  )}
-                  {searchQuery.indexOf("-") == -1 && (
-                    <Text
-                      style={{ fontFamily: "Poppins-Bold", color: "#fb8c00" }}
-                      className="capitalize"
-                    >
-                      {searchQuery}
-                    </Text>
+                        <Text
+                          className="text-[#fb8c00] "
+                          style={{
+                            fontFamily: "Poppins-Regular",
+                            color: filterNearby ? "#ffffff" : "#fb8c00",
+                            textAlign: "center",
+                          }}
+                        >
+                          Nearby
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                    <View className="w-[50%]">
+                      <TouchableOpacity
+                        className="rounded-xl text-[14px] py-[10px] w-[50%] text-center"
+                        style={{
+                          backgroundColor: filterNearby ? "#ffffff" : "#fb8c00",
+                          paddingVertical: 10,
+                          textAlign: "center",
+                          borderRadius: 10,
+                        }}
+                        onPress={() => {
+                          setFilterNearby(false);
+                          updateFilter(1);
+                        }}
+                      >
+                        <Text
+                          className="text-[#fb8c00]"
+                          style={{
+                            fontFamily: "Poppins-Regular",
+                            color: filterNearby ? "#fb8c00" : "#ffffff",
+                            textAlign: "center",
+                          }}
+                        >
+                          Most Rated
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+
+                  <Text
+                    className="text-[14px] text-[#2e2c43] capitalize"
+                    style={{ fontFamily: "Poppins-SemiBold" }}
+                  >
+                    Search Results for:
+                  </Text>
+                  {searchQuery && (
+                    <View className="flex flex-row w-[90%]  py-[10px]  gap-[30px] rounded-lg">
+                      {searchQuery.indexOf("-") > 0 && (
+                        <Text
+                          style={{
+                            fontFamily: "Poppins-Regular",
+                            color: "#fb8c00",
+                          }}
+                          className="capitalize"
+                        >
+                          <Text
+                            style={{
+                              fontFamily: "Poppins-Bold",
+                              color: "#fb8c00",
+                            }}
+                          >
+                            {searchQuery?.slice(0, searchQuery.indexOf("-"))}
+                          </Text>
+                          {searchQuery.indexOf("-") >= 0
+                            ? searchQuery.slice(searchQuery.indexOf("-"))
+                            : ""}
+                        </Text>
+                      )}
+                      {searchQuery.indexOf("-") == -1 && (
+                        <Text
+                          style={{
+                            fontFamily: "Poppins-Bold",
+                            color: "#fb8c00",
+                          }}
+                          className="capitalize"
+                        >
+                          {searchQuery}
+                        </Text>
+                      )}
+                    </View>
                   )}
                 </View>
               )}
-            </View>
-          )}
-          {storeVisible && (
-            <FlatList
-              data={searchedStores}
-              renderItem={renderStoreItem}
-              keyExtractor={(item, index) => `${index}-${item.id}`}
-              ListFooterComponent={renderFooter}
-              showsVerticalScrollIndicator={false}
-            />
-          )}
-          {hasMorePages && !loading && storeVisible && (
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                marginVertical: 30,
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  console.log("pageee", page);
-                  searchStores(searchQuery, page, hasMorePages);
-                }}
-              >
+              {storeVisible && (
+                <FlatList
+                  style={{ paddingBottom: 240 }}
+                  data={searchedStores}
+                  renderItem={renderStoreItem}
+                  keyExtractor={(item, index) => `${index}-${item.id}`}
+                  ListFooterComponent={renderFooter}
+                  showsVerticalScrollIndicator={false}
+                />
+              )}
+              {hasMorePages && !loading && storeVisible && (
                 <View
                   style={{
-                    borderWidth: 1,
-                    width: 150,
-                    borderColor: "#fb8c00",
-                    borderRadius: 16,
                     flexDirection: "row",
                     justifyContent: "center",
+                    marginVertical: 30,
                   }}
                 >
-                  <Text className="text-[#fb8c00] px-3 py-2  w-max  ">
-                    View More
-                  </Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      console.log("pageee", page);
+                      searchStores(searchQuery, page, hasMorePages);
+                    }}
+                  >
+                    <View
+                      style={{
+                        borderWidth: 1,
+                        width: 150,
+                        borderColor: "#fb8c00",
+                        borderRadius: 16,
+                        flexDirection: "row",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Text className="text-[#fb8c00] px-3 py-2  w-max  ">
+                        View More
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
+              )}
+              {storeVisible &&
+                !loading &&
+                searchedStores &&
+                searchedStores.length === 0 && (
+                  <Text
+                    className="text-[14px] text-[#2e2c43] capitalize text-center mt-[30px]"
+                    style={{ fontFamily: "Poppins-Regular" }}
+                  >
+                    No store found !
+                  </Text>
+                )}
+            </ScrollView>
+          )}
+
+          {tab === "Product" && (
+            <View
+              style={{
+                // flex: 1,
+                paddingHorizontal: 20,
+
+                paddingBottom: 400,
+              }}
+            >
+              {loadingQuerySearch ? (
+                <ActivityIndicator
+                  size="large"
+                  color="#fb8c00"
+                  style={{ marginVertical: 20 }}
+                />
+              ) : (
+                <FlatList
+                  data={productImages}
+                  // style={{paddingBottom:80}}
+                  renderItem={renderProductItem}
+                  keyExtractor={(item, index) => `${item.id}-${index}`}
+                  numColumns={2}
+                  showsVerticalScrollIndicator={false}
+                  columnWrapperStyle={{
+                    justifyContent: "space-between",
+                    gap: 10,
+                  }}
+                  nestedScrollEnabled={true}
+                  onEndReached={() => {
+                    if (loadMore && !loadingProducts) {
+                      // console.log("Fetching next page...");
+                      categoryListedProduct();
+                    }
+                  }}
+                  onEndReachedThreshold={0.5}
+                  ListFooterComponent={
+                    loadingProducts ? (
+                      <ActivityIndicator
+                        size="large"
+                        color="#fb8c00"
+                        style={{ marginVertical: 20 }}
+                      />
+                    ) : null
+                  }
+                  contentContainerStyle={{
+                    paddingBottom: 50,
+                  }}
+                />
+              )}
             </View>
           )}
-          {storeVisible &&
-            !loading &&
-            searchedStores &&
-            searchedStores.length === 0 && (
-              <Text
-                className="text-[14px] text-[#2e2c43] capitalize text-center mt-[30px]"
-                style={{ fontFamily: "Poppins-Regular" }}
-              >
-                No store found !
-              </Text>
-            )}
+
           {/* {
                         storeVisible && loading &&
                         <View className="py-[150px]"><ActivityIndicator size={30} color={'#fb8c00'} /></View>
                     } */}
-        </ScrollView>
+        </View>
       </View>
 
       {isLoading && (
@@ -798,6 +1109,23 @@ const SearchCategoryScreen = () => {
             </Text>
           </TouchableOpacity>
 
+          
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("store-search");
+            }}
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "flex-end",
+            }}
+          >
+                          <Octicons name="search" size={22} color={"#fb8c00"} />
+
+            <Text style={{ fontFamily: "Poppins-Regular", color: "#fb8c00" }}>
+              Search
+            </Text>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("orders");
@@ -834,21 +1162,6 @@ const SearchCategoryScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("store-search");
-            }}
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "flex-end",
-            }}
-          >
-            <Search />
-            <Text style={{ fontFamily: "Poppins-Regular", color: "#fb8c00" }}>
-              Stores
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
               onShare();
             }}
             style={{
@@ -878,6 +1191,191 @@ const SearchCategoryScreen = () => {
           setSignUpModal={setSignUpModal}
         />
       )}
+
+      <Modal transparent visible={!!selectedImage} onRequestClose={handleClose}>
+        <Pressable
+          onPress={() => {
+            handleClose();
+          }}
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          }}
+        >
+          <Animated.View
+            style={[
+              {
+                transform: [{ scale: scaleAnimation }],
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#fff",
+                borderRadius: 20,
+                padding: 12,
+                paddingTop: 15,
+              },
+            ]}
+          >
+            <Pressable
+              onPress={() => {
+                handleClose();
+              }}
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 10,
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#fff",
+                  position: "absolute",
+                  top: 20,
+                  right: 20,
+                  zIndex: 100,
+                  padding: 10,
+                  borderRadius: 100,
+                }}
+                onPress={() => {
+                  handleDownloadDocument();
+                }}
+              >
+                <Feather name="download" size={16} color="#fb8c00" />
+              </TouchableOpacity>
+              <FastImage
+                source={{ uri: selectedImage }}
+                style={{
+                  width: 280,
+                  height: 350,
+                  borderTopLeftRadius: 20,
+                  borderTopRightRadius: 20,
+                }}
+                resizeMode={FastImage.resizeMode.cover}
+              />
+              {(selectedImgEstimatedPrice > 0 ||
+                selectedImageDesc?.length > 0) && (
+                <View
+                  style={{
+                    position: "absolute",
+                    top: 260,
+                    backgroundColor: "rgba(0,0,0,0.5)",
+                    width: 280,
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingVertical: 5,
+                  }}
+                >
+                  {selectedImageDesc?.length > 0 &&
+                    selectedImageDesc.length > 40 && (
+                      <Text
+                        style={{
+                          color: "white",
+                          fontSize: 14,
+                          fontFamily: "Poppins-Regular",
+                        }}
+                      >
+                        {selectedImageDesc.substring(0, 40)}...
+                      </Text>
+                    )}
+                  {selectedImageDesc?.length > 0 &&
+                    selectedImageDesc.length <= 40 && (
+                      <Text
+                        style={{
+                          color: "white",
+                          fontSize: 14,
+                          fontFamily: "Poppins-Regular",
+                        }}
+                      >
+                        {selectedImageDesc}
+                      </Text>
+                    )}
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: 14,
+                      fontFamily: "Poppins-Regular",
+                    }}
+                  >
+                    Estimated Price
+                  </Text>
+                  {selectedImgEstimatedPrice > 0 && (
+                    <Text
+                      style={{
+                        color: "#70b241",
+                        fontSize: 18,
+                        fontFamily: "Poppins-SemiBold",
+                      }}
+                    >
+                      Rs {selectedImgEstimatedPrice}
+                    </Text>
+                  )}
+                </View>
+              )}
+
+              <BuyText width={200} />
+              <Text
+                style={{
+                  width: 280,
+                  fontSize: 14,
+                  textAlign: "center",
+                  fontFamily: "Poppins-Regular",
+                  paddingHorizontal: 5,
+                }}
+              >
+                Live unboxing & multi-vendor bargaining
+              </Text>
+
+              <TouchableOpacity
+                onPress={() => {
+                  handleCloseSuggestion();
+                  if (!userDetails?._id) setSignUpModal(true);
+                  else {
+                    dispatch(setSuggestedImages([selectedImage]));
+                    dispatch(setRequestImages([]));
+
+                    if (selectedImgEstimatedPrice > 0) {
+                      dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
+                    }
+                    setTimeout(() => {
+                      dispatch(
+                        setRequestDetail(
+                          "Looking for the product in this reference image."
+                        )
+                      );
+                      navigation.navigate("define-request");
+                    }, 200);
+                  }
+                }}
+                style={{
+                  backgroundColor: "#fb8c00",
+                  borderRadius: 24,
+                  paddingHorizontal: 20,
+                  paddingVertical: 15,
+                  marginTop: 10,
+                  width: 280,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  gap: 20,
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "Poppins-Bold",
+                    color: "#fff",
+                    fontSize: 16,
+                  }}
+                >
+                  Start Bargaining
+                </Text>
+                <WhiteArrow />
+              </TouchableOpacity>
+            </Pressable>
+          </Animated.View>
+        </Pressable>
+      </Modal>
     </View>
   );
 };

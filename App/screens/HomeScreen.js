@@ -135,6 +135,7 @@ import Banner2 from "../assets/Banner2.svg";
 import CategoryCard from "./components/CategoryCard.js";
 import ServicesCard from "./components/ServicesCard.js";
 import FastImage from "react-native-fast-image";
+import { Octicons } from "@expo/vector-icons";
 
 
 
@@ -1089,6 +1090,26 @@ const HomeScreen = () => {
               Home
             </Text>
           </View>
+          <TouchableOpacity
+            onPress={() => {
+              if (!userLongitude || !userLatitude) {
+                setLocationRefresh(true);
+              } else {
+                navigation.navigate("store-search");
+              }
+            }}
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "flex-end",
+            }}
+          >
+                          <Octicons name="search" size={22} color={"#000"} />
+
+            <Text style={{ fontFamily: "Poppins-Regular", color: "#000" }}>
+              Search
+            </Text>
+          </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => {
@@ -1124,7 +1145,7 @@ const HomeScreen = () => {
               Orders
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               if (!userLongitude || !userLatitude) {
                 setLocationRefresh(true);
@@ -1142,7 +1163,7 @@ const HomeScreen = () => {
             <Text style={{ fontFamily: "Poppins-Regular", color: "#2e2c43" }}>
               Stores
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             onPress={() => {
               onShare();

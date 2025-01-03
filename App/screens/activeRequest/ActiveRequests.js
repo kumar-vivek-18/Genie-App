@@ -357,6 +357,24 @@ const ActiveRequests = () => {
               Home
             </Text>
           </TouchableOpacity>
+           <TouchableOpacity
+                      onPress={() => {
+                        
+                          navigation.navigate("store-search");
+                        
+                      }}
+                      style={{
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                                    <Octicons name="search" size={22} color={"#000"} />
+          
+                      <Text style={{ fontFamily: "Poppins-Regular", color: "#000" }}>
+                        Search
+                      </Text>
+                    </TouchableOpacity>
 
           <View
             style={{
@@ -389,7 +407,7 @@ const ActiveRequests = () => {
               Orders
             </Text>
           </View>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               navigation.navigate("store-search");
             }}
@@ -403,7 +421,7 @@ const ActiveRequests = () => {
             <Text style={{ fontFamily: "Poppins-Regular", color: "#2e2c43" }}>
               Stores
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             onPress={() => {
               onShare();
