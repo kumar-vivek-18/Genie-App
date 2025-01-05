@@ -351,6 +351,8 @@ import FastImage from "react-native-fast-image";
     const userLongitude = useSelector((store) => store.user.userLongitude);
     const userLatitude = useSelector((store) => store.user.userLatitude);
   const [locationRefresh, setLocationRefresh] = useState(false)
+  const [advertText, setAdvertText] = useState(""); // For dynamic text
+    const [adLoading, setAdLoading] = useState(true);
     const onStateChange = useCallback((state) => {
       if (state === "ended") {
         setPlaying(false);
@@ -377,22 +379,62 @@ import FastImage from "react-native-fast-image";
       }
     };
   
+    // useEffect(() => {
+    //   Animated.loop(
+    //     Animated.sequence([
+    //       Animated.timing(scrollX, {
+    //         toValue: 0.5 * width,
+    //         duration: 0, // Adjust the duration for speed
+    //         useNativeDriver: true,
+    //       }),
+    //       Animated.timing(scrollX, {
+    //         toValue: -width, // Reset to start
+    //         duration: 20000,
+    //         useNativeDriver: true,
+    //       }),
+    //     ])
+    //   ).start();
+    // }, [scrollX]);
+
     useEffect(() => {
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(scrollX, {
-            toValue: 0.5 * width,
-            duration: 0, // Adjust the duration for speed
-            useNativeDriver: true,
-          }),
-          Animated.timing(scrollX, {
-            toValue: -width, // Reset to start
-            duration: 20000,
-            useNativeDriver: true,
-          }),
-        ])
-      ).start();
-    }, [scrollX]);
+      const fetchAdvertText = async () => {
+        try {
+          const response = await axios.get(`${baseUrl}/user/advert-text`); // Replace with your API
+       
+          setAdvertText(response.data || "SAVE MORE, START BARGAINING!");
+          setAdLoading(false);
+        } catch (err) {
+          console.error("Error fetching advertisement text:", err);
+          setAdLoading(false);
+        }
+      };
+  
+      fetchAdvertText();
+    }, []);
+  
+    // Start animation
+    useEffect(() => {
+      const startAnimation = () => {
+        Animated.loop(
+          Animated.sequence([
+            Animated.timing(scrollX, {
+              toValue: -0.9*width, // Move the text to the left
+              duration: 10000, // Adjust for speed (20 seconds)
+              useNativeDriver: true,
+            }),
+            Animated.timing(scrollX, {
+              toValue: 0, // Reset to start
+              duration: 0, // No delay for reset
+              useNativeDriver: true,
+            }),
+          ])
+        ).start();
+      };
+  
+      if (advertText) {
+        startAnimation();
+      }
+    }, [advertText, scrollX, width]);
   
     // useEffect(() => {
     //   const backAction = () => {
@@ -627,13 +669,13 @@ import FastImage from "react-native-fast-image";
       }
       setCreateSpadeLoading(true);
       try {
-        if (userDetails?.unpaidSpades.length > 0) {
-          navigation.navigate("payment-gateway", {
-            spadeId: userDetails.unpaidSpades[0],
-          });
-          setCreateSpadeLoading(true);
-          return;
-        }
+        // if (userDetails?.unpaidSpades.length > 0) {
+        //   navigation.navigate("payment-gateway", {
+        //     spadeId: userDetails.unpaidSpades[0],
+        //   });
+        //   setCreateSpadeLoading(true);
+        //   return;
+        // }
         const config = {
           headers: {
             "Content-Type": "application/json",
@@ -650,17 +692,17 @@ import FastImage from "react-native-fast-image";
   
             if (response.status !== 200) return;
   
-            if (response?.data.unpaidSpades.length > 0) {
-              navigation.navigate("payment-gateway", {
-                spadeId: response.data.unpaidSpades[0],
-              });
-              // fetchSpadeDetails(userDetails.unpaidSpades[0]);
-            } else {
+            // if (response?.data.unpaidSpades.length > 0) {
+            //   navigation.navigate("payment-gateway", {
+            //     spadeId: response.data.unpaidSpades[0],
+            //   });
+            //   // fetchSpadeDetails(userDetails.unpaidSpades[0]);
+            // } else {
               // navigation.navigate("requestentry");
               await fetchNearByStores();
             //   navigation.navigate("requestcategory");
               navigation.navigate("addimg");
-            }
+            // }
             await AsyncStorage.setItem(
               "userDetails",
               JSON.stringify(response.data)
@@ -828,7 +870,7 @@ import FastImage from "react-native-fast-image";
                              </View>
                            </TouchableOpacity>
                          </View>
-              {
+              {/* {
                 <View
                   style={{
                     height: 50,
@@ -870,7 +912,48 @@ import FastImage from "react-native-fast-image";
                     </View>
                   </Animated.View>
                 </View>
-              }
+              } */}
+
+               <View
+                            style={{
+                              height: 50,
+                              backgroundColor: "#ffffff",
+                              borderTopColor: "#FFC882",
+                              borderTopWidth: 1,
+                              justifyContent: "center",
+                              overflow: "hidden",
+                            }}
+                          >
+                            {adLoading ? (
+                              <ActivityIndicator size="small" color="#FFC882" />
+                            ) : (
+                              <View
+                                style={{
+                                  flexDirection: "row",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                <Animated.View
+                                  style={{
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                    transform: [{ translateX: scrollX }],
+                                  }}
+                                >
+                                  <Text
+                                    style={{
+                                      color: "#3f3d56",
+                                      fontFamily: "Poppins-BlackItalic",
+                                      fontSize: 14,
+                                    }}
+                                  >
+                                    {advertText}
+                                  </Text>
+                                </Animated.View>
+                              </View>
+                            )}
+                          </View>
   
               {/* <TouchableOpacity onPress={() => { navigation.navigate('store-search'); }}>
               <View className="flex-row items-center justify-center bg-[#ffe8cd] mt-[15px] py-[10px] px-[10px] mx-[16px] rounded-2xl border-[1px] border-[#fb8c00] gap-[5px]">

@@ -377,7 +377,8 @@ const DefineRequest = () => {
     formData.append("request", requestDetail);
     formData.append("requestCategory", requestCategory);
     formData.append("expectedPrice", productPrice > 0 ? productPrice : 0);
-    formData.append("spadePrice", userDetails.freeSpades > 0 ? 0 : spadePrice);
+    // formData.append("spadePrice", userDetails.freeSpades > 0 ? 0 : spadePrice);
+    formData.append("spadePrice", 0);
     formData.append(
       "appliedCoupon",
       spadeCouponCode.length > 0 ? spadeCouponCode : "NA"

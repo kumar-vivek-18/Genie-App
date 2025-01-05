@@ -121,7 +121,9 @@ import FastImage from "react-native-fast-image";
       formData.append("request", requestDetail);
       formData.append("requestCategory", requestCategory);
       formData.append("expectedPrice", expectedPrice > 0 ? expectedPrice : 0);
-      formData.append("spadePrice", userDetails.freeSpades > 0 ? 0 : spadePrice);
+      // formData.append("spadePrice", userDetails.freeSpades > 0 ? 0 : spadePrice);
+      formData.append("spadePrice", 0);
+
       formData.append(
         "appliedCoupon",
         spadeCouponCode.length > 0 ? spadeCouponCode : "NA"
@@ -348,7 +350,8 @@ import FastImage from "react-native-fast-image";
               className="text-[18px]  text-[#558b2f] pb-[20px]"
               style={{ fontFamily: "Poppins-ExtraBold" }}
             >
-              {userDetails.freeSpades > 0 ? 0 : spadePrice} Rs
+              {/* {userDetails.freeSpades > 0 ? 0 : spadePrice} Rs */}
+              0 Rs
             </Text>
           </View>
           {isVisible && (

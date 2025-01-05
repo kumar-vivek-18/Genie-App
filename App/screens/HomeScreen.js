@@ -14,7 +14,14 @@ import {
   Linking,
   FlatList,
 } from "react-native";
-import React, { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   useIsFocused,
   useNavigation,
@@ -115,7 +122,6 @@ import NewServicesIcon6 from "../assets/NewServicesIcon6.png";
 import NewServicesIcon7 from "../assets/NewServicesIcon7.png";
 import NewServicesIcon8 from "../assets/NewServicesIcon8.png";
 
-
 import {
   emtpyRequestImages,
   setEstimatedPrice,
@@ -137,10 +143,7 @@ import ServicesCard from "./components/ServicesCard.js";
 import FastImage from "react-native-fast-image";
 import { Octicons } from "@expo/vector-icons";
 
-
-
 const { width } = Dimensions.get("window");
-
 
 const categories = [
   {
@@ -333,6 +336,9 @@ const HomeScreen = () => {
   const userLongitude = useSelector((store) => store.user.userLongitude);
   const userLatitude = useSelector((store) => store.user.userLatitude);
   const [locationRefresh, setLocationRefresh] = useState(false);
+  const [advertText, setAdvertText] = useState(""); // For dynamic text
+  const [adLoading, setAdLoading] = useState(true); // Loader state
+  const [error, setError] = useState(null);
   const onStateChange = useCallback((state) => {
     if (state === "ended") {
       setPlaying(false);
@@ -340,9 +346,9 @@ const HomeScreen = () => {
     }
   }, []);
 
-   const searchData = useSelector(
-      (store) => store.userRequest.nearByStoresCategory
-    );
+  const searchData = useSelector(
+    (store) => store.userRequest.nearByStoresCategory
+  );
 
   const togglePlaying = useCallback(() => {
     setPlaying((prev) => !prev);
@@ -363,22 +369,62 @@ const HomeScreen = () => {
     }
   };
 
+  // useEffect(() => {
+  //   Animated.loop(
+  //     Animated.sequence([
+  //       Animated.timing(scrollX, {
+  //         toValue: 0.5 * width,
+  //         duration: 0, // Adjust the duration for speed
+  //         useNativeDriver: true,
+  //       }),
+  //       Animated.timing(scrollX, {
+  //         toValue: -width, // Reset to start
+  //         duration: 20000,
+  //         useNativeDriver: true,
+  //       }),
+  //     ])
+  //   ).start();
+  // }, [scrollX]);
+
   useEffect(() => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(scrollX, {
-          toValue: 0.5 * width,
-          duration: 0, // Adjust the duration for speed
-          useNativeDriver: true,
-        }),
-        Animated.timing(scrollX, {
-          toValue: -width, // Reset to start
-          duration: 20000,
-          useNativeDriver: true,
-        }),
-      ])
-    ).start();
-  }, [scrollX]);
+    const fetchAdvertText = async () => {
+      try {
+        const response = await axios.get(`${baseUrl}/user/advert-text`); // Replace with your API
+     
+        setAdvertText(response.data || "SAVE MORE, START BARGAINING!");
+        setAdLoading(false);
+      } catch (err) {
+        console.error("Error fetching advertisement text:", err);
+        setAdLoading(false);
+      }
+    };
+
+    fetchAdvertText();
+  }, []);
+
+  // Start animation
+  useEffect(() => {
+    const startAnimation = () => {
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(scrollX, {
+            toValue: -0.9*width, // Move the text to the left
+            duration: 10000, // Adjust for speed (20 seconds)
+            useNativeDriver: true,
+          }),
+          Animated.timing(scrollX, {
+            toValue: 0, // Reset to start
+            duration: 0, // No delay for reset
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
+    };
+
+    if (advertText) {
+      startAnimation();
+    }
+  }, [advertText, scrollX, width]);
 
   useEffect(() => {
     const backAction = () => {
@@ -499,7 +545,7 @@ const HomeScreen = () => {
   useEffect(() => {
     connectSocket();
     updateLocationHomeScreen();
-    if(searchData?.length==0)fetchNearByStores();
+    if (searchData?.length == 0) fetchNearByStores();
 
     return () => {
       socket.disconnect();
@@ -613,13 +659,13 @@ const HomeScreen = () => {
     }
     setCreateSpadeLoading(true);
     try {
-      if (userDetails?.unpaidSpades.length > 0) {
-        navigation.navigate("payment-gateway", {
-          spadeId: userDetails.unpaidSpades[0],
-        });
-        setCreateSpadeLoading(true);
-        return;
-      }
+      // if (userDetails?.unpaidSpades.length > 0) {
+      //   navigation.navigate("payment-gateway", {
+      //     spadeId: userDetails.unpaidSpades[0],
+      //   });
+      //   setCreateSpadeLoading(true);
+      //   return;
+      // }
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -636,16 +682,16 @@ const HomeScreen = () => {
 
           if (response.status !== 200) return;
 
-          if (response?.data.unpaidSpades.length > 0) {
-            navigation.navigate("payment-gateway", {
-              spadeId: response.data.unpaidSpades[0],
-            });
+          // if (response?.data.unpaidSpades.length > 0) {
+          //   navigation.navigate("payment-gateway", {
+          //     spadeId: response.data.unpaidSpades[0],
+          //   });
             // fetchSpadeDetails(userDetails.unpaidSpades[0]);
-          } else {
+          // } else {
             // navigation.navigate("requestentry");
             navigation.navigate("addimg");
             fetchNearByStores();
-          }
+          // }
           await AsyncStorage.setItem(
             "userDetails",
             JSON.stringify(response.data)
@@ -704,7 +750,6 @@ const HomeScreen = () => {
   };
 
   const onViewableItemsChanged = useRef(({ viewableItems }) => {
-  
     const visibleIds = viewableItems.map((item) => item.item.id);
     setVisibleCategories((prev) =>
       Array.from(new Set([...prev, ...visibleIds]))
@@ -828,48 +873,75 @@ const HomeScreen = () => {
               </TouchableOpacity>
             </View>
             {
-              <View
-                style={{
-                  height: 50,
-                  overflow: "hidden",
-                  backgroundColor: "#ffffff",
-                  flexDirection: "row",
-                  textAlign: "center",
-                  justifyContent: "center",
-                  borderTopColor: "#FFC882",
-                  borderTopWidth: 1,
-                }}
-              >
-                <Animated.View
-                  style={[
-                    styles.scrollMarqContainer,
-                    { transform: [{ translateX: scrollX }] },
-                  ]}
+              // <View
+              //   style={{
+              //     height: 50,
+              //     overflow: "hidden",
+              //     backgroundColor: "#ffffff",
+              //     flexDirection: "row",
+              //     textAlign: "center",
+              //     justifyContent: "center",
+              //     borderTopColor: "#FFC882",
+              //     borderTopWidth: 1,
+              //   }}
+              // >
+              //   <Animated.View
+              //     style={[
+              //       styles.scrollMarqContainer,
+              //       { transform: [{ translateX: scrollX }] },
+              //     ]}
+              //   >
+              //     <View className="flex flex-row items-center justify-center gap-2">
+              //         <Text
+              //           className="text-[#3f3d56]"
+              //           style={{ fontFamily: "Poppins-BlackItalic" }}
+              //         >
+              //           SAVE MORE, START BARGAINING! Visit our store
+              //         </Text>
+              //     </View>
+              //   </Animated.View>
+              // </View>
+            }
+            <View
+              style={{
+                height: 50,
+                backgroundColor: "#ffffff",
+                borderTopColor: "#FFC882",
+                borderTopWidth: 1,
+                justifyContent: "center",
+                overflow: "hidden",
+              }}
+            >
+              {adLoading ? (
+                <ActivityIndicator size="small" color="#FFC882" />
+              ) : (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                 >
-                  <View className="flex flex-row items-center justify-center gap-2">
-                    <Offer />
+                  <Animated.View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      transform: [{ translateX: scrollX }],
+                    }}
+                  >
                     <Text
                       style={{
-                        fontFamily: "Poppins-BlackItalic",
                         color: "#3f3d56",
+                        fontFamily: "Poppins-BlackItalic",
+                        fontSize: 14,
                       }}
                     >
-                      Service Free Orders Remaining:{" "}
-                      <Text className="text-[#55cd00]">
-                        {userDetails.freeSpades}
-                      </Text>{" "}
-                      <Text
-                        className="text-[#3f3d56]"
-                        style={{ fontFamily: "Poppins-BlackItalic" }}
-                      >
-                        {" "}
-                        SAVE MORE, START BARGAINING!
-                      </Text>{" "}
+                      {advertText}
                     </Text>
-                  </View>
-                </Animated.View>
-              </View>
-            }
+                  </Animated.View>
+                </View>
+              )}
+            </View>
 
             <View
               style={{
@@ -903,7 +975,6 @@ const HomeScreen = () => {
                           // aspectRatio: 1,
                         }}
                         resizeMode={FastImage.resizeMode.contain}
-
                       />
                     </TouchableOpacity>
                   ))}
@@ -1002,12 +1073,10 @@ const HomeScreen = () => {
                 nestedScrollEnabled={true}
                 data={categories.slice(1, 11)}
                 renderItem={({ item }) => (
-                 
                   <CategoryCard
                     category={item}
                     setSignUpModal={setSignUpModal}
                   />
-                
                 )}
                 keyExtractor={(item) => item.id.toString()}
                 onViewableItemsChanged={onViewableItemsChanged}
@@ -1039,10 +1108,12 @@ const HomeScreen = () => {
               <FlatList
                 data={categories.slice(11)}
                 nestedScrollEnabled={true}
-                renderItem={({ item }) => 
-                  
-                <ServicesCard category={item} setSignUpModal={setSignUpModal} />
-             }
+                renderItem={({ item }) => (
+                  <ServicesCard
+                    category={item}
+                    setSignUpModal={setSignUpModal}
+                  />
+                )}
                 keyExtractor={(item) => item.id.toString()}
                 onViewableItemsChanged={onViewableItemsChanged}
                 viewabilityConfig={viewabilityConfig}
@@ -1104,7 +1175,7 @@ const HomeScreen = () => {
               justifyContent: "flex-end",
             }}
           >
-                          <Octicons name="search" size={22} color={"#000"} />
+            <Octicons name="search" size={22} color={"#000"} />
 
             <Text style={{ fontFamily: "Poppins-Regular", color: "#000" }}>
               Search
