@@ -148,7 +148,8 @@ const categoriess = {
   "Electrical Services & Repair - Electrician": {
     icon:NewServicesIcon4,
     title:"Electrician"
-  }
+  },
+ 
 };
 
 const Icons = {
@@ -190,7 +191,7 @@ const Icons = {
     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422446/hardware_hand_fehtye.jpg",
   "Kitchen Utensils & Kitchenware":
     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422444/kitchen_xjnvwq.jpg",
-  // "Z - Internal test culturtap(not for commercial use )": { "id": 17, "name": "Z - Internal test culturtap(not for commercial use )" }
+  // "Z-Internal test culturtap ( not for commercial use )": { "id": 17, "name": "Z - Internal test culturtap(not for commercial use )" }
 };
 
 const RequestCategory = () => {

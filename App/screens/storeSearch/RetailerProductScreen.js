@@ -56,86 +56,13 @@ import BuyText from "../../assets/Buylowesttext.svg";
 import WhiteArrow from "../../assets/white-right.svg";
 import FastImage from "react-native-fast-image";
 import { setVendorId } from "../../redux/reducers/userDataSlice.js";
-import Store from "../../assets/storeOrange.svg";
-import Download from "../../assets/download.svg";
+import Store from "../../assets/storeOrange.svg"
+import Download from "../../assets/download.svg"
 import { handleDownload } from "../../utils/logics/Logics.js";
-import GumletScaledImage from "../../utils/cdn/GumLetImage.js";
-
-
-
-
-const subQueries = {
-  "Fashion/Clothings - Top, bottom, dresses": {
-    All: "",
-    Men:"men,man,boy,boys",
-    Women: "women,woman,girl,girls",
-  },
-  "Consumer Electronics & Accessories - Home appliances and equipment etc":
-  {
-    All:""
-  }
-    ,
-  "Fashion Accessories - Jewellery, Gold & Diamond": {
-    All:""
-  },
-  "Fashion Accessories - Shoes, bags etc": {
-    All: "",
-    Men:"men,man,boy,boys",
-    Women: "women,woman,girl,girls",
-  },
-  "Fashion Accessories - Sharee, suits, kurti & dress materials etc": {
-    All:""
-  },
-  "Gifts, Kids Games,Toys & Accessories": {
-    All: "",
-    Boys:"men,man,boy,boys",
-    Girls: "women,woman,girl,girls",
-  },
-  "Luxury Watches & Service": {
-    All: "",
-    Men:"men,man,boy,boys",
-    Women: "women,woman,girl,girls",
-  },
-  "Hardware - Plumbing, Paint,& Electricity":{
-    All:"",
-  },
-  "Sports Nutrition - Whey Pro etc": {
-    All:"",
-  },
-  "Hardware - Cement, Hand tools, Powertools etc":{
-    All:"",
-  } ,
-  "Kitchen Utensils & Kitchenware": {
-    All:"",
-  },
-  "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc":
-    {
-      All:"",
-    },
-  "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc":
-   {
-    All:"",
-  },
-  "Automotive Parts/Services - 2 wheeler Fuel based":{
-    All:"",
-  },
-  "Automotive Parts/Services - 4 wheeler Fuel based": {
-   All:"",
-  },
-  "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc":
-    {
-     All:"",
-    },
-  "Electrical Services & Repair - Electrician": {
-    All:"",
-  },
- 
-};
-const ImageSuggestion = () => {
+const RetailerProductScreen = () => {
   const [imagesLocal, setImagesLocal] = useState([]);
   const navigation = useNavigation();
   const route = useRoute();
-  const { category } = route.params;
   const dispatch = useDispatch();
 
   const [cameraScreen, setCameraScreen] = useState(false);
@@ -169,18 +96,16 @@ const ImageSuggestion = () => {
   const [loadMore, setLoadMore] = useState(true);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [loadingQuerySearch, setLoadingQuerySearch] = useState(false);
-  const userDetails = useSelector((store) => store.user.userDetails);
+  const userDetails = useSelector((store) => store.user.userDetails); 
   const [signUpModal, setSignUpModal] = useState(false);
   const navigationState = useNavigationState((state) => state);
   const [selectedVendorId, setSelectedVendorId] = useState("");
-  const [subQuery, setSubQuery] = useState("All");
+    const vendorId = useSelector(store => store.user.vendorId);
+        const storeData = useSelector(store => store.user.storeData);
+    
 
-  console.log(selectedVendorId);
-  const isImgSuggestion =
-    navigationState.routes[navigationState.index].name === "image-suggestion";
-  useEffect(() => {
-    if (requestCategory.includes("Service")) setIsService(true);
-  }, []);
+
+ 
 
   const handleImagePress = (image) => {
     setSelectedImage(image);
@@ -242,20 +167,11 @@ const ImageSuggestion = () => {
   // }
   const categoryListedProduct = async () => {
     if (!loadMore) return;
-    console.log("Loading category", query,subQuery, requestCategory);
+    console.log("Loading category", query, vendorId);
     setLoadingProducts(true);
-    
-    console.log("Loading category",  subQuery, requestCategory)
-    let subCat;
-    if(subQueries[requestCategory][subQuery]){
-       subCat=subQueries[requestCategory][subQuery];
-    }
-    else{
-       subCat = "";
-    }
     try {
-      const response = await axios.get(`${baseUrl}/product/product-by-query`, {
-        params: { productCategory: requestCategory, page: page, query: query ,subQuery:subCat},
+      const response = await axios.get(`${baseUrl}/product/vendor-product`, {
+        params: { vendorId: vendorId, page: page, query: query },
       });
 
       if (response.status === 200) {
@@ -278,23 +194,14 @@ const ImageSuggestion = () => {
     }
   };
 
-  const querySearch = async (subQuery) => {
+  const querySearch = async () => {
     setPage(1);
     setLoadMore(true);
-
+    console.log("Loading category", query, vendorId);
     setLoadingQuerySearch(true);
-    
-    console.log("Loading category", subQuery, requestCategory,query)
-    let subCat;
-    if(subQueries[requestCategory][subQuery]){
-       subCat=subQueries[requestCategory][subQuery];
-    }
-    else{
-       subCat = "";
-    }
     try {
-      const response = await axios.get(`${baseUrl}/product/product-by-query`, {
-        params: { productCategory: requestCategory, page: 1, query: query,subQuery:subCat },
+      const response = await axios.get(`${baseUrl}/product/vendor-product`, {
+        params: { vendorId:vendorId, page: 1, query: query },
       });
 
       if (response.status === 200) {
@@ -349,17 +256,18 @@ const ImageSuggestion = () => {
         setSelectedVendorId(item.vendorId);
         setSelectedImgEstimatedPrice(item.productPrice);
         setSelectedImageDesc(item.productDescription);
+        
       }}
       style={{ marginBottom: 10 }}
     >
-      <GumletScaledImage
+      <FastImage
         source={{ uri: item.productImage }}
         style={{
           width: 154,
           height: 200,
           borderRadius: 16,
         }}
-        // resizeMode={FastImage.resizeMode.cover}
+        resizeMode={FastImage.resizeMode.cover}
       />
       <View
         style={{
@@ -425,10 +333,19 @@ const ImageSuggestion = () => {
   //   }, []);
 
   const handleDownloadDocument = async () => {
+    // const url = `https://www.google.com/search?q=${encodeURIComponent(bidDetails.bidImages[0])}`
+    // const url = `${bidDetails.bidImages[0]}`;
     Linking.openURL(selectedImage).catch((err) =>
       console.error("An error occurred", err)
     );
   };
+
+  // if (hasCameraPermission === null) {
+  //   return <View />;
+  // }
+  // if (hasCameraPermission === false) {
+  //   return <Text>No access to camera</Text>;
+  // }
 
   return (
     <>
@@ -453,19 +370,20 @@ const ImageSuggestion = () => {
               <BackArrow width={14} height={10} />
             </TouchableOpacity>
             <Text
-              className="text-[16px] flex flex-1 justify-center  items-center text-center"
+              className="px-[20px] text-[16px] flex flex-1 justify-center  items-center text-center"
               style={{
                 fontFamily: "Poppins-ExtraBold",
-                fontSize: 30,
+                fontSize: 20,
                 color: "#fb8c00",
+                textTransform:"capitalize",
               }}
             >
-              {category?.title}
+              {storeData?.storeName.substring(0,30)}
             </Text>
           </View>
 
           <View
-            className="mx-[32px] flex flex-row h-[60px] border-[1px] items-center border-[#fb8c00] rounded-[24px] mb-[20px] bg-white"
+            className="mx-[32px] flex flex-row h-[60px] border-[1px] items-center border-[#fb8c00] rounded-[24px] mb-[40px] bg-white"
             style={{
               marginTop: 10,
               borderWidth: 1,
@@ -474,7 +392,7 @@ const ImageSuggestion = () => {
             }}
           >
             <TouchableOpacity
-              onPress={() => querySearch(subQuery)}
+              onPress={() => querySearch()}
               style={{
                 position: "absolute",
                 left: 20,
@@ -487,8 +405,7 @@ const ImageSuggestion = () => {
               placeholder="Search any product..."
               placeholderTextColor="#fb8c00"
               onChangeText={handleTextChange}
-              onSubmitEditing={() => querySearch(subQuery)}
-              value={query}
+              onSubmitEditing={() => querySearch()}
               style={{
                 flex: 1,
                 textAlign: "center",
@@ -499,46 +416,6 @@ const ImageSuggestion = () => {
               }}
             />
           </View>
-
-          {subQueries[requestCategory] && (
-            <View style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              gap:20,
-              marginBottom: 20,
-              paddingHorizontal:32,
-            }}>
-              {Object.entries(subQueries[requestCategory]).map(
-                ([key, subquery]) => (
-                  <TouchableOpacity
-                    key={key}
-                    onPress={() => {
-                      setSubQuery(key);
-                      setQuery("");
-                      querySearch(key);
-                    }}
-                  >
-                    <Text
-                      style={{
-                        width:80,
-                        textAlign: "center",
-                        fontFamily: "Poppins-Regular",
-                        color: key === subQuery ? "#fff" : "#2e2c43",
-                        fontSize: 14,
-                        backgroundColor:
-                        key === subQuery  ? "#fb8c00" : "#FFDAAC",
-                        paddingHorizontal: 10,
-                        paddingVertical: 6,
-                        borderRadius: 16,
-                      }}
-                    >
-                      {key} {/* Displays the key like "men", "women" */}
-                    </Text>
-                  </TouchableOpacity>
-                )
-              )}
-            </View>
-          )}
 
           <View
             style={{
@@ -552,23 +429,12 @@ const ImageSuggestion = () => {
               className="text-center  mb-[10px] text-[14px]"
               style={{ fontFamily: "Poppins-SemiBold" }}
             >
-              Available stock near you
+              Available stock
             </Text>
-            {!loadingQuerySearch &&
-              !loadingProducts &&
-              suggestionImages?.length === 0 && (
-                <View style={{ justifyContent: "center" }}>
-                  <Text
-                    style={{
-                      fontFamily: "Poppins-Regular",
-                      fontSize: 14,
-                      textAlign: "center",
-                    }}
-                  >
-                    No Images Available
-                  </Text>
-                </View>
-              )}
+            {!loadingQuerySearch && !loadingProducts && suggestionImages?.length===0 && <View style={{justifyContent:"center"}}>
+                                     <Text style={{fontFamily:"Poppins-Regular",fontSize:14,textAlign:"center"}}>No Images Available</Text>
+            </View>
+}
 
             {loadingQuerySearch ? (
               <ActivityIndicator
@@ -609,6 +475,8 @@ const ImageSuggestion = () => {
                 }}
               />
             )}
+
+           
           </View>
         </View>
         <ModalCancel
@@ -701,39 +569,39 @@ const ImageSuggestion = () => {
                   gap: 10,
                 }}
               >
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: "#FFECD6",
-                    position: "absolute",
-                    top: 20,
-                    right: 20,
-                    zIndex: 100,
-                    padding: 10,
-                    borderRadius: 100,
-                  }}
-                  onPress={() => {
-                    handleDownload(selectedImage);
-                  }}
-                >
-                  <Download />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: "#FFECD6",
-                    position: "absolute",
-                    top: 80,
-                    right: 20,
-                    zIndex: 100,
-                    padding: 10,
-                    borderRadius: 100,
-                  }}
-                  onPress={() => {
-                    dispatch(setVendorId(selectedVendorId));
-                    navigation.navigate("store-page-id");
-                  }}
-                >
-                  <Store />
-                </TouchableOpacity>
+                 <TouchableOpacity
+                              style={{
+                                backgroundColor: "#FFECD6",
+                                position: "absolute",
+                                top: 20,
+                                right: 20,
+                                zIndex: 100,
+                                padding: 10,
+                                borderRadius: 100,
+                              }}
+                              onPress={() => {
+                                handleDownload(selectedImage);
+                              }}
+                            >
+                              <Download/>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                              style={{
+                                backgroundColor: "#FFECD6",
+                                position: "absolute",
+                                top: 80,
+                                right: 20,
+                                zIndex: 100,
+                                padding: 10,
+                                borderRadius: 100,
+                              }}
+                              onPress={() => {
+                                dispatch(setVendorId(selectedVendorId)); 
+                                navigation.navigate("store-page-id")
+                              }}
+                            >
+                              <Store/>
+                            </TouchableOpacity>
                 <FastImage
                   source={{ uri: selectedImage }}
                   style={{
@@ -958,4 +826,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ImageSuggestion;
+export default RetailerProductScreen;

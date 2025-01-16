@@ -54,6 +54,8 @@ import SuccessPopup from "../components/SuccessPopup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import FastImage from "react-native-fast-image";
 import SuccessPopupNew from "../components/SuccessPopupNew";
+import { socket } from "../../utils/scoket.io/socket";
+import GreyArrow from "../../assets/grey-right.svg";
 
 
 const {width,height} = Dimensions.get("window")
@@ -433,7 +435,7 @@ const DefineRequest = () => {
       setTimeout(() => {
         setIsVisible(false);
         navigation.navigate("home");
-      }, 4000);
+      }, 2000);
         const notification = {
           uniqueTokens: response.data.uniqueTokens,
           title: userDetails?.userName,
@@ -907,7 +909,7 @@ const DefineRequest = () => {
         delImgType={delImgType}
       />
       <TouchableOpacity
-        disabled={!requestDetail || loading}
+        disabled={!requestDetail || loading || !price}
         onPress={() => {
           
           handleSubmit();
@@ -922,7 +924,7 @@ const DefineRequest = () => {
           right: 0,
           height: 68,
           width: "100%",
-          backgroundColor: !requestDetail ? "#e6e6e6" : "#FB8C00",
+          backgroundColor: !requestDetail || !price ? "#e6e6e6" : "#FB8C00",
           justifyContent: "center", // Center content vertically
           alignItems: "center", // Center content horizontally
         }}
@@ -931,12 +933,14 @@ const DefineRequest = () => {
           style={{
             fontSize: 18,
             fontFamily: "Poppins-BlackItalic",
-            color: !requestDetail ? "#888888" : "white",
+            color: !requestDetail || !price ? "#888888" : "white",
           }}
         >
           Send your offer
         </Text>
-        <WhiteArrow width={20} height={20}/>
+        {
+                      !price || !requestDetail ? ( <GreyArrow width={20} height={20}/>):(<WhiteArrow width={20} height={20} />)
+                    }
       </TouchableOpacity>
     </View>
   );

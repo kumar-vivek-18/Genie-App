@@ -20,7 +20,7 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { Feather, Octicons } from "@expo/vector-icons";
+import { Feather, MaterialIcons, Octicons } from "@expo/vector-icons";
 import BackArrow from "../../assets/arrow-left.svg";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,6 +28,7 @@ import axios from "axios";
 import {
   setStoreCategories,
   setStoreData,
+  setVendorId,
 } from "../../redux/reducers/userDataSlice";
 import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
@@ -44,11 +45,15 @@ import Tab4 from "../../assets/tab4.svg";
 import Share from "react-native-share";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SignUpModal from "../components/SignUpModal";
-import { setRequestDetail } from "../../redux/reducers/userRequestsSlice";
+import { setEstimatedPrice, setRequestCategory, setRequestDetail, setRequestImages, setSuggestedImages } from "../../redux/reducers/userRequestsSlice";
 
 import BuyText from "../../assets/Buylowesttext.svg";
 import WhiteArrow from "../../assets/white-right.svg";
 import FastImage from "react-native-fast-image";
+import Store from "../../assets/storeOrange.svg"
+import Download from "../../assets/download.svg"
+import GumletScaledImage from "../../utils/cdn/GumLetImage";
+
 
 const SearchCategoryScreen = () => {
   const navigation = useNavigation();
@@ -88,6 +93,9 @@ const SearchCategoryScreen = () => {
   const requestCategory = useSelector(
     (store) => store.userRequest.requestCategory
   );
+  const [selectedCategory,setSelectedCategory] = useState("");
+  const [selectedVendorId, setSelectedVendorId] = useState("");
+
 
   const Icons = {
     "Automotive Parts/Services - 2 wheeler Fuel based":
@@ -518,7 +526,7 @@ const SearchCategoryScreen = () => {
 
       if (response.status === 200) {
         const fetchedImages = response.data;
-        console.log(fetchedImages);
+        // console.log(fetchedImages);
         setProductImages((prev) => [...fetchedImages]);
         setProductPage((curr) => curr + 1);
 
@@ -565,20 +573,21 @@ const SearchCategoryScreen = () => {
     <Pressable
       onPress={() => {
         handleImagePress(item.productImage);
-
+        setSelectedCategory(item.productCategory),
         setSelectedImgEstimatedPrice(item.productPrice);
         setSelectedImageDesc(item.productDescription);
+        setSelectedVendorId(item.vendorId);
       }}
       style={{ marginBottom: 10 }}
     >
-      <Image
+      <GumletScaledImage
         source={{ uri: item.productImage }}
         style={{
           width: 154,
           height: 200,
           borderRadius: 16,
         }}
-        resizeMode="cover"
+        // resizeMode={FastImage.resizeMode.cover}
       />
       <View
         style={{
@@ -636,9 +645,9 @@ const SearchCategoryScreen = () => {
     );
   };
 
-  useEffect(() => {
-    categoryListedProduct();
-  }, [tab]);
+  // useEffect(() => {
+  //   categoryListedProduct();
+  // }, [tab]);
 
   return (
     <View style={styles.container} edges={["top", "bottom"]}>
@@ -775,6 +784,49 @@ const SearchCategoryScreen = () => {
               </Text>
             </TouchableOpacity>
           </View>
+          {
+  !loadingQuerySearch && !searchQuery && (
+    <View style={{  paddingHorizontal: 32 }}>
+     
+
+      {/* Suggestion List */}
+      <View>
+        {["Shirts, Pants", "Smart Tv 55 inch, Ultra HD", "Banarsi Sari","Digital Watch","Gold earrings"].map((suggestion, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={()=>{
+              setSearchQuery(suggestion);
+              setHasMorePages(true);
+              // querySearch();
+            }}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              paddingVertical: 10,
+              
+            }}
+          >
+            <MaterialIcons
+              name="search"
+              size={20}
+              color="#fb8c00"
+              style={{ marginRight: 10 }}
+            />
+            <Text
+              style={{
+                fontFamily: "Poppins-Regular",
+                fontSize: 14,
+                color: "#333",
+              }}
+            >
+              {suggestion}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    </View>
+  )
+}
           {tab === "Store" && (
             <ScrollView showsVerticalScrollIndicator={false}>
               {!storeVisible && (
@@ -1048,7 +1100,7 @@ const SearchCategoryScreen = () => {
                   }}
                   nestedScrollEnabled={true}
                   onEndReached={() => {
-                    if (loadMore && !loadingProducts) {
+                    if (loadMore && !loadingProducts && searchQuery) {
                       // console.log("Fetching next page...");
                       categoryListedProduct();
                     }
@@ -1063,11 +1115,17 @@ const SearchCategoryScreen = () => {
                       />
                     ) : null
                   }
+
                   contentContainerStyle={{
                     paddingBottom: 50,
                   }}
+
                 />
               )}
+
+
+
+
             </View>
           )}
 
@@ -1234,22 +1292,39 @@ const SearchCategoryScreen = () => {
               }}
             >
               <TouchableOpacity
-                style={{
-                  backgroundColor: "#fff",
-                  position: "absolute",
-                  top: 20,
-                  right: 20,
-                  zIndex: 100,
-                  padding: 10,
-                  borderRadius: 100,
-                }}
-                onPress={() => {
-                  handleDownloadDocument();
-                }}
-              >
-                <Feather name="download" size={16} color="#fb8c00" />
-              </TouchableOpacity>
-              <FastImage
+                                           style={{
+                                             backgroundColor: "#FFECD6",
+                                             position: "absolute",
+                                             top: 20,
+                                             right: 20,
+                                             zIndex: 100,
+                                             padding: 10,
+                                             borderRadius: 100,
+                                           }}
+                                           onPress={() => {
+                                             handleDownloadDocument();
+                                           }}
+                                         >
+                                           <Download/>
+                                         </TouchableOpacity>
+                                         <TouchableOpacity
+                                           style={{
+                                             backgroundColor: "#FFECD6",
+                                             position: "absolute",
+                                             top: 80,
+                                             right: 20,
+                                             zIndex: 100,
+                                             padding: 10,
+                                             borderRadius: 100,
+                                           }}
+                                           onPress={() => {
+                                             dispatch(setVendorId(selectedVendorId)); 
+                                             navigation.navigate("store-page-id")
+                                           }}
+                                         >
+                                           <Store/>
+                                         </TouchableOpacity>
+              <GumletScaledImage
                 source={{ uri: selectedImage }}
                 style={{
                   width: 280,
@@ -1257,7 +1332,7 @@ const SearchCategoryScreen = () => {
                   borderTopLeftRadius: 20,
                   borderTopRightRadius: 20,
                 }}
-                resizeMode={FastImage.resizeMode.cover}
+                // resizeMode={FastImage.resizeMode.cover}
               />
               {(selectedImgEstimatedPrice > 0 ||
                 selectedImageDesc?.length > 0) && (
@@ -1345,6 +1420,7 @@ const SearchCategoryScreen = () => {
                       dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
                     }
                     setTimeout(() => {
+                      dispatch(setRequestCategory(selectedCategory))
                       dispatch(
                         setRequestDetail(
                           "Looking for the product in this reference image."

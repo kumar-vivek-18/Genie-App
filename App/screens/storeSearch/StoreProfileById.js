@@ -10,8 +10,8 @@ import {
     Modal,
     Linking,
     ActivityIndicator,
-    Dimensions,
-    FlatList
+    FlatList,
+    Dimensions
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -21,31 +21,37 @@ import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import EditIcon from "../../assets/editIcon.svg";
 import { TouchableOpacity } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Star from "../../assets/Star.svg";
 import Pointer from "../../assets/pointer.svg";
 import RightArrow from "../../assets/rightarrow.svg";
 import ArrowLeft from '../../assets/arrow-left.svg';
 import Copy from "../../assets/copy.svg";
 import StarRating from 'react-native-star-rating';
-import { haversineDistance } from "../../utils/logics/Logics";
+import { handleDownload, haversineDistance } from "../../utils/logics/Logics";
 import axios from "axios";
 import RatingAndFeedbackModal from "../components/RatingAndFeedbackModal";
 import RatingStar from "../../assets/Star.svg";
 import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
-import { setUserDetails } from "../../redux/reducers/userDataSlice";
+import { setStoreData, setUserDetails, setVendorId } from "../../redux/reducers/userDataSlice";
 import EditCommentModal from "../components/EditCommentModal";
 import FastImage from "react-native-fast-image";
-import { setRequestCategory } from "../../redux/reducers/userRequestsSlice";
+import { setEstimatedPrice, setRequestCategory, setRequestDetail, setRequestImages, setSuggestedImages } from "../../redux/reducers/userRequestsSlice";
 // import {Clipboard} from '@react-native-clipboard/clipboard'
+import BuyText from "../../assets/Buylowesttext.svg";
+import WhiteArrow from "../../assets/white-right.svg";
 
-
-
+import Store from "../../assets/storeOrange.svg"
+import Download from "../../assets/download.svg"
+import SignUpModal from "../components/SignUpModal";
+import GumletScaledImage from "../../utils/cdn/GumLetImage";
 const {width, height} =Dimensions.get("window")
 
 
-const StoreProfilePage = () => {
+
+const StoreProfileById = () => {
+    const dispatch=useDispatch();
     const navigation = useNavigation();
     const storeImages = [];
     const [copied, setCopied] = useState(false);
@@ -72,10 +78,13 @@ const StoreProfilePage = () => {
     const [page, setPage] = useState(1);
     const [productLoading, setProductLoading] = useState(false);
     const vendorId = useSelector(store => store.user.vendorId);
-  const [selectedCategory, setSelectedCategory] = useState("");
+    console.log("vendorId: " , vendorId);
+ const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedImgEstimatedPrice, setSelectedImgEstimatedPrice] = useState(0);
   const [selectedImageDesc, setSelectedImageDesc] = useState("");
     const [selectedVendorId, setSelectedVendorId] = useState("");
+    const [loading,setLoading]=useState(false);
+    const [signUpModal,setSignUpModal]=useState(false);
 
     //   const copyToClipboard = async () => {
     //     // await Clipboard.setStringAsync(inputValue);
@@ -103,6 +112,42 @@ const StoreProfilePage = () => {
 
     //     const mainImage=useSelector(state => state.storeData.images.mainImage);
     // console.log("storeData", storeData.productImages);
+
+
+    const fetchVendorData = async () => {
+        try{
+          
+          
+            const response = await axios.get(
+              `${baseUrl}/retailer/retailer-by-id`,
+              {
+                params: {
+                  vendorId:vendorId
+                }
+        
+              }
+            );
+            // console.log("res at compltete profile", response.data.retailer);
+            if (response.status === 200) {
+              const data = response.data;
+              
+              dispatch(setStoreData(data));
+             
+            }
+          }
+        catch(error){
+          console.log(error)
+          // if (!error?.response?.status){
+          //     setNetworkError(true);
+          // }
+        }
+      
+    
+    
+    
+    };
+
+
     const fetchRetailerFeedbacks = useCallback(async () => {
         try {
             const config = {
@@ -111,13 +156,13 @@ const StoreProfilePage = () => {
                 //     'Authorization': `Bearer ${accessToken}`,
                 // },
                 params: {
-                    id: storeData._id,
+                    id: vendorId,
                 }
             }
             await axios.get(`${baseUrl}/rating/get-retailer-feedbacks`, config)
                 .then((res) => {
                     console.log('Feedbacks fetched successfully', res.data);
-                    if (feedbacks.length > 0) {
+                    if (feedbacks?.length > 0) {
 
                         const allFeedbacks = res.data.filter(f => feedbacks[0]._id !== f._id);
 
@@ -141,7 +186,7 @@ const StoreProfilePage = () => {
             await axiosInstance.get(`${baseUrl}/rating/particular-feedback`, {
                 params: {
                     senderId: userDetails._id,
-                    retailerId: storeData._id
+                    retailerId: vendorId
                 }
             })
                 .then(res => {
@@ -168,8 +213,9 @@ const StoreProfilePage = () => {
         try {
             await axios.get(`${baseUrl}/product/product-by-vendorId`, {
                 params: {
-                    vendorId: storeData._id,
-                    page: page
+                    vendorId: vendorId,
+                    page: page,
+                    limit:10
                 }
             })
                 .then((res) => {
@@ -190,16 +236,24 @@ const StoreProfilePage = () => {
     }
 
 
+const getAllData=async()=>{
+    await fetchVendorData().then(()=>{
+        vendorsListedProduct();
+        usersRatingForSeller();
+        fetchRetailerFeedbacks();
+       
+    })
 
+        
+}
 
     useEffect(() => {
 
-        usersRatingForSeller();
-        fetchRetailerFeedbacks();
-        vendorsListedProduct();
+        
+        getAllData();
 
-        if (userLongitude !== 0 && userLongitude !== 0 && storeData.longitude !== 0 && storeData.lattitude !== 0) {
-            let value = haversineDistance(userLatitude, userLongitude, storeData.lattitude, storeData.longitude);
+        if (userLongitude !== 0 && userLongitude !== 0 && storeData?.longitude !== 0 && storeData?.lattitude !== 0) {
+            let value = haversineDistance(userLatitude, userLongitude, storeData?.lattitude, storeData?.longitude);
             setDistance(value);
         }
     }, []);
@@ -210,7 +264,7 @@ const StoreProfilePage = () => {
             toValue: 0,
             duration: 300,
             useNativeDriver: true,
-        }).start(() => setSelectedImage(null));
+        }).start(() => {setSelectedImage(null);setSelectedCategory(null)});
 
     };
     const handleImagePress = (image) => {
@@ -235,14 +289,14 @@ const StoreProfilePage = () => {
           }}
           style={{ marginBottom: 10, marginRight: 10 }}
         >
-          <FastImage
+          <GumletScaledImage
             source={{ uri: item.productImage }}
             style={{
               width: width * 0.38,
               height: 180,
               borderRadius: 16,
             }}
-            resizeMode={FastImage.resizeMode.cover}
+            // resizeMode={FastImage.resizeMode.cover}
           />
           <View
             style={{
@@ -293,6 +347,13 @@ const StoreProfilePage = () => {
         </TouchableOpacity>
       );
 
+        const handleDownloadDocument = async () => {
+          // const url = `https://www.google.com/search?q=${encodeURIComponent(bidDetails.bidImages[0])}`
+          // const url = `${bidDetails.bidImages[0]}`;
+          Linking.openURL(selectedImage).catch((err) =>
+            console.error("An error occurred", err)
+          );
+        };
 
     return (
         <SafeAreaView>
@@ -330,18 +391,21 @@ const StoreProfilePage = () => {
                 </View>
 
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ alignSelf: 'flex-start' }}>
-                    {storeData.storeImages.length > 0 &&
+                    {storeData?.storeImages?.length > 0 &&
                         <View className="pl-[32px] flex flex-row gap-[11px] mb-[60px]" >
-                            {storeData.storeImages?.map((image, index) => (
+                            {storeData?.storeImages?.map((image, index) => (
 
                                 <Pressable onPress={() => { handleImagePress(image); setImageDesc(""); setImagePrice(0); }} key={index} className="rounded-[16px]">
-                                    <FastImage
+                                    <GumletScaledImage
+                                        source={{ uri: image }}
                                         style={{
                                             width: width * 0.38,
                                             height: 180,
                                             borderRadius: 16,
-                                          }}
-                                          resizeMode={FastImage.resizeMode.cover}
+                                        }}
+            // resizeMode={FastImage.resizeMode.cover}
+                                       
+                                        
                                     />
                                 </Pressable>
                             )
@@ -349,96 +413,100 @@ const StoreProfilePage = () => {
                         </View>
                     }
                 </ScrollView>
-                {listedProducts && listedProducts.length > 0 && <View>
-                    <View ><Text style={{ paddingLeft: 32, paddingBottom: 10, fontFamily: 'Poppins-Bold', color: '#2e2c43', fontSize: 16 }}>Available stock</Text></View>
-                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                            {!productLoading && listedProducts && (
-                              <View style={{ flexDirection: "row", paddingLeft: 20 }}>
-                                <FlatList
-                                  data={listedProducts}
-                                  style={{ gap: 10 }}
-                                  keyExtractor={(item) => item._id.toString()}
-                                  renderItem={({ item }) => renderProductItem(item)}
-                                  horizontal={true}
-                                />
-                                {listedProducts && listedProducts.length > 0 && (
-                                  <TouchableOpacity
-                                    style={{
-                                      width: width * 0.38,
-                                      height: 180,
-                                      backgroundColor: "#FB8C00",
-                                      borderRadius: 10,
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      flexDirection: "row",
-                                      gap: 5,
-                                    }}
-                                    onPress={() => {
-                                    //   dispatch(setRequestCategory(category.name));
-                                    //   navigation.navigate("image-suggestion", {
-                                    //     category: category,
-                                    //   });
-                                    }}
-                                  >
-                                    <Text
+                {listedProducts && listedProducts?.length > 0 && <View style={{marginBottom:10}}>
+                    <View >
+                        <Text style={{ paddingLeft: 32, paddingBottom: 10, fontFamily: 'Poppins-Bold', color: '#2e2c43', fontSize: 16 }}>Available stock</Text>
+                    </View>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                              {!productLoading && listedProducts && (
+                                <View style={{ flexDirection: "row", paddingLeft: 32 }}>
+                                  <FlatList
+                                    data={listedProducts}
+                                    style={{ gap: 10 }}
+                                    keyExtractor={(item) => item._id.toString()}
+                                    renderItem={({ item }) => renderProductItem(item)}
+                                    horizontal={true}
+                                  />
+                                  {listedProducts && listedProducts.length > 0 && (
+                                    <TouchableOpacity
                                       style={{
-                                        fontSize: 16,
-                                        fontFamily: "Poppins-BlackItalic",
-                                        color: "#Fff",
+                                        width: width * 0.38,
+                                        height: 180,
+                                        backgroundColor: "#FB8C00",
+                                        borderRadius: 10,
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        flexDirection: "row",
+                                        gap: 5,
+                                        marginRight:32
+                                      }}
+                                      onPress={() => {
+                                        // dispatch(setRequestCategory(category.name));
+                                        // navigation.navigate("image-suggestion", {
+                                        //   category: category,
+                                        // });
+                                        navigation.navigate("vendor-product")
                                       }}
                                     >
-                                      View All
-                                    </Text>
-                                    <View style={{ backgroundColor: "#fff", padding: 2 }}>
-                                      <RightArrow />
-                                    </View>
-                                  </TouchableOpacity>
-                                )}
-                              </View>
-                            )}
-                            {productLoading && (
-                              <View
-                                style={{
-                                  flexDirection: "row",
-                                  paddingLeft: 10,
-                                  gap: 10,
-                                }}
-                              >
+                                      <Text
+                                        style={{
+                                          fontSize: 16,
+                                          fontFamily: "Poppins-BlackItalic",
+                                          color: "#Fff",
+                                        }}
+                                      >
+                                        View All
+                                      </Text>
+                                      <View style={{ backgroundColor: "#fff", padding: 2 }}>
+                                        <RightArrow />
+                                      </View>
+                                    </TouchableOpacity>
+                                  )}
+                                </View>
+                              )}
+                              {productLoading && (
                                 <View
                                   style={{
-                                    width: width * 0.38,
-                                      height: 180,
-                                    backgroundColor: "#bdbdbd",
-                                    borderRadius: 10,
+                                    flexDirection: "row",
+                                    paddingLeft: 32,
+                                    gap: 10,
                                   }}
-                                ></View>
-                                <View
-                                  style={{
-                                    width: width * 0.38,
-                                      height: 180,
-                                    backgroundColor: "#bdbdbd",
-                                    borderRadius: 10,
-                                  }}
-                                ></View>
-                                <View
-                                  style={{
-                                    width: width * 0.38,
-                                      height: 180,
-                                    backgroundColor: "#bdbdbd",
-                                    borderRadius: 10,
-                                  }}
-                                ></View>
-                                <View
-                                  style={{
-                                    width: width * 0.38,
-                                      height: 180,
-                                    backgroundColor: "#bdbdbd",
-                                    borderRadius: 10,
-                                  }}
-                                ></View>
-                              </View>
-                            )}
-                          </ScrollView>
+                                >
+                                  <View
+                                    style={{
+                                      width: width * 0.38,
+                                        height: 180,
+                                      backgroundColor: "#bdbdbd",
+                                      borderRadius: 10,
+                                    }}
+                                  ></View>
+                                  <View
+                                    style={{
+                                      width: width * 0.38,
+                                        height: 180,
+                                      backgroundColor: "#bdbdbd",
+                                      borderRadius: 10,
+                                    }}
+                                  ></View>
+                                  <View
+                                    style={{
+                                      width: width * 0.38,
+                                        height: 180,
+                                      backgroundColor: "#bdbdbd",
+                                      borderRadius: 10,
+                                    }}
+                                  ></View>
+                                  <View
+                                    style={{
+                                      width: width * 0.38,
+                                        height: 180,
+                                      backgroundColor: "#bdbdbd",
+                                      borderRadius: 10,
+                                    }}
+                                  ></View>
+                                </View>
+                              )}
+                            </ScrollView>
                 </View>}
 
 
@@ -582,10 +650,10 @@ const StoreProfilePage = () => {
                     <View className="mb-[80px]">
                         <Text className="capitalize text-[#2e2c43] text-[16px] " style={{ fontFamily: 'Poppins-Bold' }}>Store Reviews</Text>
 
-                        {feedbacks && feedbacks.length > 0 && <View style={styles.revcontainer}>
+                        {feedbacks && feedbacks?.length > 0 && <View style={styles.revcontainer}>
                             <ScrollView>
                                 {feedbacks
-                                    .slice(0, showAllReviews ? feedbacks.length : 3)
+                                    .slice(0, showAllReviews ? feedbacks?.length : 3)
                                     .map((review, index) => (
                                         <View key={index} className="shadow-2xl" style={{ marginBottom: 20, paddingBottom: 10, backgroundColor: 'white', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 20 }}>
                                             <View className="flex-row items-center gap-[20px] mb-[5px] ">
@@ -610,7 +678,7 @@ const StoreProfilePage = () => {
                                         </View>
                                     ))}
                             </ScrollView>
-                            {!showAllReviews && feedbacks.length > 4 && (
+                            {!showAllReviews && feedbacks?.length > 4 && (
                                 <Pressable
                                     onPress={() => setShowAllReviews(true)}
                                     className=""
@@ -619,7 +687,7 @@ const StoreProfilePage = () => {
                                 </Pressable>
                             )
                             }
-                            {showAllReviews && feedbacks.length > 4 && (
+                            {showAllReviews && feedbacks?.length > 4 && (
                                 <Pressable
                                     onPress={() => setShowAllReviews(false)}
                                     className=""
@@ -629,7 +697,7 @@ const StoreProfilePage = () => {
                             )
                             }
                         </View>}
-                        {feedbacks && feedbacks.length === 0 && <View>
+                        {feedbacks && feedbacks?.length === 0 && <View>
                             <Text className="text-[16px] text-[#7c7c7c] mt-[20px] text-center" style={{ fontFamily: 'Poppins-Regular' }}>No reviews yet.</Text>
                         </View>}
                     </View>
@@ -638,7 +706,223 @@ const StoreProfilePage = () => {
                 </View>
             </ScrollView>
 
-            <Modal
+            {
+        selectedCategory && 
+        <Modal transparent visible={!!selectedImage} onRequestClose={handleClose}>
+        <Pressable
+          onPress={() => {
+            handleClose();
+          }}
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          }}
+        >
+          <Animated.View
+            style={[
+              {
+                transform: [{ scale: scaleAnimation }],
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#fff",
+                borderRadius: 20,
+                padding: 12,
+                paddingTop: 15,
+              },
+            ]}
+          >
+            <Pressable
+              onPress={() => {
+                handleClose();
+              }}
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 10,
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#FFECD6",
+                  position: "absolute",
+                  top: 20,
+                  right: 20,
+                  zIndex: 100,
+                  padding: 10,
+                  borderRadius: 100,
+                }}
+                onPress={() => {
+                  handleDownload(selectedImage);
+                }}
+              >
+                <Download />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#FFECD6",
+                  position: "absolute",
+                  top: 80,
+                  right: 20,
+                  zIndex: 100,
+                  padding: 10,
+                  borderRadius: 100,
+                }}
+                onPress={() => {
+                  dispatch(setVendorId(selectedVendorId));
+                  navigation.navigate("store-page-id");
+                }}
+              >
+                <Store />
+              </TouchableOpacity>
+              <GumletScaledImage
+                source={{ uri: selectedImage }}
+                style={{
+                  width: 280,
+                  height: 350,
+                  borderTopLeftRadius: 20,
+                  borderTopRightRadius: 20,
+                }}
+                // resizeMode={FastImage.resizeMode.cover}
+              />
+              {(selectedImgEstimatedPrice > 0 ||
+                selectedImageDesc?.length > 0) && (
+                <View
+                  style={{
+                    position: "absolute",
+                    top: 260,
+                    backgroundColor: "rgba(0,0,0,0.5)",
+                    width: 280,
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingVertical: 5,
+                  }}
+                >
+                  {selectedImageDesc?.length > 0 &&
+                    selectedImageDesc.length > 40 && (
+                      <Text
+                        style={{
+                          color: "white",
+                          fontSize: 14,
+                          fontFamily: "Poppins-Regular",
+                        }}
+                      >
+                        {selectedImageDesc.substring(0, 40)}...
+                      </Text>
+                    )}
+                  {selectedImageDesc?.length > 0 &&
+                    selectedImageDesc.length <= 40 && (
+                      <Text
+                        style={{
+                          color: "white",
+                          fontSize: 14,
+                          fontFamily: "Poppins-Regular",
+                        }}
+                      >
+                        {selectedImageDesc}
+                      </Text>
+                    )}
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: 14,
+                      fontFamily: "Poppins-Regular",
+                    }}
+                  >
+                    Estimated Price
+                  </Text>
+                  {selectedImgEstimatedPrice > 0 && (
+                    <Text
+                      style={{
+                        color: "#70b241",
+                        fontSize: 18,
+                        fontFamily: "Poppins-SemiBold",
+                      }}
+                    >
+                      Rs {selectedImgEstimatedPrice}
+                    </Text>
+                  )}
+                </View>
+              )}
+
+              <BuyText width={200} />
+              <Text
+                style={{
+                  width: 280,
+                  fontSize: 14,
+                  textAlign: "center",
+                  fontFamily: "Poppins-Regular",
+                  paddingHorizontal: 5,
+                }}
+              >
+                Live unboxing & multi-vendor bargaining
+              </Text>
+
+              <TouchableOpacity
+                onPress={() => {
+                  dispatch(setRequestCategory(selectedCategory));
+                  handleClose();
+                  if (!userDetails?._id) setSignUpModal(true);
+                  else {
+                    dispatch(setSuggestedImages([selectedImage]));
+                    dispatch(setRequestImages([]));
+
+                    if (selectedImgEstimatedPrice > 0) {
+                      dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
+                    }
+                    setTimeout(() => {
+                      
+                      dispatch(
+                        setRequestDetail(
+                          "Looking for the product in this reference image."
+                        )
+                      );
+                      navigation.navigate("define-request");
+                    }, 200);
+                  }
+                }}
+                style={{
+                  backgroundColor: "#fb8c00",
+                  borderRadius: 24,
+                  paddingHorizontal: 20,
+                  paddingVertical: 15,
+                  marginTop: 10,
+                  width: 280,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  gap: 20,
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "Poppins-Bold",
+                    color: "#fff",
+                    fontSize: 16,
+                  }}
+                >
+                  Start Bargaining
+                </Text>
+                <WhiteArrow />
+              </TouchableOpacity>
+            </Pressable>
+          </Animated.View>
+        </Pressable>
+      </Modal>
+
+      }
+      
+      {signUpModal && (
+        <SignUpModal
+          signUpModal={signUpModal}
+          setSignUpModal={setSignUpModal}
+        />
+      )}
+{
+    !selectedCategory && 
+    <Modal
                 transparent
                 visible={!!selectedImage}
                 onRequestClose={handleClose}
@@ -659,8 +943,7 @@ const StoreProfilePage = () => {
 
                         />
                         {(imageDesc?.length > 0 || imagePrice > 0) && <View style={{ position: "absolute", bottom: 0, width: 300, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: 'center', borderBottomStartRadius: 16, borderBottomEndRadius: 16 }}>
-                            {imageDesc.length > 0 && imageDesc.length > 40 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }}>{imageDesc.substring(0, 40)}...</Text>}
-                            {imageDesc.length > 0 && imageDesc.length <= 40 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }}>{imageDesc}</Text>}
+                            {imageDesc.length > 0 && <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 12, color: 'white' }}>{imageDesc.substring(0, 40)}...</Text>}
                             <Text style={{ color: 'white', fontFamily: 'Poppins-Regular', fontSize: 8 }}>Estimated Price</Text>
                             <Text style={{ color: '#70b241', fontFamily: 'Poppins-SemiBold', fontSize: 14 }}>Rs {imagePrice}</Text>
                         </View>}
@@ -669,6 +952,7 @@ const StoreProfilePage = () => {
 
                 </Pressable>
             </Modal>
+}
             {ratingAllowed && <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: 'white', paddingHorizontal: 20, paddingVertical: 10 }}>
                 <TouchableOpacity TouchableOpacity onPress={() => { setFeedbackModal(true); }} >
                     <View>
@@ -682,7 +966,7 @@ const StoreProfilePage = () => {
     );
 };
 
-export default StoreProfilePage;
+export default StoreProfileById;
 
 const styles = StyleSheet.create({
     modalContainer: {

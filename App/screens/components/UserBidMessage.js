@@ -166,10 +166,7 @@ const UserBidMessage = ({ bidDetails }) => {
                 disabled={downloadProgress[1] !== undefined}
                 onPress={() =>
                   handleDownload(
-                    selectedImage,
-                    downloadProgress,
-                    setDownloadProgress,
-
+                    selectedImage
                   )
 
                 }

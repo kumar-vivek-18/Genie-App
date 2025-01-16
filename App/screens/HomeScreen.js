@@ -72,8 +72,6 @@ import MobileIcon from "../assets/mobileIcon.svg";
 import RightArrow from "../assets/arrow-right.svg";
 import SmallArrow from "../assets/small-arrow.svg";
 
-import Category3 from "../assets/category3.png";
-import Category10 from "../assets/category10.png";
 
 import Tab11 from "../assets/tab11.svg";
 import Tab2 from "../assets/tab2.svg";
@@ -93,6 +91,8 @@ import NewCategory6 from "../assets/NewCategory6.png";
 import NewCategory7 from "../assets/NewCategory7.png";
 import NewCategory8 from "../assets/NewCategory8.png";
 import NewCategory9 from "../assets/NewCategory9.png";
+import NewCategory10 from "../assets/NewCategory10.png";
+
 import NewServices1 from "../assets/NewServices1.png";
 import NewServices2 from "../assets/NewServices2.png";
 import NewServices3 from "../assets/NewServices3.png";
@@ -177,8 +177,8 @@ const categories = [
   },
   {
     id: 5,
-    cat: NewCategory4,
-    name: "Consumer Electronics & Accessories - Home appliances and equipment etc",
+    cat: NewCategory10,
+    name: "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc",
     title: "Electronics",
     subTitle: "Mobile, laptop, Accessories ",
     icon: NewIcon4,
@@ -219,6 +219,16 @@ const categories = [
     icon: NewIcon8,
   },
 
+  
+
+  {
+    id: 11,
+    cat: NewCategory4,
+    name: "Consumer Electronics & Accessories - Home appliances and equipment etc",
+    title: "Appliances",
+    subTitle: "Home, Kitchen, Bath",
+    icon:NewIcon10,
+  },
   {
     id: 10,
     cat: NewCategory9,
@@ -226,15 +236,6 @@ const categories = [
     title: "Utensils",
     subTitle: "Kitchen & kitchenware",
     icon: NewIcon9,
-  },
-
-  {
-    id: 11,
-    cat: NewServices1,
-    name: "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc",
-    title: "Appliances",
-    subTitle: "Home, Kitchen, Bath",
-    icon: NewIcon10,
   },
   {
     id: 12,
@@ -336,7 +337,7 @@ const HomeScreen = () => {
   const userLongitude = useSelector((store) => store.user.userLongitude);
   const userLatitude = useSelector((store) => store.user.userLatitude);
   const [locationRefresh, setLocationRefresh] = useState(false);
-  const [advertText, setAdvertText] = useState(""); // For dynamic text
+  const [advert, setAdvert] = useState(null); // For dynamic text
   const [adLoading, setAdLoading] = useState(true); // Loader state
   const [error, setError] = useState(null);
   const onStateChange = useCallback((state) => {
@@ -389,9 +390,9 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchAdvertText = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/user/advert-text`); // Replace with your API
+        const response = await axios.get(`${baseUrl}/user/advertisement`); // Replace with your API
      
-        setAdvertText(response.data || "SAVE MORE, START BARGAINING!");
+        setAdvert(response.data);
         setAdLoading(false);
       } catch (err) {
         console.error("Error fetching advertisement text:", err);
@@ -421,10 +422,10 @@ const HomeScreen = () => {
       ).start();
     };
 
-    if (advertText) {
+    if (advert?.title) {
       startAnimation();
     }
-  }, [advertText, scrollX, width]);
+  }, [advert?.title, scrollX, width]);
 
   useEffect(() => {
     const backAction = () => {
@@ -644,7 +645,7 @@ const HomeScreen = () => {
           });
 
           // Log the categories array to verify
-          console.log(categories);
+          // console.log(categories);
           dispatch(setNearByStoresCategory(categories));
         });
     } catch (error) {
@@ -689,6 +690,7 @@ const HomeScreen = () => {
             // fetchSpadeDetails(userDetails.unpaidSpades[0]);
           // } else {
             // navigation.navigate("requestentry");
+            dispatch(setRequestCategory(""));
             navigation.navigate("addimg");
             fetchNearByStores();
           // }
@@ -929,15 +931,49 @@ const HomeScreen = () => {
                       transform: [{ translateX: scrollX }],
                     }}
                   >
+                    {
+                      advert?.image &&
+                      <FastImage
+                      source={{uri:advert?.image}}
+                      style={{
+                        width:30,
+                        height:30,
+                      }}
+                      resizeMode={FastImage.resizeMode.contain}
+                    />
+                    }
+                    
+                    
+                    <View style={{
+                      flexDirection:"column",
+                      justifyContent: "center",
+                      alignContent: "center",
+                    }}>
                     <Text
                       style={{
                         color: "#3f3d56",
                         fontFamily: "Poppins-BlackItalic",
                         fontSize: 14,
+                        textAlign: "center",
                       }}
                     >
-                      {advertText}
+                      {advert?.title}
                     </Text>
+                    {
+                      advert?.subtitle &&      
+
+                      <Text
+                      style={{
+                        color: "#3f3d56",
+                        fontFamily: "Poppins-Italic",
+                        fontSize: 12,
+                      }}
+                    >
+                      {advert?.subtitle}
+                    </Text>
+                                    }
+                   
+                    </View>
                   </Animated.View>
                 </View>
               )}
@@ -960,7 +996,7 @@ const HomeScreen = () => {
                         if (category.id === 1) {
                           navigation.navigate("newhome");
                         } else {
-                          dispatch(setRequestCategory(category.name));
+                          dispatch(setRequestCategory(category?.name));
                           navigation.navigate("image-suggestion", {
                             category: category,
                           });

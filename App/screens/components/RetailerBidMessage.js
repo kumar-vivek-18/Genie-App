@@ -152,9 +152,7 @@ const RetailerBidMessage = ({ bidDetails, pic }) => {
                 disabled={downloadProgress[1] !== undefined}
                 onPress={() =>
                   handleDownload(
-                    selectedImage,
-                    downloadProgress,
-                    setDownloadProgress,
+                    selectedImage
 
                   )
 

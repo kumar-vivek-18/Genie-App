@@ -221,45 +221,40 @@ export const handleDownloadPress = async (imageUri, index, downloadProgress, set
 }
 
 
-export const handleDownload = async (imageUri, downloadProgress, setDownloadProgress) => {
-  const index = 1;
-  const mediaLibraryPermission = await MediaLibrary.getPermissionsAsync();
-  console.log("mediaLibraryPermission", mediaLibraryPermission)
-  if (mediaLibraryPermission.status !== 'granted') {
-    alert('Permission required', 'We need permission to save images to your gallery.');
-    return;
-  }
 
-  const fileUri = FileSystem.documentDirectory + imageUri.split('/').pop();
 
-  const downloadResumable = FileSystem.createDownloadResumable(
-    imageUri,
-    fileUri,
-    {},
-    (downloadProgress) => {
-      const progress = downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite;
-      setDownloadProgress((prevState) => ({
-        ...prevState,
-        [index]: progress,
-      }));
-    }
-  );
 
+
+export const handleDownload = async (imageUri) => {
   try {
+    // Request Media Library permissions
+    let { status } = await MediaLibrary.getPermissionsAsync();
+    if (status !== 'granted') {
+      const { status: newStatus } = await MediaLibrary.requestPermissionsAsync();
+      status = newStatus;
+    }
+
+    // If permission is not granted, exit
+    if (status !== 'granted') {
+      alert('Permission required', 'We need permission to save images to your gallery.');
+      return;
+    }
+
+    // Prepare the file path for download
+    const fileName = imageUri.split('/').pop();
+    const fileUri= `${FileSystem.documentDirectory}${fileName}`;
+    // Download the image
+    const downloadResumable = FileSystem.createDownloadResumable(imageUri, fileUri);
     const { uri } = await downloadResumable.downloadAsync();
+
     const asset = await MediaLibrary.createAssetAsync(uri);
-    await MediaLibrary.createAlbumAsync('Download', asset, true);
-    setDownloadProgress((prevState) => ({
-      ...prevState,
-      [index]: 1, // Clear progress after download completion
-    }));
-    // alert('Download complete');
-  } catch (e) {
-    console.error(e);
-    setDownloadProgress((prevState) => ({
-      ...prevState,
-      [index]: undefined, // Clear progress on error
-    }));
-    // alert('Download failed');
+    await MediaLibrary.createAlbumAsync('Download', asset, false);
+
+    alert('Download complete', 'Image saved to your gallery.');
+  } catch (error) {
+    console.error('Error downloading image:', error);
+    alert('Download failed', 'Unable to save the image.');
   }
-}
+};
+
+

@@ -29,8 +29,12 @@ import FastImage from "react-native-fast-image";
 import { Feather } from "@expo/vector-icons";
 import BuyText from "../../assets/Buylowesttext.svg";
 import WhiteArrow from "../../assets/white-right.svg";
+import { setVendorId } from "../../redux/reducers/userDataSlice";
 const { width, height } = Dimensions.get("window");
-
+import Store from "../../assets/storeOrange.svg"
+import Download from "../../assets/download.svg"
+import { handleDownload } from "../../utils/logics/Logics";
+import GumletScaledImage from "../../utils/cdn/GumLetImage";
 const CategoryCard = ({ category, setSignUpModal }) => {
   //   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -40,9 +44,11 @@ const CategoryCard = ({ category, setSignUpModal }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const scaleValue = useRef(new Animated.Value(0)).current;
   const userDetails = useSelector((state) => state.user.userDetails);
-
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedImgEstimatedPrice, setSelectedImgEstimatedPrice] = useState(0);
   const [selectedImageDesc, setSelectedImageDesc] = useState("");
+    const [selectedVendorId, setSelectedVendorId] = useState("");
+  
   const images = useSelector(
     (state) => state.categories.categoryImages[category.name]
   );
@@ -54,7 +60,7 @@ const CategoryCard = ({ category, setSignUpModal }) => {
       try {
         const response = await axios.get(
           `${baseUrl}/product/product-by-category`,
-          { params: { productCategory: category?.name, page } }
+          { params: { productCategory: category?.name, page ,limit:30} }
         );
         if (isMounted) {
           //   setImages(response.data || []);
@@ -129,6 +135,76 @@ const CategoryCard = ({ category, setSignUpModal }) => {
   };
 
   //   if (!isVisible) return null;
+
+  const renderProductItem = (item) => (
+    <TouchableOpacity
+      key={item._id}
+      onPress={() => {
+        handleImagePress(item.productImage);
+        setSelectedCategory(item.productCategory),
+        setSelectedImgEstimatedPrice(item.productPrice);
+        setSelectedImageDesc(item.productDescription);
+        setSelectedVendorId(item.vendorId);
+      }}
+      style={{ marginBottom: 10, marginRight: 10 }}
+    >
+      <GumletScaledImage
+        source={{ uri: item.productImage }}
+        style={{
+          width: width * 0.38,
+          height: 180,
+          borderRadius: 16,
+        }}
+        // resizeMode={FastImage.resizeMode.cover}
+      />
+      <View
+        style={{
+          position: "absolute",
+          bottom: 0,
+          width:width * 0.38,
+          
+          height: 50,
+          backgroundColor: "rgba(0,0,0,0.5)",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          borderBottomEndRadius: 16,
+          borderBottomStartRadius: 16,
+        }}
+      >
+        {item?.productDescription && (
+          <Text
+            style={{
+              fontFamily: "Poppins-Regular",
+              fontSize: 10,
+              color: "white",
+            }}
+          >
+            {item.productDescription.length > 25
+              ? `${item.productDescription.substring(0, 25)}...`
+              : item.productDescription}
+          </Text>
+        )}
+        <Text
+          style={{
+            fontFamily: "Poppins-Regular",
+            fontSize: 8,
+            color: "white",
+          }}
+        >
+          Estimated Price
+        </Text>
+        <Text
+          style={{
+            fontFamily: "Poppins-SemiBold",
+            color: "#70b241",
+          }}
+        >
+          Rs {item.productPrice}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
 
   return (
     <View
@@ -244,19 +320,66 @@ const CategoryCard = ({ category, setSignUpModal }) => {
                 key={item._id}
                 onPress={() => {
                   handleImagePress(item.productImage);
+                  setSelectedCategory(item.productCategory);
                   setSelectedImgEstimatedPrice(item.productPrice);
                   setSelectedImageDesc(item.productDescription);
+                  setSelectedVendorId(item.vendorId);
                 }}
               >
-                <FastImage
+                <GumletScaledImage
                   source={{ uri: item?.productImage }}
                   style={{
                     width: width * 0.38, // Adjust width to fit items within rows
-                    height: 160,
+                    height: 180,
                     borderRadius: 10,
                   }}
-                  resizeMode={FastImage.resizeMode.cover}
+                  // resizeMode={FastImage.resizeMode.cover}
                 />
+                <View
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    width: width * 0.38,
+                    height: 50,
+                    backgroundColor: "rgba(0,0,0,0.5)",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderBottomEndRadius: 16,
+                    borderBottomStartRadius: 16,
+                  }}
+                >
+                  {item?.productDescription && (
+                    <Text
+                      style={{
+                        fontFamily: "Poppins-Regular",
+                        fontSize: 10,
+                        color: "white",
+                      }}
+                    >
+                      {item.productDescription.length > 25
+                        ? `${item.productDescription.substring(0, 25)}...`
+                        : item.productDescription}
+                    </Text>
+                  )}
+                  <Text
+                    style={{
+                      fontFamily: "Poppins-Regular",
+                      fontSize: 8,
+                      color: "white",
+                    }}
+                  >
+                    Estimated Price
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: "Poppins-SemiBold",
+                      color: "#70b241",
+                    }}
+                  >
+                    Rs {item.productPrice}
+                  </Text>
+                </View>
               </TouchableOpacity>
             ))}
           </View>
@@ -279,7 +402,7 @@ const CategoryCard = ({ category, setSignUpModal }) => {
                 textAlign: "center",
               }}
             >
-              No Product Images Available
+              No Vendor Available
             </Text>
           </View>
         )}
@@ -298,7 +421,7 @@ const CategoryCard = ({ category, setSignUpModal }) => {
             <View
               style={{
                 width: width * 0.38,
-                height: 160,
+                height: 180,
                 backgroundColor: "#bdbdbd",
                 borderRadius: 10,
               }}
@@ -306,7 +429,7 @@ const CategoryCard = ({ category, setSignUpModal }) => {
             <View
               style={{
                 width: width * 0.38,
-                height: 160,
+                height: 180,
                 backgroundColor: "#bdbdbd",
                 borderRadius: 10,
               }}
@@ -314,7 +437,7 @@ const CategoryCard = ({ category, setSignUpModal }) => {
             <View
               style={{
                 width: width * 0.38,
-                height: 160,
+                height: 180,
                 backgroundColor: "#bdbdbd",
                 borderRadius: 10,
               }}
@@ -322,7 +445,7 @@ const CategoryCard = ({ category, setSignUpModal }) => {
             <View
               style={{
                 width: width * 0.38,
-                height: 160,
+                height: 180,
                 backgroundColor: "#bdbdbd",
                 borderRadius: 10,
               }}
@@ -337,51 +460,16 @@ const CategoryCard = ({ category, setSignUpModal }) => {
             <View style={{ flexDirection: "row", paddingLeft: 20 }}>
               <FlatList
                 data={images.slice(4)}
+                style={{ gap: 10 }}
                 keyExtractor={(item) => item._id.toString()}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    key={item._id}
-                    onPress={() => {
-                      handleImagePress(item.productImage);
-
-                      setSelectedImgEstimatedPrice(item.productPrice);
-                      setSelectedImageDesc(item.productDescription);
-                    }}
-                    style={{ marginRight: 10 }}
-                  >
-                    <FastImage
-                      source={{ uri: item?.productImage }}
-                      style={{
-                        width: 140,
-                        height: 170,
-                        borderRadius: 10,
-                      }}
-                      resizeMode={FastImage.resizeMode.cover}
-
-                      //   resizeMode="cover"
-                      //   onError={() =>
-                      //     setImages((prev) =>
-                      //       prev.map((img) =>
-                      //         img._id === item._id
-                      //           ? {
-                      //               ...img,
-                      //               productImage:
-                      //                 "https://via.placeholder.com/150",
-                      //             } // Fallback URL
-                      //           : img
-                      //       )
-                      //     )
-                      //   }
-                    />
-                  </TouchableOpacity>
-                )}
+                renderItem={({ item }) => renderProductItem(item)}
                 horizontal={true}
               />
               {images && images.length > 0 && (
                 <TouchableOpacity
                   style={{
-                    width: 140,
-                    height: 170,
+                    width: width * 0.38,
+                    height: 180,
                     backgroundColor: "#FB8C00",
                     borderRadius: 10,
                     justifyContent: "center",
@@ -422,32 +510,32 @@ const CategoryCard = ({ category, setSignUpModal }) => {
             >
               <View
                 style={{
-                  width: 140,
-                  height: 170,
+                  width: width * 0.38,
+                    height: 180,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
               ></View>
               <View
                 style={{
-                  width: 140,
-                  height: 170,
+                  width: width * 0.38,
+                    height: 180,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
               ></View>
               <View
                 style={{
-                  width: 140,
-                  height: 170,
+                  width: width * 0.38,
+                    height: 180,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
               ></View>
               <View
                 style={{
-                  width: 140,
-                  height: 170,
+                  width: width * 0.38,
+                    height: 180,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
@@ -527,22 +615,40 @@ const CategoryCard = ({ category, setSignUpModal }) => {
                 gap: 10,
               }}
             >
-              <TouchableOpacity
-                style={{
-                  backgroundColor: "#fff",
-                  position: "absolute",
-                  top: 20,
-                  right: 20,
-                  zIndex: 100,
-                  padding: 10,
-                  borderRadius: 100,
-                }}
-                onPress={() => {
-                  handleDownloadDocument();
-                }}
-              >
-                <Feather name="download" size={16} color="#fb8c00" />
-              </TouchableOpacity>
+               <TouchableOpacity
+                              style={{
+                                backgroundColor: "#FFECD6",
+                                position: "absolute",
+                                top: 20,
+                                right: 20,
+                                zIndex: 100,
+                                padding: 10,
+                                borderRadius: 100,
+                              }}
+                              onPress={() => {
+                                handleDownload(selectedImage);
+                              }}
+                            >
+                              <Download/>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                              style={{
+                                backgroundColor: "#FFECD6",
+                                position: "absolute",
+                                top: 80,
+                                right: 20,
+                                zIndex: 100,
+                                padding: 10,
+                                borderRadius: 100,
+                              }}
+                              onPress={() => {
+                                dispatch(setVendorId(selectedVendorId));
+                                setSelectedImage(null) 
+                                navigation.navigate("store-page-id")
+                              }}
+                            >
+                              <Store/>
+                            </TouchableOpacity>
               <FastImage
                 source={{ uri: selectedImage }}
                 style={{
@@ -639,6 +745,7 @@ const CategoryCard = ({ category, setSignUpModal }) => {
                       dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
                     }
                     setTimeout(() => {
+                      dispatch(setRequestCategory(selectedCategory));
                       dispatch(
                         setRequestDetail(
                           "Looking for the product in this reference image."

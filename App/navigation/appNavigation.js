@@ -41,6 +41,8 @@ import ImageSuggestion from '../screens/createRequest/ImagesSuggestions';
 import NewHome from '../screens/NewHome.js';
 import ServiceRequest from '../screens/createRequest/ServiceRequest.js';
 import ServiceRequestPreview from '../screens/createRequest/ServiceRequestPreview.js';
+import StoreProfileById from '../screens/storeSearch/StoreProfileById.js';
+import RetailerProductScreen from '../screens/storeSearch/RetailerProductScreen.js';
 
 const Stack = createNativeStackNavigator();
 const GlobalNavigation = () => {
@@ -113,6 +115,11 @@ const GlobalNavigation = () => {
             <Stack.Screen name={`send-document`} component={SendDocument} />
             <Stack.Screen name="store-search" component={SearchPage} />
             <Stack.Screen name="store-page" component={StoreProfilePage} />
+            <Stack.Screen name="store-page-id" component={StoreProfileById} />
+            <Stack.Screen name="vendor-product" component={RetailerProductScreen} />
+
+
+
             {memoizedScreens}
         </Stack.Navigator>
 

@@ -49,7 +49,7 @@ import AddImageContent from "../../assets/addImageContent.svg";
 import UploadImg from "../../assets/UploadImg.svg";
 import Genie from "../../assets/Genie.svg";
 import SetCategory from "../../assets/setcategoryicon.svg";
-import Banner2 from "../../assets/Banner2.svg";
+import Banner2 from "../../assets/Banner.svg";
 import WhiteArrow from "../../assets/white-right.svg";
 import GreyArrow from "../../assets/grey-right.svg";
 import FastImage from "react-native-fast-image";
@@ -742,7 +742,7 @@ const ServiceRequest = () => {
                 color: !query || !requestCategory ? "#888888" : "white",
               }}
             >
-              Preview and  send request
+              Preview and send request
             </Text>
             {
               !query || !requestCategory ? ( <GreyArrow width={20} height={20}/>):(<WhiteArrow width={20} height={20} />)

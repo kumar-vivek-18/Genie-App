@@ -49,13 +49,98 @@ import AddImageContent from "../../assets/addImageContent.svg";
 import UploadImg from "../../assets/UploadImg.svg";
 import Genie from "../../assets/Genie.svg";
 import SetCategory from "../../assets/setcategoryicon.svg";
-import Banner2 from "../../assets/Banner2.svg";
+import Banner2 from "../../assets/Banner.svg";
 import WhiteArrow from "../../assets/white-right.svg";
 import GreyArrow from "../../assets/grey-right.svg";
 import FastImage from "react-native-fast-image";
 
 
 const { width, height } = Dimensions.get("window");
+
+const categories = {
+  "Consumer Electronics & Accessories - Home appliances and equipment etc":
+  {
+   
+    title:"Appliances"
+
+  }
+    ,
+  "Fashion/Clothings - Top, bottom, dresses": {
+  
+    title:"Fashion"
+  },
+  "Fashion Accessories - Jewellery, Gold & Diamond": {
+  
+    title:"Jewel"
+  },
+  "Fashion Accessories - Shoes, bags etc": {
+ 
+    title:"Shoes, Bag"
+  },
+  "Fashion Accessories - Sharee, suits, kurti & dress materials etc": {
+
+    title:"Sari, Suit"
+  },
+  "Gifts, Kids Games,Toys & Accessories": {
+    
+    title:"Gifts,Kids"
+  },
+  "Luxury Watches & Service": {
+  
+    title:"Watches"
+  },
+  "Hardware - Plumbing, Paint,& Electricity": {
+
+    title:"Plumbing"
+  },
+  "Sports Nutrition - Whey Pro etc": {
+
+    title:"Nutrition"
+  },
+  "Hardware - Cement, Hand tools, Powertools etc":{
+ 
+    title:"Hardware"
+  } ,
+  "Kitchen Utensils & Kitchenware": {
+ 
+    title:"Utensils"
+  },
+  "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc":
+    {
+   
+      title:"Appliances"
+    },
+  "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc":
+   {
+    title:"Electronics"
+  },
+  "Automotive Parts/Services - 2 wheeler Fuel based":{
+  
+    title:"Bike"
+  },
+  "Automotive Parts/Services - 4 wheeler Fuel based": {
+   
+    title:"Car"
+  },
+  "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc":
+    {
+    title: "Heavy",
+     
+    },
+  "Electrical Services & Repair - Electrician": {
+   
+    title:"Electrician"
+  },
+  "Home & Function Decoration":{
+    
+    title:"Home & Function Decoration"
+  },
+  "Z-Internal test culturtap ( not for commercial use )":{
+    
+    title:"Z-Internal test culturtap"
+  }
+};
+
 const AddImageScreen = () => {
   const [imagesLocal, setImagesLocal] = useState([]);
   const navigation = useNavigation();
@@ -257,39 +342,6 @@ const AddImageScreen = () => {
     });
   };
 
-  // const getImageUrl = async (image) => {
-  //   setLoading(true);
-  //   const CLOUDINARY_URL =
-  //     "https://api.cloudinary.com/v1_1/kumarvivek/image/upload";
-  //   const base64Img = `data:image/jpg;base64,${image.base64}`;
-  //   const data = {
-  //     file: base64Img,
-  //     upload_preset: "CulturTap",
-  //     quality: 50,
-  //   };
-
-  //   try {
-  //     const response = await fetch(CLOUDINARY_URL, {
-  //       body: JSON.stringify(data),
-  //       headers: {
-  //         "content-type": "application/json",
-  //       },
-  //       method: "POST",
-  //     });
-
-  //     const result = await response.json();
-  //     if (result.secure_url) {
-  //       console.log("cloud", result.secure_url)
-  //       // setImagesLocal((prevImages) => [...prevImages, result.secure_url]);
-  //       dispatch(setRequestImages(result.secure_url));
-  //       setCameraScreen(false);
-  //       setLoading(false);
-  //     }
-  //   } catch (err) {
-  //     setLoading(false);
-  //     console.log(err);
-  //   }
-  // };
 
   const deleteImage = (index) => {
     setImgIndex(index);
@@ -489,7 +541,7 @@ const AddImageScreen = () => {
                         color: "#fb8c00",
                       }}
                     >
-                      Select
+                      {requestCategory?.length===0?"Select":categories[requestCategory].title}
                     </Text>
                   </View>
                   <Tailless />

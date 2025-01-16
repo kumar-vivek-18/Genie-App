@@ -31,7 +31,7 @@ import {
   import { socket } from "../../utils/scoket.io/socket";
   import { baseUrl } from "../../utils/logics/constants";
   import axiosInstance from "../../utils/logics/axiosInstance";
-  import Banner2 from "../../assets/Banner2.svg";
+  import Banner2 from "../../assets/Banner.svg";
   import WhiteArrow from "../../assets/white-right.svg";
 import FastImage from "react-native-fast-image";
   
@@ -172,7 +172,7 @@ import FastImage from "react-native-fast-image";
           setTimeout(() => {
             setIsVisible(false);
             navigation.navigate("home");
-          }, 3000);
+          }, 2000);
           // dispatch(setCreatedRequest(res));
   
           socket.emit("new request", response.data.userRequest._id);
