@@ -95,6 +95,8 @@ import NewServices5 from "../assets/NewServices5.png";
 import NewServices6 from "../assets/NewServices6.png";
 import NewServices7 from "../assets/NewServices7.png";
 import NewServices8 from "../assets/NewServices8.png";
+import NewServices9 from "../assets/NewServices9.png";
+
 
 import Maintenance from "../assets/Maintenace.svg";
 import NewIcon1 from "../assets/NewIcon1.png";
@@ -136,163 +138,6 @@ const { width } = Dimensions.get("window");
 
 const images = [Home0, Home1, Home2, Home3, Home4, Home5, Home6, Home7];
 
-// const categories = [
-//   // {
-//   //   id: 1,
-//   //   cat: AllCategory,
-//   //   name: "All Category",
-//   // },
-//   {
-//     id: 2,
-//     cat: Category2,
-//     name: "Fashion/Clothings - Top, bottom, dresses",
-//     title: "Fashion",
-//     subTitle: "Top, Bottom, Dresses",
-//     icon: Category2,
-//   },
-//   {
-//     id: 3,
-//     cat: Category5,
-//     name: "Fashion Accessories - Sharee, suits, kurti & dress materials etc",
-//     title: "Sari, Suit",
-//     subTitle: "Ready made, Material",
-//     icon: Category5,
-//   },
-//   {
-//     id: 4,
-//     cat: Category4,
-//     name: "Fashion Accessories - Shoes, bags etc",
-//     title: "Shoes, Bag",
-//     subTitle: "Casual, Formal, School Traditional",
-//     icon: Category4,
-//   },
-//   {
-//     id: 5,
-//     cat: Category1,
-//     name: "Consumer Electronics & Accessories - Home appliances and equipment etc",
-//     title: "Electronics",
-//     subTitle: "Mobile, laptop, Accessories ",
-//     icon: Category1,
-//   },
-
-//   {
-//     id: 6,
-//     cat: Category6,
-//     name: "Gifts, Kids Games,Toys & Accessories",
-//     title: "Gift, Kids",
-//     subTitle: "Board, Games, Electric, Toys",
-//     icon: Category6,
-//   },
-//   {
-//     id: 7,
-//     cat: Category3,
-//     name: "Fashion Accessories - Jewellery, Gold & Diamond",
-//     title: "Jewel",
-//     subTitle: "Silver, Imitation",
-//     icon: Category3,
-//   },
-
-//   {
-//     id: 8,
-//     cat: Category7,
-//     name: "Luxury Watches & Service",
-//     title: "Watches",
-//     subTitle: "Luxury, Digital, Ring, Wall",
-//     icon: Category7,
-//   },
-
-//   {
-//     id: 9,
-//     cat: Category9,
-//     name: "Sports Nutrition - Whey Pro etc",
-//     title: "Sports",
-//     subTitle: "Whey Pro, Fiber, Shake, Pasta",
-//     icon: Category9,
-//   },
-
-//   {
-//     id: 10,
-//     cat: Category11,
-//     name: "Kitchen Utensils & Kitchenware",
-//     title: "Utensils",
-//     subTitle: "Kitchen & kitchenware",
-//     icon: Category11,
-//   },
-
-//   {
-//     id: 11,
-//     cat: Category8,
-//     name: "Hardware - Plumbing, Paint,& Electricity",
-//     title: "Plumbing",
-//     subTitle: "Pipes, Drainage, Sink",
-//     icon: Category8,
-//   },
-//   {
-//     id: 12,
-//     cat: Category10,
-//     name: "Hardware - Cement, Hand tools, Powertools etc",
-//     title: "Hardware",
-//     subTitle: "Paint, Plumbing, Bath",
-//     icon: Category10,
-//   },
-//   {
-//     id: 13,
-//     cat: Service1,
-//     name: "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc",
-//     title: "Appliances",
-//     subTitle: "Home, Kitchen, Bath",
-//     icon: Service1,
-//   },
-//   {
-//     id: 14,
-//     cat: Service2,
-//     name: "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc",
-//     title: "Electronics",
-//     subTitle: "Mobile, Laptop, Digital device, Repair",
-//     icon: Service2,
-//   },
-//   {
-//     id: 15,
-//     cat: Category7,
-//     name: "Luxury Watches & Service",
-//     title: "Watches",
-//     subTitle: "Luxury, Digital, Ring, Wall",
-//     icon: Category7,
-//   },
-//   {
-//     id: 16,
-//     cat: Service7,
-//     name: "Electrical Services & Repair - Electrician",
-//     title: "Electrician",
-//     subTitle: "Home, Wiring,Lights equipments",
-//     icon: Service7,
-//   },
-
-//   {
-//     id: 17,
-//     cat: Service5,
-//     name: "Automotive Parts/Services - 4 wheeler Fuel based",
-//     title: "Car",
-//     subTitle: "Parts, Service",
-//     icon: Service5,
-//   },
-//   {
-//     id: 18,
-//     cat: Service4,
-//     name: "Automotive Parts/Services - 2 wheeler Fuel based",
-//     title: "Bike",
-//     subTitle: "Parts, Service",
-//     icon: Service4,
-//   },
-//   {
-//     id: 19,
-//     cat: Service6,
-//     name: "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc",
-//     title: "Heavy",
-//     subTitle: "Construction, JCB, Truck",
-//     icon: Service6,
-//   },
-// ];
 
 const categories = [
   // {
@@ -402,6 +247,7 @@ const categories = [
     subTitle: "Paint, Plumbing, Bath",
     icon: NewServicesIcon8,
   },
+ 
   {
     id: 14,
     cat: NewServices2,
@@ -426,9 +272,17 @@ const categories = [
     subTitle: "Home, Wiring,Lights equipments",
     icon: NewServicesIcon4,
   },
-
   {
     id: 17,
+    cat: NewServices9,
+    name: "Hardware - Cement, Hand tools, Powertools etc",
+    title: "Hardware",
+    subTitle: "Paint, Plumbing, Bath",
+    icon: NewServicesIcon8,
+  },
+
+  {
+    id: 18,
     cat: NewServices5,
     name: "Automotive Parts/Services - 4 wheeler Fuel based",
     title: "Car",
@@ -436,7 +290,7 @@ const categories = [
     icon: NewServicesIcon5,
   },
   {
-    id: 18,
+    id: 19,
     cat: NewServices6,
     name: "Automotive Parts/Services - 2 wheeler Fuel based",
     title: "Bike",
@@ -444,7 +298,7 @@ const categories = [
     icon: NewServicesIcon6,
   },
   {
-    id: 19,
+    id: 20,
     cat: NewServices7,
     name: "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc",
     title: "Heavy",
@@ -453,45 +307,6 @@ const categories = [
   },
 ];
 
-// const categoriess = [
-//   { cat: Category2, name: "Fashion/Clothings - Top, bottom, dresses" },
-//   { cat: Category4, name: "Fashion Accessories - Shoes, bags etc" },
-//   {
-//     cat: Category5,
-//     name: "Fashion Accessories - Sharee, suits, kurti & dress materials etc",
-//   },
-//   { cat: Category6, name: "Gifts, Kids Games,Toys & Accessories" },
-//   {
-//     cat: Category1,
-//     name: "Consumer Electronics & Accessories - Home appliances and equipment etc",
-//   },
-
-//   { cat: Category3, name: "Fashion Accessories - Jewellery, Gold & Diamond" },
-
-//   { cat: Category7, name: "Luxury Watches & Service" },
-//   { cat: Category8, name: "Hardware - Plumbing, Paint,& Electricity" },
-//   { cat: Category9, name: "Sports Nutrition - Whey Pro etc" },
-//   { cat: Category10, name: "Hardware - Cement, Hand tools, Powertools etc" },
-//   { cat: Category11, name: "Kitchen Utensils & Kitchenware" },
-// ];
-// const servicess = [
-//   {
-//     cat: Service1,
-//     name: "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc",
-//   },
-//   {
-//     cat: Service2,
-//     name: "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc",
-//   },
-//   // { cat: Service3, name: "Clock Repair & Services" },
-//   { cat: Service4, name: "Automotive Parts/Services - 2 wheeler Fuel based" },
-//   { cat: Service5, name: "Automotive Parts/Services - 4 wheeler Fuel based" },
-//   {
-//     cat: Service6,
-//     name: "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc",
-//   },
-//   { cat: Service7, name: "Electrical Services & Repair - Electrician" },
-// ];
 const NewHome = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -538,6 +353,7 @@ const NewHome = () => {
     setPlaying((prev) => !prev);
   }, []);
 
+  
   const scrollX = useRef(new Animated.Value(0)).current;
 
   const getAppVersion = async () => {
@@ -1037,7 +853,7 @@ const NewHome = () => {
                     justifyContent: "space-between",
                   }}
                 >
-                  {categories.slice(0, 11).map((category) => (
+                  {categories.slice(0, 12).map((category) => (
                     <TouchableOpacity
                       key={category?.id}
                       style={{ paddingTop: 10 }}
@@ -1086,13 +902,16 @@ const NewHome = () => {
                     marginBottom: 100,
                   }}
                 >
-                  {categories.slice(11).map((category) => (
+                  {categories.slice(12).map((category) => (
                     <TouchableOpacity
                       key={category.id}
                       style={{ paddingTop: 10 }}
                       onPress={() => {
+                        if (!userDetails?._id) setSignUpModal(true);
+                        else{
                         dispatch(setRequestCategory(category.name));
                         navigation.navigate("servicerequest");
+                        }
                       }}
                     >
                       <FastImage

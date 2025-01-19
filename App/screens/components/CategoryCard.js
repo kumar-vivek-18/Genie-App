@@ -626,7 +626,7 @@ const CategoryCard = ({ category, setSignUpModal }) => {
                                 borderRadius: 100,
                               }}
                               onPress={() => {
-                                handleDownload(selectedImage);
+                                handleDownloadDocument()
                               }}
                             >
                               <Download/>
@@ -770,7 +770,7 @@ const CategoryCard = ({ category, setSignUpModal }) => {
               >
                 <Text
                   style={{
-                    fontFamily: "Poppins-Bold",
+                    fontFamily: "Poppins-BoldItalic",
                     color: "#fff",
                     fontSize: 16,
                   }}

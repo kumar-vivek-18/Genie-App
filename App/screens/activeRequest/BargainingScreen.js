@@ -484,6 +484,7 @@ const BargainingScreen = () => {
           ];
           dispatch(setCurrentSpadeRetailers(updatedRetailers));
           dispatch(setCurrentSpadeRetailer(updateChat));
+          console.log("setCurrentSpadeRetail",updateChat)
 
           setLoading(false);
           const notification = {
@@ -1201,7 +1202,7 @@ const BargainingScreen = () => {
                 {(currentSpade.requestActive === "completed" ||
                   currentSpade.requestActive === "closed") &&
                   currentSpade.requestAcceptedChat ===
-                    currentSpadeRetailer._id && (
+                    currentSpadeRetailer?._id && (
                     <TouchableOpacity
                       onPress={() => {
                         setRetailerModal(true);

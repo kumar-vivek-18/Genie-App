@@ -712,7 +712,7 @@ const ImageSuggestion = () => {
                     borderRadius: 100,
                   }}
                   onPress={() => {
-                    handleDownload(selectedImage);
+                    handleDownloadDocument()
                   }}
                 >
                   <Download />
@@ -854,7 +854,7 @@ const ImageSuggestion = () => {
                 >
                   <Text
                     style={{
-                      fontFamily: "Poppins-Bold",
+                      fontFamily: "Poppins-BoldItalic",
                       color: "#fff",
                       fontSize: 16,
                     }}

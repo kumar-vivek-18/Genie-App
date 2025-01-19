@@ -36,6 +36,8 @@ export default function App() {
       'Poppins-Black': require('./App/assets/fonts/Poppins-Black.ttf'),
       'Poppins-Italic': require('./App/assets/fonts/Poppins-Italic.ttf'),
       'Poppins-BlackItalic': require('./App/assets/fonts/Poppins-BlackItalic.ttf'),
+      'Poppins-BoldItalic': require('./App/assets/fonts/Poppins-BoldItalic.ttf'),
+
     }
   )
 

@@ -34,7 +34,7 @@ import RatingAndFeedbackModal from "../components/RatingAndFeedbackModal";
 import RatingStar from "../../assets/Star.svg";
 import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
-import { setUserDetails } from "../../redux/reducers/userDataSlice";
+import { setUserDetails, setVendorId } from "../../redux/reducers/userDataSlice";
 import EditCommentModal from "../components/EditCommentModal";
 import { current } from "@reduxjs/toolkit";
 // import {Clipboard} from '@react-native-clipboard/clipboard'
@@ -392,6 +392,7 @@ const StoreProfileScreen = () => {
               fontFamily: "Poppins-SemiBold",
               paddingBottom: 20,
               color: "#2e2c43",
+              fontSize: 14,
             }}
           >
             Store Images
@@ -431,20 +432,37 @@ const StoreProfileScreen = () => {
           </ScrollView>
         </View>
         {listedProducts && listedProducts.length > 0 && (
-          <View>
-            <View>
-              <Text
-                style={{
-                  paddingLeft: 32,
-                  paddingBottom: 10,
-                  fontFamily: "Poppins-Bold",
-                  color: "#2e2c43",
-                  fontSize: 16,
-                }}
-              >
-                Available stock
-              </Text>
-            </View>
+          <View style={{paddingBottom:20}}>
+             <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",paddingBottom: 10, }}>
+                          <Text
+                            style={{
+                              paddingLeft: 32,
+                            
+                              fontFamily: "Poppins-Bold",
+                              color: "#2e2c43",
+                              fontSize: 14,
+                            }}
+                          >
+                            Available stock
+                          </Text>
+                          <TouchableOpacity
+                            onPress={() => {
+                              dispatch(setVendorId(currentSpadeRetailer.retailerId._id));
+                              navigation.navigate("vendor-product");
+                            }}
+                            style={{paddingRight:32}}
+                          >
+                            <Text
+                              style={{
+                                fontSize: 14,
+                                fontFamily: "Poppins-SemiBold",
+                                color: "#fb8c00",
+                              }}
+                            >
+                              View all
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               {!productLoading && listedProducts && (
                 <View style={{ flexDirection: "row", paddingLeft: 32 }}>
@@ -467,12 +485,11 @@ const StoreProfileScreen = () => {
                         flexDirection: "row",
                         gap: 5,
                         marginRight: 32,
+                      
                       }}
                       onPress={() => {
-                        // dispatch(setRequestCategory(category.name));
-                        // navigation.navigate("image-suggestion", {
-                        //   category: category,
-                        // });
+                        dispatch(setVendorId(currentSpadeRetailer.retailerId._id));
+                        navigation.navigate("vendor-product");
                       }}
                     >
                       <Text
@@ -658,76 +675,11 @@ const StoreProfileScreen = () => {
             </KeyboardAvoidingView>
           </View>
 
-          {/* <View className="flex flex-col gap-[11px]">
-                        <Text className="  text-[14px] " style={{ fontFamily: "Poppins-Regular" }}>Mobile Number</Text>
-                        <KeyboardAvoidingView className="flex items-center">
-                            <View className="flex flex-row justify-between items-center gap-[10px] w-[324px] h-[54px] px-[20px] bg-[#F9F9F9] rounded-[16px]">
-                                <View className="text-[16px] font-extrabold border-r-[1px] border-[#dbcdbb] flex flex-row gap-[9px] pr-[9px] items-center">
-                                    <Text className="text-[16px]  text-[#2e2c43]" style={{ fontFamily: "Poppins-ExtraBold" }}>+91</Text>
-                                    <Entypo
-                                        name="chevron-down"
-                                        size={16}
-                                        color="#2e2c43"
-                                        className=""
-                                    />
-                                </View>
-                                <Text className="text-[16px] flex-1 text-[#2e2c43]" style={{ fontFamily: "Poppins-SemiBold" }}>
-
-                                    {currentSpadeRetailer.retailerId.storeMobileNo.substring(3, 13)}
-                                </Text>
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        // copyToClipboard("hii")
-                                    }}
-                                >
-                                    <Copy />
-                                </TouchableOpacity>
-                                {copied && <Text className="text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Copied</Text>}
-                            </View>
-                        </KeyboardAvoidingView>
-                    </View> */}
-
-          {/* <View>
-                        <Text className="text-[16px] font-bold my-[10px]">
-                            Listed Products
-                        </Text>
-                        <ScrollView
-                            horizontal={true}
-                            showsHorizontalScrollIndicator={false}
-                        >
-                            {storeImages.length > 1 ? (
-                                <View className="pl-[32px] flex flex-row gap-[11px] mb-[60px]">
-                                    {storeImages?.map(
-                                        (
-                                            image,
-                                            index // Start from index 1 to exclude the first image
-                                        ) => (
-                                            <View key={index} className="rounded-[16px]">
-                                                <Image
-                                                    source={{ uri: image }}
-                                                    width={183}
-                                                    height={252}
-                                                    className="rounded-[16px] border-[1px] border-[#cbcbce] object-contain"
-                                                />
-                                            </View>
-                                        )
-                                    )}
-                                </View>
-                            ) : (
-                                <View className="pl-[20px] flex flex-row gap-[11px] mb-[20px]">
-                                    <View className="w-[183px] h-[252px] bg-[#F9F9F9] rounded-[16px] shadow-lg border-[1px] border-[#cbcbce]"></View>
-                                    <View className="w-[183px] h-[252px] bg-[#F9F9F9] rounded-[16px] shadow-lg border-[1px] border-[#cbcbce]"></View>
-                                    <View className="w-[183px] h-[252px] bg-[#F9F9F9] rounded-[16px] shadow-lg border-[1px] border-[#cbcbce]"></View>
-                                    <View className="w-[183px] h-[252px] bg-[#F9F9F9] rounded-[16px] shadow-lg border-[1px] border-[#cbcbce]"></View>
-                                    <View className="w-[183px] h-[252px] bg-[#F9F9F9] rounded-[16px] shadow-lg border-[1px] border-[#cbcbce]"></View>
-                                </View>
-                            )}
-                        </ScrollView>
-                    </View> */}
+         
 
           <View>
             <Text
-              className="capitalize text-[#2e2c43] text-[16px] "
+              className="capitalize text-[#2e2c43] text-[14px] "
               style={{ fontFamily: "Poppins-Bold" }}
             >
               Store Reviews
@@ -782,7 +734,7 @@ const StoreProfileScreen = () => {
                         style={{
                           color: "#7c7c7c",
                           marginTop: 5,
-                          fontSize: 16,
+                          fontSize: 14,
                           fontFamily: "Poppins-Regular",
                         }}
                       >
@@ -807,7 +759,7 @@ const StoreProfileScreen = () => {
               {feedbacks && feedbacks.length === 0 && (
                 <View>
                   <Text
-                    className="text-[16px] text-[#7c7c7c] mt-[20px] text-center"
+                    className="text-[14px] text-[#7c7c7c] mt-[20px] text-center"
                     style={{ fontFamily: "Poppins-Regular" }}
                   >
                     No reviews yet.
@@ -1011,7 +963,7 @@ const StoreProfileScreen = () => {
               >
                 <Text
                   style={{
-                    fontFamily: "Poppins-Bold",
+                    fontFamily: "Poppins-BoldItalic",
                     color: "#fff",
                     fontSize: 16,
                   }}

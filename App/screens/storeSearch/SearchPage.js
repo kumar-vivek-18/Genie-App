@@ -22,12 +22,13 @@ import {
 } from "react-native-safe-area-context";
 import { Feather, MaterialIcons, Octicons } from "@expo/vector-icons";
 import BackArrow from "../../assets/arrow-left.svg";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useNavigationState } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import {
   setStoreCategories,
   setStoreData,
+  setStoreVisible,
   setVendorId,
 } from "../../redux/reducers/userDataSlice";
 import { baseUrl } from "../../utils/logics/constants";
@@ -72,7 +73,7 @@ const SearchCategoryScreen = () => {
   const userDetails = useSelector((store) => store.user.userDetails);
   const storeCategories = useSelector((store) => store.user.storeCategories);
   const [searchedStores, setSearchedStores] = useState([]);
-  const [storeVisible, setStoreVisible] = useState(false);
+  // const [storeVisible, setStoreVisible] = useState(false);
   const [page, setPage] = useState(1);
   const [filterNearby, setFilterNearby] = useState(true);
   const [dataCopy, setDataCopy] = useState([]);
@@ -95,8 +96,13 @@ const SearchCategoryScreen = () => {
   );
   const [selectedCategory,setSelectedCategory] = useState("");
   const [selectedVendorId, setSelectedVendorId] = useState("");
+  const storeVisible=useSelector((state)=>state.user.storeVisible)
 
+  const navigationState = useNavigationState((state) => state);
 
+  const isStoreSearch =
+    navigationState.routes[navigationState.index]?.name === 'store-search';
+    console.log("storeVisible", storeVisible,isStoreSearch)
   const Icons = {
     "Automotive Parts/Services - 2 wheeler Fuel based":
       "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422440/2-wheeler_xliwnk.jpg",
@@ -138,9 +144,10 @@ const SearchCategoryScreen = () => {
   };
 
   useEffect(() => {
+    if(isStoreSearch){
     const backAction = () => {
       if (storeVisible) {
-        setStoreVisible(false);
+        dispatch(setStoreVisible(false));
         return true; // Prevent default back action
       } else {
         navigation.goBack();
@@ -158,7 +165,8 @@ const SearchCategoryScreen = () => {
 
     // Clean up event listener
     return () => backHandler.remove();
-  }, [storeVisible]);
+  }
+  }, [storeVisible,isStoreSearch]);
 
   const renderFooter = () => {
     if (!loading) return null;
@@ -279,8 +287,9 @@ const SearchCategoryScreen = () => {
               <TouchableOpacity
                 style={{ flexDirection: "row", gap: 4, alignItems: "center" }}
                 onPress={() => {
-                  dispatch(setStoreData(details));
-                  navigation.navigate("store-page");
+                  dispatch(setVendorId(details?._id)); 
+                  dispatch(setStoreVisible(true));
+                  navigation.navigate("store-page-id")
                 }}
               >
                 <Text
@@ -569,6 +578,7 @@ const SearchCategoryScreen = () => {
       useNativeDriver: true,
     }).start(() => setSelectedImage(null));
   };
+
   const renderProductItem = ({ item }) => (
     <Pressable
       onPress={() => {
@@ -656,7 +666,7 @@ const SearchCategoryScreen = () => {
           <TouchableOpacity
             onPress={() => {
               if (storeVisible) {
-                setStoreVisible(false);
+                dispatch(setStoreVisible(false));
               } else navigation.goBack();
             }}
             style={{
@@ -692,14 +702,14 @@ const SearchCategoryScreen = () => {
                 if (tab === "Store") {
                   setPage(1);
                   setHasMorePages(true);
-                  setStoreVisible(false);
+                  dispatch(setStoreVisible(false));
                 }
               }}
               onSubmitEditing={() => {
                 if (tab === "Store") {
                   setPage(1);
                   setHasMorePages(true);
-                  setStoreVisible(true);
+                  dispatch(setStoreVisible(true));
                   searchStores(searchQuery, 1, true);
                 } else {
                   querySearch();
@@ -713,7 +723,7 @@ const SearchCategoryScreen = () => {
                 if (tab === "Store") {
                   setHasMorePages(true);
                   setPage(1);
-                  setStoreVisible(true);
+                  dispatch(setStoreVisible(true));
                   searchStores(searchQuery, 1, true);
                 } else {
                   querySearch();
@@ -764,6 +774,7 @@ const SearchCategoryScreen = () => {
             <TouchableOpacity
               onPress={() => {
                 setTab("Store");
+                dispatch(setStoreVisible(false));
                 setSearchQuery("");
               }}
             >
@@ -784,8 +795,7 @@ const SearchCategoryScreen = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          {
-  !loadingQuerySearch && !searchQuery && (
+          { !loadingQuerySearch && !searchQuery  && tab==="Product" && (
     <View style={{  paddingHorizontal: 32 }}>
      
 
@@ -843,7 +853,7 @@ const SearchCategoryScreen = () => {
                           onPress={() => {
                             setPage(1);
                             setHasMorePages(true);
-                            setStoreVisible(true);
+                            dispatch(setStoreVisible(true));
                             setSearchQuery(result.name);
                             searchStores(result.name, 1, true);
                           }}
@@ -1445,7 +1455,7 @@ const SearchCategoryScreen = () => {
               >
                 <Text
                   style={{
-                    fontFamily: "Poppins-Bold",
+                    fontFamily: "Poppins-BoldItalic",
                     color: "#fff",
                     fontSize: 16,
                   }}
