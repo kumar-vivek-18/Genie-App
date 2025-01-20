@@ -34,6 +34,7 @@ import axiosInstance from '../../utils/logics/axiosInstance';
 import NetworkError from '../components/NetworkError';
 import StoreIcon from '../../assets/StoreIcon.svg';
 import FastImage from 'react-native-fast-image';
+import WhiteArrow from "../../assets/white-right.svg"
 
 const RequestDetail = () => {
     const navigation = useNavigation();
@@ -520,8 +521,10 @@ const RequestDetail = () => {
                 </ScrollView>
 
                 {spade?.requestActive === "completed" && <View className="w-screen h-[68px]  bg-[#fb8c00] justify-center absolute bottom-0 left-0 right-0">
-                    <TouchableOpacity onPress={() => { setConfirmModal(true); }}>
-                        <Text className="text-white text-center text-[16px]" style={{ fontFamily: "Poppins-Black" }}>Close Request</Text>
+                    <TouchableOpacity onPress={() => { setConfirmModal(true); }} style={{flexDirection:"row",gap:4,justifyContent:"center",alignItems:"center"}}>
+                        <Text className="text-white text-center text-[16px]" style={{ fontFamily: "Poppins-BlackItalic" }}>Close Request</Text>
+                        <WhiteArrow width={20} height={20} />
+
                     </TouchableOpacity>
                 </View>}
                 {spade?.requestActive === "active" && currentSpadeRetailers?.length === 0 && !networkError && <View className="w-screen h-[68px]  justify-center absolute bottom-[20px] left-0 right-0">
@@ -546,6 +549,7 @@ const RequestDetail = () => {
                         {spade.requestActive !== "closed" && <View>
                             <TouchableOpacity onPress={() => { setConfirmModal(true); setModal(false); }}>
                                 <Text className="mx-5 py-5  px-5" style={{ fontFamily: "Poppins-Regular", borderBottomColor: 'rgba(0,0,0,0.05)', borderBottomWidth: 1 }}>Close Request</Text>
+                                                    
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => { navigation.navigate("help"); setModal(!modal) }}>
                                 <Text className="mx-5 py-5 px-5" style={{ fontFamily: "Poppins-Regular" }}>Report Concern</Text>

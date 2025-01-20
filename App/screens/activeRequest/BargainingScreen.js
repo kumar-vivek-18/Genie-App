@@ -85,6 +85,7 @@ import NetworkError from "../components/NetworkError";
 import StoreIcon from "../../assets/StoreIcon.svg";
 import CloseParticularChatModal from "../components/CloseParticularChatModal";
 import FastImage from "react-native-fast-image";
+import WhiteArrow from "../../assets/white-right.svg"
 
 const BargainingScreen = () => {
   const navigation = useNavigation();
@@ -135,7 +136,7 @@ const BargainingScreen = () => {
   const [acceptLoading, setAcceptLoading] = useState(false);
   const [closeParticularChatModal, setCloseParticularChatModal] =
     useState(false);
-
+console.log("current retailer",currentSpadeRetailer)
   ////////////////////////////////////////////////////////////////////////Connecting the socket when app comes to foreground from background////////////////////////////////////////////////////////////////////////////////
 
   useEffect(() => {
@@ -439,7 +440,7 @@ const BargainingScreen = () => {
           config
         )
         .then(async (res) => {
-          console.log(res.data);
+          console.log("accepting",res.data);
           // console.log('response of bid accept', res);
           // console.log('res accepted bid', res.status, res.data.message);
           socket.emit("new message", res.data.message);
@@ -455,7 +456,7 @@ const BargainingScreen = () => {
           const tmp = {
             ...spade,
             requestActive: "completed",
-            requestAcceptedChat: currentSpadeRetailer._id,
+            requestAcceptedChat: currentSpadeRetailer?._id,
           };
           dispatch(setCurrentSpade(tmp));
 
@@ -915,7 +916,7 @@ const BargainingScreen = () => {
                     style={{ fontFamily: "Poppins-Regular" }}
                   >
                     {currentSpadeRetailer?.retailerId?.storeName?.length > 20
-                      ? `${currentSpadeRetailer?.retailerId?.storeName.slice(
+                      ? `${currentSpadeRetailer?.retailerId?.storeName?.slice(
                           0,
                           20
                         )}...`
@@ -1285,41 +1286,8 @@ const BargainingScreen = () => {
                         {/* <View className="flex flex-col items-center"> */}
                         {messages &&
                           messages[messages.length - 1]?.bidImages &&
-                          messages[messages.length - 1]?.bidImages?.length >
-                            0 && (
-                            //      <ScrollView
-                            //     horizontal
-                            //     showsHorizontalScrollIndicator={true}
-                            //     contentContainerStyle={{
-                            //       paddingHorizontal: 10,
-                            //       marginTop: 10,
-                            //       gap: 10, // Spacing between images
-                            //     }}
-                            //     style={{ maxHeight: 260 }}
-                            //   >
-                            //     {messages[messages.length - 1]?.bidImages.map((image, index) => (
-                            //       <TouchableOpacity
-                            //         key={index}
-                            //         onPress={() => handleImagePress(image)}
-                            //         style={{
-                            //           borderRadius: 24,
-                            //           overflow: "hidden",
-                            //         }}
-                            //       >
-                            //         <Image
-                            //           source={{ uri: image }}
-                            //           style={{
-                            //             width: 174,
-                            //             height: 232,
-                            //             borderRadius: 24,
-                            //             borderWidth: 1,
-                            //             borderColor: "#94a3b8", // slate-400 color
-                            //             resizeMode: "contain",
-                            //           }}
-                            //         />
-                            //       </TouchableOpacity>
-                            //     ))}
-                            //   </ScrollView>
+                          messages[messages.length - 1]?.bidImages?.length >0 && (
+                           
                               
                             <FlatList
                               data={messages[messages.length - 1]?.bidImages}
@@ -1336,55 +1304,7 @@ const BargainingScreen = () => {
                             />
                           )}
 
-                        {/* {messages &&
-                          messages[messages.length - 1]?.bidImages &&
-                          messages[messages.length - 1]?.bidImages?.length >
-                            0 && (
-                            <View style={{ marginTop: 10 }}>
-                            <ScrollView
-                            horizontal
-                            contentContainerStyle={{
-                              paddingHorizontal: 10,
-                              marginTop: 10,
-                              flexDirection: "row", // Ensures horizontal layout
-                            }}
-                            showsHorizontalScrollIndicator={false}
-                            style={{ maxHeight: 260 }} // Ensures the ScrollView doesn't grow indefinitely
-                          >
-                            {messages[messages.length - 1]?.bidImages.map((image, index) => (
-                              <Pressable key={index} onPress={() => handleImagePress(image)}>
-                                <View style={[styles.imageWrapper, { marginRight: 8 }]}>
-                                  <Image source={{ uri: image }} style={styles.image} />
-                                </View>
-                              </Pressable>
-                            ))}
-                          </ScrollView>
-                       
-                   
-                  
-                          <Modal
-                            transparent
-                            visible={!!selectedImage}
-                            onRequestClose={handleClose}
-                          >
-                            <Pressable
-                              style={styles.modalContainer}
-                              onPress={handleClose}
-                            >
-                              <Animated.Image
-                                source={{ uri: selectedImage }}
-                                style={[
-                                  styles.modalImage,
-                                  {
-                                    transform: [{ scale: scaleAnimation }],
-                                  },
-                                ]}
-                              />
-                            </Pressable>
-                          </Modal>
-                          
-                             </View>
-                          )} */}
+                        
 
                         {messages &&
                           messages[messages.length - 1]?.bidPrice && (

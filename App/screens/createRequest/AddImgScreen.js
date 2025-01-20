@@ -541,7 +541,7 @@ const AddImageScreen = () => {
                         color: "#fb8c00",
                       }}
                     >
-                      {requestCategory?.length===0?"Select":categories[requestCategory].title}
+                      {requestCategory?.length===0?"Select":categories[requestCategory]?.title}
                     </Text>
                   </View>
                   <Tailless />

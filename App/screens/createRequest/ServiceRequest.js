@@ -53,6 +53,7 @@ import Banner2 from "../../assets/Banner.svg";
 import WhiteArrow from "../../assets/white-right.svg";
 import GreyArrow from "../../assets/grey-right.svg";
 import FastImage from "react-native-fast-image";
+import SignUpModal from "../components/SignUpModal.js";
 
 
 const { width, height } = Dimensions.get("window");
@@ -87,6 +88,8 @@ const ServiceRequest = () => {
   const [query, setQuery] = useState("");
   const [price, setPrice] = useState("");
   console.log("requestCategory: " + requestCategory);
+  const [signUpModal,setSignUpModal]=useState(false);
+  const userDetails = useSelector((state) => state.user.userDetails);
 
   const suggestions = {
     "Consumer Electronics & Accessories - Home appliances and equipment etc": [
@@ -710,8 +713,10 @@ const ServiceRequest = () => {
           {/* {addMore && <View style={styles.overlay} />} */}
 
           <TouchableOpacity
-            disabled={!query || !requestCategory}
+            disabled={!query || !requestCategory }
             onPress={() => {
+              if (!userDetails?._id) setSignUpModal(true);
+              else{
               dispatch(setRequestDetail(query));
               if (price?.length > 0) {
                 dispatch(setExpectedPrice(parseInt(price)));
@@ -719,6 +724,7 @@ const ServiceRequest = () => {
                 dispatch(setExpectedPrice(0));
               }
               navigation.navigate("servicerequestpreview");
+              }
             }}
             style={{
               position: "absolute",
@@ -787,6 +793,12 @@ const ServiceRequest = () => {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#fb8c00" />
         </View>
+      )}
+        {signUpModal && (
+        <SignUpModal
+          signUpModal={signUpModal}
+          setSignUpModal={setSignUpModal}
+        />
       )}
     </>
   );

@@ -19,7 +19,9 @@ import {
   requestClear,
   setCreatedRequest,
   setExpectedPrice,
+  setRequestDetail,
   setRequestImages,
+  setSuggestedImages,
 } from "../../redux/reducers/userRequestsSlice";
 import { setSpades, setUserDetails } from "../../redux/reducers/userDataSlice";
 import { formatDateTime } from "../../utils/logics/Logics";
@@ -137,6 +139,7 @@ const RequestPreviewScreen = () => {
       userLatitude !== 0 ? userLatitude : userDetails.latitude
     );
     formData.append("suggestedImages", suggestedImages);
+    console.log(formData)
 
     setLoading(true);
     try {
@@ -172,7 +175,7 @@ const RequestPreviewScreen = () => {
         setTimeout(() => {
           setIsVisible(false);
           navigation.navigate("home");
-        }, 2000);
+        }, 3000);
         // dispatch(setCreatedRequest(res));
 
         socket.emit("new request", response.data.userRequest._id);
@@ -191,7 +194,11 @@ const RequestPreviewScreen = () => {
         await NewRequestCreated(notification);
 
         // dispatch(emtpyRequestImages());
-        dispatch(requestClear());
+        // dispatch(requestClear());
+        dispatch(setRequestDetail(""));
+        dispatch(setRequestImages([]));
+        dispatch(setSuggestedImages([]))
+        
       } else {
         // dispatch(emtpyRequestImages());
         // dispatch(requestClear());

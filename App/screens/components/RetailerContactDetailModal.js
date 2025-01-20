@@ -7,7 +7,7 @@ import ShopLogo from '../../assets/shopLogo.svg';
 const RetailerContactDetailModal = ({ retailerModal, setRetailerModal }) => {
     const currentSpadeRetailer = useSelector(store => store.user.currentSpadeRetailer);
 
-
+console.log("modal at contact",currentSpadeRetailer);
     const makeCall = () => {
         const url = `tel:${currentSpadeRetailer?.retailerId?.storeMobileNo}`;
         Linking.openURL(url).catch(err => console.error('An error occurred', err));
@@ -32,7 +32,7 @@ const RetailerContactDetailModal = ({ retailerModal, setRetailerModal }) => {
                             <ShopLogo />
                         </View>
                         <Text className="capitalize text-center mt-[30px] text-[16px]" style={{ fontFamily: "Poppins-Regularx" }}>
-                            {currentSpadeRetailer?.retailerId?.storeOwnerName.length <= 20 ? currentSpadeRetailer?.retailerId?.storeOwnerName : `${currentSpadeRetailer?.retailerId?.storeOwnerName.slice(0, 20)}...`}
+                            {currentSpadeRetailer?.retailerId?.storeOwnerName.length <= 20 ? currentSpadeRetailer?.retailerId?.storeOwnerName : `${currentSpadeRetailer?.retailerId?.storeOwnerName?.slice(0, 20)}...`}
                         </Text>
 
                         <Text className="capitalize  text-center text-[#2b2c43] text-[16px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
@@ -40,7 +40,7 @@ const RetailerContactDetailModal = ({ retailerModal, setRetailerModal }) => {
 
                         </Text>
                         <Text className="capitalize text-center mb-[20px] text-[#79b649] text-[16px]" style={{ fontFamily: "Poppins-ExtraBold" }}>
-                            +91 {currentSpadeRetailer?.retailerId?.storeMobileNo.slice(3)}
+                            +91 {currentSpadeRetailer?.retailerId?.storeMobileNo?.slice(3)}
                         </Text>
                         <TouchableOpacity onPress={() => makeCall()}>
                             <View className="flex-row items-center justify-center gap-[10px] border-2 border-[#fb8c00] rounded-2xl mx-[30px] pb-[10px] pt-[15px]">

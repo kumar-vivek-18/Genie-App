@@ -216,15 +216,124 @@ const [selectedCategory,setSelectedCategory]=useState("");
           />
         </View>
         <View style={{ flex: 3 }}>
-          <Text
-            style={{
-              fontSize: 32,
-              color: "#FB8C00",
-              fontFamily: "Poppins-Black",
-            }}
-          >
-            {category.title}
-          </Text>
+             <View style={{ position: "relative" }}>
+                      {/* Stroke Layer */}
+                      <Text
+                        style={{
+                          fontSize: 32,
+                          fontFamily: "Poppins-Black",
+                          position: "absolute",
+                          color: "#FB8C00",
+                          left: -1.5,
+                          top: -1.5,
+                        }}
+                      >
+                        {category.title}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 32,
+                          fontFamily: "Poppins-Black",
+                          position: "absolute",
+                          color: "#FB8C00",
+                          left: 1.5,
+                          top: -1.5,
+                        }}
+                      >
+                        {category.title}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 32,
+                          fontFamily: "Poppins-Black",
+                          position: "absolute",
+                          color: "#FB8C00",
+                          left: -1.5,
+                          top: 1.5,
+                        }}
+                      >
+                        {category.title}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 32,
+                          fontFamily: "Poppins-Black",
+                          position: "absolute",
+                          color: "#FB8C00",
+                          left: 1.5,
+                          top: 1.5,
+                        }}
+                      >
+                        {category.title}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 32,
+                          fontFamily: "Poppins-Black",
+                          position: "absolute",
+                          color: "#FB8C00",
+                          left: 0.5,
+                          top: -1.5,
+                        }}
+                      >
+                        {category.title}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.textStyle,
+                          {
+                            fontSize: 32,
+                            fontFamily: "Poppins-Black",
+                            position: "absolute",
+                            color: "#FB8C00",
+                            left: 0.5,
+                            top: 1.5,
+                          }, // Bottom stroke
+                        ]}
+                      >
+                        {category.title}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.textStyle,
+                          {
+                            fontSize: 32,
+                            fontFamily: "Poppins-Black",
+                            position: "absolute",
+                            color: "#FB8C00",
+                            left: -1.5,
+                            top: 0.5,
+                          }, // Left stroke
+                        ]}
+                      >
+                        {category.title}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.textStyle,
+                          {
+                            fontSize: 32,
+                            fontFamily: "Poppins-Black",
+                            position: "absolute",
+                            color: "#FB8C00",
+                            left: 1.5,
+                            top: 0.5,
+                          }, // Right stroke
+                        ]}
+                      >
+                        {category.title}
+                      </Text>
+          
+                      {/* Inner Text */}
+                      <Text
+                        style={[
+                          styles.textStyle,
+                          { fontSize: 32, fontFamily: "Poppins-Black", color: "#FFFFFF" },
+                        ]}
+                      >
+                        {category.title}
+                      </Text>
+                    </View>
           <Text style={{ fontSize: 16, fontFamily: "Poppins-Regular" }}>
             {category.subTitle}
           </Text>

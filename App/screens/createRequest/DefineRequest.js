@@ -410,7 +410,7 @@ const DefineRequest = () => {
         config
       );
 
-      console.log("created request data", response.data);
+      // console.log("created request data", response.data);
 
       if (response.status === 201) {
         dispatch(setUserDetails(response.data.userDetails));
@@ -435,7 +435,7 @@ const DefineRequest = () => {
       setTimeout(() => {
         setIsVisible(false);
         navigation.navigate("home");
-      }, 2000);
+      }, 3000);
         const notification = {
           uniqueTokens: response.data.uniqueTokens,
           title: userDetails?.userName,
@@ -449,11 +449,13 @@ const DefineRequest = () => {
         await NewRequestCreated(notification);
 
       //   // dispatch(emtpyRequestImages());
-        dispatch(requestClear());
-      } else {
+         dispatch(setRequestDetail(""));
+                dispatch(setRequestImages([]));
+                dispatch(setSuggestedImages([]))
+                
         // dispatch(emtpyRequestImages());
         // dispatch(requestClear());
-        console.error("Error while creating request");
+        // console.error("Error while creating request");
       }
       
     } catch (error) {
@@ -795,7 +797,7 @@ const DefineRequest = () => {
           </View>
         </View>
 
-        {isVisible && (
+        {isVisible &&  (
           <SuccessPopupNew isVisible={isVisible} setIsVisible={setIsVisible} />
         )}
 

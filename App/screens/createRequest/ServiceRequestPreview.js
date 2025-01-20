@@ -19,7 +19,9 @@ import {
     requestClear,
     setCreatedRequest,
     setExpectedPrice,
+    setRequestDetail,
     setRequestImages,
+    setSuggestedImages,
   } from "../../redux/reducers/userRequestsSlice";
   import { setSpades, setUserDetails } from "../../redux/reducers/userDataSlice";
   import { formatDateTime } from "../../utils/logics/Logics";
@@ -81,7 +83,7 @@ import FastImage from "react-native-fast-image";
   
     // }, [])
     console.log(
-      "userDetails",
+      "requestDetails",
       userDetails._id,
       requestDetail,
       requestCategory,
@@ -130,14 +132,14 @@ import FastImage from "react-native-fast-image";
       );
       formData.append(
         "longitude",
-        userLongitude !== 0 ? userLongitude : userDetails.longitude
+        userLongitude !== 0 ? userLongitude : userDetails?.longitude
       );
       formData.append(
         "latitude",
-        userLatitude !== 0 ? userLatitude : userDetails.latitude
+        userLatitude !== 0 ? userLatitude : userDetails?.latitude
       );
       formData.append("suggestedImages", suggestedImages);
-  
+      console.log(formData)
       setLoading(true);
       try {
         const config = {
@@ -172,7 +174,7 @@ import FastImage from "react-native-fast-image";
           setTimeout(() => {
             setIsVisible(false);
             navigation.navigate("home");
-          }, 2000);
+          }, 3000);
           // dispatch(setCreatedRequest(res));
   
           socket.emit("new request", response.data.userRequest._id);
@@ -191,7 +193,9 @@ import FastImage from "react-native-fast-image";
           await NewRequestCreated(notification);
   
           // dispatch(emtpyRequestImages());
-          dispatch(requestClear());
+           dispatch(setRequestDetail(""));
+                  dispatch(setRequestImages([]));
+                  dispatch(setSuggestedImages([]))
         } else {
           // dispatch(emtpyRequestImages());
           // dispatch(requestClear());

@@ -31,8 +31,8 @@ import BuyText from "../../assets/Buylowesttext.svg";
 import WhiteArrow from "../../assets/white-right.svg";
 import { setVendorId } from "../../redux/reducers/userDataSlice";
 const { width, height } = Dimensions.get("window");
-import Store from "../../assets/storeOrange.svg"
-import Download from "../../assets/download.svg"
+import Store from "../../assets/storeOrange.svg";
+import Download from "../../assets/download.svg";
 import { handleDownload } from "../../utils/logics/Logics";
 import GumletScaledImage from "../../utils/cdn/GumLetImage";
 const CategoryCard = ({ category, setSignUpModal }) => {
@@ -47,8 +47,8 @@ const CategoryCard = ({ category, setSignUpModal }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedImgEstimatedPrice, setSelectedImgEstimatedPrice] = useState(0);
   const [selectedImageDesc, setSelectedImageDesc] = useState("");
-    const [selectedVendorId, setSelectedVendorId] = useState("");
-  
+  const [selectedVendorId, setSelectedVendorId] = useState("");
+
   const images = useSelector(
     (state) => state.categories.categoryImages[category.name]
   );
@@ -60,7 +60,7 @@ const CategoryCard = ({ category, setSignUpModal }) => {
       try {
         const response = await axios.get(
           `${baseUrl}/product/product-by-category`,
-          { params: { productCategory: category?.name, page ,limit:30} }
+          { params: { productCategory: category?.name, page, limit: 30 } }
         );
         if (isMounted) {
           //   setImages(response.data || []);
@@ -142,7 +142,7 @@ const CategoryCard = ({ category, setSignUpModal }) => {
       onPress={() => {
         handleImagePress(item.productImage);
         setSelectedCategory(item.productCategory),
-        setSelectedImgEstimatedPrice(item.productPrice);
+          setSelectedImgEstimatedPrice(item.productPrice);
         setSelectedImageDesc(item.productDescription);
         setSelectedVendorId(item.vendorId);
       }}
@@ -161,8 +161,8 @@ const CategoryCard = ({ category, setSignUpModal }) => {
         style={{
           position: "absolute",
           bottom: 0,
-          width:width * 0.38,
-          
+          width: width * 0.38,
+
           height: 50,
           backgroundColor: "rgba(0,0,0,0.5)",
           flexDirection: "column",
@@ -232,15 +232,125 @@ const CategoryCard = ({ category, setSignUpModal }) => {
         }}
       >
         <View style={{ flex: 2 }}>
-          <Text
-            style={{
-              fontSize: 32,
-              color: "#FB8C00",
-              fontFamily: "Poppins-Black",
-            }}
-          >
-            {category.title}
-          </Text>
+          <View style={{ position: "relative" }}>
+            {/* Stroke Layer */}
+            <Text
+              style={{
+                fontSize: 32,
+                fontFamily: "Poppins-Black",
+                position: "absolute",
+                color: "#FB8C00",
+                left: -1.5,
+                top: -1.5,
+              }}
+            >
+              {category.title}
+            </Text>
+            <Text
+              style={{
+                fontSize: 32,
+                fontFamily: "Poppins-Black",
+                position: "absolute",
+                color: "#FB8C00",
+                left: 1.5,
+                top: -1.5,
+              }}
+            >
+              {category.title}
+            </Text>
+            <Text
+              style={{
+                fontSize: 32,
+                fontFamily: "Poppins-Black",
+                position: "absolute",
+                color: "#FB8C00",
+                left: -1.5,
+                top: 1.5,
+              }}
+            >
+              {category.title}
+            </Text>
+            <Text
+              style={{
+                fontSize: 32,
+                fontFamily: "Poppins-Black",
+                position: "absolute",
+                color: "#FB8C00",
+                left: 1.5,
+                top: 1.5,
+              }}
+            >
+              {category.title}
+            </Text>
+            <Text
+              style={{
+                fontSize: 32,
+                fontFamily: "Poppins-Black",
+                position: "absolute",
+                color: "#FB8C00",
+                left: 0.5,
+                top: -1.5,
+              }}
+            >
+              {category.title}
+            </Text>
+            <Text
+              style={[
+                styles.textStyle,
+                {
+                  fontSize: 32,
+                  fontFamily: "Poppins-Black",
+                  position: "absolute",
+                  color: "#FB8C00",
+                  left: 0.5,
+                  top: 1.5,
+                }, // Bottom stroke
+              ]}
+            >
+              {category.title}
+            </Text>
+            <Text
+              style={[
+                styles.textStyle,
+                {
+                  fontSize: 32,
+                  fontFamily: "Poppins-Black",
+                  position: "absolute",
+                  color: "#FB8C00",
+                  left: -1.5,
+                  top: 0.5,
+                }, // Left stroke
+              ]}
+            >
+              {category.title}
+            </Text>
+            <Text
+              style={[
+                styles.textStyle,
+                {
+                  fontSize: 32,
+                  fontFamily: "Poppins-Black",
+                  position: "absolute",
+                  color: "#FB8C00",
+                  left: 1.5,
+                  top: 0.5,
+                }, // Right stroke
+              ]}
+            >
+              {category.title}
+            </Text>
+
+            {/* Inner Text */}
+            <Text
+              style={[
+                styles.textStyle,
+                { fontSize: 32, fontFamily: "Poppins-Black", color: "#FFFFFF" },
+              ]}
+            >
+              {category.title}
+            </Text>
+          </View>
+
           <Text style={{ fontSize: 16, fontFamily: "Poppins-Regular" }}>
             {category.subTitle}
           </Text>
@@ -511,7 +621,7 @@ const CategoryCard = ({ category, setSignUpModal }) => {
               <View
                 style={{
                   width: width * 0.38,
-                    height: 180,
+                  height: 180,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
@@ -519,7 +629,7 @@ const CategoryCard = ({ category, setSignUpModal }) => {
               <View
                 style={{
                   width: width * 0.38,
-                    height: 180,
+                  height: 180,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
@@ -527,7 +637,7 @@ const CategoryCard = ({ category, setSignUpModal }) => {
               <View
                 style={{
                   width: width * 0.38,
-                    height: 180,
+                  height: 180,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
@@ -535,7 +645,7 @@ const CategoryCard = ({ category, setSignUpModal }) => {
               <View
                 style={{
                   width: width * 0.38,
-                    height: 180,
+                  height: 180,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
@@ -615,40 +725,40 @@ const CategoryCard = ({ category, setSignUpModal }) => {
                 gap: 10,
               }}
             >
-               <TouchableOpacity
-                              style={{
-                                backgroundColor: "#FFECD6",
-                                position: "absolute",
-                                top: 20,
-                                right: 20,
-                                zIndex: 100,
-                                padding: 10,
-                                borderRadius: 100,
-                              }}
-                              onPress={() => {
-                                handleDownloadDocument()
-                              }}
-                            >
-                              <Download/>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                              style={{
-                                backgroundColor: "#FFECD6",
-                                position: "absolute",
-                                top: 80,
-                                right: 20,
-                                zIndex: 100,
-                                padding: 10,
-                                borderRadius: 100,
-                              }}
-                              onPress={() => {
-                                dispatch(setVendorId(selectedVendorId));
-                                setSelectedImage(null) 
-                                navigation.navigate("store-page-id")
-                              }}
-                            >
-                              <Store/>
-                            </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#FFECD6",
+                  position: "absolute",
+                  top: 20,
+                  right: 20,
+                  zIndex: 100,
+                  padding: 10,
+                  borderRadius: 100,
+                }}
+                onPress={() => {
+                  handleDownloadDocument();
+                }}
+              >
+                <Download />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#FFECD6",
+                  position: "absolute",
+                  top: 80,
+                  right: 20,
+                  zIndex: 100,
+                  padding: 10,
+                  borderRadius: 100,
+                }}
+                onPress={() => {
+                  dispatch(setVendorId(selectedVendorId));
+                  setSelectedImage(null);
+                  navigation.navigate("store-page-id");
+                }}
+              >
+                <Store />
+              </TouchableOpacity>
               <FastImage
                 source={{ uri: selectedImage }}
                 style={{

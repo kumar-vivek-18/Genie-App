@@ -150,6 +150,7 @@ const categories = [
     id: 1,
     cat: AllCategory,
     name: "All Category",
+
   },
   {
     id: 2,
@@ -158,6 +159,8 @@ const categories = [
     title: "Fashion",
     subTitle: "Top, Bottom, Dresses",
     icon: NewIcon1,
+    isService:false
+
   },
   {
     id: 3,
@@ -166,6 +169,8 @@ const categories = [
     title: "Sari, Suit",
     subTitle: "Ready made, Material",
     icon: NewIcon2,
+    isService:false
+
   },
   {
     id: 4,
@@ -174,6 +179,8 @@ const categories = [
     title: "Shoes, Bag",
     subTitle: "Casual, Formal, School Traditional",
     icon: NewIcon3,
+    isService:false
+
   },
   {
     id: 5,
@@ -182,6 +189,8 @@ const categories = [
     title: "Electronics",
     subTitle: "Mobile, laptop, Accessories ",
     icon: NewIcon4,
+    isService:false
+
   },
 
   {
@@ -191,6 +200,8 @@ const categories = [
     title: "Gift, Kids",
     subTitle: "Board, Games, Electric, Toys",
     icon: NewIcon5,
+    isService:false
+
   },
   {
     id: 7,
@@ -199,6 +210,8 @@ const categories = [
     title: "Jewel",
     subTitle: "Silver, Imitation",
     icon: NewIcon,
+    isService:false
+
   },
 
   {
@@ -208,6 +221,8 @@ const categories = [
     title: "Watches",
     subTitle: "Luxury, Digital, Ring, Wall",
     icon: NewIcon6,
+    isService:false
+
   },
 
   {
@@ -217,6 +232,8 @@ const categories = [
     title: "Sports",
     subTitle: "Whey Pro, Fiber, Shake, Pasta",
     icon: NewIcon8,
+    isService:false
+
   },
 
   
@@ -228,6 +245,8 @@ const categories = [
     title: "Appliances",
     subTitle: "Home, Kitchen, Bath",
     icon:NewIcon10,
+    isService:false
+
   },
   {
     id: 10,
@@ -236,6 +255,7 @@ const categories = [
     title: "Utensils",
     subTitle: "Kitchen & kitchenware",
     icon: NewIcon9,
+    isService:false
   },
   {
     id: 12,
@@ -244,6 +264,7 @@ const categories = [
     title: "Plumbing",
     subTitle: "Pipes, Drainage, Sink",
     icon: NewIcon7,
+    isService:true
   },
   {
     id: 13,
@@ -252,6 +273,7 @@ const categories = [
     title: "Hardware",
     subTitle: "Paint, Plumbing, Bath",
     icon: NewServicesIcon8,
+    isService:true
   },
   {
     id: 14,
@@ -260,6 +282,7 @@ const categories = [
     title: "Electronics",
     subTitle: "Mobile, Laptop, Digital device, Repair",
     icon: NewServicesIcon2,
+    isService:true
   },
   {
     id: 15,
@@ -268,6 +291,7 @@ const categories = [
     title: "Watches",
     subTitle: "Luxury, Digital, Ring, Wall",
     icon: NewServicesIcon3,
+    isService:true
   },
   {
     id: 16,
@@ -276,6 +300,7 @@ const categories = [
     title: "Electrician",
     subTitle: "Home, Wiring,Lights equipments",
     icon: NewServicesIcon4,
+    isService:true
   },
 
   {
@@ -285,6 +310,7 @@ const categories = [
     title: "Car",
     subTitle: "Parts, Service",
     icon: NewServicesIcon5,
+    isService:true
   },
   {
     id: 18,
@@ -293,6 +319,7 @@ const categories = [
     title: "Bike",
     subTitle: "Parts, Service",
     icon: NewServicesIcon6,
+    isService:true
   },
   {
     id: 19,
@@ -301,6 +328,7 @@ const categories = [
     title: "Heavy",
     subTitle: "Construction, JCB, Truck",
     icon: NewServicesIcon7,
+    isService:true
   },
 ];
 
@@ -996,10 +1024,16 @@ const HomeScreen = () => {
                         if (category.id === 1) {
                           navigation.navigate("newhome");
                         } else {
+                          if(category?.isService){
+                            dispatch(setRequestCategory(category?.name));
+                            navigation.navigate("servicerequest");
+                          }
+                          else{
                           dispatch(setRequestCategory(category?.name));
                           navigation.navigate("image-suggestion", {
                             category: category,
                           });
+                        }
                         }
                       }}
                     >
@@ -1081,8 +1115,30 @@ const HomeScreen = () => {
                 onPress={() => {
                   fetchUserDetailsToCreateSpade();
                 }}
+                style={{
+                  width: width - 10,
+                  height:250,
+                  borderRadius: 10,
+                  backgroundColor: "#FFC882",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  elevation: 5,
+                  marginVertical:8,
+                  marginBottom:10
+                }}
               >
-                <MainBanner width={width - 10} />
+                <Image   source={require("../assets/MainBanner.png")}
+                style={
+                  {
+                    width: width - 10,
+                    height: 250,
+                  borderRadius: 10,
+
+                  }
+                }
+                  
+                  />
+                {/* <MainBanner  /> */}
               </TouchableOpacity>
               <View>
                 <ExploreText width={width - 20} />
