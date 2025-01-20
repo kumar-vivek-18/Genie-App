@@ -35,7 +35,7 @@ import Store from "../../assets/storeOrange.svg";
 import Download from "../../assets/download.svg";
 import { handleDownload } from "../../utils/logics/Logics";
 import GumletScaledImage from "../../utils/cdn/GumLetImage";
-const CategoryCard = ({ category, setSignUpModal }) => {
+const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
   //   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
@@ -64,6 +64,7 @@ const CategoryCard = ({ category, setSignUpModal }) => {
         );
         if (isMounted) {
           //   setImages(response.data || []);
+          console.log(category.name)
           const images = response.data || [];
           dispatch(setCategoryImages({ categoryName: category.name, images }));
         }
@@ -80,27 +81,72 @@ const CategoryCard = ({ category, setSignUpModal }) => {
     return () => (isMounted = false); // Cleanup
   }, [category.id]);
 
-  // const openImageModal = (imageUrl) => {
-  //   // console.log(imageUrl)
+  const openImageModal = (imageUrl) => {
+    // console.log(imageUrl)
 
-  //   setSelectedImage(imageUrl);
-  //   setModalVisible(true);
+    setSelectedImage(imageUrl);
+    setModalVisible(true);
 
-  //   Animated.timing(scaleValue, {
-  //     toValue: 1,
-  //     duration: 300,
-  //     useNativeDriver: true,
-  //   }).start();
-  // };
+    Animated.timing(scaleValue, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
 
-  // const closeImageModal = () => {
-  //   Animated.timing(scaleValue, {
-  //     toValue: 0,
-  //     duration: 300,
-  //     useNativeDriver: true,
-  //   }).start(() => setSelectedImage(null));
-  // };
+  const closeImageModal = () => {
+    Animated.timing(scaleValue, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => setSelectedImage(null));
+  };
 
+
+  // useEffect(() => {
+  //   let isMounted = true;
+
+  //   const fetchImages = async () => {
+  //     if (!isVisible || loading) return; // Fetch only if visible and not already loading
+
+  //     setLoading(true);
+  //     try {
+  //       const response = await axios.get(
+  //         `${baseUrl}/product/product-by-category`,
+  //         { params: { productCategory: category?.name, page: 1, limit: 30 } }
+  //       );
+  //       if (isMounted) {
+  //         const images = response.data || [];
+  //         console.log(category.name)
+  //         dispatch(setCategoryImages({ categoryName: category.name, images }));
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching images:', error);
+  //       setLoading(false);
+  //     } finally {
+  //       if (isMounted) {
+  //         setLoading(false);
+  //       }
+  //     }
+  //   };
+
+  //   const clearImages = () => {
+  //     if (!isVisible && isMounted) {
+  //       dispatch(setCategoryImages({ categoryName: category.name,images: []}));
+  //     }
+  //   };
+
+  //   if (isVisible) {
+  //     fetchImages();
+  //   } else {
+  //     clearImages();
+  //   }
+
+  //   return () => {
+  //     isMounted = false; // Cleanup
+  //   };
+  // }, [isVisible]);
+  
   const handleImagePress = (image) => {
     setSelectedImage(image);
     Animated.timing(scaleValue, {
@@ -495,7 +541,7 @@ const CategoryCard = ({ category, setSignUpModal }) => {
           </View>
         )}
 
-        {!loading && !images && (
+        {!loading && images?.length===0 && (
           <View
             style={{
               flexDirection: "row",

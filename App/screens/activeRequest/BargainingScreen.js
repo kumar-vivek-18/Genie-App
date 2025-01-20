@@ -136,7 +136,7 @@ const BargainingScreen = () => {
   const [acceptLoading, setAcceptLoading] = useState(false);
   const [closeParticularChatModal, setCloseParticularChatModal] =
     useState(false);
-console.log("current retailer",currentSpadeRetailer)
+// console.log("current retailer",currentSpadeRetailer)
   ////////////////////////////////////////////////////////////////////////Connecting the socket when app comes to foreground from background////////////////////////////////////////////////////////////////////////////////
 
   useEffect(() => {

@@ -142,6 +142,8 @@ import CategoryCard from "./components/CategoryCard.js";
 import ServicesCard from "./components/ServicesCard.js";
 import FastImage from "react-native-fast-image";
 import { Octicons } from "@expo/vector-icons";
+import CategoryCardsMapping from "./components/CategoryCardsMapping.js";
+import ServicesCardMapping from "./components/ServicesCardMapping.js";
 
 const { width } = Dimensions.get("window");
 
@@ -239,7 +241,7 @@ const categories = [
   
 
   {
-    id: 11,
+    id: 10,
     cat: NewCategory4,
     name: "Consumer Electronics & Accessories - Home appliances and equipment etc",
     title: "Appliances",
@@ -249,7 +251,7 @@ const categories = [
 
   },
   {
-    id: 10,
+    id: 11,
     cat: NewCategory9,
     name: "Kitchen Utensils & Kitchenware",
     title: "Utensils",
@@ -572,7 +574,7 @@ const HomeScreen = () => {
     }
   };
   useEffect(() => {
-    connectSocket();
+    connectSocket(); 
     updateLocationHomeScreen();
     if (searchData?.length == 0) fetchNearByStores();
 
@@ -956,11 +958,12 @@ const HomeScreen = () => {
                     style={{
                       flexDirection: "row",
                       alignItems: "center",
+                      gap:4,
                       transform: [{ translateX: scrollX }],
                     }}
                   >
                     {
-                      advert?.image &&
+                      advert?.image?.length>0 ? (
                       <FastImage
                       source={{uri:advert?.image}}
                       style={{
@@ -968,9 +971,11 @@ const HomeScreen = () => {
                         height:30,
                       }}
                       resizeMode={FastImage.resizeMode.contain}
-                    />
+                    />):(
+                      <Offer width={30} height={30}/>
+                      )
                     }
-                    
+                    {/* <Offer width={30} height={30}/> */}
                     
                     <View style={{
                       flexDirection:"column",
@@ -981,7 +986,7 @@ const HomeScreen = () => {
                       style={{
                         color: "#3f3d56",
                         fontFamily: "Poppins-BlackItalic",
-                        fontSize: 14,
+                        fontSize: 16,
                         textAlign: "center",
                       }}
                     >
@@ -1156,11 +1161,7 @@ const HomeScreen = () => {
                 marginTop: 20,
               }}
             >
-              {/* <FlatList
-                data={categories.slice(1, 11)}
-                renderItem={({ item }) => <CategoryCard category={item} />}
-                keyExtractor={(item) => item.id.toString()}
-              /> */}
+             
               <FlatList
                 nestedScrollEnabled={true}
                 data={categories.slice(1, 11)}
@@ -1174,6 +1175,7 @@ const HomeScreen = () => {
                 onViewableItemsChanged={onViewableItemsChanged}
                 viewabilityConfig={viewabilityConfig}
               />
+              {/* <CategoryCardsMapping categories={categories.slice(1,11)} setSignUpModal={setSignUpModal}/> */}
             </View>
             <View
               style={{
@@ -1210,6 +1212,8 @@ const HomeScreen = () => {
                 onViewableItemsChanged={onViewableItemsChanged}
                 viewabilityConfig={viewabilityConfig}
               />
+              {/* <ServicesCardMapping categories={categories.slice(11)} setSignUpModal={setSignUpModal}/> */}
+
             </View>
 
             {/* {spadesLoading && <View className="py-[150px]"><ActivityIndicator size={30} color={'#fb8c00'} /></View>} */}

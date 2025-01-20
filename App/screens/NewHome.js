@@ -96,6 +96,8 @@ import NewServices6 from "../assets/NewServices6.png";
 import NewServices7 from "../assets/NewServices7.png";
 import NewServices8 from "../assets/NewServices8.png";
 import NewServices9 from "../assets/NewServices9.png";
+import NewServices10 from "../assets/NewServices10.png";
+
 
 
 import Maintenance from "../assets/Maintenace.svg";
@@ -280,9 +282,17 @@ const categories = [
     subTitle: "Paint, Plumbing, Bath",
     icon: NewServicesIcon8,
   },
-
   {
     id: 18,
+    cat: NewServices10,
+    name: "Hardware - Plumbing, Paint,& Electricity",
+    title: "Plumbing",
+    subTitle: "Pipes, Drainage, Sink",
+    icon: NewIcon7,
+  },
+
+  {
+    id: 19,
     cat: NewServices5,
     name: "Automotive Parts/Services - 4 wheeler Fuel based",
     title: "Car",
@@ -290,7 +300,7 @@ const categories = [
     icon: NewServicesIcon5,
   },
   {
-    id: 19,
+    id: 20,
     cat: NewServices6,
     name: "Automotive Parts/Services - 2 wheeler Fuel based",
     title: "Bike",
@@ -298,7 +308,7 @@ const categories = [
     icon: NewServicesIcon6,
   },
   {
-    id: 20,
+    id: 21,
     cat: NewServices7,
     name: "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc",
     title: "Heavy",

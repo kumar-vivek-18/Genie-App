@@ -31,7 +31,7 @@ import { setVendorId } from "../../redux/reducers/userDataSlice";
 import { handleDownload } from "../../utils/logics/Logics";
 import GumletScaledImage from "../../utils/cdn/GumLetImage";
 
-const ServicesCard = ({ category, setSignUpModal }) => {
+const ServicesCard = ({ category, setSignUpModal,isVisible }) => {
   //   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
@@ -50,6 +50,51 @@ const [selectedCategory,setSelectedCategory]=useState("");
   const images = useSelector(
     (state) => state.categories.categoryImages[category.name]
   );
+
+  // useEffect(() => {
+  //   let isMounted = true;
+
+  //   const fetchImages = async () => {
+  //     if (!isVisible || loading) return; // Fetch only if visible and not already loading
+
+  //     setLoading(true);
+  //     try {
+  //       const response = await axios.get(
+  //         `${baseUrl}/product/product-by-category`,
+  //         { params: { productCategory: category?.name, page: 1, limit: 30 } }
+  //       );
+  //       if (isMounted) {
+  //         const images = response.data || [];
+  //         console.log(category.name)
+  //         dispatch(setCategoryImages({ categoryName: category.name, images }));
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching images:', error);
+  //       setLoading(false);
+
+  //     } finally {
+  //       if (isMounted) {
+  //         setLoading(false);
+  //       }
+  //     }
+  //   };
+
+  //   const clearImages = () => {
+  //     if (!isVisible && isMounted) {
+  //       dispatch(setCategoryImages({ categoryName: category.name,images: []}));
+  //     }
+  //   };
+
+  //   if (isVisible) {
+  //     fetchImages();
+  //   } else {
+  //     clearImages();
+  //   }
+
+  //   return () => {
+  //     isMounted = false; // Cleanup
+  //   };
+  // }, [isVisible]);
   useEffect(() => {
     let isMounted = true;
     const fetchImages = async () => {
@@ -528,7 +573,7 @@ const [selectedCategory,setSelectedCategory]=useState("");
             </View>
           )}
         </ScrollView>
-        {!loading && !images && (
+        {!loading && images?.length===0 && (
           <View
             style={{
               paddingBottom: 20,
