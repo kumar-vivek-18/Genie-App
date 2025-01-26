@@ -53,7 +53,6 @@ import WhiteArrow from "../../assets/white-right.svg";
 import FastImage from "react-native-fast-image";
 import Store from "../../assets/storeOrange.svg"
 import Download from "../../assets/download.svg"
-import GumletScaledImage from "../../utils/cdn/GumLetImage";
 
 
 const SearchCategoryScreen = () => {
@@ -590,14 +589,14 @@ const SearchCategoryScreen = () => {
       }}
       style={{ marginBottom: 10 }}
     >
-      <GumletScaledImage
+      <FastImage
         source={{ uri: item.productImage }}
         style={{
           width: 154,
           height: 200,
           borderRadius: 16,
         }}
-        // resizeMode={FastImage.resizeMode.cover}
+        resizeMode={FastImage.resizeMode.cover}
       />
       <View
         style={{
@@ -1334,7 +1333,7 @@ const SearchCategoryScreen = () => {
                                          >
                                            <Store/>
                                          </TouchableOpacity>
-              <GumletScaledImage
+              <FastImage
                 source={{ uri: selectedImage }}
                 style={{
                   width: 280,
@@ -1342,7 +1341,7 @@ const SearchCategoryScreen = () => {
                   borderTopLeftRadius: 20,
                   borderTopRightRadius: 20,
                 }}
-                // resizeMode={FastImage.resizeMode.cover}
+                resizeMode={FastImage.resizeMode.cover}
               />
               {(selectedImgEstimatedPrice > 0 ||
                 selectedImageDesc?.length > 0) && (
@@ -1432,9 +1431,7 @@ const SearchCategoryScreen = () => {
                     setTimeout(() => {
                       dispatch(setRequestCategory(selectedCategory))
                       dispatch(
-                        setRequestDetail(
-                          "Looking for the product in this reference image."
-                        )
+                        setRequestDetail(selectedImageDesc)
                       );
                       navigation.navigate("define-request");
                     }, 200);

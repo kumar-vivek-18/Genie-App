@@ -700,7 +700,7 @@ const RetailerProductScreen = () => {
                       setTimeout(() => {
                         dispatch(
                           setRequestDetail(
-                            "Looking for the product in this reference image."
+                            selectedImageDesc
                           )
                         );
                         navigation.navigate("define-request");

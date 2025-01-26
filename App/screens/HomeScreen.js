@@ -142,8 +142,10 @@ import CategoryCard from "./components/CategoryCard.js";
 import ServicesCard from "./components/ServicesCard.js";
 import FastImage from "react-native-fast-image";
 import { Octicons } from "@expo/vector-icons";
-import CategoryCardsMapping from "./components/CategoryCardsMapping.js";
+import CategoryCardsMapping from "./components/CategoriesList.js";
 import ServicesCardMapping from "./components/ServicesCardMapping.js";
+import CategoriesList from "./components/CategoriesList.js";
+import ServicesList from "./components/ServicesCardMapping.js";
 
 const { width } = Dimensions.get("window");
 
@@ -1162,7 +1164,7 @@ const HomeScreen = () => {
               }}
             >
              
-              <FlatList
+              {/* <FlatList
                 nestedScrollEnabled={true}
                 data={categories.slice(1, 11)}
                 renderItem={({ item }) => (
@@ -1174,8 +1176,8 @@ const HomeScreen = () => {
                 keyExtractor={(item) => item.id.toString()}
                 onViewableItemsChanged={onViewableItemsChanged}
                 viewabilityConfig={viewabilityConfig}
-              />
-              {/* <CategoryCardsMapping categories={categories.slice(1,11)} setSignUpModal={setSignUpModal}/> */}
+              /> */}
+              <CategoriesList categories={categories.slice(1,11)} setSignUpModal={setSignUpModal}/>
             </View>
             <View
               style={{
@@ -1199,7 +1201,7 @@ const HomeScreen = () => {
                 marginTop: 20,
               }}
             >
-              <FlatList
+              {/* <FlatList
                 data={categories.slice(11)}
                 nestedScrollEnabled={true}
                 renderItem={({ item }) => (
@@ -1211,8 +1213,8 @@ const HomeScreen = () => {
                 keyExtractor={(item) => item.id.toString()}
                 onViewableItemsChanged={onViewableItemsChanged}
                 viewabilityConfig={viewabilityConfig}
-              />
-              {/* <ServicesCardMapping categories={categories.slice(11)} setSignUpModal={setSignUpModal}/> */}
+              /> */}
+              <ServicesList categories={categories.slice(11)} setSignUpModal={setSignUpModal}/>
 
             </View>
 

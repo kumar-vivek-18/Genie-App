@@ -29,7 +29,7 @@ import Store from "../../assets/storeOrange.svg"
 import Download from "../../assets/download.svg"
 import { setVendorId } from "../../redux/reducers/userDataSlice";
 import { handleDownload } from "../../utils/logics/Logics";
-import GumletScaledImage from "../../utils/cdn/GumLetImage";
+
 
 const ServicesCard = ({ category, setSignUpModal,isVisible }) => {
   //   const [images, setImages] = useState([]);
@@ -167,14 +167,14 @@ const [selectedCategory,setSelectedCategory]=useState("");
       }}
       style={{ marginRight: 10 }}
     >
-      <GumletScaledImage
+      <FastImage
         source={{ uri: item.productImage }}
         style={{
           width: width * 0.38,
           height: 180,
           borderRadius: 16,
         }}
-        // resizeMode={FastImage.resizeMode.cover}
+        resizeMode={FastImage.resizeMode.cover}
       />
       <View
         style={{
@@ -573,7 +573,7 @@ const [selectedCategory,setSelectedCategory]=useState("");
             </View>
           )}
         </ScrollView>
-        {!loading && images?.length===0 && (
+        {!loading && !images && (
           <View
             style={{
               paddingBottom: 20,
@@ -835,7 +835,7 @@ const [selectedCategory,setSelectedCategory]=useState("");
                       dispatch(
                         
                         setRequestDetail(
-                          "Looking for the product in this reference image."
+                          selectedImageDesc
                         )
                       );
                       navigation.navigate("define-request");

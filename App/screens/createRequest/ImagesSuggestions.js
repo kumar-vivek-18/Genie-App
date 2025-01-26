@@ -59,7 +59,7 @@ import { setVendorId } from "../../redux/reducers/userDataSlice.js";
 import Store from "../../assets/storeOrange.svg";
 import Download from "../../assets/download.svg";
 import { handleDownload } from "../../utils/logics/Logics.js";
-import GumletScaledImage from "../../utils/cdn/GumLetImage.js";
+
 
 
 
@@ -352,14 +352,14 @@ const ImageSuggestion = () => {
       }}
       style={{ marginBottom: 10 }}
     >
-      <GumletScaledImage
+      <FastImage
         source={{ uri: item.productImage }}
         style={{
           width: 154,
           height: 200,
           borderRadius: 16,
         }}
-        // resizeMode={FastImage.resizeMode.cover}
+        resizeMode={FastImage.resizeMode.cover}
       />
       <View
         style={{
@@ -832,7 +832,7 @@ const ImageSuggestion = () => {
                       setTimeout(() => {
                         dispatch(
                           setRequestDetail(
-                            "Looking for the product in this reference image."
+                            selectedImageDesc
                           )
                         );
                         navigation.navigate("define-request");

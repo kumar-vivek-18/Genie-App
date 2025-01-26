@@ -55,7 +55,7 @@ import WhiteArrow from "../../assets/white-right.svg";
 import Store from "../../assets/storeOrange.svg";
 import Download from "../../assets/download.svg";
 import SignUpModal from "../components/SignUpModal";
-import GumletScaledImage from "../../utils/cdn/GumLetImage";
+
 const { width, height } = Dimensions.get("window");
 
 const StoreProfileById = () => {
@@ -284,14 +284,14 @@ const StoreProfileById = () => {
       }}
       style={{ marginBottom: 10, marginRight: 10 }}
     >
-      <GumletScaledImage
+      <FastImage
         source={{ uri: item.productImage }}
         style={{
           width: width * 0.38,
           height: 180,
           borderRadius: 16,
         }}
-        // resizeMode={FastImage.resizeMode.cover}
+        resizeMode={FastImage.resizeMode.cover}
       />
       <View
         style={{
@@ -439,14 +439,14 @@ const StoreProfileById = () => {
                   className="rounded-[16px]"
                   style={{marginRight:10}}
                 >
-                  <GumletScaledImage
+                  <FastImage
                     source={{ uri: image }}
                     style={{
                       width: width * 0.38,
                       height: 180,
                       borderRadius: 16,
                     }}
-                    // resizeMode={FastImage.resizeMode.cover}
+                    resizeMode={FastImage.resizeMode.cover}
                   />
                 </Pressable>
               ))}
@@ -882,7 +882,7 @@ const StoreProfileById = () => {
                 >
                   <Store />
                 </TouchableOpacity>
-                <GumletScaledImage
+                <FastImage
                   source={{ uri: selectedImage }}
                   style={{
                     width: 280,
@@ -890,7 +890,7 @@ const StoreProfileById = () => {
                     borderTopLeftRadius: 20,
                     borderTopRightRadius: 20,
                   }}
-                  // resizeMode={FastImage.resizeMode.cover}
+                  resizeMode={FastImage.resizeMode.cover}
                 />
                 {(selectedImgEstimatedPrice > 0 ||
                   selectedImageDesc?.length > 0) && (
@@ -981,7 +981,7 @@ const StoreProfileById = () => {
                       setTimeout(() => {
                         dispatch(
                           setRequestDetail(
-                            "Looking for the product in this reference image."
+                           selectedImageDesc
                           )
                         );
                         navigation.navigate("define-request");

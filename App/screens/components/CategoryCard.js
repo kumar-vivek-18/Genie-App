@@ -34,7 +34,7 @@ const { width, height } = Dimensions.get("window");
 import Store from "../../assets/storeOrange.svg";
 import Download from "../../assets/download.svg";
 import { handleDownload } from "../../utils/logics/Logics";
-import GumletScaledImage from "../../utils/cdn/GumLetImage";
+
 const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
   //   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -194,14 +194,14 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
       }}
       style={{ marginBottom: 10, marginRight: 10 }}
     >
-      <GumletScaledImage
+      <FastImage
         source={{ uri: item.productImage }}
         style={{
           width: width * 0.38,
           height: 180,
           borderRadius: 16,
         }}
-        // resizeMode={FastImage.resizeMode.cover}
+        resizeMode={FastImage.resizeMode.cover}
       />
       <View
         style={{
@@ -482,14 +482,14 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
                   setSelectedVendorId(item.vendorId);
                 }}
               >
-                <GumletScaledImage
+                <FastImage
                   source={{ uri: item?.productImage }}
                   style={{
                     width: width * 0.38, // Adjust width to fit items within rows
                     height: 180,
                     borderRadius: 10,
                   }}
-                  // resizeMode={FastImage.resizeMode.cover}
+                  resizeMode={FastImage.resizeMode.cover}
                 />
                 <View
                   style={{
@@ -541,7 +541,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
           </View>
         )}
 
-        {!loading && images?.length===0 && (
+        {!loading && !images && (
           <View
             style={{
               flexDirection: "row",
@@ -904,7 +904,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
                       dispatch(setRequestCategory(selectedCategory));
                       dispatch(
                         setRequestDetail(
-                          "Looking for the product in this reference image."
+                          selectedImageDesc
                         )
                       );
                       navigation.navigate("define-request");

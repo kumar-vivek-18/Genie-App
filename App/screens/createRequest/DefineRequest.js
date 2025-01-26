@@ -376,7 +376,7 @@ const DefineRequest = () => {
     });
 
     formData.append("customerID", userDetails._id);
-    formData.append("request", requestDetail);
+    formData.append("request", `Looking for ${requestDetail}`);
     formData.append("requestCategory", requestCategory);
     formData.append("expectedPrice", productPrice > 0 ? productPrice : 0);
     // formData.append("spadePrice", userDetails.freeSpades > 0 ? 0 : spadePrice);
@@ -503,7 +503,7 @@ const DefineRequest = () => {
             className="text-[16px]  text-[#2e2c43] text-center mt-[20px]"
             style={{ fontFamily: "Poppins-Regular" }}
           >
-            Selected Product
+            {requestDetail.substring(0,20)}...
           </Text>
 
           {suggestedImages && suggestedImages?.length > 0 && (
