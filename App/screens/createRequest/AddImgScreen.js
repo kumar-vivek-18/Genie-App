@@ -172,8 +172,16 @@ const AddImageScreen = () => {
   const [query, setQuery] = useState("");
   const [price, setPrice] = useState("");
   console.log("requestCategory: " + requestCategory);
-
+ const isService=useSelector(state=>state.userRequest.isService)
   const suggestions = {
+    "":
+    [
+      "Smart Tv 55 inch, Ultra HD",
+      "Shirt",
+      "Digital Watch",
+      "Banarasi Saree",
+      "Shoes"
+    ],
     "Consumer Electronics & Accessories - Home appliances and equipment etc": [
       "Smart Tv 55 inch, Ultra HD",
       "12 Ltr Oven Toaster Griller with Heating Mode",
@@ -451,7 +459,7 @@ const AddImageScreen = () => {
                 />
               </View>
 
-              {requestCategory && suggestions[requestCategory] && (
+              {suggestions[requestCategory] && (
                 <View style={{ paddingHorizontal: 20, paddingBottom: 40 }}>
                   <Text
                     style={{
@@ -541,7 +549,7 @@ const AddImageScreen = () => {
                         color: "#fb8c00",
                       }}
                     >
-                      {requestCategory?.length===0?"Select":categories[requestCategory]?.title}
+                      {requestCategory?.length===0?"Select":isService?`Service: ${categories[requestCategory]?.title}`:categories[requestCategory]?.title}
                     </Text>
                   </View>
                   <Tailless />

@@ -248,19 +248,20 @@ const StoreProfileScreen = () => {
   };
 
   const renderProductItem = (item) => (
+    
     <TouchableOpacity
-      key={item._id}
+      key={item?._id}
       onPress={() => {
-        handleImagePress(item.productImage);
-        setSelectedCategory(item.productCategory),
-          setSelectedImgEstimatedPrice(item.productPrice);
-        setSelectedImageDesc(item.productDescription);
-        setSelectedVendorId(item.vendorId);
+        handleImagePress(item?.productImage);
+        setSelectedCategory(item?.productCategory),
+          setSelectedImgEstimatedPrice(item?.productPrice);
+        setSelectedImageDesc(item?.productDescription);
+        setSelectedVendorId(item?.vendorId);
       }}
       style={{ marginBottom: 10, marginRight: 10 }}
     >
       <FastImage
-        source={{ uri: item.productImage }}
+        source={{ uri: item?.productImage }}
         style={{
           width: width * 0.38,
           height: 180,
@@ -311,7 +312,7 @@ const StoreProfileScreen = () => {
             color: "#70b241",
           }}
         >
-          Rs {item.productPrice}
+          Rs {item?.productPrice}
         </Text>
       </View>
     </TouchableOpacity>
@@ -488,7 +489,7 @@ const StoreProfileScreen = () => {
                       
                       }}
                       onPress={() => {
-                        dispatch(setVendorId(currentSpadeRetailer.retailerId._id));
+                        dispatch(setVendorId(currentSpadeRetailer?.retailerId?._id));
                         navigation.navigate("vendor-product");
                       }}
                     >
@@ -836,12 +837,13 @@ const StoreProfileScreen = () => {
                 }}
                 onPress={() => {
                   dispatch(setVendorId(selectedVendorId));
+                  handleClose();
                   navigation.navigate("store-page-id");
                 }}
               >
                 <Store />
               </TouchableOpacity>
-              <fastImage
+              <FastImage
                 source={{ uri: selectedImage }}
                 style={{
                   width: 280,

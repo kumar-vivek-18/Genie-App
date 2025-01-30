@@ -342,7 +342,7 @@ const BargainingScreen = () => {
           if (message.bidType === "true") cnt++;
         });
         setBidCounts(cnt);
-        // console.log('mess res', res.data);
+        console.log('mess res', );
         socket.emit("join chat", res.data[0]?.chat?._id);
         // console.log("current spade updated successfully at messages", currentSpadeRetailer?._id)
 
@@ -831,7 +831,7 @@ const BargainingScreen = () => {
       }}
     >
       <View className="rounded-3xl">
-        <FastImage
+        <Image
           source={{ uri: item }}
           width={174}
           height={232}
@@ -978,7 +978,7 @@ const BargainingScreen = () => {
               {(currentSpade.requestActive === "completed" ||
                 currentSpade.requestActive === "closed") &&
                 currentSpade.requestAcceptedChat ===
-                  currentSpadeRetailer._id && (
+                  currentSpadeRetailer?._id && (
                   <TouchableOpacity
                     onPress={() => {
                       setRetailerModal(true);
@@ -1221,7 +1221,7 @@ const BargainingScreen = () => {
                         {/* <Contact /> */}
                         <Text
                           style={{
-                            fontFamily: "Poppins-Bold",
+                            fontFamily: "Poppins-BoldItalic",
                             color: "white",
                             fontSize: 16,
                           }}

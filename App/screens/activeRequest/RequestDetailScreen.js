@@ -398,6 +398,17 @@ const RequestDetail = () => {
                                         </View>
                                     </Pressable>
                                 </View>}
+                                <View style={{
+                                    flexDirection:"row",
+                                    gap:4,
+                                    alignItems:"center"
+                                }}>
+                                <Text className="mt-[5px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Medium" }}>Expected Price:</Text>
+                                <Text className="mt-[5px] text-green-500" style={{ fontFamily: "Poppins-Regular" }}>Rs.{spade?.expectedPrice}</Text>
+
+
+                                </View>
+
                                 <Pressable onPress={() => navigation.navigate('image-refrences')}>
                                     <View className="flex-row gap-[15px] mt-[15px] items-center">
                                         <GalleryImg />

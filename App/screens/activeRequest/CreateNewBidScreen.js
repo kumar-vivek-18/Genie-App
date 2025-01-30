@@ -261,7 +261,7 @@ const CreateNewBidScreen = () => {
             </Text>
             <View style={{ display: 'flex', flexDirection: requestImages.length > 0 ? 'row-reverse' : 'row', alignItems: 'center' }}>
 
-              {requestImages.length <= 1 && <TouchableOpacity
+              {requestImages?.length <= 1 && <TouchableOpacity
                 onPress={() => {
                   setAddImg(!addImg);
                   console.log("addImag", addImg);
@@ -282,7 +282,7 @@ const CreateNewBidScreen = () => {
                 }}
               >
                 {requestImages &&
-                  requestImages.map((image, index) => (
+                  requestImages?.map((image, index) => (
                     <View key={index}>
                       <Pressable onPress={() => { handleImagePress(image) }}>
                         <Image
@@ -297,7 +297,7 @@ const CreateNewBidScreen = () => {
                       </Pressable>
                     </View>
                   ))}
-                {requestImages.length > 1 && <TouchableOpacity
+                {requestImages?.length > 1 && <TouchableOpacity
                   onPress={() => {
                     setAddImg(!addImg);
                     console.log("addImag", addImg);

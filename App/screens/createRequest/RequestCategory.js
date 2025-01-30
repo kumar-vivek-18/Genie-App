@@ -23,6 +23,7 @@ import BackArrow from "../../assets/BackArrowImg.svg";
 import { useDispatch, useSelector } from "react-redux";
 import {
   emtpyRequestImages,
+  setIsService,
   setNearByStoresCategory,
   setRequestCategory,
 } from "../../redux/reducers/userRequestsSlice";
@@ -47,10 +48,9 @@ import Service4 from "../../assets/service4.png";
 import Service5 from "../../assets/service5.png";
 import Service6 from "../../assets/service6.png";
 import Service7 from "../../assets/service7.png";
-import Internaltest from "../../assets/internal-test.png"
-import CategoryInfo from "../../assets/categoryInfo.svg"
+import Internaltest from "../../assets/internal-test.png";
+import CategoryInfo from "../../assets/categoryInfo.svg";
 import FastImage from "react-native-fast-image";
-
 
 import NewIcon1 from "../../assets/NewIcon1.png";
 import NewIcon2 from "../../assets/NewIcon2.png";
@@ -72,127 +72,194 @@ import NewServicesIcon7 from "../../assets/NewServicesIcon7.png";
 import NewServicesIcon8 from "../../assets/NewServicesIcon8.png";
 import NewServicesIcon9 from "../../assets/NewServicesIcon9.png";
 
-
-
-
 const categoriess = {
-  "Consumer Electronics & Accessories - Home appliances and equipment etc":
-  {
-    icon:NewIcon10,
-    title:"Appliances"
-
-  }
-    ,
+  "Consumer Electronics & Accessories - Home appliances and equipment etc": {
+    icon: NewIcon10,
+    title: "Appliances",
+  },
   "Fashion/Clothings - Top, bottom, dresses": {
-    icon:NewIcon1,
-    title:"Fashion"
+    icon: NewIcon1,
+    title: "Fashion",
   },
   "Fashion Accessories - Jewellery, Gold & Diamond": {
-    icon:NewIcon,
-    title:"Jewel"
+    icon: NewIcon,
+    title: "Jewel",
   },
   "Fashion Accessories - Shoes, bags etc": {
     icon: NewIcon3,
-    title:"Shoes, Bag"
+    title: "Shoes, Bag",
   },
   "Fashion Accessories - Sharee, suits, kurti & dress materials etc": {
-    icon:NewIcon2,
-    title:"Sari, Suit"
+    icon: NewIcon2,
+    title: "Sari, Suit",
   },
   "Gifts, Kids Games,Toys & Accessories": {
-    icon:NewIcon5,
-    title:"Gifts,Kids"
+    icon: NewIcon5,
+    title: "Gifts,Kids",
   },
   "Luxury Watches & Service": {
-    icon:NewIcon6,
-    title:"Watches"
+    icon: NewIcon6,
+    title: "Watches",
   },
   "Hardware - Plumbing, Paint,& Electricity": {
-    icon:NewIcon7,
-    title:"Plumbing"
+    icon: NewIcon7,
+    title: "Plumbing",
   },
   "Sports Nutrition - Whey Pro etc": {
-    icon:NewIcon8,
-    title:"Nutrition"
+    icon: NewIcon8,
+    title: "Nutrition",
   },
-  "Hardware - Cement, Hand tools, Powertools etc":{
-    icon:NewServicesIcon8 ,
-    title:"Hardware"
-  } ,
+  "Hardware - Cement, Hand tools, Powertools etc": {
+    icon: NewServicesIcon8,
+    title: "Hardware",
+  },
   "Kitchen Utensils & Kitchenware": {
-    icon:NewIcon9,
-    title:"Utensils"
+    icon: NewIcon9,
+    title: "Utensils",
   },
   "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc":
     {
-      icon:NewServicesIcon9,
-      title:"Appliances"
+      icon: NewServicesIcon9,
+      title: "Appliances",
     },
   "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc":
-   {icon:NewServicesIcon2,
-    title:"Electronics"
-  },
-  "Automotive Parts/Services - 2 wheeler Fuel based":{
-    icon:NewServicesIcon6,
-    title:"Bike"
+    { icon: NewServicesIcon2, title: "Electronics" },
+  "Automotive Parts/Services - 2 wheeler Fuel based": {
+    icon: NewServicesIcon6,
+    title: "Bike",
   },
   "Automotive Parts/Services - 4 wheeler Fuel based": {
-    icon:NewServicesIcon5,
-    title:"Car"
+    icon: NewServicesIcon5,
+    title: "Car",
   },
   "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc":
-    {icon:NewServicesIcon7,
-    title: "Heavy",
-     
-    },
+    { icon: NewServicesIcon7, title: "Heavy" },
   "Electrical Services & Repair - Electrician": {
-    icon:NewServicesIcon4,
-    title:"Electrician"
+    icon: NewServicesIcon4,
+    title: "Electrician",
   },
- 
 };
 
-const Icons = {
-  "Automotive Parts/Services - 2 wheeler Fuel based":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422440/2-wheeler_xliwnk.jpg",
-  "Automotive Parts/Services - 4 wheeler Fuel based":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422440/4-wheeler_fp0sy6.jpg",
-  "Clock Repair & Services":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422441/clock_b4ftd5.jpg",
-  "Consumer Electronics & Accessories - Home appliances and equipment etc":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422453/consumer_electronics_rplbgv.jpg",
-  "Fashion Accessories - Jewellery, Gold & Diamond":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422452/fashion_accessories_iof7jd.jpg",
-  "Fashion Accessories - Sharee, suits, kurti & dress materials etc":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733421956/fashion_cesup3.jpg",
-  "Fashion Accessories - Shoes, bags etc":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422450/fashion_shoes_c0hrmq.jpg",
-  "Fashion/Clothings - Top, bottom, dresses":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422452/fashion_top_cxrlm0.jpg",
-  "Hardware - Plumbing, Paint,& Electricity":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422447/hardware_paint_xyfrp8.jpg",
-  "Home & Function Decoration":
-    "https://res.cloudinary.com/kumarvivek/image/upload/v1730174790/decoration_f69hnj.jpg",
-  "Gifts, Kids Games,Toys & Clothings":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422449/gifts_eia9dk.jpg",
-  "Luxury Watches":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422448/luxury_a20pfl.jpg",
-  "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422444/electronics_s67wgn.jpg",
-  "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422443/mobile_hjahoi.jpg",
-  "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422440/heavy_ihqf48.jpg",
-  "Sports Nutrition - Whey Pro etc":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422447/sports_ee5x0s.jpg",
-  "Electrical Services & Repair - Electrician":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422441/electrician_og5kni.jpg",
-  "Hardware - Cement, Hand tools, Powertools etc":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422446/hardware_hand_fehtye.jpg",
-  "Kitchen Utensils & Kitchenware":
-    "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422444/kitchen_xjnvwq.jpg",
-  // "Z-Internal test culturtap ( not for commercial use )": { "id": 17, "name": "Z - Internal test culturtap(not for commercial use )" }
+const availCategory = {
+  "Consumer Electronics & Accessories - Home appliances and equipment etc": {
+    icon: NewIcon10,
+    title: "Appliances",
+  },
+  "Fashion/Clothings - Top, bottom, dresses": {
+    icon: NewIcon1,
+    title: "Fashion",
+  },
+  "Fashion Accessories - Jewellery, Gold & Diamond": {
+    icon: NewIcon,
+    title: "Jewel",
+  },
+  "Fashion Accessories - Shoes, bags etc": {
+    icon: NewIcon3,
+    title: "Shoes, Bag",
+  },
+  "Fashion Accessories - Sharee, suits, kurti & dress materials etc": {
+    icon: NewIcon2,
+    title: "Sari, Suit",
+  },
+  "Gifts, Kids Games,Toys & Accessories": {
+    icon: NewIcon5,
+    title: "Gifts,Kids",
+  },
+  "Luxury Watches & Service": {
+    icon: NewIcon6,
+    title: "Watches",
+  },
+ 
+  "Sports Nutrition - Whey Pro etc": {
+    icon: NewIcon8,
+    title: "Nutrition",
+  },
+ 
+  "Kitchen Utensils & Kitchenware": {
+    icon: NewIcon9,
+    title: "Utensils",
+  },
+  
 };
+
+const availServices = {
+ 
+ 
+  "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc":
+    {
+      icon: NewServicesIcon9,
+      title: "Appliances",
+    },
+  "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc":
+    { icon: NewServicesIcon2, title: "Electronics" },
+  "Automotive Parts/Services - 2 wheeler Fuel based": {
+    icon: NewServicesIcon6,
+    title: "Bike",
+  },
+  "Automotive Parts/Services - 4 wheeler Fuel based": {
+    icon: NewServicesIcon5,
+    title: "Car",
+  },
+  "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc":
+    { icon: NewServicesIcon7, title: "Heavy" },
+
+  "Hardware - Plumbing, Paint,& Electricity": {
+    icon: NewIcon7,
+    title: "Plumbing",
+  },
+ 
+  "Hardware - Cement, Hand tools, Powertools etc": {
+    icon: NewServicesIcon8,
+    title: "Hardware",
+  },
+ 
+  "Electrical Services & Repair - Electrician": {
+    icon: NewServicesIcon4,
+    title: "Electrician",
+  },
+};
+
+// const Icons = {
+//   "Automotive Parts/Services - 2 wheeler Fuel based":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422440/2-wheeler_xliwnk.jpg",
+//   "Automotive Parts/Services - 4 wheeler Fuel based":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422440/4-wheeler_fp0sy6.jpg",
+//   "Clock Repair & Services":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422441/clock_b4ftd5.jpg",
+//   "Consumer Electronics & Accessories - Home appliances and equipment etc":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422453/consumer_electronics_rplbgv.jpg",
+//   "Fashion Accessories - Jewellery, Gold & Diamond":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422452/fashion_accessories_iof7jd.jpg",
+//   "Fashion Accessories - Sharee, suits, kurti & dress materials etc":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733421956/fashion_cesup3.jpg",
+//   "Fashion Accessories - Shoes, bags etc":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422450/fashion_shoes_c0hrmq.jpg",
+//   "Fashion/Clothings - Top, bottom, dresses":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422452/fashion_top_cxrlm0.jpg",
+//   "Hardware - Plumbing, Paint,& Electricity":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422447/hardware_paint_xyfrp8.jpg",
+//   "Home & Function Decoration":
+//     "https://res.cloudinary.com/kumarvivek/image/upload/v1730174790/decoration_f69hnj.jpg",
+//   "Gifts, Kids Games,Toys & Clothings":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422449/gifts_eia9dk.jpg",
+//   "Luxury Watches":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422448/luxury_a20pfl.jpg",
+//   "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422444/electronics_s67wgn.jpg",
+//   "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422443/mobile_hjahoi.jpg",
+//   "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422440/heavy_ihqf48.jpg",
+//   "Sports Nutrition - Whey Pro etc":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422447/sports_ee5x0s.jpg",
+//   "Electrical Services & Repair - Electrician":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422441/electrician_og5kni.jpg",
+//   "Hardware - Cement, Hand tools, Powertools etc":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422446/hardware_hand_fehtye.jpg",
+//   "Kitchen Utensils & Kitchenware":
+//     "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422444/kitchen_xjnvwq.jpg",
+//   // "Z-Internal test culturtap ( not for commercial use )": { "id": 17, "name": "Z - Internal test culturtap(not for commercial use )" }
+// };
 
 const RequestCategory = () => {
   const dispatch = useDispatch();
@@ -218,7 +285,7 @@ const RequestCategory = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const { width } = Dimensions.get("window");
-  const [categoryModal,setCategoryModal]=useState(false);   
+  const [categoryModal, setCategoryModal] = useState(false);
 
   const fetchNearByStores = useCallback(async () => {
     try {
@@ -257,14 +324,20 @@ const RequestCategory = () => {
 
   useEffect(() => {
     // if (searchData.length == 0) {
-      // console.log('fetching nearby stores');
-      fetchNearByStores();
+    // console.log('fetching nearby stores');
+    fetchNearByStores();
     // }
   }, []);
   // console.log('searchData', searchData);
   const handleSelectResult = (name) => {
-    console.log('handleSelectResult', name)
+    console.log("handleSelectResult", name);
     setSelectedOption(name);
+  };
+
+  const handleSelectResultService = (name) => {
+    console.log("handleSelectResult", name);
+    setSelectedOption(name);
+    dispatch(setIsService(true))
   };
 
   const search = (text) => {
@@ -282,14 +355,14 @@ const RequestCategory = () => {
   const handleSubmit = () => {
     try {
       if (selectedOption !== null) {
-        console.log(selectedOption)
+        console.log(selectedOption);
         dispatch(setRequestCategory(selectedOption));
         // console.log(selectedOption);
         // console.log(searchData[selectedOption - 1].name);
         // console.log(requestCategory);
 
         navigation.navigate("addimg");
-        dispatch(emtpyRequestImages([]));
+      
       }
     } catch (error) {
       console.error("Error while selecting category");
@@ -312,8 +385,7 @@ const RequestCategory = () => {
         <View className=" flex z-40 flex-row items-center  mb-[10px]">
           <TouchableOpacity
             onPress={() => navigation.goBack()}
-           
-            style={{position:"absolute", paddingHorizontal:25,zIndex:100}}
+            style={{ position: "absolute", paddingHorizontal: 25, zIndex: 100 }}
           >
             <BackArrow width={14} height={10} />
           </TouchableOpacity>
@@ -324,33 +396,33 @@ const RequestCategory = () => {
             Select Category
           </Text>
           <TouchableOpacity
-                    onPress={() => {
-                      setCategoryModal(!categoryModal);
-                    }}
-                    style={{
-                      width: 25,
-                      height: 25,
-                      flexDirection: "row",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      borderColor: "red",
-                      borderWidth: 2,
-                      borderRadius: 16,
-                      position: "absolute",
-                      right: 20,
-                      zIndex: 20,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: "red",
-                        fontSize: 16,
-                        fontFamily: "Poppins-SemiBold",
-                      }}
-                    >
-                      ?
-                    </Text>
-                  </TouchableOpacity>
+            onPress={() => {
+              setCategoryModal(!categoryModal);
+            }}
+            style={{
+              width: 25,
+              height: 25,
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              borderColor: "red",
+              borderWidth: 2,
+              borderRadius: 16,
+              position: "absolute",
+              right: 20,
+              zIndex: 20,
+            }}
+          >
+            <Text
+              style={{
+                color: "red",
+                fontSize: 16,
+                fontFamily: "Poppins-SemiBold",
+              }}
+            >
+              ?
+            </Text>
+          </TouchableOpacity>
         </View>
         <View className="flex-1 w-full bg-white flex-col  gap-[40px] px-[10px]">
           <ScrollView
@@ -382,25 +454,20 @@ const RequestCategory = () => {
                             />
                         </View> */}
 
-            {searchResults.length > 0 && (
+            {/* {searchResults.length > 0 && (
               <View className="flex flex-row flex-wrap  gap-[20px] mt-[20px] mb-[80px]">
                 {searchResults?.map((result) => (
-                  <TouchableOpacity
+
+                  {
+                    availCategory[result?.name] && (
+                    <TouchableOpacity
                     key={result.id}
                     onPress={() => handleSelectResult(result.name)}
                   >
                     <View className="flex flex-row  gap-[15px] items-center">
-                      {/* {!Icons[result.name] &&
-                        result?.name !==
-                          "Z-Internal test culturtap ( not for commercial use )" && (
-                          <Octicons
-                            name="search"
-                            size={19}
-                            style={{ color: "#7c7c7c" }}
-                          />
-                        )} */}
+                     
 
-                      {result?.name !==
+                      {availCategory[result?.name] && result?.name !==
                         "Z-Internal test culturtap ( not for commercial use )" &&
                         
                           <View 
@@ -504,81 +571,276 @@ const RequestCategory = () => {
                           )}
                         </View>
                       )}
-                      {/* {result?.name !==
-                        "Z-Internal test culturtap ( not for commercial use )" &&
-                        result?.name.indexOf("-") > 0 && (
-                          <Text
-                            style={{ fontFamily: "Poppins-Regular" }}
-                            className="capitalize text-[#2e2c43] w-[87%]"
-                          >
-                            <Text style={{ fontFamily: "Poppins-Bold" }}>
-                              {result?.name.slice(0, result.name.indexOf("-"))}
-                            </Text>
-                            {result.name.indexOf("-") >= 0
-                              ? result.name.slice(result.name.indexOf("-"))
-                              : ""}
-                          </Text>
-                        )} */}
-                      {/* {result?.name !==
-                        "Z-Internal test culturtap ( not for commercial use )" &&
-                        result?.name.indexOf("-") == -1 && (
-                          <Text
-                            style={{ fontFamily: "Poppins-Bold" }}
-                            className="capitalize text-[#2e2e43] w-[87%]"
-                          >
-                            {result?.name}
-                          </Text>
-                        )} */}
-                      {/* {result?.name ===
-                        "Z-Internal test culturtap ( not for commercial use )" && (
-                        <View className="flex-row items-center gap-[20px]  w-[70%]">
-                          <View
-                            className={`w-[16px] h-[16px] border-[1px] border-[#e04122] items-center `}
-                            style={{
-                              backgroundColor:
-                                result.id === selectedOption
-                                  ? "#e04122"
-                                  : "#ffffff",
-                            }}
-                          >
-                            {result.id === selectedOption && (
-                              <Octicons name="check" size={12} color="white" />
-                            )}
-                          </View>
-                          <Text
-                            style={{ fontFamily: "Poppins-Regular" }}
-                            className="capitalize text-[#e04122] "
-                          >
-                            <Text style={{ fontFamily: "Poppins-Bold" }}>
-                              {result?.name.slice(0, result.name.indexOf("-"))}
-                            </Text>
-                            {result.name.indexOf("-") >= 0
-                              ? result.name.slice(result.name.indexOf("-"))
-                              : ""}
-                          </Text>
-                          <TouchableOpacity
-                            onPress={() => setModalVisible(true)}
-                          >
-                            <Danger />
-                          </TouchableOpacity>
-                        </View>
-                      )} */}
+                      
                     </View>
-                  </TouchableOpacity>
+                  </TouchableOpacity>)
+                  }
+                 
                 ))}
-                {/* <TouchableOpacity
-                            key={result.id}
-                            onPress={() => handleSelectResult(result.id)}
+                
+              </View>
+            )} */}
+            {searchResults.length > 0 && (
+              <View className="flex flex-row flex-wrap gap-[20px] mt-[20px] mb-[40px]">
+                {searchResults
+                  .filter(
+                    (result) =>
+                      availCategory[result?.name] &&
+                      result?.name !=="Z-Internal test culturtap ( not for commercial use )"
+                  )
+                  .map((result) => (
+                    <TouchableOpacity
+                      key={result.id}
+                      onPress={() => handleSelectResult(result.name)}
+                    >
+                      <View className="flex flex-row gap-[15px] items-center">
+                        <View
+                          style={{
+                            width: 0.44 * width,
+                            height: 185,
+                            marginTop: 8,
+                            borderColor:
+                              selectedOption === result?.name
+                                ? "#fb8c00"
+                                : "#000",
+                            backgroundColor:
+                              selectedOption === result?.name
+                                ? "#FFF4E5"
+                                : "#fff",
+                            borderWidth: 0.5,
+                            borderRadius: 16,
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                          resizeMode="contain"
                         >
-                            <View className="flex flex-row  my-[10px] gap-[20px] items-center">
-                                <View className={`w-[16px] h-[16px] border-[1px] border-[#fd8c00] items-center ${result.id === selectedOption ? 'bg-[#fd8c00]' : ''}`}>
-                                    {result.id === selectedOption && <Octicons name="check" size={12} color="white" />}
-                                </View>
-                                {<Text style={{ fontFamily: "Poppins-Regular" }} className="capitalize text-[#2e2c43] w-[87%]"><Text style={{ fontFamily: 'Poppins-Bold' }}>Z-</Text>{result.name.indexOf('-') >= 0 ? result.name.slice(result.name.indexOf('-')) : ""}</Text>}
+                          {categoriess[result.name] ? (
+                            <View
+                              style={{
+                                flexDirection: "column",
+                                gap: 5,
+                                justifyContent: "center",
+                                alignItems: "center",
+                                paddingHorizontal: 10,
+                                paddingVertical: 5,
+                              }}
+                            >
+                              <FastImage
+                                source={categoriess[result.name].icon}
+                                alt={result?.name}
+                                style={{
+                                  width: 0.3 * width,
+                                  height: 130,
+                                }}
+                                resizeMode={FastImage.resizeMode.contain}
+                              />
+                              <Text
+                                style={{
+                                  fontFamily: "Poppins-Regular",
+                                  color:
+                                    selectedOption === result?.name
+                                      ? "#fb8c00"
+                                      : "#2E2C43",
+                                  fontSize: 16,
+                                  textAlign: "center",
+                                }}
+                              >
+                                {categoriess[result.name].title}
+                              </Text>
                             </View>
-                        </TouchableOpacity> */}
+                          ) : (
+                            <View resizeMode="contain">
+                              <Text
+                                style={{
+                                  fontFamily: "Poppins-Regular",
+                                  color:
+                                    selectedOption === result?.name
+                                      ? "#fb8c00"
+                                      : "#2E2C43",
+                                }}
+                              >
+                                {result.name}
+                              </Text>
+                            </View>
+                          )}
+                        </View>
+
+                        <View
+                          className={`absolute top-8 right-5 w-[25px] h-[25px] flex justify-center border-[1px] rounded-full border-[#fd8c00] items-center ${
+                            result.name === selectedOption
+                              ? "bg-[#fb8c00]"
+                              : "bg-[#FFF4E5]"
+                          }`}
+                        >
+                          {result.name === selectedOption && (
+                            <Octicons name="check" size={15} color="white" />
+                          )}
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  ))}
               </View>
             )}
+
+{searchResults.length > 0 && (
+            <>
+            <Text style={{textAlign:"center",fontFamily:"Poppins-Bold",fontSize:16}}>Select Services</Text>
+            <View className="flex flex-row flex-wrap gap-[20px] mt-[20px] mb-[80px]">
+                
+                {searchResults
+                  .filter(
+                    (result) =>
+                      availServices[result?.name] &&
+                      result?.name !==
+                        "Z-Internal test culturtap ( not for commercial use )"
+                  )
+                  .map((result) => (
+                    <TouchableOpacity
+                      key={result.id}
+                      onPress={() => handleSelectResultService(result.name)}
+                    >
+                      <View className="flex flex-row gap-[15px] items-center">
+                        <View
+                          style={{
+                            width: 0.44 * width,
+                            height: 185,
+                            marginTop: 8,
+                            borderColor:
+                              selectedOption === result?.name
+                                ? "#fb8c00"
+                                : "#000",
+                            backgroundColor:
+                              selectedOption === result?.name
+                                ? "#FFF4E5"
+                                : "#fff",
+                            borderWidth: 0.5,
+                            borderRadius: 16,
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                          resizeMode="contain"
+                        >
+                          {categoriess[result.name] ? (
+                            <View
+                              style={{
+                                flexDirection: "column",
+                                gap: 5,
+                                justifyContent: "center",
+                                alignItems: "center",
+                                paddingHorizontal: 10,
+                                paddingVertical: 5,
+                              }}
+                            >
+                              <FastImage
+                                source={categoriess[result.name].icon}
+                                alt={result?.name}
+                                style={{
+                                  width: 0.3 * width,
+                                  height: 130,
+                                }}
+                                resizeMode={FastImage.resizeMode.contain}
+                              />
+                              <Text
+                                style={{
+                                  fontFamily: "Poppins-Regular",
+                                  color:
+                                    selectedOption === result?.name
+                                      ? "#fb8c00"
+                                      : "#2E2C43",
+                                  fontSize: 16,
+                                  textAlign: "center",
+                                }}
+                              >
+                                {categoriess[result.name].title}
+                              </Text>
+                            </View>
+                          ) : (
+                            <View resizeMode="contain">
+                              <Text
+                                style={{
+                                  fontFamily: "Poppins-Regular",
+                                  color:
+                                    selectedOption === result?.name
+                                      ? "#fb8c00"
+                                      : "#2E2C43",
+                                }}
+                              >
+                                {result.name}
+                              </Text>
+                            </View>
+                          )}
+                        </View>
+
+                        <View
+                          className={`absolute top-8 right-5 w-[25px] h-[25px] flex justify-center border-[1px] rounded-full border-[#fd8c00] items-center ${
+                            result.name === selectedOption
+                              ? "bg-[#fb8c00]"
+                              : "bg-[#FFF4E5]"
+                          }`}
+                        >
+                          {result.name === selectedOption && (
+                            <Octicons name="check" size={15} color="white" />
+                          )}
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+
+{searchResults
+  .filter((result) =>
+    result?.name === "Z-Internal test culturtap ( not for commercial use )"
+  )
+  .map((result) => (
+    <TouchableOpacity
+                    key={result.id}
+                    onPress={() => handleSelectResult(result.name)}
+                  >
+                   
+    <View
+      key={result.id}
+      style={{
+        backgroundColor: "white",
+        position: "relative",
+      }}
+    >
+      <FastImage
+        source={Internaltest}
+        alt="img"
+        style={{
+          width: 0.44 * width,
+          height: 201,
+        }}
+        resizeMode={FastImage.resizeMode.contain}
+      />
+    </View>
+    <View
+                          className={`absolute top-8 right-5 w-[25px] h-[25px] flex justify-center border-[1px] rounded-full border-[#fd8c00] items-center ${
+                            result.name === selectedOption
+                              ? "bg-[#fb8c00]"
+                              : "bg-[#FFF4E5]"
+                          }`}
+                        >
+                          {result.name === selectedOption && (
+                            <Octicons name="check" size={15} color="white" />
+                          )}
+                        </View>
+                      
+    </TouchableOpacity>
+  ))}
+
+
+                  
+
+                  
+              </View>
+            </>
+             
+            )}
+
+
+
             {searchResults?.length === 0 && (
               <View>
                 <Text

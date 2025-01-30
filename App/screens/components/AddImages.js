@@ -13,6 +13,8 @@ import OrangeRightArrow from '../../assets/Oragne-Right-Arrow.svg';
 const AddImages = ({ addImg, setAddImg }) => {
 
     const dispatch = useDispatch();
+      const requestImages = useSelector((store) => store.userRequest.requestImages);
+    
     // const getImageUrl = async (image) => {
 
     //     // console.log('imageFunction', image);
@@ -81,7 +83,7 @@ const AddImages = ({ addImg, setAddImg }) => {
                         [{ resize: { width: 600, height: 800 } }],
                         { compress: 0.5, format: "jpeg", base64: true }
                     );
-                    dispatch(setRequestImages(compressedImage.uri));
+                    dispatch(setRequestImages([compressedImage.uri, ...requestImages]));
                     // await getImageUrl(compressedImage);
                 } catch (error) {
                     console.error('Error processing image: ', error);
@@ -108,7 +110,7 @@ const AddImages = ({ addImg, setAddImg }) => {
                 [{ resize: { width: 600, height: 800 } }],
                 { compress: 0.5, format: "jpeg" }
             );
-            dispatch(setRequestImages(compressedImage.uri));
+           dispatch(setRequestImages([compressedImage.uri, ...requestImages]));
             // setImage(result.assets[0].uri);
             // console.log(object)
             // await getImageUrl(result.assets[0]);

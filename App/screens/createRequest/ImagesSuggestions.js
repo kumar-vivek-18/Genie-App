@@ -95,6 +95,7 @@ const subQueries = {
     All: "",
     Men:"men,man,boy,boys",
     Women: "women,woman,girl,girls",
+    // Unisex:"men,woman,girl,women,boy,boys,girls,man"
   },
   "Hardware - Plumbing, Paint,& Electricity":{
     All:"",

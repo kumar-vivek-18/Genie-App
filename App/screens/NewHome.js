@@ -743,7 +743,7 @@ const NewHome = () => {
     try {
       const result = await Share.open({
         message:
-          "Install the CulturTap Genie App and start bargaining! Download the app now: https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie",
+          "Install the CulturTap Genie App and Start Bargaining in local market! Download the app now: https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie",
         title: "Share via",
       });
       if (result.success) {

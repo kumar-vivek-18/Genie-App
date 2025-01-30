@@ -877,6 +877,7 @@ const StoreProfileById = () => {
                   }}
                   onPress={() => {
                     dispatch(setVendorId(selectedVendorId));
+                    handleClose();
                     navigation.navigate("store-page-id");
                   }}
                 >

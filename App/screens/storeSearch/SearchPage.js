@@ -426,7 +426,7 @@ const SearchCategoryScreen = () => {
     try {
       const result = await Share.open({
         message:
-          "Install the CulturTap Genie App and start bargaining! Download the app now: https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie",
+          "Install the CulturTap Genie App and Start Bargaining in local market! Download the app now: https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie",
         title: "Share via",
       });
       if (result.success) {
@@ -773,6 +773,7 @@ const SearchCategoryScreen = () => {
             <TouchableOpacity
               onPress={() => {
                 setTab("Store");
+                setProductImages([])
                 dispatch(setStoreVisible(false));
                 setSearchQuery("");
               }}
@@ -794,13 +795,13 @@ const SearchCategoryScreen = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          { !loadingQuerySearch && !searchQuery  && tab==="Product" && (
+          { !loadingQuerySearch && !searchQuery && productImages?.length===0  && tab==="Product" && (
     <View style={{  paddingHorizontal: 32 }}>
      
 
       {/* Suggestion List */}
       <View>
-        {["Shirts, Pants", "Smart Tv 55 inch, Ultra HD", "Banarsi Sari","Digital Watch","Gold earrings"].map((suggestion, index) => (
+        {["Shirt","Pant", "Smart Tv", "Banarsi Sari","Digital Watch","Bangle"].map((suggestion, index) => (
           <TouchableOpacity
             key={index}
             onPress={()=>{
@@ -1327,7 +1328,8 @@ const SearchCategoryScreen = () => {
                                              borderRadius: 100,
                                            }}
                                            onPress={() => {
-                                             dispatch(setVendorId(selectedVendorId)); 
+                                             dispatch(setVendorId(selectedVendorId));
+                                             handleClose(); 
                                              navigation.navigate("store-page-id")
                                            }}
                                          >

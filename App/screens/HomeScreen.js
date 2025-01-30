@@ -126,6 +126,7 @@ import {
   emtpyRequestImages,
   setEstimatedPrice,
   setExpectedPrice,
+  setIsService,
   setNearByStoresCategory,
   setRequestCategory,
   setRequestImages,
@@ -266,7 +267,7 @@ const categories = [
     cat: NewCategory7,
     name: "Hardware - Plumbing, Paint,& Electricity",
     title: "Plumbing",
-    subTitle: "Pipes, Drainage, Sink",
+    subTitle: "Paint, Plumbing, Bath",
     icon: NewIcon7,
     isService:true
   },
@@ -275,7 +276,7 @@ const categories = [
     cat: NewServices8,
     name: "Hardware - Cement, Hand tools, Powertools etc",
     title: "Hardware",
-    subTitle: "Paint, Plumbing, Bath",
+    subTitle: "Hand, Powertools,Home",
     icon: NewServicesIcon8,
     isService:true
   },
@@ -723,6 +724,7 @@ const HomeScreen = () => {
           // } else {
             // navigation.navigate("requestentry");
             dispatch(setRequestCategory(""));
+            dispatch(setIsService(false))
             navigation.navigate("addimg");
             fetchNearByStores();
           // }
@@ -766,7 +768,7 @@ const HomeScreen = () => {
     try {
       const result = await Share.open({
         message:
-          "Install the CulturTap Genie App and start bargaining! Download the app now: https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie",
+          "Install the CulturTap Genie App and Start Bargaining in local market! Download the app now: https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie",
         title: "Share via",
       });
       if (result.success) {

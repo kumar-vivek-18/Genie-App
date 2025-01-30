@@ -84,7 +84,7 @@ const ActiveRequests = () => {
     try {
       const result = await Share.open({
         message:
-          "Install the CulturTap Genie App and start bargaining! Download the app now: https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie",
+          "Install the CulturTap Genie App and Start Bargaining in local market! Download the app now: https://play.google.com/store/apps/details?id=com.culturtapgenie.Genie",
         title: "Share via",
       });
       if (result.success) {
@@ -237,94 +237,7 @@ const ActiveRequests = () => {
             ))}
           </View>
         )}
-        {/* {spades.length === 0 && !networkError && !spadesLoading && (
-          <View className="">
-            {console.log("hii hii")}
-            <Text
-              className=" text-text text-[16px] text-center mt-[50px]"
-              style={{ fontFamily: "Poppins-Bold" }}
-            >
-              How it works?
-            </Text>
-            <View className=" flex flex-col  mt-[24px]">
-              <HomeMain width={width} />
-              <YoutubeIframe
-                height={250}
-                videoId={"f3WwRCuu7F8"}
-                play={playing}
-                onChangeState={onStateChange}
-              />
-              <Text
-                className="text-[#3f3d56] text-[14px] text-center px-[32px]"
-                style={{ fontFamily: "Poppins-Bold" }}
-              >
-                Bargaining is the consumer's right Because money doesn't grow on
-                trees.
-              </Text>
-            </View>
-            <View className="px-[38px] flex flex-col gap-[38px] mt-[40px]">
-              <Text
-                className="text-[#3f3d56] text-[14px] text-center"
-                style={{ fontFamily: "Poppins-Regular" }}
-              >
-                Now bargaining is possible from your couch. Do you want anything
-                new or to service the old one?
-              </Text>
-              <Text
-                className="text-[#3f3d56] text-[14px] text-center"
-                style={{ fontFamily: "Poppins-Regular" }}
-              >
-                Connect with nearby vendors and bargain for the lowest prices
-                for your shopping products.You can also avail any types of
-                maintenance services here, like plumber, electrician,carpenter &
-                lot more.
-              </Text>
-            </View>
-            <View style={styles.scrollcontainer}>
-              <ScrollView
-                horizontal
-                // pagingEnabled
-                showsHorizontalScrollIndicator={false}
-                onScroll={handleScroll}
-                // scrollEventThrottle={16}
-                ref={scrollViewRef}
-              >
-                {images.map((uri, index) => (
-                  <View
-                    key={index}
-                    className="flex-row rounded-2xl my-[10px] shadow-2xl "
-                    style={{
-                      width: 285,
-                      height: 343,
-                      flexDirection: "row",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <View className="scale-50">
-                      <Image source={uri} />
-                    </View>
-                  </View>
-                ))}
-              </ScrollView>
-
-              <View style={styles.indicatorContainer}>
-                {images.map((_, index) => (
-                  <View
-                    key={index}
-                    style={[
-                      styles.indicator,
-                      {
-                        backgroundColor:
-                          index <= currentIndex ? "orange" : "grey",
-                      },
-                    ]}
-                  />
-                ))}
-              </View>
-            </View>
-          </View>
-        )} */}
+     
       </ScrollView>
 
       <View>
