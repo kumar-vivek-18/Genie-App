@@ -180,7 +180,8 @@ const AddImageScreen = () => {
       "Shirt",
       "Digital Watch",
       "Banarasi Saree",
-      "Shoes"
+      "Shoes",
+      "Need Plumber", "Looking for Car Repair"
     ],
     "Consumer Electronics & Accessories - Home appliances and equipment etc": [
       "Smart Tv 55 inch, Ultra HD",

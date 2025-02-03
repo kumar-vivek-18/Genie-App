@@ -148,7 +148,7 @@ import ServicesCardMapping from "./components/ServicesCardMapping.js";
 import CategoriesList from "./components/CategoriesList.js";
 import ServicesList from "./components/ServicesCardMapping.js";
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get("screen");
 
 const categories = [
   {

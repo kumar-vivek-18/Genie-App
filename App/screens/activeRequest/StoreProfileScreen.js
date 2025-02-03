@@ -263,8 +263,8 @@ const StoreProfileScreen = () => {
       <FastImage
         source={{ uri: item?.productImage }}
         style={{
-          width: width * 0.38,
-          height: 180,
+          width: width * 0.42,
+                        height: .28*height,
           borderRadius: 16,
         }}
         resizeMode={FastImage.resizeMode.cover}
@@ -273,9 +273,9 @@ const StoreProfileScreen = () => {
         style={{
           position: "absolute",
           bottom: 0,
-          width: width * 0.38,
-
-          height: 50,
+          width: width * 0.42,
+                       
+          height: 60,
           backgroundColor: "rgba(0,0,0,0.5)",
           flexDirection: "column",
           justifyContent: "center",
@@ -292,8 +292,8 @@ const StoreProfileScreen = () => {
               color: "white",
             }}
           >
-            {item.productDescription.length > 25
-              ? `${item.productDescription.substring(0, 25)}...`
+            {item.productDescription.length > 20
+              ? `${item.productDescription.substring(0, 20)}...`
               : item.productDescription}
           </Text>
         )}
@@ -419,8 +419,8 @@ const StoreProfileScreen = () => {
                       <FastImage
                         source={{ uri: image }}
                         style={{
-                          width: width * 0.38,
-                          height: 180,
+                          width: width * 0.42,
+                          height: .28*height,
                           borderRadius: 16,
                         }}
                         resizeMode={FastImage.resizeMode.cover}
@@ -477,8 +477,8 @@ const StoreProfileScreen = () => {
                   {listedProducts && listedProducts.length > 0 && (
                     <TouchableOpacity
                       style={{
-                        width: width * 0.38,
-                        height: 180,
+                        width: width * 0.42,
+                        height: .28*height,
                         backgroundColor: "#FB8C00",
                         borderRadius: 10,
                         justifyContent: "center",
@@ -519,32 +519,32 @@ const StoreProfileScreen = () => {
                 >
                   <View
                     style={{
-                      width: width * 0.38,
-                      height: 180,
+                      width: width * 0.42,
+                      height: .28*height,
                       backgroundColor: "#bdbdbd",
                       borderRadius: 10,
                     }}
                   ></View>
                   <View
                     style={{
-                      width: width * 0.38,
-                      height: 180,
+                      width: width * 0.42,
+                        height: .28*height,
                       backgroundColor: "#bdbdbd",
                       borderRadius: 10,
                     }}
                   ></View>
                   <View
                     style={{
-                      width: width * 0.38,
-                      height: 180,
+                      width: width * 0.42,
+                        height: .28*height,
                       backgroundColor: "#bdbdbd",
                       borderRadius: 10,
                     }}
                   ></View>
                   <View
                     style={{
-                      width: width * 0.38,
-                      height: 180,
+                      width: width * 0.42,
+                        height: .28*height,
                       backgroundColor: "#bdbdbd",
                       borderRadius: 10,
                     }}

@@ -171,7 +171,8 @@ const [selectedCategory,setSelectedCategory]=useState("");
         source={{ uri: item.productImage }}
         style={{
           width: width * 0.38,
-          height: 180,
+          height: .26*height,
+
           borderRadius: 16,
         }}
         resizeMode={FastImage.resizeMode.cover}
@@ -182,7 +183,7 @@ const [selectedCategory,setSelectedCategory]=useState("");
           bottom: 0,
           width: width * 0.38,
           
-          height: 50,
+          height: 60,
           backgroundColor: "rgba(0,0,0,0.5)",
           flexDirection: "column",
           justifyContent: "center",
@@ -199,8 +200,8 @@ const [selectedCategory,setSelectedCategory]=useState("");
               color: "white",
             }}
           >
-            {item.productDescription.length > 25
-              ? `${item.productDescription.substring(0, 25)}...`
+            {item.productDescription.length > 20
+              ? `${item.productDescription.substring(0, 20)}...`
               : item.productDescription}
           </Text>
         )}
@@ -217,6 +218,8 @@ const [selectedCategory,setSelectedCategory]=useState("");
           style={{
             fontFamily: "Poppins-SemiBold",
             color: "#70b241",
+            fontSize: 12,
+          
           }}
         >
           Rs {item.productPrice}
@@ -498,7 +501,7 @@ const [selectedCategory,setSelectedCategory]=useState("");
                 <TouchableOpacity
                   style={{
                     width: width * 0.38,
-                height: 180,
+          height: .26*height,
                     backgroundColor: "#FB8C00",
                     borderRadius: 10,
                     justifyContent: "center",
@@ -541,7 +544,7 @@ const [selectedCategory,setSelectedCategory]=useState("");
               <View
                 style={{
                   width: width * 0.38,
-                  height: 180,
+          height: .26*height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
@@ -549,7 +552,7 @@ const [selectedCategory,setSelectedCategory]=useState("");
               <View
                 style={{
                   width: width * 0.38,
-                height: 180,
+                  height: .26*height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
@@ -557,7 +560,7 @@ const [selectedCategory,setSelectedCategory]=useState("");
               <View
                 style={{
                   width: width * 0.38,
-                height: 180,
+          height: .26*height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
@@ -565,7 +568,7 @@ const [selectedCategory,setSelectedCategory]=useState("");
               <View
                 style={{
                   width: width * 0.38,
-                height: 180,
+                  height: .26*height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}

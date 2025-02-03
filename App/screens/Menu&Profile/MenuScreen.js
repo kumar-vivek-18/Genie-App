@@ -87,12 +87,12 @@ const MenuScreen = () => {
                             <ArrowRight />
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { navigation.navigate("how-it-works") }}>
+                    {/* <TouchableOpacity onPress={() => { navigation.navigate("how-it-works") }}>
                         <View className="flex flex-row justify-between items-center">
                             <Text className="text-[15px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>How it works?</Text>
                             <ArrowRight />
                         </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <TouchableOpacity onPress={() => { Linking.openURL('https://culturtap.com/genie/termsandconditions') }}>
                         <View className="flex flex-row justify-between items-center">
                             <Text className="text-[15px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>Terms and Conditions</Text>

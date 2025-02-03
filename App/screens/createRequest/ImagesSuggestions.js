@@ -14,6 +14,7 @@ import {
   FlatList,
   BackHandler,
   TextInput,
+  Dimensions,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
@@ -60,7 +61,7 @@ import Store from "../../assets/storeOrange.svg";
 import Download from "../../assets/download.svg";
 import { handleDownload } from "../../utils/logics/Logics.js";
 
-
+const {width,height}=Dimensions.get("window")
 
 
 
@@ -356,8 +357,8 @@ const ImageSuggestion = () => {
       <FastImage
         source={{ uri: item.productImage }}
         style={{
-          width: 154,
-          height: 200,
+          width: .44*width,
+          height: .28*height,
           borderRadius: 16,
         }}
         resizeMode={FastImage.resizeMode.cover}
@@ -366,8 +367,9 @@ const ImageSuggestion = () => {
         style={{
           position: "absolute",
           bottom: 0,
-          width: 154,
-          height: 50,
+          width: .44*width,
+        
+          height: 60,
           backgroundColor: "rgba(0,0,0,0.5)",
           flexDirection: "column",
           justifyContent: "center",
@@ -394,6 +396,7 @@ const ImageSuggestion = () => {
             fontFamily: "Poppins-Regular",
             fontSize: 8,
             color: "white",
+
           }}
         >
           Estimated Price
@@ -402,6 +405,8 @@ const ImageSuggestion = () => {
           style={{
             fontFamily: "Poppins-SemiBold",
             color: "#70b241",
+            fontSize: 12,
+          
           }}
         >
           Rs {item.productPrice}
@@ -453,16 +458,128 @@ const ImageSuggestion = () => {
             >
               <BackArrow width={14} height={10} />
             </TouchableOpacity>
-            <Text
-              className="text-[16px] flex flex-1 justify-center  items-center text-center"
-              style={{
-                fontFamily: "Poppins-ExtraBold",
-                fontSize: 30,
-                color: "#fb8c00",
-              }}
-            >
-              {category?.title}
-            </Text>
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+            <View style={{ position: "relative" }}>
+                                  {/* Stroke Layer */}
+                                  <Text
+                                    style={{
+                                      fontSize: 32,
+                                      fontFamily: "Poppins-Black",
+                                      position: "absolute",
+                                      color: "#FB8C00",
+                                      left: -1.5,
+                                      top: -1.5,
+                                    }}
+                                  >
+                                    {category.title}
+                                  </Text>
+                                  <Text
+                                    style={{
+                                      fontSize: 32,
+                                      fontFamily: "Poppins-Black",
+                                      position: "absolute",
+                                      color: "#FB8C00",
+                                      left: 1.5,
+                                      top: -1.5,
+                                    }}
+                                  >
+                                    {category.title}
+                                  </Text>
+                                  <Text
+                                    style={{
+                                      fontSize: 32,
+                                      fontFamily: "Poppins-Black",
+                                      position: "absolute",
+                                      color: "#FB8C00",
+                                      left: -1.5,
+                                      top: 1.5,
+                                    }}
+                                  >
+                                    {category.title}
+                                  </Text>
+                                  <Text
+                                    style={{
+                                      fontSize: 32,
+                                      fontFamily: "Poppins-Black",
+                                      position: "absolute",
+                                      color: "#FB8C00",
+                                      left: 1.5,
+                                      top: 1.5,
+                                    }}
+                                  >
+                                    {category.title}
+                                  </Text>
+                                  <Text
+                                    style={{
+                                      fontSize: 32,
+                                      fontFamily: "Poppins-Black",
+                                      position: "absolute",
+                                      color: "#FB8C00",
+                                      left: 0.5,
+                                      top: -1.5,
+                                    }}
+                                  >
+                                    {category.title}
+                                  </Text>
+                                  <Text
+                                    style={[
+                                      styles.textStyle,
+                                      {
+                                        fontSize: 32,
+                                        fontFamily: "Poppins-Black",
+                                        position: "absolute",
+                                        color: "#FB8C00",
+                                        left: 0.5,
+                                        top: 1.5,
+                                      }, // Bottom stroke
+                                    ]}
+                                  >
+                                    {category.title}
+                                  </Text>
+                                  <Text
+                                    style={[
+                                      styles.textStyle,
+                                      {
+                                        fontSize: 32,
+                                        fontFamily: "Poppins-Black",
+                                        position: "absolute",
+                                        color: "#FB8C00",
+                                        left: -1.5,
+                                        top: 0.5,
+                                      }, // Left stroke
+                                    ]}
+                                  >
+                                    {category.title}
+                                  </Text>
+                                  <Text
+                                    style={[
+                                      styles.textStyle,
+                                      {
+                                        fontSize: 32,
+                                        fontFamily: "Poppins-Black",
+                                        position: "absolute",
+                                        color: "#FB8C00",
+                                        left: 1.5,
+                                        top: 0.5,
+                                      }, // Right stroke
+                                    ]}
+                                  >
+                                    {category.title}
+                                  </Text>
+                      
+                                  {/* Inner Text */}
+                                  <Text
+                                    style={[
+                                      styles.textStyle,
+                                      { fontSize: 32, fontFamily: "Poppins-Black", color: "#FFFFFF" },
+                                    ]}
+                                  >
+                                    {category.title}
+                                  </Text>
+                                </View>
+
+            </View>
+           
           </View>
 
           <View
@@ -505,7 +622,7 @@ const ImageSuggestion = () => {
             <View style={{
               flexDirection: "row",
               justifyContent: "center",
-              gap:20,
+              gap:16,
               marginBottom: 20,
               paddingHorizontal:32,
             }}>
@@ -521,7 +638,7 @@ const ImageSuggestion = () => {
                   >
                     <Text
                       style={{
-                        width:80,
+                        width:90,
                         textAlign: "center",
                         fontFamily: "Poppins-Regular",
                         color: key === subQuery ? "#fff" : "#2e2c43",
@@ -586,7 +703,7 @@ const ImageSuggestion = () => {
                 showsVerticalScrollIndicator={false}
                 columnWrapperStyle={{
                   justifyContent: "space-between",
-                  gap: 10,
+                  gap: 0,
                 }}
                 nestedScrollEnabled={true}
                 onEndReached={() => {

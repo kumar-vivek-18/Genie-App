@@ -15,6 +15,7 @@ import {
   Pressable,
   Animated,
   Modal,
+  Dimensions,
 } from "react-native";
 import {
   SafeAreaView,
@@ -54,7 +55,7 @@ import FastImage from "react-native-fast-image";
 import Store from "../../assets/storeOrange.svg"
 import Download from "../../assets/download.svg"
 
-
+const {width, height} =Dimensions.get("window")
 const SearchCategoryScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -196,13 +197,20 @@ const SearchCategoryScreen = () => {
       return <></>;
 
     return (
-      <TouchableOpacity
+      <View style={{
+        justifyContent:"center",
+        alignItems:"center"
+      }}>
+         <TouchableOpacity
         key={index}
         onPress={() => {
-          dispatch(setStoreData(details));
-          navigation.navigate("store-page");
+      
+          dispatch(setVendorId(details._id));
+          navigation.navigate("store-page-id");
         }}
         style={{
+         
+          
           position: "relative",
           flexDirection: "row",
           alignItems: "center",
@@ -303,6 +311,9 @@ const SearchCategoryScreen = () => {
           </View>
         )}
       </TouchableOpacity>
+
+      </View>
+     
     );
   };
 
@@ -553,6 +564,37 @@ const SearchCategoryScreen = () => {
       setLoadingQuerySearch(false);
     }
   };
+  const suggestionSearch = async (search) => {
+    setProductPage(1);
+    setLoadMore(true);
+    console.log("Loading category", search);
+    setLoadingQuerySearch(true);
+    try {
+      const response = await axios.get(`${baseUrl}/product/search-product`, {
+        params: { page: 1, query: search },
+      });
+
+      if (response.status === 200) {
+        const fetchedImages = response.data;
+        // console.log(fetchedImages);
+        setProductImages((prev) => [...fetchedImages]);
+        setProductPage((curr) => curr + 1);
+
+        if (fetchedImages.length < 10) {
+          setLoadMore(false); // Stop further loading if less than 10 products
+        }
+      }
+    } catch (error) {
+      if (error.response?.status === 404) {
+        setLoadMore(false);
+        setProductImages([]);
+      }
+
+      console.error("Error while fetching products:", error);
+    } finally {
+      setLoadingQuerySearch(false);
+    }
+  };
 
   const handleImagePress = (image) => {
     setSelectedImage(image);
@@ -592,8 +634,8 @@ const SearchCategoryScreen = () => {
       <FastImage
         source={{ uri: item.productImage }}
         style={{
-          width: 154,
-          height: 200,
+          width: .44*width,
+          height: .28*height,
           borderRadius: 16,
         }}
         resizeMode={FastImage.resizeMode.cover}
@@ -602,8 +644,8 @@ const SearchCategoryScreen = () => {
         style={{
           position: "absolute",
           bottom: 0,
-          width: 154,
-          height: 50,
+          width: .44*width,
+          height: 60,
           backgroundColor: "rgba(0,0,0,0.5)",
           flexDirection: "column",
           justifyContent: "center",
@@ -638,6 +680,7 @@ const SearchCategoryScreen = () => {
           style={{
             fontFamily: "Poppins-SemiBold",
             color: "#70b241",
+            fontSize: 12,
           }}
         >
           Rs {item.productPrice}
@@ -808,6 +851,7 @@ const SearchCategoryScreen = () => {
               setSearchQuery(suggestion);
               setHasMorePages(true);
               // querySearch();
+              suggestionSearch(suggestion)
             }}
             style={{
               flexDirection: "row",
@@ -1034,6 +1078,9 @@ const SearchCategoryScreen = () => {
                   keyExtractor={(item, index) => `${index}-${item.id}`}
                   ListFooterComponent={renderFooter}
                   showsVerticalScrollIndicator={false}
+                  contentContainerStyle={{
+                    justifyContent: 'center',
+                  }}
                 />
               )}
               {hasMorePages && !loading && storeVisible && (
@@ -1106,7 +1153,7 @@ const SearchCategoryScreen = () => {
                   showsVerticalScrollIndicator={false}
                   columnWrapperStyle={{
                     justifyContent: "space-between",
-                    gap: 10,
+                    gap: 0,
                   }}
                   nestedScrollEnabled={true}
                   onEndReached={() => {

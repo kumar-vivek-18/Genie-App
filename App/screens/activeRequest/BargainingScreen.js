@@ -1299,6 +1299,7 @@ const BargainingScreen = () => {
                                 paddingHorizontal: 10,
                                 marginTop: 10,
                                 gap: 10, 
+                                alignSelf:"flex-start"
                               }}
                               style={{ maxHeight: 260 }}
                             />

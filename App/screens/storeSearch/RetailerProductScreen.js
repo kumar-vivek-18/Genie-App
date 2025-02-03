@@ -14,6 +14,7 @@ import {
   FlatList,
   BackHandler,
   TextInput,
+  Dimensions,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
@@ -104,7 +105,7 @@ const RetailerProductScreen = () => {
         const storeData = useSelector(store => store.user.storeData);
     
 
-
+const {width, height} = Dimensions.get("window");
  
 
   const handleImagePress = (image) => {
@@ -263,8 +264,8 @@ const RetailerProductScreen = () => {
       <FastImage
         source={{ uri: item.productImage }}
         style={{
-          width: 154,
-          height: 200,
+          width: .44*width,
+          height: .28*height,
           borderRadius: 16,
         }}
         resizeMode={FastImage.resizeMode.cover}
@@ -273,8 +274,8 @@ const RetailerProductScreen = () => {
         style={{
           position: "absolute",
           bottom: 0,
-          width: 154,
-          height: 50,
+          width: .44*width,
+          height: 60,
           backgroundColor: "rgba(0,0,0,0.5)",
           flexDirection: "column",
           justifyContent: "center",
@@ -291,8 +292,8 @@ const RetailerProductScreen = () => {
               color: "white",
             }}
           >
-            {item.productDescription.length > 25
-              ? `${item.productDescription.substring(0, 25)}...`
+            {item.productDescription.length > 20
+              ? `${item.productDescription.substring(0, 20)}...`
               : item.productDescription}
           </Text>
         )}
@@ -309,6 +310,7 @@ const RetailerProductScreen = () => {
           style={{
             fontFamily: "Poppins-SemiBold",
             color: "#70b241",
+            fontSize: 12,
           }}
         >
           Rs {item.productPrice}
@@ -451,7 +453,7 @@ const RetailerProductScreen = () => {
                 showsVerticalScrollIndicator={false}
                 columnWrapperStyle={{
                   justifyContent: "space-between",
-                  gap: 10,
+                  gap:0,
                 }}
                 nestedScrollEnabled={true}
                 onEndReached={() => {
@@ -472,7 +474,10 @@ const RetailerProductScreen = () => {
                 }
                 contentContainerStyle={{
                   paddingBottom: 50,
+                  justifyContent:"center"
+
                 }}
+               
               />
             )}
 
