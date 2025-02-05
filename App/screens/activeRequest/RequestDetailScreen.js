@@ -114,7 +114,7 @@ const RequestDetail = () => {
 
     const connectSocket = async () => {
         // socket.emit("setup", currentSpadeRetailer?.users[1]._id);
-        const id = currentSpade._id;
+        const id = currentSpade?._id;
         const userId = id;
         const senderId = id;
         socket.emit("setup", { userId, senderId });
@@ -133,13 +133,13 @@ const RequestDetail = () => {
                     }
                 };
                 await axiosInstance.patch(`${baseUrl}/user/set-spade-mark-as-read`, {
-                    id: currentSpade._id
+                    id: currentSpade?._id
                 }, config)
                     .then((res) => {
                         console.log('Mark as read successfully at request Detail screen');
                         let spadesData = [...spades];
-                        const updatedSpadesData = spadesData.map(spade => {
-                            if (spade._id === currentSpade._id) {
+                        const updatedSpadesData = spadesData?.map(spade => {
+                            if (spade?._id === currentSpade?._id) {
                                 return { ...spade, unread: false }; // Update unread property
                             }
                             return spade;
@@ -156,7 +156,7 @@ const RequestDetail = () => {
 
     const fetchRetailers = () => {
         setRetailersLoading(true);
-        const spadeId = currentSpade._id;
+        const spadeId = currentSpade?._id;
         // connectSocket(spadeId);
         const config = {
             headers: { // Use "headers" instead of "header"
@@ -164,7 +164,7 @@ const RequestDetail = () => {
                 'Authorization': `Bearer ${accessToken}`,
             },
             params: {
-                id: currentSpade._id,
+                id: currentSpade?._id,
             }
         };
         axiosInstance.get(`${baseUrl}/chat/spade-chats`, config)
@@ -185,7 +185,7 @@ const RequestDetail = () => {
                     })
 
                     if (acceptedChat) {
-                        const extraChats = chats.filter(chat => chat._id !== acceptedChat._id);
+                        const extraChats = chats.filter(chat => chat?._id !== acceptedChat?._id);
                         const allChats = [acceptedChat, ...extraChats];
                         console.log('allChats', allChats.length);
                         dispatch(setCurrentSpadeRetailers(allChats));
@@ -214,7 +214,7 @@ const RequestDetail = () => {
 
     useEffect(() => {
         // const socket = io('http://your-server-address:3000');
-        const spadeId = currentSpade._id;
+        const spadeId = currentSpade?._id;
         if (spadeId)
             connectSocket();
 
@@ -237,15 +237,15 @@ const RequestDetail = () => {
 
     useEffect(() => {
         const handleMessageReceived = (updatedUser) => {
-            if (currentSpade._id === updatedUser.requestId._id) {
+            if (currentSpade?._id === updatedUser?.requestId?._id) {
 
 
-                console.log('Updated user data received at socket', updatedUser._id, updatedUser.latestMessage.message, updatedUser.unreadCount);
-                const data = formatDateTime(updatedUser.updatedAt);
+                console.log('Updated user data received at socket', updatedUser?._id, updatedUser?.latestMessage?.message, updatedUser?.unreadCount);
+                const data = formatDateTime(updatedUser?.updatedAt);
                 updatedUser.createdAt = data.formattedDate;
                 updatedUser.updatedAt = data.formattedTime;
                 // console.log('updated user', updatedUser.latestMessage);
-                if (updatedUser.latestMessage.bidType === "true" && updatedUser.latestMessage.bidAccepted === "accepted") {
+                if (updatedUser?.latestMessage?.bidType === "true" && updatedUser?.latestMessage?.bidAccepted === "accepted") {
                     const tmp = { ...currentSpade, requestActive: "completed", requestAcceptedChat: updatedUser._id };
                     dispatch(setCurrentSpade(tmp));
                     const allSpades = spades.filter(spade => spade._id !== tmp._id);
@@ -367,12 +367,12 @@ const RequestDetail = () => {
 
                                 <Text className="text-[16px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Bold" }}>Request for</Text>
                                 <View className=" flex-row">
-                                    <Text className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px] capitalize" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestCategory.indexOf('-') > 0 ? spade?.requestCategory.slice(0, spade?.requestCategory.indexOf('-')) : spade?.requestCategory}</Text>
+                                    <Text className="text-[14px] bg-[#fb8c00]  text-white px-1 py-1 my-[7px] capitalize" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestCategory?.indexOf('-') > 0 ? spade?.requestCategory?.slice(0, spade?.requestCategory.indexOf('-')) : spade?.requestCategory}</Text>
                                 </View>
                                 <View className="flex-col relative  ">
                                     <Text className=" text-[12px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Bold" }}>Request ID:</Text>
                                     <View className="flex-row items-center gap-[15px]">
-                                        <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-SemiBold" }}>{spade._id}</Text>
+                                        <Text className="text-[14px] text-[#2e2c43]" style={{ fontFamily: "Poppins-SemiBold" }}>{spade?._id}</Text>
                                         <TouchableOpacity onPress={() => { copyToClipboard() }} style={{ padding: 4 }}>
                                             <Copy />
                                         </TouchableOpacity>
@@ -386,7 +386,7 @@ const RequestDetail = () => {
                             <View className="pl-[50px] pr-[32px]">
                                 {spade?.requestDescription.length < 50 && <Text className="mt-[5px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>}
                                 {spade?.requestDescription.length >= 50 && <View>
-                                    {!viewMore && <Text className="mt-[5px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription.slice(0, 50)}...</Text>}
+                                    {!viewMore && <Text className="mt-[5px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription?.slice(0, 50)}...</Text>}
                                     {viewMore && <Text className="mt-[5px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>}
 
                                     <Pressable onPress={() => setViewMore(!viewMore)}>
@@ -493,7 +493,7 @@ const RequestDetail = () => {
                                                                             <View style={{ flexDirection: 'row', gap: 5 }}>
                                                                                 <Text style={{ color: 'white', paddingHorizontal: 8, backgroundColor: '#dbcdbb', borderRadius: 10 }}>Offer</Text>
                                                                                 {
-                                                                                    details?.latestMessage?.bidPrice && <Text style={{ color: '#558b2f',fontFamily:"Poppins-Medium"   }}>Rs. {details?.latestMessage?.bidPrice || "Na"}</Text>
+                                                                                    details?.latestMessage?.bidPrice>0 && <Text style={{ color: '#558b2f',fontFamily:"Poppins-Medium"   }}>Rs. {details?.latestMessage?.bidPrice || "Na"}</Text>
                                                                                 }
 
                                                                             </View>
@@ -502,7 +502,7 @@ const RequestDetail = () => {
                                                                             <View style={{ flexDirection: 'row', gap: 5 }}>
                                                                                 <Text style={{ color: 'white', paddingHorizontal: 8, backgroundColor: '#558b2f', borderRadius: 10 }}>Offer</Text>
                                                                                 {
-                                                                                    details?.latestMessage?.bidPrice && <Text style={{ color: '#558b2f',fontFamily:"Poppins-Medium"   }}>Rs. {details?.latestMessage?.bidPrice || "Na"}</Text>
+                                                                                    details?.latestMessage?.bidPrice>0 && <Text style={{ color: '#558b2f',fontFamily:"Poppins-Medium"   }}>Rs. {details?.latestMessage?.bidPrice || "Na"}</Text>
                                                                                 }
                                                                             </View>
                                                                         )}
@@ -510,7 +510,7 @@ const RequestDetail = () => {
                                                                             <View style={{ flexDirection: 'row', gap: 5 }}>
                                                                                 <Text style={{ color: 'white', paddingHorizontal: 8, backgroundColor: '#e76063', borderRadius: 10 }}>Offer</Text>
                                                                                 {
-                                                                                    details?.latestMessage?.bidPrice && <Text style={{ color: '#558b2f',fontFamily:"Poppins-Medium"  }}>Rs. {details?.latestMessage?.bidPrice || "Na"}</Text>
+                                                                                    details?.latestMessage?.bidPrice>0 && <Text style={{ color: '#558b2f',fontFamily:"Poppins-Medium"  }}>Rs. {details?.latestMessage?.bidPrice || "Na"}</Text>
                                                                                 }
                                                                             </View>
                                                                         )}
@@ -567,7 +567,7 @@ const RequestDetail = () => {
                         <TouchableOpacity onPress={() => { navigation.navigate('view-request', { data: spade }); setModal(!modal) }}>
                             <Text className="mx-5  py-5 px-5" style={{ fontFamily: "Poppins-Regular", borderBottomColor: 'rgba(0,0,0,0.05)', borderBottomWidth: 1 }}>View Request</Text>
                         </TouchableOpacity>
-                        {spade.requestActive !== "closed" && <View>
+                        {spade?.requestActive !== "closed" && <View>
                             <TouchableOpacity onPress={() => { setConfirmModal(true); setModal(false); }}>
                                 <Text className="mx-5 py-5  px-5" style={{ fontFamily: "Poppins-Regular", borderBottomColor: 'rgba(0,0,0,0.05)', borderBottomWidth: 1 }}>Close Request</Text>
                                                     

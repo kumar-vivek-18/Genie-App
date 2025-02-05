@@ -346,7 +346,7 @@ const BargainingScreen = () => {
         socket.emit("join chat", res.data[0]?.chat?._id);
         // console.log("current spade updated successfully at messages", currentSpadeRetailer?._id)
 
-        // console.log("messages", res.data);
+        console.log("messages", res.data);
       })
       .catch((err) => {
         setMessageLoading(false);
@@ -1208,9 +1208,9 @@ const BargainingScreen = () => {
                     </TouchableOpacity>
                   </View>
                 )}
-                {(currentSpade.requestActive === "completed" ||
-                  currentSpade.requestActive === "closed") &&
-                  currentSpade.requestAcceptedChat ===
+                {(currentSpade?.requestActive === "completed" ||
+                  currentSpade?.requestActive === "closed") &&
+                  currentSpade?.requestAcceptedChat ===
                     currentSpadeRetailer?._id && (
                     <TouchableOpacity
                       onPress={() => {
@@ -1264,7 +1264,7 @@ const BargainingScreen = () => {
                       <View className="w-full h-[68px]  bg-[#fb8c00] justify-center  bottom-0 left-0 right-0">
                         <Text
                           className="text-white  text-center text-[16px]"
-                          style={{ fontFamily: "Poppins-Black" }}
+                          style={{ fontFamily: "Poppins-BlackItalic" }}
                         >
                           Send an offer
                         </Text>
@@ -1288,10 +1288,10 @@ const BargainingScreen = () => {
                           className="text-center text-[14px] "
                           style={{ fontFamily: "Poppins-Regular" }}
                         >
-                          {messages[messages.length - 1].message}
+                          {messages[messages.length - 1]?.message}
                         </Text>
 
-                        {/* <View className="flex flex-col items-center"> */}
+                       
                         {messages &&
                           messages[messages.length - 1]?.bidImages &&
                           messages[messages.length - 1]?.bidImages?.length >0 && (
@@ -1307,7 +1307,7 @@ const BargainingScreen = () => {
                                 paddingHorizontal: 10,
                                 marginTop: 10,
                                 gap: 10, 
-                                alignSelf:"flex-start"
+                                // alignSelf:"flex-start"
                               }}
                               style={{ maxHeight: 260 }}
                             />
@@ -1316,7 +1316,7 @@ const BargainingScreen = () => {
                         
 
                         {messages &&
-                          messages[messages.length - 1]?.bidPrice && (
+                          messages[messages?.length - 1]?.bidPrice>0 && (
                             <View className="flex-row gap-[5px] my-[10px] items-center justify-center">
                               <Text style={{ fontFamily: "Poppins-Medium" }}>
                                 Offered Price:{" "}
@@ -1325,13 +1325,13 @@ const BargainingScreen = () => {
                                 className=" text-[#79B649]"
                                 style={{ fontFamily: "Poppins-SemiBold" }}
                               >
-                                Rs. {messages[messages.length - 1]?.bidPrice}
+                                Rs. {messages[messages?.length - 1]?.bidPrice>0?messages[messages?.length - 1]?.bidPrice: "NA"}
                               </Text>
                             </View>
                           )}
                         {messages &&
                           messages[messages.length - 1]?.warranty > 0 && (
-                            <View className="flex-row gap-[5px] mb-[10px] items-center justify-center">
+                            <View className="flex-row gap-[5px] mb-[10px] mt-[5px] items-center justify-center">
                               <Text style={{ fontFamily: "Poppins-Medium" }}>
                                 Warranty:{" "}
                               </Text>
@@ -1339,13 +1339,13 @@ const BargainingScreen = () => {
                                 className=" text-[#79B649]"
                                 style={{ fontFamily: "Poppins-SemiBold" }}
                               >
-                                {messages[messages.length - 1]?.warranty} months
+                                {messages[messages?.length - 1]?.warranty} months
                               </Text>
                             </View>
                           )}
                         {messages &&
                           messages[messages.length - 1]?.warranty === 0 && (
-                            <View className="flex-row gap-[5px] mb-[10px] items-center justify-center">
+                            <View className="flex-row gap-[5px] mb-[10px] mt-[5px] items-center justify-center">
                               <Text style={{ fontFamily: "Poppins-Medium" }}>
                                 Warranty:{" "}
                               </Text>
@@ -1365,7 +1365,7 @@ const BargainingScreen = () => {
                           send a message for clarification.)
                         </Text>
 
-                        {/* </View> */}
+                       
                       </View>
                       <View className="flex-row">
                         <TouchableOpacity
