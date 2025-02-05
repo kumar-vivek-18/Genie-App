@@ -187,14 +187,14 @@ const RequestDetail = () => {
                     if (acceptedChat) {
                         const extraChats = chats.filter(chat => chat?._id !== acceptedChat?._id);
                         const allChats = [acceptedChat, ...extraChats];
-                        console.log('allChats', allChats.length);
+                        console.log('allChats', allChats?.length);
                         dispatch(setCurrentSpadeRetailers(allChats));
                     }
                     else {
                         const extraChats = chats.filter(chat => chat.requestType !== "closed" && chat.requestType !== "closedHistory");
                         const closedChats = chats.filter(chat => chat.requestType === "closed" || chat.requestType === "closedHistory");
                         const allChats = [...extraChats, ...closedChats];
-                        console.log('allChats', allChats.length, extraChats.length, closedChats.length);
+                        console.log('allChats', allChats?.length, extraChats?.length, closedChats?.length);
 
                         dispatch(setCurrentSpadeRetailers(allChats));
                         // dispatch(setCurrentSpadeRetailers(chats));
@@ -273,7 +273,7 @@ const RequestDetail = () => {
                     // console.log('data', data);
                     spadesData = [...data, ...data2]
 
-                    console.log("Spdes updated Successfully", data.length, data2.length);
+                    console.log("Spdes updated Successfully", data?.length, data2?.length);
                     dispatch(setSpades(spadesData));
                 }
             }
@@ -384,8 +384,8 @@ const RequestDetail = () => {
                                 </View>
                             </View>
                             <View className="pl-[50px] pr-[32px]">
-                                {spade?.requestDescription.length < 50 && <Text className="mt-[5px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>}
-                                {spade?.requestDescription.length >= 50 && <View>
+                                {spade?.requestDescription?.length < 50 && <Text className="mt-[5px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>}
+                                {spade?.requestDescription?.length >= 50 && <View>
                                     {!viewMore && <Text className="mt-[5px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription?.slice(0, 50)}...</Text>}
                                     {viewMore && <Text className="mt-[5px] text-[#2e2c43]" style={{ fontFamily: "Poppins-Regular" }}>{spade?.requestDescription}</Text>}
 

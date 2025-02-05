@@ -69,6 +69,17 @@ const MobileNumberEntryScreen = () => {
   const navigationState = useNavigationState((state) => state);
   const isLoginScreen = navigationState.routes[navigationState.index].name === "mobileNumber";
   console.log("mobil", isLoginScreen);
+  const [isVerified, setIsVerified] = useState(false); // Track if user is verified
+
+// Fetch FCM Token Once
+const getFCMToken = async () => {
+  if (requestUserPermission()) {
+    const tokenId = await messaging().getToken();
+    console.log("Fetched FCM Token:", tokenId);
+    return tokenId;
+  }
+  return null;
+};
 
   async function requestUserPermission() {
     const authStatus = await messaging().requestPermission();
@@ -208,46 +219,16 @@ const MobileNumberEntryScreen = () => {
           await AsyncStorage.setItem("accessToken", JSON.stringify(response.data.accessToken));
           dispatch(setAccessToken(response.data.accessToken));
           dispatch(setRefreshToken(response.data.refreshToken));
+      const fcmToken = await getFCMToken();
 
-          // handleRefreshLocation(response.data.user._id, response.data.accessToken);
-
-          // setMobileNumberLocal("");
-          await updateToken(response?.data?.user?._id, response?.data?.accessToken);
+          await updateToken(response?.data?.user?._id, response?.data?.accessToken, fcmToken);
+          setIsVerified(true);
           navigation.navigate("home");
-          // const config = {
-          //   headers: { // Use "headers" instead of "header"
-          //     'Content-Type': 'application/json',
-          //     'Authorization': `Bearer ${response?.data?.accessToken}`,
-          //   }
-          // };
-          // await axios
-          //   .patch(`${baseUrl}/user/edit-profile`, {
-          //     _id: response?.data?.user?._id,
-          //     updateData: { uniqueToken: uniqueToken },
-          //   }, config)
-          //   .then(async (res) => {
-          //     console.log("token while updating profile", uniqueToken);
-          //     console.log("UserToken updated Successfully", res?.data);
-          //     setVerified(true);
-          //     await AsyncStorage.setItem(
-          //       "userDetails",
-          //       JSON.stringify(res?.data)
-          //     );
-          //     dispatch(setUserDetails(res?.data));
-          //     setMobileNumberLocal("");
-          //     setOtp("");
-          //     // setToken("")
-          //     setMobileScreen(true);
-          //   })
-          //   .catch((err) => {
-          //     console.error("Error updating token: " + err.message);
-          //   });
         }
         else if (response?.data?.status === 404) {
           navigation.navigate("registerUsername");
           setMobileNumberLocal("");
           setOtp("");
-          // setToken("")
           setMobileScreen(true);
         }
       }
@@ -266,54 +247,38 @@ const MobileNumberEntryScreen = () => {
     }
   };
 
-  const updateToken = async (id, accessToken) => {
+  const updateToken = async (id, accessToken, tokenId) => {
     try {
-
-      if (requestUserPermission()) {
-        messaging()
-          .getToken()
-          .then((tokenId) => {
-            console.log("token at updating", tokenId);
-            setToken(tokenId);
-            // dispatch(setUniqueToken(tokenId));
-            
-          });
-      } 
+      if (!tokenId) {
+        tokenId = await getFCMToken(); // Ensure token is fetched only once
+      }
+  
+      console.log("Updating token:", tokenId);
+      
       const config = {
-        headers: { // Use "headers" instead of "header"
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
-        }
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
       };
-      console.log("tok",token)
-
-      await axios
-        .patch(`${baseUrl}/user/edit-profile`, {
-          _id: id,
-          updateData: { uniqueToken:  token || uniqueToken },
-        }, config)
-        .then(async (res) => {
-          console.log('uniquetoken at auto verify', uniqueToken);
-          console.log('token at auto verify', token);
-          console.log("UserToken updated Successfully by auto verify", res?.data);
-          setVerified(true);
-          await AsyncStorage.setItem(
-            "userDetails",
-            JSON.stringify(res?.data)
-          );
-          dispatch(setUserDetails(res?.data));
-          setMobileNumberLocal("");
-          setOtp("");
-          // setToken("")
-          setMobileScreen(true);
-        })
-        .catch((err) => {
-          console.error("Error updating token: " + err.message);
-        });
+  
+      const res=await axios.patch(`${baseUrl}/user/edit-profile`, {
+        _id: id,
+        updateData: { uniqueToken: tokenId },
+      }, config);
+  
+      console.log("User token updated successfully");
+      setVerified(true);
+      await AsyncStorage.setItem("userDetails", JSON.stringify(res?.data));
+      dispatch(setUserDetails(res?.data));
+  
+      setMobileNumberLocal("");
+      setOtp("");
+      setMobileScreen(true);
     } catch (error) {
-         console.log(error)
+      console.error("Error updating token:", error);
     }
-  }
+  };
 
   const verifyFn = async (phoneNo) => {
     // await auth().signOut();
@@ -341,41 +306,13 @@ const MobileNumberEntryScreen = () => {
       await AsyncStorage.setItem("accessToken", JSON.stringify(response.data.accessToken));
       dispatch(setAccessToken(response.data.accessToken));
       dispatch(setRefreshToken(response.data.refreshToken));
+      const fcmToken = await getFCMToken();
+    await updateToken(response?.data?.user?._id, response?.data?.accessToken, fcmToken);
 
-      // handleRefreshLocation(response.data.user._id, response.data.accessToken);
-
-      // setMobileNumberLocal("");
-      await updateToken(response?.data?.user?._id, response.data.accessToken);
+    setIsVerified(true);
       navigation.navigate("home");
 
-      // const config = {
-      //   headers: { // Use "headers" instead of "header"
-      //     'Content-Type': 'application/json',
-      //     'Authorization': `Bearer ${response?.data?.accessToken}`,
-      //   }
-      // };
-      // await axios
-      //   .patch(`${baseUrl}/user/edit-profile`, {
-      //     _id: response?.data?.user?._id,
-      //     updateData: { uniqueToken: uniqueToken },
-      //   }, config)
-      //   .then(async (res) => {
-      //     console.log('token at auto verify', uniqueToken);
-      //     console.log("UserToken updated Successfully by auto verify", res?.data);
-      //     setVerified(true);
-      //     await AsyncStorage.setItem(
-      //       "userDetails",
-      //       JSON.stringify(res?.data)
-      //     );
-      //     dispatch(setUserDetails(res?.data));
-      //     setMobileNumberLocal("");
-      //     setOtp("");
-      //     // setToken("")
-      //     setMobileScreen(true);
-      //   })
-      //   .catch((err) => {
-      //     console.error("Error updating token: " + err.message);
-      //   });
+     
     }
     else if (response?.data?.status === 404) {
       navigation.navigate("registerUsername");
@@ -387,19 +324,16 @@ const MobileNumberEntryScreen = () => {
   }
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
-
-      console.log('user auto login', user, user?.phoneNumber);
-      if (user) {
-        if (user?.phoneNumber && user.phoneNumber !== lastPhoneNumber) {
-          setLastPhoneNumber(user.phoneNumber);
-          verifyFn(user.phoneNumber);
-
-        }
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      if (user?.phoneNumber && user.phoneNumber !== lastPhoneNumber && !isVerified) {
+        setLastPhoneNumber(user.phoneNumber);
+        verifyFn(user.phoneNumber);
       }
-
     });
-  }, [lastPhoneNumber]);
+  
+    return () => unsubscribe(); // Cleanup listener on unmount
+  }, [lastPhoneNumber, isVerified]); 
+  
 
 
 
