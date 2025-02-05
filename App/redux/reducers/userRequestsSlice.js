@@ -6,7 +6,7 @@ const initialState = {
     requestImages: [],
     suggestedImages: [],
     expectedPrice: 0,
-    spadePrice: 5,
+    spadePrice: 0,
     createdRequest: [],
     spadeCouponCode: "",
     nearByStoresCategory: [],

@@ -25,12 +25,7 @@ import {
 } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import {
-  setSpades,
-
-  setUserDetails,
- 
-} from "../redux/reducers/userDataSlice";
+import { setSpades, setUserDetails } from "../redux/reducers/userDataSlice";
 import io from "socket.io-client";
 import { socket } from "../utils/scoket.io/socket";
 import { theme } from "../theme/theme.js";
@@ -42,10 +37,7 @@ import GenieCulturTapLogo from "../assets/genie-homescreen-logo.svg";
 import GenieLogo from "../assets/Genie-Icon.svg";
 import HomeScreenBg from "../assets/homeScreenBg.svg";
 import HomeMain from "../assets/HomeMain.svg";
-import {
-  formatDateTime,
-
-} from "../utils/logics/Logics";
+import { formatDateTime } from "../utils/logics/Logics";
 import Home0 from "../assets/Home0.png";
 import Home1 from "../assets/Home1.png";
 import Home2 from "../assets/Home2.png";
@@ -72,7 +64,6 @@ import Tab4 from "../assets/tab4.svg";
 // import Search from "../assets/search.svg";
 import Search from "../assets/search-black.svg";
 
-
 import AllCategory from "../assets/AllCategory.png";
 import NewCategory from "../assets/NewCategory.png";
 
@@ -98,8 +89,6 @@ import NewServices8 from "../assets/NewServices8.png";
 import NewServices9 from "../assets/NewServices9.png";
 import NewServices10 from "../assets/NewServices10.png";
 
-
-
 import Maintenance from "../assets/Maintenace.svg";
 import NewIcon1 from "../assets/NewIcon1.png";
 import NewIcon2 from "../assets/NewIcon2.png";
@@ -112,6 +101,10 @@ import NewIcon8 from "../assets/NewIcon8.png";
 import NewIcon9 from "../assets/NewIcon9.png";
 import NewIcon10 from "../assets/NewIcon10.png";
 import NewIcon from "../assets/NewIcon.png";
+import NewIcon11 from "../assets/NewIcon11.png";
+import NewIcon12 from "../assets/NewIcon12.png";
+
+
 import NewServicesIcon2 from "../assets/NewServicesIcon2.png";
 import NewServicesIcon3 from "../assets/NewServicesIcon3.png";
 import NewServicesIcon4 from "../assets/NewServicesIcon4.png";
@@ -139,7 +132,6 @@ import ArrowLeft from "../assets/arrow-left.svg";
 const { width } = Dimensions.get("window");
 
 const images = [Home0, Home1, Home2, Home3, Home4, Home5, Home6, Home7];
-
 
 const categories = [
   // {
@@ -215,15 +207,13 @@ const categories = [
     icon: NewIcon8,
   },
 
-  
-
   {
     id: 11,
     cat: NewCategory4,
     name: "Consumer Electronics & Accessories - Home appliances and equipment etc",
     title: "Appliances",
     subTitle: "Home, Kitchen, Bath",
-    icon:NewIcon10,
+    icon: NewIcon10,
   },
   {
     id: 10,
@@ -239,7 +229,7 @@ const categories = [
     name: "Hardware - Plumbing, Paint,& Electricity",
     title: "Plumbing",
     subTitle: "Pipes, Drainage, Sink",
-    icon: NewIcon7,
+    icon: NewIcon11,
   },
   {
     id: 13,
@@ -249,7 +239,6 @@ const categories = [
     subTitle: "Paint, Plumbing, Bath",
     icon: NewServicesIcon8,
   },
- 
   {
     id: 14,
     cat: NewServices2,
@@ -280,7 +269,7 @@ const categories = [
     name: "Hardware - Cement, Hand tools, Powertools etc",
     title: "Hardware",
     subTitle: "Paint, Plumbing, Bath",
-    icon: NewServicesIcon8,
+    icon: NewIcon12,
   },
   {
     id: 18,
@@ -363,7 +352,6 @@ const NewHome = () => {
     setPlaying((prev) => !prev);
   }, []);
 
-  
   const scrollX = useRef(new Animated.Value(0)).current;
 
   const getAppVersion = async () => {
@@ -812,32 +800,28 @@ const NewHome = () => {
 
         {!networkError && (
           <View>
-        
-
             <View
               style={{ position: "relative", backgroundColor: "transparent" }}
             >
               <View className="relative pt-[30px] flex mb-[20px] ">
-               
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.goBack();
-                    }}
-                    style={{
-                    
-                      position: "absolute",
-                      top: 20,
-                      
-                      paddingVertical: 16,
-                      paddingHorizontal: 30,
-                      zIndex: 100,
-                    }}
-                  >
-                    <ArrowLeft />
-                  </TouchableOpacity>
-                
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.goBack();
+                  }}
+                  style={{
+                    position: "absolute",
+                    top: 20,
+
+                    paddingVertical: 16,
+                    paddingHorizontal: 30,
+                    zIndex: 100,
+                  }}
+                >
+                  <ArrowLeft />
+                </TouchableOpacity>
+
                 <Text
-                  className="text-[16px] text-[#2e2c43]  flex-1 flex text-center "
+                  className="text-[16px] text-[#2e2c43]   flex text-center "
                   style={{ fontFamily: "Poppins-ExtraBold" }}
                 >
                   Shop By Categories
@@ -846,7 +830,6 @@ const NewHome = () => {
 
               <View
                 style={{
-              
                   // width: "100%",
                   // backgroundColor: "white",
                   justifyContent: "center",
@@ -856,7 +839,7 @@ const NewHome = () => {
                 <View
                   style={{
                     // width: "100%",
-                  
+
                     paddingHorizontal: 20,
                     flexDirection: "row",
                     flexWrap: "wrap",
@@ -874,26 +857,72 @@ const NewHome = () => {
                         });
                       }}
                     >
-                      <FastImage
-                        source={category.cat}
+                      {/* <FastImage
+                        source={category.icon}
                         style={{
                           width: 0.44 * width,
                           height:180,
                           // aspectRatio: 1,
                         }}
                         resizeMode={FastImage.resizeMode.contain}
-                      />
+                      /> */}
+                      <View
+                        style={{
+                          width: 0.42 * width,
+                          height: 185,
+                          marginTop: 8,
+                          borderColor: "#000",
+                          backgroundColor: "#fff",
+                          borderWidth: 0.5,
+                          borderRadius: 16,
+                          flexDirection: "row",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                        resizeMode="contain"
+                      >
+                        <View
+                          style={{
+                            flexDirection: "column",
+                            gap: 5,
+                            justifyContent: "center",
+                            alignItems: "center",
+                            paddingHorizontal: 10,
+                            paddingVertical: 5,
+                          }}
+                        >
+                          <FastImage
+                            source={category.icon}
+                            alt={category?.title}
+                            style={{
+                              width: 0.3 * width,
+                              height: 130,
+                            }}
+                            resizeMode={FastImage.resizeMode.contain}
+                          />
+                          <Text
+                            style={{
+                              fontFamily: "Poppins-Regular",
+                              color: "#2E2C43",
+                              fontSize: 16,
+                              textAlign: "center",
+                            }}
+                          >
+                            {category.title}
+                          </Text>
+                        </View>
+                      </View>
                     </TouchableOpacity>
                   ))}
                 </View>
               </View>
 
               <Text
-                  className="text-[16px] text-[#2e2c43]  flex-1 flex text-center"
-                  style={{ fontFamily: "Poppins-ExtraBold",marginVertical:30 }}
-                >
-                  Service By Categories
-                </Text>
+                className="text-[16px] text-[#2e2c43]  flex-1 flex text-center"
+                style={{ fontFamily: "Poppins-ExtraBold", marginVertical: 30 }}
+              >
+                Service By Categories
+              </Text>
               <View
                 style={{
                   width: "100%",
@@ -918,21 +947,67 @@ const NewHome = () => {
                       style={{ paddingTop: 10 }}
                       onPress={() => {
                         if (!userDetails?._id) setSignUpModal(true);
-                        else{
-                        dispatch(setRequestCategory(category.name));
-                        navigation.navigate("servicerequest");
+                        else {
+                          dispatch(setRequestCategory(category.name));
+                          navigation.navigate("servicerequest");
                         }
                       }}
                     >
-                      <FastImage
+                      {/* <FastImage
                         source={category.cat}
                         style={{
                           width: 0.44 * width,
-                          height:180,
+                          height: 180,
                           // aspectRatio: 1,
                         }}
                         resizeMode={FastImage.resizeMode.contain}
-                      />
+                      /> */}
+                       <View
+                        style={{
+                          width: 0.42 * width,
+                          height: 185,
+                          marginTop: 8,
+                          borderColor: "#000",
+                          backgroundColor: "#fff",
+                          borderWidth: 0.5,
+                          borderRadius: 16,
+                          flexDirection: "row",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                        resizeMode="contain"
+                      >
+                        <View
+                          style={{
+                            flexDirection: "column",
+                            gap: 5,
+                            justifyContent: "center",
+                            alignItems: "center",
+                            paddingHorizontal: 10,
+                            paddingVertical: 5,
+                          }}
+                        >
+                          <FastImage
+                            source={category.icon}
+                            alt={category?.title}
+                            style={{
+                              width: 0.3 * width,
+                              height: 130,
+                            }}
+                            resizeMode={FastImage.resizeMode.contain}
+                          />
+                          <Text
+                            style={{
+                              fontFamily: "Poppins-Regular",
+                              color: "#2E2C43",
+                              fontSize: 16,
+                              textAlign: "center",
+                            }}
+                          >
+                            {category.title}
+                          </Text>
+                        </View>
+                      </View>
                     </TouchableOpacity>
                   ))}
                 </View>

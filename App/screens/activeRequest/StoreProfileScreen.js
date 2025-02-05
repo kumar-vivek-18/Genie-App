@@ -275,7 +275,7 @@ const StoreProfileScreen = () => {
           bottom: 0,
           width: width * 0.42,
                        
-          height: 60,
+          height: 70,
           backgroundColor: "rgba(0,0,0,0.5)",
           flexDirection: "column",
           justifyContent: "center",
@@ -288,19 +288,19 @@ const StoreProfileScreen = () => {
           <Text
             style={{
               fontFamily: "Poppins-Regular",
-              fontSize: 10,
+              fontSize: 12,
               color: "white",
             }}
           >
-            {item.productDescription.length > 20
-              ? `${item.productDescription.substring(0, 20)}...`
+            {item.productDescription.length > 16
+              ? `${item.productDescription.substring(0, 16)}...`
               : item.productDescription}
           </Text>
         )}
         <Text
           style={{
             fontFamily: "Poppins-Regular",
-            fontSize: 8,
+            fontSize: 10,
             color: "white",
           }}
         >
@@ -309,7 +309,10 @@ const StoreProfileScreen = () => {
         <Text
           style={{
             fontFamily: "Poppins-SemiBold",
-            color: "#70b241",
+            color: "#fff",
+            fontSize:14,
+            backgroundColor:"#55CD00",
+            paddingHorizontal:2
           }}
         >
           Rs {item?.productPrice}
@@ -902,11 +905,13 @@ const StoreProfileScreen = () => {
                   </Text>
                   {selectedImgEstimatedPrice > 0 && (
                     <Text
-                      style={{
-                        color: "#70b241",
-                        fontSize: 18,
-                        fontFamily: "Poppins-SemiBold",
-                      }}
+                    style={{
+                      fontSize: 20,
+                      fontFamily: "Poppins-SemiBold",
+                      color: "#fff",
+                      backgroundColor: "#55CD00",
+                      paddingHorizontal: 4,
+                    }}
                     >
                       Rs {selectedImgEstimatedPrice}
                     </Text>

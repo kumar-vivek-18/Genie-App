@@ -294,7 +294,7 @@ const categories = [
     cat: NewServices3,
     name: "Luxury Watches & Service",
     title: "Watches",
-    subTitle: "Luxury, Digital, Ring, Wall",
+    subTitle: "Service & Repair",
     icon: NewServicesIcon3,
     isService:true
   },
@@ -724,7 +724,7 @@ const HomeScreen = () => {
           // } else {
             // navigation.navigate("requestentry");
             dispatch(setRequestCategory(""));
-            dispatch(setIsService(false))
+            dispatch(setIsService(false));
             navigation.navigate("addimg");
             fetchNearByStores();
           // }

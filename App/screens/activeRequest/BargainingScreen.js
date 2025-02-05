@@ -473,8 +473,10 @@ const BargainingScreen = () => {
             latestMessage: {
               _id: res.data.message._id,
               message: res.data.message.message,
+              bidPrice: res.data?.message?.bidPrice,
               bidType: "true",
               bidAccepted: "accepted",
+          
               sender: { type: "UserRequest", refId: spade._id },
             },
             updatedAt: res.data.message.createdAt,
@@ -574,6 +576,7 @@ const BargainingScreen = () => {
           _id: res.data._id,
           message: res.data.message,
           bidType: "true",
+          bidPrice: res.data?.bidPrice,
           bidAccepted: "rejected",
           sender: { type: "UserRequest", refId: spade._id },
         },
@@ -633,6 +636,7 @@ const BargainingScreen = () => {
     const handleMessageReceived = (newMessageReceived) => {
       console.log(
         "socket received",
+        newMessageReceived,
         newMessageReceived._id,
         newMessageReceived.message
       );
@@ -656,6 +660,10 @@ const BargainingScreen = () => {
             latestMessage: {
               _id: newMessageReceived._id,
               message: newMessageReceived.message,
+              bidType: newMessageReceived?.bidType,
+              bidPrice: newMessageReceived?.bidPrice,
+              bidAccepted: newMessageReceived?.bidAccepted,
+              sender: { type: "Chat", refId: newMessageReceived?.chat?._id },
             },
             updatedAt: newMessageReceived.createdAt,
           };

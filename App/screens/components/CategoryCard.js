@@ -35,7 +35,7 @@ import Store from "../../assets/storeOrange.svg";
 import Download from "../../assets/download.svg";
 import { handleDownload } from "../../utils/logics/Logics";
 
-const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
+const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
   //   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
@@ -64,7 +64,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
         );
         if (isMounted) {
           //   setImages(response.data || []);
-          console.log(category.name)
+          console.log(category.name);
           const images = response.data || [];
           dispatch(setCategoryImages({ categoryName: category.name, images }));
         }
@@ -101,7 +101,6 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
       useNativeDriver: true,
     }).start(() => setSelectedImage(null));
   };
-
 
   // useEffect(() => {
   //   let isMounted = true;
@@ -146,7 +145,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
   //     isMounted = false; // Cleanup
   //   };
   // }, [isVisible]);
-  
+
   const handleImagePress = (image) => {
     setSelectedImage(image);
     Animated.timing(scaleValue, {
@@ -199,7 +198,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
         // height={180}
         style={{
           width: width * 0.38,
-                    height: .26*height,
+          height: 0.26 * height,
           borderRadius: 16,
         }}
         // resizeMode={FastImage.resizeMode.cover}
@@ -209,10 +208,8 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
           position: "absolute",
           bottom: 0,
           width: width * 0.38,
-        
-       
 
-          height: 60,
+          height: 70,
           backgroundColor: "rgba(0,0,0,0.5)",
           flexDirection: "column",
           justifyContent: "center",
@@ -225,19 +222,19 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
           <Text
             style={{
               fontFamily: "Poppins-Regular",
-              fontSize: 10,
+              fontSize: 12,
               color: "white",
             }}
           >
-            {item.productDescription.length > 25
-              ? `${item.productDescription.substring(0, 25)}...`
+            {item.productDescription.length > 16
+              ? `${item.productDescription.substring(0, 16)}...`
               : item.productDescription}
           </Text>
         )}
         <Text
           style={{
             fontFamily: "Poppins-Regular",
-            fontSize: 8,
+            fontSize: 10,
             color: "white",
           }}
         >
@@ -246,8 +243,10 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
         <Text
           style={{
             fontFamily: "Poppins-SemiBold",
-            color: "#70b241",
-            fontSize:12
+            color: "#fff",
+            fontSize: 14,
+            backgroundColor: "#55CD00",
+            paddingHorizontal: 2,
           }}
         >
           Rs {item.productPrice}
@@ -490,7 +489,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
                   source={{ uri: item?.productImage }}
                   style={{
                     width: width * 0.38,
-                    height: .26*height,
+                    height: 0.26 * height,
                     borderRadius: 10,
                   }}
                   resizeMode={FastImage.resizeMode.cover}
@@ -500,7 +499,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
                     position: "absolute",
                     bottom: 0,
                     width: width * 0.38,
-                    height: 60,
+                    height: 70,
                     backgroundColor: "rgba(0,0,0,0.5)",
                     flexDirection: "column",
                     justifyContent: "center",
@@ -513,19 +512,19 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
                     <Text
                       style={{
                         fontFamily: "Poppins-Regular",
-                        fontSize: 10,
+                        fontSize: 12,
                         color: "white",
                       }}
                     >
-                      {item.productDescription.length > 20
-                        ? `${item.productDescription.substring(0, 20)}...`
+                      {item.productDescription.length > 16
+                        ? `${item.productDescription.substring(0, 16)}...`
                         : item.productDescription}
                     </Text>
                   )}
                   <Text
                     style={{
                       fontFamily: "Poppins-Regular",
-                      fontSize: 8,
+                      fontSize: 10,
                       color: "white",
                     }}
                   >
@@ -534,8 +533,10 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
                   <Text
                     style={{
                       fontFamily: "Poppins-SemiBold",
-                      color: "#70b241",
-                      fontSize: 12,
+                      color: "#fff",
+                      fontSize: 14,
+                      backgroundColor: "#55CD00",
+                      paddingHorizontal: 2,
                     }}
                   >
                     Rs {item.productPrice}
@@ -582,7 +583,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
             <View
               style={{
                 width: width * 0.38,
-                height: .26*height,
+                height: 0.26 * height,
                 backgroundColor: "#bdbdbd",
                 borderRadius: 10,
               }}
@@ -590,7 +591,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
             <View
               style={{
                 width: width * 0.38,
-                    height: .26*height,
+                height: 0.26 * height,
                 backgroundColor: "#bdbdbd",
                 borderRadius: 10,
               }}
@@ -598,7 +599,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
             <View
               style={{
                 width: width * 0.38,
-                height: .26*height,
+                height: 0.26 * height,
                 backgroundColor: "#bdbdbd",
                 borderRadius: 10,
               }}
@@ -606,7 +607,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
             <View
               style={{
                 width: width * 0.38,
-                    height: .26*height,
+                height: 0.26 * height,
                 backgroundColor: "#bdbdbd",
                 borderRadius: 10,
               }}
@@ -630,7 +631,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
                 <TouchableOpacity
                   style={{
                     width: width * 0.38,
-                    height: .26*height,
+                    height: 0.26 * height,
                     backgroundColor: "#FB8C00",
                     borderRadius: 10,
                     justifyContent: "center",
@@ -672,7 +673,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
               <View
                 style={{
                   width: width * 0.38,
-                    height: .26*height,
+                  height: 0.26 * height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
@@ -680,7 +681,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
               <View
                 style={{
                   width: width * 0.38,
-                  height: .26*height,
+                  height: 0.26 * height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
@@ -688,7 +689,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
               <View
                 style={{
                   width: width * 0.38,
-                    height: .26*height,
+                  height: 0.26 * height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
@@ -696,7 +697,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
               <View
                 style={{
                   width: width * 0.38,
-                  height: .26*height,
+                  height: 0.26 * height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
@@ -817,6 +818,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
                   height: 350,
                   borderTopLeftRadius: 20,
                   borderTopRightRadius: 20,
+                  position:"relative"
                 }}
                 resizeMode={FastImage.resizeMode.cover}
               />
@@ -825,7 +827,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
                 <View
                   style={{
                     position: "absolute",
-                    top: 260,
+                    top:260,
                     backgroundColor: "rgba(0,0,0,0.5)",
                     width: 280,
                     flexDirection: "column",
@@ -870,9 +872,11 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
                   {selectedImgEstimatedPrice > 0 && (
                     <Text
                       style={{
-                        color: "#70b241",
-                        fontSize: 18,
+                        fontSize: 20,
                         fontFamily: "Poppins-SemiBold",
+                        color: "#fff",
+                        backgroundColor: "#55CD00",
+                        paddingHorizontal: 4,
                       }}
                     >
                       Rs {selectedImgEstimatedPrice}
@@ -907,11 +911,7 @@ const CategoryCard = ({ category, setSignUpModal,isVisible }) => {
                     }
                     setTimeout(() => {
                       dispatch(setRequestCategory(selectedCategory));
-                      dispatch(
-                        setRequestDetail(
-                          selectedImageDesc
-                        )
-                      );
+                      dispatch(setRequestDetail(selectedImageDesc));
                       navigation.navigate("define-request");
                     }, 200);
                   }

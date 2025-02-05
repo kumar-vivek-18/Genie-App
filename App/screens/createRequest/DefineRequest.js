@@ -394,7 +394,7 @@ const DefineRequest = () => {
       userLatitude !== 0 ? userLatitude : userDetails.latitude
     );
     formData.append("suggestedImages", suggestedImages);
-
+console.log(formData)
     setLoading(true);
     try {
       const config = {

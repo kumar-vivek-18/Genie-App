@@ -38,7 +38,6 @@ const refreshToken = async () => {
         console.log('refresh token:', accessToken, refreshToken);
         await setToken('accessToken', accessToken);
         await setToken('refreshToken', newRefreshToken);
-
         return response.data.accessToken;
     } catch (error) {
         console.error('Error refreshing token:', error);

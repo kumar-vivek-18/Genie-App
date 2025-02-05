@@ -103,7 +103,7 @@ const CreateNewBidScreen = () => {
     await axiosInstance
       .post(`${baseUrl}/chat/send-message`, formData, config)
       .then(async (res) => {
-        console.log(res.data);
+        // console.log("create offer",res.data);
         setLoading(false);
         if (res.status === 200) {
           setOpenModal(true);
@@ -123,7 +123,7 @@ const CreateNewBidScreen = () => {
         const updateChat = {
           ...currentSpadeRetailer,
           unreadCount: 0,
-          latestMessage: { _id: res.data._id, message: res.data.message, bidType: "true", bidAccepted: "new", sender: { type: 'UserRequest', refId: currentSpade._id } },
+          latestMessage: { _id: res.data._id, message: res.data.message, bidType: "true",bidPrice:res.data?.bidPrice, bidAccepted: "new", sender: { type: 'UserRequest', refId: currentSpade._id } },
           updatedAt: res.data.createdAt,
         };
         const updatedRetailers = [updateChat, ...currentSpadeRetailers.filter(c => c._id !== updateChat._id)];

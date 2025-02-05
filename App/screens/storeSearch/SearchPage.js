@@ -645,7 +645,7 @@ const SearchCategoryScreen = () => {
           position: "absolute",
           bottom: 0,
           width: .44*width,
-          height: 60,
+          height: 70,
           backgroundColor: "rgba(0,0,0,0.5)",
           flexDirection: "column",
           justifyContent: "center",
@@ -658,19 +658,19 @@ const SearchCategoryScreen = () => {
           <Text
             style={{
               fontFamily: "Poppins-Regular",
-              fontSize: 10,
+              fontSize: 12,
               color: "white",
             }}
           >
-            {item.productDescription.length > 25
-              ? `${item.productDescription.substring(0, 25)}...`
+            {item.productDescription.length > 16
+              ? `${item.productDescription.substring(0, 16)}...`
               : item.productDescription}
           </Text>
         )}
         <Text
           style={{
             fontFamily: "Poppins-Regular",
-            fontSize: 8,
+            fontSize: 10,
             color: "white",
           }}
         >
@@ -679,8 +679,10 @@ const SearchCategoryScreen = () => {
         <Text
           style={{
             fontFamily: "Poppins-SemiBold",
-            color: "#70b241",
-            fontSize: 12,
+            color: "#fff",
+            fontSize:14,
+            backgroundColor:"#55CD00",
+            paddingHorizontal:2
           }}
         >
           Rs {item.productPrice}
@@ -844,7 +846,7 @@ const SearchCategoryScreen = () => {
 
       {/* Suggestion List */}
       <View>
-        {["Shirt","Pant", "Smart Tv", "Banarsi Sari","Digital Watch","Bangle"].map((suggestion, index) => (
+        {["Shirt","Pant", "TV", "Sari","Watch","Bangle"].map((suggestion, index) => (
           <TouchableOpacity
             key={index}
             onPress={()=>{
@@ -1441,11 +1443,13 @@ const SearchCategoryScreen = () => {
                   </Text>
                   {selectedImgEstimatedPrice > 0 && (
                     <Text
-                      style={{
-                        color: "#70b241",
-                        fontSize: 18,
-                        fontFamily: "Poppins-SemiBold",
-                      }}
+                    style={{
+                      fontSize: 20,
+                      fontFamily: "Poppins-SemiBold",
+                      color: "#fff",
+                      backgroundColor: "#55CD00",
+                      paddingHorizontal: 4,
+                    }}
                     >
                       Rs {selectedImgEstimatedPrice}
                     </Text>

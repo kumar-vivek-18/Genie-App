@@ -17,7 +17,7 @@ import axios from "axios";
 import { baseUrl } from "../../utils/logics/constants";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { setRequestCategory } from "../../redux/reducers/userRequestsSlice";
+import { setEstimatedPrice, setRequestCategory, setRequestDetail, setRequestImages, setSuggestedImages } from "../../redux/reducers/userRequestsSlice";
 import { Pressable } from "react-native";
 import WhiteArrow from "../../assets/white-right.svg";
 import { setCategoryImages } from "../../redux/reducers/categorySlice";
@@ -183,7 +183,7 @@ const [selectedCategory,setSelectedCategory]=useState("");
           bottom: 0,
           width: width * 0.38,
           
-          height: 60,
+          height: 70,
           backgroundColor: "rgba(0,0,0,0.5)",
           flexDirection: "column",
           justifyContent: "center",
@@ -196,19 +196,19 @@ const [selectedCategory,setSelectedCategory]=useState("");
           <Text
             style={{
               fontFamily: "Poppins-Regular",
-              fontSize: 10,
+              fontSize: 12,
               color: "white",
             }}
           >
-            {item.productDescription.length > 20
-              ? `${item.productDescription.substring(0, 20)}...`
+            {item.productDescription.length > 16
+              ? `${item.productDescription.substring(0, 16)}...`
               : item.productDescription}
           </Text>
         )}
         <Text
           style={{
             fontFamily: "Poppins-Regular",
-            fontSize: 8,
+            fontSize: 10,
             color: "white",
           }}
         >
@@ -217,8 +217,10 @@ const [selectedCategory,setSelectedCategory]=useState("");
         <Text
           style={{
             fontFamily: "Poppins-SemiBold",
-            color: "#70b241",
-            fontSize: 12,
+            color: "#fff",
+            fontSize:14,
+            backgroundColor:"#55CD00",
+            paddingHorizontal:2
           
           }}
         >
@@ -793,11 +795,13 @@ const [selectedCategory,setSelectedCategory]=useState("");
                   </Text>
                   {selectedImgEstimatedPrice > 0 && (
                     <Text
-                      style={{
-                        color: "#70b241",
-                        fontSize: 18,
-                        fontFamily: "Poppins-SemiBold",
-                      }}
+                    style={{
+                      fontSize: 20,
+                      fontFamily: "Poppins-SemiBold",
+                      color: "#fff",
+                      backgroundColor: "#55CD00",
+                      paddingHorizontal: 4,
+                    }}
                     >
                       Rs {selectedImgEstimatedPrice}
                     </Text>

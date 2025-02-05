@@ -93,10 +93,10 @@ const subQueries = {
     Girls: "women,woman,girl,girls",
   },
   "Luxury Watches & Service": {
-    All: "",
+    All:"",
     Men:"men,man,boy,boys",
     Women: "women,woman,girl,girls",
-    // Unisex:"men,woman,girl,women,boy,boys,girls,man"
+    Unisex:"unisex"
   },
   "Hardware - Plumbing, Paint,& Electricity":{
     All:"",
@@ -246,8 +246,7 @@ const ImageSuggestion = () => {
     if (!loadMore) return;
     console.log("Loading category", query,subQuery, requestCategory);
     setLoadingProducts(true);
-    
-    console.log("Loading category",  subQuery, requestCategory)
+   
     let subCat;
     if(subQueries[requestCategory][subQuery]){
        subCat=subQueries[requestCategory][subQuery];
@@ -262,6 +261,7 @@ const ImageSuggestion = () => {
 
       if (response.status === 200) {
         const fetchedImages = response.data;
+        // console.log("img fetched",page, " " ,fetchedImages)
 
         setSuggestionImages((prev) => [...prev, ...fetchedImages]);
         setPage((curr) => curr + 1);
@@ -272,6 +272,44 @@ const ImageSuggestion = () => {
       }
     } catch (error) {
       if (error.response?.status === 404) {
+        setLoadMore(false);
+      }
+      console.error("Error while fetching products:", error);
+    } finally {
+      setLoadingProducts(false);
+    }
+  };
+
+  const categoryProduct = async () => {
+    if (!loadMore) return;
+    console.log("Loading category", query,subQuery, requestCategory);
+    setLoadingProducts(true);
+   
+    let subCat;
+    if(subQueries[requestCategory][subQuery]){
+       subCat=subQueries[requestCategory][subQuery];
+    }
+    else{
+       subCat = "";
+    }
+    try {
+      const response = await axios.get(`${baseUrl}/product/product-by-query`, {
+        params: { productCategory: requestCategory, page:1, query:"" ,subQuery:""},
+      });
+
+      if (response.status === 200) {
+        const fetchedImages = response.data;
+        // console.log("img fetched category",page, " " ,fetchedImages)
+
+        setSuggestionImages([...fetchedImages]);
+        setPage((curr) => curr + 1);
+
+        if (fetchedImages.length < 10) {
+          setLoadMore(false); // Stop further loading if less than 10 products
+        }
+      }
+    } catch (error) {
+      if (error.response?.status === 404){
         setLoadMore(false);
       }
       console.error("Error while fetching products:", error);
@@ -322,27 +360,10 @@ const ImageSuggestion = () => {
   };
 
   useEffect(() => {
-    categoryListedProduct();
+    categoryProduct();
   }, []);
 
-  // useEffect(() => {
-  //   if (isImgSuggestion) {
-  //     const backAction = () => {
-  //       dispatch(setSuggestedImages([]));
-  //       dispatch(setRequestImages([]));
-  //       dispatch(setExpectedPrice(0));
-  //       dispatch(setEstimatedPrice(0));
-  //       return false; // Prevent the default back action
-  //     };
-
-  //     const backHandler = BackHandler.addEventListener(
-  //       "hardwareBackPress",
-  //       backAction
-  //     );
-
-  //     return () => backHandler.remove(); // Clean up the event listener
-  //   }
-  // }, [isImgSuggestion]);
+ 
 
   const renderProductItem = ({ item }) => (
     <Pressable
@@ -369,7 +390,7 @@ const ImageSuggestion = () => {
           bottom: 0,
           width: .44*width,
         
-          height: 60,
+          height: 70,
           backgroundColor: "rgba(0,0,0,0.5)",
           flexDirection: "column",
           justifyContent: "center",
@@ -382,19 +403,19 @@ const ImageSuggestion = () => {
           <Text
             style={{
               fontFamily: "Poppins-Regular",
-              fontSize: 10,
+              fontSize: 12,
               color: "white",
             }}
           >
-            {item.productDescription.length > 25
-              ? `${item.productDescription.substring(0, 25)}...`
+            {item.productDescription.length > 16
+              ? `${item.productDescription.substring(0, 16)}...`
               : item.productDescription}
           </Text>
         )}
         <Text
           style={{
             fontFamily: "Poppins-Regular",
-            fontSize: 8,
+            fontSize: 10,
             color: "white",
 
           }}
@@ -404,8 +425,10 @@ const ImageSuggestion = () => {
         <Text
           style={{
             fontFamily: "Poppins-SemiBold",
-            color: "#70b241",
-            fontSize: 12,
+            color: "#fff",
+            fontSize:14,
+            backgroundColor:"#55CD00",
+            paddingHorizontal:2
           
           }}
         >
@@ -415,20 +438,7 @@ const ImageSuggestion = () => {
     </Pressable>
   );
 
-  //       if (requestImages || suggestedImages) {
-  //         return true;
-  //       } else {
-  //         return false;
-  //       }
-  //     };
 
-  //     const backHandler = BackHandler.addEventListener(
-  //       "hardwareBackPress",
-  //       backAction
-  //     );
-
-  //     return () => backHandler.remove(); // Clean up the event listener
-  //   }, []);
 
   const handleDownloadDocument = async () => {
     Linking.openURL(selectedImage).catch((err) =>
@@ -622,9 +632,10 @@ const ImageSuggestion = () => {
             <View style={{
               flexDirection: "row",
               justifyContent: "center",
-              gap:16,
+              gap:10,
               marginBottom: 20,
               paddingHorizontal:32,
+              flexWrap: "wrap",
             }}>
               {Object.entries(subQueries[requestCategory]).map(
                 ([key, subquery]) => (
@@ -638,14 +649,14 @@ const ImageSuggestion = () => {
                   >
                     <Text
                       style={{
-                        width:90,
+                        width:85,
                         textAlign: "center",
                         fontFamily: "Poppins-Regular",
                         color: key === subQuery ? "#fff" : "#2e2c43",
                         fontSize: 14,
                         backgroundColor:
                         key === subQuery  ? "#fb8c00" : "#FFDAAC",
-                        paddingHorizontal: 10,
+                        paddingHorizontal: 6,
                         paddingVertical: 6,
                         borderRadius: 16,
                       }}
@@ -705,7 +716,7 @@ const ImageSuggestion = () => {
                   justifyContent: "space-between",
                   gap: 0,
                 }}
-                nestedScrollEnabled={true}
+                // nestedScrollEnabled={true}
                 onEndReached={() => {
                   if (loadMore && !loadingProducts) {
                     // console.log("Fetching next page...");
@@ -736,35 +747,7 @@ const ImageSuggestion = () => {
           delImgType={delImgType}
         />
         {modalVisible && <View style={styles.overlay} />}
-        {/* {addMore && <View style={styles.overlay} />} */}
-        {/* {!addMore &&
-          (requestImages.length > 0 || suggestedImages.length > 0) && (
-            <View className="absolute bottom-0 left-0 right-0">
-              <TouchableOpacity
-                onPress={() => {
-                  if (!userDetails?._id) {
-                    setSignUpModal(true);
-                  } else {
-                    navigation.navigate("define-request", {
-                      imagesLocal: imagesLocal,
-                    });
-                    if (suggestedImages.length === 0)
-                      dispatch(setEstimatedPrice(0));
-                  }
-                }}
-              >
-                <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">
-                  <Text
-                    className="text-white text-[18px]"
-                    style={{ fontFamily: "Poppins-Black" }}
-                  >
-                    Continue
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          )} */}
-
+        
         <Modal visible={descModal} transparent={true}>
           <TouchableOpacity
             onPress={() => {
@@ -911,11 +894,13 @@ const ImageSuggestion = () => {
                     </Text>
                     {selectedImgEstimatedPrice > 0 && (
                       <Text
-                        style={{
-                          color: "#70b241",
-                          fontSize: 18,
-                          fontFamily: "Poppins-SemiBold",
-                        }}
+                      style={{
+                        fontSize: 20,
+                        fontFamily: "Poppins-SemiBold",
+                        color: "#fff",
+                        backgroundColor: "#55CD00",
+                        paddingHorizontal: 4,
+                      }}
                       >
                         Rs {selectedImgEstimatedPrice}
                       </Text>

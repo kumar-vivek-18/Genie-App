@@ -188,7 +188,6 @@ const RequestDetail = () => {
                         const extraChats = chats.filter(chat => chat._id !== acceptedChat._id);
                         const allChats = [acceptedChat, ...extraChats];
                         console.log('allChats', allChats.length);
-
                         dispatch(setCurrentSpadeRetailers(allChats));
                     }
                     else {
@@ -431,6 +430,7 @@ const RequestDetail = () => {
                             {
                                 currentSpadeRetailers && currentSpadeRetailers?.length > 0 && currentSpadeRetailers?.map((details, index) => {
                                     let distance = null;
+                                    {console.log(details)}
                                     if (userLongitude !== 0 && userLatitude !== 0 && details?.retailerId?.longitude !== 0 && details?.retailerId?.lattitude !== 0) {
                                         distance = haversineDistance(userLatitude, userLongitude, details?.retailerId?.lattitude, details?.retailerId?.longitude);
                                         // console.log('dis', distance);
@@ -490,18 +490,28 @@ const RequestDetail = () => {
                                                                 details?.latestMessage?.bidType === "true" && (
                                                                     <View >
                                                                         {details?.latestMessage?.bidAccepted === "new" && (
-                                                                            <View>
+                                                                            <View style={{ flexDirection: 'row', gap: 5 }}>
                                                                                 <Text style={{ color: 'white', paddingHorizontal: 8, backgroundColor: '#dbcdbb', borderRadius: 10 }}>Offer</Text>
+                                                                                {
+                                                                                    details?.latestMessage?.bidPrice && <Text style={{ color: '#558b2f',fontFamily:"Poppins-Medium"   }}>Rs. {details?.latestMessage?.bidPrice || "Na"}</Text>
+                                                                                }
+
                                                                             </View>
                                                                         )}
                                                                         {details?.latestMessage?.bidAccepted === "accepted" && (
-                                                                            <View>
+                                                                            <View style={{ flexDirection: 'row', gap: 5 }}>
                                                                                 <Text style={{ color: 'white', paddingHorizontal: 8, backgroundColor: '#558b2f', borderRadius: 10 }}>Offer</Text>
+                                                                                {
+                                                                                    details?.latestMessage?.bidPrice && <Text style={{ color: '#558b2f',fontFamily:"Poppins-Medium"   }}>Rs. {details?.latestMessage?.bidPrice || "Na"}</Text>
+                                                                                }
                                                                             </View>
                                                                         )}
                                                                         {details?.latestMessage?.bidAccepted === "rejected" && (
-                                                                            <View>
+                                                                            <View style={{ flexDirection: 'row', gap: 5 }}>
                                                                                 <Text style={{ color: 'white', paddingHorizontal: 8, backgroundColor: '#e76063', borderRadius: 10 }}>Offer</Text>
+                                                                                {
+                                                                                    details?.latestMessage?.bidPrice && <Text style={{ color: '#558b2f',fontFamily:"Poppins-Medium"  }}>Rs. {details?.latestMessage?.bidPrice || "Na"}</Text>
+                                                                                }
                                                                             </View>
                                                                         )}
                                                                     </View>

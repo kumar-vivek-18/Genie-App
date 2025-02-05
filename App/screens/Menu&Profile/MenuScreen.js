@@ -24,7 +24,7 @@ const MenuScreen = () => {
         setModalVisible(true);
 
     };
-    // console.log('user', userDetails);
+    console.log('user', userDetails);
     return (
         <View style={{ flex: 1, backgroundColor: "white" }}>
             <ScrollView style={{ flex: 1 }} className="relative">
