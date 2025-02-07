@@ -170,8 +170,8 @@ const [selectedCategory,setSelectedCategory]=useState("");
       <FastImage
         source={{ uri: item.productImage }}
         style={{
-          width: width * 0.38,
-          height: .26*height,
+          width:  0.44*width,
+                    height: 0.30 * height,
 
           borderRadius: 16,
         }}
@@ -181,7 +181,8 @@ const [selectedCategory,setSelectedCategory]=useState("");
         style={{
           position: "absolute",
           bottom: 0,
-          width: width * 0.38,
+          width:  0.44*width,
+                  
           
           height: 70,
           backgroundColor: "rgba(0,0,0,0.5)",
@@ -471,7 +472,7 @@ const [selectedCategory,setSelectedCategory]=useState("");
               style={{
                 flexDirection: "row",
                 paddingLeft: 20,
-                paddingVertical: 20,
+                paddingVertical: 30,
               }}
             >
               {/* {images?.map((image) => (
@@ -502,8 +503,8 @@ const [selectedCategory,setSelectedCategory]=useState("");
               {images && images.length > 0 && (
                 <TouchableOpacity
                   style={{
-                    width: width * 0.38,
-          height: .26*height,
+                    width:  0.44*width,
+                    height: 0.30 * height,
                     backgroundColor: "#FB8C00",
                     borderRadius: 10,
                     justifyContent: "center",
@@ -541,36 +542,37 @@ const [selectedCategory,setSelectedCategory]=useState("");
                 flexDirection: "row",
                 paddingLeft: 20,
                 gap: 10,
+                paddingVertical: 30
               }}
             >
               <View
                 style={{
-                  width: width * 0.38,
-          height: .26*height,
+                  width:  0.44*width,
+                  height: 0.30 * height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
               ></View>
               <View
                 style={{
-                  width: width * 0.38,
-                  height: .26*height,
+                  width:  0.44*width,
+                  height: 0.30 * height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
               ></View>
               <View
                 style={{
-                  width: width * 0.38,
-          height: .26*height,
+                  width:  0.44*width,
+                    height: 0.30 * height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
               ></View>
               <View
                 style={{
-                  width: width * 0.38,
-                  height: .26*height,
+                  width:  0.44*width,
+                    height: 0.30 * height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
@@ -601,71 +603,7 @@ const [selectedCategory,setSelectedCategory]=useState("");
         )}
       </View>
 
-      {/* {modalVisible && selectedImage && (
-              <Modal
-                visible={modalVisible}
-                transparent={true}
-                onRequestClose={closeImageModal}
-                animationType="fade"
-              >
-                <Pressable onPress={()=>closeImageModal()} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.7)' }}>
-                  <Animated.View style={{ width: .9 * width, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff', padding: 20, borderRadius: 10,transform: [{ scale: scaleValue }], }}>
-                    {selectedImage && (
-                      <FastImage
-                        source={{ uri: selectedImage }}
-                        style={{
-                          width: width - 60,
-                          height: width - 60,
-                          borderRadius: 10,
-                          marginBottom: 15,
-                        
-                        }}
-                        resizeMode={FastImage.resizeMode.cover}
-                      />
-                    )}
-      
-      
-                    
-                  </Animated.View>
-                </Pressable>
-              </Modal>
-            )} */}
-
-      {/* {modalVisible && selectedImage && (
-        <Modal
-          visible={modalVisible}
-          transparent={true}
-          onRequestClose={closeImageModal}
-        >
-          <Pressable
-            onPress={() => closeImageModal()}
-            style={styles.modalContainer}
-          >
-            <Animated.View
-              style={[
-                {
-                  transform: [{ scale: scaleValue }],
-                  justifyContent: "center",
-                  alignItems: "center",
-                },
-              ]}
-            >
-              <Pressable onPress={() => closeImageModal()}>
-                <FastImage
-                  source={{ uri: selectedImage }}
-                  style={[
-                    styles.modalImage,
-                    // {
-                    //     transform: [{ scale: scaleAnimation }],
-                    // },
-                  ]}
-                  resizeMode={FastImage.resizeMode.cover}
-                />
-              </Pressable>
-            </Animated.View>
-          </Pressable>
-        </Modal>
-      )} */}
+    
 
       <Modal transparent visible={!!selectedImage} onRequestClose={handleClose}>
         <Pressable

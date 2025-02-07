@@ -1149,9 +1149,14 @@ const HomeScreen = () => {
                   />
                 {/* <MainBanner  /> */}
               </TouchableOpacity>
-              <View>
-                <ExploreText width={width - 20} />
-                <Banner2 width={width - 20} />
+              <View style={{
+               
+                justifyContent: "center",
+                alignItems: "center",
+               
+              }}>
+                <ExploreText width={width-25}/>
+                <Banner2  width={width-25} />
               </View>
             </View>
 

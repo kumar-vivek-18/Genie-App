@@ -197,8 +197,8 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
         source={{ uri: item.productImage }}
         // height={180}
         style={{
-          width: width * 0.38,
-          height: 0.26 * height,
+          width:  0.44*width,
+                    height: 0.30 * height,
           borderRadius: 16,
         }}
         // resizeMode={FastImage.resizeMode.cover}
@@ -207,7 +207,8 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
         style={{
           position: "absolute",
           bottom: 0,
-          width: width * 0.38,
+          width:  0.44*width,
+                   
 
           height: 70,
           backgroundColor: "rgba(0,0,0,0.5)",
@@ -616,7 +617,7 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
         )}
       </View>
 
-      <View style={{ backgroundColor: "#fff", paddingVertical: 20 }}>
+      <View style={{ backgroundColor: "#fff", paddingVertical: 30 }}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {!loading && images && (
             <View style={{ flexDirection: "row", paddingLeft: 20 }}>
@@ -630,8 +631,8 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
               {images && images.length > 0 && (
                 <TouchableOpacity
                   style={{
-                    width: width * 0.38,
-                    height: 0.26 * height,
+                    width:  0.44*width,
+                    height: 0.30 * height,
                     backgroundColor: "#FB8C00",
                     borderRadius: 10,
                     justifyContent: "center",
@@ -668,36 +669,37 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
                 flexDirection: "row",
                 paddingLeft: 10,
                 gap: 10,
+                paddingVertical:30
               }}
             >
               <View
                 style={{
-                  width: width * 0.38,
-                  height: 0.26 * height,
+                  width:  0.44*width,
+                  height: 0.30 * height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
               ></View>
               <View
                 style={{
-                  width: width * 0.38,
-                  height: 0.26 * height,
+                  width:  0.44*width,
+                  height: 0.30 * height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
               ></View>
               <View
                 style={{
-                  width: width * 0.38,
-                  height: 0.26 * height,
+                  width:  0.44*width,
+                  height: 0.30 * height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
               ></View>
               <View
                 style={{
-                  width: width * 0.38,
-                  height: 0.26 * height,
+                  width:  0.44*width,
+                    height: 0.30 * height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
