@@ -506,6 +506,15 @@ const SearchCategoryScreen = () => {
 
   const categoryListedProduct = async () => {
     if (!loadMore) return;
+    try {
+      await FastImage.clearMemoryCache();
+      console.log('Memory cache cleared');
+      
+      await FastImage.clearDiskCache();
+      console.log('Disk cache cleared');
+    } catch (error) {
+      console.error('Error clearing cache:', error);
+    }
     console.log("Loading category", searchQuery, requestCategory);
     setLoadingProducts(true);
     try {
@@ -632,7 +641,10 @@ const SearchCategoryScreen = () => {
       style={{ marginBottom: 10 }}
     >
       <FastImage
-        source={{ uri: item.productImage }}
+        source={{ uri: item.productImage ,
+          priority: FastImage.priority.normal,
+          cache: FastImage.cacheControl.webLoad,
+        }}
         style={{
           width: .44*width,
           height: .28*height,
@@ -1385,7 +1397,10 @@ const SearchCategoryScreen = () => {
                                            <Store/>
                                          </TouchableOpacity>
               <FastImage
-                source={{ uri: selectedImage }}
+                source={{ uri: selectedImage,
+                  priority: FastImage.priority.normal,
+          cache: FastImage.cacheControl.webLoad,
+                 }}
                 style={{
                   width: 280,
                   height: 350,

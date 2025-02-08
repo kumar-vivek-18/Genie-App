@@ -285,7 +285,10 @@ const StoreProfileById = () => {
       style={{ marginBottom: 10, marginRight: 10 }}
     >
       <FastImage
-        source={{ uri: item.productImage }}
+        source={{ uri: item.productImage,
+          priority: FastImage.priority.normal,
+          cache: FastImage.cacheControl.webLoad,
+         }}
         style={{
           width: .42*width,
           height: .28*height,
@@ -442,7 +445,10 @@ const StoreProfileById = () => {
                   style={{marginRight:10}}
                 >
                   <FastImage
-                    source={{ uri: image }}
+                    source={{ uri: image,
+                      priority: FastImage.priority.normal,
+          cache: FastImage.cacheControl.webLoad,
+                     }}
                     style={{
                       width: width * 0.42,
                       height: .28*height,
@@ -886,7 +892,10 @@ const StoreProfileById = () => {
                   <Store />
                 </TouchableOpacity>
                 <FastImage
-                  source={{ uri: selectedImage }}
+                  source={{ uri: selectedImage ,
+                    priority: FastImage.priority.normal,
+          cache: FastImage.cacheControl.webLoad,
+                  }}
                   style={{
                     width: 280,
                     height: 350,

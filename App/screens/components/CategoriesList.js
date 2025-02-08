@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FlatList, View, Dimensions, ActivityIndicator } from "react-native";
 import CategoryCard from "./CategoryCard";
+import FastImage from "react-native-fast-image";
 
 const { width } = Dimensions.get("window");
 
@@ -15,6 +16,17 @@ const CategoriesList = ({ categories, setSignUpModal }) => {
     if (currentIndex < categories.length && !loading) {
       setLoading(true); // Show loader
       // Simulate an async operation like a fetch call
+
+      try {
+        await FastImage.clearMemoryCache();
+        console.log('Memory cache cleared');
+        
+        await FastImage.clearDiskCache();
+        console.log('Disk cache cleared');
+      } catch (error) {
+        console.error('Error clearing cache:', error);
+      }
+
       setTimeout(() => {
         const nextIndex = Math.min(currentIndex + 2, categories.length); // Load the next 3 categories
         setDisplayedCategories((prev) => [

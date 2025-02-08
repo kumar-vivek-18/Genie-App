@@ -168,7 +168,10 @@ const [selectedCategory,setSelectedCategory]=useState("");
       style={{ marginRight: 10 }}
     >
       <FastImage
-        source={{ uri: item.productImage }}
+        source={{ uri: item.productImage,
+          priority: FastImage.priority.normal,
+          cache: FastImage.cacheControl.webLoad,
+         }}
         style={{
           width: width * 0.38,
           height: 0.26 * height,

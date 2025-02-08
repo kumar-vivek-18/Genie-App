@@ -194,13 +194,19 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
       style={{ marginBottom: 10, marginRight: 10 }}
     >
       <FastImage
-        source={{ uri: item.productImage }}
+        source={{ uri: item.productImage,
+          priority: FastImage.priority.normal,
+          cache: FastImage.cacheControl.webLoad,
+
+           
+         }}
         // height={180}
         style={{
           width: width * 0.38,
           height: 0.26 * height,
           borderRadius: 16,
         }}
+        
         // resizeMode={FastImage.resizeMode.cover}
       />
       <View
@@ -488,7 +494,10 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
                 }}
               >
                 <FastImage
-                  source={{ uri: item?.productImage }}
+                  source={{ uri: item?.productImage,
+                    priority: FastImage.priority.normal,
+          cache: FastImage.cacheControl.webLoad,
+                   }}
                   style={{
                     width: width * 0.38,
                     height: 0.26 * height,

@@ -969,7 +969,12 @@ const HomeScreen = () => {
                     {
                       advert?.image?.length>0 ? (
                       <FastImage
-                      source={{uri:advert?.image}}
+                      source={{uri:advert?.image,
+                        priority: FastImage.priority.normal,
+                        cache: FastImage.cacheControl.webLoad,
+
+
+                      }}
                       style={{
                         width:30,
                         height:30,
