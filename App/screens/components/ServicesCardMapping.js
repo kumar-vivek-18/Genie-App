@@ -24,7 +24,7 @@ const ServicesList = ({ categories, setSignUpModal }) => {
         ]);
         setCurrentIndex(nextIndex); // Update the current index
         setLoading(false); // Hide loader
-      }, 500); // Simulated delay
+      }, 400); // Simulated delay
     }
   };
 
