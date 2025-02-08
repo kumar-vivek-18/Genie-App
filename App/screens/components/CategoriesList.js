@@ -6,7 +6,7 @@ const { width } = Dimensions.get("window");
 
 const CategoriesList = ({ categories, setSignUpModal }) => {
   const [displayedCategories, setDisplayedCategories] = useState(
-    categories.slice(0, 3) // Initially load the first 3 categories
+    categories.slice(0, 2) // Initially load the first 3 categories
   );
   const [currentIndex, setCurrentIndex] = useState(3); // Track the next set of categories to load
   const [loading, setLoading] = useState(false); // Loader state
@@ -16,7 +16,7 @@ const CategoriesList = ({ categories, setSignUpModal }) => {
       setLoading(true); // Show loader
       // Simulate an async operation like a fetch call
       setTimeout(() => {
-        const nextIndex = Math.min(currentIndex + 3, categories.length); // Load the next 3 categories
+        const nextIndex = Math.min(currentIndex + 2, categories.length); // Load the next 3 categories
         setDisplayedCategories((prev) => [
           ...prev,
           ...categories.slice(currentIndex, nextIndex),
