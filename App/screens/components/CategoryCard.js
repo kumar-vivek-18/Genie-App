@@ -34,6 +34,7 @@ const { width, height } = Dimensions.get("window");
 import Store from "../../assets/storeOrange.svg";
 import Download from "../../assets/download.svg";
 import { handleDownload } from "../../utils/logics/Logics";
+import ServicesCard from "./ServicesCard";
 
 const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
   //   const [images, setImages] = useState([]);
@@ -197,6 +198,10 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
         source={{ uri: item.productImage,
           priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.webLoad,
+          retryOptions: {
+            maxRetries: 3,
+            retryDelay: 1000,
+      }
 
            
          }}
@@ -267,17 +272,19 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
     <View
       key={category.id}
       style={{
-        marginHorizontal: 10,
+        // marginHorizontal: 10,
         justifyContent: "center",
-        backgroundColor: "#FFDAAC",
+        backgroundColor: "#FFf",
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
-        marginTop: 20,
+        marginVertical:40,
+        // borderBottomWidth:.5,
+        // borderBottomColor:"#FB8C00",
       }}
     >
       <View
         style={{
-          backgroundColor: "#FFF4E5",
+          backgroundColor: "#FFF",
           borderColor: "#FB8C00",
           borderWidth: 1,
           borderRadius: 10,
@@ -286,6 +293,8 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
+        marginHorizontal: 10,
+
         }}
       >
         <View style={{ flex: 2 }}>
@@ -425,16 +434,18 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
       </View>
       <View
         style={{
-          backgroundColor: "#FFDAAC",
+          backgroundColor: "#FFF4E5",
           paddingHorizontal: 20,
           alignItems: "center",
           paddingBottom: 30,
+        marginHorizontal: 10,
+
         }}
       >
         <View
           style={{
             width: "auto",
-            backgroundColor: "#FFDAAC",
+            backgroundColor: "#FFF4E5",
             flexDirection: "row",
             paddingVertical: 20,
             alignItems: "center",
@@ -466,7 +477,7 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
                 alignSelf: "flex-end",
               }}
             >
-              View All <RightArrow />
+              View All {" "} <RightArrow />
             </Text>
           </TouchableOpacity>
         </View>
@@ -497,6 +508,11 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
                   source={{ uri: item?.productImage,
                     priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.webLoad,
+      //     retryOptions: {
+      //       maxRetries: 3,
+      //       retryDelay: 1000,
+      // }
+
                    }}
                   style={{
                     width: width * 0.38,
@@ -627,7 +643,7 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
         )}
       </View>
 
-      <View style={{ backgroundColor: "#fff", paddingVertical: 30 }}>
+      <View style={{ backgroundColor: "#fff", paddingTop: 30 }}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {!loading && images && (
             <View style={{ flexDirection: "row", paddingLeft: 20 }}>
@@ -718,41 +734,16 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
           )}
         </ScrollView>
       </View>
-      {/* {modalVisible && selectedImage && (
-        <Modal
-          visible={modalVisible}
-          transparent={true}
-          onRequestClose={closeImageModal}
-        >
-          <Pressable
-            onPress={() => closeImageModal()}
-            style={styles.modalContainer}
-          >
-            <Animated.View
-              style={[
-                {
-                  transform: [{ scale: scaleValue }],
-                  justifyContent: "center",
-                  alignItems: "center",
-                },
-              ]}
-            >
-              <Pressable onPress={() => closeImageModal()}>
-                <FastImage
-                  source={{ uri: selectedImage }}
-                  style={[
-                    styles.modalImage,
-                    // {
-                    //     transform: [{ scale: scaleAnimation }],
-                    // },
-                  ]}
-                  resizeMode={FastImage.resizeMode.cover}
-                />
-              </Pressable>
-            </Animated.View>
-          </Pressable>
-        </Modal>
-      )} */}
+     
+
+      {(category.name ==="Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc" ||
+        category.name === "Luxury Watches & Service") && (
+           <ServicesCard
+                      category={category}
+                      setSignUpModal={setSignUpModal}
+                    />
+
+        )}
 
       <Modal transparent visible={!!selectedImage} onRequestClose={handleClose}>
         <Pressable

@@ -1297,6 +1297,7 @@ const BargainingScreen = () => {
                           messages[messages.length - 1]?.bidImages?.length >0 && (
                            
                               
+                            <View style={{ alignItems: "center", width: "100%" }}>
                             <FlatList
                               data={messages[messages.length - 1]?.bidImages}
                               renderItem={renderImageItem}
@@ -1306,17 +1307,21 @@ const BargainingScreen = () => {
                               contentContainerStyle={{
                                 paddingHorizontal: 10,
                                 marginTop: 10,
-                                gap: 10, 
-                                // alignSelf:"flex-start"
+                                gap: 10,
+                                flexGrow: 1, // Ensures the content can be centered properly
+                                justifyContent: messages[messages.length - 1]?.bidImages.length > 1 ? "flex-start" : "center",
                               }}
                               style={{ maxHeight: 260 }}
                             />
+                          </View>
+                          
+                          
                           )}
 
                         
 
                         {messages &&
-                          messages[messages?.length - 1]?.bidPrice>0 && (
+                          messages[messages?.length - 1] && (
                             <View className="flex-row gap-[5px] my-[10px] items-center justify-center">
                               <Text style={{ fontFamily: "Poppins-Medium" }}>
                                 Offered Price:{" "}

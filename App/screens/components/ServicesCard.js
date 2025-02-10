@@ -17,7 +17,13 @@ import axios from "axios";
 import { baseUrl } from "../../utils/logics/constants";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { setEstimatedPrice, setRequestCategory, setRequestDetail, setRequestImages, setSuggestedImages } from "../../redux/reducers/userRequestsSlice";
+import {
+  setEstimatedPrice,
+  setRequestCategory,
+  setRequestDetail,
+  setRequestImages,
+  setSuggestedImages,
+} from "../../redux/reducers/userRequestsSlice";
 import { Pressable } from "react-native";
 import WhiteArrow from "../../assets/white-right.svg";
 import { setCategoryImages } from "../../redux/reducers/categorySlice";
@@ -25,13 +31,12 @@ import FastImage from "react-native-fast-image";
 import { Feather } from "@expo/vector-icons";
 import BuyText from "../../assets/Buylowesttext.svg";
 const { width, height } = Dimensions.get("window");
-import Store from "../../assets/storeOrange.svg"
-import Download from "../../assets/download.svg"
+import Store from "../../assets/storeOrange.svg";
+import Download from "../../assets/download.svg";
 import { setVendorId } from "../../redux/reducers/userDataSlice";
 import { handleDownload } from "../../utils/logics/Logics";
 
-
-const ServicesCard = ({ category, setSignUpModal,isVisible }) => {
+const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
   //   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
@@ -40,12 +45,11 @@ const ServicesCard = ({ category, setSignUpModal,isVisible }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const scaleValue = useRef(new Animated.Value(0)).current;
   const userDetails = useSelector((state) => state.user.userDetails);
-const [selectedCategory,setSelectedCategory]=useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const [selectedImgEstimatedPrice, setSelectedImgEstimatedPrice] = useState(0);
   const [selectedImageDesc, setSelectedImageDesc] = useState("");
   const [selectedVendorId, setSelectedVendorId] = useState("");
-
 
   const images = useSelector(
     (state) => state.categories.categoryImages[category.name]
@@ -103,7 +107,7 @@ const [selectedCategory,setSelectedCategory]=useState("");
       try {
         const response = await axios.get(
           `${baseUrl}/product/product-by-category`,
-          { params: { productCategory: category?.name, page,limit:30 } }
+          { params: { productCategory: category?.name, page, limit: 30 } }
         );
         if (isMounted) {
           //   setImages(response.data || []);
@@ -163,15 +167,20 @@ const [selectedCategory,setSelectedCategory]=useState("");
         setSelectedCategory(item.productCategory),
           setSelectedImgEstimatedPrice(item.productPrice);
         setSelectedImageDesc(item.productDescription);
-         setSelectedVendorId(item.vendorId);
+        setSelectedVendorId(item.vendorId);
       }}
       style={{ marginRight: 10 }}
     >
       <FastImage
-        source={{ uri: item.productImage,
+        source={{
+          uri: item.productImage,
           priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.webLoad,
-         }}
+          retryOptions: {
+            maxRetries: 3,
+            retryDelay: 1000,
+          },
+        }}
         style={{
           width: width * 0.38,
           height: 0.26 * height,
@@ -185,9 +194,7 @@ const [selectedCategory,setSelectedCategory]=useState("");
           position: "absolute",
           bottom: 0,
           width: width * 0.38,
-         
-                  
-          
+
           height: 70,
           backgroundColor: "rgba(0,0,0,0.5)",
           flexDirection: "column",
@@ -223,10 +230,9 @@ const [selectedCategory,setSelectedCategory]=useState("");
           style={{
             fontFamily: "Poppins-SemiBold",
             color: "#fff",
-            fontSize:14,
-            backgroundColor:"#55CD00",
-            paddingHorizontal:2
-          
+            fontSize: 14,
+            backgroundColor: "#55CD00",
+            paddingHorizontal: 2,
           }}
         >
           Rs {item.productPrice}
@@ -234,7 +240,6 @@ const [selectedCategory,setSelectedCategory]=useState("");
       </View>
     </TouchableOpacity>
   );
-
 
   return (
     <View
@@ -249,7 +254,7 @@ const [selectedCategory,setSelectedCategory]=useState("");
     >
       <View
         style={{
-          backgroundColor: "#FFF4E5",
+          backgroundColor: "#FFF",
           borderColor: "#FB8C00",
           borderWidth: 1,
           borderRadius: 10,
@@ -271,126 +276,126 @@ const [selectedCategory,setSelectedCategory]=useState("");
           />
         </View>
         <View style={{ flex: 3 }}>
-             <View style={{ position: "relative" }}>
-                      {/* Stroke Layer */}
-                      <Text
-                        style={{
-                          fontSize: 32,
-                          fontFamily: "Poppins-Black",
-                          position: "absolute",
-                          color: "#FB8C00",
-                          left: -1.5,
-                          top: -1.5,
-                        }}
-                      >
-                        {category.title}
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: 32,
-                          fontFamily: "Poppins-Black",
-                          position: "absolute",
-                          color: "#FB8C00",
-                          left: 1.5,
-                          top: -1.5,
-                        }}
-                      >
-                        {category.title}
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: 32,
-                          fontFamily: "Poppins-Black",
-                          position: "absolute",
-                          color: "#FB8C00",
-                          left: -1.5,
-                          top: 1.5,
-                        }}
-                      >
-                        {category.title}
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: 32,
-                          fontFamily: "Poppins-Black",
-                          position: "absolute",
-                          color: "#FB8C00",
-                          left: 1.5,
-                          top: 1.5,
-                        }}
-                      >
-                        {category.title}
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: 32,
-                          fontFamily: "Poppins-Black",
-                          position: "absolute",
-                          color: "#FB8C00",
-                          left: 0.5,
-                          top: -1.5,
-                        }}
-                      >
-                        {category.title}
-                      </Text>
-                      <Text
-                        style={[
-                          styles.textStyle,
-                          {
-                            fontSize: 32,
-                            fontFamily: "Poppins-Black",
-                            position: "absolute",
-                            color: "#FB8C00",
-                            left: 0.5,
-                            top: 1.5,
-                          }, // Bottom stroke
-                        ]}
-                      >
-                        {category.title}
-                      </Text>
-                      <Text
-                        style={[
-                          styles.textStyle,
-                          {
-                            fontSize: 32,
-                            fontFamily: "Poppins-Black",
-                            position: "absolute",
-                            color: "#FB8C00",
-                            left: -1.5,
-                            top: 0.5,
-                          }, // Left stroke
-                        ]}
-                      >
-                        {category.title}
-                      </Text>
-                      <Text
-                        style={[
-                          styles.textStyle,
-                          {
-                            fontSize: 32,
-                            fontFamily: "Poppins-Black",
-                            position: "absolute",
-                            color: "#FB8C00",
-                            left: 1.5,
-                            top: 0.5,
-                          }, // Right stroke
-                        ]}
-                      >
-                        {category.title}
-                      </Text>
-          
-                      {/* Inner Text */}
-                      <Text
-                        style={[
-                          styles.textStyle,
-                          { fontSize: 32, fontFamily: "Poppins-Black", color: "#FFFFFF" },
-                        ]}
-                      >
-                        {category.title}
-                      </Text>
-                    </View>
+          <View style={{ position: "relative" }}>
+            {/* Stroke Layer */}
+            <Text
+              style={{
+                fontSize: 32,
+                fontFamily: "Poppins-Black",
+                position: "absolute",
+                color: "#FB8C00",
+                left: -1.5,
+                top: -1.5,
+              }}
+            >
+              {category.title}
+            </Text>
+            <Text
+              style={{
+                fontSize: 32,
+                fontFamily: "Poppins-Black",
+                position: "absolute",
+                color: "#FB8C00",
+                left: 1.5,
+                top: -1.5,
+              }}
+            >
+              {category.title}
+            </Text>
+            <Text
+              style={{
+                fontSize: 32,
+                fontFamily: "Poppins-Black",
+                position: "absolute",
+                color: "#FB8C00",
+                left: -1.5,
+                top: 1.5,
+              }}
+            >
+              {category.title}
+            </Text>
+            <Text
+              style={{
+                fontSize: 32,
+                fontFamily: "Poppins-Black",
+                position: "absolute",
+                color: "#FB8C00",
+                left: 1.5,
+                top: 1.5,
+              }}
+            >
+              {category.title}
+            </Text>
+            <Text
+              style={{
+                fontSize: 32,
+                fontFamily: "Poppins-Black",
+                position: "absolute",
+                color: "#FB8C00",
+                left: 0.5,
+                top: -1.5,
+              }}
+            >
+              {category.title}
+            </Text>
+            <Text
+              style={[
+                styles.textStyle,
+                {
+                  fontSize: 32,
+                  fontFamily: "Poppins-Black",
+                  position: "absolute",
+                  color: "#FB8C00",
+                  left: 0.5,
+                  top: 1.5,
+                }, // Bottom stroke
+              ]}
+            >
+              {category.title}
+            </Text>
+            <Text
+              style={[
+                styles.textStyle,
+                {
+                  fontSize: 32,
+                  fontFamily: "Poppins-Black",
+                  position: "absolute",
+                  color: "#FB8C00",
+                  left: -1.5,
+                  top: 0.5,
+                }, // Left stroke
+              ]}
+            >
+              {category.title}
+            </Text>
+            <Text
+              style={[
+                styles.textStyle,
+                {
+                  fontSize: 32,
+                  fontFamily: "Poppins-Black",
+                  position: "absolute",
+                  color: "#FB8C00",
+                  left: 1.5,
+                  top: 0.5,
+                }, // Right stroke
+              ]}
+            >
+              {category.title}
+            </Text>
+
+            {/* Inner Text */}
+            <Text
+              style={[
+                styles.textStyle,
+                { fontSize: 32, fontFamily: "Poppins-Black", color: "#FFFFFF" },
+              ]}
+            >
+              {category.title}
+            </Text>
+          </View>
           <Text style={{ fontSize: 16, fontFamily: "Poppins-Regular" }}>
-            {category.subTitle}
+            {category.servicesubTitle}
           </Text>
           <TouchableOpacity
             style={{
@@ -425,6 +430,8 @@ const [selectedCategory,setSelectedCategory]=useState("");
           </TouchableOpacity>
         </View>
       </View>
+      {(category.name !=="Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc" &&
+        category.name !== "Luxury Watches & Service") && (
       <View
         style={{
           paddingHorizontal: 20,
@@ -463,151 +470,134 @@ const [selectedCategory,setSelectedCategory]=useState("");
                 alignSelf: "flex-end",
               }}
             >
-              View All <RightArrow />
+              View All {" "}<RightArrow />
             </Text>
           </TouchableOpacity>
         </View>
       </View>
+        )}
 
-      <View style={{ backgroundColor: "#fff" }}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {!loading && images && (
-            <View
-              style={{
-                flexDirection: "row",
-                paddingLeft: 20,
-                paddingVertical: 30,
-              }}
-            >
-              {/* {images?.map((image) => (
-                <TouchableOpacity
-                  key={image._id}
-                  style={{ marginRight: 10 }}
-                  onPress={() => {}}
-                >
-                  <Image
-                    source={{ uri: image?.productImage }}
+      {(category.name !=="Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc" &&
+        category.name !== "Luxury Watches & Service") && (
+        <View style={{ backgroundColor: "#fff" }}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {!loading && images && (
+              <View
+                style={{
+                  flexDirection: "row",
+                  paddingLeft: 20,
+                  paddingVertical: 30,
+                }}
+              >
+                <FlatList
+                  data={images}
+                  keyExtractor={(item) => item._id.toString()}
+                  renderItem={({ item }) => renderProductItem(item)}
+                  horizontal={true}
+                />
+                {images && images.length > 0 && (
+                  <TouchableOpacity
                     style={{
-                      width: 140,
-                      height: 170,
+                      width: width * 0.38,
+                      height: 0.26 * height,
+                      backgroundColor: "#FB8C00",
                       borderRadius: 10,
-                      // aspectRatio: 1,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "row",
+                      gap: 5,
                     }}
-                  />
-                </TouchableOpacity>
-              ))} */}
-              <FlatList
-                data={images}
-                keyExtractor={(item) => item._id.toString()}
-                renderItem={({ item }) => (
-                 renderProductItem(item)
+                    onPress={() => {
+                      dispatch(setRequestCategory(category.name));
+                      navigation.navigate("image-suggestion", {
+                        category: category,
+                      });
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontFamily: "Poppins-BlackItalic",
+                        color: "#Fff",
+                      }}
+                    >
+                      View All
+                    </Text>
+                    <View style={{ backgroundColor: "#fff", padding: 2 }}>
+                      <RightArrow />
+                    </View>
+                  </TouchableOpacity>
                 )}
-                horizontal={true}
-              />
-              {images && images.length > 0 && (
-                <TouchableOpacity
+              </View>
+            )}
+
+            {loading && (
+              <View
+                style={{
+                  flexDirection: "row",
+                  paddingLeft: 20,
+                  gap: 10,
+                  paddingVertical: 30,
+                }}
+              >
+                <View
                   style={{
                     width: width * 0.38,
                     height: 0.26 * height,
-                    backgroundColor: "#FB8C00",
+                    backgroundColor: "#bdbdbd",
                     borderRadius: 10,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "row",
-                    gap: 5,
                   }}
-                  onPress={() => {
-                    dispatch(setRequestCategory(category.name));
-                    navigation.navigate("image-suggestion", {
-                      category: category,
-                    });
+                ></View>
+                <View
+                  style={{
+                    width: width * 0.38,
+                    height: 0.26 * height,
+                    backgroundColor: "#bdbdbd",
+                    borderRadius: 10,
                   }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontFamily: "Poppins-BlackItalic",
-                      color: "#Fff",
-                    }}
-                  >
-                    View All
-                  </Text>
-                  <View style={{ backgroundColor: "#fff", padding: 2 }}>
-                    <RightArrow />
-                  </View>
-                </TouchableOpacity>
-              )}
-            </View>
-          )}
-
-          {loading && (
+                ></View>
+                <View
+                  style={{
+                    width: width * 0.38,
+                    height: 0.26 * height,
+                    backgroundColor: "#bdbdbd",
+                    borderRadius: 10,
+                  }}
+                ></View>
+                <View
+                  style={{
+                    width: width * 0.38,
+                    height: 0.26 * height,
+                    backgroundColor: "#bdbdbd",
+                    borderRadius: 10,
+                  }}
+                ></View>
+              </View>
+            )}
+          </ScrollView>
+          {!loading && !images && (
             <View
               style={{
-                flexDirection: "row",
-                paddingLeft: 20,
-                gap: 10,
-                paddingVertical: 30
+                paddingBottom: 20,
+                paddingHorizontal: 20,
+                gap: 5,
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <View
+              <Text
                 style={{
-                  width: width * 0.38,
-                  height: 0.26 * height,
-                  backgroundColor: "#bdbdbd",
-                  borderRadius: 10,
+                  fontFamily: "Poppins-Regular",
+                  fontSize: 14,
+                  textAlign: "center",
                 }}
-              ></View>
-              <View
-                style={{
-                  width: width * 0.38,
-                  height: 0.26 * height,
-                  backgroundColor: "#bdbdbd",
-                  borderRadius: 10,
-                }}
-              ></View>
-              <View
-                style={{
-                  width: width * 0.38,
-                  height: 0.26 * height,
-                  backgroundColor: "#bdbdbd",
-                  borderRadius: 10,
-                }}
-              ></View>
-              <View
-                style={{
-                  width: width * 0.38,
-                  height: 0.26 * height,
-                  backgroundColor: "#bdbdbd",
-                  borderRadius: 10,
-                }}
-              ></View>
+              >
+                No Vendor Available
+              </Text>
             </View>
           )}
-        </ScrollView>
-        {!loading && !images && (
-          <View
-            style={{
-              paddingBottom: 20,
-              paddingHorizontal: 20,
-              gap: 5,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "Poppins-Regular",
-                fontSize: 14,
-                textAlign: "center",
-              }}
-            >
-              No Vendor Available
-            </Text>
-          </View>
-        )}
-      </View>
-
-    
+        </View>
+      )}
 
       <Modal transparent visible={!!selectedImage} onRequestClose={handleClose}>
         <Pressable
@@ -658,7 +648,7 @@ const [selectedCategory,setSelectedCategory]=useState("");
                   handleDownloadDocument();
                 }}
               >
-                <Download/>
+                <Download />
               </TouchableOpacity>
               <TouchableOpacity
                 style={{
@@ -671,12 +661,12 @@ const [selectedCategory,setSelectedCategory]=useState("");
                   borderRadius: 100,
                 }}
                 onPress={() => {
-                  dispatch(setVendorId(selectedVendorId)); 
-                  setSelectedImage(null) 
-                  navigation.navigate("store-page-id")
+                  dispatch(setVendorId(selectedVendorId));
+                  setSelectedImage(null);
+                  navigation.navigate("store-page-id");
                 }}
               >
-                <Store/>
+                <Store />
               </TouchableOpacity>
               <FastImage
                 source={{ uri: selectedImage }}
@@ -737,13 +727,13 @@ const [selectedCategory,setSelectedCategory]=useState("");
                   </Text>
                   {selectedImgEstimatedPrice > 0 && (
                     <Text
-                    style={{
-                      fontSize: 20,
-                      fontFamily: "Poppins-SemiBold",
-                      color: "#fff",
-                      backgroundColor: "#55CD00",
-                      paddingHorizontal: 4,
-                    }}
+                      style={{
+                        fontSize: 20,
+                        fontFamily: "Poppins-SemiBold",
+                        color: "#fff",
+                        backgroundColor: "#55CD00",
+                        paddingHorizontal: 4,
+                      }}
                     >
                       Rs {selectedImgEstimatedPrice}
                     </Text>
@@ -776,17 +766,8 @@ const [selectedCategory,setSelectedCategory]=useState("");
                       dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
                     }
                     setTimeout(() => {
-                       dispatch(
-                                              setRequestCategory(
-                                                selectedCategory
-                                              )
-                                            );
-                      dispatch(
-                        
-                        setRequestDetail(
-                          selectedImageDesc
-                        )
-                      );
+                      dispatch(setRequestCategory(selectedCategory));
+                      dispatch(setRequestDetail(selectedImageDesc));
                       navigation.navigate("define-request");
                     }, 200);
                   }

@@ -644,6 +644,10 @@ const SearchCategoryScreen = () => {
         source={{ uri: item.productImage ,
           priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.webLoad,
+          retryOptions: {
+            maxRetries: 3,
+            retryDelay: 1000,
+      }
         }}
         style={{
           width: .44*width,
@@ -738,19 +742,44 @@ const SearchCategoryScreen = () => {
           </TouchableOpacity>
           <View className="flex z-40 flex-row items-center mt-[40px] mb-[20px] mx-[32px]">
             <Text
-              className="flex flex-1 justify-center items-center text-center text-[#2E2C43] text-[16px]"
-              style={{ fontFamily: "Poppins-Bold" }}
+              className="flex flex-1 justify-center items-center text-center text-[#fb8c00] "
+              style={{ fontFamily: "Poppins-Bold" ,fontSize:16}}
             >
               Search
             </Text>
           </View>
 
           <View
-            className="mx-[32px] flex flex-row h-[60px] border-[1px] items-center border-[#fb8c000] border-opacity-25 rounded-[24px] mb-[20px] bg-white"
-            style={{ borderWidth: 1, borderColor: "#fb8c00" }}
-          >
+                     className="mx-[32px] flex flex-row h-[60px] border-[1px] items-center border-[#fb8c00] rounded-[24px] mb-[20px] bg-white"
+                     style={{
+                       marginTop: 10,
+                       borderWidth: 1,
+                       borderColor: "#fb8c00",
+                       paddingHorizontal: 40,
+                     }}
+                   >
+            
+            <TouchableOpacity
+              onPress={() => {
+                if (tab === "Store") {
+                  setHasMorePages(true);
+                  setPage(1);
+                  dispatch(setStoreVisible(true));
+                  searchStores(searchQuery, 1, true);
+                } else {
+                  querySearch();
+                }
+              }}
+              style={{
+                position: "absolute",
+                left: 20,
+                zIndex: 100,
+              }}
+            >
+              <Octicons name="search" size={16} color={"#fb8c00"} />
+            </TouchableOpacity>
             <TextInput
-              placeholder="Search products, stores here"
+              placeholder="Search products or stores"
               placeholderTextColor="#fb8c00"
               value={searchQuery}
               onChangeText={handleTextChange}
@@ -771,30 +800,15 @@ const SearchCategoryScreen = () => {
                   querySearch();
                 }
               }}
-              className="flex text-center text-[14px] text-[#2E2C43] justify-center items-center flex-1 pl-[20px] pr-[70px]" // Adjusted padding to center the text
-              style={{ fontFamily: "Poppins-Italic", textAlign: "center" }} // Added textAlign for centering text
-            />
-            <TouchableOpacity
-              onPress={() => {
-                if (tab === "Store") {
-                  setHasMorePages(true);
-                  setPage(1);
-                  dispatch(setStoreVisible(true));
-                  searchStores(searchQuery, 1, true);
-                } else {
-                  querySearch();
-                }
-              }}
               style={{
-                paddingRight: 20,
-                paddingLeft: 10,
-                position: "absolute",
-                right: 0,
-                zIndex: 100,
+                flex: 1,
+                textAlign: "center",
+                fontFamily: "Poppins-Italic",
+                color: "#fb8c00",
+                fontSize: 14,
+                paddingHorizontal: 10, // Adjust padding for better placement
               }}
-            >
-              <Octicons name="search" size={18} color={"#fb8c00"} />
-            </TouchableOpacity>
+            />
           </View>
           <View
             style={{
@@ -1220,7 +1234,7 @@ const SearchCategoryScreen = () => {
             justifyContent: "space-evenly",
             alignContent: "baseline",
             backgroundColor: "#fff",
-            paddingVertical: 10,
+            paddingVertical: 5,
             shadowColor: "#FB8C00",
             elevation: 30,
             shadowOffset: { width: 10, height: 18 },
@@ -1400,6 +1414,10 @@ const SearchCategoryScreen = () => {
                 source={{ uri: selectedImage,
                   priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.webLoad,
+          retryOptions: {
+            maxRetries: 3,
+            retryDelay: 1000,
+      }
                  }}
                 style={{
                   width: 280,

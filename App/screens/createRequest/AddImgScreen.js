@@ -427,7 +427,7 @@ const AddImageScreen = () => {
                     textAlign: "center",
                   }}
                 >
-                  Spades my master
+                  Spades my master !
                 </Text>
               </View>
               <View

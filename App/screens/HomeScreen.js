@@ -163,6 +163,7 @@ const categories = [
     name: "Fashion/Clothings - Top, bottom, dresses",
     title: "Fashion",
     subTitle: "Top, Bottom, Dresses",
+    servicesubTitle: "Top, Bottom, Dresses",
     icon: NewIcon1,
     isService:false
 
@@ -173,6 +174,8 @@ const categories = [
     name: "Fashion Accessories - Sharee, suits, kurti & dress materials etc",
     title: "Sari, Suit",
     subTitle: "Ready made, Material",
+    servicesubTitle: "Ready made, Material",
+
     icon: NewIcon2,
     isService:false
 
@@ -183,59 +186,77 @@ const categories = [
     name: "Fashion Accessories - Shoes, bags etc",
     title: "Shoes, Bag",
     subTitle: "Casual, Formal, School Traditional",
+    servicesubTitle: "Casual, Formal, School Traditional",
+
     icon: NewIcon3,
     isService:false
 
   },
   {
     id: 5,
-    cat: NewCategory10,
-    name: "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc",
-    title: "Electronics",
-    subTitle: "Mobile, laptop, Accessories ",
-    icon: NewIcon4,
+    cat: NewCategory,
+    name: "Fashion Accessories - Jewellery, Gold & Diamond",
+    title: "Jewel",
+    subTitle: "Silver, Imitation",
+    servicesubTitle: "Silver, Imitation",
+    icon: NewIcon,
     isService:false
 
   },
-
   {
     id: 6,
     cat: NewCategory5,
     name: "Gifts, Kids Games,Toys & Accessories",
     title: "Gift, Kids",
     subTitle: "Board, Games, Electric, Toys",
+    servicesubTitle: "Board, Games, Electric, Toys",
     icon: NewIcon5,
     isService:false
 
   },
   {
     id: 7,
-    cat: NewCategory,
-    name: "Fashion Accessories - Jewellery, Gold & Diamond",
-    title: "Jewel",
-    subTitle: "Silver, Imitation",
-    icon: NewIcon,
-    isService:false
-
-  },
-
-  {
-    id: 8,
     cat: NewCategory6,
     name: "Luxury Watches & Service",
     title: "Watches",
     subTitle: "Luxury, Digital, Ring, Wall",
+    servicesubTitle: "Service & Repair",
     icon: NewIcon6,
+    isService:false
+    
+
+  },
+  {
+    id: 8,
+    cat: NewCategory10,
+    name: "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc",
+    title: "Electronics",
+    subTitle: "Mobile, laptop, Accessories ",
+    servicesubTitle: "Mobile, laptop, Accessories ",
+    icon: NewIcon4,
     isService:false
 
   },
-
   {
     id: 9,
+    cat: NewCategory4,
+    name: "Consumer Electronics & Accessories - Home appliances and equipment etc",
+    title: "Appliances",
+    subTitle: "Home, Kitchen, Bath",
+    servicesubTitle: "Home, Kitchen, Bath",
+    icon:NewIcon10,
+    isService:false
+
+  },
+ 
+  {
+    id: 10,
     cat: NewCategory8,
     name: "Sports Nutrition - Whey Pro etc",
     title: "Sports",
     subTitle: "Whey Pro, Fiber, Shake, Pasta",
+    servicesubTitle: "Whey Pro, Fiber, Shake, Pasta",
+
     icon: NewIcon8,
     isService:false
 
@@ -243,22 +264,15 @@ const categories = [
 
   
 
-  {
-    id: 10,
-    cat: NewCategory4,
-    name: "Consumer Electronics & Accessories - Home appliances and equipment etc",
-    title: "Appliances",
-    subTitle: "Home, Kitchen, Bath",
-    icon:NewIcon10,
-    isService:false
-
-  },
+  
   {
     id: 11,
     cat: NewCategory9,
     name: "Kitchen Utensils & Kitchenware",
     title: "Utensils",
     subTitle: "Kitchen & kitchenware",
+    servicesubTitle: "Kitchen & kitchenware",
+
     icon: NewIcon9,
     isService:false
   },
@@ -268,6 +282,7 @@ const categories = [
     name: "Hardware - Plumbing, Paint,& Electricity",
     title: "Plumbing",
     subTitle: "Paint, Plumbing, Bath",
+    servicesubTitle: "Paint, Plumbing, Bath",
     icon: NewIcon7,
     isService:true
   },
@@ -277,6 +292,7 @@ const categories = [
     name: "Hardware - Cement, Hand tools, Powertools etc",
     title: "Hardware",
     subTitle: "Hand, Powertools,Home",
+    servicesubTitle: "Hand, Powertools,Home",
     icon: NewServicesIcon8,
     isService:true
   },
@@ -286,6 +302,7 @@ const categories = [
     name: "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc",
     title: "Electronics",
     subTitle: "Mobile, Laptop, Digital device, Repair",
+    servicesubTitle: "Mobile, Laptop, Digital device, Repair",
     icon: NewServicesIcon2,
     isService:true
   },
@@ -295,6 +312,7 @@ const categories = [
     name: "Luxury Watches & Service",
     title: "Watches",
     subTitle: "Service & Repair",
+    servicesubTitle: "Service & Repair",
     icon: NewServicesIcon3,
     isService:true
   },
@@ -304,6 +322,8 @@ const categories = [
     name: "Electrical Services & Repair - Electrician",
     title: "Electrician",
     subTitle: "Home, Wiring,Lights equipments",
+    servicesubTitle: "Home, Wiring,Lights equipments",
+    
     icon: NewServicesIcon4,
     isService:true
   },
@@ -314,6 +334,7 @@ const categories = [
     name: "Automotive Parts/Services - 4 wheeler Fuel based",
     title: "Car",
     subTitle: "Parts, Service",
+    servicesubTitle: "Parts, Service",
     icon: NewServicesIcon5,
     isService:true
   },
@@ -323,6 +344,7 @@ const categories = [
     name: "Automotive Parts/Services - 2 wheeler Fuel based",
     title: "Bike",
     subTitle: "Parts, Service",
+    servicesubTitle: "Parts, Service",
     icon: NewServicesIcon6,
     isService:true
   },
@@ -332,6 +354,7 @@ const categories = [
     name: "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc",
     title: "Heavy",
     subTitle: "Construction, JCB, Truck",
+    servicesubTitle: "Construction, JCB, Truck",
     icon: NewServicesIcon7,
     isService:true
   },
@@ -535,7 +558,7 @@ const HomeScreen = () => {
     getAppVersion();
   }, []);
 
-  /////////////////////////////////////////
+  
   useFocusEffect(
     useCallback(() => {
       dispatch(setSuggestedImages([]));
@@ -1251,7 +1274,7 @@ const HomeScreen = () => {
             justifyContent: "space-evenly",
             alignContent: "baseline",
             backgroundColor: "#fff",
-            paddingVertical: 10,
+            paddingVertical: 5,
             shadowColor: "#FB8C00",
             elevation: 30,
             shadowOffset: { width: 10, height: 18 },

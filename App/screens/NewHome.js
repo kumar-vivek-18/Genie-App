@@ -165,13 +165,12 @@ const categories = [
   },
   {
     id: 5,
-    cat: NewCategory10,
-    name: "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc",
-    title: "Electronics",
-    subTitle: "Mobile, laptop, Accessories ",
-    icon: NewIcon4,
+    cat: NewCategory,
+    name: "Fashion Accessories - Jewellery, Gold & Diamond",
+    title: "Jewel",
+    subTitle: "Silver, Imitation",
+    icon: NewIcon,
   },
-
   {
     id: 6,
     cat: NewCategory5,
@@ -180,26 +179,38 @@ const categories = [
     subTitle: "Board, Games, Electric, Toys",
     icon: NewIcon5,
   },
-  {
-    id: 7,
-    cat: NewCategory,
-    name: "Fashion Accessories - Jewellery, Gold & Diamond",
-    title: "Jewel",
-    subTitle: "Silver, Imitation",
-    icon: NewIcon,
-  },
+  
+
+  
+  
 
   {
-    id: 8,
+    id: 7,
     cat: NewCategory6,
     name: "Luxury Watches & Service",
     title: "Watches",
     subTitle: "Luxury, Digital, Ring, Wall",
     icon: NewIcon6,
   },
-
+  {
+    id: 8,
+    cat: NewCategory10,
+    name: "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc",
+    title: "Electronics",
+    subTitle: "Mobile, laptop, Accessories ",
+    icon: NewIcon4,
+  },
   {
     id: 9,
+    cat: NewCategory4,
+    name: "Consumer Electronics & Accessories - Home appliances and equipment etc",
+    title: "Appliances",
+    subTitle: "Home, Kitchen, Bath",
+    icon: NewIcon10,
+  },
+
+  {
+    id: 10,
     cat: NewCategory8,
     name: "Sports Nutrition - Whey Pro etc",
     title: "Sports",
@@ -207,16 +218,9 @@ const categories = [
     icon: NewIcon8,
   },
 
+  
   {
     id: 11,
-    cat: NewCategory4,
-    name: "Consumer Electronics & Accessories - Home appliances and equipment etc",
-    title: "Appliances",
-    subTitle: "Home, Kitchen, Bath",
-    icon: NewIcon10,
-  },
-  {
-    id: 10,
     cat: NewCategory9,
     name: "Kitchen Utensils & Kitchenware",
     title: "Utensils",
@@ -1035,7 +1039,7 @@ const NewHome = () => {
             justifyContent: "space-evenly",
             alignContent: "baseline",
             backgroundColor: "#fff",
-            paddingVertical: 10,
+            paddingVertical: 5,
             shadowColor: "#FB8C00",
             elevation: 30,
             shadowOffset: { width: 10, height: 18 },

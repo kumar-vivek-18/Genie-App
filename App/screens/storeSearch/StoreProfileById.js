@@ -288,6 +288,10 @@ const StoreProfileById = () => {
         source={{ uri: item.productImage,
           priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.webLoad,
+          retryOptions: {
+            maxRetries: 3,
+            retryDelay: 1000,
+      }
          }}
         style={{
           width: .42*width,
@@ -448,6 +452,10 @@ const StoreProfileById = () => {
                     source={{ uri: image,
                       priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.webLoad,
+          retryOptions: {
+            maxRetries: 3,
+            retryDelay: 1000,
+      }
                      }}
                     style={{
                       width: width * 0.42,
@@ -895,6 +903,10 @@ const StoreProfileById = () => {
                   source={{ uri: selectedImage ,
                     priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.webLoad,
+          retryOptions: {
+            maxRetries: 3,
+            retryDelay: 1000,
+      }
                   }}
                   style={{
                     width: 280,

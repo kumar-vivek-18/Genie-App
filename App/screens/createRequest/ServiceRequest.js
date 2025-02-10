@@ -369,7 +369,7 @@ const ServiceRequest = () => {
                     textAlign: "center",
                   }}
                 >
-                  Spades my master
+                  Spades my master !
                 </Text>
               </View>
               <View

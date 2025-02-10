@@ -274,6 +274,10 @@ const {width, height} = Dimensions.get("window");
         source={{ uri: item.productImage,
           priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.webLoad,
+          retryOptions: {
+            maxRetries: 3,
+            retryDelay: 1000,
+      }
          }}
         style={{
           width: .44*width,
@@ -377,7 +381,7 @@ const {width, height} = Dimensions.get("window");
                 dispatch(setEstimatedPrice(0));
               }}
               style={{
-                paddingHorizontal: 29,
+                paddingHorizontal: 32,
                 paddingVertical: 20,
                 position: "absolute",
                 zIndex: 100,
@@ -389,7 +393,7 @@ const {width, height} = Dimensions.get("window");
               className="px-[20px] text-[16px] flex flex-1 justify-center  items-center text-center"
               style={{
                 fontFamily: "Poppins-ExtraBold",
-                fontSize: 20,
+                fontSize: 16,
                 color: "#fb8c00",
                 textTransform:"capitalize",
               }}
@@ -625,6 +629,10 @@ const {width, height} = Dimensions.get("window");
                   source={{ uri: selectedImage,
                     priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.webLoad,
+          retryOptions: {
+            maxRetries: 3,
+            retryDelay: 1000,
+      }
                    }}
                   style={{
                     width: 280,

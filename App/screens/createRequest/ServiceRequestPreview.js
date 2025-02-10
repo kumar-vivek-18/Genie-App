@@ -172,8 +172,9 @@ import FastImage from "react-native-fast-image";
           dispatch(setSpades([res, ...spades]));
           setIsVisible(true);
           setTimeout(() => {
-            setIsVisible(false);
             navigation.navigate("home");
+            setIsVisible(false);
+            
           }, 3000);
           // dispatch(setCreatedRequest(res));
   

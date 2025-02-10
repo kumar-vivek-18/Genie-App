@@ -117,28 +117,52 @@ const ProfileScreen = () => {
       });
   };
 
-  const handlePicUpdate = async (image) => {
+  // const handlePicUpdate = async (image) => {
+  //   console.log("image uri", image);
+  //   if (!image) return;
+  //   await axiosInstance
+  //     .patch(`${baseUrl}/user/edit-profile`, {
+  //       _id: userDetails._id,
+  //       updateData: { pic: image },
+  //     }, config)
+  //     .then(async (res) => {
+  //       console.log("UserName updated Successfully");
+  //       dispatch(setUserDetails(res.data));
+
+  //       await AsyncStorage.setItem("userDetails", JSON.stringify(res.data));
+
+  //       setEditUser(false);
+  //       // console.log("updated pic", res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.error("error while updating profile", err.message);
+  //     });
+  // };
+
+  const handlePicUpdate = async (image, retryCount = 1) => {
     console.log("image uri", image);
     if (!image) return;
-    await axiosInstance
-      .patch(`${baseUrl}/user/edit-profile`, {
+  
+    try {
+      const res = await axiosInstance.patch(`${baseUrl}/user/edit-profile`, {
         _id: userDetails._id,
         updateData: { pic: image },
-      }, config)
-      .then(async (res) => {
-        console.log("UserName updated Successfully");
-        dispatch(setUserDetails(res.data));
-
-        await AsyncStorage.setItem("userDetails", JSON.stringify(res.data));
-
-        setEditUser(false);
-        // console.log("updated pic", res.data);
-      })
-      .catch((err) => {
-        console.error("error while updating profile", err.message);
-      });
+      }, config);
+  
+      console.log("UserName updated Successfully");
+      dispatch(setUserDetails(res.data));
+      await AsyncStorage.setItem("userDetails", JSON.stringify(res.data));
+      setEditUser(false);
+    } catch (err) {
+      console.error(`Error while updating profile (Attempt ${retryCount}):`, err.message);
+      if (retryCount < 2) {
+        setTimeout(() => handlePicUpdate(image, retryCount + 1), 1000);
+      }
+    }
   };
-
+  
+  
+  
 
   const getImageUrl = async (image) => {
     try {
@@ -159,10 +183,10 @@ const ProfileScreen = () => {
         .then(res => {
           console.log('imageUrl updated from server', res.data[0]);
           const imgUri = res.data[0];
-          if (imgUri) {
-            console.log("Image Updated Successfully");
-            handlePicUpdate(imgUri);
+          if (res.data[0]) {
+            setTimeout(() => handlePicUpdate(res.data[0]), 200);
           }
+         
         })
     } catch (error) {
       console.error('Error while updating image', error);

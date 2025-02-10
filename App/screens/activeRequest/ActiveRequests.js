@@ -247,7 +247,7 @@ const ActiveRequests = () => {
             justifyContent: "space-evenly",
             alignContent: "baseline",
             backgroundColor: "#fff",
-            paddingVertical: 10,
+            paddingVertical: 5,
             shadowColor: "#FB8C00",
             elevation: 30,
             shadowOffset: { width: 10, height: 18 },

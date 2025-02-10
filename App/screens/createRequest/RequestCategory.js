@@ -685,7 +685,7 @@ const RequestCategory = () => {
 
 {searchResults.length > 0 && (
             <>
-            <Text style={{textAlign:"center",fontFamily:"Poppins-Bold",fontSize:16}}>Select Services</Text>
+            <Text style={{textAlign:"center",color:"#fb8c00",fontFamily:"Poppins-Bold",fontSize:16}}>Maintenance Services</Text>
             <View className="flex flex-row flex-wrap gap-[20px] mt-[20px] mb-[80px]">
                 
                 {searchResults

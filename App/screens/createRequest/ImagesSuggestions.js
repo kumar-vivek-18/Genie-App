@@ -77,7 +77,9 @@ const subQueries = {
   }
     ,
   "Fashion Accessories - Jewellery, Gold & Diamond": {
-    All:""
+    All:"",
+    Men:"men,man,boy,boys",
+    Women: "women,woman,girl,girls",
   },
   "Fashion Accessories - Shoes, bags etc": {
     All: "",
@@ -390,6 +392,10 @@ const ImageSuggestion = () => {
         source={{ uri: item.productImage,
           priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.webLoad,
+          retryOptions: {
+            maxRetries: 3,
+            retryDelay: 1000,
+      }
          }}
         style={{
           width: .44*width,
@@ -474,7 +480,7 @@ const ImageSuggestion = () => {
                 dispatch(setEstimatedPrice(0));
               }}
               style={{
-                paddingHorizontal: 29,
+                paddingHorizontal: 32,
                 paddingVertical: 20,
                 position: "absolute",
                 zIndex: 100,
@@ -487,7 +493,7 @@ const ImageSuggestion = () => {
                                   {/* Stroke Layer */}
                                   <Text
                                     style={{
-                                      fontSize: 32,
+                                      fontSize:28,
                                       fontFamily: "Poppins-Black",
                                       position: "absolute",
                                       color: "#FB8C00",
@@ -499,7 +505,7 @@ const ImageSuggestion = () => {
                                   </Text>
                                   <Text
                                     style={{
-                                      fontSize: 32,
+                                      fontSize: 28,
                                       fontFamily: "Poppins-Black",
                                       position: "absolute",
                                       color: "#FB8C00",
@@ -511,7 +517,7 @@ const ImageSuggestion = () => {
                                   </Text>
                                   <Text
                                     style={{
-                                      fontSize: 32,
+                                      fontSize: 28,
                                       fontFamily: "Poppins-Black",
                                       position: "absolute",
                                       color: "#FB8C00",
@@ -523,7 +529,7 @@ const ImageSuggestion = () => {
                                   </Text>
                                   <Text
                                     style={{
-                                      fontSize: 32,
+                                      fontSize: 28,
                                       fontFamily: "Poppins-Black",
                                       position: "absolute",
                                       color: "#FB8C00",
@@ -535,7 +541,7 @@ const ImageSuggestion = () => {
                                   </Text>
                                   <Text
                                     style={{
-                                      fontSize: 32,
+                                      fontSize: 28,
                                       fontFamily: "Poppins-Black",
                                       position: "absolute",
                                       color: "#FB8C00",
@@ -549,7 +555,7 @@ const ImageSuggestion = () => {
                                     style={[
                                       styles.textStyle,
                                       {
-                                        fontSize: 32,
+                                        fontSize: 28,
                                         fontFamily: "Poppins-Black",
                                         position: "absolute",
                                         color: "#FB8C00",
@@ -564,7 +570,7 @@ const ImageSuggestion = () => {
                                     style={[
                                       styles.textStyle,
                                       {
-                                        fontSize: 32,
+                                        fontSize: 28,
                                         fontFamily: "Poppins-Black",
                                         position: "absolute",
                                         color: "#FB8C00",
@@ -579,7 +585,7 @@ const ImageSuggestion = () => {
                                     style={[
                                       styles.textStyle,
                                       {
-                                        fontSize: 32,
+                                        fontSize: 28,
                                         fontFamily: "Poppins-Black",
                                         position: "absolute",
                                         color: "#FB8C00",
@@ -595,7 +601,7 @@ const ImageSuggestion = () => {
                                   <Text
                                     style={[
                                       styles.textStyle,
-                                      { fontSize: 32, fontFamily: "Poppins-Black", color: "#FFFFFF" },
+                                      { fontSize: 28, fontFamily: "Poppins-Black", color: "#FFFFFF" },
                                     ]}
                                   >
                                     {category.title}
@@ -643,45 +649,48 @@ const ImageSuggestion = () => {
           </View>
 
           {subQueries[requestCategory] && (
-            <View style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              gap:10,
-              marginBottom: 20,
-              paddingHorizontal:32,
-              flexWrap: "wrap",
-            }}>
-              {Object.entries(subQueries[requestCategory]).map(
-                ([key, subquery]) => (
-                  <TouchableOpacity
-                    key={key}
-                    onPress={() => {
-                      setSubQuery(key);
-                      setQuery("");
-                      querySearch(key);
-                    }}
-                  >
-                    <Text
-                      style={{
-                        width:85,
-                        textAlign: "center",
-                        fontFamily: "Poppins-Regular",
-                        color: key === subQuery ? "#fff" : "#2e2c43",
-                        fontSize: 14,
-                        backgroundColor:
-                        key === subQuery  ? "#fb8c00" : "#FFDAAC",
-                        paddingHorizontal: 6,
-                        paddingVertical: 6,
-                        borderRadius: 16,
-                      }}
-                    >
-                      {key} {/* Displays the key like "men", "women" */}
-                    </Text>
-                  </TouchableOpacity>
-                )
-              )}
-            </View>
-          )}
+  <View style={{ marginBottom: 20, paddingHorizontal: 32, alignItems: "center" }}>
+    <ScrollView 
+      horizontal 
+      showsHorizontalScrollIndicator={false} 
+      contentContainerStyle={{ 
+        flexDirection: "row", 
+        gap: 10, 
+        justifyContent: subQueries[requestCategory] && Object.keys(subQueries[requestCategory]).length <= 3 ? "center" : "flex-start",
+        alignItems: "center",
+      }}
+    >
+      {Object.entries(subQueries[requestCategory]).map(([key, subquery]) => (
+        <TouchableOpacity
+          key={key}
+          onPress={() => {
+            setSubQuery(key);
+            setQuery("");
+            querySearch(key);
+          }}
+        >
+          <Text
+            style={{
+              width: 85,
+              textAlign: "center",
+              fontFamily: "Poppins-Regular",
+              color: key === subQuery ? "#fff" : "#2e2c43",
+              fontSize: 14,
+              backgroundColor: key === subQuery ? "#fb8c00" : "#FFDAAC",
+              paddingHorizontal: 6,
+              paddingVertical: 6,
+              borderRadius: 16,
+            }}
+          >
+            {key}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
+  </View>
+)}
+
+
 
           <View
             style={{
@@ -853,6 +862,10 @@ const ImageSuggestion = () => {
                   source={{ uri: selectedImage,
                     priority: FastImage.priority.normal,
           cache: FastImage.cacheControl.webLoad,
+          retryOptions: {
+            maxRetries: 3,
+            retryDelay: 1000,
+      }
                    }}
                   style={{
                     width: 280,

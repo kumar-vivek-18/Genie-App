@@ -9,7 +9,7 @@ const CategoriesList = ({ categories, setSignUpModal }) => {
   const [displayedCategories, setDisplayedCategories] = useState(
     categories.slice(0, 2) // Initially load the first 3 categories
   );
-  const [currentIndex, setCurrentIndex] = useState(3); // Track the next set of categories to load
+  const [currentIndex, setCurrentIndex] = useState(2); // Track the next set of categories to load
   const [loading, setLoading] = useState(false); // Loader state
 
   const loadMoreCategories = async () => {
@@ -54,6 +54,7 @@ const CategoriesList = ({ categories, setSignUpModal }) => {
         nestedScrollEnabled={true}
         data={displayedCategories}
         renderItem={({ item }) => (
+          
           <CategoryCard
             category={item}
             setSignUpModal={setSignUpModal}

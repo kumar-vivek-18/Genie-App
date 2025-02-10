@@ -16,7 +16,7 @@ const SuccessPopup = ({ isVisible, setIsVisible }) => {
                 <View style={styles.overlay}>
                     <View style={styles.popup}>
                         <SuccessImg />
-                        <Text style={styles.popupText} >Spade Created Successfully!</Text>
+                        <Text style={styles.popupText} >Request Created Successfully!</Text>
                     </View>
                 </View>
             </Modal>

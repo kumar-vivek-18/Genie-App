@@ -10,7 +10,7 @@ const ServicesList = ({ categories, setSignUpModal }) => {
   const [displayedCategories, setDisplayedCategories] = useState(
     categories.slice(0, 2) // Initially load the first 3 categories
   );
-  const [currentIndex, setCurrentIndex] = useState(3); // Track the next set of categories to load
+  const [currentIndex, setCurrentIndex] = useState(2); // Track the next set of categories to load
   const [loading, setLoading] = useState(false); // Loader state
 
   const loadMoreCategories = async () => {
@@ -50,25 +50,29 @@ const ServicesList = ({ categories, setSignUpModal }) => {
       }}
     >
       <FlatList
-        nestedScrollEnabled={true}
-        data={displayedCategories}
-        renderItem={({ item }) => (
-          <ServicesCard
-            category={item}
-            setSignUpModal={setSignUpModal}
-          />
-        )}
-        keyExtractor={(item) => item.id.toString()}
-        onEndReached={loadMoreCategories} // Load more categories when reaching the end
-        onEndReachedThreshold={0.5} // Trigger onEndReached when 50% of the list is scrolled
-        ListFooterComponent={
-          loading ? (
-            <View style={{ paddingVertical: 20, alignItems: "center" }}>
-              <ActivityIndicator size="large" color="#fb8c00" />
-            </View>
-          ) : null
-        } 
+  nestedScrollEnabled={true}
+  data={displayedCategories}
+  renderItem={({ item }) => 
+    (item.name !== "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc"
+    && item.name !== "Luxury Watches & Service") ? (
+      <ServicesCard 
+        category={item} 
+        setSignUpModal={setSignUpModal} 
       />
+    ) : null
+  }
+  keyExtractor={(item) => item.id.toString()}
+  onEndReached={loadMoreCategories} // Load more categories when reaching the end
+  onEndReachedThreshold={0.5} // Trigger onEndReached when 50% of the list is scrolled
+  ListFooterComponent={
+    loading ? (
+      <View style={{ paddingVertical: 20, alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#fb8c00" />
+      </View>
+    ) : null
+  } 
+/>
+
     </View>
   );
 };
