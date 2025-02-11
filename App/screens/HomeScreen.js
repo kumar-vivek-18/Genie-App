@@ -101,6 +101,9 @@ import NewServices5 from "../assets/NewServices5.png";
 import NewServices6 from "../assets/NewServices6.png";
 import NewServices7 from "../assets/NewServices7.png";
 import NewServices8 from "../assets/NewServices8.png";
+import NewServices9 from "../assets/NewServices9.png";
+import NewServices10 from "../assets/NewServices10.png";
+
 
 import Maintenance from "../assets/Maintenace.svg";
 import NewIcon1 from "../assets/NewIcon1.png";
@@ -121,6 +124,8 @@ import NewServicesIcon5 from "../assets/NewServicesIcon5.png";
 import NewServicesIcon6 from "../assets/NewServicesIcon6.png";
 import NewServicesIcon7 from "../assets/NewServicesIcon7.png";
 import NewServicesIcon8 from "../assets/NewServicesIcon8.png";
+import NewIcon12 from "../assets/NewIcon12.png";
+
 
 import {
   emtpyRequestImages,
@@ -222,6 +227,7 @@ const categories = [
     subTitle: "Luxury, Digital, Ring, Wall",
     servicesubTitle: "Service & Repair",
     icon: NewIcon6,
+    icon2:NewServicesIcon3,
     isService:false
     
 
@@ -234,6 +240,8 @@ const categories = [
     subTitle: "Mobile, laptop, Accessories ",
     servicesubTitle: "Mobile, laptop, Accessories ",
     icon: NewIcon4,
+    icon2: NewServicesIcon2,
+
     isService:false
 
   },
@@ -278,7 +286,7 @@ const categories = [
   },
   {
     id: 12,
-    cat: NewCategory7,
+    cat: NewServices10,
     name: "Hardware - Plumbing, Paint,& Electricity",
     title: "Plumbing",
     subTitle: "Paint, Plumbing, Bath",
@@ -288,12 +296,12 @@ const categories = [
   },
   {
     id: 13,
-    cat: NewServices8,
+    cat: NewServices9,
     name: "Hardware - Cement, Hand tools, Powertools etc",
     title: "Hardware",
     subTitle: "Hand, Powertools,Home",
     servicesubTitle: "Hand, Powertools,Home",
-    icon: NewServicesIcon8,
+    icon: NewIcon12,
     isService:true
   },
   {
@@ -993,7 +1001,7 @@ const HomeScreen = () => {
                       advert?.image?.length>0 ? (
                       <FastImage
                       source={{uri:advert?.image,
-                        priority: FastImage.priority.normal,
+                        
                         cache: FastImage.cacheControl.webLoad,
 
 

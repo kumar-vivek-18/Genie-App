@@ -196,7 +196,7 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
     >
       <FastImage
         source={{ uri: item.productImage,
-          priority: FastImage.priority.normal,
+
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
             maxRetries: 3,
@@ -506,7 +506,7 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
               >
                 <FastImage
                   source={{ uri: item?.productImage,
-                    priority: FastImage.priority.normal,
+                    
           cache: FastImage.cacheControl.webLoad,
       //     retryOptions: {
       //       maxRetries: 3,

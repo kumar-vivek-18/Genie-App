@@ -642,7 +642,7 @@ const SearchCategoryScreen = () => {
     >
       <FastImage
         source={{ uri: item.productImage ,
-          priority: FastImage.priority.normal,
+         
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
             maxRetries: 3,
@@ -1412,7 +1412,7 @@ const SearchCategoryScreen = () => {
                                          </TouchableOpacity>
               <FastImage
                 source={{ uri: selectedImage,
-                  priority: FastImage.priority.normal,
+                 
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
             maxRetries: 3,

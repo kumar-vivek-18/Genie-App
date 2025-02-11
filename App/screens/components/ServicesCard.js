@@ -174,7 +174,7 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
       <FastImage
         source={{
           uri: item.productImage,
-          priority: FastImage.priority.normal,
+         
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
             maxRetries: 3,
@@ -267,7 +267,7 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
       >
         <View style={{ flex: 2 }}>
           <FastImage
-            source={category.icon}
+            source={(category?.name==="Luxury Watches & Service" || category?.name==="Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc" )?category?.icon2:category.icon}
             style={{
               width: 100,
               height: 100,

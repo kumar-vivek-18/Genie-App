@@ -35,7 +35,7 @@ const CategoriesList = ({ categories, setSignUpModal }) => {
         ]);
         setCurrentIndex(nextIndex); // Update the current index
         setLoading(false); // Hide loader
-      }, 400); // Simulated delay
+      }, 200); // Simulated delay
     }
   };
 

@@ -286,7 +286,7 @@ const StoreProfileById = () => {
     >
       <FastImage
         source={{ uri: item.productImage,
-          priority: FastImage.priority.normal,
+         
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
             maxRetries: 3,
@@ -450,7 +450,7 @@ const StoreProfileById = () => {
                 >
                   <FastImage
                     source={{ uri: image,
-                      priority: FastImage.priority.normal,
+                     
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
             maxRetries: 3,
@@ -901,7 +901,7 @@ const StoreProfileById = () => {
                 </TouchableOpacity>
                 <FastImage
                   source={{ uri: selectedImage ,
-                    priority: FastImage.priority.normal,
+                
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
             maxRetries: 3,

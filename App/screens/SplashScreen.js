@@ -26,7 +26,7 @@ const SplashScreen = () => {
     const animateSplash = () => {
       Animated.timing(opacity, {
         toValue: 1,
-        duration: 5000, // Animation duration of 3 seconds
+        duration: 5000,
         useNativeDriver: true,
       }).start();
     };
