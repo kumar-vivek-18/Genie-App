@@ -1257,7 +1257,7 @@ const HomeScreen = () => {
                 onViewableItemsChanged={onViewableItemsChanged}
                 viewabilityConfig={viewabilityConfig}
               /> */}
-              <ServicesList categories={categories.slice(11)} setSignUpModal={setSignUpModal}/>
+              <ServicesList categories={categories.slice(11,18)} setSignUpModal={setSignUpModal}/>
 
             </View>
 

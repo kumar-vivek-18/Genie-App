@@ -742,7 +742,7 @@ const SearchCategoryScreen = () => {
           </TouchableOpacity>
           <View className="flex z-40 flex-row items-center mt-[40px] mb-[20px] mx-[32px]">
             <Text
-              className="flex flex-1 justify-center items-center text-center text-[#fb8c00] "
+              className="flex flex-1 justify-center items-center text-center text-[#2e2c43] "
               style={{ fontFamily: "Poppins-Bold" ,fontSize:16}}
             >
               Search
@@ -814,9 +814,10 @@ const SearchCategoryScreen = () => {
             style={{
               flexDirection: "row",
               paddingHorizontal: 32,
-              justifyContent: "space-evenly",
+              justifyContent: "center",
               alignItems: "center",
               marginBottom: 16,
+              gap:12
             }}
           >
             <TouchableOpacity

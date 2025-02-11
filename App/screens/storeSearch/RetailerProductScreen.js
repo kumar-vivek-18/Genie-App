@@ -394,7 +394,7 @@ const {width, height} = Dimensions.get("window");
               style={{
                 fontFamily: "Poppins-ExtraBold",
                 fontSize: 16,
-                color: "#fb8c00",
+                color: "#2e2c43",
                 textTransform:"capitalize",
               }}
             >
