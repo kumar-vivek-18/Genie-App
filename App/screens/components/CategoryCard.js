@@ -195,23 +195,22 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
       style={{ marginBottom: 10, marginRight: 10 }}
     >
       <FastImage
-        source={{ uri: item.productImage,
+        source={{
+          uri: item.productImage,
 
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
             maxRetries: 3,
             retryDelay: 1000,
-      }
-
-           
-         }}
+          },
+        }}
         // height={180}
         style={{
           width: width * 0.38,
           height: 0.26 * height,
           borderRadius: 16,
         }}
-        
+
         // resizeMode={FastImage.resizeMode.cover}
       />
       <View
@@ -219,8 +218,6 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
           position: "absolute",
           bottom: 0,
           width: width * 0.38,
-                
-                   
 
           height: 70,
           backgroundColor: "rgba(0,0,0,0.5)",
@@ -277,7 +274,7 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
         backgroundColor: "#FFf",
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
-        marginVertical:40,
+        marginVertical: 30,
         // borderBottomWidth:.5,
         // borderBottomColor:"#FB8C00",
       }}
@@ -293,11 +290,10 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-        marginHorizontal: 10,
-
+          marginHorizontal: 10,
         }}
       >
-        <View style={{ flex: 2 }}>
+        <View style={{ flex: 2, gap: -10 }}>
           <View style={{ position: "relative" }}>
             {/* Stroke Layer */}
             <Text
@@ -438,8 +434,7 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
           paddingHorizontal: 20,
           alignItems: "center",
           paddingBottom: 30,
-        marginHorizontal: 10,
-
+          marginHorizontal: 10,
         }}
       >
         <View
@@ -477,7 +472,7 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
                 alignSelf: "flex-end",
               }}
             >
-              View All {" "} <RightArrow />
+              View All <RightArrow />
             </Text>
           </TouchableOpacity>
         </View>
@@ -505,15 +500,15 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
                 }}
               >
                 <FastImage
-                  source={{ uri: item?.productImage,
-                    
-          cache: FastImage.cacheControl.webLoad,
-      //     retryOptions: {
-      //       maxRetries: 3,
-      //       retryDelay: 1000,
-      // }
+                  source={{
+                    uri: item?.productImage,
 
-                   }}
+                    cache: FastImage.cacheControl.webLoad,
+                    //     retryOptions: {
+                    //       maxRetries: 3,
+                    //       retryDelay: 1000,
+                    // }
+                  }}
                   style={{
                     width: width * 0.38,
                     height: 0.26 * height,
@@ -695,13 +690,13 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
                 flexDirection: "row",
                 paddingLeft: 10,
                 gap: 10,
-                paddingVertical:30
+                paddingVertical: 30,
               }}
             >
               <View
                 style={{
                   width: width * 0.38,
-                height: 0.26 * height,
+                  height: 0.26 * height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
@@ -717,7 +712,7 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
               <View
                 style={{
                   width: width * 0.38,
-                height: 0.26 * height,
+                  height: 0.26 * height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
@@ -725,7 +720,7 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
               <View
                 style={{
                   width: width * 0.38,
-                height: 0.26 * height,
+                  height: 0.26 * height,
                   backgroundColor: "#bdbdbd",
                   borderRadius: 10,
                 }}
@@ -734,16 +729,12 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
           )}
         </ScrollView>
       </View>
-     
 
-      {(category.name ==="Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc" ||
+      {(category.name ===
+        "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc" ||
         category.name === "Luxury Watches & Service") && (
-           <ServicesCard
-                      category={category}
-                      setSignUpModal={setSignUpModal}
-                    />
-
-        )}
+        <ServicesCard category={category} setSignUpModal={setSignUpModal} />
+      )}
 
       <Modal transparent visible={!!selectedImage} onRequestClose={handleClose}>
         <Pressable
@@ -814,79 +805,86 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
               >
                 <Store />
               </TouchableOpacity>
-              <FastImage
-                source={{ uri: selectedImage }}
+              <View
                 style={{
-                  width: 280,
-                  height: 350,
-                  borderTopLeftRadius: 20,
-                  borderTopRightRadius: 20,
-                  position:"relative"
+                  position: "relative",
+                  marginBottom:10
                 }}
-                resizeMode={FastImage.resizeMode.cover}
-              />
-              {(selectedImgEstimatedPrice > 0 ||
-                selectedImageDesc?.length > 0) && (
-                <View
+              >
+                <FastImage
+                  source={{ uri: selectedImage }}
                   style={{
-                    position: "absolute",
-                    top:260,
-                    backgroundColor: "rgba(0,0,0,0.5)",
                     width: 280,
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    paddingVertical: 5,
+                    height: 350,
+                    borderTopLeftRadius: 20,
+                    borderTopRightRadius: 20,
                   }}
-                >
-                  {selectedImageDesc?.length > 0 &&
-                    selectedImageDesc.length > 40 && (
-                      <Text
-                        style={{
-                          color: "white",
-                          fontSize: 14,
-                          fontFamily: "Poppins-Regular",
-                        }}
-                      >
-                        {selectedImageDesc.substring(0, 40)}...
-                      </Text>
-                    )}
-                  {selectedImageDesc?.length > 0 &&
-                    selectedImageDesc.length <= 40 && (
-                      <Text
-                        style={{
-                          color: "white",
-                          fontSize: 14,
-                          fontFamily: "Poppins-Regular",
-                        }}
-                      >
-                        {selectedImageDesc}
-                      </Text>
-                    )}
-                  <Text
+                  resizeMode={FastImage.resizeMode.cover}
+                />
+
+                {(selectedImgEstimatedPrice > 0 ||
+                  selectedImageDesc?.length > 0) && (
+                  <View
                     style={{
-                      color: "white",
-                      fontSize: 14,
-                      fontFamily: "Poppins-Regular",
+                      position: "absolute",
+                      bottom:0,
+                      backgroundColor: "rgba(0,0,0,0.5)",
+                      width: 280,
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      paddingVertical: 5,
                     }}
                   >
-                    Estimated Price
-                  </Text>
-                  {selectedImgEstimatedPrice > 0 && (
+                    {selectedImageDesc?.length > 0 &&
+                      selectedImageDesc.length > 40 && (
+                        <Text
+                          style={{
+                            color: "white",
+                            fontSize: 14,
+                            fontFamily: "Poppins-Regular",
+                          }}
+                        >
+                          {selectedImageDesc.substring(0, 40)}...
+                        </Text>
+                      )}
+                    {selectedImageDesc?.length > 0 &&
+                      selectedImageDesc.length <= 40 && (
+                        <Text
+                          style={{
+                            color: "white",
+                            fontSize: 14,
+                            fontFamily: "Poppins-Regular",
+                          }}
+                        >
+                          {selectedImageDesc}
+                        </Text>
+                      )}
                     <Text
                       style={{
-                        fontSize: 20,
-                        fontFamily: "Poppins-SemiBold",
-                        color: "#fff",
-                        backgroundColor: "#55CD00",
-                        paddingHorizontal: 4,
+                        color: "white",
+                        fontSize: 14,
+                        fontFamily: "Poppins-Regular",
                       }}
                     >
-                      Rs {selectedImgEstimatedPrice}
+                      Estimated Price
                     </Text>
-                  )}
-                </View>
-              )}
+                    {selectedImgEstimatedPrice > 0 && (
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          fontFamily: "Poppins-SemiBold",
+                          color: "#fff",
+                          backgroundColor: "#55CD00",
+                          paddingHorizontal: 4,
+                        }}
+                      >
+                        Rs {selectedImgEstimatedPrice}
+                      </Text>
+                    )}
+                  </View>
+                )}
+              </View>
 
               <BuyText width={200} />
               <Text

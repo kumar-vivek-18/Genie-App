@@ -331,7 +331,6 @@ const categories = [
     title: "Electrician",
     subTitle: "Home, Wiring,Lights equipments",
     servicesubTitle: "Home, Wiring,Lights equipments",
-    
     icon: NewServicesIcon4,
     isService:true
   },

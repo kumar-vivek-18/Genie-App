@@ -858,6 +858,12 @@ const ImageSuggestion = () => {
                 >
                   <Store />
                 </TouchableOpacity>
+                 <View
+                                              style={{
+                                                position: "relative",
+                                                marginBottom:10
+                                              }}
+                                            >
                 <FastImage
                   source={{ uri: selectedImage,
                   
@@ -880,7 +886,7 @@ const ImageSuggestion = () => {
                   <View
                     style={{
                       position: "absolute",
-                      top: 260,
+                     bottom:0,
                       backgroundColor: "rgba(0,0,0,0.5)",
                       width: 280,
                       flexDirection: "column",
@@ -937,7 +943,7 @@ const ImageSuggestion = () => {
                     )}
                   </View>
                 )}
-
+                  </View>
                 <BuyText width={200} />
                 <Text
                   style={{

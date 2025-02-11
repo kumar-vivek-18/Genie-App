@@ -23,7 +23,7 @@ import { useNavigation } from "@react-navigation/native";
 import ClickImage from "../../assets/ClickImg.svg";
 import AddMoreImage from "../../assets/AddImg.svg";
 import DelImg from "../../assets/delImg.svg";
-import PriceInfo from "../../assets/priceModalInfo.svg";
+import PriceInfo from "../../assets/expectedPriceModal.svg";
 import ReferenceImg from "../../assets/ServiceReference.svg";
 import Tailless from "../../assets/taillessright-arrow.svg";
 import {

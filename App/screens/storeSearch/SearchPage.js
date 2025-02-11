@@ -47,15 +47,43 @@ import Tab4 from "../../assets/tab4.svg";
 import Share from "react-native-share";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SignUpModal from "../components/SignUpModal";
-import { setEstimatedPrice, setRequestCategory, setRequestDetail, setRequestImages, setSuggestedImages } from "../../redux/reducers/userRequestsSlice";
+import {
+  setEstimatedPrice,
+  setRequestCategory,
+  setRequestDetail,
+  setRequestImages,
+  setSuggestedImages,
+} from "../../redux/reducers/userRequestsSlice";
 
 import BuyText from "../../assets/Buylowesttext.svg";
 import WhiteArrow from "../../assets/white-right.svg";
 import FastImage from "react-native-fast-image";
-import Store from "../../assets/storeOrange.svg"
-import Download from "../../assets/download.svg"
+import Store from "../../assets/storeOrange.svg";
+import Download from "../../assets/download.svg";
+import NewCategory from "../../assets/NewCategory.png";
+import NewCategory1 from "../../assets/NewCategory1.png";
+import NewCategory2 from "../../assets/NewCategory2.png";
+import NewCategory3 from "../../assets/NewCategory3.png";
+import NewCategory4 from "../../assets/NewCategory4.png";
+import NewCategory5 from "../../assets/NewCategory5.png";
+import NewCategory6 from "../../assets/NewCategory6.png";
+import NewCategory7 from "../../assets/NewCategory7.png";
+import NewCategory8 from "../../assets/NewCategory8.png";
+import NewCategory9 from "../../assets/NewCategory9.png";
+import NewCategory10 from "../../assets/NewCategory10.png";
 
-const {width, height} =Dimensions.get("window")
+import NewServices1 from "../../assets/NewServices1.png";
+import NewServices2 from "../../assets/NewServices2.png";
+import NewServices3 from "../../assets/NewServices3.png";
+import NewServices4 from "../../assets/NewServices4.png";
+import NewServices5 from "../../assets/NewServices5.png";
+import NewServices6 from "../../assets/NewServices6.png";
+import NewServices7 from "../../assets/NewServices7.png";
+import NewServices8 from "../../assets/NewServices8.png";
+import NewServices9 from "../../assets/NewServices9.png";
+import NewServices10 from "../../assets/NewServices10.png";
+
+const { width, height } = Dimensions.get("window");
 const SearchCategoryScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -94,15 +122,15 @@ const SearchCategoryScreen = () => {
   const requestCategory = useSelector(
     (store) => store.userRequest.requestCategory
   );
-  const [selectedCategory,setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedVendorId, setSelectedVendorId] = useState("");
-  const storeVisible=useSelector((state)=>state.user.storeVisible)
+  const storeVisible = useSelector((state) => state.user.storeVisible);
 
   const navigationState = useNavigationState((state) => state);
 
   const isStoreSearch =
-    navigationState.routes[navigationState.index]?.name === 'store-search';
-    console.log("storeVisible", storeVisible,isStoreSearch)
+    navigationState.routes[navigationState.index]?.name === "store-search";
+  console.log("storeVisible", storeVisible, isStoreSearch);
   const Icons = {
     "Automotive Parts/Services - 2 wheeler Fuel based":
       "https://res.cloudinary.com/dkay5q6la/image/upload/v1733422440/2-wheeler_xliwnk.jpg",
@@ -143,30 +171,104 @@ const SearchCategoryScreen = () => {
     // "Z - Internal test culturtap(not for commercial use )": { "id": 17, "name": "Z - Internal test culturtap(not for commercial use )" }
   };
 
+  const availCategory = {
+    "Consumer Electronics & Accessories - Home appliances and equipment etc": {
+      icon:NewCategory4,
+      title: "Appliances",
+    },
+    "Fashion/Clothings - Top, bottom, dresses": {
+      icon: NewCategory1,
+      title: "Fashion",
+    },
+    "Fashion Accessories - Jewellery, Gold & Diamond": {
+      icon: NewCategory,
+      title: "Jewel",
+    },
+    "Fashion Accessories - Shoes, bags etc": {
+      icon: NewCategory3,
+      title: "Shoes, Bag",
+    },
+    "Fashion Accessories - Sharee, suits, kurti & dress materials etc": {
+      icon: NewCategory2,
+      title: "Sari, Suit",
+    },
+    "Gifts, Kids Games,Toys & Accessories": {
+      icon: NewCategory5,
+      title: "Gifts,Kids",
+    },
+    "Luxury Watches & Service": {
+      icon:NewCategory6,
+      title: "Watches",
+    },
+
+    "Sports Nutrition - Whey Pro etc": {
+      icon:NewCategory8,
+      title: "Nutrition",
+    },
+
+    "Kitchen Utensils & Kitchenware": {
+      icon: NewCategory9,
+      title: "Utensils",
+    },
+
+    "Services & Repair, Consumer Electronics & Accessories - Home appliances and equipment etc":
+      {
+        icon:NewServices1,
+        title: "Appliances (Service & Repair)",
+      },
+    "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc":
+      { icon: NewCategory10, title: "Electronics" },
+    "Automotive Parts/Services - 2 wheeler Fuel based": {
+      icon: NewServices6,
+      title: "Bike",
+    },
+    "Automotive Parts/Services - 4 wheeler Fuel based": {
+      icon: NewServices5,
+      title: "Car",
+    },
+    "Services & Repair, Heavy Construction & Commercial Vehicles - JCB, Cranes, Trucks etc":
+      { icon: NewServices7, title: "Heavy" },
+
+    "Hardware - Plumbing, Paint,& Electricity": {
+      icon: NewServices10,
+      title: "Plumbing",
+    },
+
+    "Hardware - Cement, Hand tools, Powertools etc": {
+      icon: NewServices9,
+      title: "Hardware",
+    },
+
+    "Electrical Services & Repair - Electrician": {
+      icon: NewServices4,
+      title: "Electrician",
+    },
+  };
+
   useEffect(() => {
-    if(isStoreSearch){
-    const backAction = () => {
-      if (storeVisible) {
-        dispatch(setStoreVisible(false));
-        return true; // Prevent default back action
-      } else {
-        navigation.goBack();
-        return true;
-      }
+    if (isStoreSearch) {
+      const backAction = () => {
+        if (storeVisible) {
+          dispatch(setStoreVisible(false));
+          return true; // Prevent default back action
+        } else {
+          navigation.goBack();
+          return true;
+        }
 
-      return false;
-    };
+        return false;
+      };
 
-    // Add event listener for hardware back button
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
-    );
+      // Add event listener for hardware back button
+      const backHandler = BackHandler.addEventListener(
+        "hardwareBackPress",
+        backAction
+      );
 
-    // Clean up event listener
-    return () => backHandler.remove();
-  }
-  }, [storeVisible,isStoreSearch]);
+      // Clean up event listener
+      return () => backHandler.remove();
+    }
+  }, [storeVisible, isStoreSearch]);
 
   const renderFooter = () => {
     if (!loading) return null;
@@ -197,123 +299,120 @@ const SearchCategoryScreen = () => {
       return <></>;
 
     return (
-      <View style={{
-        justifyContent:"center",
-        alignItems:"center"
-      }}>
-         <TouchableOpacity
-        key={index}
-        onPress={() => {
-      
-          dispatch(setVendorId(details._id));
-          navigation.navigate("store-page-id");
-        }}
+      <View
         style={{
-         
-          
-          position: "relative",
-          flexDirection: "row",
+          justifyContent: "center",
           alignItems: "center",
-          marginBottom: 10,
-          backgroundColor: "#fff",
-          shadowColor: "#bdbdbd",
-          marginHorizontal: 10,
-          gap: 15,
-          padding: 15,
-          borderRadius: 15,
-          shadowOffset: { width: 8, height: 6 },
-          shadowOpacity: 0.9,
-          shadowRadius: 24,
-          elevation: 20,
-          borderWidth: 0.5,
-          borderColor: "rgba(0,0,0,0.05)",
-          maxWidth: 350,
         }}
       >
-        {details && (
-          <View className="flex-row  gap-[20px]  items-center ">
-            {details?.storeImages?.length > 0 ? (
-              <Image
-                source={{ uri: details?.storeImages[0] }}
-                style={{ width: 80, height: 80, borderRadius: 50 }}
-              />
-            ) : (
-              <StoreIcon width={80} height={80} />
-            )}
-            <View className="gap-[5px] w-4/5">
-              <View className="flex-row justify-between">
-                <Text
-                  className="text-[14px] text-[#2e2c43] capitalize "
-                  style={{ fontFamily: "Poppins-Regular" }}
-                >
-                  {details?.storeName?.length > 20
-                    ? `${details?.storeName.slice(0, 20)}...`
-                    : details?.storeName}
-                </Text>
-              </View>
-              <View className="flex-row items-center gap-[15px] ">
-                {details?.totalReview > 0 && (
-                  <View className="flex-row items-center gap-[5px]">
-                    <Star />
-                    <Text>
+        <TouchableOpacity
+          key={index}
+          onPress={() => {
+            dispatch(setVendorId(details._id));
+            navigation.navigate("store-page-id");
+          }}
+          style={{
+            position: "relative",
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 10,
+            backgroundColor: "#fff",
+            shadowColor: "#bdbdbd",
+            marginHorizontal: 10,
+            gap: 15,
+            padding: 15,
+            borderRadius: 15,
+            shadowOffset: { width: 8, height: 6 },
+            shadowOpacity: 0.9,
+            shadowRadius: 24,
+            elevation: 20,
+            borderWidth: 0.5,
+            borderColor: "rgba(0,0,0,0.05)",
+            maxWidth: 350,
+          }}
+        >
+          {details && (
+            <View className="flex-row  gap-[20px]  items-center ">
+              {details?.storeImages?.length > 0 ? (
+                <Image
+                  source={{ uri: details?.storeImages[0] }}
+                  style={{ width: 80, height: 80, borderRadius: 50 }}
+                />
+              ) : (
+                <StoreIcon width={80} height={80} />
+              )}
+              <View className="gap-[5px] w-4/5">
+                <View className="flex-row justify-between">
+                  <Text
+                    className="text-[14px] text-[#2e2c43] capitalize "
+                    style={{ fontFamily: "Poppins-Regular" }}
+                  >
+                    {details?.storeName?.length > 20
+                      ? `${details?.storeName.slice(0, 20)}...`
+                      : details?.storeName}
+                  </Text>
+                </View>
+                <View className="flex-row items-center gap-[15px] ">
+                  {details?.totalReview > 0 && (
+                    <View className="flex-row items-center gap-[5px]">
+                      <Star />
                       <Text>
-                        {parseFloat(
-                          details?.totalRating / details?.totalReview
-                        ).toFixed(1)}
+                        <Text>
+                          {parseFloat(
+                            details?.totalRating / details?.totalReview
+                          ).toFixed(1)}
+                        </Text>
+                        /5
                       </Text>
-                      /5
-                    </Text>
-                  </View>
-                )}
-                {details?.homeDelivery && (
-                  <View>
-                    <HomeIcon />
-                  </View>
-                )}
-                {distance && (
-                  <View>
-                    <Text
-                      className="bg-[#ffe7c8] text-text  px-[5px]  rounded-md"
-                      style={{ fontFamily: "Poppins-Regular" }}
-                    >
-                      <Text>{parseFloat(distance).toFixed(1)}</Text> km
-                    </Text>
-                  </View>
-                )}
-              </View>
-              <View className="flex-row justify-between">
-                <Text
-                  className="text-[14px] text-[#2e2c43] capitalize "
-                  style={{ fontFamily: "Poppins-Regular" }}
+                    </View>
+                  )}
+                  {details?.homeDelivery && (
+                    <View>
+                      <HomeIcon />
+                    </View>
+                  )}
+                  {distance && (
+                    <View>
+                      <Text
+                        className="bg-[#ffe7c8] text-text  px-[5px]  rounded-md"
+                        style={{ fontFamily: "Poppins-Regular" }}
+                      >
+                        <Text>{parseFloat(distance).toFixed(1)}</Text> km
+                      </Text>
+                    </View>
+                  )}
+                </View>
+                <View className="flex-row justify-between">
+                  <Text
+                    className="text-[14px] text-[#2e2c43] capitalize "
+                    style={{ fontFamily: "Poppins-Regular" }}
+                  >
+                    {details?.location?.length > 20
+                      ? `${details?.location.slice(0, 20)}...`
+                      : details?.location}
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  style={{ flexDirection: "row", gap: 4, alignItems: "center" }}
+                  onPress={() => {
+                    dispatch(setVendorId(details?._id));
+                    dispatch(setStoreVisible(true));
+                    navigation.navigate("store-page-id");
+                  }}
                 >
-                  {details?.location?.length > 20
-                    ? `${details?.location.slice(0, 20)}...`
-                    : details?.location}
-                </Text>
+                  <Text
+                    className="text-[14px] text-[#fb8c00] capitalize "
+                    style={{ fontFamily: "Poppins-Medium" }}
+                  >
+                    Visit store
+                  </Text>
+                  <ArrowRight />
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                style={{ flexDirection: "row", gap: 4, alignItems: "center" }}
-                onPress={() => {
-                  dispatch(setVendorId(details?._id)); 
-                  dispatch(setStoreVisible(true));
-                  navigation.navigate("store-page-id")
-                }}
-              >
-                <Text
-                  className="text-[14px] text-[#fb8c00] capitalize "
-                  style={{ fontFamily: "Poppins-Medium" }}
-                >
-                  Visit store
-                </Text>
-                <ArrowRight />
-              </TouchableOpacity>
             </View>
-          </View>
-        )}
-      </TouchableOpacity>
-
+          )}
+        </TouchableOpacity>
       </View>
-     
     );
   };
 
@@ -508,12 +607,12 @@ const SearchCategoryScreen = () => {
     if (!loadMore) return;
     try {
       await FastImage.clearMemoryCache();
-      console.log('Memory cache cleared');
-      
+      console.log("Memory cache cleared");
+
       await FastImage.clearDiskCache();
-      console.log('Disk cache cleared');
+      console.log("Disk cache cleared");
     } catch (error) {
-      console.error('Error clearing cache:', error);
+      console.error("Error clearing cache:", error);
     }
     console.log("Loading category", searchQuery, requestCategory);
     setLoadingProducts(true);
@@ -621,7 +720,7 @@ const SearchCategoryScreen = () => {
       useNativeDriver: true,
     }).start(() => setSelectedImage(null));
   };
- const handleCloseSuggestion = () => {
+  const handleCloseSuggestion = () => {
     Animated.timing(scaleAnimation, {
       toValue: 0,
       duration: 100,
@@ -634,24 +733,25 @@ const SearchCategoryScreen = () => {
       onPress={() => {
         handleImagePress(item.productImage);
         setSelectedCategory(item.productCategory),
-        setSelectedImgEstimatedPrice(item.productPrice);
+          setSelectedImgEstimatedPrice(item.productPrice);
         setSelectedImageDesc(item.productDescription);
         setSelectedVendorId(item.vendorId);
       }}
       style={{ marginBottom: 10 }}
     >
       <FastImage
-        source={{ uri: item.productImage ,
-         
+        source={{
+          uri: item.productImage,
+
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
             maxRetries: 3,
             retryDelay: 1000,
-      }
+          },
         }}
         style={{
-          width: .44*width,
-          height: .28*height,
+          width: 0.44 * width,
+          height: 0.28 * height,
           borderRadius: 16,
         }}
         resizeMode={FastImage.resizeMode.cover}
@@ -660,7 +760,7 @@ const SearchCategoryScreen = () => {
         style={{
           position: "absolute",
           bottom: 0,
-          width: .44*width,
+          width: 0.44 * width,
           height: 70,
           backgroundColor: "rgba(0,0,0,0.5)",
           flexDirection: "column",
@@ -696,9 +796,9 @@ const SearchCategoryScreen = () => {
           style={{
             fontFamily: "Poppins-SemiBold",
             color: "#fff",
-            fontSize:14,
-            backgroundColor:"#55CD00",
-            paddingHorizontal:2
+            fontSize: 14,
+            backgroundColor: "#55CD00",
+            paddingHorizontal: 2,
           }}
         >
           Rs {item.productPrice}
@@ -743,22 +843,21 @@ const SearchCategoryScreen = () => {
           <View className="flex z-40 flex-row items-center mt-[40px] mb-[20px] mx-[32px]">
             <Text
               className="flex flex-1 justify-center items-center text-center text-[#2e2c43] "
-              style={{ fontFamily: "Poppins-Bold" ,fontSize:16}}
+              style={{ fontFamily: "Poppins-Bold", fontSize: 16 }}
             >
               Search
             </Text>
           </View>
 
           <View
-                     className="mx-[32px] flex flex-row h-[60px] border-[1px] items-center border-[#fb8c00] rounded-[24px] mb-[20px] bg-white"
-                     style={{
-                       marginTop: 10,
-                       borderWidth: 1,
-                       borderColor: "#fb8c00",
-                       paddingHorizontal: 40,
-                     }}
-                   >
-            
+            className="mx-[32px] flex flex-row h-[60px] border-[1px] items-center border-[#fb8c00] rounded-[24px] mb-[20px] bg-white"
+            style={{
+              marginTop: 10,
+              borderWidth: 1,
+              borderColor: "#fb8c00",
+              paddingHorizontal: 40,
+            }}
+          >
             <TouchableOpacity
               onPress={() => {
                 if (tab === "Store") {
@@ -817,7 +916,7 @@ const SearchCategoryScreen = () => {
               justifyContent: "center",
               alignItems: "center",
               marginBottom: 16,
-              gap:12
+              gap: 12,
             }}
           >
             <TouchableOpacity
@@ -845,7 +944,7 @@ const SearchCategoryScreen = () => {
             <TouchableOpacity
               onPress={() => {
                 setTab("Store");
-                setProductImages([])
+                setProductImages([]);
                 dispatch(setStoreVisible(false));
                 setSearchQuery("");
               }}
@@ -867,49 +966,50 @@ const SearchCategoryScreen = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          { !loadingQuerySearch && !searchQuery && productImages?.length===0  && tab==="Product" && (
-    <View style={{  paddingHorizontal: 32 }}>
-     
-
-      {/* Suggestion List */}
-      <View>
-        {["Shirt","Pant", "TV", "Sari","Watch","Bangle"].map((suggestion, index) => (
-          <TouchableOpacity
-            key={index}
-            onPress={()=>{
-              setSearchQuery(suggestion);
-              setHasMorePages(true);
-              // querySearch();
-              suggestionSearch(suggestion)
-            }}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              paddingVertical: 10,
-              
-            }}
-          >
-            <MaterialIcons
-              name="search"
-              size={20}
-              color="#fb8c00"
-              style={{ marginRight: 10 }}
-            />
-            <Text
-              style={{
-                fontFamily: "Poppins-Regular",
-                fontSize: 14,
-                color: "#333",
-              }}
-            >
-              {suggestion}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    </View>
-  )
-}
+          {!loadingQuerySearch &&
+            !searchQuery &&
+            productImages?.length === 0 &&
+            tab === "Product" && (
+              <View style={{ paddingHorizontal: 32 }}>
+                {/* Suggestion List */}
+                <View>
+                  {["Shirt", "Pant", "TV", "Sari", "Watch", "Bangle"].map(
+                    (suggestion, index) => (
+                      <TouchableOpacity
+                        key={index}
+                        onPress={() => {
+                          setSearchQuery(suggestion);
+                          setHasMorePages(true);
+                          // querySearch();
+                          suggestionSearch(suggestion);
+                        }}
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          paddingVertical: 10,
+                        }}
+                      >
+                        <MaterialIcons
+                          name="search"
+                          size={20}
+                          color="#fb8c00"
+                          style={{ marginRight: 10 }}
+                        />
+                        <Text
+                          style={{
+                            fontFamily: "Poppins-Regular",
+                            fontSize: 14,
+                            color: "#333",
+                          }}
+                        >
+                          {suggestion}
+                        </Text>
+                      </TouchableOpacity>
+                    )
+                  )}
+                </View>
+              </View>
+            )}
           {tab === "Store" && (
             <ScrollView showsVerticalScrollIndicator={false}>
               {!storeVisible && (
@@ -930,26 +1030,35 @@ const SearchCategoryScreen = () => {
                             setSearchQuery(result.name);
                             searchStores(result.name, 1, true);
                           }}
+                          style={{
+                            flexDirection: "column",
+                            // alignItems: "center",
+                            // marginVertical:4,
+                          }}
                         >
-                          <View className="flex flex-row items-center my-[3px] gap-[10px] pr-[10px]">
-                            {!Icons[result.name] &&
+                          <View className="flex flex-row items-center my-[6px] gap-[20px] pr-[10px]">
+                            {!availCategory[result.name] &&
                               result?.name !==
                                 "Z-Internal test culturtap ( not for commercial use )" && (
-                                <Octicons
-                                  name="search"
-                                  size={19}
-                                  style={{ color: "#7c7c7c" }}
-                                />
+                                  <View style={{width:42,height:55,borderWidth:.5,borderColor:"#fb8c00",borderRadius:8 ,padding:5,justifyContent:"center",alignItems:"center"}}>
+
+                                  {
+                                    
+                                    <Text style={{fontSize:8,color:"#fb8c00",fontFamily:"Poppins-Light",textAlign:"center"}}>
+                                      {availCategory[result.name]?.title || result?.name.substring(0, 10)}
+                                    </Text>
+                                  }
+                                </View>
                               )}
                             {result?.name !==
                               "Z-Internal test culturtap ( not for commercial use )" &&
-                              Icons[result.name] && (
-                                <View style={{ backgroundColor: "white" }}>
+                              availCategory[result.name] && (
+                                <View style={{width:42,height:55,}}>
                                   {
                                     <Image
-                                      source={{ uri: Icons[result.name] }}
+                                      source={availCategory[result.name].icon}
                                       alt="img"
-                                      style={{ width: 51, height: 59.5 }}
+                                      style={{ width:"100%", height:"100%" ,resizeMode:"cover",borderWidth:.5,borderColor:"#fb8c00",borderRadius:8 ,padding:5}}
                                     />
                                   }
                                 </View>
@@ -962,24 +1071,14 @@ const SearchCategoryScreen = () => {
                               {result?.name !==
                                 "Z-Internal test culturtap ( not for commercial use )" &&
                                 result?.name.indexOf("-") > 0 && (
-                                  <Text
-                                    style={{ fontFamily: "Poppins-Regular" }}
-                                    className="capitalize"
-                                  >
+                                  
                                     <Text
-                                      style={{ fontFamily: "Poppins-Bold" }}
+                                      style={{ fontFamily: "Poppins-Bold",textTransform:"capitalize" }}
                                     >
-                                      {result?.name.slice(
-                                        0,
-                                        result.name.indexOf("-")
-                                      )}
+                                      {availCategory[result?.name]?.title || result?.name.substring(0, 6)}
                                     </Text>
-                                    {result.name.indexOf("-") >= 0
-                                      ? result.name.slice(
-                                          result.name.indexOf("-")
-                                        )
-                                      : ""}
-                                  </Text>
+                                   
+                                  
                                 )}
                               {result?.name !==
                                 "Z-Internal test culturtap ( not for commercial use )" &&
@@ -1108,7 +1207,7 @@ const SearchCategoryScreen = () => {
                   ListFooterComponent={renderFooter}
                   showsVerticalScrollIndicator={false}
                   contentContainerStyle={{
-                    justifyContent: 'center',
+                    justifyContent: "center",
                   }}
                 />
               )}
@@ -1201,17 +1300,11 @@ const SearchCategoryScreen = () => {
                       />
                     ) : null
                   }
-
                   contentContainerStyle={{
                     paddingBottom: 50,
                   }}
-
                 />
               )}
-
-
-
-
             </View>
           )}
 
@@ -1259,7 +1352,6 @@ const SearchCategoryScreen = () => {
             </Text>
           </TouchableOpacity>
 
-          
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("store-search");
@@ -1270,7 +1362,7 @@ const SearchCategoryScreen = () => {
               justifyContent: "flex-end",
             }}
           >
-                          <Octicons name="search" size={22} color={"#fb8c00"} />
+            <Octicons name="search" size={22} color={"#fb8c00"} />
 
             <Text style={{ fontFamily: "Poppins-Regular", color: "#fb8c00" }}>
               Search
@@ -1378,48 +1470,55 @@ const SearchCategoryScreen = () => {
               }}
             >
               <TouchableOpacity
-                                           style={{
-                                             backgroundColor: "#FFECD6",
-                                             position: "absolute",
-                                             top: 20,
-                                             right: 20,
-                                             zIndex: 100,
-                                             padding: 10,
-                                             borderRadius: 100,
-                                           }}
-                                           onPress={() => {
-                                             handleDownloadDocument();
-                                           }}
-                                         >
-                                           <Download/>
-                                         </TouchableOpacity>
-                                         <TouchableOpacity
-                                           style={{
-                                             backgroundColor: "#FFECD6",
-                                             position: "absolute",
-                                             top: 80,
-                                             right: 20,
-                                             zIndex: 100,
-                                             padding: 10,
-                                             borderRadius: 100,
-                                           }}
-                                           onPress={() => {
-                                             dispatch(setVendorId(selectedVendorId));
-                                             handleClose(); 
-                                             navigation.navigate("store-page-id")
-                                           }}
-                                         >
-                                           <Store/>
-                                         </TouchableOpacity>
+                style={{
+                  backgroundColor: "#FFECD6",
+                  position: "absolute",
+                  top: 20,
+                  right: 20,
+                  zIndex: 100,
+                  padding: 10,
+                  borderRadius: 100,
+                }}
+                onPress={() => {
+                  handleDownloadDocument();
+                }}
+              >
+                <Download />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#FFECD6",
+                  position: "absolute",
+                  top: 80,
+                  right: 20,
+                  zIndex: 100,
+                  padding: 10,
+                  borderRadius: 100,
+                }}
+                onPress={() => {
+                  dispatch(setVendorId(selectedVendorId));
+                  handleClose();
+                  navigation.navigate("store-page-id");
+                }}
+              >
+                <Store />
+              </TouchableOpacity>
+               <View
+                                            style={{
+                                              position: "relative",
+                                              marginBottom:10
+                                            }}
+                                          >
               <FastImage
-                source={{ uri: selectedImage,
-                 
-          cache: FastImage.cacheControl.webLoad,
-          retryOptions: {
-            maxRetries: 3,
-            retryDelay: 1000,
-      }
-                 }}
+                source={{
+                  uri: selectedImage,
+
+                  cache: FastImage.cacheControl.webLoad,
+                  retryOptions: {
+                    maxRetries: 3,
+                    retryDelay: 1000,
+                  },
+                }}
                 style={{
                   width: 280,
                   height: 350,
@@ -1433,7 +1532,7 @@ const SearchCategoryScreen = () => {
                 <View
                   style={{
                     position: "absolute",
-                    top: 260,
+                   bottom:0,
                     backgroundColor: "rgba(0,0,0,0.5)",
                     width: 280,
                     flexDirection: "column",
@@ -1477,19 +1576,20 @@ const SearchCategoryScreen = () => {
                   </Text>
                   {selectedImgEstimatedPrice > 0 && (
                     <Text
-                    style={{
-                      fontSize: 20,
-                      fontFamily: "Poppins-SemiBold",
-                      color: "#fff",
-                      backgroundColor: "#55CD00",
-                      paddingHorizontal: 4,
-                    }}
+                      style={{
+                        fontSize: 20,
+                        fontFamily: "Poppins-SemiBold",
+                        color: "#fff",
+                        backgroundColor: "#55CD00",
+                        paddingHorizontal: 4,
+                      }}
                     >
                       Rs {selectedImgEstimatedPrice}
                     </Text>
                   )}
                 </View>
               )}
+              </View>
 
               <BuyText width={200} />
               <Text
@@ -1516,10 +1616,8 @@ const SearchCategoryScreen = () => {
                       dispatch(setEstimatedPrice(selectedImgEstimatedPrice));
                     }
                     setTimeout(() => {
-                      dispatch(setRequestCategory(selectedCategory))
-                      dispatch(
-                        setRequestDetail(selectedImageDesc)
-                      );
+                      dispatch(setRequestCategory(selectedCategory));
+                      dispatch(setRequestDetail(selectedImageDesc));
                       navigation.navigate("define-request");
                     }, 200);
                   }

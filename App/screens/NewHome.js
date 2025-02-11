@@ -56,6 +56,7 @@ import { Octicons } from "@expo/vector-icons";
 import TextTicker from "react-native-text-ticker";
 import Offer from "../assets/offer.svg";
 import DeviceInfo from "react-native-device-info";
+import Tab1 from "../assets/tab1.svg";
 
 import Tab11 from "../assets/tab11.svg";
 import Tab2 from "../assets/tab2.svg";
@@ -957,25 +958,28 @@ const NewHome = () => {
             shadowRadius: 20,
           }}
         >
-          <View
+          <TouchableOpacity
+           onPress={() => {
+            navigation.navigate("home");
+          }}
             style={{
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "flex-end",
             }}
           >
-            <Tab11 />
-            <Text style={{ fontFamily: "Poppins-Regular", color: "#fb8c00" }}>
+            <Tab1 />
+            <Text style={{ fontFamily: "Poppins-Regular", color: "#000" }}>
               Home
             </Text>
-          </View>
+          </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => {
               if (!userLongitude || !userLatitude) {
                 setLocationRefresh(true);
               } else {
-                navigation.navigate("store-search");
+                navigation.replace("store-search");
               }
             }}
             style={{
@@ -993,7 +997,7 @@ const NewHome = () => {
 
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("orders");
+              navigation.replace("orders");
             }}
             style={{
               flexDirection: "column",

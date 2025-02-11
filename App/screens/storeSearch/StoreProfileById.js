@@ -899,6 +899,12 @@ const StoreProfileById = () => {
                 >
                   <Store />
                 </TouchableOpacity>
+                 <View
+                                              style={{
+                                                position: "relative",
+                                                marginBottom:10
+                                              }}
+                                            >
                 <FastImage
                   source={{ uri: selectedImage ,
                 
@@ -921,7 +927,7 @@ const StoreProfileById = () => {
                   <View
                     style={{
                       position: "absolute",
-                      top: 260,
+                     bottom:0,
                       backgroundColor: "rgba(0,0,0,0.5)",
                       width: 280,
                       flexDirection: "column",
@@ -978,6 +984,7 @@ const StoreProfileById = () => {
                     )}
                   </View>
                 )}
+                </View>
 
                 <BuyText width={200} />
                 <Text

@@ -275,7 +275,7 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
             resizeMode={FastImage.resizeMode.contain}
           />
         </View>
-        <View style={{ flex: 3 }}>
+        <View style={{ flex: 3,gap:-10 }}>
           <View style={{ position: "relative" }}>
             {/* Stroke Layer */}
             <Text
@@ -394,7 +394,7 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
               {category.title}
             </Text>
           </View>
-          <Text style={{ fontSize: 16, fontFamily: "Poppins-Regular" }}>
+          <Text style={{ fontSize: 16, fontFamily: "Poppins-Regular" ,marginBottom:10}}>
             {category.servicesubTitle}
           </Text>
           <TouchableOpacity
@@ -419,7 +419,7 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
           >
             <Text
               style={{
-                fontSize: 14,
+                fontSize: 16,
                 fontFamily: "Poppins-Italic",
                 color: "#fff",
               }}
@@ -668,6 +668,12 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
               >
                 <Store />
               </TouchableOpacity>
+              <View
+                              style={{
+                                position: "relative",
+                                marginBottom:10
+                              }}
+                            >
               <FastImage
                 source={{ uri: selectedImage }}
                 style={{
@@ -683,7 +689,7 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
                 <View
                   style={{
                     position: "absolute",
-                    top: 260,
+                    bottom:0,
                     backgroundColor: "rgba(0,0,0,0.5)",
                     width: 280,
                     flexDirection: "column",
@@ -740,7 +746,7 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
                   )}
                 </View>
               )}
-
+              </View>
               <BuyText width={200} />
               <Text
                 style={{
