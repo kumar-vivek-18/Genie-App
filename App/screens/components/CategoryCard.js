@@ -200,9 +200,10 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
 
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
-            maxRetries: 3,
-            retryDelay: 1000,
+            maxRetries: 5, // Increase retries
+            retryDelay: 500, // Reduce delay
           },
+          
         }}
         // height={180}
         style={{
@@ -660,6 +661,7 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
                     alignItems: "center",
                     flexDirection: "row",
                     gap: 5,
+                    marginRight:20
                   }}
                   onPress={() => {
                     dispatch(setRequestCategory(category.name));

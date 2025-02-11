@@ -745,9 +745,10 @@ const SearchCategoryScreen = () => {
 
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
-            maxRetries: 3,
-            retryDelay: 1000,
+            maxRetries: 5, // Increase retries
+            retryDelay: 500, // Reduce delay
           },
+          
         }}
         style={{
           width: 0.44 * width,
@@ -1515,9 +1516,10 @@ const SearchCategoryScreen = () => {
 
                   cache: FastImage.cacheControl.webLoad,
                   retryOptions: {
-                    maxRetries: 3,
-                    retryDelay: 1000,
+                    maxRetries: 5, // Increase retries
+                    retryDelay: 500, // Reduce delay
                   },
+                  
                 }}
                 style={{
                   width: 280,

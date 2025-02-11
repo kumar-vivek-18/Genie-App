@@ -177,9 +177,10 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
          
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
-            maxRetries: 3,
-            retryDelay: 1000,
+            maxRetries: 5, // Increase retries
+            retryDelay: 500, // Reduce delay
           },
+          
         }}
         style={{
           width: width * 0.38,
@@ -395,7 +396,7 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
               {category.title}
             </Text>
           </View>
-          <Text style={{ fontSize: 16, fontFamily: "Poppins-Regular" ,marginBottom:10}}>
+          <Text style={{ fontSize: 16, fontFamily: "Poppins-Regular" ,marginBottom:30}}>
             {category.servicesubTitle}
           </Text>
           <TouchableOpacity

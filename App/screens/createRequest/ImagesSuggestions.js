@@ -393,9 +393,10 @@ const ImageSuggestion = () => {
         
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
-            maxRetries: 3,
-            retryDelay: 1000,
-      }
+            maxRetries: 5, // Increase retries
+            retryDelay: 500, // Reduce delay
+          },
+          
          }}
         style={{
           width: .44*width,
@@ -869,9 +870,10 @@ const ImageSuggestion = () => {
                   
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
-            maxRetries: 3,
-            retryDelay: 1000,
-      }
+            maxRetries: 5, // Increase retries
+            retryDelay: 500, // Reduce delay
+          },
+          
                    }}
                   style={{
                     width: 280,
