@@ -259,13 +259,14 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
           borderWidth: 1,
           borderRadius: 10,
           paddingVertical: 10,
-          paddingHorizontal: 20,
+          paddingHorizontal: 10,
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "space-between",
+          justifyContent: "center",
+          gap:10
         }}
       >
-        <View style={{ flex: 2 }}>
+        <View style={{ flex: 5 }}>
           <FastImage
             source={(category?.name==="Luxury Watches & Service" || category?.name==="Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc" )?category?.icon2:category.icon}
             style={{
@@ -275,7 +276,7 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
             resizeMode={FastImage.resizeMode.contain}
           />
         </View>
-        <View style={{ flex: 3,gap:-10 }}>
+        <View style={{ flex: 10,gap:-10 }}>
           <View style={{ position: "relative" }}>
             {/* Stroke Layer */}
             <Text
