@@ -743,7 +743,7 @@ const SearchCategoryScreen = () => {
         source={{
           uri: item.productImage,
           priority: FastImage.priority.high,
-          cache: FastImage.cacheControl.webLoad,
+          cache: FastImage.cacheControl.immutable,
           retryOptions: {
             maxRetries: 5, // Increase retries
             retryDelay: 100, // Reduce delay
@@ -1514,7 +1514,7 @@ const SearchCategoryScreen = () => {
                 source={{
                   uri: selectedImage,
                   priority: FastImage.priority.high,
-                  cache: FastImage.cacheControl.webLoad,
+                  cache: FastImage.cacheControl.immutable,
                   retryOptions: {
                     maxRetries: 5, // Increase retries
                     retryDelay: 100, // Reduce delay

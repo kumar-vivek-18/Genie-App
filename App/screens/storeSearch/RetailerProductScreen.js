@@ -273,7 +273,7 @@ const {width, height} = Dimensions.get("window");
       <FastImage
         source={{ uri: item.productImage,
           priority: FastImage.priority.high,
-          cache: FastImage.cacheControl.webLoad,
+          cache:FastImage.cacheControl.immutable,
           retryOptions: {
             maxRetries: 5, // Increase retries
             retryDelay: 100, // Reduce delay
@@ -637,7 +637,7 @@ const {width, height} = Dimensions.get("window");
                 <FastImage
                   source={{ uri: selectedImage,
                     priority: FastImage.priority.high,
-          cache: FastImage.cacheControl.webLoad,
+          cache:FastImage.cacheControl.immutable,
           retryOptions: {
             maxRetries: 5, // Increase retries
             retryDelay: 100, // Reduce delay

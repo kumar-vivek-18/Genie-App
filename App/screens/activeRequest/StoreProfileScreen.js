@@ -263,7 +263,7 @@ const StoreProfileScreen = () => {
       <FastImage
         source={{ uri: item?.productImage,
           priority: FastImage.priority.high,
-          cache: FastImage.cacheControl.webLoad,
+          cache: FastImage.cacheControl.immutable,
           retryOptions: {
             maxRetries: 5, // Increase retries
             retryDelay: 500, // Reduce delay
@@ -430,7 +430,7 @@ const StoreProfileScreen = () => {
                       <FastImage
                         source={{ uri: image,
                           priority: FastImage.priority.high,
-          cache: FastImage.cacheControl.webLoad,
+          cache: FastImage.cacheControl.immutable,
           retryOptions: {
             maxRetries: 5, // Increase retries
             retryDelay: 100, // Reduce delay
@@ -870,7 +870,7 @@ const StoreProfileScreen = () => {
               <FastImage
                 source={{ uri: selectedImage,
                   priority: FastImage.priority.high,
-          cache: FastImage.cacheControl.webLoad,
+          cache: FastImage.cacheControl.immutable,
           retryOptions: {
             maxRetries: 5, // Increase retries
             retryDelay: 500, // Reduce delay

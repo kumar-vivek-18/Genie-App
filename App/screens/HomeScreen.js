@@ -1044,7 +1044,6 @@ const HomeScreen = () => {
                       {advert?.subtitle}
                     </Text>
                                     }
-                   
                     </View>
                   </Animated.View>
                 </View>

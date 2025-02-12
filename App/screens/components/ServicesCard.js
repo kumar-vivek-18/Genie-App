@@ -175,7 +175,7 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
         source={{
           uri: item.productImage,
           priority: FastImage.priority.high,
-          cache: FastImage.cacheControl.webLoad,
+          cache: FastImage.cacheControl.immutable,
           retryOptions: {
             maxRetries: 5, // Increase retries
             retryDelay: 100, // Reduce delay
