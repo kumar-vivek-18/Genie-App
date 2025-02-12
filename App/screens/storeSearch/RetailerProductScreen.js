@@ -272,11 +272,11 @@ const {width, height} = Dimensions.get("window");
     >
       <FastImage
         source={{ uri: item.productImage,
-          
+          priority: FastImage.priority.high,
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
             maxRetries: 5, // Increase retries
-            retryDelay: 500, // Reduce delay
+            retryDelay: 100, // Reduce delay
           },
           
          }}
@@ -372,7 +372,7 @@ const {width, height} = Dimensions.get("window");
     <>
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <View style={{ flex: 1 }}>
-          <View className="relative flex  mt-[40px] flex-row  items-center  px-[32px]">
+          <View className="relative flex  flex-row  items-center  px-[32px]">
             <TouchableOpacity
               onPress={() => {
                 navigation.goBack();
@@ -382,8 +382,10 @@ const {width, height} = Dimensions.get("window");
                 dispatch(setEstimatedPrice(0));
               }}
               style={{
-                paddingHorizontal: 32,
-                paddingVertical: 20,
+                top: 20,
+                left: 20,
+                paddingVertical: 25,
+                paddingHorizontal: 10,
                 position: "absolute",
                 zIndex: 100,
               }}
@@ -391,7 +393,7 @@ const {width, height} = Dimensions.get("window");
               <BackArrow width={14} height={10} />
             </TouchableOpacity>
             <Text
-              className="px-[20px] text-[16px] flex flex-1 justify-center  items-center text-center"
+              className="px-[20px] text-[16px]  mt-[40px] flex flex-1 justify-center mb-[20px]  items-center text-center"
               style={{
                 fontFamily: "Poppins-ExtraBold",
                 fontSize: 16,
@@ -404,7 +406,7 @@ const {width, height} = Dimensions.get("window");
           </View>
 
           <View
-            className="mx-[32px] flex flex-row h-[60px] border-[1px] items-center border-[#fb8c00] rounded-[24px] mb-[40px] bg-white"
+            className="mx-[32px] flex flex-row h-[60px] border-[1px] items-center border-[#fb8c00] rounded-[24px] mb-[20px] bg-white"
             style={{
               marginTop: 10,
               borderWidth: 1,
@@ -634,11 +636,11 @@ const {width, height} = Dimensions.get("window");
                                                         >
                 <FastImage
                   source={{ uri: selectedImage,
-                    
+                    priority: FastImage.priority.high,
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
             maxRetries: 5, // Increase retries
-            retryDelay: 500, // Reduce delay
+            retryDelay: 100, // Reduce delay
           },
           
                    }}

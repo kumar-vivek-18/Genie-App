@@ -286,11 +286,11 @@ const StoreProfileById = () => {
     >
       <FastImage
         source={{ uri: item.productImage,
-         
+          priority: FastImage.priority.high,
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
             maxRetries: 5, // Increase retries
-            retryDelay: 500, // Reduce delay
+            retryDelay: 100, // Reduce delay
           },
           
          }}
@@ -451,11 +451,11 @@ const StoreProfileById = () => {
                 >
                   <FastImage
                     source={{ uri: image,
-                     
+                      priority: FastImage.priority.high,
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
             maxRetries: 5, // Increase retries
-            retryDelay: 500, // Reduce delay
+            retryDelay: 100, // Reduce delay
           },
           
                      }}
@@ -909,11 +909,11 @@ const StoreProfileById = () => {
                                             >
                 <FastImage
                   source={{ uri: selectedImage ,
-                
+                    priority: FastImage.priority.high,
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
-            maxRetries: 3,
-            retryDelay: 1000,
+            maxRetries: 5,
+            retryDelay: 100,
       }
                   }}
                   style={{

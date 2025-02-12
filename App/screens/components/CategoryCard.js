@@ -197,11 +197,11 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
       <FastImage
         source={{
           uri: item.productImage,
-
+          priority: FastImage.priority.high,
           cache: FastImage.cacheControl.webLoad,
           retryOptions: {
             maxRetries: 5, // Increase retries
-            retryDelay: 500, // Reduce delay
+            retryDelay: 100, // Reduce delay
           },
           
         }}
@@ -275,7 +275,7 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
         backgroundColor: "#FFf",
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
-        marginVertical: 30,
+        marginVertical: 40,
         // borderBottomWidth:.5,
         // borderBottomColor:"#FB8C00",
       }}
@@ -503,12 +503,12 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
                 <FastImage
                   source={{
                     uri: item?.productImage,
-
+                    priority: FastImage.priority.high,
                     cache: FastImage.cacheControl.webLoad,
-                    //     retryOptions: {
-                    //       maxRetries: 3,
-                    //       retryDelay: 1000,
-                    // }
+                        retryOptions: {
+                          maxRetries: 5,
+                          retryDelay: 100,
+                    }
                   }}
                   style={{
                     width: width * 0.38,
