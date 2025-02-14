@@ -179,6 +179,7 @@ const ImageSuggestion = () => {
   const navigationState = useNavigationState((state) => state);
   const [selectedVendorId, setSelectedVendorId] = useState("");
   const [subQuery, setSubQuery] = useState("All");
+  const [selectedCategory,setSelectedCategory] = useState("")
 
   console.log(selectedVendorId);
   const isImgSuggestion =
