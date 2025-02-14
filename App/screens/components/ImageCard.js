@@ -32,7 +32,7 @@ const ImageCard = React.memo(({width,height, item, onImagePress, setStates }) =>
           cache: FastImage.cacheControl.immutable,
           retryOptions: {
             maxRetries: 5,
-            retryDelay: 100,
+            retryDelay: 300,
           }
         }}
         style={[{
