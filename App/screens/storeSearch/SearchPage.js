@@ -82,6 +82,7 @@ import NewServices7 from "../../assets/NewServices7.png";
 import NewServices8 from "../../assets/NewServices8.png";
 import NewServices9 from "../../assets/NewServices9.png";
 import NewServices10 from "../../assets/NewServices10.png";
+import ImageCard from "../components/ImageCard";
 
 const { width, height } = Dimensions.get("window");
 const SearchCategoryScreen = () => {
@@ -729,83 +730,103 @@ const SearchCategoryScreen = () => {
   };
 
   const renderProductItem = ({ item }) => (
-    <Pressable
-      onPress={() => {
-        handleImagePress(item.productImage);
-        setSelectedCategory(item.productCategory),
-          setSelectedImgEstimatedPrice(item.productPrice);
-        setSelectedImageDesc(item.productDescription);
-        setSelectedVendorId(item.vendorId);
-      }}
-      style={{ marginBottom: 10 }}
-    >
-      <FastImage
-        source={{
-          uri: item.productImage,
-          priority: FastImage.priority.high,
-          cache: FastImage.cacheControl.immutable,
-          retryOptions: {
-            maxRetries: 5, // Increase retries
-            retryDelay: 100, // Reduce delay
-          },
+    // <Pressable
+    //   onPress={() => {
+    //     handleImagePress(item.productImage);
+    //     setSelectedCategory(item.productCategory),
+    //       setSelectedImgEstimatedPrice(item.productPrice);
+    //     setSelectedImageDesc(item.productDescription);
+    //     setSelectedVendorId(item.vendorId);
+    //   }}
+    //   style={{ marginBottom: 10 }}
+    // >
+    //   <FastImage
+    //     source={{
+    //       uri: item.productImage,
+    //       priority: FastImage.priority.high,
+    //       cache: FastImage.cacheControl.immutable,
+    //       retryOptions: {
+    //         maxRetries: 5, // Increase retries
+    //         retryDelay: 100, // Reduce delay
+    //       },
           
-        }}
-        style={{
-          width: 0.44 * width,
-          height: 0.28 * height,
-          borderRadius: 16,
-        }}
-        resizeMode={FastImage.resizeMode.cover}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          width: 0.44 * width,
-          height: 70,
-          backgroundColor: "rgba(0,0,0,0.5)",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          borderBottomEndRadius: 16,
-          borderBottomStartRadius: 16,
-        }}
-      >
-        {item?.productDescription && (
-          <Text
-            style={{
-              fontFamily: "Poppins-Regular",
-              fontSize: 12,
-              color: "white",
-            }}
-          >
-            {item.productDescription.length > 16
-              ? `${item.productDescription.substring(0, 16)}...`
-              : item.productDescription}
-          </Text>
-        )}
-        <Text
-          style={{
-            fontFamily: "Poppins-Regular",
-            fontSize: 10,
-            color: "white",
-          }}
-        >
-          Estimated Price
-        </Text>
-        <Text
-          style={{
-            fontFamily: "Poppins-SemiBold",
-            color: "#fff",
-            fontSize: 14,
-            backgroundColor: "#55CD00",
-            paddingHorizontal: 2,
-          }}
-        >
-          Rs {item.productPrice}
-        </Text>
-      </View>
-    </Pressable>
+    //     }}
+    //     style={{
+    //       width: 0.44 * width,
+    //       height: 0.28 * height,
+    //       borderRadius: 16,
+    //     }}
+    //     resizeMode={FastImage.resizeMode.cover}
+    //   />
+    //   <View
+    //     style={{
+    //       position: "absolute",
+    //       bottom: 0,
+    //       width: 0.44 * width,
+    //       height: 70,
+    //       backgroundColor: "rgba(0,0,0,0.5)",
+    //       flexDirection: "column",
+    //       justifyContent: "center",
+    //       alignItems: "center",
+    //       borderBottomEndRadius: 16,
+    //       borderBottomStartRadius: 16,
+    //     }}
+    //   >
+    //     {item?.productDescription && (
+    //       <Text
+    //         style={{
+    //           fontFamily: "Poppins-Regular",
+    //           fontSize: 12,
+    //           color: "white",
+    //         }}
+    //       >
+    //         {item.productDescription.length > 16
+    //           ? `${item.productDescription.substring(0, 16)}...`
+    //           : item.productDescription}
+    //       </Text>
+    //     )}
+    //     <Text
+    //       style={{
+    //         fontFamily: "Poppins-Regular",
+    //         fontSize: 10,
+    //         color: "white",
+    //       }}
+    //     >
+    //       Estimated Price
+    //     </Text>
+    //     <Text
+    //       style={{
+    //         fontFamily: "Poppins-SemiBold",
+    //         color: "#fff",
+    //         fontSize: 14,
+    //         backgroundColor: "#55CD00",
+    //         paddingHorizontal: 2,
+    //       }}
+    //     >
+    //       Rs {item.productPrice}
+    //     </Text>
+    //   </View>
+    // </Pressable>
+    <View
+    style={{ marginBottom: 10 }}
+    >
+       <ImageCard
+                key={item._id}
+                item={item}
+                onImagePress={handleImagePress}
+                setStates={({category, price, desc, vendorId}) => {
+                  setSelectedCategory(category);
+                  setSelectedImgEstimatedPrice(price);
+                  setSelectedImageDesc(desc);
+                  setSelectedVendorId(vendorId);
+                }}
+                width={.44*width}
+                height={0.28* height}
+                
+                
+              />
+
+    </View>
   );
 
   const handleDownloadDocument = async () => {

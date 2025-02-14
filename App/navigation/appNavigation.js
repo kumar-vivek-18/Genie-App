@@ -43,6 +43,7 @@ import ServiceRequest from '../screens/createRequest/ServiceRequest.js';
 import ServiceRequestPreview from '../screens/createRequest/ServiceRequestPreview.js';
 import StoreProfileById from '../screens/storeSearch/StoreProfileById.js';
 import RetailerProductScreen from '../screens/storeSearch/RetailerProductScreen.js';
+import TempHome from '../screens/TempHome.js';
 
 const Stack = createNativeStackNavigator();
 const GlobalNavigation = () => {
@@ -73,15 +74,16 @@ const GlobalNavigation = () => {
                 animation: "slide_from_right",
                 animationDuration: "50"
             }}>
+            <Stack.Screen name="home" component={TempHome} />
+
             <Stack.Screen name="network-error" component={NetworkError} />
             <Stack.Screen name="payment-gateway" component={Razorpay} />
             <Stack.Screen name="splash" component={SplashScreen} />
             <Stack.Screen name="mobileNumber" component={MobileNumberEntryScreen} />
             {/* <Stack.Screen name="otpVerification" component={OtpVerificationScreen} /> */}
             <Stack.Screen name="registerUsername" component={UserNameEntryScreen} />
-            <Stack.Screen name="home" component={HomeScreen} />
+            <Stack.Screen name="temp" component={HomeScreen} />
             <Stack.Screen name="newhome" component={NewHome} />
-
             <Stack.Screen name="menu" component={MenuScreen} />
             <Stack.Screen name="profile" component={ProfileScreen} />
             <Stack.Screen name="history" component={HistoryScreen} />
@@ -91,9 +93,6 @@ const GlobalNavigation = () => {
             <Stack.Screen name="requestentry" component={RequestEntry} />
             <Stack.Screen name="servicerequest" component={ServiceRequest} />
             <Stack.Screen name="servicerequestpreview" component={ServiceRequestPreview} />
-
-
-
             <Stack.Screen name="define-request" component={DefineRequest} />
             <Stack.Screen name="image-suggestion" component={ImageSuggestion} />
             <Stack.Screen name="requestcategory" component={RequestCategory} />

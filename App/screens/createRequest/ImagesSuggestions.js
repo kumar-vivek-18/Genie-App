@@ -60,6 +60,7 @@ import { setVendorId } from "../../redux/reducers/userDataSlice.js";
 import Store from "../../assets/storeOrange.svg";
 import Download from "../../assets/download.svg";
 import { handleDownload } from "../../utils/logics/Logics.js";
+import ImageCard from "../components/ImageCard.js";
 
 const {width,height}=Dimensions.get("window")
 
@@ -379,84 +380,104 @@ const ImageSuggestion = () => {
  
 
   const renderProductItem = ({ item }) => (
-    <Pressable
-      onPress={() => {
-        handleImagePress(item.productImage);
-        setSelectedVendorId(item.vendorId);
-        setSelectedImgEstimatedPrice(item.productPrice);
-        setSelectedImageDesc(item.productDescription);
-      }}
-      style={{ marginBottom: 10 }}
-    >
-      <FastImage
-        source={{ uri: item.productImage,
-          priority: FastImage.priority.high,
-          cache:FastImage.cacheControl.immutable,
-          retryOptions: {
-            maxRetries: 5, // Increase retries
-            retryDelay: 100, // Reduce delay
-          },
+    // <Pressable
+    //   onPress={() => {
+    //     handleImagePress(item.productImage);
+    //     setSelectedVendorId(item.vendorId);
+    //     setSelectedImgEstimatedPrice(item.productPrice);
+    //     setSelectedImageDesc(item.productDescription);
+    //   }}
+    //   style={{ marginBottom: 10 }}
+    // >
+    //   <FastImage
+    //     source={{ uri: item.productImage,
+    //       priority: FastImage.priority.high,
+    //       cache:FastImage.cacheControl.immutable,
+    //       retryOptions: {
+    //         maxRetries: 5, // Increase retries
+    //         retryDelay: 100, // Reduce delay
+    //       },
           
-         }}
-        style={{
-          width: .44*width,
-          height: .28*height,
-          borderRadius: 16,
-        }}
-        resizeMode={FastImage.resizeMode.cover}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          width: .44*width,
+    //      }}
+    //     style={{
+    //       width: .44*width,
+    //       height: .28*height,
+    //       borderRadius: 16,
+    //     }}
+    //     resizeMode={FastImage.resizeMode.cover}
+    //   />
+    //   <View
+    //     style={{
+    //       position: "absolute",
+    //       bottom: 0,
+    //       width: .44*width,
         
-          height: 70,
-          backgroundColor: "rgba(0,0,0,0.5)",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          borderBottomEndRadius: 16,
-          borderBottomStartRadius: 16,
-        }}
-      >
-        {item?.productDescription && (
-          <Text
-            style={{
-              fontFamily: "Poppins-Regular",
-              fontSize: 12,
-              color: "white",
-            }}
-          >
-            {item.productDescription.length > 16
-              ? `${item.productDescription.substring(0, 16)}...`
-              : item.productDescription}
-          </Text>
-        )}
-        <Text
-          style={{
-            fontFamily: "Poppins-Regular",
-            fontSize: 10,
-            color: "white",
+    //       height: 70,
+    //       backgroundColor: "rgba(0,0,0,0.5)",
+    //       flexDirection: "column",
+    //       justifyContent: "center",
+    //       alignItems: "center",
+    //       borderBottomEndRadius: 16,
+    //       borderBottomStartRadius: 16,
+    //     }}
+    //   >
+    //     {item?.productDescription && (
+    //       <Text
+    //         style={{
+    //           fontFamily: "Poppins-Regular",
+    //           fontSize: 12,
+    //           color: "white",
+    //         }}
+    //       >
+    //         {item.productDescription.length > 16
+    //           ? `${item.productDescription.substring(0, 16)}...`
+    //           : item.productDescription}
+    //       </Text>
+    //     )}
+    //     <Text
+    //       style={{
+    //         fontFamily: "Poppins-Regular",
+    //         fontSize: 10,
+    //         color: "white",
 
-          }}
-        >
-          Estimated Price
-        </Text>
-        <Text
-          style={{
-            fontFamily: "Poppins-SemiBold",
-            color: "#fff",
-            fontSize:14,
-            backgroundColor:"#55CD00",
-            paddingHorizontal:2
+    //       }}
+    //     >
+    //       Estimated Price
+    //     </Text>
+    //     <Text
+    //       style={{
+    //         fontFamily: "Poppins-SemiBold",
+    //         color: "#fff",
+    //         fontSize:14,
+    //         backgroundColor:"#55CD00",
+    //         paddingHorizontal:2
           
-          }}
-        >
-          Rs {item.productPrice}
-        </Text>
-      </View>
-    </Pressable>
+    //       }}
+    //     >
+    //       Rs {item.productPrice}
+    //     </Text>
+    //   </View>
+    // </Pressable>
+    <View
+    style={{ marginBottom: 10 }}
+    >
+       <ImageCard
+                key={item._id}
+                item={item}
+                onImagePress={handleImagePress}
+                setStates={({category, price, desc, vendorId}) => {
+                  setSelectedCategory(category);
+                  setSelectedImgEstimatedPrice(price);
+                  setSelectedImageDesc(desc);
+                  setSelectedVendorId(vendorId);
+                }}
+                width={.44*width}
+                height={0.28* height}
+                
+                
+              />
+
+    </View>
   );
 
 

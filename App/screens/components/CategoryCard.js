@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import {
   Animated,
@@ -35,6 +36,9 @@ import Store from "../../assets/storeOrange.svg";
 import Download from "../../assets/download.svg";
 import { handleDownload } from "../../utils/logics/Logics";
 import ServicesCard from "./ServicesCard";
+import ImageCard from "./ImageCard";
+
+
 
 const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
   //   const [images, setImages] = useState([]);
@@ -183,87 +187,107 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
   //   if (!isVisible) return null;
 
   const renderProductItem = (item) => (
-    <TouchableOpacity
-      key={item._id}
-      onPress={() => {
-        handleImagePress(item.productImage);
-        setSelectedCategory(item.productCategory),
-          setSelectedImgEstimatedPrice(item.productPrice);
-        setSelectedImageDesc(item.productDescription);
-        setSelectedVendorId(item.vendorId);
-      }}
-      style={{ marginBottom: 10, marginRight: 10 }}
-    >
-      <FastImage
-        source={{
-          uri: item.productImage,
-          priority: FastImage.priority.high,
-          cache: FastImage.cacheControl.immutable,
-          retryOptions: {
-            maxRetries: 5, // Increase retries
-            retryDelay: 100, // Reduce delay
-          },
+    // <TouchableOpacity
+    //   key={item._id}
+    //   onPress={() => {
+    //     handleImagePress(item.productImage);
+    //     setSelectedCategory(item.productCategory),
+    //       setSelectedImgEstimatedPrice(item.productPrice);
+    //     setSelectedImageDesc(item.productDescription);
+    //     setSelectedVendorId(item.vendorId);
+    //   }}
+    //   style={{ marginBottom: 10, marginRight: 10 }}
+    // >
+    //   <FastImage
+    //     source={{
+    //       uri: item.productImage,
+    //       priority: FastImage.priority.high,
+    //       cache: FastImage.cacheControl.immutable,
+    //       retryOptions: {
+    //         maxRetries: 5, // Increase retries
+    //         retryDelay: 100, // Reduce delay
+    //       },
           
-        }}
-        // height={180}
-        style={{
-          width: width * 0.38,
-          height: 0.26 * height,
-          borderRadius: 16,
-        }}
+    //     }}
+    //     // height={180}
+    //     style={{
+    //       width: width * 0.38,
+    //       height: 0.26 * height,
+    //       borderRadius: 16,
+    //     }}
 
-        // resizeMode={FastImage.resizeMode.cover}
-      />
-      <View
-        style={{
-          position: "absolute",
-          bottom: 0,
-          width: width * 0.38,
+    //     // resizeMode={FastImage.resizeMode.cover}
+    //   />
+    //   <View
+    //     style={{
+    //       position: "absolute",
+    //       bottom: 0,
+    //       width: width * 0.38,
 
-          height: 70,
-          backgroundColor: "rgba(0,0,0,0.5)",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          borderBottomEndRadius: 16,
-          borderBottomStartRadius: 16,
-        }}
-      >
-        {item?.productDescription && (
-          <Text
-            style={{
-              fontFamily: "Poppins-Regular",
-              fontSize: 12,
-              color: "white",
-            }}
-          >
-            {item.productDescription.length > 16
-              ? `${item.productDescription.substring(0, 16)}...`
-              : item.productDescription}
-          </Text>
-        )}
-        <Text
-          style={{
-            fontFamily: "Poppins-Regular",
-            fontSize: 10,
-            color: "white",
-          }}
-        >
-          Estimated Price
-        </Text>
-        <Text
-          style={{
-            fontFamily: "Poppins-SemiBold",
-            color: "#fff",
-            fontSize: 14,
-            backgroundColor: "#55CD00",
-            paddingHorizontal: 2,
-          }}
-        >
-          Rs {item.productPrice}
-        </Text>
-      </View>
-    </TouchableOpacity>
+    //       height: 70,
+    //       backgroundColor: "rgba(0,0,0,0.5)",
+    //       flexDirection: "column",
+    //       justifyContent: "center",
+    //       alignItems: "center",
+    //       borderBottomEndRadius: 16,
+    //       borderBottomStartRadius: 16,
+    //     }}
+    //   >
+    //     {item?.productDescription && (
+    //       <Text
+    //         style={{
+    //           fontFamily: "Poppins-Regular",
+    //           fontSize: 12,
+    //           color: "white",
+    //         }}
+    //       >
+    //         {item.productDescription.length > 16
+    //           ? `${item.productDescription.substring(0, 16)}...`
+    //           : item.productDescription}
+    //       </Text>
+    //     )}
+    //     <Text
+    //       style={{
+    //         fontFamily: "Poppins-Regular",
+    //         fontSize: 10,
+    //         color: "white",
+    //       }}
+    //     >
+    //       Estimated Price
+    //     </Text>
+    //     <Text
+    //       style={{
+    //         fontFamily: "Poppins-SemiBold",
+    //         color: "#fff",
+    //         fontSize: 14,
+    //         backgroundColor: "#55CD00",
+    //         paddingHorizontal: 2,
+    //       }}
+    //     >
+    //       Rs {item.productPrice}
+    //     </Text>
+    //   </View>
+    // </TouchableOpacity>
+    <View
+    style={{ marginBottom: 10, marginRight: 10 }}
+    >
+       <ImageCard
+                key={item._id}
+                item={item}
+                onImagePress={handleImagePress}
+                setStates={({category, price, desc, vendorId}) => {
+                  setSelectedCategory(category);
+                  setSelectedImgEstimatedPrice(price);
+                  setSelectedImageDesc(desc);
+                  setSelectedVendorId(vendorId);
+                }}
+                width={width * 0.38}
+                height={0.26 * height}
+                
+              />
+
+    </View>
+   
   );
 
   return (
@@ -490,83 +514,21 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
             }}
           >
             {images.slice(0, 4).map((item) => (
-              <TouchableOpacity
+              <ImageCard
                 key={item._id}
-                onPress={() => {
-                  handleImagePress(item.productImage);
-                  setSelectedCategory(item.productCategory);
-                  setSelectedImgEstimatedPrice(item.productPrice);
-                  setSelectedImageDesc(item.productDescription);
-                  setSelectedVendorId(item.vendorId);
+                item={item}
+                onImagePress={handleImagePress}
+                setStates={({category, price, desc, vendorId}) => {
+                  setSelectedCategory(category);
+                  setSelectedImgEstimatedPrice(price);
+                  setSelectedImageDesc(desc);
+                  setSelectedVendorId(vendorId);
                 }}
-              >
-                <FastImage
-                  source={{
-                    uri: item?.productImage,
-                    priority: FastImage.priority.high,
-                    cache: FastImage.cacheControl.immutable,
-                        retryOptions: {
-                          maxRetries: 5,
-                          retryDelay: 100,
-                    }
-                  }}
-                  style={{
-                    width: width * 0.38,
-                    height: 0.26 * height,
-                    borderRadius: 10,
-                  }}
-                  resizeMode={FastImage.resizeMode.cover}
-                />
-                <View
-                  style={{
-                    position: "absolute",
-                    bottom: 0,
-                    width: width * 0.38,
-                    height: 70,
-                    backgroundColor: "rgba(0,0,0,0.5)",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderBottomEndRadius: 16,
-                    borderBottomStartRadius: 16,
-                  }}
-                >
-                  {item?.productDescription && (
-                    <Text
-                      style={{
-                        fontFamily: "Poppins-Regular",
-                        fontSize: 12,
-                        color: "white",
-                      }}
-                    >
-                      {item.productDescription.length > 16
-                        ? `${item.productDescription.substring(0, 16)}...`
-                        : item.productDescription}
-                    </Text>
-                  )}
-                  <Text
-                    style={{
-                      fontFamily: "Poppins-Regular",
-                      fontSize: 10,
-                      color: "white",
-                    }}
-                  >
-                    Estimated Price
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: "Poppins-SemiBold",
-                      color: "#fff",
-                      fontSize: 14,
-                      backgroundColor: "#55CD00",
-                      paddingHorizontal: 2,
-                    }}
-                  >
-                    Rs {item.productPrice}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+                width={width * 0.38}
+                height={0.26 * height}
+              />
             ))}
+
           </View>
         )}
 
@@ -969,7 +931,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
+  }
 });
 
 export default React.memo(CategoryCard);
