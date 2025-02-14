@@ -64,8 +64,8 @@ const ImageCard = React.memo(({width,height, item, onImagePress, setStates }) =>
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          borderBottomEndRadius: 16,
-          borderBottomStartRadius: 16,
+          borderBottomEndRadius: 10,
+          borderBottomStartRadius: 10,
         }}
       >
         {item?.productDescription && (
