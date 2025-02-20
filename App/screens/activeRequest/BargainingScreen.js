@@ -190,11 +190,11 @@ const BargainingScreen = () => {
   };
 
   const setMessagesMarkAsRead = useCallback(async () => {
-    console.log(
-      "marks as read0",
-      currentSpadeRetailer?.unreadCount,
-      currentSpadeRetailer?.latestMessage?.sender?.type
-    );
+    // console.log(
+    //   "marks as read0",
+    //   currentSpadeRetailer?.unreadCount,
+    //   currentSpadeRetailer?.latestMessage?.sender?.type
+    // );
     try {
       if (
         currentSpadeRetailer?.unreadCount > 0 &&
@@ -238,7 +238,7 @@ const BargainingScreen = () => {
   }, []);
 
   const handleSpadeNaviagtion = useCallback(async () => {
-    console.log("current spade unread data", currentSpade?.unread);
+    // console.log("current spade unread data", currentSpade?.unread);
     const config = {
       headers: {
         // Use "headers" instead of "header"
@@ -299,7 +299,7 @@ const BargainingScreen = () => {
     await axiosInstance
       .get(`${baseUrl}/chat/get-particular-chat`, config)
       .then(async (res) => {
-        console.log("fetched current spade retaieler", res.data._id);
+        // console.log("fetched current spade retaieler", res.data._id);
 
         dispatch(setCurrentSpadeRetailer(res.data));
         dispatch(setCurrentSpade(res?.data?.requestId));
@@ -346,7 +346,7 @@ const BargainingScreen = () => {
         socket.emit("join chat", res.data[0]?.chat?._id);
         // console.log("current spade updated successfully at messages", currentSpadeRetailer?._id)
 
-        console.log("messages", res.data);
+        // console.log("messages", res.data);
       })
       .catch((err) => {
         setMessageLoading(false);
@@ -380,7 +380,7 @@ const BargainingScreen = () => {
           currentSpadeRetailer?.retailerId?.lattitude,
           currentSpadeRetailer?.retailerId?.longitude
         );
-        console.log("dis", dis);
+        // console.log("dis", dis);
         if (dis) setDistance(dis);
       }
     } else {
@@ -403,7 +403,7 @@ const BargainingScreen = () => {
           currentSpadeRetailer?.retailerId?.lattitude,
           currentSpadeRetailer?.retailerId?.longitude
         );
-        console.log("dis", dis);
+        // console.log("dis", dis);
         if (dis) setDistance(dis);
       }
     }
@@ -421,7 +421,7 @@ const BargainingScreen = () => {
   const acceptBid = async () => {
     setLoading(true);
     setAcceptLoading(true);
-    console.log(messages[messages?.length - 1]._id, spade?._id);
+    // console.log(messages[messages?.length - 1]._id, spade?._id);
     try {
       const config = {
         headers: {
@@ -440,7 +440,7 @@ const BargainingScreen = () => {
           config
         )
         .then(async (res) => {
-          console.log("accepting",res.data);
+          // console.log("accepting",res.data);
           // console.log('response of bid accept', res);
           // console.log('res accepted bid', res.status, res.data.message);
           socket.emit("new message", res.data.message);
@@ -487,7 +487,7 @@ const BargainingScreen = () => {
           ];
           dispatch(setCurrentSpadeRetailers(updatedRetailers));
           dispatch(setCurrentSpadeRetailer(updateChat));
-          console.log("setCurrentSpadeRetail",updateChat)
+          // console.log("setCurrentSpadeRetail",updateChat)
 
           setLoading(false);
           const notification = {
@@ -557,7 +557,7 @@ const BargainingScreen = () => {
       if (res.status !== 200) return;
 
       socket.emit("new message", res.data);
-      console.log("bid res", res.data);
+      // console.log("bid res", res.data);
       const data = formatDateTime(res.data.createdAt);
       res.data.createdAt = data.formattedTime;
       res.data.updatedAt = data.formattedDate;
@@ -565,7 +565,7 @@ const BargainingScreen = () => {
       //updating messages
       let mess = [...messages];
       mess[mess.length - 1] = res.data;
-      console.log("mess", mess);
+      // console.log("mess", mess);
       setMessages(mess);
 
       //updating retailers latest message
@@ -611,7 +611,7 @@ const BargainingScreen = () => {
       const idx = spades.findIndex(
         (spade) => spade._id === res.data.userRequest._id
       );
-      console.log("index while rejecting", idx);
+      // console.log("index while rejecting", idx);
       if (idx !== 0) {
         let data = spades.filter(
           (spade) => spade._id === res.data.userRequest._id
@@ -784,12 +784,12 @@ const BargainingScreen = () => {
       dispatch(setUserLatitude(location?.coords.latitude));
     }
 
-    console.log(
-      "current and store location",
-      userLongitude,
-      userLatitude,
-      storeLocation
-    );
+    // console.log(
+    //   "current and store location",
+    //   userLongitude,
+    //   userLatitude,
+    //   storeLocation
+    // );
 
     if (userLongitude !== 0 && userLatitude !== 0) {
       const url = `https://www.google.com/maps/dir/?api=1&origin=${userLatitude},${userLongitude}&destination=${storeLocation.latitude},${storeLocation.longitude}&travelmode=driving`;

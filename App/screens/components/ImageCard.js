@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Dimensions, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Image, Text, TouchableOpacity, View } from "react-native";
 
 import FastImage from "react-native-fast-image";
 
@@ -25,15 +25,10 @@ const ImageCard = React.memo(({width,height, item, onImagePress, setStates }) =>
         });
       }}
     >
-      <FastImage
+      <Image
         source={{
           uri: item?.productImage,
-          priority: FastImage.priority.high,
-          cache: FastImage.cacheControl.immutable,
-          retryOptions: {
-            maxRetries: 5,
-            retryDelay: 300,
-          }
+         
         }}
         style={[{
           width: width ,
@@ -41,7 +36,7 @@ const ImageCard = React.memo(({width,height, item, onImagePress, setStates }) =>
           borderRadius: 10,
         }, { opacity: imageLoaded ? 1 : 0 }]}
         onLoad={() => setImageLoaded(true)}
-        resizeMode={FastImage.resizeMode.cover}
+        resizeMode="cover"
       />
       
       {!imageLoaded && (

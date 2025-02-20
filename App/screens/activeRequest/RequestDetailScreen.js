@@ -87,29 +87,29 @@ const RequestDetail = () => {
 
 
     // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    useEffect(() => {
-        const backAction = () => {
-            if (isRequestDetailScreen) {
-                console.log('isHome', isHome);
-                if (isHome)
-                    navigation.navigate('orders');
-                else {
-                    navigation.navigate('history');
-                    dispatch(setIsHome(true));
-                }
-                return true;
-            } else {
-                return false;
-            }
-        };
+    // useEffect(() => {
+    //     const backAction = () => {
+    //         if (isRequestDetailScreen) {
+    //             console.log('isHome', isHome);
+    //             if (isHome)
+    //                 navigation.navigate('orders');
+    //             else {
+    //                 navigation.navigate('history');
+    //                 dispatch(setIsHome(true));
+    //             }
+    //             return true;
+    //         } else {
+    //             return false;
+    //         }
+    //     };
 
-        const backHandler = BackHandler.addEventListener(
-            "hardwareBackPress",
-            backAction
-        );
+    //     const backHandler = BackHandler.addEventListener(
+    //         "hardwareBackPress",
+    //         backAction
+    //     );
 
-        return () => backHandler.remove();
-    }, [isRequestDetailScreen]);
+    //     return () => backHandler.remove();
+    // }, [isRequestDetailScreen]);
 
 
     const connectSocket = async () => {
@@ -187,14 +187,14 @@ const RequestDetail = () => {
                     if (acceptedChat) {
                         const extraChats = chats.filter(chat => chat?._id !== acceptedChat?._id);
                         const allChats = [acceptedChat, ...extraChats];
-                        console.log('allChats', allChats?.length);
+                        // console.log('allChats', allChats?.length);
                         dispatch(setCurrentSpadeRetailers(allChats));
                     }
                     else {
                         const extraChats = chats.filter(chat => chat.requestType !== "closed" && chat.requestType !== "closedHistory");
                         const closedChats = chats.filter(chat => chat.requestType === "closed" || chat.requestType === "closedHistory");
                         const allChats = [...extraChats, ...closedChats];
-                        console.log('allChats', allChats?.length, extraChats?.length, closedChats?.length);
+                        // console.log('allChats', allChats?.length, extraChats?.length, closedChats?.length);
 
                         dispatch(setCurrentSpadeRetailers(allChats));
                         // dispatch(setCurrentSpadeRetailers(chats));
@@ -240,7 +240,7 @@ const RequestDetail = () => {
             if (currentSpade?._id === updatedUser?.requestId?._id) {
 
 
-                console.log('Updated user data received at socket', updatedUser?._id, updatedUser?.latestMessage?.message, updatedUser?.unreadCount);
+                // console.log('Updated user data received at socket', updatedUser?._id, updatedUser?.latestMessage?.message, updatedUser?.unreadCount);
                 const data = formatDateTime(updatedUser?.updatedAt);
                 updatedUser.createdAt = data.formattedDate;
                 updatedUser.updatedAt = data.formattedTime;
@@ -262,7 +262,7 @@ const RequestDetail = () => {
                 let spadesData = [...spades];
                 const idx = spadesData.findIndex(spade => spade._id === updatedUser.requestId._id);
 
-                console.log("Spdes updated ", idx);
+                // console.log("Spdes updated ", idx);
                 if (idx !== -1 && updatedUser.latestMessage.bidAccepted !== "accepted") {
 
                     let data = spadesData.filter(spade => spade._id === updatedUser.requestId._id);
@@ -273,7 +273,7 @@ const RequestDetail = () => {
                     // console.log('data', data);
                     spadesData = [...data, ...data2]
 
-                    console.log("Spdes updated Successfully", data?.length, data2?.length);
+                    // console.log("Spdes updated Successfully", data?.length, data2?.length);
                     dispatch(setSpades(spadesData));
                 }
             }
@@ -340,12 +340,13 @@ const RequestDetail = () => {
 
 
                             <TouchableOpacity onPress={() => {
-                                if (isHome)
-                                    navigation.navigate('orders');
-                                else {
-                                    navigation.navigate('history');
-                                    dispatch(setIsHome(true));
-                                }
+                                navigation.goBack();
+                                // if (isHome)
+                                //     navigation.navigate('orders');
+                                // else {
+                                //     navigation.navigate('history');
+                                //     dispatch(setIsHome(true));
+                                // }
                             }} style={{ padding: 4 }}>
                                 <View className="px-[10px] py-[15px] ">
                                     <ArrowLeft />
@@ -430,7 +431,7 @@ const RequestDetail = () => {
                             {
                                 currentSpadeRetailers && currentSpadeRetailers?.length > 0 && currentSpadeRetailers?.map((details, index) => {
                                     let distance = null;
-                                    {console.log(details)}
+                                    // {console.log(details)}
                                     if (userLongitude !== 0 && userLatitude !== 0 && details?.retailerId?.longitude !== 0 && details?.retailerId?.lattitude !== 0) {
                                         distance = haversineDistance(userLatitude, userLongitude, details?.retailerId?.lattitude, details?.retailerId?.longitude);
                                         // console.log('dis', distance);

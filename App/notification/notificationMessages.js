@@ -578,7 +578,7 @@ export const sendCloseSpadeNotification = async (mess) => {
 
 export const CloseActiveSpadeNotification = async (mess) => {
     try {
-        const uniqueTokens = mess.uniqueTokens;
+        const uniqueTokens = mess.token;
         console.log("notification request creted", uniqueTokens)
 
         const accessToken = await getAccessToken();
@@ -614,7 +614,7 @@ export const CloseActiveSpadeNotification = async (mess) => {
                     },
                     data: {
                         redirect_to: "requestPage",
-                        requestInfo: JSON.stringify(requestInfo)
+                        requestInfo: JSON.stringify(mess?.requestInfo)
                     }
                 };
 

@@ -98,8 +98,8 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                                 body: spade?.requestDescription,
                                 requestInfo: {
                                     requestId: currentSpadeRetailers[0]?._id,
-                                    userId: currentSpadeRetailers[0]?.users[0]._id,
-                                    senderId: currentSpadeRetailers[0]?.users[0]._id,
+                                    userId: currentSpadeRetailers[0]?.users[0]?._id,
+                                    senderId: currentSpadeRetailers[0]?.users[0]?._id,
                                 }
                             }
                             console.log("close notification", token)
@@ -169,7 +169,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
             // console.log('retailers to close spade', retailers.data);
 
             const ongoingRetailrs = currentSpadeRetailers.filter(curr => curr.requestType !== 'closed' && curr.requestType !== 'closedHistory');
-            console.log('Ongoing retailers to close spade', ongoingRetailrs.length);
+            console.log('Ongoing retailers to close spade', ongoingRetailrs?.length);
             const allRetailers = [...retailers.data, ...ongoingRetailrs];
 
             // console.log('All retailers to close spade', allRetailers)
@@ -233,7 +233,7 @@ const CloseSpadeModal = ({ confirmModal, setConfirmModal, setSuccessModal }) => 
                             body: spade?.requestDescription,
                             requestInfo: {
                                 requestId: currentSpadeRetailers[0]?._id,
-                                userId: currentSpadeRetailers[0]?.users[0]._id,
+                                userId: currentSpadeRetailers[0]?.users[0]?._id,
                                 senderId: null,
                             }
                         }
