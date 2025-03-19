@@ -150,7 +150,8 @@ import CategoryCardsMapping from "./components/CategoriesList.js";
 import ServicesCardMapping from "./components/ServicesCardMapping.js";
 import CategoriesList from "./components/CategoriesList.js";
 import ServicesList from "./components/ServicesCardMapping.js";
-
+import * as Location from "expo-location";
+// import analytics from '@react-native-firebase/analytics';
 const { width, height } = Dimensions.get("window");
 
 const categories = [
@@ -535,7 +536,7 @@ const horizontalCat = [
 
 
 
-const TempHome = () => {
+const MainHome = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const userDetails = useSelector((state) => state.user.userDetails);
@@ -577,6 +578,15 @@ const TempHome = () => {
       // alert('Video has finished playing!');
     }
   }, []);
+
+  useEffect(() => {
+      (async () => {
+    
+        const location = await Location.requestForegroundPermissionsAsync();
+        console.log("status notification", location);
+  
+      })();
+    }, []);
 
   const searchData = useSelector(
     (store) => store.userRequest.nearByStoresCategory
@@ -771,7 +781,7 @@ useEffect(() => {
       const token = JSON.parse(await AsyncStorage.getItem("accessToken"));
       if (userData) {
         console.log("refreshing location home screen");
-        handleRefreshLocation(userData._id, token);
+        handleRefreshLocation(userData?._id, token);
       }
     } catch (error) {
       console.error("Error while updating location");
@@ -1600,4 +1610,4 @@ const styles = {
   },
 };
 
-export default TempHome;
+export default MainHome;

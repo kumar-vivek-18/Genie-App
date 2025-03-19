@@ -12,15 +12,15 @@ export const handleRefreshLocation = async (id, accessToken) => {
     try {
         await getGeoCoordinates()
             .then(async (res) => {
-                if (!res.coords) {
+                if (!res?.coords) {
                     console.error("Error getting coordinates");
                     return;
                 }
                 // console.log('res coords while updating at splash', res.coords);
                 // console.log("coords", res.coords);
                 const location = await getLocationName(
-                    res.coords.latitude,
-                    res.coords.longitude
+                    res?.coords?.latitude,
+                    res?.coords?.longitude
                 );
 
                 console.log('location name', location);

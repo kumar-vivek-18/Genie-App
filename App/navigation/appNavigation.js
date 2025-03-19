@@ -43,7 +43,8 @@ import ServiceRequest from '../screens/createRequest/ServiceRequest.js';
 import ServiceRequestPreview from '../screens/createRequest/ServiceRequestPreview.js';
 import StoreProfileById from '../screens/storeSearch/StoreProfileById.js';
 import RetailerProductScreen from '../screens/storeSearch/RetailerProductScreen.js';
-import TempHome from '../screens/TempHome.js';
+
+import MainHome from '../screens/MainHome.js';
 
 const Stack = createNativeStackNavigator();
 const GlobalNavigation = () => {
@@ -74,7 +75,7 @@ const GlobalNavigation = () => {
                 animation: "slide_from_right",
                 animationDuration: "50"
             }}>
-            <Stack.Screen name="home" component={TempHome} />
+            <Stack.Screen name="home" component={MainHome} />
 
             <Stack.Screen name="network-error" component={NetworkError} />
             <Stack.Screen name="payment-gateway" component={Razorpay} />
