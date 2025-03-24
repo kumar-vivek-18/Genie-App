@@ -33,6 +33,7 @@ import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
 import ErrorOffer from '../../assets/ErrorOffer.svg';
 import UnableToSendMessage from "../components/UnableToSendMessageModal";
+import { logAnalytics } from "../../utils/logics/analyticsEvent";
 
 const CreateNewBidScreen = () => {
   const route = useRoute();
@@ -317,6 +318,7 @@ const CreateNewBidScreen = () => {
           disabled={!price || query.length == 0 || loading}
           onPress={() => {
             sendBid();
+            logAnalytics("send_an_offer");
           }}
           style={{
             position: "absolute",

@@ -83,6 +83,7 @@ import NewServices8 from "../../assets/NewServices8.png";
 import NewServices9 from "../../assets/NewServices9.png";
 import NewServices10 from "../../assets/NewServices10.png";
 import ImageCard from "../components/ImageCard";
+import { logAnalytics } from "../../utils/logics/analyticsEvent";
 
 const { width, height } = Dimensions.get("window");
 const SearchCategoryScreen = () => {
@@ -530,7 +531,8 @@ const SearchCategoryScreen = () => {
 
       // console.log('data', data);
       setSearchedStores(data);
-    } else setSearchedStores(dataCopy);
+    } else       searchStores(searchQuery, 1, true);
+    ;
   };
 
   const onShare = async () => {
@@ -1122,10 +1124,11 @@ const SearchCategoryScreen = () => {
               {storeVisible && (
                 <View className="px-[32px] flex mb-[10px]">
                   <View className="border-[1px] border-[#fb8c00] rounded-xl mb-[20px] flex-row justify-between">
-                    <View className="w-[50%] ">
+                    
                       <TouchableOpacity
-                        className="rounded-xl text-[14px] py-[10px] w-[50%] text-center"
+                        className="rounded-xl text-[14px] py-[10px]  text-center"
                         style={{
+                          flex:1,
                           backgroundColor: filterNearby ? "#fb8c00" : "#ffffff",
                           paddingVertical: 10,
                           textAlign: "center",
@@ -1147,11 +1150,11 @@ const SearchCategoryScreen = () => {
                           Nearby
                         </Text>
                       </TouchableOpacity>
-                    </View>
-                    <View className="w-[50%]">
+                   
                       <TouchableOpacity
-                        className="rounded-xl text-[14px] py-[10px] w-[50%] text-center"
+                        className="rounded-xl text-[14px] py-[10px]  text-center"
                         style={{
+                          flex:1,
                           backgroundColor: filterNearby ? "#ffffff" : "#fb8c00",
                           paddingVertical: 10,
                           textAlign: "center",
@@ -1173,7 +1176,7 @@ const SearchCategoryScreen = () => {
                           Most Rated
                         </Text>
                       </TouchableOpacity>
-                    </View>
+                   
                   </View>
 
                   <Text
@@ -1643,6 +1646,7 @@ const SearchCategoryScreen = () => {
                       dispatch(setRequestDetail(selectedImageDesc));
                       navigation.navigate("define-request");
                     }, 200);
+                      logAnalytics("pressed_start_bargaining");
                   }
                 }}
                 style={{

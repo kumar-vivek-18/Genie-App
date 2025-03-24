@@ -37,6 +37,7 @@ import Download from "../../assets/download.svg";
 import { handleDownload } from "../../utils/logics/Logics";
 import ServicesCard from "./ServicesCard";
 import ImageCard from "./ImageCard";
+import { logAnalytics } from "../../utils/logics/analyticsEvent";
 
 
 
@@ -868,6 +869,7 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
                   handleCloseSuggestion();
                   if (!userDetails?._id) setSignUpModal(true);
                   else {
+
                     dispatch(setSuggestedImages([selectedImage]));
                     dispatch(setRequestImages([]));
 
@@ -879,6 +881,7 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
                       dispatch(setRequestDetail(selectedImageDesc));
                       navigation.navigate("define-request");
                     }, 200);
+                    logAnalytics("pressed_start_bargaining");
                   }
                 }}
                 style={{

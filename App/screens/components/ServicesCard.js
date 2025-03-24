@@ -36,6 +36,7 @@ import Download from "../../assets/download.svg";
 import { setVendorId } from "../../redux/reducers/userDataSlice";
 import { handleDownload } from "../../utils/logics/Logics";
 import ImageCard from "./ImageCard";
+import { logAnalytics } from "../../utils/logics/analyticsEvent";
 
 const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
   //   const [images, setImages] = useState([]);
@@ -798,6 +799,7 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
                       dispatch(setRequestDetail(selectedImageDesc));
                       navigation.navigate("define-request");
                     }, 200);
+                      logAnalytics("pressed_start_bargaining");
                   }
                 }}
                 style={{

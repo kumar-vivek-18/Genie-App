@@ -36,6 +36,7 @@ import {
   import Banner2 from "../../assets/Banner.svg";
   import WhiteArrow from "../../assets/white-right.svg";
 import FastImage from "react-native-fast-image";
+import { logAnalytics } from "../../utils/logics/analyticsEvent";
   
   const {width,height}=Dimensions.get("window")
   const ServiceRequestPreview= () => {
@@ -367,6 +368,8 @@ import FastImage from "react-native-fast-image";
           <TouchableOpacity
             onPress={() => {
               handleSubmit();
+                          logAnalytics("created_service_request");
+              
             }}
           >
             <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">

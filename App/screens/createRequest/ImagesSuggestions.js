@@ -61,6 +61,7 @@ import Store from "../../assets/storeOrange.svg";
 import Download from "../../assets/download.svg";
 import { handleDownload } from "../../utils/logics/Logics.js";
 import ImageCard from "../components/ImageCard.js";
+import { logAnalytics } from "../../utils/logics/analyticsEvent.js";
 
 const {width,height}=Dimensions.get("window")
 
@@ -1000,6 +1001,7 @@ const ImageSuggestion = () => {
                         );
                         navigation.navigate("define-request");
                       }, 200);
+                        logAnalytics("pressed_start_bargaining");
                     }
                   }}
                   style={{

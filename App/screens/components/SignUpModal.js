@@ -2,6 +2,7 @@ import { View, Text, Modal, Pressable, TouchableOpacity } from 'react-native'
 import React from 'react';
 import UserImg from '../../assets/User.svg';
 import { useNavigation } from '@react-navigation/native';
+import { logAnalytics } from '../../utils/logics/analyticsEvent';
 
 const SignUpModal = ({ signUpModal, setSignUpModal }) => {
     const navigation = useNavigation();
@@ -24,7 +25,9 @@ const SignUpModal = ({ signUpModal, setSignUpModal }) => {
                         <TouchableOpacity onPress={() => { setSignUpModal(false) }}>
                             <Text style={{ fontFamily: 'Poppins-Regular', fontSize: 16, color: '#fb8c00' }}>Not now</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setSignUpModal(false); navigation.navigate('mobileNumber'); }}>
+                        <TouchableOpacity onPress={() => { setSignUpModal(false); navigation.navigate('mobileNumber');    
+                        logAnalytics("signup_pressed");
+                         }}>
                             <Text style={{ fontFamily: 'Poppins-Black', fontSize: 16, color: '#fb8c00' }}>Sign Up</Text>
                         </TouchableOpacity>
                     </View>

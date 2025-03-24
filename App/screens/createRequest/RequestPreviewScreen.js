@@ -36,6 +36,7 @@ import axiosInstance from "../../utils/logics/axiosInstance";
 import Banner2 from "../../assets/Banner.svg";
 import WhiteArrow from "../../assets/white-right.svg";
 import FastImage from "react-native-fast-image";
+import { logAnalytics } from "../../utils/logics/analyticsEvent";
 
 const {width,height}=Dimensions.get("window")
 const RequestPreviewScreen = () => {
@@ -372,6 +373,8 @@ const RequestPreviewScreen = () => {
         <TouchableOpacity
           onPress={() => {
             handleSubmit();
+                        logAnalytics("created_request");
+            
           }}
         >
           <View className="w-full h-[63px] bg-[#fb8c00]  flex items-center justify-center  ">

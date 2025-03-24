@@ -15,6 +15,7 @@ import * as Notifications from 'expo-notifications';
 import * as MediaLibrary from 'expo-media-library';
 import { Camera } from "expo-camera";
 import * as Location from "expo-location";
+import analytics from '@react-native-firebase/analytics';
 
 
 export default function App() {
@@ -65,7 +66,17 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <NavigationContainer ref={(ref) => navigationService.setTopLevelNavigator(ref)} >
+      <NavigationContainer ref={(ref) => navigationService.setTopLevelNavigator(ref)} 
+        onStateChange={async () => {
+          const currentRoute = navigationService.getCurrentRoute();
+          if (currentRoute) {
+            await analytics().logScreenView({
+              screen_name: currentRoute.name,
+              screen_class: currentRoute.name,
+            });
+            console.log(`Screen Tracked: ${currentRoute.name}`);
+          }
+        }}>
         <GlobalNavigation />
         <StatusBar backgroundColor="#FB8C00" />
       </NavigationContainer>

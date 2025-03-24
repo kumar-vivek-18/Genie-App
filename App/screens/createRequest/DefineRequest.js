@@ -56,6 +56,7 @@ import FastImage from "react-native-fast-image";
 import SuccessPopupNew from "../components/SuccessPopupNew";
 import { socket } from "../../utils/scoket.io/socket";
 import GreyArrow from "../../assets/grey-right.svg";
+import { logAnalytics } from "../../utils/logics/analyticsEvent";
 
 
 const {width,height} = Dimensions.get("window")
@@ -915,6 +916,8 @@ console.log(formData)
         onPress={() => {
           
           handleSubmit();
+                      logAnalytics("created_request");
+          
           // navigation.navigate("requestpreview");
         }}
         style={{

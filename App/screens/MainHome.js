@@ -151,7 +151,8 @@ import ServicesCardMapping from "./components/ServicesCardMapping.js";
 import CategoriesList from "./components/CategoriesList.js";
 import ServicesList from "./components/ServicesCardMapping.js";
 import * as Location from "expo-location";
-// import analytics from '@react-native-firebase/analytics';
+import analytics from '@react-native-firebase/analytics';
+import { logAnalytics } from "../utils/logics/analyticsEvent.js";
 const { width, height } = Dimensions.get("window");
 
 const categories = [
@@ -951,10 +952,11 @@ useEffect(() => {
       console.error(error.message);
     } finally {
       setCreateSpadeLoading(false);
+      logAnalytics("pressed_order_genie")
     }
   };
 
-  const handleCategoryPress = (category) => {
+  const handleCategoryPress =(category) => {
     if (category.id === 1) {
       navigation.navigate("newhome");
     } else {
@@ -968,6 +970,7 @@ useEffect(() => {
         });
       }
     }
+    logAnalytics("pressed_category_icon", category);
   };
 
  
@@ -1379,10 +1382,13 @@ useEffect(() => {
             </Text>
           </View>
           <TouchableOpacity
-            onPress={() => {
+            onPress={async() => {
               if (!userLongitude || !userLatitude) {
                 setLocationRefresh(true);
               } else {
+                await analytics().logEvent('clicked_store_search', {
+                  timestamp: Date.now(),
+                });
                 navigation.navigate("store-search");
               }
             }}

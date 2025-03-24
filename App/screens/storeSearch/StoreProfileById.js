@@ -56,6 +56,7 @@ import Store from "../../assets/storeOrange.svg";
 import Download from "../../assets/download.svg";
 import SignUpModal from "../components/SignUpModal";
 import ImageCard from "../components/ImageCard";
+import { logAnalytics } from "../../utils/logics/analyticsEvent";
 
 const { width, height } = Dimensions.get("window");
 
@@ -1042,6 +1043,7 @@ const StoreProfileById = () => {
                         );
                         navigation.navigate("define-request");
                       }, 200);
+                        logAnalytics("pressed_start_bargaining");
                     }
                   }}
                   style={{
