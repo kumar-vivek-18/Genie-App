@@ -141,7 +141,7 @@ import SignUpModal from "./components/SignUpModal";
 import LocationRefreshModal from "./components/LocationRefreshModal.js";
 import MainBanner from "../assets/MainBanner.svg";
 import ExploreText from "../assets/ExploreText.svg";
-import Banner2 from "../assets/Banner2.svg";
+import Banner2 from "../assets/Banner3.svg";
 import CategoryCard from "./components/CategoryCard.js";
 import ServicesCard from "./components/ServicesCard.js";
 import FastImage from "react-native-fast-image";
@@ -1205,7 +1205,7 @@ useEffect(() => {
                   style={{
                     backgroundColor: "#ffdaac",
                     paddingTop: 20,
-                    paddingBottom: 10,
+                    paddingBottom: 5,
                   }}
                 >
                   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -1225,6 +1225,16 @@ useEffect(() => {
                       ))}
                     </View>
                   </ScrollView>
+                  <View
+                  style={{
+                  
+                    paddingTop: 10,
+                    alignItems: "center",
+                  }}
+                >
+                  <Banner2 width={width - 25} />
+                  </View>
+
                 </View>
 
                 <View style={{ backgroundColor: "#ffdaac", paddingBottom: 10 }}>
@@ -1292,24 +1302,24 @@ useEffect(() => {
                       width: width - 10,
                       height: 250,
                       borderRadius: 10,
-                      backgroundColor: "#FFC882",
+                      // backgroundColor: "#FFC882",
                       justifyContent: "center",
                       alignItems: "center",
-                      elevation: 5,
+                      // elevation: 5,
                       marginVertical: 8,
                     }}
                   >
                     <Image
-                      source={require("../assets/MainBanner.png")}
+                      source={require("../assets/MainBanner2.png")}
                       style={{
                         width: width - 10,
                         height: 250,
                         borderRadius: 10,
+                        resizeMode:"contain"
                       }}
                     />
                   </TouchableOpacity>
                   <ExploreText width={width - 25} />
-                  <Banner2 width={width - 25} />
                 </View>
               </View>
             )}

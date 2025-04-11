@@ -17,6 +17,8 @@ import axios from "axios";
 import { baseUrl } from "../../utils/logics/constants";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
+import Rupee from "../../assets/Rupee.svg";
+
 import {
   setEstimatedPrice,
   setRequestCategory,
@@ -771,18 +773,22 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
               )}
               </View>
               <BuyText width={200} />
-              <Text
-                style={{
-                  width: 280,
-                  fontSize: 14,
-                  textAlign: "center",
-                  fontFamily: "Poppins-Regular",
-                  paddingHorizontal: 5,
-                }}
-              >
-                Live unboxing & multi-vendor bargaining
-              </Text>
-
+              <View style={{flexDirection:"row",gap:4,justifyContent:"center",alignItems:"center"}}>
+                              <Rupee width={18} height={18} />
+                              <Text
+                              style={{
+                              
+                                fontSize: 14,
+                                textAlign: "center",
+                                fontFamily: "Poppins-SemiBoldItalic",
+                                paddingHorizontal: 5,
+                                color:"#55CD00"
+                              }}
+                            >
+                              Discover Unmatched Price
+                            </Text>
+                            </View>
+              
               <TouchableOpacity
                 onPress={() => {
                   handleCloseSuggestion();

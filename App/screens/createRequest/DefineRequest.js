@@ -46,7 +46,7 @@ import { launchCamera } from "react-native-image-picker";
 import * as ImagePicker from "expo-image-picker";
 import DelImg from "../../assets/delImg.svg";
 import ModalCancel from "../components/ModalCancel";
-import Banner2 from "../../assets/Banner2.svg";
+import Banner2 from "../../assets/Banner4.svg";
 import WhiteArrow from "../../assets/white-right.svg"
 import { formatDateTime } from "../../utils/logics/Logics";
 import { NewRequestCreated } from "../../notification/notificationMessages";
@@ -770,7 +770,7 @@ console.log(formData)
           </View>
 
           <View
-            className="w-full mx-[32px]  h-[54px] bg-[#ffe5c4] rounded-xl mt-[10px] "
+            className="w-full mx-[32px]  h-[54px] bg-[#fff] rounded-xl mt-[10px] "
             style={{
               borderWidth: 0.5,
               borderRadius: 16,

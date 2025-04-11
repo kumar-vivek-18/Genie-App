@@ -24,7 +24,7 @@ import ClickImage from "../../assets/ClickImg.svg";
 import AddMoreImage from "../../assets/AddImg.svg";
 import DelImg from "../../assets/delImg.svg";
 import PriceInfo from "../../assets/expectedPriceModal.svg";
-import ReferenceImg from "../../assets/ServiceReference.svg";
+import ReferenceImg from "../../assets/ReferenceImgModal.svg";
 import Tailless from "../../assets/taillessright-arrow.svg";
 import {
   FontAwesome,
@@ -49,7 +49,7 @@ import AddImageContent from "../../assets/addImageContent.svg";
 import UploadImg from "../../assets/UploadImg.svg";
 import Genie from "../../assets/Genie.svg";
 import SetCategory from "../../assets/setcategoryicon.svg";
-import Banner2 from "../../assets/Banner.svg";
+import Banner2 from "../../assets/Banner3.svg";
 import WhiteArrow from "../../assets/white-right.svg";
 import GreyArrow from "../../assets/grey-right.svg";
 import FastImage from "react-native-fast-image";

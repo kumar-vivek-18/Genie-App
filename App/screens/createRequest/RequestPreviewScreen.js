@@ -33,7 +33,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { socket } from "../../utils/scoket.io/socket";
 import { baseUrl } from "../../utils/logics/constants";
 import axiosInstance from "../../utils/logics/axiosInstance";
-import Banner2 from "../../assets/Banner.svg";
+import Banner2 from "../../assets/Banner3.svg";
 import WhiteArrow from "../../assets/white-right.svg";
 import FastImage from "react-native-fast-image";
 import { logAnalytics } from "../../utils/logics/analyticsEvent";

@@ -39,6 +39,8 @@ import EditCommentModal from "../components/EditCommentModal";
 import { current } from "@reduxjs/toolkit";
 // import {Clipboard} from '@react-native-clipboard/clipboard'
 import FastImage from "react-native-fast-image";
+import Rupee from "../../assets/Rupee.svg";
+
 import {
   setEstimatedPrice,
   setRequestCategory,
@@ -972,18 +974,21 @@ const StoreProfileScreen = () => {
               </View>
 
               <BuyText width={200} />
-              <Text
+              <View style={{flexDirection:"row",gap:4,justifyContent:"center",alignItems:"center"}}>
+                <Rupee width={18} height={18} />
+                <Text
                 style={{
-                  width: 280,
+                
                   fontSize: 14,
                   textAlign: "center",
-                  fontFamily: "Poppins-Regular",
+                  fontFamily: "Poppins-SemiBoldItalic",
                   paddingHorizontal: 5,
+                  color:"#55CD00"
                 }}
               >
-                Live unboxing & multi-vendor bargaining
+                Discover Unmatched Price
               </Text>
-
+              </View>
               <TouchableOpacity
                 onPress={() => {
                   dispatch(setRequestCategory(selectedCategory));

@@ -41,6 +41,8 @@ import {
 } from "../../redux/reducers/userDataSlice";
 import EditCommentModal from "../components/EditCommentModal";
 import FastImage from "react-native-fast-image";
+import Rupee from "../../assets/Rupee.svg";
+
 import {
   setEstimatedPrice,
   setRequestCategory,
@@ -1011,18 +1013,21 @@ const StoreProfileById = () => {
                 </View>
 
                 <BuyText width={200} />
+                <View style={{flexDirection:"row",gap:4,justifyContent:"center",alignItems:"center"}}>
+                <Rupee width={18} height={18} />
                 <Text
-                  style={{
-                    width: 280,
-                    fontSize: 14,
-                    textAlign: "center",
-                    fontFamily: "Poppins-Regular",
-                    paddingHorizontal: 5,
-                  }}
-                >
-                  Live unboxing & multi-vendor bargaining
-                </Text>
-
+                style={{
+                
+                  fontSize: 14,
+                  textAlign: "center",
+                  fontFamily: "Poppins-SemiBoldItalic",
+                  paddingHorizontal: 5,
+                  color:"#55CD00"
+                }}
+              >
+                Discover Unmatched Price
+              </Text>
+              </View>
                 <TouchableOpacity
                   onPress={() => {
                     dispatch(setRequestCategory(selectedCategory));

@@ -29,6 +29,8 @@ import { setCategoryImages } from "../../redux/reducers/categorySlice";
 import FastImage from "react-native-fast-image";
 import { Feather } from "@expo/vector-icons";
 import BuyText from "../../assets/Buylowesttext.svg";
+import Rupee from "../../assets/Rupee.svg";
+
 import WhiteArrow from "../../assets/white-right.svg";
 import { setVendorId } from "../../redux/reducers/userDataSlice";
 const { width, height } = Dimensions.get("window");
@@ -852,17 +854,22 @@ const CategoryCard = ({ category, setSignUpModal, isVisible }) => {
               </View>
 
               <BuyText width={200} />
-              <Text
+              <View style={{flexDirection:"row",gap:4,justifyContent:"center",alignItems:"center"}}>
+                <Rupee width={18} height={18} />
+                <Text
                 style={{
-                  width: 280,
+                
                   fontSize: 14,
                   textAlign: "center",
-                  fontFamily: "Poppins-Regular",
+                  fontFamily: "Poppins-SemiBoldItalic",
                   paddingHorizontal: 5,
+                  color:"#55CD00"
                 }}
               >
-                Live unboxing & multi-vendor bargaining
+                Discover Unmatched Price
               </Text>
+              </View>
+              
 
               <TouchableOpacity
                 onPress={() => {

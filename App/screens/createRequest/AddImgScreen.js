@@ -25,6 +25,10 @@ import AddMoreImage from "../../assets/AddImg.svg";
 import DelImg from "../../assets/delImg.svg";
 import PriceInfo from "../../assets/expectedPriceModal.svg";
 import ReferenceImg from "../../assets/ReferenceImgModal.svg";
+import VendorImg from "../../assets/vendorRefImg.svg";
+import VendorRef from "../../assets/vendorRef.png";
+
+
 import Tailless from "../../assets/taillessright-arrow.svg";
 import {
   FontAwesome,
@@ -49,7 +53,7 @@ import AddImageContent from "../../assets/addImageContent.svg";
 import UploadImg from "../../assets/UploadImg.svg";
 import Genie from "../../assets/Genie.svg";
 import SetCategory from "../../assets/setcategoryicon.svg";
-import Banner2 from "../../assets/Banner.svg";
+import Banner2 from "../../assets/Banner3.svg";
 import WhiteArrow from "../../assets/white-right.svg";
 import GreyArrow from "../../assets/grey-right.svg";
 import FastImage from "react-native-fast-image";
@@ -168,6 +172,8 @@ const AddImageScreen = () => {
   const [scaleAnimation] = useState(new Animated.Value(0));
   const requestImages = useSelector((store) => store.userRequest.requestImages);
   const [uploadModal, setUploadModal] = useState(false);
+  const [vendorModal, setVendorModal] = useState(false);
+
   const [priceModal, setPriceModal] = useState(false);
   const [query, setQuery] = useState("");
   const [price, setPrice] = useState("");
@@ -506,16 +512,44 @@ const AddImageScreen = () => {
 
               <View style={{ marginVertical: 20 }}>
                 <View className="relative mb-[20px]">
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontFamily: "Poppins-Medium",
+                    color: "#2E2C43",
+                    textAlign: "center",
+                  }}
+                >
+                  Select Vendors
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    setVendorModal(!vendorModal);
+                  }}
+                  style={{
+                    width: 25,
+                    height: 25,
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderColor: "red",
+                    borderWidth: 2,
+                    borderRadius: 16,
+                    position: "absolute",
+                    right: 20,
+                    zIndex: 20,
+                  }}
+                >
                   <Text
                     style={{
+                      color: "red",
                       fontSize: 16,
-                      fontFamily: "Poppins-Medium",
-                      color: "#2E2C43",
-                      textAlign: "center",
+                      fontFamily: "Poppins-SemiBold",
                     }}
                   >
-                    Set Category
+                    ?
                   </Text>
+                </TouchableOpacity>
                 </View>
                 <TouchableOpacity
                   onPress={() => {
@@ -840,6 +874,27 @@ const AddImageScreen = () => {
           }}
         >
           <ReferenceImg />
+        </TouchableOpacity>
+      </Modal>
+
+      <Modal visible={vendorModal} transparent={true}>
+        <TouchableOpacity
+          onPress={() => {
+            setVendorModal(false);
+          }}
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0,0,0,0.5)",
+          }}
+        >
+         <Image
+            source={VendorRef}
+            // width={200}
+            // height={200}
+            style={{ width: width-20, height: 200, borderRadius: 10,resizeMode:"contain" }}
+         />
         </TouchableOpacity>
       </Modal>
 

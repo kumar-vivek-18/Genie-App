@@ -17,11 +17,16 @@ const ModalCancel = ({ modalVisible, setModalVisible, index, delImgType }) => {
       if (delImgType === "clicked") {
         const updatedImages = [...requestImages];
 
-        dispatch(emtpyRequestImages());
+        // dispatch(emtpyRequestImages());
         updatedImages.splice(index, 1);
-        updatedImages.map(image => {
-          dispatch(setRequestImages(image));
-        });
+        // updatedImages.map(image => {
+        //   dispatch(setRequestImages(image));
+        // });
+        // updatedImages.map(image => {
+        //   dispatch(setRequestImages(image));
+        // });
+        dispatch(setRequestImages(updatedImages));
+        
       }
       else {
         const updatedImages = [...suggestedImages];

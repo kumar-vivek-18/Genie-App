@@ -1043,7 +1043,7 @@ const BargainingScreen = () => {
                   height: 800,
                   width: width,
                   position: "absolute",
-                  zIndex: 100,
+                  zIndex: 50,
                   top: viewHeight,
                 }}
               ></View>

@@ -62,6 +62,8 @@ import Download from "../../assets/download.svg"
 import { handleDownload } from "../../utils/logics/Logics.js";
 import ImageCard from "../components/ImageCard.js";
 import { logAnalytics } from "../../utils/logics/analyticsEvent.js";
+import Rupee from "../../assets/Rupee.svg";
+
 const RetailerProductScreen = () => {
   const [imagesLocal, setImagesLocal] = useState([]);
   const navigation = useNavigation();
@@ -738,17 +740,21 @@ const {width, height} = Dimensions.get("window");
                 )}
                 </View>
                 <BuyText width={200} />
+                <View style={{flexDirection:"row",gap:4,justifyContent:"center",alignItems:"center"}}>
+                <Rupee width={18} height={18} />
                 <Text
-                  style={{
-                    width: 280,
-                    fontSize: 14,
-                    textAlign: "center",
-                    fontFamily: "Poppins-Regular",
-                    paddingHorizontal: 5,
-                  }}
-                >
-                  Live unboxing & multi-vendor bargaining
-                </Text>
+                style={{
+                
+                  fontSize: 14,
+                  textAlign: "center",
+                  fontFamily: "Poppins-SemiBoldItalic",
+                  paddingHorizontal: 5,
+                  color:"#55CD00"
+                }}
+              >
+                Discover Unmatched Price
+              </Text>
+              </View>
 
                 <TouchableOpacity
                   onPress={() => {
