@@ -1306,14 +1306,14 @@ useEffect(() => {
                       justifyContent: "center",
                       alignItems: "center",
                       // elevation: 5,
-                      marginVertical: 8,
+                      marginVertical: 20,
                     }}
                   >
                     <Image
                       source={require("../assets/MainBanner2.png")}
                       style={{
                         width: width - 10,
-                        height: 250,
+                        height: 270,
                         borderRadius: 10,
                         resizeMode:"contain"
                       }}

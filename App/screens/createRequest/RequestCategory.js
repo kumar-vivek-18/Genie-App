@@ -268,6 +268,7 @@ const RequestCategory = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const { width } = Dimensions.get("window");
   const [categoryModal, setCategoryModal] = useState(false);
+        // console.log(searchData);
 
   const fetchNearByStores = useCallback(async () => {
     try {
@@ -339,7 +340,6 @@ const RequestCategory = () => {
       if (selectedOption !== null) {
         console.log(selectedOption);
         dispatch(setRequestCategory(selectedOption));
-        // console.log(selectedOption);
         // console.log(searchData[selectedOption - 1].name);
         // console.log(requestCategory);
 
