@@ -174,7 +174,7 @@ const ActiveRequests = () => {
           </Text>
           {spades.length === 0 && (
             <View>
-              <Text style={{ marginTop: 20 }}>No active spades</Text>
+              <Text style={{ marginTop: 20 }}>No active orders</Text>
             </View>
           )}
         </View>

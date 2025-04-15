@@ -1575,6 +1575,7 @@ const SearchCategoryScreen = () => {
                           color: "white",
                           fontSize: 14,
                           fontFamily: "Poppins-Regular",
+                          textAlign:"center"
                         }}
                       >
                         {selectedImageDesc.substring(0, 40)}...
@@ -1587,6 +1588,8 @@ const SearchCategoryScreen = () => {
                           color: "white",
                           fontSize: 14,
                           fontFamily: "Poppins-Regular",
+                          textAlign:"center"
+
                         }}
                       >
                         {selectedImageDesc}

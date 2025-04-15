@@ -54,10 +54,13 @@ import WhiteArrow from "../../assets/white-right.svg";
 import GreyArrow from "../../assets/grey-right.svg";
 import FastImage from "react-native-fast-image";
 import SignUpModal from "../components/SignUpModal.js";
+import RefImg from  "../../assets/ReferenceImgModal.png"
 
 
 const { width, height } = Dimensions.get("window");
 const ServiceRequest = () => {
+
+  
   const [imagesLocal, setImagesLocal] = useState([]);
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -546,18 +549,20 @@ const ServiceRequest = () => {
               >
                 <TouchableOpacity onPress={() => takePicture()}>
                   <View className="flex-row justify-center">
-                    <ClickImage width={150} />
+                    <ClickImage width={width/2-30} />
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => pickImage()}>
                   <View className="flex-row justify-center">
-                    <UploadImg width={150} />
+                    <UploadImg width={width/2-30} />
                   </View>
                 </TouchableOpacity>
                 {/* <View style={{ alignItems: "center", marginVertical: 50 }}>
                     <AddImageContent />
                   </View> */}
               </View>
+                            <Text  style={{ fontSize:14,marginTop:4, fontFamily:"Poppins-Regular",color:"#2e2c43",paddingLeft: 20, paddingRight: 20 }}>* Optional</Text>
+              
 
               <View style={{ paddingLeft: 20, paddingRight: 0 }}>
                 <ScrollView
@@ -785,7 +790,13 @@ const ServiceRequest = () => {
             backgroundColor: "rgba(0,0,0,0.5)",
           }}
         >
-          <ReferenceImg />
+          {/* <ReferenceImg /> */}
+          <Image
+                      source={RefImg}
+                      // width={200}
+                      // height={200}
+                      style={{ width: width-20, height: height/2, borderRadius: 10,resizeMode:"contain" }}
+                   />
         </TouchableOpacity>
       </Modal>
 

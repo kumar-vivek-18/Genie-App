@@ -730,6 +730,8 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
                           color: "white",
                           fontSize: 14,
                           fontFamily: "Poppins-Regular",
+                          textAlign:"center"
+
                         }}
                       >
                         {selectedImageDesc.substring(0, 40)}...
@@ -742,6 +744,8 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
                           color: "white",
                           fontSize: 14,
                           fontFamily: "Poppins-Regular",
+                          textAlign:"center"
+
                         }}
                       >
                         {selectedImageDesc}

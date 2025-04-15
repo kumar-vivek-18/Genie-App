@@ -386,7 +386,7 @@ const RequestPreviewScreen = () => {
                 className="text-white text-[18px] "
                 style={{ fontFamily: "Poppins-BlackItalic" }}
               >
-                Get best price deals
+                Send Request
               </Text>
               <WhiteArrow width={20} height={20}/>
               </View>

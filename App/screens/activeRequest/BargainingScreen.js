@@ -1282,7 +1282,7 @@ const BargainingScreen = () => {
                           className="text-center text-[14px] "
                           style={{ fontFamily: "Poppins-SemiBold" }}
                         >
-                          Are you accepting the offer?
+                          Are you accepting the vendor offer?
                         </Text>
                         <Text
                           className="text-center text-[14px] "

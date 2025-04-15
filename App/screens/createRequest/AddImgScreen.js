@@ -27,6 +27,7 @@ import PriceInfo from "../../assets/expectedPriceModal.svg";
 import ReferenceImg from "../../assets/ReferenceImgModal.svg";
 import VendorImg from "../../assets/vendorRefImg.svg";
 import VendorRef from "../../assets/vendorRef.png";
+import RefImg from  "../../assets/ReferenceImgModal.png"
 
 
 import Tailless from "../../assets/taillessright-arrow.svg";
@@ -51,7 +52,7 @@ import BackArrow from "../../assets/BackArrowImg.svg";
 import RightArrow from "../../assets/rightblack.svg";
 import AddImageContent from "../../assets/addImageContent.svg";
 import UploadImg from "../../assets/UploadImg.svg";
-import Genie from "../../assets/Genie.svg";
+import Genie from "../../assets/Genie-1.svg";
 import SetCategory from "../../assets/setcategoryicon.svg";
 import Banner2 from "../../assets/Banner3.svg";
 import WhiteArrow from "../../assets/white-right.svg";
@@ -415,7 +416,7 @@ const AddImageScreen = () => {
               </View>
             </TouchableOpacity>
             <View className="flex-row justify-center mt-[40px] mb-[10px] ">
-              <Genie width={35} height={52} />
+              <Genie width={50} height={60} />
             </View>
             <View
               style={{
@@ -589,6 +590,7 @@ const AddImageScreen = () => {
                   </View>
                   <Tailless />
                 </TouchableOpacity>
+                <Text  style={{ fontSize:14, fontFamily:"Poppins-Regular",color:"#E04122",paddingLeft: 20, paddingRight: 20 }}>* Mandatory</Text>
               </View>
 
               <View className="relative mb-[20px]">
@@ -630,6 +632,7 @@ const AddImageScreen = () => {
                     ?
                   </Text>
                 </TouchableOpacity>
+                
               </View>
 
               <View
@@ -638,18 +641,20 @@ const AddImageScreen = () => {
               >
                 <TouchableOpacity onPress={() => takePicture()}>
                   <View className="flex-row justify-center">
-                    <ClickImage width={150} />
+                    <ClickImage width={width/2-30} />
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => pickImage()}>
                   <View className="flex-row justify-center">
-                    <UploadImg width={150} />
+                    <UploadImg width={width/2-30} />
                   </View>
                 </TouchableOpacity>
                 {/* <View style={{ alignItems: "center", marginVertical: 50 }}>
                     <AddImageContent />
                   </View> */}
               </View>
+              <Text  style={{ fontSize:14,marginTop:4, fontFamily:"Poppins-Regular",color:"#2e2c43",paddingLeft: 20, paddingRight: 20 }}>* Optional</Text>
+
 
               <View style={{ paddingLeft: 20, paddingRight: 0 }}>
                 <ScrollView
@@ -750,7 +755,7 @@ const AddImageScreen = () => {
                 <View
                   className="mx-[20px]   h-[54px] bg-[#ffe5c4] rounded-xl "
                   style={{
-                    marginBottom: 20,
+                    marginBottom: 10,
                     borderWidth: 0.5,
                     borderRadius: 16,
                     borderColor: "#fb8c00",
@@ -780,6 +785,8 @@ const AddImageScreen = () => {
                     }}
                   />
                 </View>
+              <Text  style={{ fontSize:14, fontFamily:"Poppins-Regular",color:"#2e2c43",paddingLeft: 20, paddingRight: 20 }}>* Optional</Text>
+
               </View>
               <View
                 style={{
@@ -792,6 +799,7 @@ const AddImageScreen = () => {
               >
                 <Banner2 width={width - 20} />
               </View>
+              
             </View>
           </ScrollView>
           <ModalCancel
@@ -873,7 +881,13 @@ const AddImageScreen = () => {
             backgroundColor: "rgba(0,0,0,0.5)",
           }}
         >
-          <ReferenceImg />
+          {/* <ReferenceImg /> */}
+          <Image
+            source={RefImg}
+            // width={200}
+            // height={200}
+            style={{ width: width-20, height: height/2, borderRadius: 10,resizeMode:"contain" }}
+         />
         </TouchableOpacity>
       </Modal>
 
