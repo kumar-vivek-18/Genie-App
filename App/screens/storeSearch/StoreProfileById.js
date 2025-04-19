@@ -1128,6 +1128,7 @@ const StoreProfileById = () => {
                         fontFamily: "Poppins-Regular",
                         fontSize: 12,
                         color: "white",
+                        textAlign: "center",
                       }}
                     >
                       {imageDesc.substring(0, 40)}...

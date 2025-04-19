@@ -105,7 +105,7 @@ const categoriess = {
       title: "Appliances",
     },
   "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc":
-    { icon: NewServicesIcon2, title: "Electronics" },
+    { icon: NewIcon4, title: "Electronics" },
   "Automotive Parts/Services - 2 wheeler Fuel based": {
     icon: NewServicesIcon6,
     title: "Bike",
@@ -139,6 +139,8 @@ const availCategory = {
     icon: NewIcon3,
     title: "Shoes, Bag",
   },
+  "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc":
+  { icon: NewServicesIcon2, title: "Electronics" },
   "Fashion Accessories - Sharee, suits, kurti & dress materials etc": {
     icon: NewIcon2,
     title: "Sari, Suit",
@@ -172,8 +174,8 @@ const availServices = {
       icon: NewServicesIcon9,
       title: "Appliances",
     },
-  "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc":
-    { icon: NewServicesIcon2, title: "Electronics" },
+  // "Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc":
+  //   { icon: NewServicesIcon2, title: "Electronics" },
   "Automotive Parts/Services - 2 wheeler Fuel based": {
     icon: NewServicesIcon6,
     title: "Bike",
@@ -377,7 +379,7 @@ const RequestCategory = () => {
           >
             Select Category
           </Text>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               setCategoryModal(!categoryModal);
             }}
@@ -404,7 +406,7 @@ const RequestCategory = () => {
             >
               ?
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View className="flex-1 w-full bg-white flex-col  gap-[40px] px-[10px]">
           <ScrollView

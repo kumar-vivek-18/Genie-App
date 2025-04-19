@@ -786,7 +786,7 @@ const NewHome = () => {
                           width: 0.42 * width,
                           height: 185,
                           marginTop: 8,
-                          borderColor: "#000",
+                          borderColor: "#fb8c00",
                           backgroundColor: "#fff",
                           borderWidth: 0.5,
                           borderRadius: 16,
@@ -815,7 +815,7 @@ const NewHome = () => {
                             }}
                             resizeMode={FastImage.resizeMode.contain}
                           />
-                          <Text
+                          {/* <Text
                             style={{
                               fontFamily: "Poppins-Regular",
                               color: "#2E2C43",
@@ -824,7 +824,125 @@ const NewHome = () => {
                             }}
                           >
                             {category.title}
-                          </Text>
+                          </Text> */}
+                           <View style={{ position: "relative" }}>
+                                                                    {/* Stroke Layer */}
+                                                                    <Text
+                                                                      style={{
+                                                                        fontSize: 16,
+                                                                        fontFamily: "Poppins-Black",
+                                                                        position: "absolute",
+                                                                        color: "#FB8C00",
+                                                                        left: -1.5,
+                                                                        top: -1.5,
+                                                                      }}
+                                                                    >
+                                                                     {category?.title}
+                                                                    </Text>
+                                                                    <Text
+                                                                      style={{
+                                                                        fontSize: 16,
+                                                                        fontFamily: "Poppins-Black",
+                                                                        position: "absolute",
+                                                                        color: "#FB8C00",
+                                                                        left: 1.5,
+                                                                        top: -1.5,
+                                                                      }}
+                                                                    >
+                                                                     {category?.title}
+                                                                    </Text>
+                                                                    <Text
+                                                                      style={{
+                                                                        fontSize: 16,
+                                                                        fontFamily: "Poppins-Black",
+                                                                        position: "absolute",
+                                                                        color: "#FB8C00",
+                                                                        left: -1.5,
+                                                                        top: 1.5,
+                                                                      }}
+                                                                    >
+                                                                      {category?.title}
+                                                                    </Text>
+                                                                    <Text
+                                                                      style={{
+                                                                        fontSize: 16,
+                                                                        fontFamily: "Poppins-Black",
+                                                                        position: "absolute",
+                                                                        color: "#FB8C00",
+                                                                        left: 1.5,
+                                                                        top: 1.5,
+                                                                      }}
+                                                                    >
+                                                                      {category?.title}
+                                                                    </Text>
+                                                                    <Text
+                                                                      style={{
+                                                                        fontSize: 16,
+                                                                        fontFamily: "Poppins-Black",
+                                                                        position: "absolute",
+                                                                        color: "#FB8C00",
+                                                                        left: 0.5,
+                                                                        top: -1.5,
+                                                                      }}
+                                                                    >
+                                                                      {category?.title}
+                                                                    </Text>
+                                                                    <Text
+                                                                      style={[
+                                                                        styles.textStyle,
+                                                                        {
+                                                                          fontSize: 16,
+                                                                          fontFamily: "Poppins-Black",
+                                                                          position: "absolute",
+                                                                          color: "#FB8C00",
+                                                                          left: 0.5,
+                                                                          top: 1.5,
+                                                                        }, // Bottom stroke
+                                                                      ]}
+                                                                    >
+                                                                      {category?.title}
+                                                                    </Text>
+                                                                    <Text
+                                                                      style={[
+                                                                        styles.textStyle,
+                                                                        {
+                                                                          fontSize: 16,
+                                                                          fontFamily: "Poppins-Black",
+                                                                          position: "absolute",
+                                                                          color: "#FB8C00",
+                                                                          left: -1.5,
+                                                                          top: 0.5,
+                                                                        }, // Left stroke
+                                                                      ]}
+                                                                    >
+                                                                      {category?.title}
+                                                                    </Text>
+                                                                    <Text
+                                                                      style={[
+                                                                        styles.textStyle,
+                                                                        {
+                                                                          fontSize: 16,
+                                                                          fontFamily: "Poppins-Black",
+                                                                          position: "absolute",
+                                                                          color: "#FB8C00",
+                                                                          left: 1.5,
+                                                                          top: 0.5,
+                                                                        }, // Right stroke
+                                                                      ]}
+                                                                    >
+                                                                     {category?.title}
+                                                                    </Text>
+                                                        
+                                                                    {/* Inner Text */}
+                                                                    <Text
+                                                                      style={[
+                                                                        styles.textStyle,
+                                                                        {  fontSize: 16, fontFamily: "Poppins-Black", color: "#FFFFFF" },
+                                                                      ]}
+                                                                    >
+                                                                      {category?.title}
+                                                                    </Text>
+                                                                  </View>
                         </View>
                       </View>
                     </TouchableOpacity>
@@ -864,7 +982,10 @@ const NewHome = () => {
                         if (!userDetails?._id) setSignUpModal(true);
                         else {
                           dispatch(setRequestCategory(category.name));
-                          navigation.navigate("servicerequest");
+                          // navigation.navigate("servicerequest");
+                          navigation.navigate("service-suggestion", {
+                            category: category,
+                          });
                         }
                       }}
                     >
@@ -882,7 +1003,8 @@ const NewHome = () => {
                           width: 0.42 * width,
                           height: 185,
                           marginTop: 8,
-                          borderColor: "#000",
+                          borderColor: "#fb8c00",
+
                           backgroundColor: "#fff",
                           borderWidth: 0.5,
                           borderRadius: 16,
@@ -911,7 +1033,7 @@ const NewHome = () => {
                             }}
                             resizeMode={FastImage.resizeMode.contain}
                           />
-                          <Text
+                          {/* <Text
                             style={{
                               fontFamily: "Poppins-Regular",
                               color: "#2E2C43",
@@ -920,7 +1042,126 @@ const NewHome = () => {
                             }}
                           >
                             {category.title}
-                          </Text>
+                          </Text> */}
+
+                          <View style={{ position: "relative" }}>
+                                                                    {/* Stroke Layer */}
+                                                                    <Text
+                                                                      style={{
+                                                                        fontSize: 16,
+                                                                        fontFamily: "Poppins-Black",
+                                                                        position: "absolute",
+                                                                        color: "#FB8C00",
+                                                                        left: -1.5,
+                                                                        top: -1.5,
+                                                                      }}
+                                                                    >
+                                                                     {category?.title}
+                                                                    </Text>
+                                                                    <Text
+                                                                      style={{
+                                                                        fontSize: 16,
+                                                                        fontFamily: "Poppins-Black",
+                                                                        position: "absolute",
+                                                                        color: "#FB8C00",
+                                                                        left: 1.5,
+                                                                        top: -1.5,
+                                                                      }}
+                                                                    >
+                                                                     {category?.title}
+                                                                    </Text>
+                                                                    <Text
+                                                                      style={{
+                                                                        fontSize: 16,
+                                                                        fontFamily: "Poppins-Black",
+                                                                        position: "absolute",
+                                                                        color: "#FB8C00",
+                                                                        left: -1.5,
+                                                                        top: 1.5,
+                                                                      }}
+                                                                    >
+                                                                      {category?.title}
+                                                                    </Text>
+                                                                    <Text
+                                                                      style={{
+                                                                        fontSize: 16,
+                                                                        fontFamily: "Poppins-Black",
+                                                                        position: "absolute",
+                                                                        color: "#FB8C00",
+                                                                        left: 1.5,
+                                                                        top: 1.5,
+                                                                      }}
+                                                                    >
+                                                                      {category?.title}
+                                                                    </Text>
+                                                                    <Text
+                                                                      style={{
+                                                                        fontSize: 16,
+                                                                        fontFamily: "Poppins-Black",
+                                                                        position: "absolute",
+                                                                        color: "#FB8C00",
+                                                                        left: 0.5,
+                                                                        top: -1.5,
+                                                                      }}
+                                                                    >
+                                                                      {category?.title}
+                                                                    </Text>
+                                                                    <Text
+                                                                      style={[
+                                                                        styles.textStyle,
+                                                                        {
+                                                                          fontSize: 16,
+                                                                          fontFamily: "Poppins-Black",
+                                                                          position: "absolute",
+                                                                          color: "#FB8C00",
+                                                                          left: 0.5,
+                                                                          top: 1.5,
+                                                                        }, // Bottom stroke
+                                                                      ]}
+                                                                    >
+                                                                      {category?.title}
+                                                                    </Text>
+                                                                    <Text
+                                                                      style={[
+                                                                        styles.textStyle,
+                                                                        {
+                                                                          fontSize: 16,
+                                                                          fontFamily: "Poppins-Black",
+                                                                          position: "absolute",
+                                                                          color: "#FB8C00",
+                                                                          left: -1.5,
+                                                                          top: 0.5,
+                                                                        }, // Left stroke
+                                                                      ]}
+                                                                    >
+                                                                      {category?.title}
+                                                                    </Text>
+                                                                    <Text
+                                                                      style={[
+                                                                        styles.textStyle,
+                                                                        {
+                                                                          fontSize: 16,
+                                                                          fontFamily: "Poppins-Black",
+                                                                          position: "absolute",
+                                                                          color: "#FB8C00",
+                                                                          left: 1.5,
+                                                                          top: 0.5,
+                                                                        }, // Right stroke
+                                                                      ]}
+                                                                    >
+                                                                     {category?.title}
+                                                                    </Text>
+                                                        
+                                                                    {/* Inner Text */}
+                                                                    <Text
+                                                                      style={[
+                                                                        styles.textStyle,
+                                                                        {  fontSize: 16, fontFamily: "Poppins-Black", color: "#FFFFFF" },
+                                                                      ]}
+                                                                    >
+                                                                      {category?.title}
+                                                                    </Text>
+                                                                  </View>
                         </View>
                       </View>
                     </TouchableOpacity>

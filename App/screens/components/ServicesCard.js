@@ -422,7 +422,7 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
           <Text style={{ fontSize: 16, fontFamily: "Poppins-Regular" ,marginBottom:30}}>
             {category.servicesubTitle}
           </Text>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{
               alignSelf: "flex-start",
               marginTop: 2,
@@ -452,7 +452,7 @@ const ServicesCard = ({ category, setSignUpModal, isVisible }) => {
               Request Service
             </Text>
             <WhiteArrow />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
       {(category.name !=="Services & Repair, Consumer Electronics & Accessories - Mobile, Laptop, digital products etc" &&

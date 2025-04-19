@@ -962,7 +962,11 @@ useEffect(() => {
     } else {
       if (category?.isService) {
         dispatch(setRequestCategory(category?.name));
-        navigation.navigate("servicerequest");
+        // navigation.navigate("servicerequest");
+        navigation.navigate("service-suggestion", {
+          category: category,
+        });
+        
       } else {
         dispatch(setRequestCategory(category?.name));
         navigation.navigate("image-suggestion", {
@@ -1208,34 +1212,16 @@ useEffect(() => {
                     paddingBottom: 5,
                   }}
                 >
-                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                    <View style={{ flexDirection: "row", paddingLeft: 20 }}>
-                      {horizontalCat?.map((category) => (
-                        <TouchableOpacity
-                          key={category.id}
-                          style={{ marginRight: 10 }}
-                          onPress={() => handleCategoryPress(category)}
-                        >
-                          <FastImage
-                            source={category.cat}
-                            style={{ width: 100, height: 120 }}
-                            resizeMode={FastImage.resizeMode.contain}
-                          />
-                        </TouchableOpacity>
-                      ))}
-                    </View>
-                  </ScrollView>
-                  <View
+                <View
                   style={{
                   
                     paddingTop: 10,
                     alignItems: "center",
                   }}
                 >
-                  <Banner2 width={width - 25} />
+                  <Banner2 width={width - 20} />
                   </View>
-
-                </View>
+                  </View>
 
                 <View style={{ backgroundColor: "#ffdaac", paddingBottom: 10 }}>
                   {currentVersion &&
@@ -1319,7 +1305,35 @@ useEffect(() => {
                       }}
                     />
                   </TouchableOpacity>
-                  <ExploreText width={width - 25} />
+                  <ExploreText width={width - 20} />
+                </View>
+
+                <View
+                  style={{
+                    backgroundColor: "#fff",
+                    paddingTop: 20,
+                    paddingBottom: 5,
+                  }}
+                >
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <View style={{ flexDirection: "row", paddingLeft: 20 }}>
+                      {horizontalCat?.map((category) => (
+                        <TouchableOpacity
+                          key={category.id}
+                          style={{ marginRight: 10 }}
+                          onPress={() => handleCategoryPress(category)}
+                        >
+                          <FastImage
+                            source={category.cat}
+                            style={{ width: 100, height: 120 }}
+                            resizeMode={FastImage.resizeMode.contain}
+                          />
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  </ScrollView>
+                  
+
                 </View>
               </View>
             )}

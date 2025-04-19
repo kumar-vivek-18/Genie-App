@@ -440,7 +440,7 @@ const AddImageScreen = () => {
               <View
                 className="mx-[20px] mt-[20px]  h-[127px] bg-[#ffe5c4] rounded-xl "
                 style={{
-                  marginBottom: 20,
+                  marginBottom: 5,
                   borderWidth: 0.5,
                   borderRadius: 16,
                   borderColor: "#fb8c00",
@@ -465,7 +465,10 @@ const AddImageScreen = () => {
                     fontFamily: "Poppins-Regular",
                   }}
                 />
+                
               </View>
+              <Text  style={{ fontSize:14,marginBottom:10, fontFamily:"Poppins-Regular",color:"#E04122",paddingLeft: 20, paddingRight: 20 }}>* Mandatory</Text>
+
 
               {suggestions[requestCategory] && (
                 <View style={{ paddingHorizontal: 20, paddingBottom: 40 }}>
@@ -721,7 +724,7 @@ const AddImageScreen = () => {
                       textAlign: "center",
                     }}
                   >
-                    Your price range (if any)
+                    Your price range
                   </Text>
                   <TouchableOpacity
                     onPress={() => {

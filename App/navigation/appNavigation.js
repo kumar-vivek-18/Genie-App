@@ -45,6 +45,7 @@ import StoreProfileById from '../screens/storeSearch/StoreProfileById.js';
 import RetailerProductScreen from '../screens/storeSearch/RetailerProductScreen.js';
 
 import MainHome from '../screens/MainHome.js';
+import ServiceSuggestion from '../screens/createRequest/ServiceSuggestion.js';
 
 const Stack = createNativeStackNavigator();
 const GlobalNavigation = () => {
@@ -96,6 +97,8 @@ const GlobalNavigation = () => {
             <Stack.Screen name="servicerequestpreview" component={ServiceRequestPreview} />
             <Stack.Screen name="define-request" component={DefineRequest} />
             <Stack.Screen name="image-suggestion" component={ImageSuggestion} />
+            <Stack.Screen name="service-suggestion" component={ServiceSuggestion} />
+
             <Stack.Screen name="requestcategory" component={RequestCategory} />
             <Stack.Screen name="addimg" component={AddImgScreen} />
             <Stack.Screen name="addexpectedprice" component={ExpectedPriceScreen} />
